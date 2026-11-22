@@ -1,0 +1,30 @@
+# Finance Architecture Studio · synthetic POC
+
+A Node.js-built, Fiori-inspired frontend over a Python reconciliation simulator. The local demo has three tabs: **Business workspace** for questions and close status, **Live architecture** for a company-neutral component topology, and **Evidence & correlation** for document proof, plan decisions and component messages. Vendor names describe simulated boundaries. No SAP, AWS, Google, Databricks, BDC, Portkey or model account is connected.
+
+## Run locally
+
+`run_poc.ps1` starts the FastAPI version at `http://127.0.0.1:8876/`. The included `frontend/dist` assets work without Node at runtime. To rebuild the frontend after source edits, run `npm ci` and `npm run build` in `frontend`.
+
+`run_streamlit.ps1` starts the Streamlit version at `http://127.0.0.1:8502/`. It uses the same Node-built UI as a Streamlit custom component and an isolated in-memory SQLite fixture per viewer session. The compiled `frontend/dist_streamlit` assets are included so Streamlit Community Cloud will not need a Node build step. `requirements.txt` contains the Python dependencies for that entrypoint.
+
+Hosting is a separate later step. Streamlit Community Cloud requires a GitHub repository and a selected `streamlit_app.py` entrypoint; the current project has not been published or deployed.
+
+## Architecture team demo
+
+1. Open **Live architecture**. Select a synthetic month, S1 Apigee or S2 AgentCore route, and a pace. Start the run. The Python backend activates the local synthetic agent automatically if needed.
+2. Watch persisted request and response events light the route. The topology separates the request/tool path, sequential SAP and Databricks source reads, deterministic return, and design-time/control/future/approval branches. Select a zone and component to see its purpose, owner, contract, current bounded payload and live validation limit.
+3. Load a stored case, replay, pause, or return to live state. The diagram uses a company-neutral projection: business identifiers and scope fields are removed before events reach this view.
+4. In **Business workspace**, ask `Reconcile February 2026`, `Why is there a variance?`, `Show source evidence`, `How does approval work?`, `Compare S1 and S2`, or a vendor/component question. The answer is deterministic or evidence-bounded. An unknown question gets an explicit limit rather than a fabricated result. Every follow-up records a component trace.
+5. Use the month-end work center to review all 12 periods, three stale-source exceptions, the selected case, account balances and illustrative journal evidence. November 2026 has a comparable $25,000 synthetic variance. February has a $0 match. For a comparable nonzero case, propose a signed variance marker; switch the demo role to finance approver to create a local `SYN-` marker receipt. This role switch is a simulation, not a security boundary.
+6. For the agentic scenario, reconcile November 2026 and open the **Evidence & correlation** link. Select **Investigate variance**. The proof dossier updates through readiness, a gateway-routed four-document comparison, hypothesis testing and an action recommendation. The missing-document profile ties $1,000,000 in S/4HANA to $975,000 in Central Finance and identifies one $25,000 document. Select **Apply simulated reprocess and re-reconcile** to see the source and downstream evidence refresh and a new $0 reconciliation. Choose **Mapping conflict** on a fresh case to see the agent hold the action for review. The architecture tab shows the same persisted component events without company-specific scope.
+
+At desktop width the three main tabs fit inside the browser viewport; worklists and long evidence lists scroll within their panels. Business and architecture panels show links to the separate evidence tab. On narrow screens the layout scrolls naturally to preserve legibility.
+
+## Data and verification
+
+SQLite contains December 2025 through November 2026: 12 months, six synthetic G/L accounts, four source systems, 288 per-account balances and 144 journal evidence rows. The bounded seed uses one synthetic finance scope; it is not a document ingestion or arbitrary-company reconciliation service. The closing-balance rule is S/4HANA minus comparable Central Finance. BW/4HANA and Databricks provide freshness and context; an advisory model explanation never determines the amount.
+
+The November investigation adds four synthetic replication comparison documents whose totals tie to the aggregate snapshots. The `sap.compare` operation follows the selected gateway, domain tool, SAP API Management, custom iFlow and Central Finance role path in the simulator. Each plan step persists evidence IDs, a SHA-256 digest and a decision. Once document investigation starts, the old case cannot create a variance marker. A simulated reprocess is an explicit local operator action; it is not SAP AIF execution or a balanced FI posting.
+
+Run the Python suite with `python -m pytest -q tests/test_poc.py --basetemp=.pytest_tmp`. Run `python scripts/qa_v3.py`, `python scripts/qa_release.py` and `python scripts/qa_agentic.py` with their local servers active for Chromium UI checks. `python scripts/package_streamlit.py` creates the allowlisted upload archive at `release/finance_architecture_streamlit.zip`. It contains the compiled Node-built interface, Python entrypoint, source modules, minimal pinned dependencies and an integrity manifest; it excludes local databases, environment files, screenshots and Node dependencies. Upload its contents to a dedicated GitHub repository and choose `streamlit_app.py` as the Streamlit entrypoint when hosting is authorized. See [architecture mapping](docs/ARCHITECTURE_MAPPING.md), [evidence](docs/DEMO_EVIDENCE.md) and [limitations](docs/POC_LIMITATIONS.md).

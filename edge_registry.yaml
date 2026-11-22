@@ -1,0 +1,1484 @@
+schema_version: '1.0'
+edges:
+- edge_id: finance_user__business_chat
+  source: finance_user
+  target: business_chat
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: business_chat__enterprise_idp
+  source: business_chat
+  target: enterprise_idp
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: enterprise_idp__finance_policy
+  source: enterprise_idp
+  target: finance_policy
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: business_chat__agentcore_runtime
+  source: business_chat
+  target: agentcore_runtime
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_runtime__agentcore_identity
+  source: agentcore_runtime
+  target: agentcore_identity
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_identity__iam_roles
+  source: agentcore_identity
+  target: iam_roles
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: iam_roles__secret_reference
+  source: iam_roles
+  target: secret_reference
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: secret_reference__kms_key_use
+  source: secret_reference
+  target: kms_key_use
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_runtime__mcp_client
+  source: agentcore_runtime
+  target: mcp_client
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: mcp_client__apigee_gateway
+  source: mcp_client
+  target: apigee_gateway
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: apigee_gateway__apigee_inbound
+  source: apigee_gateway
+  target: apigee_inbound
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: apigee_inbound__apigee_registry
+  source: apigee_inbound
+  target: apigee_registry
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: apigee_registry__apigee_outbound
+  source: apigee_registry
+  target: apigee_outbound
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: apigee_outbound__apigee_audit
+  source: apigee_outbound
+  target: apigee_audit
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: mcp_client__agentcore_gateway
+  source: mcp_client
+  target: agentcore_gateway
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_gateway__agentcore_inbound
+  source: agentcore_gateway
+  target: agentcore_inbound
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_inbound__agentcore_registry
+  source: agentcore_inbound
+  target: agentcore_registry
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_registry__agentcore_outbound
+  source: agentcore_registry
+  target: agentcore_outbound
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_outbound__agentcore_audit
+  source: agentcore_outbound
+  target: agentcore_audit
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: apigee_audit__sap_read_tool
+  source: apigee_audit
+  target: sap_read_tool
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: apigee_audit__databricks_read_tool
+  source: apigee_audit
+  target: databricks_read_tool
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: apigee_audit__sap_post_tool
+  source: apigee_audit
+  target: sap_post_tool
+  direction: request and response
+  flow_type: write
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_audit__sap_read_tool
+  source: agentcore_audit
+  target: sap_read_tool
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_audit__databricks_read_tool
+  source: agentcore_audit
+  target: databricks_read_tool
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_audit__sap_post_tool
+  source: agentcore_audit
+  target: sap_post_tool
+  direction: request and response
+  flow_type: write
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: sap_read_tool__tool_contract
+  source: sap_read_tool
+  target: tool_contract
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: tool_contract__operation_policy
+  source: tool_contract
+  target: operation_policy
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: operation_policy__input_validation
+  source: operation_policy
+  target: input_validation
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: input_validation__tool_audit
+  source: input_validation
+  target: tool_audit
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: tool_audit__api_management
+  source: tool_audit
+  target: api_management
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: api_management__custom_iflow
+  source: api_management
+  target: custom_iflow
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: custom_iflow__destination_mapping
+  source: custom_iflow
+  target: destination_mapping
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: api_management__destination_mapping
+  source: api_management
+  target: destination_mapping
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: destination_mapping__cloud_connector
+  source: destination_mapping
+  target: cloud_connector
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: destination_mapping__s4_roles
+  source: destination_mapping
+  target: s4_roles
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: s4_roles__s4_read_api
+  source: s4_roles
+  target: s4_read_api
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: s4_read_api__s4_live_gl
+  source: s4_read_api
+  target: s4_live_gl
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: s4_read_api__s4_journals
+  source: s4_read_api
+  target: s4_journals
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: destination_mapping__cfin_roles
+  source: destination_mapping
+  target: cfin_roles
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: cfin_roles__cfin_accounting
+  source: cfin_roles
+  target: cfin_accounting
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: cfin_accounting__cfin_status
+  source: cfin_accounting
+  target: cfin_status
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: destination_mapping__bw_roles
+  source: destination_mapping
+  target: bw_roles
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: bw_roles__bw_aggregate
+  source: bw_roles
+  target: bw_aggregate
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: bw_aggregate__bw_hierarchy
+  source: bw_aggregate
+  target: bw_hierarchy
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: bw_aggregate__bw_load
+  source: bw_aggregate
+  target: bw_load
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: databricks_read_tool__databricks_access
+  source: databricks_read_tool
+  target: databricks_access
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: databricks_access__sql_warehouse
+  source: databricks_access
+  target: sql_warehouse
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: sql_warehouse__unity_catalog
+  source: sql_warehouse
+  target: unity_catalog
+  direction: request and response
+  flow_type: identity
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: unity_catalog__delta_history
+  source: unity_catalog
+  target: delta_history
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: delta_history__data_pipeline
+  source: delta_history
+  target: data_pipeline
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: bdc_read_tool__bdc_connect
+  source: bdc_read_tool
+  target: bdc_connect
+  direction: request and response
+  flow_type: future
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: bdc_connect__datasphere_product
+  source: bdc_connect
+  target: datasphere_product
+  direction: request and response
+  flow_type: future
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: bdc_connect__sap_databricks
+  source: bdc_connect
+  target: sap_databricks
+  direction: request and response
+  flow_type: future
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: sap_databricks__delta_history
+  source: sap_databricks
+  target: delta_history
+  direction: request and response
+  flow_type: future
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: datasphere_product__sac_view
+  source: datasphere_product
+  target: sac_view
+  direction: request and response
+  flow_type: future
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_runtime__context_manager
+  source: agentcore_runtime
+  target: context_manager
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: context_manager__reconciliation_engine
+  source: context_manager
+  target: reconciliation_engine
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: reconciliation_engine__portkey_route
+  source: reconciliation_engine
+  target: portkey_route
+  direction: request and response
+  flow_type: model
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: portkey_route__portkey_redaction
+  source: portkey_route
+  target: portkey_redaction
+  direction: request and response
+  flow_type: model
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: portkey_redaction__portkey_guardrails
+  source: portkey_redaction
+  target: portkey_guardrails
+  direction: request and response
+  flow_type: model
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: portkey_guardrails__bedrock_response
+  source: portkey_guardrails
+  target: bedrock_response
+  direction: request and response
+  flow_type: model
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: bedrock_response__portkey_usage
+  source: bedrock_response
+  target: portkey_usage
+  direction: request and response
+  flow_type: model
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: portkey_usage__agentcore_runtime
+  source: portkey_usage
+  target: agentcore_runtime
+  direction: request and response
+  flow_type: model
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agentcore_runtime__n8n_workflow
+  source: agentcore_runtime
+  target: n8n_workflow
+  direction: request and response
+  flow_type: approval
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: asynchronous
+- edge_id: n8n_workflow__finance_approver
+  source: n8n_workflow
+  target: finance_approver
+  direction: request and response
+  flow_type: approval
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: asynchronous
+- edge_id: finance_approver__trusted_callback
+  source: finance_approver
+  target: trusted_callback
+  direction: request and response
+  flow_type: approval
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: callback
+- edge_id: trusted_callback__posting_executor
+  source: trusted_callback
+  target: posting_executor
+  direction: request and response
+  flow_type: approval
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: asynchronous
+- edge_id: posting_executor__executor_recheck
+  source: posting_executor
+  target: executor_recheck
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: executor_recheck__mcp_client
+  source: executor_recheck
+  target: mcp_client
+  direction: request and response
+  flow_type: write
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: sap_post_tool__api_management
+  source: sap_post_tool
+  target: api_management
+  direction: request and response
+  flow_type: write
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: destination_mapping__s4_roles
+  source: destination_mapping
+  target: s4_roles
+  direction: request and response
+  flow_type: write
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: s4_roles__s4_post_api
+  source: s4_roles
+  target: s4_post_api
+  direction: request and response
+  flow_type: write
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: s4_post_api__synthetic_result
+  source: s4_post_api
+  target: synthetic_result
+  direction: request and response
+  flow_type: write
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: foundry_sdk__creation_api
+  source: foundry_sdk
+  target: creation_api
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: creation_api__gitlab_pipeline
+  source: creation_api
+  target: gitlab_pipeline
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: gitlab_pipeline__agent_package
+  source: gitlab_pipeline
+  target: agent_package
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: agent_package__agentcore_runtime
+  source: agent_package
+  target: agentcore_runtime
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
+- edge_id: observability__cloudwatch_sink
+  source: observability
+  target: cloudwatch_sink
+  direction: request and response
+  flow_type: control
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous

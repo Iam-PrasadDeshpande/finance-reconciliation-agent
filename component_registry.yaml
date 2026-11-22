@@ -1,0 +1,1977 @@
+schema_version: '1.0'
+components:
+- component_id: finance_user
+  display_name: Finance user
+  zone: Business entry
+  trust_boundary: Business entry
+  owner: Finance process and app owner
+  classification: custom Python simulator
+  purpose: Finance user
+  runtime_state: simulated
+  code_module: poc.identity
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies: []
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G1, G3 OPEN; no tenant proof
+- component_id: business_chat
+  display_name: Business chat application
+  zone: Business entry
+  trust_boundary: Business entry
+  owner: Finance process and app owner
+  classification: custom Python simulator
+  purpose: Business chat application
+  runtime_state: simulated
+  code_module: poc.app
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - finance_user
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G1, G3 OPEN; no tenant proof
+- component_id: enterprise_idp
+  display_name: Enterprise IdP / SSO
+  zone: Business entry
+  trust_boundary: Business entry
+  owner: Finance process and app owner
+  classification: custom Python simulator
+  purpose: Enterprise IdP / SSO
+  runtime_state: simulated
+  code_module: poc.identity
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - business_chat
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G1, G3 OPEN; no tenant proof
+- component_id: finance_policy
+  display_name: Finance read-only / write policy
+  zone: Business entry
+  trust_boundary: Business entry
+  owner: Finance process and app owner
+  classification: custom Python simulator
+  purpose: Finance read-only / write policy
+  runtime_state: simulated
+  code_module: poc.identity
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - enterprise_idp
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G1, G3 OPEN; no tenant proof
+- component_id: foundry_sdk
+  display_name: Custom Foundry SDK
+  zone: AI Foundry design time
+  trust_boundary: AI Foundry design time
+  owner: Foundry platform owner
+  classification: custom Python simulator
+  purpose: Custom Foundry SDK
+  runtime_state: simulated
+  code_module: poc.foundry
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies: []
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G1, G7 OPEN; no tenant proof
+- component_id: creation_api
+  display_name: Local agent creation API
+  zone: AI Foundry design time
+  trust_boundary: AI Foundry design time
+  owner: Foundry platform owner
+  classification: custom Python simulator
+  purpose: Local agent creation API
+  runtime_state: simulated
+  code_module: poc.app
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - foundry_sdk
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G1, G7 OPEN; no tenant proof
+- component_id: agent_package
+  display_name: Python agent package and typed bindings
+  zone: AI Foundry design time
+  trust_boundary: AI Foundry design time
+  owner: Foundry platform owner
+  classification: custom Python simulator
+  purpose: Python agent package and typed bindings
+  runtime_state: simulated
+  code_module: poc.runtime
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - gitlab_pipeline
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G1, G7 OPEN; no tenant proof
+- component_id: gitlab_pipeline
+  display_name: GitLab source, tests, CI/CD and receipt
+  zone: AI Foundry design time
+  trust_boundary: AI Foundry design time
+  owner: Foundry platform owner
+  classification: custom Python simulator
+  purpose: GitLab source, tests, CI/CD and receipt
+  runtime_state: simulated
+  code_module: poc.foundry
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - creation_api
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G1, G7 OPEN; no tenant proof
+- component_id: agentcore_runtime
+  display_name: AgentCore Runtime simulator
+  zone: AWS runtime
+  trust_boundary: AWS logical
+  owner: AWS and Foundry owner
+  classification: managed vendor simulator
+  purpose: AgentCore Runtime simulator
+  runtime_state: simulated
+  code_module: poc.runtime
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agent_package
+  - business_chat
+  - portkey_usage
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: agentcore_identity
+  display_name: AgentCore Identity simulator
+  zone: AWS runtime
+  trust_boundary: AWS logical
+  owner: AWS and Foundry owner
+  classification: managed vendor simulator
+  purpose: AgentCore Identity simulator
+  runtime_state: simulated
+  code_module: poc.identity
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_runtime
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: mcp_client
+  display_name: MCP client / gateway integration
+  zone: AWS runtime
+  trust_boundary: AWS logical
+  owner: AWS and Foundry owner
+  classification: custom Python simulator
+  purpose: MCP client / gateway integration
+  runtime_state: simulated
+  code_module: poc.runtime
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_runtime
+  - executor_recheck
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: context_manager
+  display_name: Context Manager
+  zone: AWS runtime
+  trust_boundary: AWS logical
+  owner: AWS and Foundry owner
+  classification: custom Python simulator
+  purpose: Context Manager
+  runtime_state: simulated
+  code_module: poc.runtime
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_runtime
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: reconciliation_engine
+  display_name: Deterministic Reconciliation Engine
+  zone: AWS runtime
+  trust_boundary: AWS logical
+  owner: AWS and Foundry owner
+  classification: custom Python simulator
+  purpose: Deterministic Reconciliation Engine
+  runtime_state: simulated
+  code_module: poc.runtime
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - context_manager
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: agentcore_memory
+  display_name: Optional AgentCore Memory simulator
+  zone: AWS runtime
+  trust_boundary: AWS logical
+  owner: AWS and Foundry owner
+  classification: managed vendor simulator
+  purpose: Optional AgentCore Memory simulator
+  runtime_state: inactive
+  code_module: poc.runtime
+  health: inactive
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies: []
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: observability
+  display_name: Observability / correlation simulator
+  zone: AWS runtime
+  trust_boundary: AWS logical
+  owner: AWS and Foundry owner
+  classification: managed vendor simulator
+  purpose: Observability / correlation simulator
+  runtime_state: simulated
+  code_module: poc.store
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies: []
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: posting_executor
+  display_name: Controlled Posting Executor
+  zone: AWS runtime
+  trust_boundary: AWS logical
+  owner: AWS and Foundry owner
+  classification: custom Python simulator
+  purpose: Controlled Posting Executor
+  runtime_state: simulated
+  code_module: poc.approval
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - trusted_callback
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: iam_roles
+  display_name: IAM / workload role simulator
+  zone: AWS controls
+  trust_boundary: AWS logical
+  owner: AWS security owner
+  classification: custom Python simulator
+  purpose: IAM / workload role simulator
+  runtime_state: simulated
+  code_module: poc.identity
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_identity
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: secret_reference
+  display_name: Secrets Manager-style reference
+  zone: AWS controls
+  trust_boundary: AWS logical
+  owner: AWS security owner
+  classification: custom Python simulator
+  purpose: Secrets Manager-style reference
+  runtime_state: simulated
+  code_module: poc.identity
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - iam_roles
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: kms_key_use
+  display_name: KMS-style key-use event
+  zone: AWS controls
+  trust_boundary: AWS logical
+  owner: AWS security owner
+  classification: custom Python simulator
+  purpose: KMS-style key-use event
+  runtime_state: simulated
+  code_module: poc.identity
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - secret_reference
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: cloudwatch_sink
+  display_name: CloudWatch-style trace sink
+  zone: AWS controls
+  trust_boundary: AWS logical
+  owner: AWS security owner
+  classification: custom Python simulator
+  purpose: CloudWatch-style trace sink
+  runtime_state: simulated
+  code_module: poc.store
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - observability
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
+- component_id: apigee_gateway
+  display_name: Google Apigee MCP simulator (S1)
+  zone: Selected gateway
+  trust_boundary: external Google
+  owner: Gateway platform owner
+  classification: managed vendor simulator
+  purpose: Google Apigee MCP simulator (S1)
+  runtime_state: scenario_s1
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - mcp_client
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: apigee_inbound
+  display_name: S1 inbound caller policy
+  zone: Selected gateway
+  trust_boundary: external Google
+  owner: Gateway platform owner
+  classification: custom Python simulator
+  purpose: S1 inbound caller policy
+  runtime_state: scenario_s1
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - apigee_gateway
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: apigee_registry
+  display_name: S1 tool registry / route
+  zone: Selected gateway
+  trust_boundary: external Google
+  owner: Gateway platform owner
+  classification: custom Python simulator
+  purpose: S1 tool registry / route
+  runtime_state: scenario_s1
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - apigee_inbound
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: apigee_outbound
+  display_name: S1 outbound target credential
+  zone: Selected gateway
+  trust_boundary: external Google
+  owner: Gateway platform owner
+  classification: custom Python simulator
+  purpose: S1 outbound target credential
+  runtime_state: scenario_s1
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - apigee_registry
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: apigee_audit
+  display_name: S1 audit decision
+  zone: Selected gateway
+  trust_boundary: external Google
+  owner: Gateway platform owner
+  classification: custom Python simulator
+  purpose: S1 audit decision
+  runtime_state: scenario_s1
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - apigee_outbound
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: agentcore_gateway
+  display_name: AgentCore Gateway simulator (S2)
+  zone: Selected gateway
+  trust_boundary: AWS logical
+  owner: Gateway platform owner
+  classification: managed vendor simulator
+  purpose: AgentCore Gateway simulator (S2)
+  runtime_state: scenario_s2
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - mcp_client
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: agentcore_inbound
+  display_name: S2 inbound caller policy
+  zone: Selected gateway
+  trust_boundary: AWS logical
+  owner: Gateway platform owner
+  classification: custom Python simulator
+  purpose: S2 inbound caller policy
+  runtime_state: scenario_s2
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_gateway
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: agentcore_registry
+  display_name: S2 target registry / route
+  zone: Selected gateway
+  trust_boundary: AWS logical
+  owner: Gateway platform owner
+  classification: custom Python simulator
+  purpose: S2 target registry / route
+  runtime_state: scenario_s2
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_inbound
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: agentcore_outbound
+  display_name: S2 outbound target credential
+  zone: Selected gateway
+  trust_boundary: AWS logical
+  owner: Gateway platform owner
+  classification: custom Python simulator
+  purpose: S2 outbound target credential
+  runtime_state: scenario_s2
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_registry
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: agentcore_audit
+  display_name: S2 audit decision
+  zone: Selected gateway
+  trust_boundary: AWS logical
+  owner: Gateway platform owner
+  classification: custom Python simulator
+  purpose: S2 audit decision
+  runtime_state: scenario_s2
+  code_module: poc.gateway
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_outbound
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2 OPEN; no tenant proof
+- component_id: sap_read_tool
+  display_name: SAP Finance read target
+  zone: Domain MCP
+  trust_boundary: Domain MCP
+  owner: Finance tool owner
+  classification: custom Python simulator
+  purpose: SAP Finance read target
+  runtime_state: simulated
+  code_module: poc.tools
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_audit
+  - apigee_audit
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G5 OPEN; no tenant proof
+- component_id: sap_post_tool
+  display_name: Restricted SAP Finance posting target
+  zone: Domain MCP
+  trust_boundary: Domain MCP
+  owner: Finance tool owner
+  classification: custom Python simulator
+  purpose: Restricted SAP Finance posting target
+  runtime_state: simulated
+  code_module: poc.tools
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_audit
+  - apigee_audit
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G5 OPEN; no tenant proof
+- component_id: databricks_read_tool
+  display_name: Enterprise Databricks read target
+  zone: Domain MCP
+  trust_boundary: Domain MCP
+  owner: Finance tool owner
+  classification: custom Python simulator
+  purpose: Enterprise Databricks read target
+  runtime_state: simulated
+  code_module: poc.tools
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_audit
+  - apigee_audit
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G5 OPEN; no tenant proof
+- component_id: bdc_read_tool
+  display_name: Optional future BDC read target
+  zone: Domain MCP
+  trust_boundary: Domain MCP
+  owner: Finance tool owner
+  classification: future simulator
+  purpose: Optional future BDC read target
+  runtime_state: future
+  code_module: poc.tools
+  health: inactive
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies: []
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G5 OPEN; no tenant proof
+- component_id: tool_contract
+  display_name: Schema and version validation
+  zone: Domain MCP
+  trust_boundary: Domain MCP
+  owner: Finance tool owner
+  classification: custom Python simulator
+  purpose: Schema and version validation
+  runtime_state: simulated
+  code_module: poc.tools
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - sap_read_tool
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G5 OPEN; no tenant proof
+- component_id: operation_policy
+  display_name: Per-operation policy
+  zone: Domain MCP
+  trust_boundary: Domain MCP
+  owner: Finance tool owner
+  classification: custom Python simulator
+  purpose: Per-operation policy
+  runtime_state: simulated
+  code_module: poc.tools
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - tool_contract
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G5 OPEN; no tenant proof
+- component_id: input_validation
+  display_name: Input validation and bounded results
+  zone: Domain MCP
+  trust_boundary: Domain MCP
+  owner: Finance tool owner
+  classification: custom Python simulator
+  purpose: Input validation and bounded results
+  runtime_state: simulated
+  code_module: poc.tools
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - operation_policy
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G5 OPEN; no tenant proof
+- component_id: tool_audit
+  display_name: Timeout and audit functions
+  zone: Domain MCP
+  trust_boundary: Domain MCP
+  owner: Finance tool owner
+  classification: custom Python simulator
+  purpose: Timeout and audit functions
+  runtime_state: simulated
+  code_module: poc.tools
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - input_validation
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G2, G5 OPEN; no tenant proof
+- component_id: api_management
+  display_name: API Management simulator
+  zone: SAP BAIP
+  trust_boundary: SAP BAIP
+  owner: Integration Suite owner
+  classification: managed vendor simulator
+  purpose: API Management simulator
+  runtime_state: simulated
+  code_module: poc.baip
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - sap_post_tool
+  - tool_audit
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3 OPEN; no tenant proof
+- component_id: custom_iflow
+  display_name: Cloud Integration custom iFlow path
+  zone: SAP BAIP
+  trust_boundary: SAP BAIP
+  owner: Integration Suite owner
+  classification: managed vendor simulator
+  purpose: Cloud Integration custom iFlow path
+  runtime_state: simulated
+  code_module: poc.baip
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - api_management
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3 OPEN; no tenant proof
+- component_id: destination_mapping
+  display_name: Destinations, connectivity and token mapping
+  zone: SAP BAIP
+  trust_boundary: SAP BAIP
+  owner: Integration Suite owner
+  classification: custom Python simulator
+  purpose: Destinations, connectivity and token mapping
+  runtime_state: simulated
+  code_module: poc.baip
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - api_management
+  - custom_iflow
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3 OPEN; no tenant proof
+- component_id: cloud_connector
+  display_name: Conditional SAP Cloud Connector route
+  zone: SAP BAIP
+  trust_boundary: SAP BAIP
+  owner: Integration Suite owner
+  classification: managed vendor simulator
+  purpose: Conditional SAP Cloud Connector route
+  runtime_state: inactive
+  code_module: poc.baip
+  health: inactive
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - destination_mapping
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3 OPEN; no tenant proof
+- component_id: s4_live_gl
+  display_name: S/4HANA live G/L
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: S/4HANA live G/L
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - s4_read_api
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: s4_journals
+  display_name: S/4HANA journal and open items
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: S/4HANA journal and open items
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - s4_read_api
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: s4_read_api
+  display_name: S/4HANA custom ABAP read API
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: S/4HANA custom ABAP read API
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - s4_roles
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: s4_post_api
+  display_name: S/4HANA controlled posting API
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: S/4HANA controlled posting API
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - s4_roles
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: s4_roles
+  display_name: S/4HANA backend roles
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: S/4HANA backend roles
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - destination_mapping
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: cfin_accounting
+  display_name: Central Finance mapped / replicated accounting
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: Central Finance mapped / replicated accounting
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - cfin_roles
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: cfin_status
+  display_name: Central Finance status, errors and cutoff
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: Central Finance status, errors and cutoff
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - cfin_accounting
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: cfin_roles
+  display_name: Central Finance backend roles
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: Central Finance backend roles
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - destination_mapping
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: bw_aggregate
+  display_name: BW/4HANA aggregate
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: BW/4HANA aggregate
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - bw_roles
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: bw_hierarchy
+  display_name: BW/4HANA hierarchy
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: BW/4HANA hierarchy
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - bw_aggregate
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: bw_load
+  display_name: BW/4HANA load status
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: BW/4HANA load status
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - bw_aggregate
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: bw_roles
+  display_name: BW/4HANA analytic roles
+  zone: SAP backends
+  trust_boundary: SAP backends
+  owner: SAP finance and security owner
+  classification: custom Python simulator
+  purpose: BW/4HANA analytic roles
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - destination_mapping
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G3, G4, G5 OPEN; no tenant proof
+- component_id: unity_catalog
+  display_name: Unity Catalog grants
+  zone: Enterprise Databricks
+  trust_boundary: Enterprise Databricks
+  owner: Enterprise data owner
+  classification: managed vendor simulator
+  purpose: Unity Catalog grants
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - sql_warehouse
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G4, G6 OPEN; no tenant proof
+- component_id: delta_history
+  display_name: Delta / Lakehouse history and evidence
+  zone: Enterprise Databricks
+  trust_boundary: Enterprise Databricks
+  owner: Enterprise data owner
+  classification: custom Python simulator
+  purpose: Delta / Lakehouse history and evidence
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - sap_databricks
+  - unity_catalog
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G4, G6 OPEN; no tenant proof
+- component_id: sql_warehouse
+  display_name: SQL Warehouse
+  zone: Enterprise Databricks
+  trust_boundary: Enterprise Databricks
+  owner: Enterprise data owner
+  classification: managed vendor simulator
+  purpose: SQL Warehouse
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - databricks_access
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G4, G6 OPEN; no tenant proof
+- component_id: data_pipeline
+  display_name: Data Engineering Pipeline / freshness
+  zone: Enterprise Databricks
+  trust_boundary: Enterprise Databricks
+  owner: Enterprise data owner
+  classification: custom Python simulator
+  purpose: Data Engineering Pipeline / freshness
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - delta_history
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G4, G6 OPEN; no tenant proof
+- component_id: databricks_access
+  display_name: Approved API / MCP access
+  zone: Enterprise Databricks
+  trust_boundary: Enterprise Databricks
+  owner: Enterprise data owner
+  classification: custom Python simulator
+  purpose: Approved API / MCP access
+  runtime_state: simulated
+  code_module: poc.backends
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - databricks_read_tool
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G4, G6 OPEN; no tenant proof
+- component_id: bdc_connect
+  display_name: BDC Connect sharing boundary
+  zone: Future BDC
+  trust_boundary: Future BDC
+  owner: SAP BDC data product owner
+  classification: future simulator
+  purpose: BDC Connect sharing boundary
+  runtime_state: future
+  code_module: poc.backends
+  health: inactive
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - bdc_read_tool
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G6 OPEN; no tenant proof
+- component_id: datasphere_product
+  display_name: SAP Datasphere semantic product
+  zone: Future BDC
+  trust_boundary: Future BDC
+  owner: SAP BDC data product owner
+  classification: future simulator
+  purpose: SAP Datasphere semantic product
+  runtime_state: future
+  code_module: poc.backends
+  health: inactive
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - bdc_connect
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G6 OPEN; no tenant proof
+- component_id: sap_databricks
+  display_name: SAP Databricks consumer / producer
+  zone: Future BDC
+  trust_boundary: Future BDC
+  owner: SAP BDC data product owner
+  classification: future simulator
+  purpose: SAP Databricks consumer / producer
+  runtime_state: future
+  code_module: poc.backends
+  health: inactive
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - bdc_connect
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G6 OPEN; no tenant proof
+- component_id: sac_view
+  display_name: SAP Analytics Cloud view
+  zone: Future BDC
+  trust_boundary: Future BDC
+  owner: SAP BDC data product owner
+  classification: future simulator
+  purpose: SAP Analytics Cloud view
+  runtime_state: future
+  code_module: poc.backends
+  health: inactive
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - datasphere_product
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G6 OPEN; no tenant proof
+- component_id: portkey_route
+  display_name: Portkey routing and auth simulator
+  zone: Model branch
+  trust_boundary: Model branch
+  owner: AI platform owner
+  classification: custom Python simulator
+  purpose: Portkey routing and auth simulator
+  runtime_state: simulated
+  code_module: poc.model
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - reconciliation_engine
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G6 OPEN; no tenant proof
+- component_id: portkey_redaction
+  display_name: Portkey redaction simulator
+  zone: Model branch
+  trust_boundary: Model branch
+  owner: AI platform owner
+  classification: custom Python simulator
+  purpose: Portkey redaction simulator
+  runtime_state: simulated
+  code_module: poc.model
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - portkey_route
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G6 OPEN; no tenant proof
+- component_id: portkey_guardrails
+  display_name: Portkey guardrails simulator
+  zone: Model branch
+  trust_boundary: Model branch
+  owner: AI platform owner
+  classification: custom Python simulator
+  purpose: Portkey guardrails simulator
+  runtime_state: simulated
+  code_module: poc.model
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - portkey_redaction
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G6 OPEN; no tenant proof
+- component_id: portkey_usage
+  display_name: Portkey log, usage and cost simulator
+  zone: Model branch
+  trust_boundary: Model branch
+  owner: AI platform owner
+  classification: custom Python simulator
+  purpose: Portkey log, usage and cost simulator
+  runtime_state: simulated
+  code_module: poc.model
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - bedrock_response
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G6 OPEN; no tenant proof
+- component_id: bedrock_response
+  display_name: Amazon Bedrock model response simulator
+  zone: Model branch
+  trust_boundary: Model branch
+  owner: AI platform owner
+  classification: managed vendor simulator
+  purpose: Amazon Bedrock model response simulator
+  runtime_state: simulated
+  code_module: poc.model
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - portkey_guardrails
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G6 OPEN; no tenant proof
+- component_id: n8n_workflow
+  display_name: n8n workflow simulator
+  zone: Write approval
+  trust_boundary: Write approval
+  owner: Finance controls owner
+  classification: managed vendor simulator
+  purpose: n8n workflow simulator
+  runtime_state: simulated
+  code_module: poc.approval
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - agentcore_runtime
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G5 OPEN; no tenant proof
+- component_id: finance_approver
+  display_name: Finance approver actor
+  zone: Write approval
+  trust_boundary: Write approval
+  owner: Finance controls owner
+  classification: custom Python simulator
+  purpose: Finance approver actor
+  runtime_state: simulated
+  code_module: poc.approval
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - n8n_workflow
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G5 OPEN; no tenant proof
+- component_id: trusted_callback
+  display_name: Trusted decision callback
+  zone: Write approval
+  trust_boundary: Write approval
+  owner: Finance controls owner
+  classification: custom Python simulator
+  purpose: Trusted decision callback
+  runtime_state: simulated
+  code_module: poc.approval
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - finance_approver
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G5 OPEN; no tenant proof
+- component_id: executor_recheck
+  display_name: Executor recheck
+  zone: Write approval
+  trust_boundary: Write approval
+  owner: Finance controls owner
+  classification: custom Python simulator
+  purpose: Executor recheck
+  runtime_state: simulated
+  code_module: poc.approval
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - posting_executor
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G5 OPEN; no tenant proof
+- component_id: synthetic_result
+  display_name: Synthetic S/4 posting result and audit
+  zone: Write approval
+  trust_boundary: Write approval
+  owner: Finance controls owner
+  classification: custom Python simulator
+  purpose: Synthetic S/4 posting result and audit
+  runtime_state: simulated
+  code_module: poc.approval
+  health: ready
+  inbound_interfaces:
+  - local-python
+  outbound_interfaces:
+  - local-python
+  request_schema: FlowEvent/ToolCall v1.0
+  response_schema: FlowEvent/ToolResult v1.0
+  identity_authorization: synthetic scoped policy
+  data_classification: SYNTHETIC FINANCE
+  dependencies:
+  - s4_post_api
+  timeout_retry: 2s; no automatic write retry
+  failure_deny: fail closed and emit deny event
+  latency_ms: 0
+  latest_trace_id: null
+  latest_case_id: null
+  audit_events: []
+  remaining_live_vendor_validation: G5 OPEN; no tenant proof
