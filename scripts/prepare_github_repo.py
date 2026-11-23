@@ -27,6 +27,7 @@ files += [ROOT/"frontend"/name for name in ("package.json","package-lock.json","
 files += [ROOT/"docs"/"evidence"/name for name in (
     "agentic_trace_bundle.json", "agentic_architecture_proof.png", "agentic_resolved_dossier.png",
     "agentic_mapping_hold.png", "agentic_streamlit_dossier.png", "release_mobile.png",
+    "architecture_questions_desktop.png", "architecture_questions_mobile.png",
 )]
 assert all(p.is_file() and p.resolve().is_relative_to(ROOT.resolve()) for p in files)
 assert len(files)==len(set(files))
@@ -65,5 +66,5 @@ frontend/.vite/
 .streamlit/secrets.toml
 """
 (TARGET/".gitignore").write_text(ignore,encoding="utf-8")
-(TARGET/"PUBLISH_MANIFEST.json").write_text(json.dumps({"purpose":"Private synthetic finance demo source and Streamlit entrypoint","files":manifest},indent=2),encoding="utf-8")
+(TARGET/"PUBLISH_MANIFEST.json").write_text(json.dumps({"purpose":"Public synthetic finance demo source and Streamlit entrypoint","files":manifest},indent=2),encoding="utf-8")
 print(json.dumps({"staged":str(TARGET),"source_files":len(files),"total_bytes":sum(item["bytes"] for item in manifest.values()),"manifest_valid":all(hashlib.sha256((TARGET/name).read_bytes()).hexdigest()==item["sha256"] for name,item in manifest.items())}))
