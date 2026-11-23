@@ -1,30 +1,43 @@
 {
   "purpose": "Public synthetic external-finance-agent demo source and Streamlit entrypoint",
   "synthetic": true,
+  "basis": "committed Git blobs",
   "files": {
     ".gitignore": {
-      "sha256": "ab801710a0df675ed90c4337f5ac51c15d97591144022edb2453070afe942f90",
-      "bytes": 152
+      "sha256": "1f698cb3e6e3946555081388c448970a8ae41c4acc1510c9a75c7470f9518fd4",
+      "bytes": 141
     },
     ".streamlit/config.toml": {
       "sha256": "c38a74a173ad4cabdc841f373198b37fb5d4bec7b835d0272dd1a72742e98bbb",
       "bytes": 174
     },
+    "README.md": {
+      "sha256": "260b6ce263bd611acc26d9593202729f29cb236caff98428de4fdeba21057fa4",
+      "bytes": 7783
+    },
     "component_registry.yaml": {
-      "sha256": "6c3a4d1538ae359d11ef3ab81fc3eb675baec814d43445c1cb3aa6daa33e955e",
-      "bytes": 63921
+      "sha256": "1287b6b0518cb8848d7b454e30193a6456d329cd4c198e61bbc8bb107d2eae01",
+      "bytes": 61944
     },
     "docs/AGENTIC_DEMO_HANDOFF.md": {
       "sha256": "a3a5e631eb2193a7b7c829b0f7788ae09390eccfd72264b2f2f5ca1aa3315788",
       "bytes": 3479
     },
     "docs/ARCHITECTURE_MAPPING.md": {
-      "sha256": "45e7143d1905cdb18c4f9d69a7d3aaface403294c8632c8d6f962a52ed8ef7fc",
-      "bytes": 10966
+      "sha256": "e22df23d78d8d9554e7ec9ffb09f07fa41e7b4c85296846babd3768ff7f9d3b8",
+      "bytes": 10863
     },
     "docs/DEMO_EVIDENCE.md": {
       "sha256": "d4731f27dbaacd21785d37eb0e54ff3994632cfd7ea4436d4d397e8cb573593a",
       "bytes": 9445
+    },
+    "docs/INDEPENDENT_REVIEW_AND_RELEASE.md": {
+      "sha256": "b99a0afd766299b24468ca2d142cd992e3cbdb357a55042c8a247b5effcb2ede",
+      "bytes": 4186
+    },
+    "docs/POC_LIMITATIONS.md": {
+      "sha256": "04fb533ae026f1324cbd72c8dbd9ffe959d67fc8631ec1cac85c0ec29bac0dc2",
+      "bytes": 9109
     },
     "docs/evidence/agentic_architecture_proof.png": {
       "sha256": "6ea28ab04743c6917fd92ffe64b2a3693dd31320fd78c2aa53c49b83b94845be",
@@ -43,8 +56,8 @@
       "bytes": 145918
     },
     "docs/evidence/agentic_trace_bundle.json": {
-      "sha256": "fc9c039878ae5d430310cc42b7c06b8270df2a8c23f929adca8e97f797ace92b",
-      "bytes": 431540
+      "sha256": "552aa40a2bc3af466fbe08e4a4a5039e688d9bbdf554cd1e56b47e8b5ff130a2",
+      "bytes": 419097
     },
     "docs/evidence/architecture_questions_desktop.png": {
       "sha256": "cada1b50c72778e8af97e6221d09a18384241dd3d7af2497ba67903556218e5d",
@@ -78,17 +91,9 @@
       "sha256": "eb9e33de7b5c7f31e42062ceb3bf0dfda1d1d7753ad9d2af9db83a33b3e37880",
       "bytes": 195567
     },
-    "docs/INDEPENDENT_REVIEW_AND_RELEASE.md": {
-      "sha256": "b99a0afd766299b24468ca2d142cd992e3cbdb357a55042c8a247b5effcb2ede",
-      "bytes": 4186
-    },
-    "docs/POC_LIMITATIONS.md": {
-      "sha256": "04fb533ae026f1324cbd72c8dbd9ffe959d67fc8631ec1cac85c0ec29bac0dc2",
-      "bytes": 9109
-    },
     "edge_registry.yaml": {
-      "sha256": "4c352be566c6e124c4f77adc594071e0500681750092d2cc37e6726a9a998834",
-      "bytes": 44342
+      "sha256": "924f4c9ae85601257faf6cda7c1ea201144dce2969cbea74de58440e82c6b228",
+      "bytes": 42858
     },
     "frontend/dist/assets/index-CmbytRcx.css": {
       "sha256": "55fef97fd4ffbb71d5bc5013f6e1e51f0f5f4a4e36734ac81267e40435ed7731",
@@ -127,24 +132,20 @@
       "bytes": 2091
     },
     "frontend/src/App.jsx": {
-      "sha256": "8da17b3ebe1f26af2493f5098970dbbfa54265541940105945baef975efb018a",
-      "bytes": 36094
+      "sha256": "3003648634a3c8979d4b010b4b2e29c03681738250db1a436d518f5ae1fd9446",
+      "bytes": 35964
     },
     "frontend/src/ArchitectureQuestions.jsx": {
       "sha256": "624e718f79e265ed0957a459cf1f8a0117a7f159e631cd5b781f26cedf763fcf",
       "bytes": 7696
     },
-    "frontend/src/branches.css": {
-      "sha256": "3dbfc6643545499d65ac031c191d1f61c3dfac54a6ad8c4c4c92becadd6b8228",
-      "bytes": 23866
-    },
     "frontend/src/CloseCockpit.jsx": {
-      "sha256": "d9f0da9120abe69a6878399bec5a1e500d293a923bfbfc0d5ca8985cb1aa4fd8",
-      "bytes": 3843
+      "sha256": "2c34f5b08b7dca2d29dc815d5d2af4d33a2981b645601c45a2c43d011a6c41b5",
+      "bytes": 3827
     },
     "frontend/src/EvidenceCorrelation.jsx": {
-      "sha256": "97f1737531167405050844c41701e953faaa1066b597081efc360f921dd9a9b3",
-      "bytes": 6368
+      "sha256": "46853d31d4c33871a742ce0d58526c57e64fcdc4328a147ce464ffee9cb9187f",
+      "bytes": 6349
     },
     "frontend/src/EvidenceDetails.jsx": {
       "sha256": "bc96c8bff5449157d1e0eeebf2467b2f1145dbfc7b687433c072e5ae97488f74",
@@ -158,13 +159,17 @@
       "sha256": "dbbe3285f188242d0d145c88b66584e8f2b2706ebea17a13cecd77e2cadb0520",
       "bytes": 1814
     },
-    "frontend/src/main.jsx": {
-      "sha256": "a4892d63c0b2f3454d79b82a8d8fbe2592df5956bbc80104c2763303bb66a167",
-      "bytes": 235
-    },
     "frontend/src/ProofDossier.jsx": {
       "sha256": "fbcaf3c9a6e3877e836775150c0ff6d3bc9a00d67a02db43f66a410f29f420be",
       "bytes": 4743
+    },
+    "frontend/src/branches.css": {
+      "sha256": "3dbfc6643545499d65ac031c191d1f61c3dfac54a6ad8c4c4c92becadd6b8228",
+      "bytes": 23866
+    },
+    "frontend/src/main.jsx": {
+      "sha256": "a4892d63c0b2f3454d79b82a8d8fbe2592df5956bbc80104c2763303bb66a167",
+      "bytes": 235
     },
     "frontend/src/questions.css": {
       "sha256": "8b15f21deddabc33fefb3797baeea560148702dc4bd67f173c6382f2942505e8",
@@ -269,10 +274,6 @@
     "poc/tools.py": {
       "sha256": "14b84f0a87ee20f7081f29330d7f21434711f37b1e4ed7772639622dee2c7bbc",
       "bytes": 3289
-    },
-    "README.md": {
-      "sha256": "5967f569fcbcb3706dc043cef2ce60e0c7cf3fd200b9ed93c98149e002cd8c5b",
-      "bytes": 7818
     },
     "release/finance_architecture_streamlit.zip": {
       "sha256": "f299c9d324afafca1120f85fb72f0f6841514f4eb85aa55cf22efa39baabf33d",
