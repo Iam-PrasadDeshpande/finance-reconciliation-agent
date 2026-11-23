@@ -31,13 +31,16 @@ with sync_playwright() as p:
     page.get_by_role('tab',name='Live architecture').click()
     assert page.locator('.route-zone').count()==12
     assert not page.locator('.component-panel').count()
+    assert page.locator('.agent-journey-stage').count()==5
+    assert page.locator('.agent-journey-stage.complete').count()==5
+    assert page.locator('.source-route-group').first.is_visible()
     assert page.locator('.case-buttons').bounding_box()['y']<830
     page.get_by_role('button',name='Open detailed business report').click()
     assert page.get_by_role('dialog').is_visible()
     assert 'Business conclusion' in page.get_by_role('dialog').inner_text()
     page.get_by_role('button',name='Close business report').click()
     page.screenshot(path=str(OUT/'ux_four_tabs_architecture.png'))
-    page.get_by_role('button',name='Inspect components and events in Evidence').click()
+    page.get_by_role('button',name='Inspect event proof in Evidence').click()
     assert page.locator('.component-panel').is_visible()
     assert page.locator('.inspector').is_visible()
     page.get_by_role('tab',name='Architecture questions').click()
@@ -57,11 +60,24 @@ with sync_playwright() as p:
     page.get_by_role('button',name='Run selected probe').click()
     page.locator('.lab-step-nav .pill').filter(has_text='complete').wait_for(timeout=30000)
     assert 'DENIED' in page.locator('.lab-route-note').inner_text()
+    page.get_by_role('tab',name='Evidence & correlation').click()
+    page.get_by_role('button',name='Implementation',exact=True).click()
+    assert 'Node.js is not an agent' in page.locator('.implementation-evidence').inner_text()
+    assert 'no external agent is connected' in page.locator('.implementation-evidence').inner_text()
+    page.screenshot(path=str(OUT/'ux_external_agent_implementation.png'))
+    page.get_by_role('tab',name='Live architecture').click()
+    page.locator('.command-controls select').nth(1).select_option('S2')
+    page.get_by_role('button',name='Run architecture').click()
+    page.get_by_role('heading',name='Case complete').wait_for(timeout=30000)
+    assert page.locator('.agent-journey-stage.complete').count()==5
+    assert 'S2 · AgentCore' in page.locator('.route-zone[data-zone="Selected gateway"]').inner_text()
     assert page.evaluate('document.documentElement.scrollWidth')<=1440
     assert not errors,errors
-    print({'fastapi':'PASS','tab_widths':widths,'months':12,'zones':12,'question_handoffs':'PASS','page_errors':errors})
+    print({'fastapi':'PASS','tab_widths':widths,'months':12,'zones':12,'journey_stages':5,'routes':['S1','S2'],'question_handoffs':'PASS','page_errors':errors})
     mobile=browser.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
     mobile.goto(WEB,wait_until='networkidle')
+    assert mobile.evaluate('document.documentElement.scrollWidth')<=390
+    mobile.get_by_role('tab',name='Live architecture').click()
     assert mobile.evaluate('document.documentElement.scrollWidth')<=390
     print({'mobile_horizontal_overflow':'PASS'})
     hosted=browser.new_page(viewport={'width':1440,'height':900})
@@ -74,5 +90,8 @@ with sync_playwright() as p:
     assert hosted.locator('.finance-evidence-table tbody tr').count()==4
     hosted.get_by_role('tab',name='Live architecture').click()
     assert hosted.locator('.route-zone').count()==12
-    print({'streamlit_reconciliation_and_evidence':'PASS'})
+    hosted.get_by_role('tab',name='Evidence & correlation').click()
+    hosted.get_by_role('button',name='Implementation',exact=True).click()
+    assert 'Node.js is not an agent' in hosted.locator('.implementation-evidence').inner_text()
+    print({'streamlit_reconciliation_and_evidence':'PASS','implementation_disclosure':'PASS'})
     browser.close()

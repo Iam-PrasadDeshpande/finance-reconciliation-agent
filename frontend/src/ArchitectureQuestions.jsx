@@ -49,12 +49,12 @@ export default function ArchitectureQuestions({questions=[],run,onRun,busy,onOpe
       <div className="question-list">{questions.map((item,index)=><button type="button" key={item.id} className={`question-card ${selectedId===item.id?'selected':''}`} onClick={()=>choose(item)} aria-pressed={selectedId===item.id}>
         <span>Q{index+1} · OPEN</span><strong>{item.title}</strong><small>{item.summary}</small>
       </button>)}</div>
-      <p className="lab-footnote">S1 and S2 represent the existing alternatives. S3 is an unapproved combined-path candidate.</p>
+      <p className="lab-footnote">S1 and S2 are simulated alternatives. S3 tests a proposed external agent → AgentCore Gateway → SAP Apigee path; approval remains open.</p>
     </aside>
 
     <section className="lab-center">
       <section className="surface lab-command">
-        <div><span className="eyebrow">PYTHON-EVALUATED SYNTHETIC TRACE</span><h2>{question?.title||'Choose an architecture question'}</h2><p>{question?.summary||'Run a question to inspect the propagated request and response at each component.'}</p></div>
+        <div><span className="eyebrow">EXTERNAL AGENT / SAP ALIGNMENT PROBE</span><h2>{question?.title||'Choose an architecture question'}</h2><p>{question?.summary||'Run a question to inspect the propagated request and response at each component.'}</p></div>
         {question&&<div className="lab-controls">
           <label>Route<select aria-label="Architecture route" value={route} onChange={event=>setRoute(event.target.value)}>{ROUTES.map(item=><option key={item.id} value={item.id}>{item.label}</option>)}</select></label>
           <label>Probe<select aria-label="Architecture probe" value={probe} onChange={event=>setProbe(event.target.value)}>{question.probes.map(item=><option key={item.id} value={item.id}>{item.label}</option>)}</select></label>
@@ -82,7 +82,7 @@ export default function ArchitectureQuestions({questions=[],run,onRun,busy,onOpe
         <div className="lab-open-status">OPEN · No policy or tenant approval is asserted by this simulator.</div>
         <p className="lab-decision-hint">Detailed control ownership, identity references, proof gates and the decision packet are in Evidence & correlation.</p>
         <button type="button" className="lab-export" onClick={()=>onOpenEvidence?.(selected?.seq)}>Open decision evidence →</button>
-      </>:<p className="empty-inline">Each question shows its decision owner, control matrix and live proof gates here.</p>}
+      </>:<p className="empty-inline">Select an open question to see its decision owner and required architecture alignment. Control details are in Evidence.</p>}
     </aside>
   </main>;
 }
