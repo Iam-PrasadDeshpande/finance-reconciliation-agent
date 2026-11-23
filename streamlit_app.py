@@ -19,6 +19,7 @@ from poc.investigation import InvestigationSimulator
 from poc.questions import answer_follow_up, request_for_demo, mentioned_period, trace_question
 from poc.runtime import RuntimeSimulator
 from poc.store import Store
+from poc.decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
 
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "frontend" / "dist_streamlit"
@@ -41,6 +42,7 @@ def session():
         st.session_state.finance_trace_id = None
         st.session_state.finance_response = None
         st.session_state.finance_response_nonce = 0
+        st.session_state.finance_decision_run_id = None
     return st.session_state.finance_store
 
 
@@ -60,7 +62,11 @@ def handle_action(action: dict):
     store = session()
     kind = action.get("type")
     try:
-        if kind == "run":
+        if kind == "decision_run":
+            record = start_decision_run(store, action.get("question_id", ""), action.get("route", "S3"), action.get("probe", ""))
+            st.session_state.finance_decision_run_id = record["run_id"]
+            worker_pool().submit(advance_decision_run, store, record["run_id"])
+        elif kind == "run":
             parsed, assumed, follow_up = request_for_demo(action.get("message", ""))
             if follow_up:
                 publish_response({"answer": follow_up, "status": "needs_scope"})
@@ -185,6 +191,8 @@ def show_app():
         "active_case": current,
         "history_detail": store.history_detail(current["scope"]["period"]) if current and current.get("scope",{}).get("period") in store.available_periods() else None,
         "events": architecture_events(store.events(trace_id)) if trace_id else [],
+        "decision_questions": question_catalog(),
+        "decision_run": get_decision_run(store, st.session_state.finance_decision_run_id) if st.session_state.finance_decision_run_id else None,
         "response": st.session_state.finance_response,
         "response_nonce": st.session_state.finance_response_nonce,
         "simulation": True,

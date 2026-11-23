@@ -17,6 +17,7 @@ from poc.intents import parse_reconciliation
 from poc.questions import answer_follow_up, request_for_demo
 from poc.architecture_view import architecture_events, architecture_registry
 from poc.investigation import InvestigationSimulator
+from poc.decision_lab import question_catalog, build_run, start_run, advance_run, get_run
 
 @pytest.fixture
 def env(tmp_path):
@@ -28,6 +29,45 @@ def request(scenario="S1",user_id="finance.user",company_code="1000"):
     return ReconciliationRequest(scenario=scenario,company_code=company_code,ledger="0L",period="2026-11",currency="USD",user_id=user_id)
 
 def journal_count(store): return store.db.execute("SELECT COUNT(*) FROM journals").fetchone()[0]
+
+def test_architecture_decision_catalog_and_combined_route_are_open():
+    assert len(question_catalog()) == 6
+    run = build_run("sap_mcp_hosting", "S3", "onboarded")
+    names = [step["component"] for step in run["steps"]]
+    assert names.index("AgentCore Gateway") < names.index("SAP Apigee MCP") < names.index("SAP Integration Suite") < names.index("SAP backend role")
+    assert run["steps"][1]["phase"] == "design-time"
+    assert run["steps"][2]["input"] == "Can SAP retain Apigee as its domain MCP layer?"
+    assert run["route_status"] == "Unapproved candidate"
+    assert run["decision_status"].startswith("OPEN")
+    assert all("1000" not in str(step) and "ghp_" not in str(step) for step in run["steps"])
+
+
+@pytest.mark.parametrize("question,probe,denied_at", [
+    ("sap_mcp_hosting", "missing_target", "AgentCore Gateway"),
+    ("sap_identity", "missing_principal", "SAP backend role"),
+    ("read_vs_post", "post_no_approval", "Finance approval boundary"),
+    ("foundry_registry", "unregistered", "AI Foundry registry"),
+    ("external_agent", "unapproved_partner", "AgentCore Gateway"),
+])
+def test_decision_probes_fail_at_the_intended_boundary(question,probe,denied_at):
+    run = build_run(question,"S3",probe)
+    assert run["outcome"] == "DENIED"
+    assert run["steps"][-1]["component"] == denied_at
+    assert run["steps"][-1]["status"] == "denied"
+    assert all(step["component"] != "SAP finance API" for step in run["steps"])
+
+
+def test_architecture_decision_progress_is_persisted_and_bounded(tmp_path):
+    store = Store(tmp_path / "decision.sqlite3")
+    first = start_run(store,"sap_identity","S3","delegated")
+    assert first["steps"] == [] and first["status"] == "running"
+    advance_run(store, first["run_id"], pace_ms=0)
+    finished = get_run(store, first["run_id"])
+    assert finished["status"] == "complete"
+    assert finished["total_steps"] == len(finished["steps"])
+    assert finished["steps"][-1]["component"] == "Finance answer + audit"
+    with pytest.raises(Denied):
+        build_run("sap_identity", "S4", "delegated")
 
 def decision(proposal,approved=True,callback_id="cb-1",payload_hash=None):
     return ApprovalDecision(proposal_id=proposal["proposal_id"],approver_id="finance.approver",approved=approved,callback_id=callback_id,payload_hash=payload_hash or proposal["payload_hash"],case_version=proposal["case_version"])

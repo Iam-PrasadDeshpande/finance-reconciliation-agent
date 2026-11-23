@@ -24,6 +24,7 @@ from .runtime import RuntimeSimulator
 from .intents import parse_reconciliation
 from .questions import answer_follow_up, request_for_demo, mentioned_period, trace_question
 from .architecture_view import architecture_registry, architecture_events
+from .decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
 from .store import Denied,Store
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -70,6 +71,11 @@ class InvestigationInput(BaseModel):
 class ReprocessInput(BaseModel):
     operator_id:str="finance.operator"
 
+class DecisionLabInput(BaseModel):
+    question_id:str
+    route:str="S3"
+    probe:str="onboarded"
+
 class DecisionInput(BaseModel):
     proposal_id:str
     approver_id:str="finance.approver"
@@ -102,10 +108,26 @@ def neutral_registry(): return architecture_registry()
 @app.get("/api/architecture/events")
 def neutral_events(case_id:str,after:int=0): return architecture_events(store.events(case_id,after))
 
+@app.get("/api/architecture/questions")
+def architecture_questions(): return question_catalog()
+
+@app.post("/api/architecture/questions/runs")
+def start_architecture_question(req:DecisionLabInput):
+    try:
+        run=start_decision_run(store,req.question_id,req.route,req.probe)
+        run_pool.submit(advance_decision_run,store,run["run_id"])
+        return run
+    except Exception as exc: fail(exc)
+
+@app.get("/api/architecture/questions/runs/{run_id}")
+def architecture_question_run(run_id:str):
+    try: return get_decision_run(store,run_id)
+    except Exception as exc: fail(exc)
+
 @app.get("/api/bootstrap")
 def bootstrap():
     return {"history":history(),"cases":store.cases()[:20],"agent":foundry.active(),
-            "architecture":architecture_registry(),"simulation":True}
+            "architecture":architecture_registry(),"decision_questions":question_catalog(),"simulation":True}
 
 @app.get("/api/agents")
 def agents(): return {"active":foundry.active()}
