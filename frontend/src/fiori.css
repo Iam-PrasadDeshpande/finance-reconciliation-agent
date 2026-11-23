@@ -84,3 +84,53 @@ input,select,.chat-composer input,.command-controls input,.command-controls sele
 .launchpad-overview-card>span:last-child{color:#607b8c;font-size:11px}
 @media(max-width:720px){.shell-header{height:62px;padding:0 12px}.shell-launcher{display:none}.shell-home{width:30px;height:30px;font-size:23px;padding-right:5px}.brand{gap:8px}.brand-mark{width:30px;height:30px;font-size:18px}.brand h1{font-size:13px}.brand-overline{font-size:8px}.header-meta{font-size:9px}.header-meta>span:not(.pill){display:none}.tab-nav{height:46px}.tab-nav button{gap:5px}.tab-nav .tab-icon{display:inline-block;font-size:14px}.app-footer{padding:6px 12px;font-size:9px;line-height:1.35}.app-footer span{margin:0}.launchpad-content{width:calc(100% - 28px);padding:24px 0}.launchpad-welcome h2{font-size:21px}.launchpad-welcome p{font-size:12px}.launchpad-app-tile{width:100%}.launchpad-overview{grid-template-columns:1fr;gap:8px}.launchpad-overview-card{min-height:74px;padding:11px 14px;grid-template-columns:1fr auto;align-items:center}.launchpad-overview-card strong{grid-row:1/3;grid-column:2}.launchpad-overview-card>span:last-child{grid-column:1}}
 @media(min-width:1101px) and (max-height:800px){.app-footer{padding:4px 16px;min-height:24px}}
+
+/* List report and detail area, with the agent available as a task panel. */
+.fiori-list-report .close-cockpit .section-heading{padding:22px 24px 17px;margin:0;border-bottom:1px solid #e5ebef}
+.fiori-list-report .close-cockpit .section-heading h2{font-size:22px;margin:5px 0 0}
+.fi-page-subtitle{font-size:11px;color:#607b8c;margin:5px 0 0}
+.fi-page-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.fi-page-actions button{border-radius:4px;padding:9px 14px;font-size:11px}
+.fi-app-status{font-size:11px;color:#256f3a;font-weight:700;white-space:nowrap}
+.fiori-list-report .cockpit-kpis{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:0 14px;border-bottom:1px solid #e5ebef}
+.fiori-list-report .cockpit-kpis>div{border:0;border-right:1px solid #e5ebef;border-radius:0;background:#fff;padding:13px 16px;gap:2px}
+.fiori-list-report .cockpit-kpis>div:last-child{border-right:0}
+.fiori-list-report .cockpit-kpis>div.attention{background:#fffaf2}
+.fiori-list-report .cockpit-kpis strong{font-size:25px}
+.fiori-list-report .cockpit-kpis span{font-size:11px}
+.fiori-list-report .cockpit-kpis small{font-size:10px}
+.fi-filterbar{display:flex;align-items:end;gap:10px;padding:14px 24px;background:#f7f9fa;border-bottom:1px solid #dce5eb;flex-wrap:wrap}
+.fi-filterbar label{display:grid;gap:4px;min-width:150px;font-size:11px;color:#4d697c;font-weight:700}
+.fi-filterbar select{height:34px;border:1px solid #b7c9d6;border-radius:4px;background:#fff;color:#223548;padding:5px 8px;font-size:12px}
+.fi-filterbar button{height:34px;border:1px solid #b7c9d6;border-radius:4px;background:#fff;color:#0a6ed1;padding:0 11px;font-size:11px;font-weight:700}
+.fi-filterbar>span{margin-left:auto;padding-bottom:8px;color:#668093;font-size:10px}
+.fiori-list-report .cockpit-body{display:block;padding:0 24px 24px}
+.fi-table-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 0 10px}
+.fi-table-toolbar h3{margin:0!important;font-size:14px!important}
+.fi-table-toolbar>span{font-size:10px;color:#6b8293}
+.fiori-list-report .worklist-header,.fiori-list-report .worklist button{grid-template-columns:130px minmax(0,1fr) 100px}
+.fiori-list-report .worklist{max-height:min(460px,calc(100vh - 540px));overflow-y:auto}
+.fiori-list-report .worklist button{min-height:36px;padding:7px 10px}
+.fiori-list-report .worklist button span,.fiori-list-report .worklist button strong{font-size:11px}
+.fiori-list-report .worklist button em{font-size:10px}
+.fiori-list-report .worklist-header{font-size:10px}
+.fiori-list-report .worklist button.selected{background:#e8f4fd;box-shadow:inset 3px 0 #0a6ed1}
+.fi-empty-filter{padding:20px 10px;color:#6b8293;font-size:11px;margin:0}
+.fiori-list-report .cockpit-detail{border-left:0;border-top:1px solid #e5ebef;padding:15px 0 0;margin-top:18px}
+.fiori-list-report .cockpit-detail h3{margin-bottom:10px}
+.fiori-list-report .business-result{min-height:360px}
+.fiori-list-report .business-result .section-heading{padding:21px 22px 16px}
+.fiori-list-report .business-result .section-heading h2{font-size:18px}
+.fiori-list-report .business-result-explanation{font-size:12px}
+.fiori-list-report .business-result-metrics span{font-size:11px}
+.fiori-list-report .business-result-metrics strong{font-size:19px}
+.fi-empty-action{border-radius:4px;padding:9px 12px;font-size:11px;margin-top:12px}
+.fiori-list-report>.chat-panel{display:none}
+.fiori-list-report>.chat-panel.open{display:flex;position:fixed;z-index:51;top:80px;right:18px;bottom:18px;width:min(480px,calc(100vw - 36px));height:auto;min-height:0;border-radius:6px;box-shadow:0 10px 35px #102f4680}
+.chat-drawer-backdrop{position:fixed;z-index:50;inset:0;border:0;background:#102f4655;cursor:default}
+.fiori-list-report .chat-panel .section-heading{border-bottom:1px solid #e5ebef;margin:0;padding:18px}
+.fiori-list-report .chat-panel .section-heading h2{font-size:16px}
+.fiori-list-report .chat-panel .chat-messages{min-height:0;max-height:none}
+@media(min-width:1101px){.business-layout.fiori-list-report{grid-template-columns:minmax(0,1.85fr) minmax(340px,.75fr);grid-template-rows:minmax(0,1fr);gap:12px;padding:12px 18px 18px}.business-layout.fiori-list-report>.close-cockpit{grid-column:1;grid-row:1;min-height:0;overflow-y:auto}.business-layout.fiori-list-report>.right-column{grid-column:2;grid-row:1;min-height:0;overflow-y:auto;align-content:start}}
+@media(max-width:1100px){.business-layout.fiori-list-report{display:grid;grid-template-columns:1fr}.fiori-list-report .cockpit-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.fiori-list-report .business-result{min-height:260px}}
+@media(max-width:720px){.fiori-list-report .close-cockpit .section-heading{padding:14px;align-items:flex-start}.fiori-list-report .close-cockpit .section-heading h2{font-size:18px}.fi-page-actions{justify-content:flex-start}.fi-app-status{display:none}.fi-filterbar{padding:10px 14px}.fi-filterbar label{min-width:calc(50% - 5px)}.fi-filterbar>span{margin-left:0}.fiori-list-report .cockpit-body{padding:0 14px 14px}.fiori-list-report .worklist-header,.fiori-list-report .worklist button{grid-template-columns:75px minmax(0,1fr) 78px}.fiori-list-report>.chat-panel.open{top:8px;right:8px;bottom:8px;width:calc(100vw - 16px)}}

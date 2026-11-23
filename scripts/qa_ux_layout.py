@@ -24,12 +24,28 @@ with sync_playwright() as p:
     widths=[round(tab.bounding_box()['width']) for tab in page.get_by_role('tab').all()]
     assert max(widths)-min(widths)<=2,widths
     assert page.locator('.worklist button').count()==12
+    assert page.get_by_role('button',name='Ask Finance Agent').is_visible()
+    page.locator('.fi-filterbar select').nth(1).select_option('exception')
+    assert page.locator('.worklist button').count()==3
+    page.get_by_role('button',name='Clear filters').click()
+    assert page.locator('.worklist button').count()==12
     page.locator('.worklist button').filter(has_text='2026-11').click()
-    page.get_by_text('Reconciliation for 2026-11: 25,000 USD variance.',exact=False).wait_for()
+    page.get_by_text('Variance to review',exact=False).wait_for()
     assert page.locator('.cockpit-kpis').bounding_box()['y']>100
-    assert page.get_by_text('Variance to review',exact=False).is_visible()
     assert page.locator('.business-result').is_visible()
+    assert not page.get_by_role('dialog',name='Finance Agent').is_visible()
+    page.get_by_role('button',name='Ask Finance Agent').click()
+    assert page.get_by_role('dialog',name='Finance Agent').is_visible()
+    page.get_by_text('Reconciliation for 2026-11: 25,000 USD variance.',exact=False).wait_for()
+    page.locator('#chat-question').fill('Why is there a variance?')
+    page.get_by_role('button',name='Send').click()
+    page.get_by_text('The comparable variance is',exact=False).wait_for()
+    page.locator('#chat-question').fill('Predict tomorrow weather')
+    page.get_by_role('button',name='Send').click()
+    page.get_by_text('I cannot verify that question from this synthetic case.',exact=False).wait_for()
     assert page.locator('.chat-composer').bounding_box()['y']+page.locator('.chat-composer').bounding_box()['height']<900
+    page.screenshot(path=str(OUT/'ux_fiori_agent_panel.png'))
+    page.get_by_role('button',name='Close Finance Agent',exact=True).click()
     page.screenshot(path=str(OUT/'ux_four_tabs_business.png'))
     page.get_by_role('button',name='Inspect source records and calculation').click()
     assert page.get_by_role('tab',name='Evidence & correlation').get_attribute('aria-selected')=='true'
@@ -102,7 +118,7 @@ with sync_playwright() as p:
     assert 'Demo and learning purposes only' in hosted.locator('.app-footer').inner_text()
     assert hosted.get_by_role('tab').count()==4
     hosted.locator('.worklist button').filter(has_text='2026-11').click()
-    hosted.get_by_text('Reconciliation for 2026-11: 25,000 USD variance.',exact=False).wait_for(timeout=30000)
+    hosted.get_by_text('Variance to review',exact=False).wait_for(timeout=30000)
     hosted.get_by_role('button',name='Inspect source records and calculation').click()
     assert hosted.locator('.finance-evidence-table tbody tr').count()==4
     hosted.get_by_role('tab',name='Live architecture').click()
