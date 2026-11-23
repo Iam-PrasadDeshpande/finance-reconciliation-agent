@@ -6,23 +6,16 @@ const ROUTES=[
   {id:'S3',label:'S3 · Combined candidate'},
 ];
 
-function downloadPacket(run){
-  const link=document.createElement('a');
-  const blob=new Blob([JSON.stringify({...run,meeting_status:'OPEN — no human decision recorded'},null,2)],{type:'application/json'});
-  link.href=URL.createObjectURL(blob);link.download=`${run.run_id}-architecture-decision.json`;link.click();
-  setTimeout(()=>URL.revokeObjectURL(link.href),1000);
-}
-
 function FlowNode({step,selected,processing,onSelect}){
   return <button type="button" data-seq={step.seq} className={`lab-node ${step.status} ${selected?'selected':''} ${processing?'processing':''}`} onClick={onSelect} aria-label={`Step ${step.seq}: ${step.component}, ${step.status}`}>
     <small>{String(step.seq).padStart(2,'0')} · {step.phase}</small><strong>{step.component}</strong><span>{step.status.toUpperCase()}</span>
   </button>;
 }
 
-export default function ArchitectureQuestions({questions=[],run,onRun,busy}){
-  const [selectedId,setSelectedId]=useState(null);
-  const [route,setRoute]=useState('S3');
-  const [probe,setProbe]=useState('');
+export default function ArchitectureQuestions({questions=[],run,onRun,busy,onOpenEvidence}){
+  const [selectedId,setSelectedId]=useState(run?.question_id||null);
+  const [route,setRoute]=useState(run?.route||'S3');
+  const [probe,setProbe]=useState(run?.probe||'');
   const [selectedSeq,setSelectedSeq]=useState(null);
   const [followLive,setFollowLive]=useState(true);
   const question=questions.find(item=>item.id===selectedId);
@@ -78,15 +71,7 @@ export default function ArchitectureQuestions({questions=[],run,onRun,busy}){
         </>:<div className="empty-inline">Click an open question to generate its route and control trace.</div>}
       </section>
 
-      <section className="surface lab-inspector">
-        <div className="section-heading"><div><span className="eyebrow">INPUT · CONTROL · OUTPUT</span><h2>{selected?.component||'Select a handoff'}</h2></div>{selected&&<span className="pill quiet">{selected.evidence_id}</span>}</div>
-        {selected?<div className="lab-message-grid">
-          <div><span>Received from previous component</span><p>{selected.input}</p></div>
-          <div><span>Control and accountable owner</span><p>{selected.control}<br/><strong>{selected.owner}</strong></p></div>
-          <div><span>Passed to next component</span><p>{selected.output}</p></div>
-          <div><span>Identity / live proof gap</span><p>{selected.identity}<br/><strong>{selected.proof_gap}</strong></p></div>
-        </div>:<p className="empty-inline">Inputs, outputs, authorization and proof gaps appear as the Python evaluator advances.</p>}
-      </section>
+      <div className="lab-evidence-link"><span>{selected?`Selected handoff · ${selected.component}`:'Select a question to trace its route'}</span><button type="button" onClick={()=>onOpenEvidence?.(selected?.seq)} disabled={!visibleRun}>Inspect handoff details in Evidence →</button></div>
     </section>
 
     <aside className="surface lab-decision">
@@ -95,9 +80,8 @@ export default function ArchitectureQuestions({questions=[],run,onRun,busy}){
         <div className="lab-position"><span>Discussion baseline · not approved policy</span><p>{question.current_position}</p></div>
         <div className="lab-decision-question"><span>Decision to resolve</span><strong>{question.decision}</strong><small>Owner · {question.owner}</small></div>
         <div className="lab-open-status">OPEN · No policy or tenant approval is asserted by this simulator.</div>
-        <h3>Proof needed before approval</h3><ul className="lab-gates">{question.gates.map(gate=><li key={gate}>{gate}</li>)}</ul>
-        <h3>Control ownership to align</h3><div className="lab-matrix">{(visibleRun?.control_matrix||[]).map(row=><div key={row.component}><strong>{row.component}</strong><span>{row.owner}</span><p>{row.responsibility}</p></div>)}</div>
-        {visibleRun?.status==='complete'&&<button type="button" className="lab-export" onClick={()=>downloadPacket(visibleRun)}>Download synthetic decision packet</button>}
+        <p className="lab-decision-hint">Detailed control ownership, identity references, proof gates and the decision packet are in Evidence & correlation.</p>
+        <button type="button" className="lab-export" onClick={()=>onOpenEvidence?.(selected?.seq)}>Open decision evidence →</button>
       </>:<p className="empty-inline">Each question shows its decision owner, control matrix and live proof gates here.</p>}
     </aside>
   </main>;
