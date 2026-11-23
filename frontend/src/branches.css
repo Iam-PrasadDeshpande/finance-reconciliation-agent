@@ -126,3 +126,28 @@
 .evidence-section-nav{grid-template-columns:repeat(5,minmax(0,1fr))}.implementation-evidence{max-width:1100px}.implementation-intro{font-size:12px;line-height:1.6;color:#4c6d83;margin:0 18px 16px}.implementation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:0 18px 18px}.implementation-grid>div{border:1px solid #dce8ef;background:#f8fbfd;border-radius:8px;padding:13px}.implementation-grid strong{font-size:12px;color:#214c69}.implementation-grid p{font-size:11px;line-height:1.5;color:#5c7b90;margin:7px 0 0}.implementation-state{display:flex;gap:15px;align-items:center;border-top:1px solid #e0e9ef;padding:13px 18px;font-size:10px;color:#5d7b8e}.implementation-state strong{color:#24516e}
 @media(max-width:720px){.agent-journey-heading{align-items:flex-start;flex-direction:column}.agent-journey-stages{grid-template-columns:repeat(2,minmax(0,1fr))}.implementation-grid{grid-template-columns:1fr}.implementation-state{align-items:flex-start;flex-direction:column;gap:5px}}
 @media(max-width:720px){.architecture-layout{grid-template-columns:minmax(0,1fr)}.architecture-layout>.command-bar,.architecture-layout>.route-panel,.architecture-layout>.agent-journey,.architecture-layout>.case-strip,.architecture-layout .route-scroll,.architecture-layout .command-controls{min-width:0;width:100%}.architecture-layout .command-controls label{min-width:0}.architecture-layout .command-controls input,.architecture-layout .command-controls select{min-width:0;width:100%}.architecture-layout .route-section-label span{white-space:normal}.architecture-layout .flow-caption{flex-wrap:wrap}.architecture-layout .case-strip{display:block}.architecture-layout .case-buttons{overflow-x:auto}}
+
+/* Browser zoom can leave a wide but short CSS viewport. Keep all topology rows visible. */
+@media(min-width:1101px) and (max-height:800px){
+  .architecture-layout{padding:8px 16px;gap:6px;grid-template-rows:auto minmax(0,1fr) auto auto}
+  .architecture-layout>.command-bar{padding:8px 12px;gap:12px}
+  .architecture-layout>.command-bar p{display:none}
+  .architecture-layout>.route-panel .section-heading{padding:7px 12px 4px}
+  .architecture-layout>.route-panel .section-heading h2{font-size:14px;margin:2px 0 0}
+  .architecture-layout .route-scroll{margin:0 8px;padding:0 0 2px;grid-template-rows:auto 45px auto 45px auto 45px;row-gap:1px}
+  .architecture-layout .route-scroll .route-zone,.architecture-layout .source-route-lanes .route-zone,.architecture-layout .return-lanes .route-zone,.architecture-layout .route-scroll .branch-zone{height:45px;min-height:45px;padding:3px 6px}
+  .architecture-layout .route-scroll .route-zone{gap:0}
+  .architecture-layout .route-scroll .route-zone strong{font-size:10px;line-height:1.05}
+  .architecture-layout .route-scroll .route-top,.architecture-layout .route-scroll .route-status{font-size:8px;line-height:1}
+  .architecture-layout .route-scroll .report-node{height:45px;padding:4px 6px;gap:1px}
+  .architecture-layout .route-scroll .report-node strong{font-size:11px}
+  .architecture-layout .route-scroll .report-node small{display:none}
+  .architecture-layout .route-scroll .route-section-label{font-size:7px}
+  .architecture-layout .flow-caption{padding:5px 10px;font-size:9px}
+  .architecture-layout>.agent-journey{padding:4px 10px}
+  .architecture-layout .agent-journey-heading{margin-bottom:3px}
+  .architecture-layout .agent-journey-stage{padding:3px 6px;gap:0}
+  .architecture-layout .agent-journey-stage small{display:none}
+  .architecture-layout>.case-strip{max-height:36px}
+  .app-footer{padding:4px 16px}
+}
