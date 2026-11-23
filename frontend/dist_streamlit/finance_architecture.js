@@ -9589,45 +9589,30 @@ function ae({ step: e, selected: t, processing: n, onSelect: r }) {
 	});
 }
 function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
-	let [i, a] = (0, b.useState)(null), [o, s] = (0, b.useState)("S3"), [c, l] = (0, b.useState)(""), [u, d] = (0, b.useState)(null), [f, p] = (0, b.useState)(!0), m = (0, b.useRef)(null), h = e.find((e) => e.id === i), g = t?.question_id === i ? t : null, _ = g?.steps || [], v = _.filter((e) => e.phase === "design-time"), y = _.filter((e) => e.phase !== "design-time"), S = _.find((e) => e.seq === u) || _.at(-1), ee = _.findIndex((e) => e.seq === S?.seq);
+	let [i, a] = (0, b.useState)(null), [o, s] = (0, b.useState)("S3"), [c, l] = (0, b.useState)(""), [u, d] = (0, b.useState)(null), [f, p] = (0, b.useState)(!0), m = e.find((e) => e.id === i), h = t?.question_id === i ? t : null, g = h?.steps || [], _ = g.filter((e) => e.phase === "design-time"), v = g.filter((e) => e.phase !== "design-time"), y = g.find((e) => e.seq === u) || g.at(-1), S = g.findIndex((e) => e.seq === y?.seq);
 	(0, b.useEffect)(() => {
-		_.length && (f || u === null || !_.some((e) => e.seq === u)) && d(_.at(-1).seq);
+		g.length && (f || u === null || !g.some((e) => e.seq === u)) && d(g.at(-1).seq);
 	}, [
-		g?.run_id,
-		_.length,
+		h?.run_id,
+		g.length,
 		f
 	]), (0, b.useEffect)(() => {
-		m.current && _.length && f && m.current.scrollTo({
-			left: m.current.scrollWidth,
-			behavior: "smooth"
-		});
-	}, [_.length, f]), (0, b.useEffect)(() => {
-		g?.status === "complete" && f && _.length && (d(_[0].seq), p(!1));
+		h?.status === "complete" && f && g.length && (d(g[0].seq), p(!1));
 	}, [
-		g?.run_id,
-		g?.status,
-		_.length,
+		h?.run_id,
+		h?.status,
+		g.length,
 		f
-	]), (0, b.useEffect)(() => {
-		if (f || !m.current || !u) return;
-		let e = m.current, t = e.querySelector(`[data-seq="${u}"]`);
-		if (t) {
-			let n = u === 1 ? 0 : e.scrollLeft + t.getBoundingClientRect().left - e.getBoundingClientRect().left - 20;
-			e.scrollTo({
-				left: Math.max(0, n),
-				behavior: "auto"
-			});
-		}
-	}, [u, f]);
-	function te(e) {
+	]);
+	function ee(e) {
 		let t = e.default_route || "S3", r = e.probes[0].id;
 		a(e.id), s(t), l(r), d(null), p(!0), n(e.id, t, r);
 	}
-	function C() {
-		h && (d(null), p(!0), n(h.id, o, c));
+	function te() {
+		m && (d(null), p(!0), n(m.id, o, c));
 	}
-	function ne(e) {
-		let t = _[ee + e];
+	function C(e) {
+		let t = g[S + e];
 		t && (d(t.seq), p(!1));
 	}
 	return /* @__PURE__ */ (0, x.jsxs)("main", {
@@ -9656,7 +9641,7 @@ function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
 						children: e.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("button", {
 							type: "button",
 							className: `question-card ${i === e.id ? "selected" : ""}`,
-							onClick: () => te(e),
+							onClick: () => ee(e),
 							"aria-pressed": i === e.id,
 							children: [
 								/* @__PURE__ */ (0, x.jsxs)("span", { children: [
@@ -9685,9 +9670,9 @@ function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
 								className: "eyebrow",
 								children: "PYTHON-EVALUATED SYNTHETIC TRACE"
 							}),
-							/* @__PURE__ */ (0, x.jsx)("h2", { children: h?.title || "Choose an architecture question" }),
-							/* @__PURE__ */ (0, x.jsx)("p", { children: h?.summary || "Run a question to inspect the propagated request and response at each component." })
-						] }), h && /* @__PURE__ */ (0, x.jsxs)("div", {
+							/* @__PURE__ */ (0, x.jsx)("h2", { children: m?.title || "Choose an architecture question" }),
+							/* @__PURE__ */ (0, x.jsx)("p", { children: m?.summary || "Run a question to inspect the propagated request and response at each component." })
+						] }), m && /* @__PURE__ */ (0, x.jsxs)("div", {
 							className: "lab-controls",
 							children: [
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Route", /* @__PURE__ */ (0, x.jsx)("select", {
@@ -9703,7 +9688,7 @@ function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
 									"aria-label": "Architecture probe",
 									value: c,
 									onChange: (e) => l(e.target.value),
-									children: h.probes.map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+									children: m.probes.map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
 										value: e.id,
 										children: e.label
 									}, e.id))
@@ -9711,7 +9696,7 @@ function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
 								/* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
 									className: "primary",
-									onClick: C,
+									onClick: te,
 									disabled: r,
 									children: r ? "Running…" : "Run selected probe"
 								})
@@ -9730,40 +9715,40 @@ function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
 								children: [
 									/* @__PURE__ */ (0, x.jsx)("button", {
 										type: "button",
-										onClick: () => ne(-1),
-										disabled: ee <= 0,
+										onClick: () => C(-1),
+										disabled: S <= 0,
 										"aria-label": "Previous handoff",
 										children: "←"
 									}),
-									/* @__PURE__ */ (0, x.jsx)("span", { children: S ? `${S.seq}/${g.total_steps}` : "—" }),
+									/* @__PURE__ */ (0, x.jsx)("span", { children: y ? `${y.seq}/${h.total_steps}` : "—" }),
 									/* @__PURE__ */ (0, x.jsx)("button", {
 										type: "button",
-										onClick: () => ne(1),
-										disabled: ee < 0 || ee >= _.length - 1,
+										onClick: () => C(1),
+										disabled: S < 0 || S >= g.length - 1,
 										"aria-label": "Next handoff",
 										children: "→"
 									}),
 									/* @__PURE__ */ (0, x.jsx)("span", {
-										className: `pill ${g?.outcome === "DENIED" ? "warn" : "quiet"}`,
-										children: g ? `${_.length}/${g.total_steps} steps · ${g.status}` : "Awaiting question"
+										className: `pill ${h?.outcome === "DENIED" ? "warn" : "quiet"}`,
+										children: h ? `${g.length}/${h.total_steps} steps · ${h.status}` : "Awaiting question"
 									})
 								]
 							})]
-						}), g ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
+						}), h ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "lab-route-note",
 								children: [
-									/* @__PURE__ */ (0, x.jsx)("strong", { children: g.route_label }),
-									/* @__PURE__ */ (0, x.jsx)("span", { children: g.route_status }),
-									/* @__PURE__ */ (0, x.jsx)("span", { children: g.outcome })
+									/* @__PURE__ */ (0, x.jsx)("strong", { children: h.route_label }),
+									/* @__PURE__ */ (0, x.jsx)("span", { children: h.route_status }),
+									/* @__PURE__ */ (0, x.jsx)("span", { children: h.outcome })
 								]
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "lab-design-branch",
-								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "DESIGN-TIME PREREQUISITE · NOT A RUNTIME HOP" }), v.map((e) => /* @__PURE__ */ (0, x.jsx)(ae, {
+								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "DESIGN-TIME PREREQUISITE · NOT A RUNTIME HOP" }), _.map((e) => /* @__PURE__ */ (0, x.jsx)(ae, {
 									step: e,
-									selected: S?.seq === e.seq,
-									processing: g.status === "running" && e.seq === _.at(-1)?.seq,
+									selected: y?.seq === e.seq,
+									processing: h.status === "running" && e.seq === g.at(-1)?.seq,
 									onSelect: () => {
 										d(e.seq), p(!1);
 									}
@@ -9771,26 +9756,21 @@ function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "lab-flow",
-								ref: m,
 								"aria-label": "Architecture runtime call path",
 								children: [
 									/* @__PURE__ */ (0, x.jsx)("span", {
 										className: "lab-flow-caption",
-										children: "RUNTIME CALL PATH"
+										children: "RUNTIME CALL PATH · LEFT TO RIGHT, THEN NEXT ROW"
 									}),
-									y.map((e, t) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [t > 0 && /* @__PURE__ */ (0, x.jsx)("span", {
-										className: "lab-arrow",
-										"aria-hidden": "true",
-										children: "→"
-									}), /* @__PURE__ */ (0, x.jsx)(ae, {
+									v.map((e) => /* @__PURE__ */ (0, x.jsx)(ae, {
 										step: e,
-										selected: S?.seq === e.seq,
-										processing: g.status === "running" && e.seq === _.at(-1)?.seq,
+										selected: y?.seq === e.seq,
+										processing: h.status === "running" && e.seq === g.at(-1)?.seq,
 										onSelect: () => {
 											d(e.seq), p(!1);
 										}
-									})] }, e.seq)),
-									g.status === "running" && /* @__PURE__ */ (0, x.jsx)("div", {
+									}, e.seq)),
+									h.status === "running" && /* @__PURE__ */ (0, x.jsx)("div", {
 										className: "lab-pending",
 										"aria-live": "polite",
 										children: "Evaluating next handoff…"
@@ -9809,24 +9789,24 @@ function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
 							children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 								className: "eyebrow",
 								children: "INPUT · CONTROL · OUTPUT"
-							}), /* @__PURE__ */ (0, x.jsx)("h2", { children: S?.component || "Select a handoff" })] }), S && /* @__PURE__ */ (0, x.jsx)("span", {
+							}), /* @__PURE__ */ (0, x.jsx)("h2", { children: y?.component || "Select a handoff" })] }), y && /* @__PURE__ */ (0, x.jsx)("span", {
 								className: "pill quiet",
-								children: S.evidence_id
+								children: y.evidence_id
 							})]
-						}), S ? /* @__PURE__ */ (0, x.jsxs)("div", {
+						}), y ? /* @__PURE__ */ (0, x.jsxs)("div", {
 							className: "lab-message-grid",
 							children: [
-								/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Received from previous component" }), /* @__PURE__ */ (0, x.jsx)("p", { children: S.input })] }),
+								/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Received from previous component" }), /* @__PURE__ */ (0, x.jsx)("p", { children: y.input })] }),
 								/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Control and accountable owner" }), /* @__PURE__ */ (0, x.jsxs)("p", { children: [
-									S.control,
+									y.control,
 									/* @__PURE__ */ (0, x.jsx)("br", {}),
-									/* @__PURE__ */ (0, x.jsx)("strong", { children: S.owner })
+									/* @__PURE__ */ (0, x.jsx)("strong", { children: y.owner })
 								] })] }),
-								/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Passed to next component" }), /* @__PURE__ */ (0, x.jsx)("p", { children: S.output })] }),
+								/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Passed to next component" }), /* @__PURE__ */ (0, x.jsx)("p", { children: y.output })] }),
 								/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Identity / live proof gap" }), /* @__PURE__ */ (0, x.jsxs)("p", { children: [
-									S.identity,
+									y.identity,
 									/* @__PURE__ */ (0, x.jsx)("br", {}),
-									/* @__PURE__ */ (0, x.jsx)("strong", { children: S.proof_gap })
+									/* @__PURE__ */ (0, x.jsx)("strong", { children: y.proof_gap })
 								] })] })
 							]
 						}) : /* @__PURE__ */ (0, x.jsx)("p", {
@@ -9844,17 +9824,17 @@ function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
 						className: "eyebrow",
 						children: "MEETING DECISION RECORD"
 					}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "Required alignment" })] })
-				}), h ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
+				}), m ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "lab-position",
-						children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Discussion baseline · not approved policy" }), /* @__PURE__ */ (0, x.jsx)("p", { children: h.current_position })]
+						children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Discussion baseline · not approved policy" }), /* @__PURE__ */ (0, x.jsx)("p", { children: m.current_position })]
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "lab-decision-question",
 						children: [
 							/* @__PURE__ */ (0, x.jsx)("span", { children: "Decision to resolve" }),
-							/* @__PURE__ */ (0, x.jsx)("strong", { children: h.decision }),
-							/* @__PURE__ */ (0, x.jsxs)("small", { children: ["Owner · ", h.owner] })
+							/* @__PURE__ */ (0, x.jsx)("strong", { children: m.decision }),
+							/* @__PURE__ */ (0, x.jsxs)("small", { children: ["Owner · ", m.owner] })
 						]
 					}),
 					/* @__PURE__ */ (0, x.jsx)("div", {
@@ -9864,21 +9844,21 @@ function oe({ questions: e = [], run: t, onRun: n, busy: r }) {
 					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Proof needed before approval" }),
 					/* @__PURE__ */ (0, x.jsx)("ul", {
 						className: "lab-gates",
-						children: h.gates.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e))
+						children: m.gates.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e))
 					}),
 					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Control ownership to align" }),
 					/* @__PURE__ */ (0, x.jsx)("div", {
 						className: "lab-matrix",
-						children: (g?.control_matrix || []).map((e) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [
+						children: (h?.control_matrix || []).map((e) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [
 							/* @__PURE__ */ (0, x.jsx)("strong", { children: e.component }),
 							/* @__PURE__ */ (0, x.jsx)("span", { children: e.owner }),
 							/* @__PURE__ */ (0, x.jsx)("p", { children: e.responsibility })
 						] }, e.component))
 					}),
-					g?.status === "complete" && /* @__PURE__ */ (0, x.jsx)("button", {
+					h?.status === "complete" && /* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						className: "lab-export",
-						onClick: () => ie(g),
+						onClick: () => ie(h),
 						children: "Download synthetic decision packet"
 					})
 				] }) : /* @__PURE__ */ (0, x.jsx)("p", {

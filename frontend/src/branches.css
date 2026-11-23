@@ -2,3 +2,79 @@
 .source-route-lanes{display:flex;align-items:flex-end;gap:20px;width:max-content}.source-route-group{border-left:2px solid #b1d4eb;padding-left:11px}.source-route-label{display:block;color:#5f8198;font-size:9px;font-weight:800;margin-bottom:7px}.return-lanes{display:flex;align-items:center;width:max-content}.report-node{height:144px;width:170px;border:1px solid #c5dfd1;border-top:4px solid #2c9768;border-radius:9px;background:#f8fdf9;display:flex;flex-direction:column;padding:14px;gap:7px}.report-node span{font-size:9px;color:#34835d;font-weight:800}.report-node strong{font-size:13px;color:#214d38}.report-node small{font-size:9px;color:#648175}.source-route-lanes .route-zone,.return-lanes .route-zone{min-height:144px;height:144px}.source-route-lanes .route-icon,.return-lanes .route-icon{font-size:22px;margin:4px 0 2px}
 .component-tile.skipped{background:#f6f8f9;border-style:dashed;opacity:.7}.component-tile.skipped .component-state{color:#8395a1}
 .heading-actions{display:flex;align-items:center;gap:7px}.export-button{font-size:10px;border:1px solid #b8d3e6;background:#fff;color:#0a5ba9;border-radius:6px;padding:6px 8px;font-weight:700}.export-button:hover{background:#e9f5fe}
+
+/* Landscape cockpit: use the page width for the route and contain detailed records in panels. */
+@media(min-width:1101px){
+  .architecture-layout{grid-template-columns:minmax(0,1.75fr) minmax(320px,.85fr);grid-template-rows:auto auto minmax(0,1fr) minmax(100px,.23fr);overflow:hidden;align-content:stretch}
+  .architecture-layout>.command-bar,.architecture-layout>.evidence-shortcut{grid-column:1/-1}
+  .architecture-layout>.route-panel{grid-column:1;grid-row:3;min-width:0;min-height:0;display:flex;flex-direction:column}
+  .architecture-layout>.detail-layout{grid-column:2;grid-row:3;min-width:0;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(130px,.8fr) minmax(165px,1fr);gap:10px}
+  .architecture-layout>.architecture-bottom{grid-column:1;grid-row:4;min-width:0;min-height:0;grid-template-columns:1fr 1fr;gap:10px}
+  .architecture-layout>.case-strip{grid-column:2;grid-row:4;min-width:0;min-height:0;overflow-y:auto}
+  .architecture-layout .component-panel,.architecture-layout .inspector,.architecture-layout .architecture-bottom>.surface{min-height:0;overflow-y:auto}
+  .architecture-layout .component-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:0 10px 10px}
+  .architecture-layout .component-tile{min-height:62px;padding:7px}
+  .architecture-layout .component-panel .section-heading,.architecture-layout .architecture-bottom .section-heading{padding:9px 12px 6px}
+  .architecture-layout .inspector{padding:11px}
+  .architecture-layout .inspector pre{max-height:70px}
+  .architecture-layout .review-list{padding:0 10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .architecture-layout .case-strip{padding-bottom:6px}
+  .architecture-layout .case-buttons{padding:0 10px}
+}
+.architecture-layout .route-scroll{min-height:0;flex:1;overflow-x:hidden;overflow-y:auto;margin:0 12px;padding:0 2px 8px}
+.architecture-layout .route-lanes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr) 14px) minmax(0,1fr);width:100%;min-height:0;align-items:stretch}
+.architecture-layout .route-zone{width:100%;min-width:0;min-height:76px;padding:6px 8px;gap:2px}
+.architecture-layout .route-zone strong{font-size:11px}
+.architecture-layout .route-zone small{font-size:8px;min-height:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.architecture-layout .route-icon{font-size:17px;margin:1px 0}
+.architecture-layout .route-connector{width:14px}
+.architecture-layout .route-section-label{margin:3px 0 5px}
+.architecture-layout .route-section-label.branch-label{margin-top:6px;padding-top:6px}
+.architecture-layout .source-route-lanes{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:10px;width:100%}
+.architecture-layout .source-route-group{min-width:0;padding-left:7px}
+.architecture-layout .source-route-group .route-lanes{grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr)}
+.architecture-layout .source-route-group:last-child .route-lanes{grid-template-columns:1fr}
+.architecture-layout .source-route-label{margin-bottom:3px}
+.architecture-layout .source-route-lanes .route-zone,.architecture-layout .return-lanes .route-zone{height:76px;min-height:76px}
+.architecture-layout .return-lanes{display:grid;grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr);width:100%}
+.architecture-layout .report-node{width:100%;height:76px;padding:8px;gap:3px}
+.architecture-layout .branch-lanes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:100%}
+.architecture-layout .branch-wrapper{width:auto;min-width:0}
+.architecture-layout .branch-role{margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.architecture-layout .branch-zone{min-height:69px;padding:5px 7px}
+.architecture-layout .branch-zone .route-icon{display:none}
+@media(max-width:1100px){.architecture-layout .route-scroll{overflow-y:visible}.architecture-layout .route-lanes{min-width:0}}
+@media(max-width:720px){.architecture-layout .route-lanes{grid-template-columns:repeat(3,minmax(0,1fr) 10px) minmax(0,1fr)}.architecture-layout .source-route-lanes{grid-template-columns:1fr}.architecture-layout .branch-lanes{grid-template-columns:repeat(2,minmax(0,1fr))}.architecture-layout .route-zone strong{font-size:10px}}
+
+@media(min-width:1101px){
+  .architecture-layout{grid-template-columns:minmax(0,1.7fr) minmax(290px,.8fr);grid-template-rows:auto 58px minmax(390px,.9fr) minmax(180px,.6fr) auto;gap:10px;overflow-y:auto;align-content:start}
+  .architecture-layout>.route-panel{grid-column:1/-1;grid-row:3}
+  .architecture-layout>.detail-layout{grid-column:1;grid-row:4;grid-template-columns:minmax(0,1.3fr) minmax(280px,.8fr);grid-template-rows:minmax(0,1fr)}
+  .architecture-layout>.architecture-bottom{grid-column:2;grid-row:4;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr)}
+  .architecture-layout>.case-strip{grid-column:1/-1;grid-row:5;min-height:52px}
+  .architecture-layout .route-scroll{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);grid-template-rows:auto 61px auto 61px auto 61px;column-gap:12px;row-gap:2px;overflow:hidden}
+  .architecture-layout .route-scroll>.route-section-label:first-child{grid-column:1/-1;grid-row:1}
+  .architecture-layout .route-scroll>.route-lanes{grid-column:1/-1;grid-row:2}
+  .architecture-layout .route-scroll>.route-section-label:nth-child(3){grid-column:1;grid-row:3}
+  .architecture-layout .route-scroll>.source-route-lanes{grid-column:1;grid-row:4}
+  .architecture-layout .route-scroll>.route-section-label:nth-child(5){grid-column:2;grid-row:3}
+  .architecture-layout .route-scroll>.return-lanes{grid-column:2;grid-row:4}
+  .architecture-layout .route-scroll>.route-section-label:nth-child(7){grid-column:1/-1;grid-row:5}
+  .architecture-layout .route-scroll>.branch-lanes{grid-column:1/-1;grid-row:6}
+  .architecture-layout .route-scroll .route-zone,.architecture-layout .source-route-lanes .route-zone,.architecture-layout .return-lanes .route-zone{height:61px;min-height:61px}
+  .architecture-layout .route-scroll .route-icon{display:none}
+  .architecture-layout .route-scroll .route-zone{padding:5px 8px}
+  .architecture-layout .route-scroll .route-zone small{display:none}
+  .architecture-layout .route-scroll .branch-role{display:none}
+  .architecture-layout .route-scroll .branch-zone{height:61px;min-height:61px}
+  .architecture-layout .route-scroll .report-node{height:61px;padding:7px}
+  .architecture-layout .route-scroll .route-section-label{margin:0;font-size:8px}
+  .architecture-layout .route-scroll .route-section-label.branch-label{margin:0;padding-top:3px}
+  .architecture-layout .route-scroll .route-section-label span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .architecture-layout .source-route-label{display:none}
+  .architecture-layout .source-route-group{border:0;padding:0}
+  .architecture-layout .component-panel{min-height:0}
+  .architecture-layout .component-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .architecture-layout .architecture-bottom .review-list{grid-template-columns:1fr}
+  .architecture-layout .architecture-bottom .micro{margin:5px 10px}
+}

@@ -1,4 +1,4 @@
-import React,{useEffect,useRef,useState} from 'react';
+import React,{useEffect,useState} from 'react';
 
 const ROUTES=[
   {id:'S1',label:'S1 · Apigee route'},
@@ -25,7 +25,6 @@ export default function ArchitectureQuestions({questions=[],run,onRun,busy}){
   const [probe,setProbe]=useState('');
   const [selectedSeq,setSelectedSeq]=useState(null);
   const [followLive,setFollowLive]=useState(true);
-  const flowRef=useRef(null);
   const question=questions.find(item=>item.id===selectedId);
   const visibleRun=run?.question_id===selectedId?run:null;
   const steps=visibleRun?.steps||[];
@@ -38,21 +37,8 @@ export default function ArchitectureQuestions({questions=[],run,onRun,busy}){
     if(steps.length&&(followLive||selectedSeq===null||!steps.some(item=>item.seq===selectedSeq)))setSelectedSeq(steps.at(-1).seq);
   },[visibleRun?.run_id,steps.length,followLive]);
   useEffect(()=>{
-    if(!flowRef.current||!steps.length||!followLive)return;
-    flowRef.current.scrollTo({left:flowRef.current.scrollWidth,behavior:'smooth'});
-  },[steps.length,followLive]);
-  useEffect(()=>{
     if(visibleRun?.status==='complete'&&followLive&&steps.length){setSelectedSeq(steps[0].seq);setFollowLive(false)}
   },[visibleRun?.run_id,visibleRun?.status,steps.length,followLive]);
-  useEffect(()=>{
-    if(followLive||!flowRef.current||!selectedSeq)return;
-    const flow=flowRef.current;
-    const node=flow.querySelector(`[data-seq="${selectedSeq}"]`);
-    if(node){
-      const left=selectedSeq===1?0:flow.scrollLeft+node.getBoundingClientRect().left-flow.getBoundingClientRect().left-20;
-      flow.scrollTo({left:Math.max(0,left),behavior:'auto'});
-    }
-  },[selectedSeq,followLive]);
 
   function choose(item){
     const nextRoute=item.default_route||'S3';
@@ -88,7 +74,7 @@ export default function ArchitectureQuestions({questions=[],run,onRun,busy}){
         {visibleRun?<>
           <div className="lab-route-note"><strong>{visibleRun.route_label}</strong><span>{visibleRun.route_status}</span><span>{visibleRun.outcome}</span></div>
           <div className="lab-design-branch"><span>DESIGN-TIME PREREQUISITE · NOT A RUNTIME HOP</span>{designSteps.map(step=><FlowNode key={step.seq} step={step} selected={selected?.seq===step.seq} processing={visibleRun.status==='running'&&step.seq===steps.at(-1)?.seq} onSelect={()=>{setSelectedSeq(step.seq);setFollowLive(false)}}/>)}</div>
-          <div className="lab-flow" ref={flowRef} aria-label="Architecture runtime call path"><span className="lab-flow-caption">RUNTIME CALL PATH</span>{runtimeSteps.map((step,index)=><React.Fragment key={step.seq}>{index>0&&<span className="lab-arrow" aria-hidden="true">→</span>}<FlowNode step={step} selected={selected?.seq===step.seq} processing={visibleRun.status==='running'&&step.seq===steps.at(-1)?.seq} onSelect={()=>{setSelectedSeq(step.seq);setFollowLive(false)}}/></React.Fragment>)}{visibleRun.status==='running'&&<div className="lab-pending" aria-live="polite">Evaluating next handoff…</div>}</div>
+          <div className="lab-flow" aria-label="Architecture runtime call path"><span className="lab-flow-caption">RUNTIME CALL PATH · LEFT TO RIGHT, THEN NEXT ROW</span>{runtimeSteps.map(step=><FlowNode key={step.seq} step={step} selected={selected?.seq===step.seq} processing={visibleRun.status==='running'&&step.seq===steps.at(-1)?.seq} onSelect={()=>{setSelectedSeq(step.seq);setFollowLive(false)}}/>)}{visibleRun.status==='running'&&<div className="lab-pending" aria-live="polite">Evaluating next handoff…</div>}</div>
         </>:<div className="empty-inline">Click an open question to generate its route and control trace.</div>}
       </section>
 

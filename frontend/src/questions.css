@@ -20,3 +20,17 @@
 .lab-position{margin:0 15px 10px;padding:9px;border:1px solid #d9e7f0;border-radius:6px;background:#f7fafc}.lab-position span{font-size:9px;font-weight:800;color:#607f93;text-transform:uppercase}.lab-position p{font-size:10px;line-height:1.45;color:#295471;margin:5px 0 0}
 @media(max-width:1200px){.question-lab{grid-template-columns:minmax(220px,260px) minmax(0,1fr);overflow-y:auto}.lab-decision{grid-column:1/-1;max-height:300px}.lab-command{display:grid}.lab-controls{justify-content:flex-start}}
 @media(max-width:720px){.tab-nav{overflow-x:auto;white-space:nowrap;gap:10px;padding:0 10px}.tab-nav button{flex:none;font-size:11px;padding:0 5px}.tab-nav span{display:none}.question-lab{display:block;overflow:visible;padding:10px}.question-rail,.lab-decision{max-height:none;margin-bottom:10px}.question-list{grid-template-columns:1fr 1fr;overflow:visible}.question-card{min-height:110px}.lab-center{display:block}.lab-center>.surface{margin-bottom:10px}.lab-command{min-height:0}.lab-controls{display:grid;grid-template-columns:1fr 1fr}.lab-controls label,.lab-controls select{min-width:0;width:100%}.lab-controls button{grid-column:1/-1}.lab-flow-panel{height:290px}.lab-inspector{min-height:240px}.lab-message-grid{grid-template-columns:1fr}.lab-decision{max-height:none}.lab-route-note span:last-child{margin-left:0}}
+
+/* Keep the complete 12-step trace in view; selecting a tile exposes its full payload below. */
+.lab-center{grid-template-rows:auto minmax(285px,1.35fr) minmax(175px,.8fr)}
+.lab-flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:50px;align-content:start;gap:5px;overflow-x:hidden;overflow-y:auto;padding:0 2px 6px}
+.lab-flow-caption{display:none}
+.lab-flow .lab-node{width:auto;min-width:0;min-height:0;padding:4px 6px;gap:2px}
+.lab-flow .lab-node small{font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lab-flow .lab-node strong{font-size:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lab-flow .lab-node span{font-size:8px}
+.lab-design-branch{min-height:58px;padding:3px 10px;gap:8px}
+.lab-design-branch .lab-node{min-height:50px;padding:6px 8px}
+.lab-pending{grid-column:1/-1;padding:2px}
+@media(max-width:1450px){.lab-flow{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:45px}.lab-center{grid-template-rows:auto minmax(310px,1.4fr) minmax(165px,.75fr)}}
+@media(max-width:720px){.lab-center{display:block}.lab-flow-panel{height:auto;min-height:400px}.lab-flow{grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}.lab-flow .lab-node{min-height:63px}.lab-design-branch{min-height:60px}}

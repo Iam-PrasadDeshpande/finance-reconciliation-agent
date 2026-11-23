@@ -6,6 +6,7 @@ an isolated in-memory SQLite fixture; no external finance service is called.
 from __future__ import annotations
 
 import uuid
+import hashlib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -23,6 +24,10 @@ from poc.decision_lab import question_catalog, start_run as start_decision_run, 
 
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "frontend" / "dist_streamlit"
+BUILD_VERSION = hashlib.sha256(
+    (BUILD / "finance_architecture.js").read_bytes()
+    + (BUILD / "finance_architecture.css").read_bytes()
+).hexdigest()[:12] if (BUILD / "finance_architecture.js").exists() and (BUILD / "finance_architecture.css").exists() else "missing"
 
 
 @st.cache_resource
@@ -164,9 +169,9 @@ if not (BUILD / "finance_architecture.js").exists():
     st.stop()
 
 @st.cache_resource
-def architecture_component():
+def architecture_component(build_version: str):
     return st.components.v2.component(
-        "finance_architecture",
+        f"finance_architecture_{build_version}",
         html='<div class="finance-root"></div>',
         js=(BUILD / "finance_architecture.js").read_text(encoding="utf-8"),
         css=(BUILD / "finance_architecture.css").read_text(encoding="utf-8"),
@@ -197,7 +202,7 @@ def show_app():
         "response_nonce": st.session_state.finance_response_nonce,
         "simulation": True,
     }
-    result = architecture_component()(data=data, key="finance_architecture", on_action_change=lambda: None)
+    result = architecture_component(BUILD_VERSION)(data=data, key="finance_architecture", on_action_change=lambda: None)
     if result.action:
         handle_action(result.action)
         st.rerun()
