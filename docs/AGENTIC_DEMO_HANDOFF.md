@@ -1,5 +1,7 @@
 # Agentic investigation demo handoff
 
+This is the historical handoff for the agentic investigation increment. See the repository `README.md` and `docs/DEMO_EVIDENCE.md` for the current four-tab layout, public deployment status and newer Business report interaction.
+
 ## Architecture-team walkthrough
 
 1. In **Business workspace**, reconcile November 2026. The aggregate S/4HANA and Central Finance snapshots differ by 25,000 USD.
@@ -8,7 +10,7 @@
 4. Apply the explicit **simulated reprocess** action. The local source, BW and Databricks evidence refresh; an independent new reconciliation returns a zero variance. The original 25,000 USD case and its proof remain stored.
 5. On a fresh case, choose **Mapping conflict**. The agent holds for finance/integration review and does not mutate source data or create a journal. Once an investigation exists, a variance-marker proposal for that original case is blocked.
 
-The business and architecture tabs show compact status and links; detailed evidence and correlation live in the third tab. At 1440 × 900, the browser document does not scroll vertically; long content scrolls inside panels. Narrow screens use natural page scrolling.
+The business and architecture tabs show compact status and links; detailed evidence and correlation live in the third tab. At the time of this handoff, the 1440 × 900 browser document did not scroll vertically; the later Business workspace update intentionally made that workbench scroll when its records exceed the screen. Narrow screens use natural page scrolling.
 
 ## Verified local result
 
@@ -22,4 +24,4 @@ The business and architecture tabs show compact status and links; detailed evide
 
 `release/finance_architecture_streamlit.zip` contains **30 allowlisted files** and `UPLOAD_MANIFEST.json`, with SHA-256 `553943f46f1666db276b203cf4529f3ff41580e899175070616617feee26951b`. It includes the compiled frontend and Python entrypoint; it excludes the local SQLite files, `.venv`, `node_modules`, browser captures and environment files. The earlier archive hash in `INDEPENDENT_REVIEW_AND_RELEASE.md` refers to the prior version.
 
-Hosting has not occurred. The project is nested under the user's home Git root, so the package should be extracted into a dedicated repository before selecting `streamlit_app.py` as the hosted entrypoint. The simulated documents, AIF status, gateways, role switch and reprocess are not live SAP or vendor proof. G1–G7 remain open as described in `POC_LIMITATIONS.md`.
+Hosting had not occurred when this package was prepared. The public Streamlit app was deployed later from the dedicated GitHub repository with `streamlit_app.py` as its entrypoint. This archived package hash is not the current publication manifest. The simulated documents, AIF status, gateways, role switch and reprocess are not live SAP or vendor proof. G1–G7 remain open as described in `POC_LIMITATIONS.md`.

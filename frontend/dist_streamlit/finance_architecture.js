@@ -10946,7 +10946,7 @@ function Se({ bridge: e }) {
 								"aria-live": "polite",
 								children: [!v.length && /* @__PURE__ */ (0, x.jsx)("div", {
 									className: "chat-empty",
-									children: "Chat cleared. Ask a finance question to start a new conversation."
+									children: "Chat cleared. The selected case and evidence remain available. Ask a finance question to continue."
 								}), v.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("div", {
 									className: `chat-message ${e.role} ${e.limited ? "limited" : ""}`,
 									children: [/* @__PURE__ */ (0, x.jsx)("span", { children: e.role === "user" ? "You" : "Finance assistant" }), /* @__PURE__ */ (0, x.jsx)("p", { children: e.text })]

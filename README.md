@@ -2,6 +2,8 @@
 
 A Node.js-built, Fiori-inspired frontend over a Python reconciliation simulator. The demo has four tabs: **Business workspace** for questions and close status, **Live architecture** for a company-neutral component topology, **Evidence & correlation** for document proof and component messages, and **Architecture questions** for six clickable enterprise-alignment decisions. Vendor names describe simulated boundaries. No SAP, AWS, Google, Databricks, BDC, Portkey or model account is connected.
 
+The original v2 POC prompt established the synthetic architecture and finance controls. Later user requests superseded its two-tab layout with four tabs and added the decision lab, document investigation, compact landscape architecture, and detailed Business report dialog. The original no-live-integration and no-real-posting boundaries still apply. Clear chat removes conversation messages only; it keeps the selected case and evidence. The Business workspace scrolls when its worklist and report exceed the screen, while the landscape topology keeps its 12 zones visible at the reviewed desktop size.
+
 ## Run locally
 
 `run_poc.ps1` starts the FastAPI version at `http://127.0.0.1:8876/`. The included `frontend/dist` assets work without Node at runtime. To rebuild the frontend after source edits, run `npm ci` and `npm run build` in `frontend`.
@@ -20,7 +22,7 @@ The existing public Streamlit deployment uses `streamlit_app.py` from GitHub. Lo
 6. For the agentic scenario, reconcile November 2026 and open the **Evidence & correlation** link. Select **Investigate variance**. The proof dossier updates through readiness, a gateway-routed four-document comparison, hypothesis testing and an action recommendation. The missing-document profile ties $1,000,000 in S/4HANA to $975,000 in Central Finance and identifies one $25,000 document. Select **Apply simulated reprocess and re-reconcile** to see the source and downstream evidence refresh and a new $0 reconciliation. Choose **Mapping conflict** on a fresh case to see the agent hold the action for review. The architecture tab shows the same persisted component events without company-specific scope.
 7. Open **Architecture questions** and click one of six open alignment questions. The Python evaluator starts a paced SQLite-backed trace showing each component's received input, control owner, redacted identity reference, output, synthetic evidence ID and remaining live proof. Compare S1 Apigee, S2 AgentCore and **S3 combined candidate**; S3 is not approved. Run denied probes for a missing target, missing SAP principal, unapproved write, unregistered tool or unapproved partner. Download the synthetic decision packet for meeting notes; it never records a human architecture approval.
 
-At desktop width the four tabs fit inside the browser viewport; worklists, traces and evidence lists scroll within their panels. Business and architecture panels show links to the separate evidence tab. On narrow screens the layout scrolls naturally to preserve legibility.
+At desktop width the four tabs fit inside the browser viewport. The Business workspace scrolls as one workbench; long traces and evidence lists retain their own panel scrolling. After a run, the dark **Business report** node opens a detailed dialog with the deterministic variance, source balances, freshness, timestamps and evidence IDs. Business and architecture panels also link to the separate evidence tab. On narrow screens the layout scrolls naturally to preserve legibility.
 
 ## Data and verification
 
