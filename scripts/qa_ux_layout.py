@@ -16,9 +16,16 @@ with sync_playwright() as p:
     page.goto(WEB,wait_until='networkidle')
     assert page.locator('.app-footer').is_visible()
     assert 'Demo and learning purposes only' in page.locator('.app-footer').inner_text()
-    assert page.get_by_role('heading',name='Finance Launchpad').is_visible()
+    assert page.get_by_role('heading',name='My Home').is_visible()
     assert page.get_by_role('tab').count()==0
+    assert page.locator('.launchpad-decision-row').count()==6
+    assert all(len(row.locator('.launchpad-decision-copy span').inner_text())>20 for row in page.locator('.launchpad-decision-row').all())
     page.screenshot(path=str(OUT/'ux_fiori_launchpad.png'))
+    page.locator('.launchpad-decision-row').first.click()
+    page.locator('.question-card.selected').first.wait_for()
+    page.locator('.lab-next-action').wait_for()
+    assert page.locator('.lab-gates li').count()==3
+    page.get_by_role('button',name='Back to Finance Launchpad').click()
     page.get_by_role('button',name='Open Finance Reconciliation Agent').click()
     assert page.get_by_role('tab').count()==4
     page.get_by_role('button',name='Open application menu').click()
@@ -111,7 +118,7 @@ with sync_playwright() as p:
     assert page.evaluate('document.documentElement.scrollWidth')<=1440
     assert not errors,errors
     page.get_by_role('button',name='Back to Finance Launchpad').click()
-    assert page.get_by_role('heading',name='Finance Launchpad').is_visible()
+    assert page.get_by_role('heading',name='My Home').is_visible()
     page.get_by_role('button',name='Open Finance Reconciliation Agent').click()
     assert page.get_by_role('tab',name='Business workspace').get_attribute('aria-selected')=='true'
     print({'fastapi':'PASS','tab_widths':widths,'months':12,'zones':12,'journey_stages':5,'routes':['S1','S2'],'question_handoffs':'PASS','page_errors':errors})
@@ -129,6 +136,14 @@ with sync_playwright() as p:
     print({'mobile_horizontal_overflow':'PASS'})
     hosted=browser.new_page(viewport={'width':1440,'height':900})
     hosted.goto(STREAMLIT,wait_until='domcontentloaded')
+    hosted.locator('.launchpad-decision-row').first.wait_for(timeout=30000)
+    assert all(len(row.locator('.launchpad-decision-copy span').inner_text())>20 for row in hosted.locator('.launchpad-decision-row').all())
+    hosted.locator('.launchpad-decision-row').first.click()
+    hosted.locator('.question-card.selected').first.wait_for(timeout=30000)
+    hosted.locator('.lab-next-action').wait_for(timeout=30000)
+    assert hosted.locator('.lab-gates li').count()==3
+    hosted.get_by_role('button',name='Back to Finance Launchpad').click()
+    hosted.reload(wait_until='domcontentloaded')
     hosted.get_by_role('button',name='Open Finance Reconciliation Agent').wait_for(timeout=30000)
     hosted.get_by_role('button',name='Open Finance Reconciliation Agent').click()
     hosted.get_by_role('tab',name='Business workspace').wait_for(timeout=30000)

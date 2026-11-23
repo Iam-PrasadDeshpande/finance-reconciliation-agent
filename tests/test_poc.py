@@ -31,7 +31,9 @@ def request(scenario="S1",user_id="finance.user",company_code="1000"):
 def journal_count(store): return store.db.execute("SELECT COUNT(*) FROM journals").fetchone()[0]
 
 def test_architecture_decision_catalog_and_combined_route_are_open():
-    assert len(question_catalog()) == 6
+    catalog = question_catalog()
+    assert len(catalog) == 6
+    assert all(item["next_action"] and item["owner"] and len(item["gates"]) == 3 for item in catalog)
     run = build_run("sap_mcp_hosting", "S3", "onboarded")
     names = [step["component"] for step in run["steps"]]
     assert names.index("AgentCore Gateway") < names.index("SAP Apigee MCP") < names.index("SAP Integration Suite") < names.index("SAP backend role")

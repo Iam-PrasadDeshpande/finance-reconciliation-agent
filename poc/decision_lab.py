@@ -18,6 +18,7 @@ QUESTIONS = [
         "current_position": "Existing MCP targets are technically possible; SAP ownership and Apigee hosting approval remain open.",
         "decision": "May SAP own and host this MCP capability through Apigee, and what onboarding contract applies?",
         "owner": "AI Foundry + SAP Solution Architecture + Integration",
+        "next_action": "Confirm SAP-owned Apigee MCP hosting policy and document the AgentCore Gateway target onboarding contract.",
         "default_route": "S3", "probes": [
             {"id": "onboarded", "label": "Target onboarded (candidate)"},
             {"id": "missing_target", "label": "Target absent / denied"},
@@ -29,6 +30,7 @@ QUESTIONS = [
         "current_position": "AgentCore serves the agent-facing runtime boundary; SAP's domain boundary needs an agreed control split.",
         "decision": "Assign one accountable owner for discovery, authorization, credentials, routing and audit at each boundary.",
         "owner": "Enterprise Architecture + AI Foundry + Apigee + Security",
+        "next_action": "Sign off a control matrix for both gateways, including policy precedence and cross-gateway audit correlation.",
         "default_route": "S3", "probes": [
             {"id": "split_controls", "label": "Distinct controls"},
             {"id": "duplicate_controls", "label": "Overlapping controls flagged"},
@@ -40,6 +42,7 @@ QUESTIONS = [
         "current_position": "Gateway authentication does not establish delegated SAP principal propagation or backend authorization.",
         "decision": "Approve delegated-user propagation or an explicitly scoped service-identity alternative.",
         "owner": "Entra ID + AgentCore Identity + Integration + SAP Security",
+        "next_action": "Trace a real tenant principal through every hop and prove the selected identity model in each SAP backend role check.",
         "default_route": "S3", "probes": [
             {"id": "delegated", "label": "Delegated user candidate"},
             {"id": "service", "label": "Service identity candidate"},
@@ -52,6 +55,7 @@ QUESTIONS = [
         "current_position": "Read and write require separate controls; a synthetic marker is not an SAP FI posting.",
         "decision": "Separate read scope, posting scope and accountable human approval; define the real SAP posting contract.",
         "owner": "FI Architecture + SAP Security + AI Foundry",
+        "next_action": "Approve separate read and write tool scopes, then prove human approval and a nonproduction SAP posting contract.",
         "default_route": "S3", "probes": [
             {"id": "read", "label": "Reconciliation read"},
             {"id": "post_no_approval", "label": "Post without approval / denied"},
@@ -64,6 +68,7 @@ QUESTIONS = [
         "current_position": "Registration governs lifecycle and discovery; it grants no direct SAP access by itself.",
         "decision": "Publish domain tool ownership, version, approval, lifecycle and synchronization requirements.",
         "owner": "AI Foundry Governance + Domain Tool Owner",
+        "next_action": "Publish registry onboarding, versioning, synchronization and retirement rules for domain-owned tools.",
         "default_route": "S3", "probes": [
             {"id": "registered", "label": "Registered tool candidate"},
             {"id": "unregistered", "label": "Unregistered tool / denied"},
@@ -75,6 +80,7 @@ QUESTIONS = [
         "current_position": "External agents need explicit identity, tool, repository and SAP authorization decisions.",
         "decision": "Set partner POC entry criteria and an approved external-agent access path.",
         "owner": "Enterprise Architecture + AI Foundry + SAP + Security",
+        "next_action": "Approve partner identity, tool allowlist, repository policy and SAP role proof for a bounded external-agent POC.",
         "default_route": "S3", "probes": [
             {"id": "approved_partner", "label": "Approved partner candidate"},
             {"id": "unapproved_partner", "label": "Unapproved partner / denied"},

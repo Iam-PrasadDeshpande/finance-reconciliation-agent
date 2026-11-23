@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useRef,useState} from 'react';
 
 const ROUTES=[
   {id:'S1',label:'S1 · Apigee route'},
@@ -12,12 +12,13 @@ function FlowNode({step,selected,processing,onSelect}){
   </button>;
 }
 
-export default function ArchitectureQuestions({questions=[],run,onRun,busy,onOpenEvidence}){
+export default function ArchitectureQuestions({questions=[],focus,run,onRun,busy,onOpenEvidence}){
   const [selectedId,setSelectedId]=useState(run?.question_id||null);
   const [route,setRoute]=useState(run?.route||'S3');
   const [probe,setProbe]=useState(run?.probe||'');
   const [selectedSeq,setSelectedSeq]=useState(null);
   const [followLive,setFollowLive]=useState(true);
+  const lastFocusNonce=useRef(null);
   const question=questions.find(item=>item.id===selectedId);
   const visibleRun=run?.question_id===selectedId?run:null;
   const steps=visibleRun?.steps||[];
@@ -32,6 +33,7 @@ export default function ArchitectureQuestions({questions=[],run,onRun,busy,onOpe
   useEffect(()=>{
     if(visibleRun?.status==='complete'&&followLive&&steps.length){setSelectedSeq(steps[0].seq);setFollowLive(false)}
   },[visibleRun?.run_id,visibleRun?.status,steps.length,followLive]);
+  useEffect(()=>{if(!focus?.id||focus.nonce===lastFocusNonce.current)return;const item=questions.find(candidate=>candidate.id===focus.id);if(item){lastFocusNonce.current=focus.nonce;choose(item)}},[focus?.nonce,questions]);
 
   function choose(item){
     const nextRoute=item.default_route||'S3';
@@ -80,7 +82,9 @@ export default function ArchitectureQuestions({questions=[],run,onRun,busy,onOpe
         <div className="lab-position"><span>Discussion baseline · not approved policy</span><p>{question.current_position}</p></div>
         <div className="lab-decision-question"><span>Decision to resolve</span><strong>{question.decision}</strong><small>Owner · {question.owner}</small></div>
         <div className="lab-open-status">OPEN · No policy or tenant approval is asserted by this simulator.</div>
-        <p className="lab-decision-hint">Detailed control ownership, identity references, proof gates and the decision packet are in Evidence & correlation.</p>
+        <div className="lab-next-action"><span>Next action</span><strong>{question.next_action}</strong></div>
+        <h3>Proof required to close</h3><ul className="lab-gates">{question.gates.map(gate=><li key={gate}>{gate}</li>)}</ul>
+        <p className="lab-decision-hint">Detailed handoff records and the synthetic decision packet are in Evidence & correlation.</p>
         <button type="button" className="lab-export" onClick={()=>onOpenEvidence?.(selected?.seq)}>Open decision evidence →</button>
       </>:<p className="empty-inline">Select an open question to see its decision owner and required architecture alignment. Control details are in Evidence.</p>}
     </aside>
