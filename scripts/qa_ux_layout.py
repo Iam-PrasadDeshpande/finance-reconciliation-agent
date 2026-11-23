@@ -21,6 +21,12 @@ with sync_playwright() as p:
     page.screenshot(path=str(OUT/'ux_fiori_launchpad.png'))
     page.get_by_role('button',name='Open Finance Reconciliation Agent').click()
     assert page.get_by_role('tab').count()==4
+    page.get_by_role('button',name='Open application menu').click()
+    assert page.get_by_role('menuitem').count()==6
+    page.get_by_role('menuitem',name='Live architecture').click()
+    assert page.get_by_role('tab',name='Live architecture').get_attribute('aria-selected')=='true'
+    page.get_by_role('button',name='Open application menu').click()
+    page.get_by_role('menuitem',name='Close worklist').click()
     widths=[round(tab.bounding_box()['width']) for tab in page.get_by_role('tab').all()]
     assert max(widths)-min(widths)<=2,widths
     assert page.locator('.worklist button').count()==12
@@ -45,14 +51,21 @@ with sync_playwright() as p:
     page.get_by_text('I cannot verify that question from this synthetic case.',exact=False).wait_for()
     assert page.locator('.chat-composer').bounding_box()['y']+page.locator('.chat-composer').bounding_box()['height']<900
     page.screenshot(path=str(OUT/'ux_fiori_agent_panel.png'))
-    page.get_by_role('button',name='Close Finance Agent',exact=True).click()
+    page.get_by_role('button',name='View reconciliation report').last.click()
+    page.get_by_role('dialog',name='Business analysis report').wait_for(state='visible')
+    assert 'Nov 2026' in page.get_by_role('dialog',name='Business analysis report').inner_text()
+    page.get_by_role('button',name='Close business report').click()
     page.screenshot(path=str(OUT/'ux_four_tabs_business.png'))
-    page.get_by_role('button',name='Inspect source records and calculation').click()
+    page.get_by_role('button',name='Ask Finance Agent').click()
+    page.get_by_role('button',name='Inspect source evidence').last.click()
     assert page.get_by_role('tab',name='Evidence & correlation').get_attribute('aria-selected')=='true'
     assert page.locator('.finance-evidence-table tbody tr').count()==4
     assert page.locator('.evidence-months>div').count()==12
     page.screenshot(path=str(OUT/'ux_four_tabs_evidence.png'))
-    page.get_by_role('tab',name='Live architecture').click()
+    page.get_by_role('tab',name='Business workspace').click()
+    page.get_by_role('button',name='Ask Finance Agent').click()
+    page.get_by_role('button',name='Follow component flow').last.click()
+    assert page.get_by_role('tab',name='Live architecture').get_attribute('aria-selected')=='true'
     assert page.locator('.route-zone').count()==12
     assert not page.locator('.component-panel').count()
     assert page.locator('.agent-journey-stage').count()==5
@@ -107,6 +120,10 @@ with sync_playwright() as p:
     assert 'Demo and learning purposes only' in mobile.locator('.app-footer').inner_text()
     assert mobile.evaluate('document.documentElement.scrollWidth')<=390
     mobile.get_by_role('button',name='Open Finance Reconciliation Agent').click()
+    mobile.get_by_role('button',name='Open application menu').click()
+    assert mobile.get_by_role('menu').is_visible()
+    assert mobile.get_by_role('menu').bounding_box()['x']>=0
+    mobile.get_by_role('menuitem',name='Close worklist').click()
     mobile.get_by_role('tab',name='Live architecture').click()
     assert mobile.evaluate('document.documentElement.scrollWidth')<=390
     print({'mobile_horizontal_overflow':'PASS'})
@@ -119,7 +136,9 @@ with sync_playwright() as p:
     assert hosted.get_by_role('tab').count()==4
     hosted.locator('.worklist button').filter(has_text='2026-11').click()
     hosted.get_by_text('Variance to review',exact=False).wait_for(timeout=30000)
-    hosted.get_by_role('button',name='Inspect source records and calculation').click()
+    hosted.get_by_role('button',name='Ask Finance Agent').click()
+    hosted.get_by_role('button',name='Inspect source evidence').wait_for(timeout=30000)
+    hosted.get_by_role('button',name='Inspect source evidence').click()
     assert hosted.locator('.finance-evidence-table tbody tr').count()==4
     hosted.get_by_role('tab',name='Live architecture').click()
     assert hosted.locator('.route-zone').count()==12

@@ -6,6 +6,8 @@ The demo opens on a Fiori-style Finance Launchpad for a simulated signed-in user
 
 Inside the application, the Business workspace follows a list-report pattern: a page header, finance KPIs, period and status filters, a full-width close worklist, and selected-period details. **Ask Finance Agent** opens a side panel instead of occupying the page by default. A nonzero variance is marked for review even when source snapshots are comparable. On shorter screens, the worklist scrolls within its own panel so the close summary stays visible.
 
+The application shell has a working **Menu** for My Home, close worklist, live architecture, evidence, architecture questions and the agent panel. Agent replies offer contextual actions to open the reconciliation report, inspect source evidence and follow the component trace. The actions retain the synthetic case identifier so an older answer can reopen its own case.
+
 The original v2 POC prompt established the synthetic architecture and finance controls. Later user requests superseded its two-tab layout with four tabs and added the decision lab, document investigation, compact landscape architecture, and Business report dialog. The original no-live-integration and no-real-posting boundaries still apply. Clear chat removes conversation messages only; it keeps the selected case and evidence. At 1440 × 900, the four tabs have equal width and the Business workspace uses internal pane scrolling. A compact landscape layout keeps all 12 architecture zones visible at 1536 × 720 CSS pixels, including a browser zoomed to 125% on a 1920 × 900 display.
 
 ## Run locally
