@@ -4,6 +4,7 @@ import App from './App.jsx';
 import './style.css';
 import './branches.css';
 import './questions.css';
+import './fiori.css';
 
 const roots=new WeakMap();
 export default function financeArchitecture(component){

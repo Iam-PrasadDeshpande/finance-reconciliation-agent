@@ -1,0 +1,36 @@
+/* Fiori-inspired application chrome. The simulator does not use SAPUI5. */
+:root{font-family:"72","Segoe UI",Arial,sans-serif;color:#223548;background:#f5f6f7}
+.app-shell{background:#f5f6f7}
+.shell-header{height:70px;background:#fff;color:#223548;border-bottom:1px solid #d9dfe3;box-shadow:0 2px 5px #2235480d;padding:0 24px}
+.brand{gap:12px;min-width:0}
+.shell-launcher{width:30px;height:32px;display:grid;place-items:center;color:#4b6478;font-size:25px;line-height:1;border-right:1px solid #d9dfe3;padding-right:12px;box-sizing:content-box}
+.brand-mark{width:34px;height:34px;border-radius:4px;background:#0a6ed1;box-shadow:none;font-size:21px}
+.brand-overline{color:#5e788e;font-size:9px;letter-spacing:.09em}
+.brand h1{font-size:17px;letter-spacing:0;color:#223548;font-weight:700}
+.header-meta{color:#526d80}
+.header-separator{background:#d8e1e7}
+.pill.simulated{color:#075793;background:#edf7ff;border:1px solid #b8d8ee;border-radius:4px}
+.tab-nav{height:48px;background:#fff;border-bottom:1px solid #d9dfe3;box-shadow:0 1px 3px #22354808}
+.tab-nav button{font-size:12px;color:#506778;font-weight:600;border-bottom-width:3px}
+.tab-nav button:hover{background:#f2f8fc;color:#0a6ed1}
+.tab-nav button.active{color:#0a6ed1;background:#f7fbff}
+.surface{border-color:#d9e1e7;border-radius:6px;box-shadow:0 1px 3px #2235480c}
+.section-heading h2,.command-bar h2{color:#223548;letter-spacing:0}
+.eyebrow{color:#536f84;letter-spacing:.11em}
+.primary,.chat-composer button,.command-controls button,.action-strip button,.route-actions button,.business-evidence-link,.architecture-summary button,.evidence-section-nav button{border-radius:4px}
+.primary:hover{background:#0854a0!important}
+input,select,.chat-composer input,.command-controls input,.command-controls select{border-radius:4px}
+.cockpit-kpis>div,.tile,.source-tile,.worklist button,.business-result-metrics>div,.finance-evidence-summary>div{border-radius:4px}
+.cockpit-kpis>div{background:#fff;border-color:#d9e1e7;border-left-color:#0a6ed1}
+.tile{background:#fff;border-color:#d9e1e7;border-top-width:3px}
+.tile-blue{border-top-color:#0a6ed1}.tile-green{border-top-color:#30914c}.tile-amber{border-top-color:#e09b27}
+.chat-messages{background:#f5f7f8;border-radius:4px}
+.chat-message{border-radius:6px;box-shadow:none}
+.route-zone,.report-node,.agent-journey-stage,.question-card,.lab-node{border-radius:4px}
+.route-zone{background:#fff}
+.route-zone.current{background:#edf7ff}
+.route-zone.selected{box-shadow:0 0 0 2px #b4dbf5}
+.app-footer{min-height:32px;padding:6px 24px;background:#fff;border-top:1px solid #d9e1e7;color:#536f84;font-size:10px;align-items:center}
+.app-footer strong{color:#223548;font-weight:700}
+@media(max-width:720px){.shell-header{height:62px;padding:0 12px}.shell-launcher{display:none}.brand{gap:8px}.brand-mark{width:30px;height:30px;font-size:18px}.brand h1{font-size:13px}.brand-overline{font-size:8px}.header-meta{font-size:9px}.header-meta>span:not(.pill){display:none}.tab-nav{height:46px}.app-footer{padding:6px 12px;font-size:9px;line-height:1.35}.app-footer span{margin:0}}
+@media(min-width:1101px) and (max-height:800px){.app-footer{padding:4px 16px;min-height:24px}}

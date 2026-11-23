@@ -4,5 +4,6 @@ import App from './App.jsx';
 import './style.css';
 import './branches.css';
 import './questions.css';
+import './fiori.css';
 
 createRoot(document.getElementById('root')).render(<App/>);

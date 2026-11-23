@@ -14,6 +14,8 @@ with sync_playwright() as p:
     errors=[]
     page.on('pageerror',lambda error:errors.append(str(error)))
     page.goto(WEB,wait_until='networkidle')
+    assert page.locator('.app-footer').is_visible()
+    assert 'Demo and learning purposes only' in page.locator('.app-footer').inner_text()
     assert page.get_by_role('tab').count()==4
     widths=[round(tab.bounding_box()['width']) for tab in page.get_by_role('tab').all()]
     assert max(widths)-min(widths)<=2,widths
@@ -76,6 +78,7 @@ with sync_playwright() as p:
     print({'fastapi':'PASS','tab_widths':widths,'months':12,'zones':12,'journey_stages':5,'routes':['S1','S2'],'question_handoffs':'PASS','page_errors':errors})
     mobile=browser.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
     mobile.goto(WEB,wait_until='networkidle')
+    assert 'Demo and learning purposes only' in mobile.locator('.app-footer').inner_text()
     assert mobile.evaluate('document.documentElement.scrollWidth')<=390
     mobile.get_by_role('tab',name='Live architecture').click()
     assert mobile.evaluate('document.documentElement.scrollWidth')<=390
@@ -83,6 +86,7 @@ with sync_playwright() as p:
     hosted=browser.new_page(viewport={'width':1440,'height':900})
     hosted.goto(STREAMLIT,wait_until='domcontentloaded')
     hosted.get_by_role('tab',name='Business workspace').wait_for(timeout=30000)
+    assert 'Demo and learning purposes only' in hosted.locator('.app-footer').inner_text()
     assert hosted.get_by_role('tab').count()==4
     hosted.locator('.worklist button').filter(has_text='2026-11').click()
     hosted.get_by_text('Reconciliation for 2026-11: 25,000 USD variance.',exact=False).wait_for(timeout=30000)

@@ -2,6 +2,8 @@
 
 An external finance agent calls approved SAP finance capabilities, checks the returned evidence and produces a month-end reconciliation. This is the **architecture story** shown by the demo. The runnable implementation is a Node-built, Fiori-inspired interface over a Python and SQLite simulator. Its four tabs are **Business workspace**, **Live architecture**, **Evidence & correlation**, and **Architecture questions**. Vendor names describe simulated boundaries. No SAP, AWS, Google, Databricks, BDC, Portkey or model account is connected.
 
+The white application shell, blue navigation state, finance tiles and compact worklist follow Fiori-style visual patterns. This is custom React/CSS, not SAPUI5 or an official SAP application. A footer on every view states that the app is for demo and learning purposes only.
+
 The original v2 POC prompt established the synthetic architecture and finance controls. Later user requests superseded its two-tab layout with four tabs and added the decision lab, document investigation, compact landscape architecture, and Business report dialog. The original no-live-integration and no-real-posting boundaries still apply. Clear chat removes conversation messages only; it keeps the selected case and evidence. At 1440 × 900, the four tabs have equal width and the Business workspace uses internal pane scrolling. A compact landscape layout keeps all 12 architecture zones visible at 1536 × 720 CSS pixels, including a browser zoomed to 125% on a 1920 × 900 display.
 
 ## Run locally

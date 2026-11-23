@@ -11005,13 +11005,22 @@ function k({ bridge: e }) {
 				className: "shell-header",
 				children: [/* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "brand",
-					children: [/* @__PURE__ */ (0, x.jsx)("span", {
-						className: "brand-mark",
-						children: "F"
-					}), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
-						className: "brand-overline",
-						children: "SYNTHETIC EXTERNAL-AGENT DEMO"
-					}), /* @__PURE__ */ (0, x.jsx)("h1", { children: "External Finance Agent for SAP" })] })]
+					children: [
+						/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "shell-launcher",
+							"aria-hidden": "true",
+							children: "▦"
+						}),
+						/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "brand-mark",
+							"aria-hidden": "true",
+							children: "F"
+						}),
+						/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "brand-overline",
+							children: "FINANCE / PERIOD-END CLOSE"
+						}), /* @__PURE__ */ (0, x.jsx)("h1", { children: "External Finance Agent for SAP" })] })
+					]
 				}), /* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "header-meta",
 					children: [
@@ -11020,9 +11029,7 @@ function k({ bridge: e }) {
 							children: "LOCAL SIMULATION"
 						}),
 						/* @__PURE__ */ (0, x.jsx)("span", { className: "header-separator" }),
-						/* @__PURE__ */ (0, x.jsxs)("span", { children: [Ye?.available_periods?.length || 12, " monthly periods"] }),
-						/* @__PURE__ */ (0, x.jsx)("span", { className: "header-separator" }),
-						/* @__PURE__ */ (0, x.jsxs)("span", { children: [Je?.components?.length || 73, " components"] })
+						/* @__PURE__ */ (0, x.jsxs)("span", { children: [Ye?.available_periods?.length || 12, " monthly periods"] })
 					]
 				})]
 			}),
@@ -11421,7 +11428,7 @@ function k({ bridge: e }) {
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("footer", {
 				className: "app-footer",
-				children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Synthetic local data · no connected SAP, AWS, Google, Databricks, BDC or model service" }), /* @__PURE__ */ (0, x.jsx)("span", { children: "Architecture derived from the reviewed v7 component registry · G1–G7 open" })]
+				children: [/* @__PURE__ */ (0, x.jsxs)("span", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Demo and learning purposes only." }), " Synthetic finance data; no live SAP or cloud system is connected."] }), /* @__PURE__ */ (0, x.jsx)("span", { children: "Fiori-inspired interface · not an official SAP application" })]
 			}),
 			c && /* @__PURE__ */ (0, x.jsx)(ye, {
 				caseRecord: w,
