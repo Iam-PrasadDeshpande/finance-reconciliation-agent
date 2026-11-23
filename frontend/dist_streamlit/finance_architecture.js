@@ -9112,6 +9112,15 @@ function ee({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: 
 				className: "cockpit-body",
 				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Close worklist" }),
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "worklist-header",
+						"aria-hidden": "true",
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("span", { children: "Period" }),
+							/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }),
+							/* @__PURE__ */ (0, x.jsx)("span", { children: "Status" })
+						]
+					}),
 					/* @__PURE__ */ (0, x.jsx)("div", {
 						className: "worklist",
 						children: u.map((e) => {
@@ -10334,6 +10343,13 @@ function ve({ result: e, onOpenEvidence: t }) {
 			})]
 		}), n ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
 			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "business-object-status",
+				children: [/* @__PURE__ */ (0, x.jsx)("span", {
+					className: `business-state ${n.state === "comparable" && Number(n.amount) === 0 ? "business-state-ok" : "business-state-warn"}`,
+					children: n.state === "comparable" ? Number(n.amount) === 0 ? "● Reconciled" : "● Variance to review" : "● Source review required"
+				}), /* @__PURE__ */ (0, x.jsx)("span", { children: "Period-end close result" })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "business-result-metrics",
 				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: n.amount === null ? "Not comparable" : _e(n.amount) })] }), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Source status" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: n.state.toUpperCase() })] })]
 			}),
@@ -11146,8 +11162,8 @@ function k({ bridge: e }) {
 						}),
 						/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 							className: "brand-overline",
-							children: "FINANCE / PERIOD-END CLOSE"
-						}), /* @__PURE__ */ (0, x.jsx)("h1", { children: "External Finance Agent for SAP" })] })
+							children: "HOME / FINANCE / RECONCILIATION AGENT"
+						}), /* @__PURE__ */ (0, x.jsx)("h1", { children: "Finance Reconciliation Agent" })] })
 					]
 				}), /* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "header-meta",
@@ -11163,41 +11179,56 @@ function k({ bridge: e }) {
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("nav", {
 				className: "tab-nav",
-				"aria-label": "Demo views",
+				"aria-label": "Application sections",
 				children: [
-					/* @__PURE__ */ (0, x.jsx)("button", {
+					/* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
 						role: "tab",
 						"aria-selected": i === "business",
 						className: i === "business" ? "active" : "",
 						onClick: () => a("business"),
-						children: "Business workspace"
+						children: [/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "tab-icon",
+							"aria-hidden": "true",
+							children: "▦"
+						}), "Business workspace"]
 					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
+					/* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
 						role: "tab",
 						"aria-selected": i === "architecture",
 						className: i === "architecture" ? "active" : "",
 						onClick: () => a("architecture"),
-						children: "Live architecture"
+						children: [/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "tab-icon",
+							"aria-hidden": "true",
+							children: "⇄"
+						}), "Live architecture"]
 					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
+					/* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
 						role: "tab",
 						"aria-selected": i === "evidence",
 						className: i === "evidence" ? "active" : "",
 						onClick: () => a("evidence"),
-						children: "Evidence & correlation"
+						children: [/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "tab-icon",
+							"aria-hidden": "true",
+							children: "▤"
+						}), "Evidence & correlation"]
 					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
+					/* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
 						role: "tab",
 						"aria-selected": i === "questions",
 						className: i === "questions" ? "active" : "",
 						onClick: () => a("questions"),
-						children: "Architecture questions"
-					}),
-					/* @__PURE__ */ (0, x.jsx)("span", { children: "Synthetic · company-neutral architecture view" })
+						children: [/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "tab-icon",
+							"aria-hidden": "true",
+							children: "◇"
+						}), "Architecture questions"]
+					})
 				]
 			}),
 			Ee && /* @__PURE__ */ (0, x.jsxs)("div", {

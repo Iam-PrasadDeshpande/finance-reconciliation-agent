@@ -4,6 +4,8 @@ An external finance agent calls approved SAP finance capabilities, checks the re
 
 The demo opens on a Fiori-style Finance Launchpad for a simulated signed-in user. Select the **Finance Reconciliation Agent** tile to enter the application; its four workspaces then provide the end-to-end finance and architecture flow. The Home control returns to the launchpad. The white shell, blue navigation state, finance tiles and compact worklist are custom React/CSS, not SAPUI5 or an official SAP application. A footer on both levels states that the app is for demo and learning purposes only.
 
+Inside the application, the finance work center uses a compact period worklist, object status, result metrics, and an evidence action in a freestyle Fiori-style page. A nonzero variance is marked for review even when source snapshots are comparable. The worklist scrolls within its own panel so the close summary stays visible.
+
 The original v2 POC prompt established the synthetic architecture and finance controls. Later user requests superseded its two-tab layout with four tabs and added the decision lab, document investigation, compact landscape architecture, and Business report dialog. The original no-live-integration and no-real-posting boundaries still apply. Clear chat removes conversation messages only; it keeps the selected case and evidence. At 1440 × 900, the four tabs have equal width and the Business workspace uses internal pane scrolling. A compact landscape layout keeps all 12 architecture zones visible at 1536 × 720 CSS pixels, including a browser zoomed to 125% on a 1920 × 900 display.
 
 ## Run locally

@@ -26,6 +26,8 @@ with sync_playwright() as p:
     assert page.locator('.worklist button').count()==12
     page.locator('.worklist button').filter(has_text='2026-11').click()
     page.get_by_text('Reconciliation for 2026-11: 25,000 USD variance.',exact=False).wait_for()
+    assert page.locator('.cockpit-kpis').bounding_box()['y']>100
+    assert page.get_by_text('Variance to review',exact=False).is_visible()
     assert page.locator('.business-result').is_visible()
     assert page.locator('.chat-composer').bounding_box()['y']+page.locator('.chat-composer').bounding_box()['height']<900
     page.screenshot(path=str(OUT/'ux_four_tabs_business.png'))
