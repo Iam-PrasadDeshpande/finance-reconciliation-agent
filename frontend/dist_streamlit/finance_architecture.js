@@ -848,7 +848,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return null;
 	}
-	var E = Array.isArray, D = n.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, O = r.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, we = {
+	var we = Array.isArray, E = n.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, D = r.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, O = {
 		pending: !1,
 		data: null,
 		method: null,
@@ -893,7 +893,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		t !== n && (A(ke, e), A(Oe, n));
 	}
 	function Fe(e) {
-		ke.current === e && (k(Oe), k(ke)), je.current === e && (k(je), sh._currentValue = we);
+		ke.current === e && (k(Oe), k(ke)), je.current === e && (k(je), sh._currentValue = O);
 	}
 	var Ie, Le;
 	function Re(e) {
@@ -1201,15 +1201,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return e &= -e, 2 < e ? 8 < e ? e & 134217727 ? 32 : 268435456 : 8 : 2;
 	}
 	function Dt() {
-		var e = O.p;
+		var e = D.p;
 		return e === 0 ? (e = window.event, e === void 0 ? 32 : Ch(e.type)) : e;
 	}
 	function Ot(e, t) {
-		var n = O.p;
+		var n = D.p;
 		try {
-			return O.p = e, t();
+			return D.p = e, t();
 		} finally {
-			O.p = n;
+			D.p = n;
 		}
 	}
 	var kt = Math.random().toString(36).slice(2), At = "__reactFiber$" + kt, jt = "__reactProps$" + kt, Mt = "__reactContainer$" + kt, Nt = "__reactEvents$" + kt, Pt = "__reactListeners$" + kt, Ft = "__reactHandles$" + kt, It = "__reactResources$" + kt, Lt = "__reactMarker$" + kt, Rt = "__reactLoad$" + kt;
@@ -1419,7 +1419,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (t == null) {
 			if (r != null) {
 				if (n != null) throw Error(i(92));
-				if (E(r)) {
+				if (we(r)) {
 					if (1 < r.length) throw Error(i(93));
 					r = r[0];
 				}
@@ -2524,8 +2524,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			for (r.status = "rejected", r.reason = e, e = 0; e < n.length; e++) (0, n[e])(void 0);
 		}), r;
 	}
-	var Xa = D.S;
-	D.S = function(e, t) {
+	var Xa = E.S;
+	E.S = function(e, t) {
 		if (gd = Je(), typeof t == "object" && t && typeof t.then == "function" && qa(e, t), Va !== null) for (var n = bf; n !== null;) Ba(n, Va), n = n.next;
 		if (n = e.types, n !== null) {
 			for (var r = bf; r !== null;) Ba(r, n), r = r.next;
@@ -2659,7 +2659,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					case ae: return t = Ji(t, e.mode, n), t.return = e, t;
 					case T: return t = so(t), f(e, t, n);
 				}
-				if (E(t) || xe(t)) return t = Gi(t, e.mode, n, null), t.return = e, t;
+				if (we(t) || xe(t)) return t = Gi(t, e.mode, n, null), t.return = e, t;
 				if (typeof t.then == "function") return f(e, mo(t), n);
 				if (t.$$typeof === ue) return f(e, Na(e, t), n);
 				go(e, t);
@@ -2675,7 +2675,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					case ae: return n.key === i ? u(e, t, n, r) : null;
 					case T: return n = so(n), p(e, t, n, r);
 				}
-				if (E(n) || xe(n)) return i === null ? d(e, t, n, r, null) : null;
+				if (we(n) || xe(n)) return i === null ? d(e, t, n, r, null) : null;
 				if (typeof n.then == "function") return p(e, t, mo(n), r);
 				if (n.$$typeof === ue) return p(e, t, Na(e, n), r);
 				go(e, n);
@@ -2690,7 +2690,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					case ae: return e = e.get(r.key === null ? n : r.key) || null, u(t, e, r, i);
 					case T: return r = so(r), m(e, t, n, r, i);
 				}
-				if (E(r) || xe(r)) return e = e.get(n) || null, d(t, e, r, i, null);
+				if (we(r) || xe(r)) return e = e.get(n) || null, d(t, e, r, i, null);
 				if (typeof r.then == "function") return m(e, t, n, mo(r), i);
 				if (r.$$typeof === ue) return m(e, t, n, Na(t, r), i);
 				go(t, r);
@@ -2780,7 +2780,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						return s(e);
 					case T: return o = so(o), _(e, r, o, c);
 				}
-				if (E(o)) return h(e, r, o, c);
+				if (we(o)) return h(e, r, o, c);
 				if (xe(o)) {
 					if (l = xe(o), typeof l != "function") throw Error(i(150));
 					return o = l.call(o), g(e, r, o, c);
@@ -3016,10 +3016,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return !0;
 	}
 	function rs(e, t, n, r, i, a) {
-		return Jo = a, F = t, t.memoizedState = null, t.updateQueue = null, t.lanes = 0, D.H = e === null || e.memoizedState === null ? yc : bc, Zo = !1, a = n(r, i), Zo = !1, Xo && (a = as(t, n, r, i)), is(e), a;
+		return Jo = a, F = t, t.memoizedState = null, t.updateQueue = null, t.lanes = 0, E.H = e === null || e.memoizedState === null ? yc : bc, Zo = !1, a = n(r, i), Zo = !1, Xo && (a = as(t, n, r, i)), is(e), a;
 	}
 	function is(e) {
-		D.H = vc;
+		E.H = vc;
 		var t = I !== null && I.next !== null;
 		if (Jo = 0, L = I = F = null, Yo = !1, $o = 0, es = null, t) throw Error(i(300));
 		e === null || B || (e = e.dependencies, e !== null && Aa(e) && (B = !0));
@@ -3033,12 +3033,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				var o = e.updateQueue;
 				o.lastEffect = null, o.events = null, o.stores = null, o.memoCache != null && (o.memoCache.index = 0);
 			}
-			D.H = xc, o = t(n, r);
+			E.H = xc, o = t(n, r);
 		} while (Xo);
 		return o;
 	}
 	function os() {
-		var e = D.H, t = e.useState()[0];
+		var e = E.H, t = e.useState()[0];
 		return t = typeof t.then == "function" ? fs(t) : t, e = e.useState()[0], (I === null ? null : I.memoizedState) !== e && (F.flags |= 1024), t;
 	}
 	function ss() {
@@ -3097,7 +3097,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function fs(e) {
 		var t = $o;
-		return $o += 1, es === null && (es = []), e = oo(es, e, t), t = F, (L === null ? t.memoizedState : L.next) === null && (t = t.alternate, D.H = t === null || t.memoizedState === null ? yc : bc), e;
+		return $o += 1, es === null && (es = []), e = oo(es, e, t), t = F, (L === null ? t.memoizedState : L.next) === null && (t = t.alternate, E.H = t === null || t.memoizedState === null ? yc : bc), e;
 	}
 	function ps(e) {
 		if (typeof e == "object" && e) {
@@ -3284,21 +3284,21 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					o.listeners.push(e);
 				}
 			};
-			D.T === null ? o.isTransition = !1 : n(!0), r(o), n = t.pending, n === null ? (o.next = t.pending = o, Os(t, o)) : (o.next = n.next, t.pending = n.next = o);
+			E.T === null ? o.isTransition = !1 : n(!0), r(o), n = t.pending, n === null ? (o.next = t.pending = o, Os(t, o)) : (o.next = n.next, t.pending = n.next = o);
 		}
 	}
 	function Os(e, t) {
 		var n = t.action, r = t.payload, i = e.state;
 		if (t.isTransition) {
-			var a = D.T, o = {};
-			o.types = a === null ? null : a.types, D.T = o;
+			var a = E.T, o = {};
+			o.types = a === null ? null : a.types, E.T = o;
 			try {
-				var s = n(i, r), c = D.S;
+				var s = n(i, r), c = E.S;
 				c !== null && c(o, s), ks(e, t, s);
 			} catch (n) {
 				js(e, t, n);
 			} finally {
-				a !== null && o.types !== null && (a.types = o.types), D.T = a;
+				a !== null && o.types !== null && (a.types = o.types), E.T = a;
 			}
 		} else try {
 			a = n(i, r), ks(e, t, a);
@@ -3506,12 +3506,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return Yr(n, t) ? n : Mo.current === null ? !(Jo & 106) || Jo & 1073741824 && !(q & 261930) ? (B = !0, e.memoizedState = n) : (e = Md(), F.lanes |= e, sd |= e, t) : (e = ec(e, n, r), Yr(e, t) || (B = !0), e);
 	}
 	function nc(e, t, n, r, i) {
-		var a = O.p;
-		O.p = a !== 0 && 8 > a ? a : 8;
-		var o = D.T, s = {};
-		s.types = o === null ? null : o.types, D.T = s, mc(e, !1, t, n);
+		var a = D.p;
+		D.p = a !== 0 && 8 > a ? a : 8;
+		var o = E.T, s = {};
+		s.types = o === null ? null : o.types, E.T = s, mc(e, !1, t, n);
 		try {
-			var c = i(), l = D.S;
+			var c = i(), l = E.S;
 			l !== null && l(s, c), typeof c == "object" && c && typeof c.then == "function" ? pc(e, t, Ya(c, r), jd(e)) : pc(e, t, r, jd(e));
 		} catch (n) {
 			pc(e, t, {
@@ -3520,14 +3520,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				reason: n
 			}, jd());
 		} finally {
-			O.p = a, o !== null && s.types !== null && (o.types = s.types), D.T = o;
+			D.p = a, o !== null && s.types !== null && (o.types = s.types), E.T = o;
 		}
 	}
 	function rc() {}
 	function ic(e, t, n, r) {
 		if (e.tag !== 5) throw Error(i(476));
 		var a = ac(e).queue;
-		nc(e, a, t, we, n === null ? rc : function() {
+		nc(e, a, t, O, n === null ? rc : function() {
 			return oc(e), n(r);
 		});
 	}
@@ -3535,15 +3535,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		var t = e.memoizedState;
 		if (t !== null) return t;
 		t = {
-			memoizedState: we,
-			baseState: we,
+			memoizedState: O,
+			baseState: O,
 			baseQueue: null,
 			queue: {
 				pending: null,
 				lanes: 0,
 				dispatch: null,
 				lastRenderedReducer: hs,
-				lastRenderedState: we
+				lastRenderedState: O
 			},
 			next: null
 		};
@@ -6025,7 +6025,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}, td = typeof WeakMap == "function" ? WeakMap : Map, W = 0, G = null, K = null, q = 0, J = 0, nd = null, rd = !1, id = !1, ad = !1, od = 0, Y = 0, sd = 0, cd = 0, ld = 0, ud = 0, dd = 0, fd = null, pd = null, md = !1, hd = 0, gd = 0, _d = Infinity, vd = null, yd = null, X = 0, bd = null, xd = null, Sd = 0, Cd = 0, wd = null, Td = null, Ed = null, Dd = null, Od = null, kd = 0, Ad = null;
 	function jd() {
-		return W & 2 && q !== 0 ? q & -q : D.T === null ? Dt() : Pf();
+		return W & 2 && q !== 0 ? q & -q : E.T === null ? Dt() : Pf();
 	}
 	function Md() {
 		if (ud === 0) {
@@ -6169,19 +6169,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return n !== -1 && (e.timeoutHandle = -1, _p(n)), n = e.cancelPendingCommit, n !== null && (e.cancelPendingCommit = null, n()), Sd = 0, Bd(), G = e, K = n = Hi(e.current, null), q = t, J = 0, nd = null, rd = !1, id = ht(e, t), ad = !1, dd = ud = ld = cd = sd = Y = 0, pd = fd = null, md = !1, od = gt(e, t), Mi(), n;
 	}
 	function Hd(e, t) {
-		F = null, D.H = vc, t === to || t === ro ? (t = lo(), J = 3) : t === no ? (t = lo(), J = 4) : J = t === Ic ? 8 : typeof t == "object" && t && typeof t.then == "function" ? 6 : 1, nd = t, K === null && (Y = 1, Ac(e, Xi(t, e.current)));
+		F = null, E.H = vc, t === to || t === ro ? (t = lo(), J = 3) : t === no ? (t = lo(), J = 4) : J = t === Ic ? 8 : typeof t == "object" && t && typeof t.then == "function" ? 6 : 1, nd = t, K === null && (Y = 1, Ac(e, Xi(t, e.current)));
 	}
 	function Ud() {
 		var e = Lo.current;
 		return e === null ? !0 : (q & 4194048) === q ? Ro === null : (q & 62914560) === q || q & 536870912 ? e === Ro : !1;
 	}
 	function Wd() {
-		var e = D.H;
-		return D.H = vc, e === null ? vc : e;
+		var e = E.H;
+		return E.H = vc, e === null ? vc : e;
 	}
 	function Gd() {
-		var e = D.A;
-		return D.A = ed, e;
+		var e = E.A;
+		return E.A = ed, e;
 	}
 	function Kd() {
 		Y = 4, rd || (q & 4194048) !== q && Lo.current !== null || (id = !0), !(sd & 134217727) && !(cd & 134217727) || G === null || Rd(G, q, ud, !1);
@@ -6220,7 +6220,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Hd(e, t);
 			}
 		while (1);
-		return t && e.shellSuspendCounter++, wa = Ca = null, W = r, D.H = i, D.A = a, K === null && (G = null, q = 0, Mi()), o;
+		return t && e.shellSuspendCounter++, wa = Ca = null, W = r, E.H = i, E.A = a, K === null && (G = null, q = 0, Mi()), o;
 	}
 	function Jd() {
 		for (; K !== null;) Zd(K);
@@ -6293,7 +6293,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Hd(e, t);
 			}
 		while (1);
-		return wa = Ca = null, D.H = r, D.A = a, W = n, K === null ? (G = null, q = 0, Mi(), Y) : 0;
+		return wa = Ca = null, E.H = r, E.A = a, W = n, K === null ? (G = null, q = 0, Mi(), Y) : 0;
 	}
 	function Xd() {
 		for (; K !== null && !Ke();) Zd(K);
@@ -6387,11 +6387,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (Cd = s, s |= ji, xt(e, n, s, r, i, a), Dd = null, (n & 335544064) === n ? (Od = Ha(e), r = 10262) : (Od = null, r = 10256), (t.subtreeFlags & r) !== 0 || (t.flags & r) !== 0 ? (e.callbackNode = null, e.callbackPriority = 0, yf(Qe, function() {
 			return ff(), null;
 		})) : (e.callbackNode = null, e.callbackPriority = 0), Hl = !1, r = !!(t.flags & 13878), t.subtreeFlags & 13878 || r) {
-			r = D.T, D.T = null, i = O.p, O.p = 2, a = W, W |= 4;
+			r = E.T, E.T = null, i = D.p, D.p = 2, a = W, W |= 4;
 			try {
 				gu(e, t, n);
 			} finally {
-				W = a, O.p = i, D.T = r;
+				W = a, D.p = i, E.T = r;
 			}
 		}
 		X = 1, Hl ? Ed = Mp(o, e.containerInfo, Od, sf, cf, of, lf, ff, af, null, null) : (sf(), cf(), lf());
@@ -6410,9 +6410,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			X = 0;
 			var e = bd, t = xd, n = Sd, r = !!(t.flags & 13878);
 			if (t.subtreeFlags & 13878 || r) {
-				r = D.T, D.T = null;
-				var i = O.p;
-				O.p = 2;
+				r = E.T, E.T = null;
+				var i = D.p;
+				D.p = 2;
 				var a = W;
 				W |= 4;
 				try {
@@ -6447,7 +6447,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					}
 					gh = !!sp, cp = sp = null;
 				} finally {
-					W = a, O.p = i, D.T = r;
+					W = a, D.p = i, E.T = r;
 				}
 			}
 			e.current = t, X = 2;
@@ -6458,15 +6458,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			X = 0;
 			var e = bd, t = xd, n = !!(t.flags & 8772);
 			if (t.subtreeFlags & 8772 || n) {
-				n = D.T, D.T = null;
-				var r = O.p;
-				O.p = 2;
+				n = E.T, E.T = null;
+				var r = D.p;
+				D.p = 2;
 				var i = W;
 				W |= 4;
 				try {
 					vu(e, t.alternate, t);
 				} finally {
-					W = i, O.p = r, D.T = n;
+					W = i, D.p = r, E.T = n;
 				}
 			}
 			X = 3;
@@ -6482,14 +6482,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				it.onCommitFiberRoot(rt, n, void 0, (n.current.flags & 128) == 128);
 			} catch {}
 			if (i !== null) {
-				n = D.T, a = O.p, O.p = 2, D.T = null;
+				n = E.T, a = D.p, D.p = 2, E.T = null;
 				try {
 					for (var o = t.onRecoverableError, s = 0; s < i.length; s++) {
 						var c = i[s];
 						o(c.value, { componentStack: c.stack });
 					}
 				} finally {
-					D.T = n, O.p = a;
+					E.T = n, D.p = a;
 				}
 			}
 			if (i = Dd, o = Od, Od = null, i !== null && (Dd = null, o === null && (o = []), e !== null)) for (c = 0; c < i.length; c++) n = (0, i[c])(o), n !== void 0 && e.finished.finally(n);
@@ -6506,9 +6506,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (X !== 5) return !1;
 		var e = bd, t = Cd;
 		Cd = 0;
-		var n = Et(Sd), r = D.T, a = O.p;
+		var n = Et(Sd), r = E.T, a = D.p;
 		try {
-			O.p = 32 > n ? 32 : n, D.T = null, n = wd, wd = null;
+			D.p = 32 > n ? 32 : n, E.T = null, n = wd, wd = null;
 			var o = bd, s = Sd;
 			if (X = 0, xd = bd = null, Sd = 0, W & 6) throw Error(i(331));
 			var c = W;
@@ -6517,7 +6517,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			} catch {}
 			return !0;
 		} finally {
-			O.p = a, D.T = r, uf(e, t);
+			D.p = a, E.T = r, uf(e, t);
 		}
 	}
 	function pf(e, t, n) {
@@ -8185,8 +8185,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return e.nodeType === 9 ? e : e.ownerDocument;
 	}
-	var xm = O.d;
-	O.d = {
+	var xm = D.d;
+	D.d = {
 		f: Sm,
 		r: Cm,
 		D: Em,
@@ -8604,8 +8604,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		$$typeof: ue,
 		Provider: null,
 		Consumer: null,
-		_currentValue: we,
-		_currentValue2: we,
+		_currentValue: O,
+		_currentValue2: O,
 		_threadCount: 0
 	};
 	function ch(e, t, n, r, i, a, o, s, c) {
@@ -8649,23 +8649,23 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	var gh = !0;
 	function _h(e, t, n, r) {
-		var i = D.T;
-		D.T = null;
-		var a = O.p;
+		var i = E.T;
+		E.T = null;
+		var a = D.p;
 		try {
-			O.p = 2, yh(e, t, n, r);
+			D.p = 2, yh(e, t, n, r);
 		} finally {
-			O.p = a, D.T = i;
+			D.p = a, E.T = i;
 		}
 	}
 	function vh(e, t, n, r) {
-		var i = D.T;
-		D.T = null;
-		var a = O.p;
+		var i = E.T;
+		E.T = null;
+		var a = D.p;
 		try {
-			O.p = 8, yh(e, t, n, r);
+			D.p = 8, yh(e, t, n, r);
 		} finally {
-			O.p = a, D.T = i;
+			D.p = a, E.T = i;
 		}
 	}
 	function yh(e, t, n, r) {
@@ -9010,7 +9010,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	};
 	var Kh = n.version;
 	if (Kh !== "19.3.1") throw Error(i(527, Kh, "19.3.1"));
-	O.findDOMNode = function(e) {
+	D.findDOMNode = function(e) {
 		var t = e._reactInternals;
 		if (t === void 0) throw typeof e.render == "function" ? Error(i(188)) : (e = Object.keys(e).join(","), Error(i(268, e)));
 		return e = d(t), e = e === null ? null : p(e), e = e === null ? null : e.stateNode, e;
@@ -9019,7 +9019,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		bundleType: 0,
 		version: "19.3.1",
 		rendererPackageName: "react-dom",
-		currentDispatcherRef: D,
+		currentDispatcherRef: E,
 		reconcilerVersion: "19.3.1"
 	};
 	if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ < "u") {
@@ -10101,11 +10101,141 @@ function _e({ result: e, history: t }) {
 		})]
 	});
 }
-function ve({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, viewportRef: a, liveRunning: o }) {
-	let s = (0, b.useMemo)(() => Object.fromEntries((e?.components || []).map((e) => [e.component_id, e.zone])), [e]), c = (0, b.useMemo)(() => Object.fromEntries(se.map((t) => [t, (e?.components || []).filter((e) => e.zone === t)])), [e]), l = (0, b.useMemo)(() => {
+function ve({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
+	let r = (0, b.useRef)(null), i = e?.result, a = i?.variance, o = Object.values(i?.sources || {});
+	return (0, b.useEffect)(() => {
+		let e = r.current;
+		return e?.showModal(), () => {
+			e?.open && e.close();
+		};
+	}, []), /* @__PURE__ */ (0, x.jsxs)("dialog", {
+		ref: r,
+		className: "business-report-dialog",
+		"aria-labelledby": "business-report-title",
+		onClose: t,
+		children: [
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "business-report-header",
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
+					/* @__PURE__ */ (0, x.jsx)("span", {
+						className: "eyebrow",
+						children: "SYNTHETIC MONTH-END RECONCILIATION"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("h2", {
+						id: "business-report-title",
+						children: "Business analysis report"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("p", { children: i ? `${fe(i.scope?.period)} · ${i.scenario} · ${i.case_id}` : "No completed case selected" })
+				] }), /* @__PURE__ */ (0, x.jsx)("button", {
+					type: "button",
+					onClick: t,
+					"aria-label": "Close business report",
+					children: "×"
+				})]
+			}),
+			a ? /* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "business-report-body",
+				children: [
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "business-report-summary",
+						children: [
+							/* @__PURE__ */ (0, x.jsxs)("div", { children: [
+								/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }),
+								/* @__PURE__ */ (0, x.jsx)("strong", { children: a.amount === null ? "Not comparable" : pe(a.amount) }),
+								/* @__PURE__ */ (0, x.jsx)("small", { children: "S/4HANA − Central Finance" })
+							] }),
+							/* @__PURE__ */ (0, x.jsxs)("div", { children: [
+								/* @__PURE__ */ (0, x.jsx)("span", { children: "Decision state" }),
+								/* @__PURE__ */ (0, x.jsx)("strong", { children: a.state.toUpperCase() }),
+								/* @__PURE__ */ (0, x.jsx)("small", { children: a.state === "comparable" ? "Source snapshots are comparable" : "Review freshness and mapping" })
+							] }),
+							/* @__PURE__ */ (0, x.jsxs)("div", { children: [
+								/* @__PURE__ */ (0, x.jsx)("span", { children: "Evidence trail" }),
+								/* @__PURE__ */ (0, x.jsxs)("strong", { children: [a.evidence_ids?.length || 0, " sources"] }),
+								/* @__PURE__ */ (0, x.jsxs)("small", { children: [
+									i.scope?.ledger || "Ledger not specified",
+									" · ",
+									i.scope?.currency || "USD"
+								] })
+							] })
+						]
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("section", { children: [
+						/* @__PURE__ */ (0, x.jsx)("h3", { children: "Reconciliation analysis" }),
+						/* @__PURE__ */ (0, x.jsxs)("p", { children: [
+							/* @__PURE__ */ (0, x.jsx)("strong", { children: "Deterministic rule:" }),
+							" ",
+							a.formula,
+							". The variance is calculated from synthetic source snapshots. The model explanation is advisory."
+						] }),
+						/* @__PURE__ */ (0, x.jsx)("p", { children: i.advisory_explanation })
+					] }),
+					/* @__PURE__ */ (0, x.jsxs)("section", { children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "Source evidence and freshness" }), /* @__PURE__ */ (0, x.jsx)("div", {
+						className: "business-report-table-wrap",
+						children: /* @__PURE__ */ (0, x.jsxs)("table", { children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+							/* @__PURE__ */ (0, x.jsx)("th", { children: "Source" }),
+							/* @__PURE__ */ (0, x.jsx)("th", { children: "Balance" }),
+							/* @__PURE__ */ (0, x.jsx)("th", { children: "Freshness" }),
+							/* @__PURE__ */ (0, x.jsx)("th", { children: "Snapshot time (UTC)" }),
+							/* @__PURE__ */ (0, x.jsx)("th", { children: "Evidence ID" })
+						] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: o.map((e) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+							/* @__PURE__ */ (0, x.jsx)("th", {
+								scope: "row",
+								children: {
+									s4: "S/4HANA",
+									cfin: "Central Finance",
+									bw: "BW/4HANA",
+									databricks: "Databricks"
+								}[e.source] || e.source
+							}),
+							/* @__PURE__ */ (0, x.jsx)("td", { children: pe(e.balance) }),
+							/* @__PURE__ */ (0, x.jsx)("td", { children: /* @__PURE__ */ (0, x.jsx)("span", {
+								className: `pill ${e.freshness === "current" ? "ok" : "warn"}`,
+								children: e.freshness
+							}) }),
+							/* @__PURE__ */ (0, x.jsx)("td", { children: e.timestamp_utc || "—" }),
+							/* @__PURE__ */ (0, x.jsx)("td", { children: e.evidence_id || "—" })
+						] }, e.source)) })] })
+					})] }),
+					/* @__PURE__ */ (0, x.jsx)("p", {
+						className: "business-report-note",
+						children: "Synthetic local data only. This report does not post to SAP or prove live system authorization."
+					})
+				]
+			}) : /* @__PURE__ */ (0, x.jsx)("div", {
+				className: "business-report-body",
+				children: /* @__PURE__ */ (0, x.jsxs)("div", {
+					className: "empty-state",
+					children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "No completed report yet" }), /* @__PURE__ */ (0, x.jsx)("p", { children: "Run the architecture for a synthetic month-end period, then open Business report again to inspect the calculated result and evidence." })]
+				})
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "business-report-actions",
+				children: [i && /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)("button", {
+					type: "button",
+					onClick: () => me(`${i.case_id}-synthetic-report.json`, i),
+					children: "Download report JSON"
+				}), /* @__PURE__ */ (0, x.jsx)("button", {
+					type: "button",
+					onClick: () => {
+						t(), n();
+					},
+					children: "Open evidence & correlation"
+				})] }), /* @__PURE__ */ (0, x.jsx)("button", {
+					type: "button",
+					className: "primary",
+					onClick: t,
+					children: "Close"
+				})]
+			})
+		]
+	});
+}
+function ye({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, viewportRef: a, liveRunning: o, reportReady: s, onOpenReport: c }) {
+	let l = (0, b.useMemo)(() => Object.fromEntries((e?.components || []).map((e) => [e.component_id, e.zone])), [e]), u = (0, b.useMemo)(() => Object.fromEntries(se.map((t) => [t, (e?.components || []).filter((e) => e.zone === t)])), [e]), d = (0, b.useMemo)(() => {
 		let e = {};
 		for (let n of t) {
-			let t = n.direction === "response" ? n.source_component_id : n.target_component_id, r = s[t];
+			let t = n.direction === "response" ? n.source_component_id : n.target_component_id, r = l[t];
 			if (!r) continue;
 			let i = e[r] || {
 				count: 0,
@@ -10114,22 +10244,22 @@ function ve({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, v
 			i.count++, i.last = n, e[r] = i;
 		}
 		return e;
-	}, [t, s]), u = t.at(-1), d = u ? s[u.direction === "response" ? u.source_component_id : u.target_component_id] : null;
+	}, [t, l]), f = t.at(-1), p = f ? l[f.direction === "response" ? f.source_component_id : f.target_component_id] : null;
 	(0, b.useEffect)(() => {
-		if (!d || !a.current) return;
-		let e = a.current.querySelector(`[data-zone="${CSS.escape(d)}"]`);
+		if (!p || !a.current) return;
+		let e = a.current.querySelector(`[data-zone="${CSS.escape(p)}"]`);
 		e && a.current.scrollTo({
 			left: Math.max(0, e.offsetLeft - a.current.clientWidth * .36),
 			behavior: "smooth"
 		});
-	}, [d, a]);
-	function f(e, t, a = !1) {
-		let s = c[e] || [], u = l[e], f = d === e && o;
+	}, [p, a]);
+	function m(e, t, a = !1) {
+		let s = u[e] || [], c = d[e], l = p === e && o;
 		return /* @__PURE__ */ (0, x.jsxs)("button", {
 			type: "button",
 			"data-zone": e,
 			onClick: () => i(e),
-			className: `route-zone ${a ? "branch-zone" : ""} ${r === e ? "selected" : ""} ${f ? "current" : ""} ${u ? "visited" : ""} ${e === "Future BDC" ? "future-zone" : ""}`,
+			className: `route-zone ${a ? "branch-zone" : ""} ${r === e ? "selected" : ""} ${l ? "current" : ""} ${c ? "visited" : ""} ${e === "Future BDC" ? "future-zone" : ""}`,
 			children: [
 				/* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "route-top",
@@ -10162,7 +10292,7 @@ function ve({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, v
 				/* @__PURE__ */ (0, x.jsx)("small", { children: e === "Selected gateway" ? n === "S1" ? "S1 · Apigee external boundary" : "S2 · AgentCore AWS boundary" : e }),
 				/* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "route-status",
-					children: [/* @__PURE__ */ (0, x.jsx)("span", { className: `status-dot ${f ? "pulsing" : ""}` }), f ? "Processing now" : u ? `${u.count} events` : e === "Future BDC" ? "Future / simulated" : a ? "Separate branch" : "Waiting"]
+					children: [/* @__PURE__ */ (0, x.jsx)("span", { className: `status-dot ${l ? "pulsing" : ""}` }), l ? "Processing now" : c ? `${c.count} events` : e === "Future BDC" ? "Future / simulated" : a ? "Separate branch" : "Waiting"]
 				})
 			]
 		});
@@ -10178,8 +10308,8 @@ function ve({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, v
 			}),
 			/* @__PURE__ */ (0, x.jsx)("div", {
 				className: "route-lanes",
-				children: ce.map((e, t) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [f(e, t), t < ce.length - 1 && /* @__PURE__ */ (0, x.jsx)("div", {
-					className: `route-connector ${d === e && o ? "flowing" : ""}`,
+				children: ce.map((e, t) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [m(e, t), t < ce.length - 1 && /* @__PURE__ */ (0, x.jsx)("div", {
+					className: `route-connector ${p === e && o ? "flowing" : ""}`,
 					"aria-hidden": "true",
 					children: /* @__PURE__ */ (0, x.jsx)("span", {})
 				})] }, e))
@@ -10198,13 +10328,13 @@ function ve({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, v
 					}), /* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "route-lanes",
 						children: [
-							f("SAP BAIP", 4),
+							m("SAP BAIP", 4),
 							/* @__PURE__ */ (0, x.jsx)("div", {
 								className: "route-connector",
 								"aria-hidden": "true",
 								children: /* @__PURE__ */ (0, x.jsx)("span", {})
 							}),
-							f("SAP backends", 5)
+							m("SAP backends", 5)
 						]
 					})]
 				}), /* @__PURE__ */ (0, x.jsxs)("div", {
@@ -10214,7 +10344,7 @@ function ve({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, v
 						children: "Data evidence path"
 					}), /* @__PURE__ */ (0, x.jsx)("div", {
 						className: "route-lanes",
-						children: f("Enterprise Databricks", 6)
+						children: m("Enterprise Databricks", 6)
 					})]
 				})]
 			}),
@@ -10225,18 +10355,21 @@ function ve({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, v
 			/* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "return-lanes",
 				children: [
-					f("Model branch", 7),
+					m("Model branch", 7),
 					/* @__PURE__ */ (0, x.jsx)("div", {
 						className: "route-connector",
 						"aria-hidden": "true",
 						children: /* @__PURE__ */ (0, x.jsx)("span", {})
 					}),
-					/* @__PURE__ */ (0, x.jsxs)("div", {
-						className: "report-node",
+					/* @__PURE__ */ (0, x.jsxs)("button", {
+						type: "button",
+						className: `report-node ${s ? "complete" : ""}`,
+						onClick: c,
+						"aria-label": "Open detailed business report",
 						children: [
-							/* @__PURE__ */ (0, x.jsx)("span", { children: "08 / RESULT" }),
+							/* @__PURE__ */ (0, x.jsxs)("span", { children: ["08 / RESULT · ", s ? "COMPLETE" : "AWAITING RUN"] }),
 							/* @__PURE__ */ (0, x.jsx)("strong", { children: "Business report" }),
-							/* @__PURE__ */ (0, x.jsx)("small", { children: "Variance, freshness and evidence" })
+							/* @__PURE__ */ (0, x.jsx)("small", { children: s ? "Open analysis and evidence →" : "Run architecture to generate output" })
 						]
 					})
 				]
@@ -10252,13 +10385,13 @@ function ve({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, v
 					children: [/* @__PURE__ */ (0, x.jsx)("div", {
 						className: "branch-role",
 						children: t
-					}), f(e, n + 8, !0)]
+					}), m(e, n + 8, !0)]
 				}, e))
 			})
 		]
 	});
 }
-function ye({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
+function be({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
 	let o = (e?.components || []).filter((e) => e.zone === t), s = (0, b.useMemo)(() => {
 		let e = {};
 		for (let t of n) {
@@ -10354,7 +10487,7 @@ function ye({ registry: e, zone: t, events: n, selectedComponent: r, onComponent
 		})]
 	});
 }
-function be({ events: e, onSelect: t, selectedSeq: n }) {
+function xe({ events: e, onSelect: t, selectedSeq: n }) {
 	let r = e.slice(-12).reverse();
 	return /* @__PURE__ */ (0, x.jsxs)("section", {
 		className: "surface rail",
@@ -10400,21 +10533,21 @@ function be({ events: e, onSelect: t, selectedSeq: n }) {
 		})]
 	});
 }
-function xe({ bridge: e }) {
-	let t = !!e, [n, r] = (0, b.useState)(e?.data || null), [i, a] = (0, b.useState)("business"), [o, s] = (0, b.useState)("S1"), [c, l] = (0, b.useState)("2026-11"), [u, d] = (0, b.useState)(60), [f, p] = (0, b.useState)(""), [m, h] = (0, b.useState)("Reconcile the selected synthetic period"), [g, _] = (0, b.useState)([{
+function Se({ bridge: e }) {
+	let t = !!e, [n, r] = (0, b.useState)(e?.data || null), [i, a] = (0, b.useState)("business"), [o, s] = (0, b.useState)(!1), [c, l] = (0, b.useState)("S1"), [u, d] = (0, b.useState)("2026-11"), [f, p] = (0, b.useState)(60), [m, h] = (0, b.useState)(""), [g, _] = (0, b.useState)("Reconcile the selected synthetic period"), [v, y] = (0, b.useState)([{
 		role: "assistant",
 		text: "Ask about a reconciliation, the source evidence, an architecture component, or a control. Each answer has an inspectable synthetic flow."
-	}]), [v, y] = (0, b.useState)(null), [S, C] = (0, b.useState)(null), [ne, re] = (0, b.useState)([]), [ie, ae] = (0, b.useState)(!1), [se, ce] = (0, b.useState)("Business entry"), [le, ue] = (0, b.useState)(null), [pe, me] = (0, b.useState)(null), [he, ge] = (0, b.useState)(null), [xe, Se] = (0, b.useState)(!1), [Ce, E] = (0, b.useState)(""), [D, O] = (0, b.useState)([]), [we, Te] = (0, b.useState)([]), [Ee, De] = (0, b.useState)(null), [k, A] = (0, b.useState)(e?.data?.investigation || null), [Oe, ke] = (0, b.useState)([]), [Ae, je] = (0, b.useState)(!1), [Me, Ne] = (0, b.useState)("maker"), [Pe, Fe] = (0, b.useState)(!1), [Ie, Le] = (0, b.useState)(e?.data?.decision_run || null), [Re, ze] = (0, b.useState)(!1), Be = (0, b.useRef)(!1), Ve = (0, b.useRef)(null), He = (0, b.useRef)(null), Ue = (0, b.useRef)(null), We = (0, b.useRef)(null), Ge = n?.architecture, Ke = n?.history, qe = we.find((e) => e.case_id === v?.case_id);
+	}]), [S, C] = (0, b.useState)(null), [ne, re] = (0, b.useState)(null), [ie, ae] = (0, b.useState)([]), [se, ce] = (0, b.useState)(!1), [le, ue] = (0, b.useState)("Business entry"), [pe, me] = (0, b.useState)(null), [he, ge] = (0, b.useState)(null), [Se, Ce] = (0, b.useState)(null), [we, E] = (0, b.useState)(!1), [D, O] = (0, b.useState)(""), [Te, Ee] = (0, b.useState)([]), [De, k] = (0, b.useState)([]), [A, Oe] = (0, b.useState)(null), [ke, Ae] = (0, b.useState)(e?.data?.investigation || null), [je, Me] = (0, b.useState)([]), [Ne, Pe] = (0, b.useState)(!1), [Fe, Ie] = (0, b.useState)("maker"), [Le, Re] = (0, b.useState)(!1), [ze, Be] = (0, b.useState)(e?.data?.decision_run || null), [Ve, He] = (0, b.useState)(!1), Ue = (0, b.useRef)(!1), We = (0, b.useRef)(null), Ge = (0, b.useRef)(null), Ke = (0, b.useRef)(null), qe = (0, b.useRef)(null), Je = n?.architecture, Ye = n?.history, Xe = De.find((e) => e.case_id === S?.case_id);
 	(0, b.useEffect)(() => {
-		let e = v?.scope?.period;
-		!t && e && T(`/api/history/${e}`).then(De).catch(() => De(null));
-	}, [t, v?.scope?.period]);
-	let Je = he === null ? ne : ne.slice(0, he + 1), Ye = pe || Je.at(-1), Xe = Ye ? Ye.direction === "response" ? Ye.source_component_id : Ye.target_component_id : null, Ze = Ge?.components?.find((e) => e.component_id === Xe)?.zone;
+		let e = S?.scope?.period;
+		!t && e && T(`/api/history/${e}`).then(Oe).catch(() => Oe(null));
+	}, [t, S?.scope?.period]);
+	let Ze = Se === null ? ie : ie.slice(0, Se + 1), Qe = he || Ze.at(-1), $e = Qe ? Qe.direction === "response" ? Qe.source_component_id : Qe.target_component_id : null, et = Je?.components?.find((e) => e.component_id === $e)?.zone;
 	(0, b.useEffect)(() => {
 		if (!t) return Promise.all([T("/api/bootstrap"), T("/api/proposals")]).then(([e, t]) => {
-			r(e), O(e.cases || []), Te(t);
-		}).catch((e) => E(e.message)), () => {
-			Ve.current?.close();
+			r(e), Ee(e.cases || []), k(t);
+		}).catch((e) => O(e.message)), () => {
+			We.current?.close();
 		};
 	}, [t]), (0, b.useEffect)(() => {
 		if (!t) return;
@@ -10422,18 +10555,18 @@ function xe({ bridge: e }) {
 		r((e) => ({
 			...e,
 			...n
-		})), O(n.cases || []), Te(n.proposals || []), De(n.history_detail || null), A(n.investigation || null), ke(n.investigation_events || []), Le(n.decision_run || null), n.decision_run?.status === "complete" && ze(!1), n.active_case && (y(n.active_case), C(n.active_case.case_id), s(n.active_case.scenario), l(n.active_case.scope?.period || "2026-11")), n.events && re(n.events), ae(n.active_case?.status === "queued" || n.active_case?.status === "running"), n.response && n.response_nonce !== We.current && (We.current = n.response_nonce, Be.current = !1, Fe(!1), je(!1), _((e) => [...e, {
+		})), Ee(n.cases || []), k(n.proposals || []), Oe(n.history_detail || null), Ae(n.investigation || null), Me(n.investigation_events || []), Be(n.decision_run || null), n.decision_run?.status === "complete" && He(!1), n.active_case && (C(n.active_case), re(n.active_case.case_id), l(n.active_case.scenario), d(n.active_case.scope?.period || "2026-11")), n.events && ae(n.events), ce(n.active_case?.status === "queued" || n.active_case?.status === "running"), n.response && n.response_nonce !== qe.current && (qe.current = n.response_nonce, Ue.current = !1, Re(!1), Pe(!1), y((e) => [...e, {
 			role: "assistant",
 			text: n.response.answer || n.response.error || "The synthetic operation completed."
-		}]), n.response.error && E(n.response.error));
+		}]), n.response.error && O(n.response.error));
 	}, [t, e?.data]), (0, b.useEffect)(() => {
-		if (t || !k?.investigation_id || !["running", "reconciling"].includes(k.status)) return;
+		if (t || !ke?.investigation_id || !["running", "reconciling"].includes(ke.status)) return;
 		let e = !1, n = setInterval(async () => {
 			try {
-				let [t, n] = await Promise.all([T(`/api/investigations/${k.investigation_id}`), T(`/api/architecture/events?case_id=${encodeURIComponent(k.case_id)}`)]);
-				e || (A(t), ke(n), C(t.case_id), re(n));
+				let [t, n] = await Promise.all([T(`/api/investigations/${ke.investigation_id}`), T(`/api/architecture/events?case_id=${encodeURIComponent(ke.case_id)}`)]);
+				e || (Ae(t), Me(n), re(t.case_id), ae(n));
 			} catch (t) {
-				e || E(t.message);
+				e || O(t.message);
 			}
 		}, 350);
 		return () => {
@@ -10441,23 +10574,23 @@ function xe({ bridge: e }) {
 		};
 	}, [
 		t,
-		k?.investigation_id,
-		k?.status
+		ke?.investigation_id,
+		ke?.status
 	]), (0, b.useEffect)(() => {
-		!t && i === "evidence" && k?.case_id && T(`/api/architecture/events?case_id=${encodeURIComponent(k.case_id)}`).then(ke).catch((e) => E(e.message));
+		!t && i === "evidence" && ke?.case_id && T(`/api/architecture/events?case_id=${encodeURIComponent(ke.case_id)}`).then(Me).catch((e) => O(e.message));
 	}, [
 		t,
 		i,
-		k?.case_id,
-		k?.status
+		ke?.case_id,
+		ke?.status
 	]), (0, b.useEffect)(() => {
-		if (t || !Ie?.run_id || Ie.status === "complete") return;
+		if (t || !ze?.run_id || ze.status === "complete") return;
 		let e = !1, n = setInterval(async () => {
 			try {
-				let t = await T(`/api/architecture/questions/runs/${encodeURIComponent(Ie.run_id)}`);
-				e || (Le(t), t.status === "complete" && ze(!1));
+				let t = await T(`/api/architecture/questions/runs/${encodeURIComponent(ze.run_id)}`);
+				e || (Be(t), t.status === "complete" && He(!1));
 			} catch (t) {
-				e || (E(t.message), ze(!1));
+				e || (O(t.message), He(!1));
 			}
 		}, 350);
 		return () => {
@@ -10465,21 +10598,21 @@ function xe({ bridge: e }) {
 		};
 	}, [
 		t,
-		Ie?.run_id,
-		Ie?.status
+		ze?.run_id,
+		ze?.status
 	]), (0, b.useEffect)(() => {
-		if (!xe || !ne.length) return;
-		let e = setInterval(() => ge((e) => {
+		if (!we || !ie.length) return;
+		let e = setInterval(() => Ce((e) => {
 			let t = (e ?? -1) + 1;
-			return t >= ne.length ? (Se(!1), ne.length - 1) : t;
+			return t >= ie.length ? (E(!1), ie.length - 1) : t;
 		}), 140);
 		return () => clearInterval(e);
-	}, [xe, ne.length]), (0, b.useEffect)(() => {
-		Ue.current && (Ue.current.scrollTop = Ue.current.scrollHeight);
-	}, [g]), (0, b.useEffect)(() => {
-		Ze && he === null && ce(Ze);
-	}, [Ze, he]);
-	async function Qe(n) {
+	}, [we, ie.length]), (0, b.useEffect)(() => {
+		Ke.current && (Ke.current.scrollTop = Ke.current.scrollHeight);
+	}, [v]), (0, b.useEffect)(() => {
+		et && Se === null && ue(et);
+	}, [et, Se]);
+	async function tt(n) {
 		if (t) {
 			e.action({
 				type: "load_case",
@@ -10492,112 +10625,112 @@ function xe({ bridge: e }) {
 			T(`/api/architecture/events?case_id=${encodeURIComponent(n)}`),
 			T(`/api/investigations?case_id=${encodeURIComponent(n)}`)
 		]);
-		y(r), A(a[0] || null), C(n), s(r.scenario), l(r.scope?.period || c), re(i), ge(null), me(null);
+		C(r), Ae(a[0] || null), re(n), l(r.scenario), d(r.scope?.period || u), ae(i), Ce(null), ge(null);
 	}
-	function $e(e) {
-		Ve.current?.close();
+	function nt(e) {
+		We.current?.close();
 		let t = new EventSource(`/api/architecture/runs/${encodeURIComponent(e)}/stream`);
-		Ve.current = t, t.addEventListener("flow", (e) => {
+		We.current = t, t.addEventListener("flow", (e) => {
 			let t = JSON.parse(e.data);
-			re((e) => e.some((e) => e.seq === t.seq) ? e : [...e, t]);
+			ae((e) => e.some((e) => e.seq === t.seq) ? e : [...e, t]);
 		}), t.addEventListener("complete", async () => {
-			t.close(), Ve.current = null, ae(!1);
+			t.close(), We.current = null, ce(!1);
 			try {
-				await Qe(e);
+				await tt(e);
 				let t = await T("/api/cases");
-				O(t.slice(0, 20));
+				Ee(t.slice(0, 20));
 			} catch (e) {
-				E(e.message);
+				O(e.message);
 			}
 		}), t.onerror = () => {
-			E("Live connection interrupted. Stored events can be reloaded from the case list.");
+			O("Live connection interrupted. Stored events can be reloaded from the case list.");
 		};
 	}
-	async function et() {
-		E(""), A(null), a("architecture"), re([]), ge(null), me(null), ae(!0);
-		let n = m.trim() === "Reconcile the selected synthetic period" || !m.trim() ? `Reconcile ${fe(c)}` : m.trim();
+	async function rt() {
+		O(""), Ae(null), a("architecture"), ae([]), Ce(null), ge(null), ce(!0);
+		let n = g.trim() === "Reconcile the selected synthetic period" || !g.trim() ? `Reconcile ${fe(u)}` : g.trim();
 		if (t) e.action({
 			type: "run",
 			message: n,
-			scenario: o,
-			period: c,
-			pace: u
+			scenario: c,
+			period: u,
+			pace: f
 		});
 		else try {
 			let e = await T("/api/runs", "POST", {
 				message: n,
-				scenario: o,
+				scenario: c,
 				user_id: "finance.user",
-				demo_pace_ms: u
+				demo_pace_ms: f
 			});
 			if (e.follow_up) {
-				ae(!1), E(e.follow_up);
+				ce(!1), O(e.follow_up);
 				return;
 			}
-			C(e.case_id), y({
+			re(e.case_id), C({
 				case_id: e.case_id,
 				scenario: e.scenario,
 				scope: e.scope,
 				status: "running"
-			}), $e(e.case_id);
+			}), nt(e.case_id);
 		} catch (e) {
-			ae(!1), E(e.message);
+			ce(!1), O(e.message);
 		}
 	}
-	async function tt(n = f) {
+	async function it(n = m) {
 		let r = n.trim();
-		if (r && !Be.current) {
-			if (Be.current = !0, Fe(!0), p(""), _((e) => [...e, {
+		if (r && !Ue.current) {
+			if (Ue.current = !0, Re(!0), h(""), y((e) => [...e, {
 				role: "user",
 				text: r
-			}]), E(""), t) e.action({
+			}]), O(""), t) e.action({
 				type: "chat",
 				message: r,
-				scenario: v?.scenario || o,
-				case_id: v?.case_id
+				scenario: S?.scenario || c,
+				case_id: S?.case_id
 			});
 			else try {
 				let e = await T("/api/chat", "POST", {
 					message: r,
-					scenario: v?.scenario || o,
-					case_id: v?.case_id,
+					scenario: S?.scenario || c,
+					case_id: S?.case_id,
 					user_id: "finance.user"
 				});
-				_((t) => [...t, {
+				y((t) => [...t, {
 					role: "assistant",
 					text: e.answer || "The synthetic operation completed.",
 					limited: e.status === "limited"
-				}]), e.investigation && A(e.investigation), e.result && (A(null), y({
+				}]), e.investigation && Ae(e.investigation), e.result && (Ae(null), C({
 					case_id: e.case_id,
 					scenario: e.scenario,
 					scope: e.result.scope,
 					status: "complete",
 					result: e.result
-				}), l(e.result.scope.period), s(e.scenario)), e.trace_case_id && (C(e.trace_case_id), re(await T(`/api/architecture/events?case_id=${encodeURIComponent(e.trace_case_id)}`)), ge(null));
+				}), d(e.result.scope.period), l(e.scenario)), e.trace_case_id && (re(e.trace_case_id), ae(await T(`/api/architecture/events?case_id=${encodeURIComponent(e.trace_case_id)}`)), Ce(null));
 				let [t, n] = await Promise.all([T("/api/cases"), T("/api/proposals")]);
-				O(t.slice(0, 20)), Te(n);
+				Ee(t.slice(0, 20)), k(n);
 			} catch (e) {
-				_((t) => [...t, {
+				y((t) => [...t, {
 					role: "assistant",
 					text: `I could not complete that synthetic request: ${e.message}`,
 					limited: !0
-				}]), E(e.message);
+				}]), O(e.message);
 			} finally {
-				Be.current = !1, Fe(!1);
+				Ue.current = !1, Re(!1);
 			}
 		}
 	}
-	async function nt() {
-		if (Me !== "approver") E("Switch to the synthetic finance approver lane first.");
+	async function at() {
+		if (Fe !== "approver") O("Switch to the synthetic finance approver lane first.");
 		else if (t) e.action({
 			type: "approve",
-			case_id: v?.case_id,
-			role: Me
+			case_id: S?.case_id,
+			role: Fe
 		});
 		else try {
-			let e = (await T("/api/proposals")).find((e) => e.case_id === v?.case_id && e.status === "awaiting_approval");
+			let e = (await T("/api/proposals")).find((e) => e.case_id === S?.case_id && e.status === "awaiting_approval");
 			if (!e) {
-				E("No pending synthetic proposal for this case.");
+				O("No pending synthetic proposal for this case.");
 				return;
 			}
 			let t = await T("/api/decisions", "POST", {
@@ -10607,65 +10740,65 @@ function xe({ bridge: e }) {
 				payload_hash: e.payload_hash,
 				case_version: e.case_version
 			});
-			_((e) => [...e, {
+			y((e) => [...e, {
 				role: "assistant",
 				text: `Approval result: ${t.status}. Synthetic variance marker ${t.document_number || "not created"}.`
-			}]), re(await T(`/api/architecture/events?case_id=${encodeURIComponent(v.case_id)}`)), Te(await T("/api/proposals"));
+			}]), ae(await T(`/api/architecture/events?case_id=${encodeURIComponent(S.case_id)}`)), k(await T("/api/proposals"));
 		} catch (e) {
-			E(e.message);
+			O(e.message);
 		}
 	}
-	async function rt(n) {
-		if (v?.case_id) {
-			if (E(""), je(!0), t) e.action({
+	async function ot(n) {
+		if (S?.case_id) {
+			if (O(""), Pe(!0), t) e.action({
 				type: "investigate",
-				case_id: v.case_id,
+				case_id: S.case_id,
 				fault_profile: n
 			});
 			else try {
 				let e = await T("/api/investigations", "POST", {
-					case_id: v.case_id,
+					case_id: S.case_id,
 					fault_profile: n
 				});
-				A(e), C(e.case_id), ge(null), re(await T(`/api/architecture/events?case_id=${encodeURIComponent(e.case_id)}`));
+				Ae(e), re(e.case_id), Ce(null), ae(await T(`/api/architecture/events?case_id=${encodeURIComponent(e.case_id)}`));
 			} catch (e) {
-				E(e.message);
+				O(e.message);
 			} finally {
-				je(!1);
+				Pe(!1);
 			}
 		}
 	}
-	async function it(n) {
-		if (E(""), je(!0), t) e.action({
+	async function st(n) {
+		if (O(""), Pe(!0), t) e.action({
 			type: "reprocess",
 			investigation_id: n,
 			operator_id: "finance.operator"
 		});
 		else try {
 			let e = await T(`/api/investigations/${n}/reprocess`, "POST", { operator_id: "finance.operator" });
-			e.after?.case_id && await Qe(e.after.case_id), A(e);
+			e.after?.case_id && await tt(e.after.case_id), Ae(e);
 			let t = await T("/api/history");
 			r((e) => ({
 				...e,
 				history: t
-			})), O((await T("/api/cases")).slice(0, 20)), _((t) => [...t, {
+			})), Ee((await T("/api/cases")).slice(0, 20)), y((t) => [...t, {
 				role: "assistant",
 				text: e.reason
 			}]);
 		} catch (e) {
-			E(e.message);
+			O(e.message);
 		} finally {
-			je(!1);
+			Pe(!1);
 		}
 	}
-	async function at(n) {
+	async function ct(n) {
 		t ? (e.action({
 			type: "load_case",
 			case_id: n
-		}), a("architecture")) : (C(n), re(await T(`/api/architecture/events?case_id=${encodeURIComponent(n)}`)), ge(null), a("architecture"));
+		}), a("architecture")) : (re(n), ae(await T(`/api/architecture/events?case_id=${encodeURIComponent(n)}`)), Ce(null), a("architecture"));
 	}
-	async function ot(n, r, i) {
-		if (a("questions"), E(""), ze(!0), Le(null), t) e.action({
+	async function lt(n, r, i) {
+		if (a("questions"), O(""), He(!0), Be(null), t) e.action({
 			type: "decision_run",
 			question_id: n,
 			route: r,
@@ -10677,17 +10810,17 @@ function xe({ bridge: e }) {
 				route: r,
 				probe: i
 			});
-			Le(e);
+			Be(e);
 		} catch (e) {
-			E(e.message), ze(!1);
+			O(e.message), He(!1);
 		}
 	}
-	function st(e) {
-		me(e);
+	function ut(e) {
+		ge(e);
 		let t = e.direction === "response" ? e.source_component_id : e.target_component_id;
-		ue(t);
-		let n = Ge?.components?.find((e) => e.component_id === t)?.zone;
-		n && ce(n);
+		me(t);
+		let n = Je?.components?.find((e) => e.component_id === t)?.zone;
+		n && ue(n);
 	}
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: `app-shell ${t ? "embedded" : ""}`,
@@ -10711,9 +10844,9 @@ function xe({ bridge: e }) {
 							children: "LOCAL SIMULATION"
 						}),
 						/* @__PURE__ */ (0, x.jsx)("span", { className: "header-separator" }),
-						/* @__PURE__ */ (0, x.jsxs)("span", { children: [Ke?.available_periods?.length || 12, " monthly periods"] }),
+						/* @__PURE__ */ (0, x.jsxs)("span", { children: [Ye?.available_periods?.length || 12, " monthly periods"] }),
 						/* @__PURE__ */ (0, x.jsx)("span", { className: "header-separator" }),
-						/* @__PURE__ */ (0, x.jsxs)("span", { children: [Ge?.components?.length || 73, " components"] })
+						/* @__PURE__ */ (0, x.jsxs)("span", { children: [Je?.components?.length || 73, " components"] })
 					]
 				})]
 			}),
@@ -10756,15 +10889,15 @@ function xe({ bridge: e }) {
 					/* @__PURE__ */ (0, x.jsx)("span", { children: "Synthetic · company-neutral architecture view" })
 				]
 			}),
-			Ce && /* @__PURE__ */ (0, x.jsxs)("div", {
+			D && /* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "error-banner",
 				role: "alert",
 				children: [
 					/* @__PURE__ */ (0, x.jsx)("strong", { children: "Needs attention" }),
-					/* @__PURE__ */ (0, x.jsx)("span", { children: Ce }),
+					/* @__PURE__ */ (0, x.jsx)("span", { children: D }),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: () => E(""),
+						onClick: () => O(""),
 						"aria-label": "Dismiss error",
 						children: "×"
 					})
@@ -10774,16 +10907,16 @@ function xe({ bridge: e }) {
 				className: "business-layout",
 				children: [
 					/* @__PURE__ */ (0, x.jsx)(ee, {
-						history: Ke,
-						historyDetail: Ee,
+						history: Ye,
+						historyDetail: A,
 						onOpenEvidence: () => a("evidence"),
-						cases: D,
-						currentCase: v,
-						proposal: qe,
-						role: Me,
-						onRole: Ne,
-						approve: nt,
-						loadCase: (e) => tt(`Reconcile ${fe(e)}`)
+						cases: Te,
+						currentCase: S,
+						proposal: Xe,
+						role: Fe,
+						onRole: Ie,
+						approve: at,
+						loadCase: (e) => it(`Reconcile ${fe(e)}`)
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("section", {
 						className: "surface chat-panel",
@@ -10793,53 +10926,63 @@ function xe({ bridge: e }) {
 								children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 									className: "eyebrow",
 									children: "BUSINESS USER CHAT"
-								}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "Ask about the evidence" })] }), /* @__PURE__ */ (0, x.jsx)("span", {
-									className: "pill ok",
-									children: "Ready"
+								}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "Ask about the evidence" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
+									className: "chat-heading-actions",
+									children: [/* @__PURE__ */ (0, x.jsx)("button", {
+										type: "button",
+										onClick: () => y([]),
+										disabled: Le || v.length === 0,
+										"aria-label": "Clear chat conversation",
+										children: "Clear chat"
+									}), /* @__PURE__ */ (0, x.jsx)("span", {
+										className: "pill ok",
+										children: "Ready"
+									})]
 								})]
 							}),
-							/* @__PURE__ */ (0, x.jsx)("div", {
+							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "chat-messages",
-								ref: Ue,
+								ref: Ke,
 								"aria-live": "polite",
-								children: g.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("div", {
+								children: [!v.length && /* @__PURE__ */ (0, x.jsx)("div", {
+									className: "chat-empty",
+									children: "Chat cleared. Ask a finance question to start a new conversation."
+								}), v.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("div", {
 									className: `chat-message ${e.role} ${e.limited ? "limited" : ""}`,
 									children: [/* @__PURE__ */ (0, x.jsx)("span", { children: e.role === "user" ? "You" : "Finance assistant" }), /* @__PURE__ */ (0, x.jsx)("p", { children: e.text })]
-								}, t))
+								}, t))]
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("form", {
 								className: "chat-composer",
 								onSubmit: (e) => {
-									e.preventDefault(), tt();
+									e.preventDefault(), it();
 								},
 								children: [/* @__PURE__ */ (0, x.jsx)("label", {
 									htmlFor: "chat-question",
 									children: "Question"
 								}), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("input", {
 									id: "chat-question",
-									value: f,
-									onChange: (e) => p(e.target.value),
-									placeholder: "Reconcile March 2026, or ask why the variance exists"
+									value: m,
+									onChange: (e) => h(e.target.value),
+									placeholder: "Ask about a period, variance, source evidence, or controls"
 								}), /* @__PURE__ */ (0, x.jsx)("button", {
 									type: "submit",
 									className: "primary",
-									disabled: Pe,
-									children: Pe ? "Working…" : "Send"
+									disabled: Le,
+									children: Le ? "Working…" : "Send"
 								})] })]
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "suggestions",
 								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Try:" }), [
-									"Reconcile February 2026",
+									"Reconcile " + fe(u),
 									"Why is there a variance?",
 									"Show source evidence",
-									"What does Central Finance do?",
-									"Propose an adjustment",
 									"Investigate this variance"
 								].map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
-									disabled: Pe,
-									onClick: () => tt(e),
+									disabled: Le,
+									onClick: () => it(e),
 									children: e
 								}, e))]
 							}),
@@ -10850,11 +10993,11 @@ function xe({ bridge: e }) {
 									className: "text-link",
 									onClick: () => a("architecture"),
 									children: "Inspect this question’s architecture →"
-								}), v && /* @__PURE__ */ (0, x.jsxs)("span", { children: [
+								}), S && /* @__PURE__ */ (0, x.jsxs)("span", { children: [
 									"Case ",
-									v.case_id,
+									S.case_id,
 									" · ",
-									v.scenario
+									S.scenario
 								] })]
 							})
 						]
@@ -10863,14 +11006,14 @@ function xe({ bridge: e }) {
 						className: "right-column",
 						children: [
 							/* @__PURE__ */ (0, x.jsx)(te, {
-								investigation: k,
+								investigation: ke,
 								onOpen: () => a("evidence")
 							}),
 							/* @__PURE__ */ (0, x.jsx)(_e, {
-								result: v?.result,
-								history: Ke
+								result: S?.result,
+								history: Ye
 							}),
-							v?.result?.variance?.amount !== null && v?.result?.variance?.amount !== void 0 && Number(v.result.variance.amount) !== 0 && k?.case_id !== v.case_id && /* @__PURE__ */ (0, x.jsxs)("section", {
+							S?.result?.variance?.amount !== null && S?.result?.variance?.amount !== void 0 && Number(S.result.variance.amount) !== 0 && ke?.case_id !== S.case_id && /* @__PURE__ */ (0, x.jsxs)("section", {
 								className: "surface action-strip",
 								children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 									/* @__PURE__ */ (0, x.jsx)("span", {
@@ -10881,7 +11024,7 @@ function xe({ bridge: e }) {
 									/* @__PURE__ */ (0, x.jsx)("p", { children: "A comparable nonzero variance may create a local marker proposal." })
 								] }), /* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
-									onClick: () => tt("Propose an adjustment"),
+									onClick: () => it("Propose an adjustment"),
 									children: "Propose variance marker"
 								})]
 							})
@@ -10904,22 +11047,22 @@ function xe({ bridge: e }) {
 							className: "command-controls",
 							children: [
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Business intent", /* @__PURE__ */ (0, x.jsx)("input", {
-									value: m,
-									onChange: (e) => h(e.target.value),
+									value: g,
+									onChange: (e) => _(e.target.value),
 									"aria-label": "Business intent"
 								})] }),
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Period", /* @__PURE__ */ (0, x.jsx)("select", {
-									value: c,
-									onChange: (e) => l(e.target.value),
-									children: (Ke?.available_periods || ["2026-11"]).map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+									value: u,
+									onChange: (e) => d(e.target.value),
+									children: (Ye?.available_periods || ["2026-11"]).map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
 										value: e,
 										children: fe(e)
 									}, e))
 								})] }),
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Route", /* @__PURE__ */ (0, x.jsxs)("select", {
-									value: o,
-									onChange: (e) => s(e.target.value),
-									disabled: ie,
+									value: c,
+									onChange: (e) => l(e.target.value),
+									disabled: se,
 									children: [/* @__PURE__ */ (0, x.jsx)("option", {
 										value: "S1",
 										children: "S1 · Apigee"
@@ -10929,8 +11072,8 @@ function xe({ bridge: e }) {
 									})]
 								})] }),
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Pace", /* @__PURE__ */ (0, x.jsxs)("select", {
-									value: u,
-									onChange: (e) => d(Number(e.target.value)),
+									value: f,
+									onChange: (e) => p(Number(e.target.value)),
 									children: [
 										/* @__PURE__ */ (0, x.jsx)("option", {
 											value: 30,
@@ -10949,15 +11092,15 @@ function xe({ bridge: e }) {
 								/* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
 									className: "primary",
-									onClick: et,
-									disabled: ie,
-									children: ie ? "Running…" : "Run architecture"
+									onClick: rt,
+									disabled: se,
+									children: se ? "Running…" : "Run architecture"
 								})
 							]
 						})]
 					}),
 					/* @__PURE__ */ (0, x.jsx)(te, {
-						investigation: k,
+						investigation: ke,
 						onOpen: () => a("evidence")
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("section", {
@@ -10968,75 +11111,77 @@ function xe({ bridge: e }) {
 								children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 									className: "eyebrow",
 									children: "COMPONENT COMMUNICATION"
-								}), /* @__PURE__ */ (0, x.jsx)("h2", { children: ie ? "Processing live" : v?.status === "complete" ? "Case complete" : "Architecture ready" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
+								}), /* @__PURE__ */ (0, x.jsx)("h2", { children: se ? "Processing live" : S?.status === "complete" ? "Case complete" : "Architecture ready" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 									className: "route-actions",
 									children: [
 										/* @__PURE__ */ (0, x.jsx)("span", {
 											className: "pill quiet",
-											children: S || "No trace selected"
+											children: ne || "No trace selected"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
 											onClick: () => {
-												ge(-1), me(null), Se(!0);
+												Ce(-1), ge(null), E(!0);
 											},
-											disabled: !ne.length,
+											disabled: !ie.length,
 											children: "Replay"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
-											onClick: () => Se(!1),
-											disabled: !xe,
+											onClick: () => E(!1),
+											disabled: !we,
 											children: "Pause"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
 											onClick: () => {
-												Se(!1), ge(null), me(null);
+												E(!1), Ce(null), ge(null);
 											},
-											disabled: he === null,
+											disabled: Se === null,
 											children: "Live"
 										})
 									]
 								})]
 							}),
-							/* @__PURE__ */ (0, x.jsx)(ve, {
-								registry: Ge,
-								events: Je,
-								scenario: o,
-								selectedZone: se,
+							/* @__PURE__ */ (0, x.jsx)(ye, {
+								registry: Je,
+								events: Ze,
+								scenario: c,
+								selectedZone: le,
 								onZone: (e) => {
-									ce(e), ue(null);
+									ue(e), me(null);
 								},
-								viewportRef: He,
-								liveRunning: ie
+								viewportRef: Ge,
+								liveRunning: se,
+								reportReady: !!S?.result?.variance,
+								onOpenReport: () => s(!0)
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "flow-caption",
 								children: [
-									/* @__PURE__ */ (0, x.jsx)("span", { className: `status-dot ${ie ? "pulsing" : ""}` }),
+									/* @__PURE__ */ (0, x.jsx)("span", { className: `status-dot ${se ? "pulsing" : ""}` }),
 									" ",
-									/* @__PURE__ */ (0, x.jsx)("strong", { children: Ye ? `${Ye.operation.replaceAll("_", " ")} · ${Ye.direction} · ${Ye.status}` : "Awaiting a business question" }),
-									/* @__PURE__ */ (0, x.jsx)("span", { children: Ze || "Select a route zone" }),
-									/* @__PURE__ */ (0, x.jsxs)("span", { children: [ne.length, " stored events"] })
+									/* @__PURE__ */ (0, x.jsx)("strong", { children: Qe ? `${Qe.operation.replaceAll("_", " ")} · ${Qe.direction} · ${Qe.status}` : "Awaiting a business question" }),
+									/* @__PURE__ */ (0, x.jsx)("span", { children: et || "Select a route zone" }),
+									/* @__PURE__ */ (0, x.jsxs)("span", { children: [ie.length, " stored events"] })
 								]
 							})
 						]
 					}),
-					/* @__PURE__ */ (0, x.jsx)(ye, {
-						registry: Ge,
-						zone: se,
-						events: Je,
-						selectedComponent: le,
-						onComponent: ue,
-						scenario: o
+					/* @__PURE__ */ (0, x.jsx)(be, {
+						registry: Je,
+						zone: le,
+						events: Ze,
+						selectedComponent: pe,
+						onComponent: me,
+						scenario: c
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "architecture-bottom",
-						children: [/* @__PURE__ */ (0, x.jsx)(be, {
-							events: Je,
-							onSelect: st,
-							selectedSeq: pe?.seq
+						children: [/* @__PURE__ */ (0, x.jsx)(xe, {
+							events: Ze,
+							onSelect: ut,
+							selectedSeq: he?.seq
 						}), /* @__PURE__ */ (0, x.jsxs)("section", {
 							className: "surface architect-review",
 							children: [
@@ -11065,9 +11210,9 @@ function xe({ bridge: e }) {
 							children: "STORED CASES"
 						}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "Replay an earlier run" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 							className: "case-buttons",
-							children: [D.slice(0, 8).map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
+							children: [Te.slice(0, 8).map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
 								type: "button",
-								onClick: () => Qe(e.case_id),
+								onClick: () => tt(e.case_id),
 								children: [
 									fe(e.scope?.period),
 									" · ",
@@ -11075,7 +11220,7 @@ function xe({ bridge: e }) {
 									" · ",
 									e.status
 								]
-							}, e.case_id)), !D.length && /* @__PURE__ */ (0, x.jsx)("span", {
+							}, e.case_id)), !Te.length && /* @__PURE__ */ (0, x.jsx)("span", {
 								className: "micro",
 								children: "No completed case yet."
 							})]
@@ -11084,38 +11229,43 @@ function xe({ bridge: e }) {
 				]
 			}) : i === "questions" ? /* @__PURE__ */ (0, x.jsx)(oe, {
 				questions: n?.decision_questions || [],
-				run: Ie,
-				onRun: ot,
-				busy: Re
+				run: ze,
+				onRun: lt,
+				busy: Ve
 			}) : /* @__PURE__ */ (0, x.jsx)(w, {
-				investigation: k,
-				currentCase: v,
-				busy: Ae,
-				onStart: rt,
-				onResolve: it,
-				onTrace: at,
-				historyDetail: Ee,
-				events: Oe
+				investigation: ke,
+				currentCase: S,
+				busy: Ne,
+				onStart: ot,
+				onResolve: st,
+				onTrace: ct,
+				historyDetail: A,
+				events: je
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("footer", {
 				className: "app-footer",
 				children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Synthetic local data · no connected SAP, AWS, Google, Databricks, BDC or model service" }), /* @__PURE__ */ (0, x.jsx)("span", { children: "Architecture derived from the reviewed v7 component registry · G1–G7 open" })]
+			}),
+			o && /* @__PURE__ */ (0, x.jsx)(ve, {
+				caseRecord: S,
+				onClose: () => s(!1),
+				onOpenEvidence: () => a("evidence")
 			})
 		]
 	});
 }
 // src/streamlit.jsx
-var Se = /* @__PURE__ */ new WeakMap();
-function Ce(e) {
+var Ce = /* @__PURE__ */ new WeakMap();
+function we(e) {
 	let { parentElement: t, data: n, setTriggerValue: r } = e, i = t.querySelector(".finance-root");
 	if (!i) throw Error("Missing finance component mount");
-	let a = Se.get(t);
-	return a || (a = (0, y.createRoot)(i), Se.set(t, a)), a.render(/* @__PURE__ */ (0, x.jsx)(xe, { bridge: {
+	let a = Ce.get(t);
+	return a || (a = (0, y.createRoot)(i), Ce.set(t, a)), a.render(/* @__PURE__ */ (0, x.jsx)(Se, { bridge: {
 		data: n || {},
 		action: (e) => r("action", e)
 	} })), () => {
-		let e = Se.get(t);
-		e && (e.unmount(), Se.delete(t));
+		let e = Ce.get(t);
+		e && (e.unmount(), Ce.delete(t));
 	};
 }
-export { Ce as default };
+export { we as default };
