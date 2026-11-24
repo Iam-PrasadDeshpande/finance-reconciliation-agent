@@ -257,9 +257,11 @@ def agents_catalog(): return agent_catalog()
 
 @app.post("/api/agent/plan")
 def agent_plan(data:ChatInput):
+    if data.scenario not in ("S1","S2"): raise HTTPException(422,"Route must be S1 or S2")
+    if len(data.message)>400: raise HTTPException(422,"Message is too long")
     try:
         case=store.case(data.case_id) if data.case_id else None
-        return run_plan(agent_context(),plan_for(data.message,case),data.scenario,data.user_id)
+        return run_plan(agent_context(),plan_for(data.message,case),data.scenario,"finance.user")
     except Exception as exc: fail(exc)
 
 @app.get("/api/agent/plans/last")
@@ -267,7 +269,8 @@ def agent_last_plan(): return store.get_state("last_plan") or {}
 
 @app.post("/api/agent/tools/{name}")
 def agent_tool(name:str,data:AgentToolInput):
-    try: return invoke_tool(agent_context(),name,data.model_dump())
+    args={key:value for key,value in data.model_dump().items() if value is not None}
+    try: return invoke_tool(agent_context(),name,args)
     except Exception as exc: fail(exc)
 
 class Condition(BaseModel):

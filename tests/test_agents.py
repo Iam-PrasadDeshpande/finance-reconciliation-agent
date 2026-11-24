@@ -67,9 +67,59 @@ def test_agent_endpoints_run_a_full_reconcile_plan():
     cat = client.get("/api/agent/catalog").json()
     assert len(cat["agents"]) == 7 and "no LLM" in cat["label"]
     plan = client.post("/api/agent/plan", json={"message": "Reconcile November 2026 company code 1000 ledger 0L USD", "scenario": "S1"}).json()
-    assert plan["status"] == "done" and [s["status"] for s in plan["steps"]] == ["done"] * 5 and plan["case_id"]
+    assert plan["status"] == "done" and [s["status"] for s in plan["steps"]] == ["done"] * 6 and plan["case_id"]
+    assert plan["steps"][-1]["tool"] == "start_investigation" and plan["steps"][-1]["added_by"] and plan["adaptations"][0]["added"] == "investigator.start_investigation"
+    assert "No SAP write was made" in plan["answer"]
     assert client.get(f"/api/cases/{plan['case_id']}").json()["status"] == "complete"
     assert client.get("/api/agent/plans/last").json()["plan_id"] == plan["plan_id"]
     assert client.post("/api/agent/tools/draft_proposal", json={"case_id": plan["case_id"]}).status_code in (400, 403, 404, 409, 422)
     refused = client.post("/api/agent/plan", json={"message": "post a journal to SAP"}).json()
     assert refused["status"] == "blocked"
+
+
+def test_steps_record_the_mcp_call_and_the_layers_actually_reached():
+    from fastapi.testclient import TestClient
+    import poc.app as application
+    client = TestClient(application.app)
+    plan = client.post("/api/agent/plan", json={"message": "Reconcile November 2026 company code 1000 ledger 0L USD", "scenario": "S1"}).json()
+    assert plan["orchestrator"]["dispatches"] == 6 and "MCP-style" in plan["orchestrator"]["role"] and plan["duration_ms"] >= 0
+    by_tool = {s["tool"]: s for s in plan["steps"]}
+    for step in plan["steps"]:
+        assert step["mcp"]["method"].startswith("tools/call") and step["mcp"]["server"].endswith("-mcp")
+        assert {"count", "first_seq", "last_seq", "layers", "hops"} <= set(step["trace"])
+    evidence = by_tool["collect_evidence"]
+    assert evidence["trace"]["count"] > 10 and "SAP backends" in evidence["trace"]["layers"] and "Selected gateway" in evidence["trace"]["layers"]
+    assert evidence["mcp"]["arguments"]["route"] == "S1" and evidence["mcp"]["arguments"]["scope"]["period"] == "2026-11"
+    assert by_tool["resolve_scope"]["trace"]["count"] == 0
+    assert by_tool["trace"]["mcp"]["arguments"]["case_id"] == plan["case_id"]
+    assert all(c["mcp_server"] for c in client.get("/api/agent/catalog").json()["agents"])
+    assert "no MCP transport" in client.get("/api/agent/catalog").json()["note"]
+
+
+def test_review_findings_are_fixed():
+    from fastapi.testclient import TestClient
+    import poc.app as application
+    client = TestClient(application.app)
+    for text in ("book a journal entry for november", "create a JE in the ledger", "reverse the posting", "post a journal entry to SAP", "investigate and post a journal to SAP"):
+        assert plan_for(text)["intent"] == "refused_write", text
+    for text in ("approve the proposal", "please execute the posting now"):
+        assert plan_for(text)["intent"] in ("refused_write", "refused_approval"), text
+    assert plan_for("approve the proposal")["intent"] == "refused_approval"
+    assert plan_for("hello")["intent"] == "clarify" and plan_for("compost heap")["intent"] == "clarify"
+    assert plan_for("reconcile and adjust")["intent"] == "reconcile"
+    assert client.post("/api/agent/plan", json={"message": "hello"}).json()["status"] == "needs_input"
+    assert client.post("/api/agent/plan", json={"message": "Reconcile November 2026", "scenario": "S9"}).status_code == 422
+    assert client.post("/api/agent/plan", json={"message": "x" * 500}).status_code == 422
+    ready = client.post("/api/agent/tools/close_readiness", json={"period": "2026-03"}).json()
+    assert ready["steps"][0]["ref"]["period"] == "2026-03" and ready["steps"][0]["mcp"]["arguments"]["period"] == "2026-03"
+    assert client.post("/api/agent/tools/close_readiness", json={"period": "1999-01"}).status_code in (400, 403, 404, 409, 422)
+    assert client.post("/api/agent/tools/route_controls", json={"scenario": "S9"}).status_code in (400, 403, 404, 409, 422)
+    assert client.post("/api/agent/tools/trace", json={}).status_code in (400, 403, 404, 409, 422)
+    plan = client.post("/api/agent/plan", json={"message": "Reconcile December 2025 company code 1000 ledger 0L USD", "scenario": "S2"}).json()
+    by_tool = {s["tool"]: s for s in plan["steps"]}
+    assert plan["status"] == "done" and "start_investigation" not in by_tool and plan["adaptations"] == [] or plan["adaptations"]
+    assert by_tool["compute_variance"]["trace"]["count"] == 0 and by_tool["compute_variance"]["trace"]["layers"] == []
+    events = client.get("/api/events", params={"case_id": plan["case_id"]}).json()
+    stamped = [e for e in events if (e.get("payload_summary") or {}).get("step_id")]
+    assert stamped and {e["payload_summary"]["plan_id"] for e in stamped} == {plan["plan_id"]}
+    assert by_tool["collect_evidence"]["trace"]["count"] == len([e for e in stamped if e["payload_summary"]["step_id"] == by_tool["collect_evidence"]["step_id"]])

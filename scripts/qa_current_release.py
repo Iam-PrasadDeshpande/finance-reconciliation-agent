@@ -13,38 +13,67 @@ def check(page, url, hosted):
     page.on("pageerror", lambda error: errors.append(str(error)))
     page.goto(url, wait_until="domcontentloaded")
     page.get_by_role("button", name="Open Finance Reconciliation Agent").wait_for(timeout=30000)
+    # Level 1 entry: agent-first, no open-decision list.
+    assert page.locator(".entry-card").count() == 3
+    assert page.get_by_text("Open decisions").count() == 0
+    assert page.get_by_label("What should the agents do?").input_value() != ""
     page.get_by_role("button", name="Open Finance Reconciliation Agent").click()
     tabs = page.locator(".tab-nav [role=tab]")
     assert tabs.count() == 3
 
     def go_decision(label):
         tabs.nth(2).click()
-        page.get_by_role("tablist", name="Architecture decision views").get_by_role("tab", name=label).click()
+        page.get_by_role("tablist", name="Architecture views").get_by_role("tab", name=label).click()
 
     def decision_selected(label):
-        return page.get_by_role("tablist", name="Architecture decision views").get_by_role("tab", name=label).get_attribute("aria-selected") == "true"
+        return page.get_by_role("tablist", name="Architecture views").get_by_role("tab", name=label).get_attribute("aria-selected") == "true"
 
-    # Agents: default cards on the simulator screen; the orchestrator plans and runs; cards open their layer.
-    page.locator(".agent-card").first.wait_for(timeout=30000)
-    assert page.locator(".agent-card").count() == 7
-    assert page.get_by_role("button", name="Open Approval gatekeeper agent").count() == 1
-    page.get_by_role("button", name="Run plan").click()
-    page.locator(".agent-plan ol li.done").nth(4).wait_for(timeout=60000)
-    assert "Plan complete" in page.locator(".agent-plan-note").inner_text()
-    page.get_by_role("button", name="Open Evidence agent").click()
+    # Agents area: the orchestrator calls specialist agents over MCP and the graph shows what each reached.
+    assert page.locator(".agent-ask-bar").count() == 1
+    tabs.nth(1).click()
     assert tabs.nth(1).get_attribute("aria-selected") == "true"
+    page.get_by_role("button", name="Run plan").click()
+    for _ in range(240):
+        if "Plan complete" in (page.locator(".aw-plan-state").first.text_content() if page.locator(".aw-plan-state").count() else ""):
+            break
+        page.wait_for_timeout(250)
+    assert "Plan complete" in page.locator(".aw-plan-state").first.text_content()
+    stage = page.locator("[data-testid=diagram-orchestration]")
+    assert stage.locator("[data-node^='agent:']").count() == 6 and stage.locator("[data-node='orch']").count() == 1
+    assert stage.locator("[data-node^='layer:']").count() >= 5
+    assert stage.locator("path[data-edge^='orch-agent:']").count() == 5
+    assert stage.locator("path[data-edge='orch-agent:investigator']").count() == 1 and stage.locator("path[data-edge='orch-agent:approval']").count() == 0
+    assert "No SAP write was made" in page.locator(".aw-answer").text_content()
+    assert "start_investigation" in page.locator(".aw-log").text_content() or "Added by the orchestrator" in page.locator(".aw-log").text_content()
+    assert page.locator(".aw-log li").count() == 7
+    page.get_by_role("button", name="Select Evidence agent").click()
+    detail = page.locator(".aw-detail").inner_text()
+    assert "evidence-mcp" in detail and "tools/call" in detail and "SAP backends" in page.locator(".aw-detail").text_content()
+    page.get_by_role("button", name="Open the live architecture").click()
+    assert decision_selected("Live run")
     assert "Evidence agent" in page.locator(".agent-ribbon").inner_text()
-    page.get_by_role("button", name="Back to Close & reconcile").click()
-    assert tabs.nth(0).get_attribute("aria-selected") == "true"
-    page.get_by_role("button", name="Open Governance & route agent").click()
+    page.get_by_role("button", name="Back to Agents").click()
+    assert tabs.nth(1).get_attribute("aria-selected") == "true"
+    page.get_by_role("button", name="Select Governance & route agent").click()
+    page.get_by_role("button", name="Open responsibilities & governance").click()
     assert decision_selected("Responsibilities")
     page.get_by_role("button", name="Dismiss agent banner").click()
-    tabs.nth(0).click()
+    tabs.nth(1).click()
+    assert page.locator(".aw-catalog").text_content().count("collect_evidence") >= 1
+    assert "sap.post" in page.locator(".aw-catalog").text_content()
     page.get_by_label("Ask the orchestrator").fill("Post a journal entry to SAP for November 2026")
     page.get_by_role("button", name="Run plan").click()
-    page.locator(".agent-plan-note.blocked").wait_for(timeout=60000)
-    assert "not an agent action" in page.locator(".agent-plan-note").inner_text()
-    assert page.locator(".agent-plan ol li").count() == 0
+    page.locator(".aw-plan-state.blocked").wait_for(timeout=60000)
+    assert "not an agent action" in page.locator(".aw-plan-state").first.text_content()
+    page.get_by_label("Ask the orchestrator").fill("hello")
+    page.get_by_role("button", name="Run plan").click()
+    page.locator(".aw-plan-state.needs_input").wait_for(timeout=60000)
+    assert "Which would you like" in page.locator(".aw-answer").text_content()
+    page.get_by_label("Ask the orchestrator").fill("approve the proposal")
+    page.get_by_role("button", name="Run plan").click()
+    page.locator(".aw-plan-state.blocked").wait_for(timeout=60000)
+    assert "person's decision" in page.locator(".aw-answer").text_content()
+    tabs.nth(0).click()
 
     # Execution simulator: detailed reconciliation report and scenario lab (restores the baseline at the end).
     tabs.nth(0).click()
@@ -98,11 +127,11 @@ def check(page, url, hosted):
     close_report()
 
     # Both detail views are available through contextual links and return to a main view.
-    tabs.nth(1).click()
+    go_decision("Live run")
     page.get_by_role("button", name="Inspect event proof in Evidence").click()
     page.locator(".detail-return-bar").wait_for()
     page.locator(".detail-return-bar button").click()
-    assert tabs.nth(1).get_attribute("aria-selected") == "true"
+    assert decision_selected("Live run")
     page.get_by_role("button", name="Review open architecture questions").click()
     page.locator(".question-card").first.wait_for()
     page.locator(".detail-return-bar button").click()
@@ -219,7 +248,7 @@ def check(page, url, hosted):
     assert tabs.nth(2).get_attribute("aria-selected") == "true"
 
     # Live architecture: generated vector topology with the shared zoom viewer and clickable zones.
-    tabs.nth(1).click()
+    go_decision("Live run")
     viewer = page.locator(".route-viewer")
     viewer.wait_for()
     # Technical details are hidden by default and shown on request.
@@ -245,7 +274,7 @@ def check(page, url, hosted):
     assert selected.get_attribute("stroke") == "#0A6ED1"
 
     if not hosted:
-        tabs.nth(1).click()
+        go_decision("Live run")
         page.get_by_role("button", name="Run architecture").click()
         page.get_by_role("heading", name="Case complete").wait_for(timeout=30000)
         assert int(page.locator(".flow-caption span").last.text_content().split()[0]) > 0
@@ -262,7 +291,7 @@ with sync_playwright() as playwright:
     for label, url, hosted, width in surfaces:
         page = browser.new_page(viewport={"width": width, "height": 900 if width == 1440 else 844})
         check(page, url, hosted)
-        print({"surface": label, "three_areas": "PASS", "agents_and_declutter": "PASS", "detailed_report_and_scenario_lab": "PASS", "mcp_governance": "PASS", "detailed_diagrams_zoom": "PASS", "detail_links": "PASS",
+        print({"surface": label, "entry_and_three_areas": "PASS", "agent_orchestration_graph": "PASS", "detailed_report_and_scenario_lab": "PASS", "mcp_governance": "PASS", "detailed_diagrams_zoom": "PASS", "detail_links": "PASS",
                "four_approach_tabs": "PASS", "seven_diagram_designs": "PASS", "no_desktop_scroll": "PASS", "page_errors": 0}, flush=True)
         page.context.close()
     browser.close()

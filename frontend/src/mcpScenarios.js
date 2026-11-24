@@ -324,7 +324,7 @@ export function renderTopology(t) {
     arrows.push(dx !== 0
       ? `<polygon points="${ex},${ey} ${ex - dx * s * 1.6},${ey - s * 0.7} ${ex - dx * s * 1.6},${ey + s * 0.7}" fill="${st.c}"/>`
       : `<polygon points="${ex},${ey} ${ex - s * 0.7},${ey - dy * s * 1.6} ${ex + s * 0.7},${ey - dy * s * 1.6}" fill="${st.c}"/>`);
-    labels.push([lx, ly, label, st.c]);
+    if (label) labels.push([lx, ly, label, st.c]);
   }
   parts.push(...arrows);
   // nodes

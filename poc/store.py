@@ -207,6 +207,8 @@ class Store:
 
     def emit(self,case_id:str,scenario:str,source:str,target:str,operation:str,actor:str,status:str,flow_type:str,direction:str,summary:dict|None=None,decision:str="n/a",parent:str|None=None,payload_hash:str|None=None,case_version:int|None=None,duration_ms:int=0):
         # Summaries are constructed by callers from allowlisted scalar fields.
+        agent_ctx=getattr(self.thread_state,"agent_ctx",None)
+        if agent_ctx: summary={**(summary or {}),**agent_ctx}
         if self.fixed_clock:
             stamp=datetime.fromisoformat(self.fixed_clock.replace("Z","+00:00"))+timedelta(milliseconds=self.clock_step)
             self.clock_step+=1
