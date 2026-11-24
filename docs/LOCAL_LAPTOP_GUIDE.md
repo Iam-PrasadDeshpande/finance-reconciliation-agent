@@ -1,0 +1,18 @@
+# Run the synthetic finance demo on a Windows laptop
+
+## Recommended: local web app
+
+1. Install an organization-approved Python 3.11 or newer and make its `py` launcher or `python` command available. Python 3.13 is the version used for this project's local checks.
+2. Copy `finance_reconciliation_local_windows.zip` to a writable folder on the laptop and extract **all** files. The archive contains the compiled UI; Node.js and Git are not required to run it.
+3. Double-click `Start Finance Demo.cmd`. On first launch it creates `.venv` and installs the small web runtime from `requirements-local.txt`. This needs access to an approved Python package index. Subsequent launches reuse the local environment.
+4. The browser opens at `http://127.0.0.1:8876/`. If it does not open automatically, enter that address in a browser on the same laptop. Keep the terminal window open during the demo; press **Ctrl+C** to stop it.
+
+The FastAPI mode stores synthetic cases in `poc_state.sqlite3` beside the extracted app. It binds only to `127.0.0.1`, so another device cannot browse it over the network. The app does not need a SAP, AWS, Google, Databricks or model account.
+
+To use a different port, open a terminal in the extracted folder and run `py -3 local_demo.py --port 8899`. If the corporate laptop does not allow local Python or package installation, ask IT for an approved Python runtime and access to the approved package index; no production credentials should be added to this demo.
+
+## Optional: local Streamlit mode
+
+Run `py -3 local_demo.py --mode streamlit --port 8502` from the extracted folder, or use `run_streamlit.ps1` where PowerShell scripts are allowed. This mode installs the larger `requirements.txt` set on first use. Open `http://127.0.0.1:8502/`. This is also local; it does not use Streamlit Community Cloud. Streamlit cases live only for the browser session, while the recommended FastAPI mode keeps its SQLite demo cases locally.
+
+The `run_poc.ps1` PowerShell script is an alternative to the double-click launcher. Neither mode requires Node.js at runtime. Node.js is only needed to rebuild the UI after editing frontend source.

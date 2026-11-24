@@ -1,11 +1,9 @@
 param([int]$Port = 8876)
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $PSScriptRoot
-if (-not (Test-Path -LiteralPath '.venv\Scripts\python.exe')) {
-    py -3.13 -m venv .venv
+if (Get-Command py -ErrorAction SilentlyContinue) {
+    & py -3 (Join-Path $PSScriptRoot 'local_demo.py') --mode web --port $Port
+} else {
+    & python (Join-Path $PSScriptRoot 'local_demo.py') --mode web --port $Port
 }
-$python = Join-Path $PSScriptRoot '.venv\Scripts\python.exe'
-& $python -m pip install -r requirements.lock
-if ($LASTEXITCODE -ne 0) { throw 'Dependency installation failed' }
-$env:POC_DB_PATH = Join-Path $PSScriptRoot 'poc_state.sqlite3'
-& $python -m poc.launcher --port $Port
+if ($LASTEXITCODE -ne 0) { throw "Local finance demo exited with code $LASTEXITCODE" }
