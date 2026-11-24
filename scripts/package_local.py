@@ -9,6 +9,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "release" / "finance_reconciliation_local_windows.zip"
 files = [
+    ROOT / "01_Check_Prerequisites.cmd",
+    ROOT / "02_Install_Local_Runtime.cmd",
+    ROOT / "03_Run_Local_Demo.cmd",
+    ROOT / "04_Verify_Local_Demo.cmd",
     ROOT / "Start Finance Demo.cmd",
     ROOT / "local_demo.py",
     ROOT / "run_poc.ps1",

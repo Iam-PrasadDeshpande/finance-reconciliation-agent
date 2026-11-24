@@ -11,13 +11,29 @@
       "sha256": "452d6ec1b1fc257299ab1cb209032229cf96b372461053f27dbc4ff2f64d262b",
       "bytes": 211
     },
+    "01_Check_Prerequisites.cmd": {
+      "sha256": "0a0dbfbdfb8a75dc84461d04e09d1a5eca8a0c6ab45e0b5841a23577c0419776",
+      "bytes": 117
+    },
+    "02_Install_Local_Runtime.cmd": {
+      "sha256": "838b2328ee9d4e6b30c604f67f91fffa3fc73da0032079f46da446fd0525eaad",
+      "bytes": 148
+    },
+    "03_Run_Local_Demo.cmd": {
+      "sha256": "f022141350260b05a3ef119247dd4386c487060b7efc7e4c191c8f45c66806fa",
+      "bytes": 198
+    },
+    "04_Verify_Local_Demo.cmd": {
+      "sha256": "5079dad19344a0b7fa45fd80b2981ec43dc55d756a95de967f7fd8b0908939ad",
+      "bytes": 142
+    },
     "README.md": {
-      "sha256": "779bc7213b525abbf828205dd682fc05697c431dbab3c1b03c66b0d1ff2235dc",
-      "bytes": 10525
+      "sha256": "1775bfd22d6b02d14578a0531803e17de973c5a4eb8dc9554e7f4ee1a777aaca",
+      "bytes": 10799
     },
     "Start Finance Demo.cmd": {
-      "sha256": "796570a896ccfa2e04bb11dbab912214ea4d93aabf04d22c635b019596d13513",
-      "bytes": 355
+      "sha256": "e414f99d52dea360037706f0027e5a99e7fba591155a25bf089458a69c334501",
+      "bytes": 415
     },
     "component_registry.yaml": {
       "sha256": "1287b6b0518cb8848d7b454e30193a6456d329cd4c198e61bbc8bb107d2eae01",
@@ -40,8 +56,8 @@
       "bytes": 4186
     },
     "docs/LOCAL_LAPTOP_GUIDE.md": {
-      "sha256": "5acc3729d15183ce6b27f56761797ddcac96c6a96a8ecb4f4bdc12fb148dea71",
-      "bytes": 2192
+      "sha256": "9a8e9cfc68f126a753ca00c9412104c8c49a0201405de3cf04e5760688c4637e",
+      "bytes": 2614
     },
     "docs/POC_LIMITATIONS.md": {
       "sha256": "b53813a30a83c07f3ef3613c89c253d76736a823ccd17946b2f486e3bccd056e",
@@ -236,8 +252,8 @@
       "bytes": 508
     },
     "local_demo.py": {
-      "sha256": "c0aa83ba271d42f2cf1dc379376db3cca37e022713075df064197f30e364148a",
-      "bytes": 2694
+      "sha256": "0378820930e65d34b8cd69a943baeed6ddc63a7c513d1a280900d81b7e61d83d",
+      "bytes": 4683
     },
     "poc/__init__.py": {
       "sha256": "e7eb79cdffca661a5dfb2c67446357e0c8db7f2dc2896ccf8151540879a041dc",
@@ -332,12 +348,12 @@
       "bytes": 3289
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "64b7c471b3b5f23510511091989421e740a4cb146ca5d1a05bb8162131d045ba",
-      "bytes": 472522
+      "sha256": "68e7821a5bd4d2666ddf7d90832e31231ebc794c1e75823572bb94cb55ec8909",
+      "bytes": 474603
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "5b3a5a7626403e32873bf04d60a2e6970c011399662dd4f0271ad3a0292036f6",
-      "bytes": 286513
+      "sha256": "e0a85be9bd580531fc33683d8e53284250f23dbe77050efb7f26a2ca3108ad98",
+      "bytes": 288718
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -364,8 +380,8 @@
       "bytes": 2616
     },
     "scripts/package_local.py": {
-      "sha256": "2f6415351a72f3c7f83bca8f0e02387cecb9e94e44591258525f6c9bfaf98dc1",
-      "bytes": 2064
+      "sha256": "a0b62567c5c2b79052ca23b6af95c04ce6448d3e3649cacc3d51c10ba5ee45dc",
+      "bytes": 2223
     },
     "scripts/package_streamlit.py": {
       "sha256": "a5de1fce866698bdbd8c4358e12b79a5ec62b01b1a849550627ca005ca93fbc3",
@@ -404,12 +420,12 @@
       "bytes": 4859
     },
     "static/finance_reconciliation_local_windows.zip": {
-      "sha256": "5b3a5a7626403e32873bf04d60a2e6970c011399662dd4f0271ad3a0292036f6",
-      "bytes": 286513
+      "sha256": "e0a85be9bd580531fc33683d8e53284250f23dbe77050efb7f26a2ca3108ad98",
+      "bytes": 288718
     },
     "streamlit_app.py": {
-      "sha256": "1d9371e26c0d95d204e0a2866c4a48b0bf4b0e2fc97dbee7d01ad54f77c75d51",
-      "bytes": 13343
+      "sha256": "400e7e6c334bf77a3cc009eba61ca0c549533d06f9e9ce17ae4b89a5654f2b94",
+      "bytes": 13349
     },
     "tests/test_poc.py": {
       "sha256": "116bd40d72a3ba5e94c0d3efe0e188ac0b6a9909c94bc6b5db95086cae6138ad",

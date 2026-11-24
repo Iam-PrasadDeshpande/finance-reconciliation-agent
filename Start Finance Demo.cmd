@@ -10,8 +10,11 @@ pause
 exit /b 1
 :use_py
 py -3 "%~dp0local_demo.py" %*
+set "RC=%errorlevel%"
 goto end
 :use_python
 python "%~dp0local_demo.py" %*
+set "RC=%errorlevel%"
 :end
-if errorlevel 1 pause
+if not "%RC%"=="0" pause
+exit /b %RC%

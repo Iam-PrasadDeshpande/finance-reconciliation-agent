@@ -26,6 +26,11 @@ from poc.route_playbooks import route_playbook_catalog
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "frontend" / "dist_streamlit"
 LOCAL_BUNDLE = ROOT / "static" / "finance_reconciliation_local_windows.zip"
+LOCAL_BUNDLE_INFO = {
+    "url": "/app/static/finance_reconciliation_local_windows.zip",
+    "bytes": LOCAL_BUNDLE.stat().st_size,
+    "sha256": hashlib.sha256(LOCAL_BUNDLE.read_bytes()).hexdigest(),
+} if LOCAL_BUNDLE.is_file() else None
 BUILD_VERSION = hashlib.sha256(
     (BUILD / "finance_architecture.js").read_bytes()
     + (BUILD / "finance_architecture.css").read_bytes()
@@ -200,11 +205,7 @@ def show_app():
         "events": architecture_events(store.events(trace_id)) if trace_id else [],
         "decision_questions": question_catalog(),
         "route_playbooks": route_playbook_catalog(),
-        "local_bundle": {
-            "url": "/app/static/finance_reconciliation_local_windows.zip",
-            "bytes": LOCAL_BUNDLE.stat().st_size,
-            "sha256": hashlib.sha256(LOCAL_BUNDLE.read_bytes()).hexdigest(),
-        } if LOCAL_BUNDLE.is_file() else None,
+        "local_bundle": LOCAL_BUNDLE_INFO,
         "decision_run": get_decision_run(store, st.session_state.finance_decision_run_id) if st.session_state.finance_decision_run_id else None,
         "response": st.session_state.finance_response,
         "response_nonce": st.session_state.finance_response_nonce,

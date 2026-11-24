@@ -14,6 +14,8 @@ The original v2 POC prompt established the synthetic architecture and finance co
 
 `release/finance_reconciliation_local_windows.zip` is a clean Windows laptop bundle. Extract it to a writable folder and double-click `Start Finance Demo.cmd`. The first launch creates a local Python environment and installs the small `requirements-local.txt` web runtime; later launches reuse it. The browser opens the FastAPI version at `http://127.0.0.1:8876/`. The included `frontend/dist` assets work without Node or Git at runtime. See [local laptop guide](docs/LOCAL_LAPTOP_GUIDE.md) for prerequisites, port changes and the offline/package-index constraint. To rebuild the frontend after source edits, run `npm ci` and `npm run build` in `frontend`.
 
+For a controlled presentation setup, the ZIP also includes four numbered Windows scripts: `01_Check_Prerequisites.cmd`, `02_Install_Local_Runtime.cmd`, `03_Run_Local_Demo.cmd` and `04_Verify_Local_Demo.cmd`. Run verification in a second window while the server stays open.
+
 The hosted Streamlit My Home page also offers **Download Windows bundle**. Streamlit serves the versioned ZIP committed with the app; the displayed size and SHA-256 prefix help identify the download. This link appears only when the hosted bundle exists.
 
 `py -3 local_demo.py --mode streamlit` or `run_streamlit.ps1` starts the **local** Streamlit version at `http://127.0.0.1:8502/`. It uses the same Node-built UI as a Streamlit custom component and an isolated in-memory SQLite fixture per viewer session. The compiled `frontend/dist_streamlit` assets are included so Streamlit Community Cloud will not need a Node build step. `requirements.txt` contains the Python dependencies for that entrypoint.

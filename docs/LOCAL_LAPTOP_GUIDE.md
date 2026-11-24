@@ -4,8 +4,14 @@
 
 1. Install an organization-approved Python 3.11 or newer and make its `py` launcher or `python` command available. Python 3.13 is the version used for this project's local checks.
 2. On the hosted demo's **My Home** page, select **Download Windows bundle**. Copy the ZIP to a writable folder on the laptop and extract **all** files. The archive contains the compiled UI; Node.js and Git are not required to run it.
-3. Double-click `Start Finance Demo.cmd`. On first launch it creates `.venv` and installs the small web runtime from `requirements-local.txt`. This needs access to an approved Python package index. Subsequent launches reuse the local environment.
-4. The browser opens at `http://127.0.0.1:8876/`. If it does not open automatically, enter that address in a browser on the same laptop. Keep the terminal window open during the demo; press **Ctrl+C** to stop it.
+3. Run these standalone scripts in order from the extracted folder:
+   - `01_Check_Prerequisites.cmd` confirms Python and the compiled UI files.
+   - `02_Install_Local_Runtime.cmd` creates `.venv` and installs the small web runtime from `requirements-local.txt`. This first setup needs an approved Python package index.
+   - `03_Run_Local_Demo.cmd` starts the local server. Keep this window open.
+   - In a **second window**, run `04_Verify_Local_Demo.cmd`. It confirms the page, health endpoint, 12 periods, six decisions and three routes.
+4. The browser opens at `http://127.0.0.1:8876/`. If it does not open automatically, enter that address in a browser on the same laptop. Press **Ctrl+C** in the Step 03 window to stop it.
+
+`Start Finance Demo.cmd` remains a one-click alternative. It combines setup and start, so the numbered scripts are optional when you want a quick demo.
 
 The FastAPI mode stores synthetic cases in `poc_state.sqlite3` beside the extracted app. It binds only to `127.0.0.1`, so another device cannot browse it over the network. The app does not need a SAP, AWS, Google, Databricks or model account.
 
