@@ -495,3 +495,12 @@ def test_investigation_api_and_chat_return_trace(env,monkeypatch):
     assert record["status"]=="action_proposed"
     resolved=client.post(f"/api/investigations/{investigation_id}/reprocess",json={"operator_id":"finance.operator"}).json()
     assert resolved["after"]["variance"]["amount"]=="0"
+
+
+def test_out_of_range_period_and_posting_request_are_refused(tmp_path):
+    parsed, assumed, follow_up = request_for_demo("Reconcile Dec 2030", {"period": "2026-01"})
+    assert parsed is None and "outside the 12-month synthetic history" in follow_up
+    parsed, _, follow_up = request_for_demo("Reconcile 2027-03", {"period": "2026-01"})
+    assert parsed is None and "2027-03" in follow_up
+    answer = answer_follow_up(Store(tmp_path / "refuse.sqlite3"), None, "Post a journal entry to SAP for Nov 2026", None, "S1")
+    assert answer["kind"] == "posting_refused" and "does not post to SAP" in answer["answer"]

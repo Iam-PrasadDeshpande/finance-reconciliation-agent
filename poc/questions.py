@@ -54,6 +54,11 @@ def request_for_demo(message: str, scope: dict | None = None) -> tuple[dict | No
     context = {**DEFAULT_SCOPE, **(scope or {})}
     text = message.lower()
     period = mentioned_period(text)
+    if not period:
+        months = "january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec"
+        explicit = re.search(rf"\b(?:20\d{{2}}-(?:0[1-9]|1[0-2])|(?:{months})\s+20\d{{2}})\b", text)
+        if explicit:
+            return None, [], f"{message[explicit.start():explicit.end()]} is outside the 12-month synthetic history. Choose December 2025 through November 2026."
     period = period or (scope or {}).get("period")
     if not period:
         return None, [], "Which synthetic month should I reconcile? Choose December 2025 through November 2026."
@@ -88,6 +93,9 @@ def answer_follow_up(store, approval, message: str, case_id: str | None, scenari
     if case and case["status"] != "complete":
         answer = "This synthetic case is still processing. Its architecture trace is available; ask again when the report is complete."
         kind, status, extra = "case_status", "pending", {}
+    elif re.match(r"^(?:please\s+|can you\s+)?(?:post|book|write|enter|create)\b.*\b(?:journal|entry|sap|posting)\b", text):
+        answer = "This demo does not post to SAP. Its SAP access is simulated and read-only; a local synthetic journal can exist only after a comparable case, a proposal and a separate finance approval."
+        kind, status, extra = "posting_refused", "refused", {}
     elif any(word in text for word in ("propose", "adjust")):
         if not case:
             answer = "Run a reconciliation first. A proposal can be created only from a completed, comparable synthetic case with a nonzero variance."

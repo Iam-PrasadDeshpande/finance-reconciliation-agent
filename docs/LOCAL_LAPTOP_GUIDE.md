@@ -15,7 +15,7 @@
 
 The FastAPI mode stores synthetic cases in `poc_state.sqlite3` beside the extracted app. It binds only to `127.0.0.1`, so another device cannot browse it over the network. The app does not need a SAP, AWS, Google, Databricks or model account.
 
-The current interface has three primary tabs: **Execution simulator**, **Live architecture**, and **Architecture pros & cons**. The third tab has **MCP routes** and **Agent hosting** views. Evidence and architecture questions open from links when needed. All platform and SAP connections remain simulated.
+The current interface has three primary tabs: **Execution simulator**, **Live architecture**, and **Architecture pros & cons**. The third tab is a single-screen overview: four MCP views (**S1**, **S2**, **S3** and **Compare all**) above four agent-hosting candidates (approved enterprise agent platform, SAP BTP pro-code, Microsoft Foundry hosted agent and Joule Studio). Seven landscape architecture diagrams open as dialogs from the route and hosting cards; press **Esc** or **Close** to dismiss them. Handoff, proof, evidence and architecture questions also open as dialogs. S1, S2 and S3 are simulated or proposed designs, not approved tenant architecture, and all platform and SAP connections remain simulated. The demo's SAP access is read-only; asking the assistant to post a journal is refused.
 
 To use a different port, open a terminal in the extracted folder and run `py -3 local_demo.py --port 8899`. If the corporate laptop does not allow local Python or package installation, ask IT for an approved Python runtime and access to the approved package index; no production credentials should be added to this demo.
 
