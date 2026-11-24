@@ -5,6 +5,7 @@ import './detailed-diagrams.css';
 
 // The diagram canvas is the reference deck's slide: 1200 x 840 points.
 const W=1200,H=840,MAX_SCALE=12;
+export const PNG_SCALES=[2,4];
 const clamp=(value,low,high)=>Math.min(high,Math.max(low,value));
 
 const DIAGRAMS={
@@ -35,7 +36,7 @@ const OPEN_ITEMS=[
 function markup(svg,uid){return svg.replace('aria-labelledby="t d"',`aria-labelledby="${uid}-t ${uid}-d"`).replace('id="t"',`id="${uid}-t"`).replace('id="d"',`id="${uid}-d"`)}
 function svgFile(svg){return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${svg}`],{type:'image/svg+xml'})}
 
-function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact}){
+export function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact}){
   const viewport=useRef(null),wrapper=useRef(null),viewRef=useRef(view),fitRef=useRef({s:0.5,x:0,y:0}),fitted=useRef(true),pointers=useRef(new Map()),pinch=useRef(null);
   viewRef.current=view;
   const onViewRef=useRef(onView),onFitRef=useRef(onFit);
@@ -123,7 +124,12 @@ function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact}){
     try{wrapper.current?.requestFullscreen?.().catch(()=>{})}catch{/* fullscreen is optional; the expanded overlay still works */}
   };
   const openFullSize=()=>{const url=URL.createObjectURL(svgFile(diagram.svg));window.open(url,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000)};
-  const download=()=>{const url=URL.createObjectURL(svgFile(diagram.svg));const link=document.createElement('a');link.href=url;link.download=`finance-architecture-${diagram.id.toLowerCase()}.svg`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+  const download=()=>{const url=URL.createObjectURL(svgFile(diagram.svg));const link=document.createElement('a');link.href=url;link.download=`${diagram.file||`finance-architecture-${diagram.id.toLowerCase()}`}.svg`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+  const downloadPng=scale=>{
+    const url=URL.createObjectURL(svgFile(diagram.svg));const image=new Image();
+    image.onload=()=>{const canvas=document.createElement('canvas');canvas.width=W*scale;canvas.height=H*scale;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,canvas.width,canvas.height);URL.revokeObjectURL(url);canvas.toBlob(blob=>{if(!blob)return;const href=URL.createObjectURL(blob);const link=document.createElement('a');link.href=href;link.download=`${diagram.file||`finance-architecture-${diagram.id.toLowerCase()}`}-${scale}x.png`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(href),1000)},'image/png')};
+    image.onerror=()=>URL.revokeObjectURL(url);image.src=url;
+  };
   const percent=Math.round((view?.s||0)*100);
   const transform=view?`translate(${view.x}px,${view.y}px) scale(${view.s})`:'none';
   return <div ref={wrapper} className={`dd-viewer ${expanded?'expanded':''} ${compact?'compact':''}`}>
@@ -138,6 +144,7 @@ function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact}){
         <button type="button" onClick={toggleExpand} aria-label={expanded?`Exit expanded ${diagram.id} view`:`Expand ${diagram.id} to full screen`} aria-pressed={expanded}>{expanded?'Close ✕':'Expand ⤢'}</button>
         <button type="button" onClick={openFullSize} title="Open the vector SVG in a new browser tab">Open full-size ↗</button>
         <button type="button" onClick={download} title="Download the vector SVG">SVG ⤓</button>
+        {diagram.png&&PNG_SCALES.map(scale=><button type="button" key={scale} onClick={()=>downloadPng(scale)} aria-label={`Download ${diagram.id} as ${scale}x PNG`} title={`Download a ${W*scale} x ${H*scale} px PNG`}>PNG {scale}× ⤓</button>)}
       </div>
     </div>
     <div ref={viewport} className="dd-viewport" tabIndex={0} role="group" aria-label={`${diagram.title} diagram. Scroll or pinch to zoom, drag to pan. Keys: plus and minus zoom, arrow keys pan, 0 resets, 1 actual size.`}
