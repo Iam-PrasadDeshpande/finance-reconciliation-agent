@@ -10,7 +10,24 @@ import hashlib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+import sys
+
 import streamlit as st
+
+
+def _reload_changed_poc_modules(root: Path) -> bool:
+    """Streamlit keeps imported modules cached across reruns, so after a hosted redeploy an edited
+    poc module could stay stale while new files loaded. Drop every poc module when the sources change."""
+    stamp = hashlib.sha256(b"".join(path.read_bytes() for path in sorted(root.glob("*.py")))).hexdigest()
+    if getattr(sys, "_finance_poc_stamp", None) == stamp:
+        return False
+    for name in [name for name in sys.modules if name == "poc" or name.startswith("poc.")]:
+        del sys.modules[name]
+    sys._finance_poc_stamp = stamp
+    return True
+
+
+_reload_changed_poc_modules(Path(__file__).resolve().parent / "poc")
 
 from poc.approval import ApprovalSimulator
 from poc.architecture_view import architecture_events, architecture_registry
