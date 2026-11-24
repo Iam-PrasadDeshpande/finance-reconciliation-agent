@@ -25,6 +25,7 @@ from .intents import parse_reconciliation
 from .questions import answer_follow_up, request_for_demo, mentioned_period, trace_question
 from .architecture_view import architecture_registry, architecture_events
 from .decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
+from .route_playbooks import route_playbook_catalog
 from .store import Denied,Store
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -127,7 +128,7 @@ def architecture_question_run(run_id:str):
 @app.get("/api/bootstrap")
 def bootstrap():
     return {"history":history(),"cases":store.cases()[:20],"agent":foundry.active(),
-            "architecture":architecture_registry(),"decision_questions":question_catalog(),"simulation":True}
+            "architecture":architecture_registry(),"decision_questions":question_catalog(),"route_playbooks":route_playbook_catalog(),"simulation":True}
 
 @app.get("/api/agents")
 def agents(): return {"active":foundry.active()}

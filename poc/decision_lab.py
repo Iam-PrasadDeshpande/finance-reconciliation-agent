@@ -9,6 +9,7 @@ import time
 import uuid
 
 from .store import Denied, Store
+from .route_playbooks import QUESTION_DEPENDENCIES
 
 
 QUESTIONS = [
@@ -104,7 +105,7 @@ CONTROL_MATRIX = [
 
 
 def question_catalog() -> list[dict]:
-    return QUESTIONS
+    return [{**item, "dependencies": QUESTION_DEPENDENCIES[item["id"]]} for item in QUESTIONS]
 
 
 def build_run(question_id: str, route: str, probe: str) -> dict:

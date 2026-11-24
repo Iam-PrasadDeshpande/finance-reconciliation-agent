@@ -12,12 +12,35 @@ function FlowNode({step,selected,processing,onSelect}){
   </button>;
 }
 
-export default function ArchitectureQuestions({questions=[],focus,run,onRun,busy,onOpenEvidence}){
+function RoutePlanDialog({playbooks,question,initialRoute,onClose}){
+  const [activeRoute,setActiveRoute]=useState(initialRoute);
+  const [activeStep,setActiveStep]=useState(0);
+  const playbook=playbooks[activeRoute];
+  const stage=playbook?.steps?.[activeStep];
+  useEffect(()=>{const close=event=>{if(event.key==='Escape')onClose()};window.addEventListener('keydown',close);return()=>window.removeEventListener('keydown',close)},[onClose]);
+  return <div className="route-plan-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget)onClose()}}>
+    <section role="dialog" aria-modal="true" aria-label="Gateway implementation plan" className="route-plan-dialog">
+      <header><div><span className="eyebrow">ARCHITECTURE IMPLEMENTATION PLAN · CANDIDATE ONLY</span><h2>What must be built and proved</h2><p>Choose a scenario and a handoff to inspect its configuration, dependency and acceptance proof.</p></div><button type="button" onClick={onClose} aria-label="Close implementation plan">Close ×</button></header>
+      <nav className="route-plan-tabs" aria-label="Gateway scenarios">{ROUTES.map(item=><button type="button" key={item.id} className={activeRoute===item.id?'active':''} onClick={()=>{setActiveRoute(item.id);setActiveStep(0)}} aria-pressed={activeRoute===item.id}>{item.label}</button>)}</nav>
+      {playbook?<><div className="route-plan-summary"><strong>{playbook.title}</strong><span>{playbook.status}</span><p>{playbook.path}</p><small><b>Hosting:</b> {playbook.hosting}</small></div>
+        <div className="route-plan-body">
+          <div className="route-plan-sequence"><h3>Build sequence</h3>{playbook.steps.map((item,index)=><button type="button" key={item.handoff} className={activeStep===index?'active':''} onClick={()=>setActiveStep(index)} aria-pressed={activeStep===index}><em>{String(index+1).padStart(2,'0')}</em><span>{item.handoff}</span><b aria-hidden="true">›</b></button>)}</div>
+          <div className="route-plan-detail"><span className="eyebrow">HANDOFF {activeStep+1} OF {playbook.steps.length}</span><h3>{stage?.handoff}</h3><dl><div><dt>Configure</dt><dd>{stage?.configure}</dd></div><div><dt>Depends on</dt><dd>{stage?.dependency}</dd></div><div><dt>Proof to accept</dt><dd>{stage?.proof}</dd></div><div><dt>Accountable team</dt><dd>{stage?.owner}</dd></div></dl></div>
+          <aside className="route-plan-decisions"><h3>Open decisions for this route</h3><ol>{playbook.decisions.map(item=><li key={item}>{item}</li>)}</ol>{question&&<><h3>For this question: {question.title}</h3><ul>{(question.dependencies||[]).map(item=><li key={item}>{item}</li>)}</ul><strong>Next: {question.next_action}</strong></>}</aside>
+        </div>
+        <footer><span>Reference designs only. Hosting, credentials, identity and SAP authorization require tenant proof and owner approval.</span><div>{playbook.sources.map(source=><a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.label} ↗</a>)}</div></footer>
+      </>:<p className="empty-inline">No route plan is available.</p>}
+    </section>
+  </div>;
+}
+
+export default function ArchitectureQuestions({questions=[],routePlaybooks={},focus,run,onRun,busy,onOpenEvidence}){
   const [selectedId,setSelectedId]=useState(run?.question_id||null);
   const [route,setRoute]=useState(run?.route||'S3');
   const [probe,setProbe]=useState(run?.probe||'');
   const [selectedSeq,setSelectedSeq]=useState(null);
   const [followLive,setFollowLive]=useState(true);
+  const [planOpen,setPlanOpen]=useState(false);
   const lastFocusNonce=useRef(null);
   const question=questions.find(item=>item.id===selectedId);
   const visibleRun=run?.question_id===selectedId?run:null;
@@ -61,6 +84,7 @@ export default function ArchitectureQuestions({questions=[],focus,run,onRun,busy
           <label>Route<select aria-label="Architecture route" value={route} onChange={event=>setRoute(event.target.value)}>{ROUTES.map(item=><option key={item.id} value={item.id}>{item.label}</option>)}</select></label>
           <label>Probe<select aria-label="Architecture probe" value={probe} onChange={event=>setProbe(event.target.value)}>{question.probes.map(item=><option key={item.id} value={item.id}>{item.label}</option>)}</select></label>
           <button type="button" className="primary" onClick={rerun} disabled={busy}>{busy?'Running…':'Run selected probe'}</button>
+          <button type="button" className="route-plan-open" onClick={()=>setPlanOpen(true)}>Hosting & dependencies →</button>
         </div>}
       </section>
 
@@ -88,5 +112,6 @@ export default function ArchitectureQuestions({questions=[],focus,run,onRun,busy
         <button type="button" className="lab-export" onClick={()=>onOpenEvidence?.(selected?.seq)}>Open decision evidence →</button>
       </>:<p className="empty-inline">Select an open question to see its decision owner and required architecture alignment. Control details are in Evidence.</p>}
     </aside>
+    {planOpen&&<RoutePlanDialog playbooks={routePlaybooks} question={question} initialRoute={route} onClose={()=>setPlanOpen(false)}/>}
   </main>;
 }

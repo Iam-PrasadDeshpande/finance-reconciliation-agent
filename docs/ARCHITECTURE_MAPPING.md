@@ -49,6 +49,8 @@ The fourth tab turns six open discussion questions into synthetic runs: SAP-owne
 
 S1 and S2 remain the v7 gateway alternatives. **S3 is a candidate question for architecture review**, not an approved extension of that deck or a live integration. It represents AgentCore Runtime → AgentCore Gateway → SAP Apigee MCP → SAP Integration Suite → conditional Cloud Connector → backend role/API. The Foundry registry appears in a separate design-time prerequisite lane, not in the runtime request path. The identity and control probes can deny a run at registration, gateway target/caller, approval or SAP backend role. Even a completed run is labelled SIMULATED; no step proves Entra exchange, Apigee interoperation, SAP principal propagation or tenant authorization.
 
+The **Hosting & dependencies** dialog supplies a route-specific implementation contract from `poc.route_playbooks`. S1 requires SAP to expose and secure an Apigee MCP endpoint for direct agent access. S2 requires an AgentCore Gateway target for an approved SAP API or adapter; its target type and identity model remain open. S3 requires an Apigee MCP Discovery Proxy, an externally reachable MCP URL configured as an AgentCore Gateway MCP-server target, compatible protocol and outbound OAuth, a tool listing/synchronization choice, a gateway control matrix and an end-to-end SAP identity proof. Each handoff names its configuration, prerequisite, owner and nonproduction acceptance proof. Question-specific dependencies and route decisions remain OPEN until the named teams approve them and tenant evidence exists. The public vendor links in that dialog are design references, not proof of the proposed tenant configuration.
+
 ## S1 and S2 sequences
 
 ```mermaid

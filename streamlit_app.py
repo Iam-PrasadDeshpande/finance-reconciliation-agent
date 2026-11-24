@@ -21,6 +21,7 @@ from poc.questions import answer_follow_up, request_for_demo, mentioned_period, 
 from poc.runtime import RuntimeSimulator
 from poc.store import Store
 from poc.decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
+from poc.route_playbooks import route_playbook_catalog
 
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "frontend" / "dist_streamlit"
@@ -197,6 +198,7 @@ def show_app():
         "history_detail": store.history_detail(current["scope"]["period"]) if current and current.get("scope",{}).get("period") in store.available_periods() else None,
         "events": architecture_events(store.events(trace_id)) if trace_id else [],
         "decision_questions": question_catalog(),
+        "route_playbooks": route_playbook_catalog(),
         "decision_run": get_decision_run(store, st.session_state.finance_decision_run_id) if st.session_state.finance_decision_run_id else None,
         "response": st.session_state.finance_response,
         "response_nonce": st.session_state.finance_response_nonce,

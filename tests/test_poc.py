@@ -18,6 +18,7 @@ from poc.questions import answer_follow_up, request_for_demo
 from poc.architecture_view import architecture_events, architecture_registry
 from poc.investigation import InvestigationSimulator
 from poc.decision_lab import question_catalog, build_run, start_run, advance_run, get_run
+from poc.route_playbooks import route_playbook_catalog
 
 @pytest.fixture
 def env(tmp_path):
@@ -34,6 +35,7 @@ def test_architecture_decision_catalog_and_combined_route_are_open():
     catalog = question_catalog()
     assert len(catalog) == 6
     assert all(item["next_action"] and item["owner"] and len(item["gates"]) == 3 for item in catalog)
+    assert all(len(item["dependencies"]) >= 3 for item in catalog)
     run = build_run("sap_mcp_hosting", "S3", "onboarded")
     names = [step["component"] for step in run["steps"]]
     assert names.index("AgentCore Gateway") < names.index("SAP Apigee MCP") < names.index("SAP Integration Suite") < names.index("SAP backend role")
@@ -42,6 +44,15 @@ def test_architecture_decision_catalog_and_combined_route_are_open():
     assert run["route_status"] == "Unapproved candidate"
     assert run["decision_status"].startswith("OPEN")
     assert all("1000" not in str(step) and "ghp_" not in str(step) for step in run["steps"])
+
+
+def test_route_hosting_playbooks_cover_all_three_cases():
+    playbooks = route_playbook_catalog()
+    assert set(playbooks) == {"S1", "S2", "S3"}
+    assert all(len(item["steps"]) >= 5 and item["decisions"] and item["sources"] for item in playbooks.values())
+    assert all(all(stage["configure"] and stage["dependency"] and stage["proof"] and stage["owner"] for stage in item["steps"]) for item in playbooks.values())
+    assert "AgentCore Gateway → SAP Apigee MCP endpoint" in playbooks["S3"]["path"]
+    assert "Unapproved" in playbooks["S3"]["status"]
 
 
 @pytest.mark.parametrize("question,probe,denied_at", [
