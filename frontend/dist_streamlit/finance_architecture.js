@@ -10634,7 +10634,7 @@ function be({ open: e, onToggle: t, onNavigate: n }) {
 		})]
 	});
 }
-function xe({ questions: e, periodCount: t, onOpenApp: n, onOpenDecision: r, onOpenQuestions: i }) {
+function xe({ questions: e, periodCount: t, localBundle: n, onOpenApp: r, onOpenDecision: i, onOpenQuestions: a }) {
 	return /* @__PURE__ */ (0, x.jsxs)("main", {
 		className: "launchpad-content",
 		"aria-label": "Finance My Home",
@@ -10667,7 +10667,7 @@ function xe({ questions: e, periodCount: t, onOpenApp: n, onOpenDecision: r, onO
 					/* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
 						className: "launchpad-app-tile",
-						onClick: n,
+						onClick: r,
 						"aria-label": "Open Finance Reconciliation Agent",
 						children: [/* @__PURE__ */ (0, x.jsx)("span", {
 							className: "launchpad-app-icon",
@@ -10685,6 +10685,25 @@ function xe({ questions: e, periodCount: t, onOpenApp: n, onOpenDecision: r, onO
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "launchpad-app-facts",
 						children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: t }), /* @__PURE__ */ (0, x.jsx)("span", { children: "close periods" })] }), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "2" }), /* @__PURE__ */ (0, x.jsx)("span", { children: "simulated routes" })] })]
+					}),
+					n && /* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "launchpad-download",
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("strong", { children: "Present on your laptop" }),
+							/* @__PURE__ */ (0, x.jsx)("p", { children: "Download the local Windows demo. Python is needed on first launch." }),
+							/* @__PURE__ */ (0, x.jsx)("a", {
+								href: n.url,
+								download: "finance_reconciliation_local_windows.zip",
+								"aria-label": "Download local Windows demo bundle",
+								children: "Download Windows bundle ↓"
+							}),
+							/* @__PURE__ */ (0, x.jsxs)("small", { children: [
+								Math.round(n.bytes / 1024),
+								" KB · SHA-256 ",
+								n.sha256.slice(0, 12),
+								"…"
+							] })
+						]
 					})
 				]
 			}), /* @__PURE__ */ (0, x.jsxs)("section", {
@@ -10704,7 +10723,7 @@ function xe({ questions: e, periodCount: t, onOpenApp: n, onOpenDecision: r, onO
 						/* @__PURE__ */ (0, x.jsx)("p", { children: "Choose a question to see its component flow, decision owner and required proof." })
 					] }), /* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
-						onClick: i,
+						onClick: a,
 						children: [
 							"Review all ",
 							e.length || 6,
@@ -10716,7 +10735,7 @@ function xe({ questions: e, periodCount: t, onOpenApp: n, onOpenDecision: r, onO
 					children: [e.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
 						className: "launchpad-decision-row",
-						onClick: () => r(e.id),
+						onClick: () => i(e.id),
 						children: [
 							/* @__PURE__ */ (0, x.jsx)("span", {
 								className: "launchpad-decision-number",
@@ -11512,6 +11531,7 @@ function we({ bridge: e }) {
 			/* @__PURE__ */ (0, x.jsx)(xe, {
 				questions: n?.decision_questions || [],
 				periodCount: st?.available_periods?.length || 12,
+				localBundle: n?.local_bundle,
 				onOpenApp: () => {
 					a("business"), s("app");
 				},

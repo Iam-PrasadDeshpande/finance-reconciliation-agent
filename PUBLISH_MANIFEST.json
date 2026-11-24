@@ -8,12 +8,12 @@
       "bytes": 141
     },
     ".streamlit/config.toml": {
-      "sha256": "c38a74a173ad4cabdc841f373198b37fb5d4bec7b835d0272dd1a72742e98bbb",
-      "bytes": 174
+      "sha256": "452d6ec1b1fc257299ab1cb209032229cf96b372461053f27dbc4ff2f64d262b",
+      "bytes": 211
     },
     "README.md": {
-      "sha256": "5c228ddb721c028ebe4e99421ff1973d71c02aea057ca9eb518e9ef5adaee7bf",
-      "bytes": 10270
+      "sha256": "779bc7213b525abbf828205dd682fc05697c431dbab3c1b03c66b0d1ff2235dc",
+      "bytes": 10525
     },
     "Start Finance Demo.cmd": {
       "sha256": "796570a896ccfa2e04bb11dbab912214ea4d93aabf04d22c635b019596d13513",
@@ -40,8 +40,8 @@
       "bytes": 4186
     },
     "docs/LOCAL_LAPTOP_GUIDE.md": {
-      "sha256": "e24aab883251a6ba827a177ee5493c3823ac3640263e8f29b20fe0cf7b55881a",
-      "bytes": 2152
+      "sha256": "5acc3729d15183ce6b27f56761797ddcac96c6a96a8ecb4f4bdc12fb148dea71",
+      "bytes": 2192
     },
     "docs/POC_LIMITATIONS.md": {
       "sha256": "b53813a30a83c07f3ef3613c89c253d76736a823ccd17946b2f486e3bccd056e",
@@ -127,6 +127,10 @@
       "sha256": "d68616d40cbfcdc4431688ed7384d0ceb7ba8b74e364e03aa74b7cf40e06fcd2",
       "bytes": 128942
     },
+    "docs/evidence/ux_local_bundle_download.png": {
+      "sha256": "18f6b5b0f6fcc7f8204df75e0bba65b3283b2e22058678aea726174f0add367f",
+      "bytes": 132456
+    },
     "docs/evidence/ux_route_hosting_plan.png": {
       "sha256": "89867b2806a712e1ea58c9ab76736508e037c219d69dd76df4b958473af15212",
       "bytes": 138738
@@ -135,25 +139,25 @@
       "sha256": "924f4c9ae85601257faf6cda7c1ea201144dce2969cbea74de58440e82c6b228",
       "bytes": 42858
     },
-    "frontend/dist/assets/index-BR4eb28L.js": {
-      "sha256": "276faffca1346933e1d53eb453cb8262b96e77c2665278ba9dcb97db37d0eaa7",
-      "bytes": 301619
+    "frontend/dist/assets/index-D15fHnuE.css": {
+      "sha256": "0d6c74f900773767f341f8a382f596e2dac78153fa219b2957852d7792bb8902",
+      "bytes": 85790
     },
-    "frontend/dist/assets/index-CwmZcazZ.css": {
-      "sha256": "b7273a084c21ef69ca295afa1798723771ff6ab0c8d69d4892ebae0024068370",
-      "bytes": 85161
+    "frontend/dist/assets/index-DrLQLdtg.js": {
+      "sha256": "80cad5ad4bda23b82cff03f507d8619ae30bef6e52e64fbafd52292be9b783e6",
+      "bytes": 302149
     },
     "frontend/dist/index.html": {
-      "sha256": "666f4338eebae8d8a8ba1438c57a6174db92de9f398b57c0fab39525894161f0",
+      "sha256": "aa9ef21cb2b8507b67fe6118c48291673009a401a3a94ac277197afc51405147",
       "bytes": 391
     },
     "frontend/dist_streamlit/finance_architecture.css": {
-      "sha256": "a92e745ef1832d1b641bba417597cc72cf1396962792ea52ef43978878b8b4f3",
-      "bytes": 85173
+      "sha256": "ff97429927a828b2468d0ebdb0478123ec1e833645abd09bc41587e8d4550d86",
+      "bytes": 85802
     },
     "frontend/dist_streamlit/finance_architecture.js": {
-      "sha256": "ad5e52032313d2fc40118548f0e47100b1a340ba505c40267071b6aaa7ff6ff7",
-      "bytes": 420084
+      "sha256": "d5e9ee66ce3a3817ff9786ea546d53bdf0c3f4b10e3613268b99446e9280da04",
+      "bytes": 420885
     },
     "frontend/index.html": {
       "sha256": "79b48eb50f70682ccdd5c3c116e318a9a72f19b1ed8341f8a058b081b35cb0db",
@@ -172,8 +176,8 @@
       "bytes": 2091
     },
     "frontend/src/App.jsx": {
-      "sha256": "cf5b9ad75988299a2d109b00493b907adfc35d596c1d636a6019e71dcdcb4332",
-      "bytes": 45128
+      "sha256": "c3bfca78930eb2da477521185e5a6438358f7a8c49fdc455318ee2f3dd42f8fe",
+      "bytes": 45600
     },
     "frontend/src/ArchitectureQuestions.jsx": {
       "sha256": "8136991014050c2570434dec19f7056287344dabee8625473860ddfbb05fe597",
@@ -208,8 +212,8 @@
       "bytes": 25733
     },
     "frontend/src/fiori.css": {
-      "sha256": "9fbe7213c9eb45efabb2a13a5c9443a18b21ca94966862062cf1ae3b27835849",
-      "bytes": 19955
+      "sha256": "d3e2e2f63ffb6468f703345e313e5629b8d617203ca432c5e7fd987c87e521e0",
+      "bytes": 20590
     },
     "frontend/src/main.jsx": {
       "sha256": "f0a458dccbb6f78ffd7b29ec33c6f6df82c6c78082bba622acb8ef2ff2680998",
@@ -328,12 +332,12 @@
       "bytes": 3289
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "d235afc8e12c949976fe1d3d0599ab5f9a46b88aeb15bb95e865f26517cbbfa7",
-      "bytes": 187061
+      "sha256": "64b7c471b3b5f23510511091989421e740a4cb146ca5d1a05bb8162131d045ba",
+      "bytes": 472522
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "4cb96b77ee056c7254e0483f96f52facf43067321316a84d1fcd713cca4dbb36",
-      "bytes": 285651
+      "sha256": "5b3a5a7626403e32873bf04d60a2e6970c011399662dd4f0271ad3a0292036f6",
+      "bytes": 286513
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -360,12 +364,12 @@
       "bytes": 2616
     },
     "scripts/package_local.py": {
-      "sha256": "c0e6942fb15315b85c09536261d025529581dd4734aa8b0380b0954ca455e4ec",
-      "bytes": 2111
+      "sha256": "2f6415351a72f3c7f83bca8f0e02387cecb9e94e44591258525f6c9bfaf98dc1",
+      "bytes": 2064
     },
     "scripts/package_streamlit.py": {
-      "sha256": "09d6f889b8922dfb405cd233a2503c07959d330e75dfcbd57bf889317c5087de",
-      "bytes": 2167
+      "sha256": "a5de1fce866698bdbd8c4358e12b79a5ec62b01b1a849550627ca005ca93fbc3",
+      "bytes": 2238
     },
     "scripts/prepare_github_repo.py": {
       "sha256": "d30f936da77360472558e273b84cfe95208df738cb4ea063a2f57156b0fb4ce5",
@@ -399,9 +403,13 @@
       "sha256": "da6b110766f06048ce31f7a294e0f9e71fd2f28f60fe90111a228465f41f040c",
       "bytes": 4859
     },
+    "static/finance_reconciliation_local_windows.zip": {
+      "sha256": "5b3a5a7626403e32873bf04d60a2e6970c011399662dd4f0271ad3a0292036f6",
+      "bytes": 286513
+    },
     "streamlit_app.py": {
-      "sha256": "00c750a1d9ba97964a908e4a5e9939bb2a1420b09217ee9c8219c5dacb5141ff",
-      "bytes": 12992
+      "sha256": "1d9371e26c0d95d204e0a2866c4a48b0bf4b0e2fc97dbee7d01ad54f77c75d51",
+      "bytes": 13343
     },
     "tests/test_poc.py": {
       "sha256": "116bd40d72a3ba5e94c0d3efe0e188ac0b6a9909c94bc6b5db95086cae6138ad",

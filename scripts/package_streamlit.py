@@ -14,6 +14,7 @@ TARGET=OUT/"finance_architecture_streamlit.zip"
 files=[ROOT/"streamlit_app.py",ROOT/".streamlit"/"config.toml",ROOT/"README.md",ROOT/"docs"/"POC_LIMITATIONS.md",ROOT/"docs"/"ARCHITECTURE_MAPPING.md"]
 files+=sorted((ROOT/"poc").glob("*.py"))
 files+=sorted((ROOT/"frontend"/"dist_streamlit").glob("finance_architecture.*"))
+files.append(ROOT/"static"/"finance_reconciliation_local_windows.zip")
 assert all(path.is_file() for path in files)
 assert {path.suffix for path in files if path.parent.name=="dist_streamlit"}=={".js",".css"}
 requirements="streamlit==1.67.0\npydantic==2.13.4\nPyYAML==6.0.3\n"

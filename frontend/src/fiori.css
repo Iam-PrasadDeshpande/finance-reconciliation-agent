@@ -184,6 +184,12 @@ input,select,.chat-composer input,.command-controls input,.command-controls sele
 .launchpad-decision-row em{font-style:normal;color:#a66a00;background:#fff5dc;padding:4px;font-size:9px;font-weight:800;text-align:center;border-radius:3px}
 .launchpad-decision-row b{font-size:20px;color:#7893a6;font-weight:400}
 .launchpad-loading{padding:20px;color:#617c8f;font-size:12px}
+.launchpad-download{margin-top:12px;padding:13px;background:#eaf5ff;border:1px solid #b9d8ed;border-radius:5px;display:grid;gap:7px}
+.launchpad-download strong{font-size:12px;color:#214b68}
+.launchpad-download p{font-size:11px;line-height:1.4;color:#55748a;margin:0}
+.launchpad-download a{display:block;text-align:center;background:#0a6ed1;color:#fff;border-radius:4px;padding:9px 7px;font-size:11px;font-weight:800;text-decoration:none}
+.launchpad-download a:hover,.launchpad-download a:focus-visible{background:#0759ab}
+.launchpad-download small{font-size:9px;color:#638196;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lab-next-action{margin:0 15px 10px;padding:10px;border:1px solid #c7e0d4;background:#f5fbf7;border-radius:5px;display:grid;gap:5px}
 .lab-next-action span{font-size:9px;font-weight:800;color:#377556;text-transform:uppercase}
 .lab-next-action strong{font-size:10px;line-height:1.4;color:#244c36}

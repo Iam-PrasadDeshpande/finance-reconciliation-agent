@@ -23,7 +23,6 @@ files = [
 files += sorted((ROOT / "poc").glob("*.py"))
 files += sorted((ROOT / "frontend" / "dist").rglob("*.*"))
 files += sorted((ROOT / "frontend" / "dist_streamlit").glob("finance_architecture.*"))
-files += sorted((ROOT / "static").glob("*.*"))
 assert all(path.is_file() for path in files)
 payload = {str(path.relative_to(ROOT)).replace("\\", "/"): path.read_bytes() for path in files}
 assert "frontend/dist/index.html" in payload
