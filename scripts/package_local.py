@@ -6,6 +6,17 @@ import json
 import zipfile
 from pathlib import Path
 
+import subprocess
+
+
+def committed_bytes(root, path):
+    """Return the committed Git blob for text files so ZIPs match across CRLF/LF checkouts."""
+    rel = path.relative_to(root).as_posix()
+    if path.suffix == ".zip":
+        return path.read_bytes()
+    result = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=root, capture_output=True)
+    return result.stdout if result.returncode == 0 else path.read_bytes()
+
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "release" / "finance_reconciliation_local_windows.zip"
 files = [
@@ -28,7 +39,7 @@ files += sorted((ROOT / "poc").glob("*.py"))
 files += sorted((ROOT / "frontend" / "dist").rglob("*.*"))
 files += sorted((ROOT / "frontend" / "dist_streamlit").glob("finance_architecture.*"))
 assert all(path.is_file() for path in files)
-payload = {str(path.relative_to(ROOT)).replace("\\", "/"): path.read_bytes() for path in files}
+payload = {str(path.relative_to(ROOT)).replace("\\", "/"): committed_bytes(ROOT, path) for path in files}
 assert "frontend/dist/index.html" in payload
 assert "frontend/dist_streamlit/finance_architecture.js" in payload
 assert "poc/route_playbooks.py" in payload
