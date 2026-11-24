@@ -28,19 +28,22 @@ def check(page, url, hosted):
     page.locator(".detail-return-bar button").click()
 
     tabs.nth(2).click()
-    page.get_by_role("button", name="Agent hosting").click()
-    for option in ("Approved enterprise agent platform", "SAP BTP pro-code agent",
-                   "Microsoft Foundry hosted agent", "Managed Joule Studio"):
-        page.locator(".hosting-options button").filter(has_text=option).click()
-        assert page.locator(".hosting-detail h3").inner_text() == option
-    page.get_by_role("button", name="MCP routes").click()
-    page.locator(".mcp-selector button").filter(has_text="S2 ·").click()
+    route_tabs = page.get_by_role("tablist", name="Architecture approach details").get_by_role("tab")
+    assert route_tabs.count() == 4
+    for index, route in enumerate(("S1", "S2", "S3")):
+        route_tabs.nth(index).click()
+        assert route_tabs.nth(index).get_attribute("aria-selected") == "true"
+        assert f"{route} · RESPONSIBILITY PATH" in page.locator(".mcp-main").inner_text()
+    route_tabs.nth(1).click()
     assert "MCP-server target" in page.locator(".mcp-ownership").inner_text()
     assert "Runtime passthrough" not in page.locator(".mcp-ownership").inner_text()
     page.get_by_role("button", name="Run related architecture questions").click()
     page.locator(".question-card").first.click()
     page.locator(".lab-flow-panel .pill").filter(has_text="complete").wait_for(timeout=30000)
     page.locator(".detail-return-bar button").click()
+    tabs.nth(2).click()
+    route_tabs.nth(3).click()
+    assert page.get_by_role("region", name="Architecture comparison table").locator("tbody tr").count() >= 10
 
     if not hosted:
         tabs.nth(1).click()
@@ -63,6 +66,6 @@ with sync_playwright() as playwright:
         page = browser.new_page(viewport={"width": width, "height": 900 if width == 1440 else 844})
         check(page, url, hosted)
         print({"surface": label, "three_tabs": "PASS", "detail_links": "PASS",
-               "hosting": "PASS", "s2_target": "PASS", "page_errors": 0}, flush=True)
+               "four_approach_tabs": "PASS", "s2_target": "PASS", "page_errors": 0}, flush=True)
         page.context.close()
     browser.close()

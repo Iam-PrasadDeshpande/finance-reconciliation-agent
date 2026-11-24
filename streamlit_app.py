@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "frontend" / "dist_streamlit"
 LOCAL_BUNDLE = ROOT / "static" / "finance_reconciliation_local_windows.zip"
 LOCAL_BUNDLE_INFO = {
-    "url": "/app/static/finance_reconciliation_local_windows.zip",
+    "url": "app/static/finance_reconciliation_local_windows.zip",
     "bytes": LOCAL_BUNDLE.stat().st_size,
     "sha256": hashlib.sha256(LOCAL_BUNDLE.read_bytes()).hexdigest(),
 } if LOCAL_BUNDLE.is_file() else None
