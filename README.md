@@ -36,7 +36,7 @@ The existing public Streamlit deployment uses `streamlit_app.py` from GitHub. Lo
 
 The **Implementation** section in Evidence identifies the React/Node presentation, Python execution and SQLite event store. They power the simulator and are not separate agents. The S3 combined path remains a decision probe in Architecture questions; the live finance run offers only the S1 and S2 simulated alternatives.
 
-At desktop width the four tabs fit inside the browser viewport. Worklist, chat and Evidence records scroll within their panes. After a run, the dark **Business report** node opens a finance-focused dialog with the variance and conclusion; its Evidence link opens source balances, freshness, timestamps and evidence IDs. On narrow screens the layout scrolls naturally to preserve legibility.
+The fifth **MCP approaches** tab compares S1 direct Apigee, S2 AgentCore-hosted SAP finance MCP adapter, and S3 AgentCore Gateway in front of SAP Apigee MCP. Select an approach and handoff to see AgentCore and SAP responsibilities, configuration, dependencies, acceptance proof, benefits, tradeoffs and open decisions. The SAP Apigee domain direction is a discussion baseline; S3 federation, direct agent access, identity propagation and tenant onboarding are not approved or proven. The tab links to the question probes. At desktop width the five tabs fit in one row; detailed records scroll inside their panes. On narrow screens the layout scrolls naturally to preserve legibility.
 
 ## Data and verification
 
