@@ -26,6 +26,7 @@ from .questions import answer_follow_up, request_for_demo, mentioned_period, tra
 from .architecture_view import architecture_registry, architecture_events
 from .decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
 from .route_playbooks import route_playbook_catalog
+from .agents import Context as AgentContext,catalog as agent_catalog,invoke_tool,plan_for,run_plan
 from .recon_report import CONDITIONS,apply_condition,build_report
 from .store import Denied,Store
 
@@ -240,6 +241,33 @@ def chat(data:ChatInput):
                     "trace_case_id":result["case_id"],"scenario":result["scenario"],"result":result,"assumed_fields":assumed,"synthetic":True}
         except Exception as exc: fail(exc)
     try: return answer_follow_up(store,approval,data.message,data.case_id,data.scenario)
+    except Exception as exc: fail(exc)
+
+class AgentToolInput(BaseModel):
+    message:str=""
+    period:str|None=None
+    case_id:str|None=None
+    scenario:str="S1"
+    user_id:str="finance.user"
+
+def agent_context(): return AgentContext(store,runtime,investigator,approval,ensure_demo_agent)
+
+@app.get("/api/agent/catalog")
+def agents_catalog(): return agent_catalog()
+
+@app.post("/api/agent/plan")
+def agent_plan(data:ChatInput):
+    try:
+        case=store.case(data.case_id) if data.case_id else None
+        return run_plan(agent_context(),plan_for(data.message,case),data.scenario,data.user_id)
+    except Exception as exc: fail(exc)
+
+@app.get("/api/agent/plans/last")
+def agent_last_plan(): return store.get_state("last_plan") or {}
+
+@app.post("/api/agent/tools/{name}")
+def agent_tool(name:str,data:AgentToolInput):
+    try: return invoke_tool(agent_context(),name,data.model_dump())
     except Exception as exc: fail(exc)
 
 class Condition(BaseModel):
