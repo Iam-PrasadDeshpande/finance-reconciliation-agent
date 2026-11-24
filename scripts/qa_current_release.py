@@ -1,4 +1,4 @@
-"""Browser regression for the current three-view synthetic demo."""
+"""Browser regression for the current four-tab synthetic demo (set QA_SKIP_STREAMLIT=1 to run web only)."""
 from __future__ import annotations
 
 import os
@@ -15,7 +15,7 @@ def check(page, url, hosted):
     page.get_by_role("button", name="Open Finance Reconciliation Agent").wait_for(timeout=30000)
     page.get_by_role("button", name="Open Finance Reconciliation Agent").click()
     tabs = page.locator(".tab-nav [role=tab]")
-    assert tabs.count() == 3
+    assert tabs.count() == 4
 
     # Both detail views are available through contextual links and return to a main view.
     tabs.nth(1).click()
@@ -65,6 +65,28 @@ def check(page, url, hosted):
         assert page.locator(".mcp-bird").evaluate("e => e.scrollHeight <= e.clientHeight")
         assert page.locator(".mcp-bird-panel").evaluate("e => e.scrollHeight <= e.clientHeight")
 
+    # Detailed diagram tab: explicit S1/S2 selection, compare mode, zoom, reset and navigation back.
+    tabs.nth(2).click()
+    route_tabs.nth(0).click()
+    page.get_by_role("button", name="Detailed diagram (zoom)").click()
+    assert tabs.nth(3).get_attribute("aria-selected") == "true"
+    selector = page.get_by_role("tablist", name="Detailed diagram selection").get_by_role("tab")
+    assert selector.count() == 3
+    assert page.locator("[data-testid=diagram-S1] text").count() >= 200
+    zoom = page.locator(".dd-zoom").first
+    fitted = zoom.inner_text()
+    page.get_by_role("button", name="Zoom in S1").click()
+    assert int(zoom.inner_text()[:-1]) > int(fitted[:-1])
+    page.get_by_role("button", name="Reset S1 view to fit").click()
+    assert zoom.inner_text() == fitted
+    selector.nth(1).click()
+    assert page.locator("[data-testid=diagram-S2]").count() == 1 and page.locator("[data-testid=diagram-S1]").count() == 0
+    assert page.locator("[data-testid=diagram-S2] text", has_text="AWS trust boundary").count() == 1
+    selector.nth(2).click()
+    assert page.locator(".dd-viewer").count() == 2
+    page.get_by_role("button", name="← Architecture pros").first.click()
+    assert tabs.nth(2).get_attribute("aria-selected") == "true"
+
     if not hosted:
         tabs.nth(1).click()
         page.get_by_role("button", name="Run architecture").click()
@@ -77,15 +99,13 @@ def check(page, url, hosted):
 
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(headless=True)
-    for label, url, hosted, width in (
-        ("web desktop", WEB, False, 1440),
-        ("web mobile", WEB, False, 390),
-        ("streamlit desktop", STREAMLIT, True, 1440),
-        ("streamlit mobile", STREAMLIT, True, 390),
-    ):
+    surfaces = [("web desktop", WEB, False, 1440), ("web mobile", WEB, False, 390)]
+    if os.environ.get("QA_SKIP_STREAMLIT") != "1":
+        surfaces += [("streamlit desktop", STREAMLIT, True, 1440), ("streamlit mobile", STREAMLIT, True, 390)]
+    for label, url, hosted, width in surfaces:
         page = browser.new_page(viewport={"width": width, "height": 900 if width == 1440 else 844})
         check(page, url, hosted)
-        print({"surface": label, "three_tabs": "PASS", "detail_links": "PASS",
+        print({"surface": label, "four_tabs": "PASS", "detailed_diagrams_zoom": "PASS", "detail_links": "PASS",
                "four_approach_tabs": "PASS", "seven_diagram_designs": "PASS", "no_desktop_scroll": "PASS", "page_errors": 0}, flush=True)
         page.context.close()
     browser.close()
