@@ -35,6 +35,11 @@ def check(page, url, hosted):
         route_tabs.nth(index).click()
         assert route_tabs.nth(index).get_attribute("aria-selected") == "true"
         assert f"MCP ACCESS · {route}" in page.locator(".mcp-bird-panel").inner_text()
+        page.locator(".diagram-action").click()
+        diagram = page.get_by_role("dialog", name=f"{route} ·", exact=False)
+        assert diagram.locator(".arch-diagram-node").count() >= 6
+        assert diagram.locator(".arch-diagram-controls article").count() == 4
+        diagram.get_by_role("button", name="Close").click()
     route_tabs.nth(1).click()
     page.get_by_role("button", name="View handoffs and proof").click()
     dialog = page.get_by_role("dialog", name="S2 architecture details")
@@ -51,6 +56,9 @@ def check(page, url, hosted):
     assert page.get_by_role("dialog", name="Full MCP control matrix").locator("tbody tr").count() == 15
     page.get_by_role("dialog", name="Full MCP control matrix").get_by_role("button", name="Close").click()
     page.locator(".mcp-bird-host-grid button").nth(1).click()
+    hosting_diagram = page.get_by_role("dialog", name="architecture diagram")
+    assert hosting_diagram.locator(".arch-diagram-node").count() == 6
+    hosting_diagram.get_by_role("button", name="View detailed prerequisites").click()
     assert "Cloud Foundry" in page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").inner_text()
     page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").get_by_role("button", name="Close").click()
     if page.viewport_size["width"] >= 1000:
@@ -78,6 +86,6 @@ with sync_playwright() as playwright:
         page = browser.new_page(viewport={"width": width, "height": 900 if width == 1440 else 844})
         check(page, url, hosted)
         print({"surface": label, "three_tabs": "PASS", "detail_links": "PASS",
-               "four_approach_tabs": "PASS", "hosting": "PASS", "no_desktop_scroll": "PASS", "page_errors": 0}, flush=True)
+               "four_approach_tabs": "PASS", "seven_diagram_designs": "PASS", "no_desktop_scroll": "PASS", "page_errors": 0}, flush=True)
         page.context.close()
     browser.close()

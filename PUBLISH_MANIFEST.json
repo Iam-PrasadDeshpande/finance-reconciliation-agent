@@ -28,8 +28,8 @@
       "bytes": 142
     },
     "README.md": {
-      "sha256": "66d19589ddf6fe5e3e634bfa4c88be009d2578f86c0267178ab675c41b2c1e60",
-      "bytes": 12350
+      "sha256": "3759bb17ce0e90c60809c9c69c7e97492b0e56a2e59a23fa5b9e35b780a5c12a",
+      "bytes": 12594
     },
     "Start Finance Demo.cmd": {
       "sha256": "e414f99d52dea360037706f0027e5a99e7fba591155a25bf089458a69c334501",
@@ -44,8 +44,8 @@
       "bytes": 3479
     },
     "docs/ARCHITECTURE_MAPPING.md": {
-      "sha256": "71114ab3350e2fd0a8ef89d0d0411a42b2f6bb229995eb600337ca72f6e736c3",
-      "bytes": 15754
+      "sha256": "95f4c673692532ad9ff0941266aba7eca0f017792c1ec3c32b58ab9572bb7e09",
+      "bytes": 16035
     },
     "docs/DEMO_EVIDENCE.md": {
       "sha256": "bdcbe0378a8dd19a93d23c23300be23faefa86b5d13b4085e0aba51234497d35",
@@ -60,8 +60,8 @@
       "bytes": 2921
     },
     "docs/POC_LIMITATIONS.md": {
-      "sha256": "7d94649fc7cb185fae006522cc26a7b6f8212c0ab41cd4cfe5bd1b8b4acfdcb4",
-      "bytes": 11194
+      "sha256": "3748d2ace7aad0eeb1cbad518466bd89ad65725cdef6673d2930ea88521aef81",
+      "bytes": 11361
     },
     "docs/evidence/agentic_architecture_proof.png": {
       "sha256": "6ea28ab04743c6917fd92ffe64b2a3693dd31320fd78c2aa53c49b83b94845be",
@@ -175,25 +175,25 @@
       "sha256": "924f4c9ae85601257faf6cda7c1ea201144dce2969cbea74de58440e82c6b228",
       "bytes": 42858
     },
-    "frontend/dist/assets/index-DR13v9PN.css": {
-      "sha256": "fde78c726a22ce86d3394f9d63d730cb8a732381d501fa94d05dab0f5ca3354a",
-      "bytes": 108188
+    "frontend/dist/assets/index-BMq1UVUJ.css": {
+      "sha256": "0d3325d651379cd38f5a6f50544022d0b4c0467d62bbf3abf3bf5fd152268c09",
+      "bytes": 112646
     },
-    "frontend/dist/assets/index-KQk9zl_L.js": {
-      "sha256": "5d54ece97aecde7151955051dce0e62e4e93fa67c1a5f07a4dbab43cb020c385",
-      "bytes": 320297
+    "frontend/dist/assets/index-IGdNJdxD.js": {
+      "sha256": "ced22f49b1f8468129efd6f563180f5b0b4e2625942fe9828568b072ae379626",
+      "bytes": 331447
     },
     "frontend/dist/index.html": {
-      "sha256": "e83cfe7786fc967a3e8af3164801f36b2bc42070fc0abcad93caf7fae0c07eda",
+      "sha256": "626c659da7ca81b3dec911038208429d4d0e720f8d01450d3761699fafd4f529",
       "bytes": 391
     },
     "frontend/dist_streamlit/finance_architecture.css": {
-      "sha256": "5762a35dc1880fd5700c238cd666355e8ec6733f90c9186743d72649e7f24c67",
-      "bytes": 108200
+      "sha256": "472fee5217cab487a95a60d6dd1ddf8f90178d71bcfff1ed69c3806fd110b328",
+      "bytes": 112658
     },
     "frontend/dist_streamlit/finance_architecture.js": {
-      "sha256": "73643316fd37524592203c5a2adafa4aeaab38f4743e7524f723c248df4e0bf6",
-      "bytes": 445385
+      "sha256": "2a9e4f572f562279717e770a2bfeebbf62306e32192dde6f0956a2578d4a2b4b",
+      "bytes": 459557
     },
     "frontend/index.html": {
       "sha256": "79b48eb50f70682ccdd5c3c116e318a9a72f19b1ed8341f8a058b081b35cb0db",
@@ -214,6 +214,10 @@
     "frontend/src/App.jsx": {
       "sha256": "a6cccee79711d42ebcb960adf63294543b112cbeb7d5471004a7f2c0efb277f6",
       "bytes": 46430
+    },
+    "frontend/src/ArchitectureDiagram.jsx": {
+      "sha256": "e84df7ebc901c4fe2bc51f947efc4149e3e8559ed377b7ced51e5f22b5282aea",
+      "bytes": 10661
     },
     "frontend/src/ArchitectureQuestions.jsx": {
       "sha256": "8136991014050c2570434dec19f7056287344dabee8625473860ddfbb05fe597",
@@ -244,12 +248,16 @@
       "bytes": 1814
     },
     "frontend/src/McpApproaches.jsx": {
-      "sha256": "4b69ff10fb8f998a758df3eb9ed8c85066150e546c2583707c8f3656d2b08842",
-      "bytes": 13491
+      "sha256": "4e5f9c0646f12ac0f26d7da7b29659e97b0888e083055640fd6bc4fa82335aba",
+      "bytes": 14014
     },
     "frontend/src/ProofDossier.jsx": {
       "sha256": "fbcaf3c9a6e3877e836775150c0ff6d3bc9a00d67a02db43f66a410f29f420be",
       "bytes": 4743
+    },
+    "frontend/src/architecture-diagram.css": {
+      "sha256": "e2e4f05d4ff609f9785107acfdf4218ecdfe1a4621a4c814628e557d9c83ebb4",
+      "bytes": 4061
     },
     "frontend/src/branches.css": {
       "sha256": "4c3fd395d41a6ea3c0544e662bac155a307249bb1f63edc744e5eec7f67c4eed",
@@ -268,8 +276,8 @@
       "bytes": 14135
     },
     "frontend/src/mcp-bird.css": {
-      "sha256": "b40ce101cecaf7a097e91307c9a8c5dca6010fa59ee11dadc54854006468f101",
-      "bytes": 7544
+      "sha256": "89531762107fa40aaf85c9a590e5836666eba3533f42cf9af2650e4ffa4907de",
+      "bytes": 7958
     },
     "frontend/src/questions.css": {
       "sha256": "1c29ea526f695bd5f0e056493a1c863f1ff6212cb696dc67670b06a62e3bfce0",
@@ -384,12 +392,12 @@
       "bytes": 3289
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "71c99d255eba187b177df911ab29f6aa0aa419063074e597606ca51a13853fdf",
-      "bytes": 505411
+      "sha256": "ef250f5233058bb960cee81c945fe9ef047e1c178e0b36b55f648c7b765c7baa",
+      "bytes": 515432
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "b5e96a0e8e46b515bf74f78ce286cb058a03a033766800a55f4c596baea4ed62",
-      "bytes": 307563
+      "sha256": "b0bd2634579e54e6c1b997e32ff7479f59865cdfcfe1b8fbbef543e6806cffc2",
+      "bytes": 314036
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -436,8 +444,8 @@
       "bytes": 3421
     },
     "scripts/qa_current_release.py": {
-      "sha256": "50d62f3afbb732f635ac660e0f7b3e75a872f15958d8803c74ba43f17ab6aeab",
-      "bytes": 4371
+      "sha256": "00f5b88c74f7affdb93e42fb07275bc57c116cbd79b6fb90e80e52f70d176c97",
+      "bytes": 4949
     },
     "scripts/qa_decision_lab.py": {
       "sha256": "cfed2d2a36b689729d98e142b892ff3c277411579f162899226cc0d8c60aa656",
@@ -460,8 +468,8 @@
       "bytes": 4859
     },
     "static/finance_reconciliation_local_windows.zip": {
-      "sha256": "b5e96a0e8e46b515bf74f78ce286cb058a03a033766800a55f4c596baea4ed62",
-      "bytes": 307563
+      "sha256": "b0bd2634579e54e6c1b997e32ff7479f59865cdfcfe1b8fbbef543e6806cffc2",
+      "bytes": 314036
     },
     "streamlit_app.py": {
       "sha256": "29c51ac9d39256ff54c7e107337eed6ee1d3ee1a6c962e4ff7e45aef08e50695",
