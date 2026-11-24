@@ -30,20 +30,32 @@ def check(page, url, hosted):
     tabs.nth(2).click()
     route_tabs = page.get_by_role("tablist", name="Architecture approach details").get_by_role("tab")
     assert route_tabs.count() == 4
+    assert page.locator(".mcp-bird-host-grid button").count() == 4
     for index, route in enumerate(("S1", "S2", "S3")):
         route_tabs.nth(index).click()
         assert route_tabs.nth(index).get_attribute("aria-selected") == "true"
-        assert f"{route} · RESPONSIBILITY PATH" in page.locator(".mcp-main").inner_text()
+        assert f"MCP ACCESS · {route}" in page.locator(".mcp-bird-panel").inner_text()
     route_tabs.nth(1).click()
-    assert "MCP-server target" in page.locator(".mcp-ownership").inner_text()
-    assert "Runtime passthrough" not in page.locator(".mcp-ownership").inner_text()
+    page.get_by_role("button", name="View handoffs and proof").click()
+    dialog = page.get_by_role("dialog", name="S2 architecture details")
+    assert "MCP-server target" in dialog.inner_text()
+    assert "Runtime passthrough" not in dialog.inner_text()
     page.get_by_role("button", name="Run related architecture questions").click()
     page.locator(".question-card").first.click()
     page.locator(".lab-flow-panel .pill").filter(has_text="complete").wait_for(timeout=30000)
     page.locator(".detail-return-bar button").click()
     tabs.nth(2).click()
     route_tabs.nth(3).click()
-    assert page.get_by_role("region", name="Architecture comparison table").locator("tbody tr").count() >= 10
+    assert page.locator(".mcp-bird-compare-grid article").count() == 3
+    page.get_by_role("button", name="View full control matrix").click()
+    assert page.get_by_role("dialog", name="Full MCP control matrix").locator("tbody tr").count() == 15
+    page.get_by_role("dialog", name="Full MCP control matrix").get_by_role("button", name="Close").click()
+    page.locator(".mcp-bird-host-grid button").nth(1).click()
+    assert "Cloud Foundry" in page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").inner_text()
+    page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").get_by_role("button", name="Close").click()
+    if page.viewport_size["width"] >= 1000:
+        assert page.locator(".mcp-bird").evaluate("e => e.scrollHeight <= e.clientHeight")
+        assert page.locator(".mcp-bird-panel").evaluate("e => e.scrollHeight <= e.clientHeight")
 
     if not hosted:
         tabs.nth(1).click()
@@ -66,6 +78,6 @@ with sync_playwright() as playwright:
         page = browser.new_page(viewport={"width": width, "height": 900 if width == 1440 else 844})
         check(page, url, hosted)
         print({"surface": label, "three_tabs": "PASS", "detail_links": "PASS",
-               "four_approach_tabs": "PASS", "s2_target": "PASS", "page_errors": 0}, flush=True)
+               "four_approach_tabs": "PASS", "hosting": "PASS", "no_desktop_scroll": "PASS", "page_errors": 0}, flush=True)
         page.context.close()
     browser.close()
