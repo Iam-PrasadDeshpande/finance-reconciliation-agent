@@ -56,8 +56,8 @@
       "bytes": 4186
     },
     "docs/LOCAL_LAPTOP_GUIDE.md": {
-      "sha256": "acb999171a3d1921504a643c05d2f6d0bd133988b2e67ea28cdd50d1bed94a81",
-      "bytes": 2921
+      "sha256": "b610acaa8141c53dcf4f03db3e8ce28ff8d96bc4027e49a75c7ab05ea96862b9",
+      "bytes": 3418
     },
     "docs/POC_LIMITATIONS.md": {
       "sha256": "3748d2ace7aad0eeb1cbad518466bd89ad65725cdef6673d2930ea88521aef81",
@@ -368,8 +368,8 @@
       "bytes": 1979
     },
     "poc/questions.py": {
-      "sha256": "c3f4d699ac7209681de86a418d2fdb08cc55f2f0f237a9d4b4d9e35a4e3962ca",
-      "bytes": 18324
+      "sha256": "32634ddf5478992406a5d590b19344d4f355a9cdd86bbc77a49afa144a77a188",
+      "bytes": 19173
     },
     "poc/registry.py": {
       "sha256": "511322e503cdb8a6bf78acd8ed89e4015df36124674194cdaaa40f65deec4e22",
@@ -392,12 +392,12 @@
       "bytes": 3289
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "ef250f5233058bb960cee81c945fe9ef047e1c178e0b36b55f648c7b765c7baa",
-      "bytes": 515432
+      "sha256": "1e765b2a35894b974d39ba3b7ebe60d3d4c405b372aeb1f60c68d2449fc3cde2",
+      "bytes": 517873
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "b0bd2634579e54e6c1b997e32ff7479f59865cdfcfe1b8fbbef543e6806cffc2",
-      "bytes": 314036
+      "sha256": "efbe1da1532260bff8ac1f06025668cfa81935500832be4ff6b6fc6cda7de736",
+      "bytes": 315462
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -468,16 +468,16 @@
       "bytes": 4859
     },
     "static/finance_reconciliation_local_windows.zip": {
-      "sha256": "b0bd2634579e54e6c1b997e32ff7479f59865cdfcfe1b8fbbef543e6806cffc2",
-      "bytes": 314036
+      "sha256": "efbe1da1532260bff8ac1f06025668cfa81935500832be4ff6b6fc6cda7de736",
+      "bytes": 315462
     },
     "streamlit_app.py": {
       "sha256": "29c51ac9d39256ff54c7e107337eed6ee1d3ee1a6c962e4ff7e45aef08e50695",
       "bytes": 13348
     },
     "tests/test_poc.py": {
-      "sha256": "116bd40d72a3ba5e94c0d3efe0e188ac0b6a9909c94bc6b5db95086cae6138ad",
-      "bytes": 28907
+      "sha256": "7da8dec203ea2862523e4544bbcab91150156f0b5b00fcc487a732f3d486662d",
+      "bytes": 29523
     }
   }
 }
