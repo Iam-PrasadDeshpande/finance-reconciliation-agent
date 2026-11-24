@@ -70,11 +70,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return t[e];
 		});
 	}
-	var O = /\/+/g;
-	function re(e, t) {
+	var re = /\/+/g;
+	function ie(e, t) {
 		return typeof e == "object" && e && e.key != null ? ne("" + e.key) : t.toString(36);
 	}
-	function ie(e) {
+	function ae(e) {
 		switch (e.status) {
 			case "fulfilled": return e.value;
 			case "rejected": throw e.reason;
@@ -89,7 +89,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		throw e;
 	}
-	function ae(e, r, i, a, o) {
+	function oe(e, r, i, a, o) {
 		var s = typeof e;
 		(s === "undefined" || s === "boolean") && (e = null);
 		var c = !1;
@@ -105,30 +105,30 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				case n:
 					c = !0;
 					break;
-				case d: return c = e._init, ae(c(e._payload), r, i, a, o);
+				case d: return c = e._init, oe(c(e._payload), r, i, a, o);
 			}
 		}
-		if (c) return o = o(e), c = a === "" ? "." + re(e, 0) : a, C(o) ? (i = "", c != null && (i = c.replace(O, "$&/") + "/"), ae(o, r, i, "", function(e) {
+		if (c) return o = o(e), c = a === "" ? "." + ie(e, 0) : a, C(o) ? (i = "", c != null && (i = c.replace(re, "$&/") + "/"), oe(o, r, i, "", function(e) {
 			return e;
-		})) : o != null && (te(o) && (o = D(o, i + (o.key == null || e && e.key === o.key ? "" : ("" + o.key).replace(O, "$&/") + "/") + c)), r.push(o)), 1;
+		})) : o != null && (te(o) && (o = D(o, i + (o.key == null || e && e.key === o.key ? "" : ("" + o.key).replace(re, "$&/") + "/") + c)), r.push(o)), 1;
 		c = 0;
 		var l = a === "" ? "." : a + ":";
-		if (C(e)) for (var u = 0; u < e.length; u++) a = e[u], s = l + re(a, u), c += ae(a, r, i, s, o);
-		else if (u = h(e), typeof u == "function") for (e = u.call(e), u = 0; !(a = e.next()).done;) a = a.value, s = l + re(a, u++), c += ae(a, r, i, s, o);
+		if (C(e)) for (var u = 0; u < e.length; u++) a = e[u], s = l + ie(a, u), c += oe(a, r, i, s, o);
+		else if (u = h(e), typeof u == "function") for (e = u.call(e), u = 0; !(a = e.next()).done;) a = a.value, s = l + ie(a, u++), c += oe(a, r, i, s, o);
 		else if (s === "object") {
-			if (typeof e.then == "function") return ae(ie(e), r, i, a, o);
+			if (typeof e.then == "function") return oe(ae(e), r, i, a, o);
 			throw r = String(e), Error("Objects are not valid as a React child (found: " + (r === "[object Object]" ? "object with keys {" + Object.keys(e).join(", ") + "}" : r) + "). If you meant to render a collection of children, use an array instead.");
 		}
 		return c;
 	}
-	function oe(e, t, n) {
+	function se(e, t, n) {
 		if (e == null) return e;
 		var r = [], i = 0;
-		return ae(e, r, "", "", function(e) {
+		return oe(e, r, "", "", function(e) {
 			return t.call(n, e, i++);
 		}), r;
 	}
-	function se(e) {
+	function ce(e) {
 		if (e._status === -1) {
 			var t = e._result, n = t();
 			n.then(function(t) {
@@ -140,7 +140,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (e._status === 1) return e._result.default;
 		throw e._result;
 	}
-	var ce = typeof reportError == "function" ? reportError : function(e) {
+	var le = typeof reportError == "function" ? reportError : function(e) {
 		if (typeof window == "object" && typeof window.ErrorEvent == "function") {
 			var t = new window.ErrorEvent("error", {
 				bubbles: !0,
@@ -155,40 +155,40 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		console.error(e);
 	};
-	function le(e) {
+	function ue(e) {
 		var t = T.T, n = {};
 		n.types = t === null ? null : t.types, T.T = n;
 		try {
 			var r = e(), i = T.S;
-			i !== null && i(n, r), typeof r == "object" && r && typeof r.then == "function" && r.then(w, ce);
+			i !== null && i(n, r), typeof r == "object" && r && typeof r.then == "function" && r.then(w, le);
 		} catch (e) {
-			ce(e);
+			le(e);
 		} finally {
 			t !== null && n.types !== null && (t.types = n.types), T.T = t;
 		}
 	}
-	function ue(e) {
+	function de(e) {
 		var t = T.T;
 		if (t !== null) {
 			var n = t.types;
 			n === null ? t.types = [e] : n.indexOf(e) === -1 && n.push(e);
-		} else le(ue.bind(null, e));
+		} else ue(de.bind(null, e));
 	}
-	var de = {
-		map: oe,
+	var fe = {
+		map: se,
 		forEach: function(e, t, n) {
-			oe(e, function() {
+			se(e, function() {
 				t.apply(this, arguments);
 			}, n);
 		},
 		count: function(e) {
 			var t = 0;
-			return oe(e, function() {
+			return se(e, function() {
 				t++;
 			}), t;
 		},
 		toArray: function(e) {
-			return oe(e, function(e) {
+			return se(e, function(e) {
 				return e;
 			}) || [];
 		},
@@ -197,12 +197,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return e;
 		}
 	};
-	e.Activity = f, e.Children = de, e.Component = y, e.Fragment = r, e.Profiler = a, e.PureComponent = x, e.StrictMode = i, e.Suspense = l, e.ViewTransition = p, e.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = T, e.__COMPILER_RUNTIME = {
+	e.Activity = f, e.Children = fe, e.Component = y, e.Fragment = r, e.Profiler = a, e.PureComponent = x, e.StrictMode = i, e.Suspense = l, e.ViewTransition = p, e.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = T, e.__COMPILER_RUNTIME = {
 		__proto__: null,
 		c: function(e) {
 			return T.H.useMemoCache(e);
 		}
-	}, e.addTransitionType = ue, e.cache = function(e) {
+	}, e.addTransitionType = de, e.cache = function(e) {
 		return function() {
 			return e.apply(null, arguments);
 		};
@@ -256,7 +256,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				_status: -1,
 				_result: e
 			},
-			_init: se
+			_init: ce
 		};
 	}, e.memo = function(e, t) {
 		return {
@@ -264,7 +264,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			type: e,
 			compare: t === void 0 ? null : t
 		};
-	}, e.startTransition = le, e.unstable_useCacheRefresh = function() {
+	}, e.startTransition = ue, e.unstable_useCacheRefresh = function() {
 		return T.H.useCacheRefresh();
 	}, e.use = function(e) {
 		return T.H.use(e);
@@ -361,7 +361,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (n(c) !== null) m = !0, S || (S = !0, D());
 			else {
 				var t = n(l);
-				t !== null && O(x, t.startTime - e);
+				t !== null && re(x, t.startTime - e);
 			}
 		}
 	}
@@ -396,7 +396,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 							if (d !== null) i = !0;
 							else {
 								var u = n(l);
-								u !== null && O(x, u.startTime - t), i = !1;
+								u !== null && re(x, u.startTime - t), i = !1;
 							}
 						}
 						break a;
@@ -422,7 +422,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	} else D = function() {
 		_(E, 0);
 	};
-	function O(t, n) {
+	function re(t, n) {
 		C = _(function() {
 			t(e.unstable_now());
 		}, n);
@@ -491,7 +491,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			startTime: a,
 			expirationTime: s,
 			sortIndex: -1
-		}, a > o ? (r.sortIndex = a, t(l, r), n(c) === null && r === n(l) && (h ? (v(C), C = -1) : h = !0, O(x, a - o))) : (r.sortIndex = s, t(c, r), m || p || (m = !0, S || (S = !0, D()))), r;
+		}, a > o ? (r.sortIndex = a, t(l, r), n(c) === null && r === n(l) && (h ? (v(C), C = -1) : h = !0, re(x, a - o))) : (r.sortIndex = s, t(c, r), m || p || (m = !0, S || (S = !0, D()))), r;
 	}, e.unstable_shouldYield = ee, e.unstable_wrapCallback = function(e) {
 		var t = f;
 		return function() {
@@ -814,58 +814,58 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return null;
 	}
-	var E = Object.assign, D = Symbol.for("react.element"), te = Symbol.for("react.transitional.element"), ne = Symbol.for("react.portal"), O = Symbol.for("react.fragment"), re = Symbol.for("react.strict_mode"), ie = Symbol.for("react.profiler"), ae = Symbol.for("react.consumer"), oe = Symbol.for("react.context"), se = Symbol.for("react.forward_ref"), ce = Symbol.for("react.suspense"), le = Symbol.for("react.suspense_list"), ue = Symbol.for("react.memo"), de = Symbol.for("react.lazy"), fe = Symbol.for("react.activity"), pe = Symbol.for("react.legacy_hidden"), k = Symbol.for("react.memo_cache_sentinel"), me = Symbol.for("react.view_transition"), he = Symbol.for("react.recoverable"), ge = Symbol.iterator;
-	function _e(e) {
-		return typeof e != "object" || !e ? null : (e = ge && e[ge] || e["@@iterator"], typeof e == "function" ? e : null);
-	}
-	var ve = Symbol.for("react.client.reference");
+	var E = Object.assign, D = Symbol.for("react.element"), te = Symbol.for("react.transitional.element"), ne = Symbol.for("react.portal"), re = Symbol.for("react.fragment"), ie = Symbol.for("react.strict_mode"), ae = Symbol.for("react.profiler"), oe = Symbol.for("react.consumer"), se = Symbol.for("react.context"), ce = Symbol.for("react.forward_ref"), le = Symbol.for("react.suspense"), ue = Symbol.for("react.suspense_list"), de = Symbol.for("react.memo"), fe = Symbol.for("react.lazy"), pe = Symbol.for("react.activity"), me = Symbol.for("react.legacy_hidden"), he = Symbol.for("react.memo_cache_sentinel"), ge = Symbol.for("react.view_transition"), _e = Symbol.for("react.recoverable"), ve = Symbol.iterator;
 	function ye(e) {
+		return typeof e != "object" || !e ? null : (e = ve && e[ve] || e["@@iterator"], typeof e == "function" ? e : null);
+	}
+	var be = Symbol.for("react.client.reference");
+	function xe(e) {
 		if (e == null) return null;
-		if (typeof e == "function") return e.$$typeof === ve ? null : e.displayName || e.name || null;
+		if (typeof e == "function") return e.$$typeof === be ? null : e.displayName || e.name || null;
 		if (typeof e == "string") return e;
 		switch (e) {
-			case O: return "Fragment";
-			case ie: return "Profiler";
-			case re: return "StrictMode";
-			case ce: return "Suspense";
-			case le: return "SuspenseList";
-			case fe: return "Activity";
-			case me: return "ViewTransition";
+			case re: return "Fragment";
+			case ae: return "Profiler";
+			case ie: return "StrictMode";
+			case le: return "Suspense";
+			case ue: return "SuspenseList";
+			case pe: return "Activity";
+			case ge: return "ViewTransition";
 		}
 		if (typeof e == "object") switch (e.$$typeof) {
 			case ne: return "Portal";
-			case oe: return e.displayName || "Context";
-			case ae: return (e._context.displayName || "Context") + ".Consumer";
-			case se:
+			case se: return e.displayName || "Context";
+			case oe: return (e._context.displayName || "Context") + ".Consumer";
+			case ce:
 				var t = e.render;
 				return e = e.displayName, e ||= (e = t.displayName || t.name || "", e === "" ? "ForwardRef" : "ForwardRef(" + e + ")"), e;
-			case ue: return t = e.displayName || null, t === null ? ye(e.type) || "Memo" : t;
-			case de:
+			case de: return t = e.displayName || null, t === null ? xe(e.type) || "Memo" : t;
+			case fe:
 				t = e._payload, e = e._init;
 				try {
-					return ye(e(t));
+					return xe(e(t));
 				} catch {}
 		}
 		return null;
 	}
-	var be = Array.isArray, A = n.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, j = r.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, xe = {
+	var O = Array.isArray, k = n.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, A = r.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, Se = {
 		pending: !1,
 		data: null,
 		method: null,
 		action: null
-	}, Se = [], Ce = -1;
-	function we(e) {
+	}, Ce = [], we = -1;
+	function Te(e) {
 		return { current: e };
 	}
-	function M(e) {
-		0 > Ce || (e.current = Se[Ce], Se[Ce] = null, Ce--);
+	function j(e) {
+		0 > we || (e.current = Ce[we], Ce[we] = null, we--);
 	}
-	function N(e, t) {
-		Ce++, Se[Ce] = e.current, e.current = t;
+	function M(e, t) {
+		we++, Ce[we] = e.current, e.current = t;
 	}
-	var Te = we(null), Ee = we(null), De = we(null), Oe = we(null);
-	function P(e, t) {
-		switch (N(De, t), N(Ee, e), N(Te, null), t.nodeType) {
+	var Ee = Te(null), N = Te(null), De = Te(null), Oe = Te(null);
+	function ke(e, t) {
+		switch (M(De, t), M(N, e), M(Ee, null), t.nodeType) {
 			case 9:
 			case 11:
 				e = (e = t.documentElement) && (e = e.namespaceURI) ? up(e) : 0;
@@ -881,19 +881,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				default: e = 0;
 			}
 		}
-		M(Te), N(Te, e);
+		j(Ee), M(Ee, e);
 	}
-	function ke() {
-		M(Te), M(Ee), M(De);
+	function Ae() {
+		j(Ee), j(N), j(De);
 	}
-	function Ae(e) {
+	function P(e) {
 		var t = e.memoizedState;
-		t !== null && (sh._currentValue = t.memoizedState, N(Oe, e)), t = Te.current;
+		t !== null && (sh._currentValue = t.memoizedState, M(Oe, e)), t = Ee.current;
 		var n = dp(t, e.type);
-		t !== n && (N(Ee, e), N(Te, n));
+		t !== n && (M(N, e), M(Ee, n));
 	}
 	function je(e) {
-		Ee.current === e && (M(Te), M(Ee)), Oe.current === e && (M(Oe), sh._currentValue = xe);
+		N.current === e && (j(Ee), j(N)), Oe.current === e && (j(Oe), sh._currentValue = Se);
 	}
 	var Me, Ne;
 	function Pe(e) {
@@ -1011,7 +1011,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return "\nError generating stack: " + e.message + "\n" + e.stack;
 		}
 	}
-	var ze = Object.prototype.hasOwnProperty, Be = t.unstable_scheduleCallback, Ve = t.unstable_cancelCallback, He = t.unstable_shouldYield, Ue = t.unstable_requestPaint, We = t.unstable_now, Ge = t.unstable_getCurrentPriorityLevel, Ke = t.unstable_ImmediatePriority, qe = t.unstable_UserBlockingPriority, F = t.unstable_NormalPriority, Je = t.unstable_LowPriority, Ye = t.unstable_IdlePriority, Xe = t.log, Ze = t.unstable_setDisableYieldValue, Qe = null, $e = null;
+	var ze = Object.prototype.hasOwnProperty, Be = t.unstable_scheduleCallback, Ve = t.unstable_cancelCallback, He = t.unstable_shouldYield, Ue = t.unstable_requestPaint, F = t.unstable_now, We = t.unstable_getCurrentPriorityLevel, Ge = t.unstable_ImmediatePriority, Ke = t.unstable_UserBlockingPriority, qe = t.unstable_NormalPriority, Je = t.unstable_LowPriority, Ye = t.unstable_IdlePriority, Xe = t.log, Ze = t.unstable_setDisableYieldValue, Qe = null, $e = null;
 	function et(e) {
 		if (typeof Xe == "function" && Ze(e), $e && typeof $e.setStrictMode == "function") try {
 			$e.setStrictMode(Qe, e);
@@ -1148,18 +1148,18 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		var r = 31 - tt(t);
 		e.entangledLanes |= t, e.entanglements[r] = e.entanglements[r] | 1073741824 | n & 261930;
 	}
-	function I(e, t) {
+	function vt(e, t) {
 		var n = e.entangledLanes |= t;
 		for (e = e.entanglements; n;) {
 			var r = 31 - tt(n), i = 1 << r;
 			i & t | e[r] & t && (e[r] |= t), n &= ~i;
 		}
 	}
-	function vt(e, t) {
+	function yt(e, t) {
 		var n = t & -t;
-		return n = n & 42 ? 1 : yt(n), (n & (e.suspendedLanes | t)) === 0 ? n : 0;
+		return n = n & 42 ? 1 : bt(n), (n & (e.suspendedLanes | t)) === 0 ? n : 0;
 	}
-	function yt(e) {
+	function bt(e) {
 		switch (e) {
 			case 2:
 				e = 1;
@@ -1197,32 +1197,32 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return e;
 	}
-	function bt(e) {
+	function xt(e) {
 		return e &= -e, 2 < e ? 8 < e ? e & 134217727 ? 32 : 268435456 : 8 : 2;
 	}
-	function xt() {
-		var e = j.p;
+	function St() {
+		var e = A.p;
 		return e === 0 ? (e = window.event, e === void 0 ? 32 : Ch(e.type)) : e;
 	}
-	function St(e, t) {
-		var n = j.p;
+	function Ct(e, t) {
+		var n = A.p;
 		try {
-			return j.p = e, t();
+			return A.p = e, t();
 		} finally {
-			j.p = n;
+			A.p = n;
 		}
 	}
-	var Ct = Math.random().toString(36).slice(2), wt = "__reactFiber$" + Ct, Tt = "__reactProps$" + Ct, Et = "__reactContainer$" + Ct, Dt = "__reactEvents$" + Ct, Ot = "__reactListeners$" + Ct, kt = "__reactHandles$" + Ct, At = "__reactResources$" + Ct, jt = "__reactMarker$" + Ct, Mt = "__reactLoad$" + Ct;
+	var wt = Math.random().toString(36).slice(2), I = "__reactFiber$" + wt, Tt = "__reactProps$" + wt, Et = "__reactContainer$" + wt, Dt = "__reactEvents$" + wt, Ot = "__reactListeners$" + wt, kt = "__reactHandles$" + wt, At = "__reactResources$" + wt, jt = "__reactMarker$" + wt, Mt = "__reactLoad$" + wt;
 	function Nt(e) {
-		delete e[wt], delete e[Tt], delete e[Ot], delete e[kt];
+		delete e[I], delete e[Tt], delete e[Ot], delete e[kt];
 	}
 	function Pt(e) {
 		var t;
-		if (t = e[wt]) return t;
+		if (t = e[I]) return t;
 		for (var n = e.parentNode; n;) {
-			if (t = n[Et] || n[wt]) {
+			if (t = n[Et] || n[I]) {
 				if (n = t.alternate, t.child !== null || n !== null && n.child !== null) for (e = fm(e); e !== null;) {
-					if (n = e[wt]) return n;
+					if (n = e[I]) return n;
 					e = fm(e);
 				}
 				return t;
@@ -1232,7 +1232,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return null;
 	}
 	function Ft(e) {
-		if (e = e[wt] || e[Et]) {
+		if (e = e[I] || e[Et]) {
 			var t = e.tag;
 			if (t === 5 || t === 6 || t === 13 || t === 31 || t === 26 || t === 27 || t === 3) return e;
 		}
@@ -1332,11 +1332,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return "";
 		}
 	}
-	function $t(e) {
+	function R(e) {
 		var t = e.type;
 		return (e = e.nodeName) && e.toLowerCase() === "input" && (t === "checkbox" || t === "radio");
 	}
-	function en(e, t, n) {
+	function $t(e, t, n) {
 		var r = Object.getOwnPropertyDescriptor(e.constructor.prototype, t);
 		if (!e.hasOwnProperty(t) && r !== void 0 && typeof r.get == "function" && typeof r.set == "function") {
 			var i = r.get, a = r.set;
@@ -1361,42 +1361,42 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			};
 		}
 	}
-	function tn(e) {
+	function en(e) {
 		if (!e._valueTracker) {
-			var t = $t(e) ? "checked" : "value";
-			e._valueTracker = en(e, t, "" + e[t]);
+			var t = R(e) ? "checked" : "value";
+			e._valueTracker = $t(e, t, "" + e[t]);
 		}
 	}
-	function nn(e) {
+	function tn(e) {
 		if (!e) return !1;
 		var t = e._valueTracker;
 		if (!t) return !0;
 		var n = t.getValue(), r = "";
-		return e && (r = $t(e) ? e.checked ? "true" : "false" : e.value), e = r, e !== n && (t.setValue(e), !0);
+		return e && (r = R(e) ? e.checked ? "true" : "false" : e.value), e = r, e !== n && (t.setValue(e), !0);
 	}
-	var rn = /[\n"\\]/g;
-	function an(e) {
-		return e.replace(rn, function(e) {
+	var nn = /[\n"\\]/g;
+	function rn(e) {
+		return e.replace(nn, function(e) {
 			return "\\" + e.charCodeAt(0).toString(16) + " ";
 		});
 	}
-	function on(e, t, n, r, i, a, o, s) {
-		e.name = "", o != null && typeof o != "function" && typeof o != "symbol" && typeof o != "boolean" ? e.type = o : e.removeAttribute("type"), t == null ? o !== "submit" && o !== "reset" || e.removeAttribute("value") : o === "number" ? (t === 0 && e.value === "" || e.value != t) && (e.value = "" + Qt(t)) : e.value !== "" + Qt(t) && (e.value = "" + Qt(t)), t == null ? n == null ? r != null && e.removeAttribute("value") : cn(e, Qt(n)) : o === "number" && e.value == t ? cn(e, Qt(e.value)) : cn(e, Qt(t)), i == null && a != null && (e.defaultChecked = !!a), i != null && (e.checked = i && typeof i != "function" && typeof i != "symbol"), s != null && typeof s != "function" && typeof s != "symbol" && typeof s != "boolean" ? e.name = "" + Qt(s) : e.removeAttribute("name");
+	function an(e, t, n, r, i, a, o, s) {
+		e.name = "", o != null && typeof o != "function" && typeof o != "symbol" && typeof o != "boolean" ? e.type = o : e.removeAttribute("type"), t == null ? o !== "submit" && o !== "reset" || e.removeAttribute("value") : o === "number" ? (t === 0 && e.value === "" || e.value != t) && (e.value = "" + Qt(t)) : e.value !== "" + Qt(t) && (e.value = "" + Qt(t)), t == null ? n == null ? r != null && e.removeAttribute("value") : sn(e, Qt(n)) : o === "number" && e.value == t ? sn(e, Qt(e.value)) : sn(e, Qt(t)), i == null && a != null && (e.defaultChecked = !!a), i != null && (e.checked = i && typeof i != "function" && typeof i != "symbol"), s != null && typeof s != "function" && typeof s != "symbol" && typeof s != "boolean" ? e.name = "" + Qt(s) : e.removeAttribute("name");
 	}
-	function sn(e, t, n, r, i, a, o, s) {
+	function on(e, t, n, r, i, a, o, s) {
 		if (a != null && typeof a != "function" && typeof a != "symbol" && typeof a != "boolean" && (e.type = a), t != null || n != null) {
 			if (!(a !== "submit" && a !== "reset" || t != null)) {
-				tn(e);
+				en(e);
 				return;
 			}
 			n = n == null ? "" : "" + Qt(n), t = t == null ? n : "" + Qt(t), s || t === e.value || (e.value = t), e.defaultValue = t;
 		}
-		r ??= i, r = typeof r != "function" && typeof r != "symbol" && !!r, e.checked = s ? e.checked : !!r, e.defaultChecked = !!r, o != null && typeof o != "function" && typeof o != "symbol" && typeof o != "boolean" && (e.name = o), tn(e);
+		r ??= i, r = typeof r != "function" && typeof r != "symbol" && !!r, e.checked = s ? e.checked : !!r, e.defaultChecked = !!r, o != null && typeof o != "function" && typeof o != "symbol" && typeof o != "boolean" && (e.name = o), en(e);
 	}
-	function cn(e, t) {
+	function sn(e, t) {
 		e.defaultValue !== "" + t && (e.defaultValue = "" + t);
 	}
-	function ln(e, t, n, r) {
+	function cn(e, t, n, r) {
 		if (e = e.options, t) {
 			t = {};
 			for (var i = 0; i < n.length; i++) t["$" + n[i]] = !0;
@@ -1412,14 +1412,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			t !== null && (t.selected = !0);
 		}
 	}
-	function un(e, t, n) {
+	function ln(e, t, n) {
 		t != null && (t = "" + Qt(t), t !== e.value && (e.value = t), n == null) ? e.defaultValue !== t && (e.defaultValue = t) : e.defaultValue = n == null ? "" : "" + Qt(n);
 	}
-	function dn(e, t, n, r) {
+	function un(e, t, n, r) {
 		if (t == null) {
 			if (r != null) {
 				if (n != null) throw Error(i(92));
-				if (be(r)) {
+				if (O(r)) {
 					if (1 < r.length) throw Error(i(93));
 					r = r[0];
 				}
@@ -1427,9 +1427,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			n ??= "", t = n;
 		}
-		n = Qt(t), e.defaultValue = n, r = e.textContent, r === n && r !== "" && r !== null && (e.value = r), tn(e);
+		n = Qt(t), e.defaultValue = n, r = e.textContent, r === n && r !== "" && r !== null && (e.value = r), en(e);
 	}
-	function fn(e, t) {
+	function dn(e, t) {
 		if (t) {
 			var n = e.firstChild;
 			if (n && n === e.lastChild && n.nodeType === 3) {
@@ -1439,19 +1439,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		e.textContent = t;
 	}
-	var pn = new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));
-	function mn(e, t, n) {
+	var fn = new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));
+	function pn(e, t, n) {
 		var r = t.indexOf("--") === 0;
-		n == null || typeof n == "boolean" || n === "" ? r ? e.setProperty(t, "") : t === "float" ? e.cssFloat = "" : e[t] = "" : r ? e.setProperty(t, n) : typeof n != "number" || n === 0 || pn.has(t) ? t === "float" ? e.cssFloat = n : e[t] = ("" + n).trim() : e[t] = n + "px";
+		n == null || typeof n == "boolean" || n === "" ? r ? e.setProperty(t, "") : t === "float" ? e.cssFloat = "" : e[t] = "" : r ? e.setProperty(t, n) : typeof n != "number" || n === 0 || fn.has(t) ? t === "float" ? e.cssFloat = n : e[t] = ("" + n).trim() : e[t] = n + "px";
 	}
-	function hn(e, t, n) {
+	function mn(e, t, n) {
 		if (t != null && typeof t != "object") throw Error(i(62));
 		if (e = e.style, n != null) {
 			for (var r in n) !n.hasOwnProperty(r) || t != null && t.hasOwnProperty(r) || (r.indexOf("--") === 0 ? e.setProperty(r, "") : r === "float" ? e.cssFloat = "" : e[r] = "", L = !0);
-			for (var a in t) r = t[a], t.hasOwnProperty(a) && n[a] !== r && (mn(e, a, r), L = !0);
-		} else for (var o in t) t.hasOwnProperty(o) && mn(e, o, t[o]);
+			for (var a in t) r = t[a], t.hasOwnProperty(a) && n[a] !== r && (pn(e, a, r), L = !0);
+		} else for (var o in t) t.hasOwnProperty(o) && pn(e, o, t[o]);
 	}
-	function gn(e) {
+	function hn(e) {
 		if (e.indexOf("-") === -1) return !1;
 		switch (e) {
 			case "annotation-xml":
@@ -1465,7 +1465,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return !0;
 		}
 	}
-	var _n = /* @__PURE__ */ new Map([
+	var gn = /* @__PURE__ */ new Map([
 		["acceptCharset", "accept-charset"],
 		["htmlFor", "for"],
 		["httpEquiv", "http-equiv"],
@@ -1545,53 +1545,53 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		["writingMode", "writing-mode"],
 		["xmlnsXlink", "xmlns:xlink"],
 		["xHeight", "x-height"]
-	]), vn = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i;
-	function yn(e) {
-		return vn.test("" + e) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : e;
+	]), _n = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i;
+	function vn(e) {
+		return _n.test("" + e) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : e;
 	}
-	function bn() {}
-	var xn = null;
-	function Sn(e) {
+	function yn() {}
+	var bn = null;
+	function xn(e) {
 		return e = e.target || e.srcElement || window, e.correspondingUseElement && (e = e.correspondingUseElement), e.nodeType === 3 ? e.parentNode : e;
 	}
-	var Cn = null, wn = null;
-	function Tn(e) {
+	var Sn = null, Cn = null;
+	function wn(e) {
 		var t = Ft(e);
 		if (t && (e = t.stateNode)) {
 			var n = e[Tt] || null;
 			a: switch (e = t.stateNode, t.type) {
 				case "input":
-					if (on(e, n.value, n.defaultValue, n.defaultValue, n.checked, n.defaultChecked, n.type, n.name), t = n.name, n.type === "radio" && t != null) {
+					if (an(e, n.value, n.defaultValue, n.defaultValue, n.checked, n.defaultChecked, n.type, n.name), t = n.name, n.type === "radio" && t != null) {
 						for (n = e; n.parentNode;) n = n.parentNode;
-						for (n = n.querySelectorAll("input[name=\"" + an("" + t) + "\"][type=\"radio\"]"), t = 0; t < n.length; t++) {
+						for (n = n.querySelectorAll("input[name=\"" + rn("" + t) + "\"][type=\"radio\"]"), t = 0; t < n.length; t++) {
 							var r = n[t];
 							if (r !== e && r.form === e.form) {
 								var a = r[Tt] || null;
 								if (!a) throw Error(i(90));
-								on(r, a.value, a.defaultValue, a.defaultValue, a.checked, a.defaultChecked, a.type, a.name);
+								an(r, a.value, a.defaultValue, a.defaultValue, a.checked, a.defaultChecked, a.type, a.name);
 							}
 						}
-						for (t = 0; t < n.length; t++) r = n[t], r.form === e.form && nn(r);
+						for (t = 0; t < n.length; t++) r = n[t], r.form === e.form && tn(r);
 					}
 					break a;
 				case "textarea":
-					un(e, n.value, n.defaultValue);
+					ln(e, n.value, n.defaultValue);
 					break a;
-				case "select": t = n.value, t != null && ln(e, !!n.multiple, t, !1);
+				case "select": t = n.value, t != null && cn(e, !!n.multiple, t, !1);
 			}
 		}
 	}
-	var En = !1;
-	function Dn(e, t, n) {
-		if (En) return e(t, n);
-		En = !0;
+	var Tn = !1;
+	function En(e, t, n) {
+		if (Tn) return e(t, n);
+		Tn = !0;
 		try {
 			return e(t);
 		} finally {
-			if (En = !1, (Cn !== null || wn !== null) && (zd(), Cn && (t = Cn, e = wn, wn = Cn = null, Tn(t), e))) for (t = 0; t < e.length; t++) Tn(e[t]);
+			if (Tn = !1, (Sn !== null || Cn !== null) && (zd(), Sn && (t = Sn, e = Cn, Cn = Sn = null, wn(t), e))) for (t = 0; t < e.length; t++) wn(e[t]);
 		}
 	}
-	function On(e, t) {
+	function Dn(e, t) {
 		var n = e.stateNode;
 		if (n === null) return null;
 		var r = n[Tt] || null;
@@ -1617,54 +1617,54 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (n && typeof n != "function") throw Error(i(231, t, typeof n));
 		return n;
 	}
-	var kn = typeof window < "u" && window.document !== void 0 && window.document.createElement !== void 0, An = !1;
-	if (kn) try {
-		var jn = {};
-		Object.defineProperty(jn, "passive", { get: function() {
-			An = !0;
-		} }), window.addEventListener("test", jn, jn), window.removeEventListener("test", jn, jn);
+	var On = typeof window < "u" && window.document !== void 0 && window.document.createElement !== void 0, kn = !1;
+	if (On) try {
+		var An = {};
+		Object.defineProperty(An, "passive", { get: function() {
+			kn = !0;
+		} }), window.addEventListener("test", An, An), window.removeEventListener("test", An, An);
 	} catch {
-		An = !1;
+		kn = !1;
 	}
-	var Mn = null, Nn = null, Pn = null;
-	function Fn() {
-		if (Pn) return Pn;
-		var e, t = Nn, n = t.length, r, i = "value" in Mn ? Mn.value : Mn.textContent, a = i.length;
+	var jn = null, Mn = null, Nn = null;
+	function Pn() {
+		if (Nn) return Nn;
+		var e, t = Mn, n = t.length, r, i = "value" in jn ? jn.value : jn.textContent, a = i.length;
 		for (e = 0; e < n && t[e] === i[e]; e++);
 		var o = n - e;
 		for (r = 1; r <= o && t[n - r] === i[a - r]; r++);
-		return Pn = i.slice(e, 1 < r ? 1 - r : void 0);
+		return Nn = i.slice(e, 1 < r ? 1 - r : void 0);
 	}
-	function In(e) {
+	function Fn(e) {
 		var t = e.keyCode;
 		return "charCode" in e ? (e = e.charCode, e === 0 && t === 13 && (e = 13)) : e = t, e === 10 && (e = 13), 32 <= e || e === 13 ? e : 0;
 	}
-	function Ln() {
+	function In() {
 		return !0;
 	}
-	function Rn() {
+	function Ln() {
 		return !1;
 	}
-	function zn(e) {
+	function Rn(e) {
 		function t(t, n, r, i, a) {
 			for (var o in this._reactName = t, this._targetInst = r, this.type = n, this.nativeEvent = i, this.target = a, this.currentTarget = null, e) e.hasOwnProperty(o) && (t = e[o], this[o] = t ? t(i) : i[o]);
-			return this.isDefaultPrevented = (i.defaultPrevented == null ? !1 === i.returnValue : i.defaultPrevented) ? Ln : Rn, this.isPropagationStopped = Rn, this;
+			return this.isDefaultPrevented = (i.defaultPrevented == null ? !1 === i.returnValue : i.defaultPrevented) ? In : Ln, this.isPropagationStopped = Ln, this;
 		}
 		return E(t.prototype, {
 			preventDefault: function() {
 				this.defaultPrevented = !0;
 				var e = this.nativeEvent;
-				e && (e.preventDefault ? e.preventDefault() : typeof e.returnValue != "unknown" && (e.returnValue = !1), this.isDefaultPrevented = Ln);
+				e && (e.preventDefault ? e.preventDefault() : typeof e.returnValue != "unknown" && (e.returnValue = !1), this.isDefaultPrevented = In);
 			},
 			stopPropagation: function() {
 				var e = this.nativeEvent;
-				e && (e.stopPropagation ? e.stopPropagation() : typeof e.cancelBubble != "unknown" && (e.cancelBubble = !0), this.isPropagationStopped = Ln);
+				e && (e.stopPropagation ? e.stopPropagation() : typeof e.cancelBubble != "unknown" && (e.cancelBubble = !0), this.isPropagationStopped = In);
 			},
 			persist: function() {},
-			isPersistent: Ln
+			isPersistent: In
 		}), t;
 	}
-	var Bn = {
+	var zn = {
 		eventPhase: 0,
 		bubbles: 0,
 		cancelable: 0,
@@ -1673,10 +1673,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		},
 		defaultPrevented: 0,
 		isTrusted: 0
-	}, Vn = zn(Bn), Hn = E({}, Bn, {
+	}, Bn = Rn(zn), Vn = E({}, zn, {
 		view: 0,
 		detail: 0
-	}), Un = zn(Hn), Wn, Gn, Kn, qn = E({}, Hn, {
+	}), Hn = Rn(Vn), Un, Wn, Gn, Kn = E({}, Vn, {
 		screenX: 0,
 		screenY: 0,
 		clientX: 0,
@@ -1687,25 +1687,25 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		shiftKey: 0,
 		altKey: 0,
 		metaKey: 0,
-		getModifierState: ir,
+		getModifierState: rr,
 		button: 0,
 		buttons: 0,
 		relatedTarget: function(e) {
 			return e.relatedTarget === void 0 ? e.fromElement === e.srcElement ? e.toElement : e.fromElement : e.relatedTarget;
 		},
 		movementX: function(e) {
-			return "movementX" in e ? e.movementX : (e !== Kn && (Kn && e.type === "mousemove" ? (Wn = e.screenX - Kn.screenX, Gn = e.screenY - Kn.screenY) : Gn = Wn = 0, Kn = e), Wn);
+			return "movementX" in e ? e.movementX : (e !== Gn && (Gn && e.type === "mousemove" ? (Un = e.screenX - Gn.screenX, Wn = e.screenY - Gn.screenY) : Wn = Un = 0, Gn = e), Un);
 		},
 		movementY: function(e) {
-			return "movementY" in e ? e.movementY : Gn;
+			return "movementY" in e ? e.movementY : Wn;
 		}
-	}), Jn = zn(qn), Yn = zn(E({}, qn, { dataTransfer: 0 })), Xn = zn(E({}, Hn, { relatedTarget: 0 })), Zn = zn(E({}, Bn, {
+	}), qn = Rn(Kn), Jn = Rn(E({}, Kn, { dataTransfer: 0 })), Yn = Rn(E({}, Vn, { relatedTarget: 0 })), Xn = Rn(E({}, zn, {
 		animationName: 0,
 		elapsedTime: 0,
 		pseudoElement: 0
-	})), Qn = zn(E({}, Bn, { clipboardData: function(e) {
+	})), Zn = Rn(E({}, zn, { clipboardData: function(e) {
 		return "clipboardData" in e ? e.clipboardData : window.clipboardData;
-	} })), $n = zn(E({}, Bn, { data: 0 })), er = {
+	} })), Qn = Rn(E({}, zn, { data: 0 })), $n = {
 		Esc: "Escape",
 		Spacebar: " ",
 		Left: "ArrowLeft",
@@ -1718,7 +1718,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		Apps: "ContextMenu",
 		Scroll: "ScrollLock",
 		MozPrintableKey: "Unidentified"
-	}, tr = {
+	}, er = {
 		8: "Backspace",
 		9: "Tab",
 		12: "Clear",
@@ -1755,26 +1755,26 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		144: "NumLock",
 		145: "ScrollLock",
 		224: "Meta"
-	}, nr = {
+	}, tr = {
 		Alt: "altKey",
 		Control: "ctrlKey",
 		Meta: "metaKey",
 		Shift: "shiftKey"
 	};
-	function rr(e) {
+	function nr(e) {
 		var t = this.nativeEvent;
-		return t.getModifierState ? t.getModifierState(e) : (e = nr[e]) ? !!t[e] : !1;
+		return t.getModifierState ? t.getModifierState(e) : (e = tr[e]) ? !!t[e] : !1;
 	}
-	function ir() {
-		return rr;
+	function rr() {
+		return nr;
 	}
-	var ar = zn(E({}, Hn, {
+	var ir = Rn(E({}, Vn, {
 		key: function(e) {
 			if (e.key) {
-				var t = er[e.key] || e.key;
+				var t = $n[e.key] || e.key;
 				if (t !== "Unidentified") return t;
 			}
-			return e.type === "keypress" ? (e = In(e), e === 13 ? "Enter" : String.fromCharCode(e)) : e.type === "keydown" || e.type === "keyup" ? tr[e.keyCode] || "Unidentified" : "";
+			return e.type === "keypress" ? (e = Fn(e), e === 13 ? "Enter" : String.fromCharCode(e)) : e.type === "keydown" || e.type === "keyup" ? er[e.keyCode] || "Unidentified" : "";
 		},
 		code: 0,
 		location: 0,
@@ -1784,17 +1784,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		metaKey: 0,
 		repeat: 0,
 		locale: 0,
-		getModifierState: ir,
+		getModifierState: rr,
 		charCode: function(e) {
-			return e.type === "keypress" ? In(e) : 0;
+			return e.type === "keypress" ? Fn(e) : 0;
 		},
 		keyCode: function(e) {
 			return e.type === "keydown" || e.type === "keyup" ? e.keyCode : 0;
 		},
 		which: function(e) {
-			return e.type === "keypress" ? In(e) : e.type === "keydown" || e.type === "keyup" ? e.keyCode : 0;
+			return e.type === "keypress" ? Fn(e) : e.type === "keydown" || e.type === "keyup" ? e.keyCode : 0;
 		}
-	})), or = zn(E({}, qn, {
+	})), ar = Rn(E({}, Kn, {
 		pointerId: 0,
 		width: 0,
 		height: 0,
@@ -1805,7 +1805,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		twist: 0,
 		pointerType: 0,
 		isPrimary: 0
-	})), sr = zn(E({}, Bn, { submitter: 0 })), cr = zn(E({}, Hn, {
+	})), or = Rn(E({}, zn, { submitter: 0 })), sr = Rn(E({}, Vn, {
 		touches: 0,
 		targetTouches: 0,
 		changedTouches: 0,
@@ -1813,12 +1813,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		metaKey: 0,
 		ctrlKey: 0,
 		shiftKey: 0,
-		getModifierState: ir
-	})), lr = zn(E({}, Bn, {
+		getModifierState: rr
+	})), cr = Rn(E({}, zn, {
 		propertyName: 0,
 		elapsedTime: 0,
 		pseudoElement: 0
-	})), ur = zn(E({}, qn, {
+	})), lr = Rn(E({}, Kn, {
 		deltaX: function(e) {
 			return "deltaX" in e ? e.deltaX : "wheelDeltaX" in e ? -e.wheelDeltaX : 0;
 		},
@@ -1827,21 +1827,21 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		},
 		deltaZ: 0,
 		deltaMode: 0
-	})), dr = zn(E({}, Bn, {
+	})), ur = Rn(E({}, zn, {
 		newState: 0,
 		oldState: 0,
 		source: 0
-	})), fr = [
+	})), dr = [
 		9,
 		13,
 		27,
 		32
-	], pr = kn && "CompositionEvent" in window, mr = null;
-	kn && "documentMode" in document && (mr = document.documentMode);
-	var hr = kn && "TextEvent" in window && !mr, gr = kn && (!pr || mr && 8 < mr && 11 >= mr), _r = " ", vr = !1;
-	function yr(e, t) {
+	], fr = On && "CompositionEvent" in window, pr = null;
+	On && "documentMode" in document && (pr = document.documentMode);
+	var mr = On && "TextEvent" in window && !pr, hr = On && (!fr || pr && 8 < pr && 11 >= pr), gr = " ", _r = !1;
+	function vr(e, t) {
 		switch (e) {
-			case "keyup": return fr.indexOf(t.keyCode) !== -1;
+			case "keyup": return dr.indexOf(t.keyCode) !== -1;
 			case "keydown": return t.keyCode !== 229;
 			case "keypress":
 			case "mousedown":
@@ -1849,20 +1849,20 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return !1;
 		}
 	}
-	function br(e) {
+	function yr(e) {
 		return e = e.detail, typeof e == "object" && "data" in e ? e.data : null;
 	}
-	var xr = !1;
-	function Sr(e, t) {
+	var br = !1;
+	function xr(e, t) {
 		switch (e) {
-			case "compositionend": return br(t);
-			case "keypress": return t.which === 32 ? (vr = !0, _r) : null;
-			case "textInput": return e = t.data, e === _r && vr ? null : e;
+			case "compositionend": return yr(t);
+			case "keypress": return t.which === 32 ? (_r = !0, gr) : null;
+			case "textInput": return e = t.data, e === gr && _r ? null : e;
 			default: return null;
 		}
 	}
-	function Cr(e, t) {
-		if (xr) return e === "compositionend" || !pr && yr(e, t) ? (e = Fn(), Pn = Nn = Mn = null, xr = !1, e) : null;
+	function Sr(e, t) {
+		if (br) return e === "compositionend" || !fr && vr(e, t) ? (e = Pn(), Nn = Mn = jn = null, br = !1, e) : null;
 		switch (e) {
 			case "paste": return null;
 			case "keypress":
@@ -1871,11 +1871,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					if (t.which) return String.fromCharCode(t.which);
 				}
 				return null;
-			case "compositionend": return gr && t.locale !== "ko" ? null : t.data;
+			case "compositionend": return hr && t.locale !== "ko" ? null : t.data;
 			default: return null;
 		}
 	}
-	var wr = {
+	var Cr = {
 		color: !0,
 		date: !0,
 		datetime: !0,
@@ -1892,76 +1892,76 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		url: !0,
 		week: !0
 	};
-	function Tr(e) {
+	function wr(e) {
 		var t = e && e.nodeName && e.nodeName.toLowerCase();
-		return t === "input" ? !!wr[e.type] : t === "textarea";
+		return t === "input" ? !!Cr[e.type] : t === "textarea";
 	}
-	function Er(e, t, n, r) {
-		Cn ? wn ? wn.push(r) : wn = [r] : Cn = r, t = Jf(t, "onChange"), 0 < t.length && (n = new Vn("onChange", "change", null, n, r), e.push({
+	function Tr(e, t, n, r) {
+		Sn ? Cn ? Cn.push(r) : Cn = [r] : Sn = r, t = Jf(t, "onChange"), 0 < t.length && (n = new Bn("onChange", "change", null, n, r), e.push({
 			event: n,
 			listeners: t
 		}));
 	}
-	var Dr = null, Or = null;
-	function kr(e) {
+	var Er = null, Dr = null;
+	function Or(e) {
 		Vf(e, 0);
 	}
-	function Ar(e) {
-		if (nn(It(e))) return e;
+	function kr(e) {
+		if (tn(It(e))) return e;
 	}
-	function jr(e, t) {
+	function Ar(e, t) {
 		if (e === "change") return t;
 	}
-	var Mr = !1;
-	if (kn) {
-		var Nr;
-		if (kn) {
-			var Pr = "oninput" in document;
-			if (!Pr) {
-				var Fr = document.createElement("div");
-				Fr.setAttribute("oninput", "return;"), Pr = typeof Fr.oninput == "function";
+	var jr = !1;
+	if (On) {
+		var Mr;
+		if (On) {
+			var Nr = "oninput" in document;
+			if (!Nr) {
+				var Pr = document.createElement("div");
+				Pr.setAttribute("oninput", "return;"), Nr = typeof Pr.oninput == "function";
 			}
-			Nr = Pr;
-		} else Nr = !1;
-		Mr = Nr && (!document.documentMode || 9 < document.documentMode);
+			Mr = Nr;
+		} else Mr = !1;
+		jr = Mr && (!document.documentMode || 9 < document.documentMode);
 	}
-	function Ir() {
-		Dr && (Dr.detachEvent("onpropertychange", Lr), Or = Dr = null);
+	function Fr() {
+		Er && (Er.detachEvent("onpropertychange", Ir), Dr = Er = null);
 	}
-	function Lr(e) {
-		if (e.propertyName === "value" && Ar(Or)) {
+	function Ir(e) {
+		if (e.propertyName === "value" && kr(Dr)) {
 			var t = [];
-			Er(t, Or, e, Sn(e)), Dn(kr, t);
+			Tr(t, Dr, e, xn(e)), En(Or, t);
 		}
 	}
-	function Rr(e, t, n) {
-		e === "focusin" ? (Ir(), Dr = t, Or = n, Dr.attachEvent("onpropertychange", Lr)) : e === "focusout" && Ir();
+	function Lr(e, t, n) {
+		e === "focusin" ? (Fr(), Er = t, Dr = n, Er.attachEvent("onpropertychange", Ir)) : e === "focusout" && Fr();
 	}
-	function zr(e) {
-		if (e === "selectionchange" || e === "keyup" || e === "keydown") return Ar(Or);
+	function Rr(e) {
+		if (e === "selectionchange" || e === "keyup" || e === "keydown") return kr(Dr);
+	}
+	function zr(e, t) {
+		if (e === "click") return kr(t);
 	}
 	function Br(e, t) {
-		if (e === "click") return Ar(t);
+		if (e === "input" || e === "change") return kr(t);
 	}
 	function Vr(e, t) {
-		if (e === "input" || e === "change") return Ar(t);
-	}
-	function Hr(e, t) {
 		return e === t && (e !== 0 || 1 / e == 1 / t) || e !== e && t !== t;
 	}
-	var Ur = typeof Object.is == "function" ? Object.is : Hr;
-	function Wr(e, t) {
-		if (Ur(e, t)) return !0;
+	var Hr = typeof Object.is == "function" ? Object.is : Vr;
+	function Ur(e, t) {
+		if (Hr(e, t)) return !0;
 		if (typeof e != "object" || !e || typeof t != "object" || !t) return !1;
 		var n = Object.keys(e), r = Object.keys(t);
 		if (n.length !== r.length) return !1;
 		for (r = 0; r < n.length; r++) {
 			var i = n[r];
-			if (!ze.call(t, i) || !Ur(e[i], t[i])) return !1;
+			if (!ze.call(t, i) || !Hr(e[i], t[i])) return !1;
 		}
 		return !0;
 	}
-	function Gr(e) {
+	function Wr(e) {
 		if (e ||= typeof document < "u" ? document : void 0, e === void 0) return null;
 		try {
 			return e.activeElement || e.body;
@@ -1969,12 +1969,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return e.body;
 		}
 	}
-	function Kr(e) {
+	function Gr(e) {
 		for (; e && e.firstChild;) e = e.firstChild;
 		return e;
 	}
-	function qr(e, t) {
-		var n = Kr(e);
+	function Kr(e, t) {
+		var n = Gr(e);
 		e = 0;
 		for (var r; n;) {
 			if (n.nodeType === 3) {
@@ -1994,15 +1994,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				n = void 0;
 			}
-			n = Kr(n);
+			n = Gr(n);
 		}
 	}
-	function Jr(e, t) {
-		return e && t ? e === t ? !0 : e && e.nodeType === 3 ? !1 : t && t.nodeType === 3 ? Jr(e, t.parentNode) : "contains" in e ? e.contains(t) : e.compareDocumentPosition ? !!(e.compareDocumentPosition(t) & 16) : !1 : !1;
+	function qr(e, t) {
+		return e && t ? e === t ? !0 : e && e.nodeType === 3 ? !1 : t && t.nodeType === 3 ? qr(e, t.parentNode) : "contains" in e ? e.contains(t) : e.compareDocumentPosition ? !!(e.compareDocumentPosition(t) & 16) : !1 : !1;
 	}
-	function Yr(e) {
+	function Jr(e) {
 		e = e != null && e.ownerDocument != null && e.ownerDocument.defaultView != null ? e.ownerDocument.defaultView : window;
-		for (var t = Gr(e.document); t instanceof e.HTMLIFrameElement;) {
+		for (var t = Wr(e.document); t instanceof e.HTMLIFrameElement;) {
 			try {
 				var n = typeof t.contentWindow.location.href == "string";
 			} catch {
@@ -2010,18 +2010,18 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			if (n) e = t.contentWindow;
 			else break;
-			t = Gr(e.document);
+			t = Wr(e.document);
 		}
 		return t;
 	}
-	function Xr(e) {
+	function Yr(e) {
 		var t = e && e.nodeName && e.nodeName.toLowerCase();
 		return t && (t === "input" && (e.type === "text" || e.type === "search" || e.type === "tel" || e.type === "url" || e.type === "password") || t === "textarea" || e.contentEditable === "true");
 	}
-	var Zr = kn && "documentMode" in document && 11 >= document.documentMode, Qr = null, $r = null, ei = null, ti = !1;
-	function ni(e, t, n) {
+	var Xr = On && "documentMode" in document && 11 >= document.documentMode, Zr = null, Qr = null, $r = null, ei = !1;
+	function ti(e, t, n) {
 		var r = n.window === n ? n.document : n.nodeType === 9 ? n : n.ownerDocument;
-		ti || Qr == null || Qr !== Gr(r) || (r = Qr, "selectionStart" in r && Xr(r) ? r = {
+		ei || Zr == null || Zr !== Wr(r) || (r = Zr, "selectionStart" in r && Yr(r) ? r = {
 			start: r.selectionStart,
 			end: r.selectionEnd
 		} : (r = (r.ownerDocument && r.ownerDocument.defaultView || window).getSelection(), r = {
@@ -2029,46 +2029,46 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			anchorOffset: r.anchorOffset,
 			focusNode: r.focusNode,
 			focusOffset: r.focusOffset
-		}), ei && Wr(ei, r) || (ei = r, r = Jf($r, "onSelect"), 0 < r.length && (t = new Vn("onSelect", "select", null, t, n), e.push({
+		}), $r && Ur($r, r) || ($r = r, r = Jf(Qr, "onSelect"), 0 < r.length && (t = new Bn("onSelect", "select", null, t, n), e.push({
 			event: t,
 			listeners: r
-		}), t.target = Qr)));
+		}), t.target = Zr)));
 	}
-	function ri(e, t) {
+	function ni(e, t) {
 		var n = {};
 		return n[e.toLowerCase()] = t.toLowerCase(), n["Webkit" + e] = "webkit" + t, n["Moz" + e] = "moz" + t, n;
 	}
-	var ii = {
-		animationend: ri("Animation", "AnimationEnd"),
-		animationiteration: ri("Animation", "AnimationIteration"),
-		animationstart: ri("Animation", "AnimationStart"),
-		transitionrun: ri("Transition", "TransitionRun"),
-		transitionstart: ri("Transition", "TransitionStart"),
-		transitioncancel: ri("Transition", "TransitionCancel"),
-		transitionend: ri("Transition", "TransitionEnd")
-	}, ai = {}, oi = {};
-	kn && (oi = document.createElement("div").style, "AnimationEvent" in window || (delete ii.animationend.animation, delete ii.animationiteration.animation, delete ii.animationstart.animation), "TransitionEvent" in window || delete ii.transitionend.transition);
-	function si(e) {
-		if (ai[e]) return ai[e];
-		if (!ii[e]) return e;
-		var t = ii[e], n;
-		for (n in t) if (t.hasOwnProperty(n) && n in oi) return ai[e] = t[n];
+	var ri = {
+		animationend: ni("Animation", "AnimationEnd"),
+		animationiteration: ni("Animation", "AnimationIteration"),
+		animationstart: ni("Animation", "AnimationStart"),
+		transitionrun: ni("Transition", "TransitionRun"),
+		transitionstart: ni("Transition", "TransitionStart"),
+		transitioncancel: ni("Transition", "TransitionCancel"),
+		transitionend: ni("Transition", "TransitionEnd")
+	}, ii = {}, ai = {};
+	On && (ai = document.createElement("div").style, "AnimationEvent" in window || (delete ri.animationend.animation, delete ri.animationiteration.animation, delete ri.animationstart.animation), "TransitionEvent" in window || delete ri.transitionend.transition);
+	function oi(e) {
+		if (ii[e]) return ii[e];
+		if (!ri[e]) return e;
+		var t = ri[e], n;
+		for (n in t) if (t.hasOwnProperty(n) && n in ai) return ii[e] = t[n];
 		return e;
 	}
-	var ci = si("animationend"), li = si("animationiteration"), ui = si("animationstart"), di = si("transitionrun"), fi = si("transitionstart"), pi = si("transitioncancel"), mi = si("transitionend"), hi = /* @__PURE__ */ new Map(), gi = "abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error fullscreenChange fullscreenError gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");
-	gi.push("scrollEnd");
-	function _i(e, t) {
-		hi.set(e, t), Ht(t, [e]);
+	var si = oi("animationend"), ci = oi("animationiteration"), li = oi("animationstart"), ui = oi("transitionrun"), di = oi("transitionstart"), fi = oi("transitioncancel"), pi = oi("transitionend"), mi = /* @__PURE__ */ new Map(), hi = "abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error fullscreenChange fullscreenError gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");
+	hi.push("scrollEnd");
+	function gi(e, t) {
+		mi.set(e, t), Ht(t, [e]);
 	}
-	var vi = 0;
-	function yi(e, t) {
+	var _i = 0;
+	function vi(e, t) {
 		if (e.name != null && e.name !== "auto") return e.name;
 		if (t.autoName !== null) return t.autoName;
 		e = bd.identifierPrefix;
-		var n = vi++;
+		var n = _i++;
 		return e = "_" + e + "t_" + n.toString(32) + "_", t.autoName = e;
 	}
-	function bi(e) {
+	function yi(e) {
 		if (e == null || typeof e == "string") return e;
 		var t = null, n = Od;
 		if (n !== null) for (var r = 0; r < n.length; r++) {
@@ -2080,10 +2080,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return t ?? e.default;
 	}
-	function xi(e, t) {
-		return e = bi(e), t = bi(t), t == null ? e === "auto" ? null : e : t === "auto" ? null : t;
+	function bi(e, t) {
+		return e = yi(e), t = yi(t), t == null ? e === "auto" ? null : e : t === "auto" ? null : t;
 	}
-	var Si = typeof reportError == "function" ? reportError : function(e) {
+	var xi = typeof reportError == "function" ? reportError : function(e) {
 		if (typeof window == "object" && typeof window.ErrorEvent == "function") {
 			var t = new window.ErrorEvent("error", {
 				bubbles: !0,
@@ -2097,62 +2097,62 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return;
 		}
 		console.error(e);
-	}, Ci = [], wi = 0, Ti = 0;
-	function Ei() {
-		for (var e = wi, t = Ti = wi = 0; t < e;) {
-			var n = Ci[t];
-			Ci[t++] = null;
-			var r = Ci[t];
-			Ci[t++] = null;
-			var i = Ci[t];
-			Ci[t++] = null;
-			var a = Ci[t];
-			if (Ci[t++] = null, r !== null && i !== null) {
+	}, Si = [], Ci = 0, wi = 0;
+	function Ti() {
+		for (var e = Ci, t = wi = Ci = 0; t < e;) {
+			var n = Si[t];
+			Si[t++] = null;
+			var r = Si[t];
+			Si[t++] = null;
+			var i = Si[t];
+			Si[t++] = null;
+			var a = Si[t];
+			if (Si[t++] = null, r !== null && i !== null) {
 				var o = r.pending;
 				o === null ? i.next = i : (i.next = o.next, o.next = i), r.pending = i;
 			}
-			a !== 0 && Ai(n, i, a);
+			a !== 0 && ki(n, i, a);
 		}
 	}
+	function Ei(e, t, n, r) {
+		Si[Ci++] = e, Si[Ci++] = t, Si[Ci++] = n, Si[Ci++] = r, wi |= r, e.lanes |= r, e = e.alternate, e !== null && (e.lanes |= r);
+	}
 	function Di(e, t, n, r) {
-		Ci[wi++] = e, Ci[wi++] = t, Ci[wi++] = n, Ci[wi++] = r, Ti |= r, e.lanes |= r, e = e.alternate, e !== null && (e.lanes |= r);
+		return Ei(e, t, n, r), Ai(e);
 	}
-	function Oi(e, t, n, r) {
-		return Di(e, t, n, r), ji(e);
+	function Oi(e, t) {
+		return Ei(e, null, null, t), Ai(e);
 	}
-	function ki(e, t) {
-		return Di(e, null, null, t), ji(e);
-	}
-	function Ai(e, t, n) {
+	function ki(e, t, n) {
 		e.lanes |= n;
 		var r = e.alternate;
 		r !== null && (r.lanes |= n);
 		for (var i = !1, a = e.return; a !== null;) a.childLanes |= n, r = a.alternate, r !== null && (r.childLanes |= n), a.tag === 22 && (e = a.stateNode, e === null || e._visibility & 1 || (i = !0)), e = a, a = a.return;
 		return e.tag === 3 ? (a = e.stateNode, i && t !== null && (i = 31 - tt(n), e = a.hiddenUpdates, r = e[i], r === null ? e[i] = [t] : r.push(t), t.lane = n | 536870912), a) : null;
 	}
-	function ji(e) {
+	function Ai(e) {
 		if (50 < kd) throw kd = 0, Ad = null, Error(i(185));
 		for (var t = e.return; t !== null;) e = t, t = e.return;
 		return e.tag === 3 ? e.stateNode : null;
 	}
-	var Mi = {};
-	function Ni(e, t, n, r) {
+	var ji = {};
+	function Mi(e, t, n, r) {
 		this.tag = e, this.key = n, this.sibling = this.child = this.return = this.stateNode = this.type = this.elementType = null, this.index = 0, this.refCleanup = this.ref = null, this.pendingProps = t, this.dependencies = this.memoizedState = this.updateQueue = this.memoizedProps = null, this.mode = r, this.subtreeFlags = this.flags = 0, this.deletions = null, this.childLanes = this.lanes = 0, this.alternate = null;
 	}
-	function Pi(e, t, n, r) {
-		return new Ni(e, t, n, r);
+	function Ni(e, t, n, r) {
+		return new Mi(e, t, n, r);
 	}
-	function Fi(e) {
+	function Pi(e) {
 		return e = e.prototype, !(!e || !e.isReactComponent);
 	}
-	function Ii(e, t) {
+	function Fi(e, t) {
 		var n = e.alternate;
-		return n === null ? (n = Pi(e.tag, t, e.key, e.mode), n.elementType = e.elementType, n.type = e.type, n.stateNode = e.stateNode, n.alternate = e, e.alternate = n) : (n.pendingProps = t, n.type = e.type, n.flags = 0, n.subtreeFlags = 0, n.deletions = null), n.flags = e.flags & 1206910976, n.childLanes = e.childLanes, n.lanes = e.lanes, n.child = e.child, n.memoizedProps = e.memoizedProps, n.memoizedState = e.memoizedState, n.updateQueue = e.updateQueue, t = e.dependencies, n.dependencies = t === null ? null : {
+		return n === null ? (n = Ni(e.tag, t, e.key, e.mode), n.elementType = e.elementType, n.type = e.type, n.stateNode = e.stateNode, n.alternate = e, e.alternate = n) : (n.pendingProps = t, n.type = e.type, n.flags = 0, n.subtreeFlags = 0, n.deletions = null), n.flags = e.flags & 1206910976, n.childLanes = e.childLanes, n.lanes = e.lanes, n.child = e.child, n.memoizedProps = e.memoizedProps, n.memoizedState = e.memoizedState, n.updateQueue = e.updateQueue, t = e.dependencies, n.dependencies = t === null ? null : {
 			lanes: t.lanes,
 			firstContext: t.firstContext
 		}, n.sibling = e.sibling, n.index = e.index, n.ref = e.ref, n.refCleanup = e.refCleanup, n;
 	}
-	function Li(e, t) {
+	function Ii(e, t) {
 		e.flags &= 1206910978;
 		var n = e.alternate;
 		return n === null ? (e.childLanes = 0, e.lanes = t, e.child = null, e.subtreeFlags = 0, e.memoizedProps = null, e.memoizedState = null, e.updateQueue = null, e.dependencies = null, e.stateNode = null) : (e.childLanes = n.childLanes, e.lanes = n.lanes, e.child = n.child, e.subtreeFlags = 0, e.deletions = null, e.memoizedProps = n.memoizedProps, e.memoizedState = n.memoizedState, e.updateQueue = n.updateQueue, e.type = n.type, t = n.dependencies, e.dependencies = t === null ? null : {
@@ -2160,21 +2160,21 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			firstContext: t.firstContext
 		}), e;
 	}
-	function Ri(e, t, n, r, a, o) {
+	function Li(e, t, n, r, a, o) {
 		var s = 0;
-		if (r = e, typeof r == "function") Fi(r) && (s = 1);
-		else if (typeof r == "string") s = qm(e, n, Te.current) ? 26 : e === "html" || e === "head" || e === "body" ? 27 : 5;
+		if (r = e, typeof r == "function") Pi(r) && (s = 1);
+		else if (typeof r == "string") s = qm(e, n, Ee.current) ? 26 : e === "html" || e === "head" || e === "body" ? 27 : 5;
 		else a: switch (r) {
-			case fe: return e = Pi(31, n, t, a), e.elementType = fe, e.lanes = o, e;
-			case O: return zi(n.children, a, o, t);
-			case re:
+			case pe: return e = Ni(31, n, t, a), e.elementType = pe, e.lanes = o, e;
+			case re: return Ri(n.children, a, o, t);
+			case ie:
 				s = 8, a |= 24;
 				break;
-			case ie: return e = Pi(12, n, t, a | 2), e.elementType = ie, e.lanes = o, e;
-			case ce: return e = Pi(13, n, t, a), e.elementType = ce, e.lanes = o, e;
-			case le: return e = Pi(19, n, t, a), e.elementType = le, e.lanes = o, e;
-			case pe:
-			case me: return e = a | 32, e = Pi(30, n, t, e), e.elementType = me, e.lanes = o, e.stateNode = {
+			case ae: return e = Ni(12, n, t, a | 2), e.elementType = ae, e.lanes = o, e;
+			case le: return e = Ni(13, n, t, a), e.elementType = le, e.lanes = o, e;
+			case ue: return e = Ni(19, n, t, a), e.elementType = ue, e.lanes = o, e;
+			case me:
+			case ge: return e = a | 32, e = Ni(30, n, t, e), e.elementType = ge, e.lanes = o, e.stateNode = {
 				autoName: null,
 				paired: null,
 				clones: null,
@@ -2182,52 +2182,52 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}, e;
 			default:
 				if (typeof r == "object" && r) switch (r.$$typeof) {
-					case oe:
+					case se:
 						s = 10;
 						break a;
-					case ae:
+					case oe:
 						s = 9;
 						break a;
-					case se:
+					case ce:
 						s = 11;
 						break a;
-					case ue:
+					case de:
 						s = 14;
 						break a;
-					case de:
+					case fe:
 						s = 16, r = null;
 						break a;
 				}
 				s = 29, n = Error(i(130, e === null ? "null" : typeof e, "")), r = null;
 		}
-		return t = Pi(s, n, t, a), t.elementType = e, t.type = r, t.lanes = o, t;
+		return t = Ni(s, n, t, a), t.elementType = e, t.type = r, t.lanes = o, t;
 	}
-	function zi(e, t, n, r) {
-		return e = Pi(7, e, r, t), e.lanes = n, e;
+	function Ri(e, t, n, r) {
+		return e = Ni(7, e, r, t), e.lanes = n, e;
 	}
-	function Bi(e, t, n) {
-		return e = Pi(6, e, null, t), e.lanes = n, e;
+	function zi(e, t, n) {
+		return e = Ni(6, e, null, t), e.lanes = n, e;
 	}
-	function Vi(e) {
-		var t = Pi(18, null, null, 0);
+	function Bi(e) {
+		var t = Ni(18, null, null, 0);
 		return t.stateNode = e, t;
 	}
-	function Hi(e, t, n) {
-		return t = Pi(4, e.children === null ? [] : e.children, e.key, t), t.lanes = n, t.stateNode = {
+	function Vi(e, t, n) {
+		return t = Ni(4, e.children === null ? [] : e.children, e.key, t), t.lanes = n, t.stateNode = {
 			containerInfo: e.containerInfo,
 			pendingChildren: null,
 			implementation: e.implementation
 		}, t;
 	}
-	var Ui = /* @__PURE__ */ new WeakMap();
-	function Wi(e, t) {
+	var Hi = /* @__PURE__ */ new WeakMap();
+	function Ui(e, t) {
 		if (typeof e == "object" && e) {
-			var n = Ui.get(e);
+			var n = Hi.get(e);
 			return n === void 0 ? (t = {
 				value: e,
 				source: t,
 				stack: Re(t)
-			}, Ui.set(e, t), t) : n;
+			}, Hi.set(e, t), t) : n;
 		}
 		return {
 			value: e,
@@ -2235,39 +2235,39 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			stack: Re(t)
 		};
 	}
-	var Gi = [], Ki = 0, qi = null, Ji = 0, Yi = [], Xi = 0, Zi = null, Qi = 1, $i = "";
-	function ea(e, t) {
-		Gi[Ki++] = Ji, Gi[Ki++] = qi, qi = e, Ji = t;
+	var Wi = [], Gi = 0, Ki = null, qi = 0, Ji = [], Yi = 0, Xi = null, Zi = 1, Qi = "";
+	function $i(e, t) {
+		Wi[Gi++] = qi, Wi[Gi++] = Ki, Ki = e, qi = t;
 	}
-	function ta(e, t, n) {
-		Yi[Xi++] = Qi, Yi[Xi++] = $i, Yi[Xi++] = Zi, Zi = e;
-		var r = Qi;
-		e = $i;
+	function ea(e, t, n) {
+		Ji[Yi++] = Zi, Ji[Yi++] = Qi, Ji[Yi++] = Xi, Xi = e;
+		var r = Zi;
+		e = Qi;
 		var i = 32 - tt(r) - 1;
 		r &= ~(1 << i), n += 1;
 		var a = 32 - tt(t) + i;
 		if (30 < a) {
 			var o = i - i % 5;
-			a = (r & (1 << o) - 1).toString(32), r >>= o, i -= o, Qi = 1 << 32 - tt(t) + i | n << i | r, $i = a + e;
-		} else Qi = 1 << a | n << i | r, $i = e;
+			a = (r & (1 << o) - 1).toString(32), r >>= o, i -= o, Zi = 1 << 32 - tt(t) + i | n << i | r, Qi = a + e;
+		} else Zi = 1 << a | n << i | r, Qi = e;
+	}
+	function ta(e) {
+		e.return !== null && ($i(e, 1), ea(e, 1, 0));
 	}
 	function na(e) {
-		e.return !== null && (ea(e, 1), ta(e, 1, 0));
+		for (; e === Ki;) Ki = Wi[--Gi], Wi[Gi] = null, qi = Wi[--Gi], Wi[Gi] = null;
+		for (; e === Xi;) Xi = Ji[--Yi], Ji[Yi] = null, Qi = Ji[--Yi], Ji[Yi] = null, Zi = Ji[--Yi], Ji[Yi] = null;
 	}
-	function ra(e) {
-		for (; e === qi;) qi = Gi[--Ki], Gi[Ki] = null, Ji = Gi[--Ki], Gi[Ki] = null;
-		for (; e === Zi;) Zi = Yi[--Xi], Yi[Xi] = null, $i = Yi[--Xi], Yi[Xi] = null, Qi = Yi[--Xi], Yi[Xi] = null;
+	function ra(e, t) {
+		Ji[Yi++] = Zi, Ji[Yi++] = Qi, Ji[Yi++] = Xi, Zi = t.id, Qi = t.overflow, Xi = e;
 	}
-	function ia(e, t) {
-		Yi[Xi++] = Qi, Yi[Xi++] = $i, Yi[Xi++] = Zi, Qi = t.id, $i = t.overflow, Zi = e;
+	var ia = null, z = null, B = !1, aa = null, oa = !1, sa = Error(i(519));
+	function ca(e) {
+		throw ma(Ui(Error(i(418, 1 < arguments.length && arguments[1] !== void 0 && arguments[1] ? "text" : "HTML", "")), e)), sa;
 	}
-	var aa = null, R = null, z = !1, oa = null, sa = !1, ca = Error(i(519));
 	function la(e) {
-		throw ha(Wi(Error(i(418, 1 < arguments.length && arguments[1] !== void 0 && arguments[1] ? "text" : "HTML", "")), e)), ca;
-	}
-	function ua(e) {
 		var t = e.stateNode, n = e.type, r = e.memoizedProps;
-		switch (t[wt] = e, t[Tt] = r, n) {
+		switch (t[I] = e, t[Tt] = r, n) {
 			case "dialog":
 				Q("cancel", t), Q("close", t);
 				break;
@@ -2292,67 +2292,67 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Q("toggle", t);
 				break;
 			case "input":
-				Q("invalid", t), sn(t, r.value, r.defaultValue, r.checked, r.defaultChecked, r.type, r.name, !0);
+				Q("invalid", t), on(t, r.value, r.defaultValue, r.checked, r.defaultChecked, r.type, r.name, !0);
 				break;
 			case "select":
 				Q("invalid", t);
 				break;
-			case "textarea": Q("invalid", t), dn(t, r.value, r.defaultValue, r.children);
+			case "textarea": Q("invalid", t), un(t, r.value, r.defaultValue, r.children);
 		}
-		n = r.children, typeof n != "string" && typeof n != "number" && typeof n != "bigint" || t.textContent === "" + n || !0 === r.suppressHydrationWarning || ep(t.textContent, n) ? (r.popover != null && (Q("beforetoggle", t), Q("toggle", t)), r.onScroll != null && Q("scroll", t), r.onScrollEnd != null && Q("scrollend", t), r.onClick != null && (t.onclick = bn), t = !0) : t = !1, t || la(e, !0);
+		n = r.children, typeof n != "string" && typeof n != "number" && typeof n != "bigint" || t.textContent === "" + n || !0 === r.suppressHydrationWarning || ep(t.textContent, n) ? (r.popover != null && (Q("beforetoggle", t), Q("toggle", t)), r.onScroll != null && Q("scroll", t), r.onScrollEnd != null && Q("scrollend", t), r.onClick != null && (t.onclick = yn), t = !0) : t = !1, t || ca(e, !0);
 	}
-	function da(e) {
-		for (aa = e.return; aa;) switch (aa.tag) {
+	function ua(e) {
+		for (ia = e.return; ia;) switch (ia.tag) {
 			case 5:
 			case 31:
 			case 13:
-				sa = !1;
+				oa = !1;
 				return;
 			case 27:
 			case 3:
-				sa = !0;
+				oa = !0;
 				return;
-			default: aa = aa.return;
+			default: ia = ia.return;
 		}
 	}
-	function fa(e) {
-		if (e !== aa) return !1;
-		if (!z) return da(e), z = !0, !1;
+	function da(e) {
+		if (e !== ia) return !1;
+		if (!B) return ua(e), B = !0, !1;
 		var t = e.tag, n;
-		if ((n = t !== 3 && t !== 27) && ((n = t === 5) && (n = e.type, n = n === "form" || n === "button" || pp(e.type, e.memoizedProps)), n = !n), n && R && la(e), da(e), t === 13) {
+		if ((n = t !== 3 && t !== 27) && ((n = t === 5) && (n = e.type, n = n === "form" || n === "button" || pp(e.type, e.memoizedProps)), n = !n), n && z && ca(e), ua(e), t === 13) {
 			if (e = e.memoizedState, e = e === null ? null : e.dehydrated, !e) throw Error(i(317));
-			R = dm(e);
+			z = dm(e);
 		} else if (t === 31) {
 			if (e = e.memoizedState, e = e === null ? null : e.dehydrated, !e) throw Error(i(317));
-			R = dm(e);
-		} else t === 27 ? (t = R, Sp(e.type) ? (e = um, um = null, R = e) : R = t) : R = aa ? lm(e.stateNode.nextSibling) : null;
+			z = dm(e);
+		} else t === 27 ? (t = z, Sp(e.type) ? (e = um, um = null, z = e) : z = t) : z = ia ? lm(e.stateNode.nextSibling) : null;
 		return !0;
 	}
+	function fa() {
+		z = ia = null, B = !1;
+	}
 	function pa() {
-		R = aa = null, z = !1;
+		var e = aa;
+		return e !== null && (fd === null ? fd = e : fd.push.apply(fd, e), aa = null), e;
 	}
-	function ma() {
-		var e = oa;
-		return e !== null && (pd === null ? pd = e : pd.push.apply(pd, e), oa = null), e;
+	function ma(e) {
+		aa === null ? aa = [e] : aa.push(e);
 	}
-	function ha(e) {
-		oa === null ? oa = [e] : oa.push(e);
+	var ha = Te(null), ga = null, _a = null;
+	function va(e, t, n) {
+		M(ha, t._currentValue), t._currentValue = n;
 	}
-	var ga = we(null), _a = null, va = null;
-	function ya(e, t, n) {
-		N(ga, t._currentValue), t._currentValue = n;
+	function ya(e) {
+		e._currentValue = ha.current, j(ha);
 	}
-	function ba(e) {
-		e._currentValue = ga.current, M(ga);
-	}
-	function xa(e, t, n) {
+	function ba(e, t, n) {
 		for (; e !== null;) {
 			var r = e.alternate;
 			if ((e.childLanes & t) === t ? r !== null && (r.childLanes & t) !== t && (r.childLanes |= t) : (e.childLanes |= t, r !== null && (r.childLanes |= t)), e === n) break;
 			e = e.return;
 		}
 	}
-	function Sa(e, t, n, r) {
+	function xa(e, t, n, r) {
 		var a = e.child;
 		for (a !== null && (a.return = e); a !== null;) {
 			var o = a.dependencies;
@@ -2363,15 +2363,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var c = o;
 					o = a;
 					for (var l = 0; l < t.length; l++) if (c.context === t[l]) {
-						o.lanes |= n, c = o.alternate, c !== null && (c.lanes |= n), xa(o.return, n, e), r || (s = null);
+						o.lanes |= n, c = o.alternate, c !== null && (c.lanes |= n), ba(o.return, n, e), r || (s = null);
 						break a;
 					}
 					o = c.next;
 				}
 			} else if (a.tag === 18) {
 				if (s = a.return, s === null) throw Error(i(341));
-				s.lanes |= n, o = s.alternate, o !== null && (o.lanes |= n), xa(s, n, e), s = null;
-			} else a.tag === 13 && a.memoizedState !== null && a.memoizedState.dehydrated === null ? (a.lanes |= n, s = a.alternate, s !== null && (s.lanes |= n), xa(a.return, n, e), s = a.child, s = s === null ? null : s.sibling) : s = a.child;
+				s.lanes |= n, o = s.alternate, o !== null && (o.lanes |= n), ba(s, n, e), s = null;
+			} else a.tag === 13 && a.memoizedState !== null && a.memoizedState.dehydrated === null ? (a.lanes |= n, s = a.alternate, s !== null && (s.lanes |= n), ba(a.return, n, e), s = a.child, s = s === null ? null : s.sibling) : s = a.child;
 			if (s !== null) s.return = a;
 			else for (s = a; s !== null;) {
 				if (s === e) {
@@ -2387,7 +2387,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			a = s;
 		}
 	}
-	function Ca(e, t, n, r) {
+	function Sa(e, t, n, r) {
 		e = null;
 		for (var a = t, o = !1; a !== null;) {
 			if (!o) {
@@ -2399,7 +2399,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				if (s === null) throw Error(i(387));
 				if (s = s.memoizedProps, s !== null) {
 					var c = a.type;
-					Ur(a.pendingProps.value, s.value) || (e === null ? e = [c] : e.push(c));
+					Hr(a.pendingProps.value, s.value) || (e === null ? e = [c] : e.push(c));
 				}
 			} else if (a === Oe.current) {
 				if (s = a.alternate, s === null) throw Error(i(387));
@@ -2407,40 +2407,40 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			a = a.return;
 		}
-		return e !== null && Sa(t, e, n, r), t.flags |= 262144, e !== null;
+		return e !== null && xa(t, e, n, r), t.flags |= 262144, e !== null;
 	}
-	function wa(e) {
+	function Ca(e) {
 		for (e = e.firstContext; e !== null;) {
-			if (!Ur(e.context._currentValue, e.memoizedValue)) return !0;
+			if (!Hr(e.context._currentValue, e.memoizedValue)) return !0;
 			e = e.next;
 		}
 		return !1;
 	}
-	function Ta(e) {
-		_a = e, va = null, e = e.dependencies, e !== null && (e.firstContext = null);
+	function wa(e) {
+		ga = e, _a = null, e = e.dependencies, e !== null && (e.firstContext = null);
 	}
-	function Ea(e) {
-		return Oa(_a, e);
+	function Ta(e) {
+		return Da(ga, e);
+	}
+	function Ea(e, t) {
+		return ga === null && wa(e), Da(e, t);
 	}
 	function Da(e, t) {
-		return _a === null && Ta(e), Oa(e, t);
-	}
-	function Oa(e, t) {
 		var n = t._currentValue;
 		if (t = {
 			context: t,
 			memoizedValue: n,
 			next: null
-		}, va === null) {
+		}, _a === null) {
 			if (e === null) throw Error(i(308));
-			va = t, e.dependencies = {
+			_a = t, e.dependencies = {
 				lanes: 0,
 				firstContext: t
 			}, e.flags |= 524288;
-		} else va = va.next = t;
+		} else _a = _a.next = t;
 		return n;
 	}
-	var ka = typeof AbortController < "u" ? AbortController : function() {
+	var Oa = typeof AbortController < "u" ? AbortController : function() {
 		var e = [], t = this.signal = {
 			aborted: !1,
 			addEventListener: function(t, n) {
@@ -2452,27 +2452,27 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				return e();
 			});
 		};
-	}, Aa = t.unstable_scheduleCallback, ja = t.unstable_NormalPriority, Ma = {
-		$$typeof: oe,
+	}, ka = t.unstable_scheduleCallback, Aa = t.unstable_NormalPriority, ja = {
+		$$typeof: se,
 		Consumer: null,
 		Provider: null,
 		_currentValue: null,
 		_currentValue2: null,
 		_threadCount: 0
 	};
-	function Na() {
+	function Ma() {
 		return {
-			controller: new ka(),
+			controller: new Oa(),
 			data: /* @__PURE__ */ new Map(),
 			refCount: 0
 		};
 	}
-	function Pa(e) {
-		e.refCount--, e.refCount === 0 && Aa(ja, function() {
+	function Na(e) {
+		e.refCount--, e.refCount === 0 && ka(Aa, function() {
 			e.controller.abort();
 		});
 	}
-	function Fa(e, t) {
+	function Pa(e, t) {
 		if (e.pendingLanes & 4194048) {
 			var n = e.transitionTypes;
 			for (n === null && (n = e.transitionTypes = []), e = 0; e < t.length; e++) {
@@ -2481,16 +2481,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 		}
 	}
-	var Ia = null;
-	function La(e) {
+	var Fa = null;
+	function Ia(e) {
 		var t = e.transitionTypes;
 		return e.transitionTypes = null, t;
 	}
-	var Ra = null, za = 0, Ba = 0, Va = null;
-	function Ha(e, t) {
-		if (Ra === null) {
-			var n = Ra = [];
-			za = 0, Ba = Pf(), Va = {
+	var La = null, Ra = 0, za = 0, Ba = null;
+	function Va(e, t) {
+		if (La === null) {
+			var n = La = [];
+			Ra = 0, za = Pf(), Ba = {
 				status: "pending",
 				value: void 0,
 				then: function(e) {
@@ -2498,17 +2498,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 			};
 		}
-		return za++, t.then(Ua, Ua), t;
+		return Ra++, t.then(Ha, Ha), t;
 	}
-	function Ua() {
-		if (--za === 0 && (Ia = null, Ra !== null)) {
-			Va !== null && (Va.status = "fulfilled");
-			var e = Ra;
-			Ra = null, Ba = 0, Va = null;
+	function Ha() {
+		if (--Ra === 0 && (Fa = null, La !== null)) {
+			Ba !== null && (Ba.status = "fulfilled");
+			var e = La;
+			La = null, za = 0, Ba = null;
 			for (var t = 0; t < e.length; t++) (0, e[t])();
 		}
 	}
-	function Wa(e, t) {
+	function Ua(e, t) {
 		var n = [], r = {
 			status: "pending",
 			value: null,
@@ -2524,48 +2524,48 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			for (r.status = "rejected", r.reason = e, e = 0; e < n.length; e++) (0, n[e])(void 0);
 		}), r;
 	}
-	var Ga = A.S;
-	A.S = function(e, t) {
-		if (gd = We(), typeof t == "object" && t && typeof t.then == "function" && Ha(e, t), Ia !== null) for (var n = bf; n !== null;) Fa(n, Ia), n = n.next;
+	var Wa = k.S;
+	k.S = function(e, t) {
+		if (hd = F(), typeof t == "object" && t && typeof t.then == "function" && Va(e, t), Fa !== null) for (var n = bf; n !== null;) Pa(n, Fa), n = n.next;
 		if (n = e.types, n !== null) {
-			for (var r = bf; r !== null;) Fa(r, n), r = r.next;
-			if (Ba !== 0) {
-				r = Ia, r === null && (r = Ia = []);
+			for (var r = bf; r !== null;) Pa(r, n), r = r.next;
+			if (za !== 0) {
+				r = Fa, r === null && (r = Fa = []);
 				for (var i = 0; i < n.length; i++) {
 					var a = n[i];
 					r.indexOf(a) === -1 && r.push(a);
 				}
 			}
 		}
-		Ga !== null && Ga(e, t);
+		Wa !== null && Wa(e, t);
 	};
-	var Ka = we(null);
-	function qa() {
-		var e = Ka.current;
-		return e === null ? K.pooledCache : e;
+	var Ga = Te(null);
+	function Ka() {
+		var e = Ga.current;
+		return e === null ? q.pooledCache : e;
 	}
-	function Ja(e, t) {
-		t === null ? N(Ka, Ka.current) : N(Ka, t.pool);
+	function qa(e, t) {
+		t === null ? M(Ga, Ga.current) : M(Ga, t.pool);
 	}
-	function Ya() {
-		var e = qa();
+	function Ja() {
+		var e = Ka();
 		return e === null ? null : {
-			parent: Ma._currentValue,
+			parent: ja._currentValue,
 			pool: e
 		};
 	}
-	var Xa = Error(i(460)), Za = Error(i(474)), Qa = Error(i(542)), $a = { then: function() {} };
-	function eo(e) {
+	var Ya = Error(i(460)), Xa = Error(i(474)), Za = Error(i(542)), Qa = { then: function() {} };
+	function $a(e) {
 		return e = e.status, e === "fulfilled" || e === "rejected";
 	}
-	function to(e, t, n) {
-		switch (n = e[n], n === void 0 ? e.push(t) : n !== t && (t.then(bn, bn), t = n), t.status) {
+	function eo(e, t, n) {
+		switch (n = e[n], n === void 0 ? e.push(t) : n !== t && (t.then(yn, yn), t = n), t.status) {
 			case "fulfilled": return t.value;
-			case "rejected": throw e = t.reason, ao(e), e === void 0 && !("reason" in t) ? Error(i(600)) : e;
+			case "rejected": throw e = t.reason, io(e), e === void 0 && !("reason" in t) ? Error(i(600)) : e;
 			default:
-				if (typeof t.status == "string") t.then(bn, bn);
+				if (typeof t.status == "string") t.then(yn, yn);
 				else {
-					if (e = K, e !== null && 100 < e.shellSuspendCounter) throw Error(i(482));
+					if (e = q, e !== null && 100 < e.shellSuspendCounter) throw Error(i(482));
 					e = t, e.status = "pending", e.then(function(e) {
 						if (t.status === "pending") {
 							var n = t;
@@ -2580,40 +2580,40 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				switch (t.status) {
 					case "fulfilled": return t.value;
-					case "rejected": throw e = t.reason, ao(e), e;
+					case "rejected": throw e = t.reason, io(e), e;
 				}
-				throw ro = t, Xa;
+				throw no = t, Ya;
 		}
 	}
-	function no(e) {
+	function to(e) {
 		try {
 			var t = e._init;
 			return t(e._payload);
 		} catch (e) {
-			throw typeof e == "object" && e && typeof e.then == "function" ? (ro = e, Xa) : e;
+			throw typeof e == "object" && e && typeof e.then == "function" ? (no = e, Ya) : e;
 		}
 	}
-	var ro = null;
-	function io() {
-		if (ro === null) throw Error(i(459));
-		var e = ro;
-		return ro = null, e;
+	var no = null;
+	function ro() {
+		if (no === null) throw Error(i(459));
+		var e = no;
+		return no = null, e;
 	}
-	function ao(e) {
-		if (e === Xa || e === Qa) throw Error(i(483));
+	function io(e) {
+		if (e === Ya || e === Za) throw Error(i(483));
 	}
-	var oo = null, so = 0;
-	function co(e) {
-		var t = so;
-		return so += 1, oo === null && (oo = []), to(oo, e, t);
+	var ao = null, oo = 0;
+	function so(e) {
+		var t = oo;
+		return oo += 1, ao === null && (ao = []), eo(ao, e, t);
 	}
-	function lo(e, t) {
+	function co(e, t) {
 		t = t.props.ref, e.ref = t === void 0 ? null : t;
 	}
-	function uo(e, t) {
+	function lo(e, t) {
 		throw t.$$typeof === D ? Error(i(525)) : (e = Object.prototype.toString.call(t), Error(i(31, e === "[object Object]" ? "object with keys {" + Object.keys(t).join(", ") + "}" : e)));
 	}
-	function fo(e) {
+	function uo(e) {
 		function t(t, n) {
 			if (e) {
 				var r = t.deletions;
@@ -2630,7 +2630,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return t;
 		}
 		function a(e, t) {
-			return e = Ii(e, t), e.index = 0, e.sibling = null, e;
+			return e = Fi(e, t), e.index = 0, e.sibling = null, e;
 		}
 		function o(t, n, r) {
 			return t.index = r, e ? (r = t.alternate, r === null ? (t.flags |= 134217730, n) : (r = r.index, r < n ? (t.flags |= 2, n) : r)) : (t.flags |= 1048576, n);
@@ -2639,30 +2639,30 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return e && t.alternate === null && (t.flags |= 134217730), t;
 		}
 		function c(e, t, n, r) {
-			return t === null || t.tag !== 6 ? (t = Bi(n, e.mode, r), t.return = e, t) : (t = a(t, n), t.return = e, t);
+			return t === null || t.tag !== 6 ? (t = zi(n, e.mode, r), t.return = e, t) : (t = a(t, n), t.return = e, t);
 		}
 		function l(e, t, n, r) {
 			var i = n.type;
-			return i === O ? (e = d(e, t, n.props.children, r, n.key), lo(e, n), e) : t !== null && (t.elementType === i || typeof i == "object" && i && i.$$typeof === de && no(i) === t.type) ? (t = a(t, n.props), lo(t, n), t.return = e, t) : (t = Ri(n.type, n.key, n.props, null, e.mode, r), lo(t, n), t.return = e, t);
+			return i === re ? (e = d(e, t, n.props.children, r, n.key), co(e, n), e) : t !== null && (t.elementType === i || typeof i == "object" && i && i.$$typeof === fe && to(i) === t.type) ? (t = a(t, n.props), co(t, n), t.return = e, t) : (t = Li(n.type, n.key, n.props, null, e.mode, r), co(t, n), t.return = e, t);
 		}
 		function u(e, t, n, r) {
-			return t === null || t.tag !== 4 || t.stateNode.containerInfo !== n.containerInfo || t.stateNode.implementation !== n.implementation ? (t = Hi(n, e.mode, r), t.return = e, t) : (t = a(t, n.children || []), t.return = e, t);
+			return t === null || t.tag !== 4 || t.stateNode.containerInfo !== n.containerInfo || t.stateNode.implementation !== n.implementation ? (t = Vi(n, e.mode, r), t.return = e, t) : (t = a(t, n.children || []), t.return = e, t);
 		}
 		function d(e, t, n, r, i) {
-			return t === null || t.tag !== 7 ? (t = zi(n, e.mode, r, i), t.return = e, t) : (t = a(t, n), t.return = e, t);
+			return t === null || t.tag !== 7 ? (t = Ri(n, e.mode, r, i), t.return = e, t) : (t = a(t, n), t.return = e, t);
 		}
 		function f(e, t, n) {
-			if (typeof t == "string" && t !== "" || typeof t == "number" || typeof t == "bigint") return t = Bi("" + t, e.mode, n), t.return = e, t;
+			if (typeof t == "string" && t !== "" || typeof t == "number" || typeof t == "bigint") return t = zi("" + t, e.mode, n), t.return = e, t;
 			if (typeof t == "object" && t) {
 				switch (t.$$typeof) {
-					case te: return n = Ri(t.type, t.key, t.props, null, e.mode, n), lo(n, t), n.return = e, n;
-					case ne: return t = Hi(t, e.mode, n), t.return = e, t;
-					case de: return t = no(t), f(e, t, n);
+					case te: return n = Li(t.type, t.key, t.props, null, e.mode, n), co(n, t), n.return = e, n;
+					case ne: return t = Vi(t, e.mode, n), t.return = e, t;
+					case fe: return t = to(t), f(e, t, n);
 				}
-				if (be(t) || _e(t)) return t = zi(t, e.mode, n, null), t.return = e, t;
-				if (typeof t.then == "function") return f(e, co(t), n);
-				if (t.$$typeof === oe) return f(e, Da(e, t), n);
-				uo(e, t);
+				if (O(t) || ye(t)) return t = Ri(t, e.mode, n, null), t.return = e, t;
+				if (typeof t.then == "function") return f(e, so(t), n);
+				if (t.$$typeof === se) return f(e, Ea(e, t), n);
+				lo(e, t);
 			}
 			return null;
 		}
@@ -2673,12 +2673,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				switch (n.$$typeof) {
 					case te: return n.key === i ? l(e, t, n, r) : null;
 					case ne: return n.key === i ? u(e, t, n, r) : null;
-					case de: return n = no(n), p(e, t, n, r);
+					case fe: return n = to(n), p(e, t, n, r);
 				}
-				if (be(n) || _e(n)) return i === null ? d(e, t, n, r, null) : null;
-				if (typeof n.then == "function") return p(e, t, co(n), r);
-				if (n.$$typeof === oe) return p(e, t, Da(e, n), r);
-				uo(e, n);
+				if (O(n) || ye(n)) return i === null ? d(e, t, n, r, null) : null;
+				if (typeof n.then == "function") return p(e, t, so(n), r);
+				if (n.$$typeof === se) return p(e, t, Ea(e, n), r);
+				lo(e, n);
 			}
 			return null;
 		}
@@ -2688,12 +2688,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				switch (r.$$typeof) {
 					case te: return e = e.get(r.key === null ? n : r.key) || null, l(t, e, r, i);
 					case ne: return e = e.get(r.key === null ? n : r.key) || null, u(t, e, r, i);
-					case de: return r = no(r), m(e, t, n, r, i);
+					case fe: return r = to(r), m(e, t, n, r, i);
 				}
-				if (be(r) || _e(r)) return e = e.get(n) || null, d(t, e, r, i, null);
-				if (typeof r.then == "function") return m(e, t, n, co(r), i);
-				if (r.$$typeof === oe) return m(e, t, n, Da(t, r), i);
-				uo(t, r);
+				if (O(r) || ye(r)) return e = e.get(n) || null, d(t, e, r, i, null);
+				if (typeof r.then == "function") return m(e, t, n, so(r), i);
+				if (r.$$typeof === se) return m(e, t, n, Ea(t, r), i);
+				lo(t, r);
 			}
 			return null;
 		}
@@ -2707,15 +2707,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				e && d && _.alternate === null && t(i, d), a = o(_, a, h), u === null ? l = _ : u.sibling = _, u = _, d = g;
 			}
-			if (h === s.length) return n(i, d), z && ea(i, h), l;
+			if (h === s.length) return n(i, d), B && $i(i, h), l;
 			if (d === null) {
 				for (; h < s.length; h++) d = f(i, s[h], c), d !== null && (a = o(d, a, h), u === null ? l = d : u.sibling = d, u = d);
-				return z && ea(i, h), l;
+				return B && $i(i, h), l;
 			}
 			for (d = r(d); h < s.length; h++) g = m(d, i, h, s[h], c), g !== null && (e && (_ = g.alternate, _ !== null && d.delete(_.key === null ? h : _.key)), a = o(g, a, h), u === null ? l = g : u.sibling = g, u = g);
 			return e && d.forEach(function(e) {
 				return t(i, e);
-			}), z && ea(i, h), l;
+			}), B && $i(i, h), l;
 		}
 		function g(a, s, c, l) {
 			if (c == null) throw Error(i(151));
@@ -2728,30 +2728,30 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				e && h && y.alternate === null && t(a, h), s = o(y, s, g), d === null ? u = y : d.sibling = y, d = y, h = _;
 			}
-			if (v.done) return n(a, h), z && ea(a, g), u;
+			if (v.done) return n(a, h), B && $i(a, g), u;
 			if (h === null) {
 				for (; !v.done; g++, v = c.next()) v = f(a, v.value, l), v !== null && (s = o(v, s, g), d === null ? u = v : d.sibling = v, d = v);
-				return z && ea(a, g), u;
+				return B && $i(a, g), u;
 			}
 			for (h = r(h); !v.done; g++, v = c.next()) v = m(h, a, g, v.value, l), v !== null && (e && (_ = v.alternate, _ !== null && h.delete(_.key === null ? g : _.key)), s = o(v, s, g), d === null ? u = v : d.sibling = v, d = v);
 			return e && h.forEach(function(e) {
 				return t(a, e);
-			}), z && ea(a, g), u;
+			}), B && $i(a, g), u;
 		}
 		function _(e, r, o, c) {
-			if (typeof o == "object" && o && o.type === O && o.key === null && o.props.ref === void 0 && (o = o.props.children), typeof o == "object" && o) {
+			if (typeof o == "object" && o && o.type === re && o.key === null && o.props.ref === void 0 && (o = o.props.children), typeof o == "object" && o) {
 				switch (o.$$typeof) {
 					case te:
 						a: {
 							for (var l = o.key; r !== null;) {
 								if (r.key === l) {
-									if (l = o.type, l === O) {
+									if (l = o.type, l === re) {
 										if (r.tag === 7) {
-											n(e, r.sibling), c = a(r, o.props.children), lo(c, o), c.return = e, e = c;
+											n(e, r.sibling), c = a(r, o.props.children), co(c, o), c.return = e, e = c;
 											break a;
 										}
-									} else if (r.elementType === l || typeof l == "object" && l && l.$$typeof === de && no(l) === r.type) {
-										n(e, r.sibling), c = a(r, o.props), lo(c, o), c.return = e, e = c;
+									} else if (r.elementType === l || typeof l == "object" && l && l.$$typeof === fe && to(l) === r.type) {
+										n(e, r.sibling), c = a(r, o.props), co(c, o), c.return = e, e = c;
 										break a;
 									}
 									n(e, r);
@@ -2759,7 +2759,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								}
 								t(e, r), r = r.sibling;
 							}
-							o.type === O ? (c = zi(o.props.children, e.mode, c, o.key), lo(c, o), c.return = e, e = c) : (c = Ri(o.type, o.key, o.props, null, e.mode, c), lo(c, o), c.return = e, e = c);
+							o.type === re ? (c = Ri(o.props.children, e.mode, c, o.key), co(c, o), c.return = e, e = c) : (c = Li(o.type, o.key, o.props, null, e.mode, c), co(c, o), c.return = e, e = c);
 						}
 						return s(e);
 					case ne:
@@ -2775,36 +2775,36 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								}
 								t(e, r), r = r.sibling;
 							}
-							c = Hi(o, e.mode, c), c.return = e, e = c;
+							c = Vi(o, e.mode, c), c.return = e, e = c;
 						}
 						return s(e);
-					case de: return o = no(o), _(e, r, o, c);
+					case fe: return o = to(o), _(e, r, o, c);
 				}
-				if (be(o)) return h(e, r, o, c);
-				if (_e(o)) {
-					if (l = _e(o), typeof l != "function") throw Error(i(150));
+				if (O(o)) return h(e, r, o, c);
+				if (ye(o)) {
+					if (l = ye(o), typeof l != "function") throw Error(i(150));
 					return o = l.call(o), g(e, r, o, c);
 				}
-				if (typeof o.then == "function") return _(e, r, co(o), c);
-				if (o.$$typeof === oe) return _(e, r, Da(e, o), c);
-				uo(e, o);
+				if (typeof o.then == "function") return _(e, r, so(o), c);
+				if (o.$$typeof === se) return _(e, r, Ea(e, o), c);
+				lo(e, o);
 			}
-			return typeof o == "string" && o !== "" || typeof o == "number" || typeof o == "bigint" ? (o = "" + o, r !== null && r.tag === 6 ? (n(e, r.sibling), c = a(r, o), c.return = e, e = c) : (n(e, r), c = Bi(o, e.mode, c), c.return = e, e = c), s(e)) : n(e, r);
+			return typeof o == "string" && o !== "" || typeof o == "number" || typeof o == "bigint" ? (o = "" + o, r !== null && r.tag === 6 ? (n(e, r.sibling), c = a(r, o), c.return = e, e = c) : (n(e, r), c = zi(o, e.mode, c), c.return = e, e = c), s(e)) : n(e, r);
 		}
 		return function(e, t, n, r) {
 			try {
-				so = 0;
+				oo = 0;
 				var i = _(e, t, n, r);
-				return oo = null, i;
+				return ao = null, i;
 			} catch (t) {
-				if (t === Xa || t === Qa) throw t;
-				var a = Pi(29, t, null, e.mode);
+				if (t === Ya || t === Za) throw t;
+				var a = Ni(29, t, null, e.mode);
 				return a.lanes = r, a.return = e, a;
 			}
 		};
 	}
-	var po = fo(!0), mo = fo(!1), ho = !1;
-	function go(e) {
+	var fo = uo(!0), po = uo(!1), mo = !1;
+	function ho(e) {
 		e.updateQueue = {
 			baseState: e.memoizedState,
 			firstBaseUpdate: null,
@@ -2817,7 +2817,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			callbacks: null
 		};
 	}
-	function _o(e, t) {
+	function go(e, t) {
 		e = e.updateQueue, t.updateQueue === e && (t.updateQueue = {
 			baseState: e.baseState,
 			firstBaseUpdate: e.firstBaseUpdate,
@@ -2826,7 +2826,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			callbacks: null
 		});
 	}
-	function vo(e) {
+	function _o(e) {
 		return {
 			lane: e,
 			tag: 0,
@@ -2835,22 +2835,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			next: null
 		};
 	}
-	function yo(e, t, n) {
+	function vo(e, t, n) {
 		var r = e.updateQueue;
 		if (r === null) return null;
-		if (r = r.shared, G & 2) {
+		if (r = r.shared, K & 2) {
 			var i = r.pending;
-			return i === null ? t.next = t : (t.next = i.next, i.next = t), r.pending = t, t = ji(e), Ai(e, null, n), t;
+			return i === null ? t.next = t : (t.next = i.next, i.next = t), r.pending = t, t = Ai(e), ki(e, null, n), t;
 		}
-		return Di(e, r, t, n), ji(e);
+		return Ei(e, r, t, n), Ai(e);
 	}
-	function bo(e, t, n) {
+	function yo(e, t, n) {
 		if (t = t.updateQueue, t !== null && (t = t.shared, n & 4194048)) {
 			var r = t.lanes;
-			r &= e.pendingLanes, n |= r, t.lanes = n, I(e, n);
+			r &= e.pendingLanes, n |= r, t.lanes = n, vt(e, n);
 		}
 	}
-	function xo(e, t) {
+	function bo(e, t) {
 		var n = e.updateQueue, r = e.alternate;
 		if (r !== null && (r = r.updateQueue, n === r)) {
 			var i = null, a = null;
@@ -2876,17 +2876,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}, e.updateQueue = n;
 		} else e = n.lastBaseUpdate, e === null ? n.firstBaseUpdate = t : e.next = t, n.lastBaseUpdate = t;
 	}
-	var So = !1;
-	function Co() {
-		if (So) {
-			var e = Va;
+	var xo = !1;
+	function So() {
+		if (xo) {
+			var e = Ba;
 			if (e !== null) throw e;
 		}
 	}
-	function wo(e, t, n, r) {
-		So = !1;
+	function Co(e, t, n, r) {
+		xo = !1;
 		var i = e.updateQueue;
-		ho = !1;
+		mo = !1;
 		var a = i.firstBaseUpdate, o = i.lastBaseUpdate, s = i.shared.pending;
 		if (s !== null) {
 			i.shared.pending = null;
@@ -2900,8 +2900,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			o = 0, u = l = c = null, s = a;
 			do {
 				var f = s.lane & -536870913, p = f !== s.lane;
-				if (p ? (J & f) === f : (r & f) === f) {
-					f !== 0 && f === Ba && (So = !0), u !== null && (u = u.next = {
+				if (p ? (Y & f) === f : (r & f) === f) {
+					f !== 0 && f === za && (xo = !0), u !== null && (u = u.next = {
 						lane: 0,
 						tag: s.tag,
 						payload: s.payload,
@@ -2925,7 +2925,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								if (m = h.payload, f = typeof m == "function" ? m.call(g, d, f) : m, f == null) break a;
 								d = E({}, d, f);
 								break a;
-							case 2: ho = !0;
+							case 2: mo = !0;
 						}
 					}
 					f = s.callback, f !== null && (e.flags |= 64, p && (e.flags |= 8192), p = i.callbacks, p === null ? i.callbacks = [f] : p.push(f));
@@ -2941,52 +2941,52 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					p = s, s = p.next, p.next = null, i.lastBaseUpdate = p, i.shared.pending = null;
 				}
 			} while (1);
-			u === null && (c = d), i.baseState = c, i.firstBaseUpdate = l, i.lastBaseUpdate = u, a === null && (i.shared.lanes = 0), sd |= o, e.lanes = o, e.memoizedState = d;
+			u === null && (c = d), i.baseState = c, i.firstBaseUpdate = l, i.lastBaseUpdate = u, a === null && (i.shared.lanes = 0), od |= o, e.lanes = o, e.memoizedState = d;
 		}
 	}
-	function To(e, t) {
+	function wo(e, t) {
 		if (typeof e != "function") throw Error(i(191, e));
 		e.call(t);
 	}
-	function Eo(e, t) {
+	function To(e, t) {
 		var n = e.callbacks;
-		if (n !== null) for (e.callbacks = null, e = 0; e < n.length; e++) To(n[e], t);
+		if (n !== null) for (e.callbacks = null, e = 0; e < n.length; e++) wo(n[e], t);
 	}
-	var Do = we(null), Oo = we(0);
-	function ko(e, t) {
-		e = ad, N(Oo, e), N(Do, t), ad = e | t.baseLanes;
+	var Eo = Te(null), Do = Te(0);
+	function Oo(e, t) {
+		e = id, M(Do, e), M(Eo, t), id = e | t.baseLanes;
+	}
+	function ko() {
+		M(Do, id), M(Eo, Eo.current);
 	}
 	function Ao() {
-		N(Oo, ad), N(Do, Do.current);
+		id = Do.current, j(Eo), j(Do);
 	}
-	function jo() {
-		ad = Oo.current, M(Do), M(Oo);
-	}
-	var Mo = we(null), No = null;
-	function Po(e) {
+	var jo = Te(null), Mo = null;
+	function No(e) {
 		var t = e.alternate;
-		N(zo, zo.current & 1), N(Mo, e), No === null && (t === null || Do.current !== null || t.memoizedState !== null) && (No = e);
+		M(Ro, Ro.current & 1), M(jo, e), Mo === null && (t === null || Eo.current !== null || t.memoizedState !== null) && (Mo = e);
+	}
+	function Po(e) {
+		M(Ro, Ro.current), M(jo, e), Mo === null && (Mo = e);
 	}
 	function Fo(e) {
-		N(zo, zo.current), N(Mo, e), No === null && (No = e);
+		e.tag === 22 ? (M(Ro, Ro.current), M(jo, e), Mo === null && (Mo = e)) : Io();
 	}
-	function Io(e) {
-		e.tag === 22 ? (N(zo, zo.current), N(Mo, e), No === null && (No = e)) : Lo();
+	function Io() {
+		M(Ro, Ro.current), M(jo, jo.current);
 	}
-	function Lo() {
-		N(zo, zo.current), N(Mo, Mo.current);
+	function Lo(e) {
+		j(jo), Mo === e && (Mo = null), j(Ro);
 	}
-	function Ro(e) {
-		M(Mo), No === e && (No = null), M(zo);
+	var Ro = Te(0);
+	function zo(e, t) {
+		M(jo, jo.current), M(Ro, t);
 	}
-	var zo = we(0);
-	function Bo(e, t) {
-		N(Mo, Mo.current), N(zo, t);
+	function Bo(e) {
+		j(Ro), j(jo), Mo === e && (Mo = null);
 	}
 	function Vo(e) {
-		M(zo), M(Mo), No === e && (No = null);
-	}
-	function Ho(e) {
 		for (var t = e; t !== null;) {
 			if (t.tag === 13) {
 				var n = t.memoizedState;
@@ -3006,59 +3006,59 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return null;
 	}
-	var Uo = 0, B = null, V = null, Wo = null, Go = !1, Ko = !1, qo = !1, Jo = 0, Yo = 0, Xo = null, Zo = 0;
-	function Qo() {
+	var Ho = 0, V = null, H = null, Uo = null, Wo = !1, Go = !1, Ko = !1, qo = 0, Jo = 0, Yo = null, Xo = 0;
+	function Zo() {
 		throw Error(i(321));
 	}
-	function $o(e, t) {
+	function Qo(e, t) {
 		if (t === null) return !1;
-		for (var n = 0; n < t.length && n < e.length; n++) if (!Ur(e[n], t[n])) return !1;
+		for (var n = 0; n < t.length && n < e.length; n++) if (!Hr(e[n], t[n])) return !1;
 		return !0;
 	}
-	function es(e, t, n, r, i, a) {
-		return Uo = a, B = t, t.memoizedState = null, t.updateQueue = null, t.lanes = 0, A.H = e === null || e.memoizedState === null ? _c : vc, qo = !1, a = n(r, i), qo = !1, Ko && (a = ns(t, n, r, i)), ts(e), a;
+	function $o(e, t, n, r, i, a) {
+		return Ho = a, V = t, t.memoizedState = null, t.updateQueue = null, t.lanes = 0, k.H = e === null || e.memoizedState === null ? gc : _c, Ko = !1, a = n(r, i), Ko = !1, Go && (a = ts(t, n, r, i)), es(e), a;
 	}
-	function ts(e) {
-		A.H = gc;
-		var t = V !== null && V.next !== null;
-		if (Uo = 0, Wo = V = B = null, Go = !1, Yo = 0, Xo = null, t) throw Error(i(300));
-		e === null || Fc || (e = e.dependencies, e !== null && wa(e) && (Fc = !0));
+	function es(e) {
+		k.H = hc;
+		var t = H !== null && H.next !== null;
+		if (Ho = 0, Uo = H = V = null, Wo = !1, Jo = 0, Yo = null, t) throw Error(i(300));
+		e === null || Pc || (e = e.dependencies, e !== null && Ca(e) && (Pc = !0));
 	}
-	function ns(e, t, n, r) {
-		B = e;
+	function ts(e, t, n, r) {
+		V = e;
 		var a = 0;
 		do {
-			if (Ko && (Xo = null), Yo = 0, Ko = !1, 25 <= a) throw Error(i(301));
-			if (a += 1, Wo = V = null, e.updateQueue != null) {
+			if (Go && (Yo = null), Jo = 0, Go = !1, 25 <= a) throw Error(i(301));
+			if (a += 1, Uo = H = null, e.updateQueue != null) {
 				var o = e.updateQueue;
 				o.lastEffect = null, o.events = null, o.stores = null, o.memoCache != null && (o.memoCache.index = 0);
 			}
-			A.H = yc, o = t(n, r);
-		} while (Ko);
+			k.H = vc, o = t(n, r);
+		} while (Go);
 		return o;
 	}
+	function ns() {
+		var e = k.H, t = e.useState()[0];
+		return t = typeof t.then == "function" ? ls(t) : t, e = e.useState()[0], (H === null ? null : H.memoizedState) !== e && (V.flags |= 1024), t;
+	}
 	function rs() {
-		var e = A.H, t = e.useState()[0];
-		return t = typeof t.then == "function" ? us(t) : t, e = e.useState()[0], (V === null ? null : V.memoizedState) !== e && (B.flags |= 1024), t;
+		var e = qo !== 0;
+		return qo = 0, e;
 	}
-	function is() {
-		var e = Jo !== 0;
-		return Jo = 0, e;
-	}
-	function as(e, t, n) {
+	function is(e, t, n) {
 		t.updateQueue = e.updateQueue, t.flags &= -2053, e.lanes &= ~n;
 	}
-	function os(e) {
-		if (Go) {
+	function as(e) {
+		if (Wo) {
 			for (e = e.memoizedState; e !== null;) {
 				var t = e.queue;
 				t !== null && (t.pending = null), e = e.next;
 			}
-			Go = !1;
+			Wo = !1;
 		}
-		Uo = 0, Wo = V = B = null, Ko = !1, Yo = Jo = 0, Xo = null;
+		Ho = 0, Uo = H = V = null, Go = !1, Jo = qo = 0, Yo = null;
 	}
-	function ss() {
+	function os() {
 		var e = {
 			memoizedState: null,
 			baseState: null,
@@ -3066,28 +3066,28 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			queue: null,
 			next: null
 		};
-		return Wo === null ? B.memoizedState = Wo = e : Wo = Wo.next = e, Wo;
+		return Uo === null ? V.memoizedState = Uo = e : Uo = Uo.next = e, Uo;
+	}
+	function ss() {
+		if (H === null) {
+			var e = V.alternate;
+			e = e === null ? null : e.memoizedState;
+		} else e = H.next;
+		var t = Uo === null ? V.memoizedState : Uo.next;
+		if (t !== null) Uo = t, H = e;
+		else {
+			if (e === null) throw V.alternate === null ? Error(i(467)) : Error(i(310));
+			H = e, e = {
+				memoizedState: H.memoizedState,
+				baseState: H.baseState,
+				baseQueue: H.baseQueue,
+				queue: H.queue,
+				next: null
+			}, Uo === null ? V.memoizedState = Uo = e : Uo = Uo.next = e;
+		}
+		return Uo;
 	}
 	function cs() {
-		if (V === null) {
-			var e = B.alternate;
-			e = e === null ? null : e.memoizedState;
-		} else e = V.next;
-		var t = Wo === null ? B.memoizedState : Wo.next;
-		if (t !== null) Wo = t, V = e;
-		else {
-			if (e === null) throw B.alternate === null ? Error(i(467)) : Error(i(310));
-			V = e, e = {
-				memoizedState: V.memoizedState,
-				baseState: V.baseState,
-				baseQueue: V.baseQueue,
-				queue: V.queue,
-				next: null
-			}, Wo === null ? B.memoizedState = Wo = e : Wo = Wo.next = e;
-		}
-		return Wo;
-	}
-	function ls() {
 		return {
 			lastEffect: null,
 			events: null,
@@ -3095,22 +3095,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			memoCache: null
 		};
 	}
-	function us(e) {
-		var t = Yo;
-		return Yo += 1, Xo === null && (Xo = []), e = to(Xo, e, t), t = B, (Wo === null ? t.memoizedState : Wo.next) === null && (t = t.alternate, A.H = t === null || t.memoizedState === null ? _c : vc), e;
+	function ls(e) {
+		var t = Jo;
+		return Jo += 1, Yo === null && (Yo = []), e = eo(Yo, e, t), t = V, (Uo === null ? t.memoizedState : Uo.next) === null && (t = t.alternate, k.H = t === null || t.memoizedState === null ? gc : _c), e;
 	}
-	function ds(e) {
+	function us(e) {
 		if (typeof e == "object" && e) {
-			if (typeof e.then == "function") return us(e);
-			if (e.$$typeof === he) return;
-			if (e.$$typeof === oe) return Ea(e);
+			if (typeof e.then == "function") return ls(e);
+			if (e.$$typeof === _e) return;
+			if (e.$$typeof === se) return Ta(e);
 		}
 		throw Error(i(438, String(e)));
 	}
-	function fs(e) {
-		var t = null, n = B.updateQueue;
+	function ds(e) {
+		var t = null, n = V.updateQueue;
 		if (n !== null && (t = n.memoCache), t == null) {
-			var r = B.alternate;
+			var r = V.alternate;
 			r !== null && (r = r.updateQueue, r !== null && (r = r.memoCache, r != null && (t = {
 				data: r.data.map(function(e) {
 					return e.slice();
@@ -3121,16 +3121,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (t ??= {
 			data: [],
 			index: 0
-		}, n === null && (n = ls(), B.updateQueue = n), n.memoCache = t, n = t.data[t.index], n === void 0) for (n = t.data[t.index] = Array(e), r = 0; r < e; r++) n[r] = k;
+		}, n === null && (n = cs(), V.updateQueue = n), n.memoCache = t, n = t.data[t.index], n === void 0) for (n = t.data[t.index] = Array(e), r = 0; r < e; r++) n[r] = he;
 		return t.index++, n;
 	}
-	function ps(e, t) {
+	function fs(e, t) {
 		return typeof t == "function" ? t(e) : t;
 	}
-	function ms(e) {
-		return hs(cs(), V, e);
+	function ps(e) {
+		return ms(ss(), H, e);
 	}
-	function hs(e, t, n) {
+	function ms(e, t, n) {
 		var r = e.queue;
 		if (r === null) throw Error(i(311));
 		r.lastRenderedReducer = n;
@@ -3148,7 +3148,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			var c = s = null, l = null, u = t, d = !1;
 			do {
 				var f = u.lane & -536870913;
-				if (f === u.lane ? (Uo & f) === f : (J & f) === f) {
+				if (f === u.lane ? (Ho & f) === f : (Y & f) === f) {
 					var p = u.revertLane;
 					if (p === 0) l !== null && (l = l.next = {
 						lane: 0,
@@ -3158,9 +3158,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						hasEagerState: u.hasEagerState,
 						eagerState: u.eagerState,
 						next: null
-					}), f === Ba && (d = !0);
-					else if ((Uo & p) === p) {
-						u = u.next, p === Ba && (d = !0);
+					}), f === za && (d = !0);
+					else if ((Ho & p) === p) {
+						u = u.next, p === za && (d = !0);
 						continue;
 					} else f = {
 						lane: 0,
@@ -3170,8 +3170,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						hasEagerState: u.hasEagerState,
 						eagerState: u.eagerState,
 						next: null
-					}, l === null ? (c = l = f, s = o) : l = l.next = f, B.lanes |= p, sd |= p;
-					f = u.action, qo && n(o, f), o = u.hasEagerState ? u.eagerState : n(o, f);
+					}, l === null ? (c = l = f, s = o) : l = l.next = f, V.lanes |= p, od |= p;
+					f = u.action, Ko && n(o, f), o = u.hasEagerState ? u.eagerState : n(o, f);
 				} else p = {
 					lane: f,
 					revertLane: u.revertLane,
@@ -3180,16 +3180,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					hasEagerState: u.hasEagerState,
 					eagerState: u.eagerState,
 					next: null
-				}, l === null ? (c = l = p, s = o) : l = l.next = p, B.lanes |= f, sd |= f;
+				}, l === null ? (c = l = p, s = o) : l = l.next = p, V.lanes |= f, od |= f;
 				u = u.next;
 			} while (u !== null && u !== t);
-			if (l === null ? s = o : l.next = c, !Ur(o, e.memoizedState) && (Fc = !0, d && (n = Va, n !== null))) throw n;
+			if (l === null ? s = o : l.next = c, !Hr(o, e.memoizedState) && (Pc = !0, d && (n = Ba, n !== null))) throw n;
 			e.memoizedState = o, e.baseState = s, e.baseQueue = l, r.lastRenderedState = o;
 		}
 		return a === null && (r.lanes = 0), [e.memoizedState, r.dispatch];
 	}
-	function gs(e) {
-		var t = cs(), n = t.queue;
+	function hs(e) {
+		var t = ss(), n = t.queue;
 		if (n === null) throw Error(i(311));
 		n.lastRenderedReducer = e;
 		var r = n.dispatch, a = n.pending, o = t.memoizedState;
@@ -3199,56 +3199,56 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			do
 				o = e(o, s.action), s = s.next;
 			while (s !== a);
-			Ur(o, t.memoizedState) || (Fc = !0), t.memoizedState = o, t.baseQueue === null && (t.baseState = o), n.lastRenderedState = o;
+			Hr(o, t.memoizedState) || (Pc = !0), t.memoizedState = o, t.baseQueue === null && (t.baseState = o), n.lastRenderedState = o;
 		}
 		return [o, r];
 	}
-	function _s(e, t, n) {
-		var r = B, a = cs(), o = z;
+	function gs(e, t, n) {
+		var r = V, a = ss(), o = B;
 		if (o) {
 			if (n === void 0) throw Error(i(407));
 			n = n();
 		} else n = t();
-		var s = !Ur((V || a).memoizedState, n);
-		if (s && (a.memoizedState = n, Fc = !0), a = a.queue, Hs(bs.bind(null, r, a, e), [e]), e = a.getSnapshot !== t || s || Wo !== null && !!(Wo.memoizedState.tag & 1), Ls(e ? 9 : 8, { destroy: void 0 }, ys.bind(null, r, a, n, t), null), e) {
-			if (r.flags |= 2048, K === null) throw Error(i(349));
-			o || Uo & 127 || vs(r, t, n);
+		var s = !Hr((H || a).memoizedState, n);
+		if (s && (a.memoizedState = n, Pc = !0), a = a.queue, Vs(ys.bind(null, r, a, e), [e]), e = a.getSnapshot !== t || s || Uo !== null && !!(Uo.memoizedState.tag & 1), Is(e ? 9 : 8, { destroy: void 0 }, vs.bind(null, r, a, n, t), null), e) {
+			if (r.flags |= 2048, q === null) throw Error(i(349));
+			o || Ho & 127 || _s(r, t, n);
 		}
 		return n;
 	}
-	function vs(e, t, n) {
+	function _s(e, t, n) {
 		e.flags |= 16384, e = {
 			getSnapshot: t,
 			value: n
-		}, t = B.updateQueue, t === null ? (t = ls(), B.updateQueue = t, t.stores = [e]) : (n = t.stores, n === null ? t.stores = [e] : n.push(e));
+		}, t = V.updateQueue, t === null ? (t = cs(), V.updateQueue = t, t.stores = [e]) : (n = t.stores, n === null ? t.stores = [e] : n.push(e));
 	}
-	function ys(e, t, n, r) {
-		t.value = n, t.getSnapshot = r, xs(t) && Ss(e);
+	function vs(e, t, n, r) {
+		t.value = n, t.getSnapshot = r, bs(t) && xs(e);
 	}
-	function bs(e, t, n) {
+	function ys(e, t, n) {
 		return n(function() {
-			xs(t) && Ss(e);
+			bs(t) && xs(e);
 		});
 	}
-	function xs(e) {
+	function bs(e) {
 		var t = e.getSnapshot;
 		e = e.value;
 		try {
 			var n = t();
-			return !Ur(e, n);
+			return !Hr(e, n);
 		} catch {
 			return !0;
 		}
 	}
-	function Ss(e) {
-		var t = ki(e, 2);
+	function xs(e) {
+		var t = Oi(e, 2);
 		t !== null && Pd(t, e, 2);
 	}
-	function Cs(e) {
-		var t = ss();
+	function Ss(e) {
+		var t = os();
 		if (typeof e == "function") {
 			var n = e;
-			if (e = n(), qo) {
+			if (e = n(), Ko) {
 				et(!0);
 				try {
 					n();
@@ -3261,15 +3261,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			pending: null,
 			lanes: 0,
 			dispatch: null,
-			lastRenderedReducer: ps,
+			lastRenderedReducer: fs,
 			lastRenderedState: e
 		}, t;
 	}
-	function ws(e, t, n, r) {
-		return e.baseState = n, hs(e, V, typeof r == "function" ? r : ps);
+	function Cs(e, t, n, r) {
+		return e.baseState = n, ms(e, H, typeof r == "function" ? r : fs);
 	}
-	function Ts(e, t, n, r, a) {
-		if (pc(e)) throw Error(i(485));
+	function ws(e, t, n, r, a) {
+		if (fc(e)) throw Error(i(485));
 		if (e = t.action, e !== null) {
 			var o = {
 				payload: a,
@@ -3284,124 +3284,124 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					o.listeners.push(e);
 				}
 			};
-			A.T === null ? o.isTransition = !1 : n(!0), r(o), n = t.pending, n === null ? (o.next = t.pending = o, Es(t, o)) : (o.next = n.next, t.pending = n.next = o);
+			k.T === null ? o.isTransition = !1 : n(!0), r(o), n = t.pending, n === null ? (o.next = t.pending = o, Ts(t, o)) : (o.next = n.next, t.pending = n.next = o);
 		}
 	}
-	function Es(e, t) {
+	function Ts(e, t) {
 		var n = t.action, r = t.payload, i = e.state;
 		if (t.isTransition) {
-			var a = A.T, o = {};
-			o.types = a === null ? null : a.types, A.T = o;
+			var a = k.T, o = {};
+			o.types = a === null ? null : a.types, k.T = o;
 			try {
-				var s = n(i, r), c = A.S;
-				c !== null && c(o, s), Ds(e, t, s);
+				var s = n(i, r), c = k.S;
+				c !== null && c(o, s), Es(e, t, s);
 			} catch (n) {
-				ks(e, t, n);
+				Os(e, t, n);
 			} finally {
-				a !== null && o.types !== null && (a.types = o.types), A.T = a;
+				a !== null && o.types !== null && (a.types = o.types), k.T = a;
 			}
 		} else try {
-			a = n(i, r), Ds(e, t, a);
+			a = n(i, r), Es(e, t, a);
 		} catch (n) {
-			ks(e, t, n);
+			Os(e, t, n);
 		}
 	}
-	function Ds(e, t, n) {
+	function Es(e, t, n) {
 		typeof n == "object" && n && typeof n.then == "function" ? n.then(function(n) {
-			Os(e, t, n);
+			Ds(e, t, n);
 		}, function(n) {
-			return ks(e, t, n);
-		}) : Os(e, t, n);
+			return Os(e, t, n);
+		}) : Ds(e, t, n);
+	}
+	function Ds(e, t, n) {
+		t.status = "fulfilled", t.value = n, ks(t), e.state = n, t = e.pending, t !== null && (n = t.next, n === t ? e.pending = null : (n = n.next, t.next = n, Ts(e, n)));
 	}
 	function Os(e, t, n) {
-		t.status = "fulfilled", t.value = n, As(t), e.state = n, t = e.pending, t !== null && (n = t.next, n === t ? e.pending = null : (n = n.next, t.next = n, Es(e, n)));
-	}
-	function ks(e, t, n) {
 		var r = e.pending;
 		if (e.pending = null, r !== null) {
 			r = r.next;
 			do
-				t.status = "rejected", t.reason = n, As(t), t = t.next;
+				t.status = "rejected", t.reason = n, ks(t), t = t.next;
 			while (t !== r);
 		}
 		e.action = null;
 	}
-	function As(e) {
+	function ks(e) {
 		e = e.listeners;
 		for (var t = 0; t < e.length; t++) (0, e[t])();
 	}
-	function js(e, t) {
+	function As(e, t) {
 		return t;
 	}
-	function Ms(e, t) {
-		if (z) {
-			var n = K.formState;
+	function js(e, t) {
+		if (B) {
+			var n = q.formState;
 			if (n !== null) {
 				a: {
-					var r = B;
-					if (z) {
-						if (R) {
+					var r = V;
+					if (B) {
+						if (z) {
 							b: {
-								for (var i = R, a = sa; i.nodeType !== 8;) if (!a || (i = lm(i.nextSibling), i === null)) {
+								for (var i = z, a = oa; i.nodeType !== 8;) if (!a || (i = lm(i.nextSibling), i === null)) {
 									i = null;
 									break b;
 								}
 								a = i.data, i = a === "F!" || a === "F" ? i : null;
 							}
 							if (i) {
-								R = lm(i.nextSibling), r = i.data === "F!";
+								z = lm(i.nextSibling), r = i.data === "F!";
 								break a;
 							}
 						}
-						la(r);
+						ca(r);
 					}
 					r = !1;
 				}
 				r && (t = n[0]);
 			}
 		}
-		return n = ss(), n.memoizedState = n.baseState = t, r = {
+		return n = os(), n.memoizedState = n.baseState = t, r = {
 			pending: null,
 			lanes: 0,
 			dispatch: null,
-			lastRenderedReducer: js,
+			lastRenderedReducer: As,
 			lastRenderedState: t
-		}, n.queue = r, n = uc.bind(null, B, r), r.dispatch = n, r = Cs(!1), a = fc.bind(null, B, !1, r.queue), r = ss(), i = {
+		}, n.queue = r, n = lc.bind(null, V, r), r.dispatch = n, r = Ss(!1), a = dc.bind(null, V, !1, r.queue), r = os(), i = {
 			state: t,
 			dispatch: null,
 			action: e,
 			pending: null
-		}, r.queue = i, n = Ts.bind(null, B, i, a, n), i.dispatch = n, r.memoizedState = e, [
+		}, r.queue = i, n = ws.bind(null, V, i, a, n), i.dispatch = n, r.memoizedState = e, [
 			t,
 			n,
 			!1
 		];
 	}
-	function Ns(e) {
-		return Ps(cs(), V, e);
+	function Ms(e) {
+		return Ns(ss(), H, e);
 	}
-	function Ps(e, t, n) {
-		if (t = hs(e, t, js)[0], e = ms(ps)[0], typeof t == "object" && t && typeof t.then == "function") try {
-			var r = us(t);
+	function Ns(e, t, n) {
+		if (t = ms(e, t, As)[0], e = ps(fs)[0], typeof t == "object" && t && typeof t.then == "function") try {
+			var r = ls(t);
 		} catch (e) {
-			throw e === Xa ? Qa : e;
+			throw e === Ya ? Za : e;
 		}
 		else r = t;
-		t = cs();
+		t = ss();
 		var i = t.queue, a = i.dispatch;
-		return n !== t.memoizedState && (B.flags |= 2048, Ls(9, { destroy: void 0 }, Fs.bind(null, i, n), null)), [
+		return n !== t.memoizedState && (V.flags |= 2048, Is(9, { destroy: void 0 }, Ps.bind(null, i, n), null)), [
 			r,
 			a,
 			e
 		];
 	}
-	function Fs(e, t) {
+	function Ps(e, t) {
 		e.action = t;
 	}
-	function Is(e) {
-		var t = cs(), n = V;
-		if (n !== null) return Ps(t, n, e);
-		cs(), t = t.memoizedState, n = cs();
+	function Fs(e) {
+		var t = ss(), n = H;
+		if (n !== null) return Ns(t, n, e);
+		ss(), t = t.memoizedState, n = ss();
 		var r = n.queue.dispatch;
 		return n.memoizedState = e, [
 			t,
@@ -3409,60 +3409,60 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			!1
 		];
 	}
-	function Ls(e, t, n, r) {
+	function Is(e, t, n, r) {
 		return e = {
 			tag: e,
 			create: n,
 			deps: r,
 			inst: t,
 			next: null
-		}, t = B.updateQueue, t === null && (t = ls(), B.updateQueue = t), n = t.lastEffect, n === null ? t.lastEffect = e.next = e : (r = n.next, n.next = e, e.next = r, t.lastEffect = e), e;
+		}, t = V.updateQueue, t === null && (t = cs(), V.updateQueue = t), n = t.lastEffect, n === null ? t.lastEffect = e.next = e : (r = n.next, n.next = e, e.next = r, t.lastEffect = e), e;
 	}
-	function Rs() {
-		return cs().memoizedState;
+	function Ls() {
+		return ss().memoizedState;
+	}
+	function Rs(e, t, n, r) {
+		var i = os();
+		V.flags |= e, i.memoizedState = Is(1 | t, { destroy: void 0 }, n, r === void 0 ? null : r);
 	}
 	function zs(e, t, n, r) {
 		var i = ss();
-		B.flags |= e, i.memoizedState = Ls(1 | t, { destroy: void 0 }, n, r === void 0 ? null : r);
-	}
-	function Bs(e, t, n, r) {
-		var i = cs();
 		r = r === void 0 ? null : r;
 		var a = i.memoizedState.inst;
-		V !== null && r !== null && $o(r, V.memoizedState.deps) ? i.memoizedState = Ls(t, a, n, r) : (B.flags |= e, i.memoizedState = Ls(1 | t, a, n, r));
+		H !== null && r !== null && Qo(r, H.memoizedState.deps) ? i.memoizedState = Is(t, a, n, r) : (V.flags |= e, i.memoizedState = Is(1 | t, a, n, r));
+	}
+	function Bs(e, t) {
+		Rs(8390656, 8, e, t);
 	}
 	function Vs(e, t) {
-		zs(8390656, 8, e, t);
+		zs(2048, 8, e, t);
 	}
-	function Hs(e, t) {
-		Bs(2048, 8, e, t);
-	}
-	function Us(e) {
-		B.flags |= 4;
-		var t = B.updateQueue;
-		if (t === null) t = ls(), B.updateQueue = t, t.events = [e];
+	function Hs(e) {
+		V.flags |= 4;
+		var t = V.updateQueue;
+		if (t === null) t = cs(), V.updateQueue = t, t.events = [e];
 		else {
 			var n = t.events;
 			n === null ? t.events = [e] : n.push(e);
 		}
 	}
-	function Ws(e) {
-		var t = cs().memoizedState;
-		return Us({
+	function Us(e) {
+		var t = ss().memoizedState;
+		return Hs({
 			ref: t,
 			nextImpl: e
 		}), function() {
-			if (G & 2) throw Error(i(440));
+			if (K & 2) throw Error(i(440));
 			return t.impl.apply(void 0, arguments);
 		};
 	}
+	function Ws(e, t) {
+		return zs(4, 2, e, t);
+	}
 	function Gs(e, t) {
-		return Bs(4, 2, e, t);
+		return zs(4, 4, e, t);
 	}
 	function Ks(e, t) {
-		return Bs(4, 4, e, t);
-	}
-	function qs(e, t) {
 		if (typeof t == "function") {
 			e = e();
 			var n = t(e);
@@ -3474,22 +3474,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			t.current = null;
 		};
 	}
-	function Js(e, t, n) {
-		n = n == null ? null : n.concat([e]), Bs(4, 4, qs.bind(null, t, e), n);
+	function qs(e, t, n) {
+		n = n == null ? null : n.concat([e]), zs(4, 4, Ks.bind(null, t, e), n);
 	}
-	function Ys() {}
+	function Js() {}
+	function Ys(e, t) {
+		var n = ss();
+		t = t === void 0 ? null : t;
+		var r = n.memoizedState;
+		return t !== null && Qo(t, r[1]) ? r[0] : (n.memoizedState = [e, t], e);
+	}
 	function Xs(e, t) {
-		var n = cs();
+		var n = ss();
 		t = t === void 0 ? null : t;
 		var r = n.memoizedState;
-		return t !== null && $o(t, r[1]) ? r[0] : (n.memoizedState = [e, t], e);
-	}
-	function Zs(e, t) {
-		var n = cs();
-		t = t === void 0 ? null : t;
-		var r = n.memoizedState;
-		if (t !== null && $o(t, r[1])) return r[0];
-		if (r = e(), qo) {
+		if (t !== null && Qo(t, r[1])) return r[0];
+		if (r = e(), Ko) {
 			et(!0);
 			try {
 				e();
@@ -3499,51 +3499,51 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return n.memoizedState = [r, t], r;
 	}
-	function Qs(e, t, n) {
-		return n === void 0 || Uo & 1073741824 && !(J & 261930) ? e.memoizedState = t : (e.memoizedState = n, e = Md(), B.lanes |= e, sd |= e, n);
+	function Zs(e, t, n) {
+		return n === void 0 || Ho & 1073741824 && !(Y & 261930) ? e.memoizedState = t : (e.memoizedState = n, e = Md(), V.lanes |= e, od |= e, n);
 	}
-	function $s(e, t, n, r) {
-		return Ur(n, t) ? n : Do.current === null ? !(Uo & 106) || Uo & 1073741824 && !(J & 261930) ? (Fc = !0, e.memoizedState = n) : (e = Md(), B.lanes |= e, sd |= e, t) : (e = Qs(e, n, r), Ur(e, t) || (Fc = !0), e);
+	function Qs(e, t, n, r) {
+		return Hr(n, t) ? n : Eo.current === null ? !(Ho & 106) || Ho & 1073741824 && !(Y & 261930) ? (Pc = !0, e.memoizedState = n) : (e = Md(), V.lanes |= e, od |= e, t) : (e = Zs(e, n, r), Hr(e, t) || (Pc = !0), e);
 	}
-	function ec(e, t, n, r, i) {
-		var a = j.p;
-		j.p = a !== 0 && 8 > a ? a : 8;
-		var o = A.T, s = {};
-		s.types = o === null ? null : o.types, A.T = s, fc(e, !1, t, n);
+	function $s(e, t, n, r, i) {
+		var a = A.p;
+		A.p = a !== 0 && 8 > a ? a : 8;
+		var o = k.T, s = {};
+		s.types = o === null ? null : o.types, k.T = s, dc(e, !1, t, n);
 		try {
-			var c = i(), l = A.S;
-			l !== null && l(s, c), typeof c == "object" && c && typeof c.then == "function" ? dc(e, t, Wa(c, r), jd(e)) : dc(e, t, r, jd(e));
+			var c = i(), l = k.S;
+			l !== null && l(s, c), typeof c == "object" && c && typeof c.then == "function" ? uc(e, t, Ua(c, r), jd(e)) : uc(e, t, r, jd(e));
 		} catch (n) {
-			dc(e, t, {
+			uc(e, t, {
 				then: function() {},
 				status: "rejected",
 				reason: n
 			}, jd());
 		} finally {
-			j.p = a, o !== null && s.types !== null && (o.types = s.types), A.T = o;
+			A.p = a, o !== null && s.types !== null && (o.types = s.types), k.T = o;
 		}
 	}
-	function tc() {}
-	function nc(e, t, n, r) {
+	function ec() {}
+	function tc(e, t, n, r) {
 		if (e.tag !== 5) throw Error(i(476));
-		var a = rc(e).queue;
-		ec(e, a, t, xe, n === null ? tc : function() {
-			return ic(e), n(r);
+		var a = nc(e).queue;
+		$s(e, a, t, Se, n === null ? ec : function() {
+			return rc(e), n(r);
 		});
 	}
-	function rc(e) {
+	function nc(e) {
 		var t = e.memoizedState;
 		if (t !== null) return t;
 		t = {
-			memoizedState: xe,
-			baseState: xe,
+			memoizedState: Se,
+			baseState: Se,
 			baseQueue: null,
 			queue: {
 				pending: null,
 				lanes: 0,
 				dispatch: null,
-				lastRenderedReducer: ps,
-				lastRenderedState: xe
+				lastRenderedReducer: fs,
+				lastRenderedState: Se
 			},
 			next: null
 		};
@@ -3556,40 +3556,40 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				pending: null,
 				lanes: 0,
 				dispatch: null,
-				lastRenderedReducer: ps,
+				lastRenderedReducer: fs,
 				lastRenderedState: n
 			},
 			next: null
 		}, e.memoizedState = t, e = e.alternate, e !== null && (e.memoizedState = t), t;
 	}
-	function ic(e) {
-		var t = rc(e);
-		t.next === null && (t = e.alternate.memoizedState), dc(e, t.next.queue, {}, jd());
+	function rc(e) {
+		var t = nc(e);
+		t.next === null && (t = e.alternate.memoizedState), uc(e, t.next.queue, {}, jd());
+	}
+	function ic() {
+		return Ta(sh);
 	}
 	function ac() {
-		return Ea(sh);
+		return ss().memoizedState;
 	}
 	function oc() {
-		return cs().memoizedState;
+		return ss().memoizedState;
 	}
-	function sc() {
-		return cs().memoizedState;
-	}
-	function cc(e) {
+	function sc(e) {
 		for (var t = e.return; t !== null;) {
 			switch (t.tag) {
 				case 24:
 				case 3:
 					var n = jd();
-					e = vo(n);
-					var r = yo(t, e, n);
-					r !== null && (Pd(r, t, n), bo(r, t, n)), t = { cache: Na() }, e.payload = t;
+					e = _o(n);
+					var r = vo(t, e, n);
+					r !== null && (Pd(r, t, n), yo(r, t, n)), t = { cache: Ma() }, e.payload = t;
 					return;
 			}
 			t = t.return;
 		}
 	}
-	function lc(e, t, n) {
+	function cc(e, t, n) {
 		var r = jd();
 		n = {
 			lane: r,
@@ -3599,12 +3599,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			hasEagerState: !1,
 			eagerState: null,
 			next: null
-		}, pc(e) ? mc(t, n) : (n = Oi(e, t, n, r), n !== null && (Pd(n, e, r), hc(n, t, r)));
+		}, fc(e) ? pc(t, n) : (n = Di(e, t, n, r), n !== null && (Pd(n, e, r), mc(n, t, r)));
 	}
-	function uc(e, t, n) {
-		dc(e, t, n, jd());
+	function lc(e, t, n) {
+		uc(e, t, n, jd());
 	}
-	function dc(e, t, n, r) {
+	function uc(e, t, n, r) {
 		var i = {
 			lane: r,
 			revertLane: 0,
@@ -3614,18 +3614,18 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			eagerState: null,
 			next: null
 		};
-		if (pc(e)) mc(t, i);
+		if (fc(e)) pc(t, i);
 		else {
 			var a = e.alternate;
 			if (e.lanes === 0 && (a === null || a.lanes === 0) && (a = t.lastRenderedReducer, a !== null)) try {
 				var o = t.lastRenderedState, s = a(o, n);
-				if (i.hasEagerState = !0, i.eagerState = s, Ur(s, o)) return Di(e, t, i, 0), K === null && Ei(), !1;
+				if (i.hasEagerState = !0, i.eagerState = s, Hr(s, o)) return Ei(e, t, i, 0), q === null && Ti(), !1;
 			} catch {}
-			if (n = Oi(e, t, i, r), n !== null) return Pd(n, e, r), hc(n, t, r), !0;
+			if (n = Di(e, t, i, r), n !== null) return Pd(n, e, r), mc(n, t, r), !0;
 		}
 		return !1;
 	}
-	function fc(e, t, n, r) {
+	function dc(e, t, n, r) {
 		if (r = {
 			lane: 2,
 			revertLane: Pf(),
@@ -3634,72 +3634,72 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			hasEagerState: !1,
 			eagerState: null,
 			next: null
-		}, pc(e)) {
+		}, fc(e)) {
 			if (t) throw Error(i(479));
-		} else t = Oi(e, n, r, 2), t !== null && Pd(t, e, 2);
+		} else t = Di(e, n, r, 2), t !== null && Pd(t, e, 2);
 	}
-	function pc(e) {
+	function fc(e) {
 		var t = e.alternate;
-		return e === B || t !== null && t === B;
+		return e === V || t !== null && t === V;
 	}
-	function mc(e, t) {
-		Ko = Go = !0;
+	function pc(e, t) {
+		Go = Wo = !0;
 		var n = e.pending;
 		n === null ? t.next = t : (t.next = n.next, n.next = t), e.pending = t;
 	}
-	function hc(e, t, n) {
+	function mc(e, t, n) {
 		if (n & 4194048) {
 			var r = t.lanes;
-			r &= e.pendingLanes, n |= r, t.lanes = n, I(e, n);
+			r &= e.pendingLanes, n |= r, t.lanes = n, vt(e, n);
 		}
 	}
-	var gc = {
-		readContext: Ea,
-		use: ds,
-		useCallback: Qo,
-		useContext: Qo,
-		useEffect: Qo,
-		useImperativeHandle: Qo,
-		useLayoutEffect: Qo,
-		useInsertionEffect: Qo,
-		useMemo: Qo,
-		useReducer: Qo,
-		useRef: Qo,
-		useState: Qo,
-		useDebugValue: Qo,
-		useDeferredValue: Qo,
-		useTransition: Qo,
-		useSyncExternalStore: Qo,
-		useId: Qo,
-		useHostTransitionStatus: Qo,
-		useFormState: Qo,
-		useActionState: Qo,
-		useOptimistic: Qo,
-		useMemoCache: Qo,
-		useCacheRefresh: Qo,
-		useEffectEvent: Qo
-	}, _c = {
-		readContext: Ea,
-		use: ds,
+	var hc = {
+		readContext: Ta,
+		use: us,
+		useCallback: Zo,
+		useContext: Zo,
+		useEffect: Zo,
+		useImperativeHandle: Zo,
+		useLayoutEffect: Zo,
+		useInsertionEffect: Zo,
+		useMemo: Zo,
+		useReducer: Zo,
+		useRef: Zo,
+		useState: Zo,
+		useDebugValue: Zo,
+		useDeferredValue: Zo,
+		useTransition: Zo,
+		useSyncExternalStore: Zo,
+		useId: Zo,
+		useHostTransitionStatus: Zo,
+		useFormState: Zo,
+		useActionState: Zo,
+		useOptimistic: Zo,
+		useMemoCache: Zo,
+		useCacheRefresh: Zo,
+		useEffectEvent: Zo
+	}, gc = {
+		readContext: Ta,
+		use: us,
 		useCallback: function(e, t) {
-			return ss().memoizedState = [e, t === void 0 ? null : t], e;
+			return os().memoizedState = [e, t === void 0 ? null : t], e;
 		},
-		useContext: Ea,
-		useEffect: Vs,
+		useContext: Ta,
+		useEffect: Bs,
 		useImperativeHandle: function(e, t, n) {
-			n = n == null ? null : n.concat([e]), zs(4194308, 4, qs.bind(null, t, e), n);
+			n = n == null ? null : n.concat([e]), Rs(4194308, 4, Ks.bind(null, t, e), n);
 		},
 		useLayoutEffect: function(e, t) {
-			return zs(4194308, 4, e, t);
+			return Rs(4194308, 4, e, t);
 		},
 		useInsertionEffect: function(e, t) {
-			zs(4, 2, e, t);
+			Rs(4, 2, e, t);
 		},
 		useMemo: function(e, t) {
-			var n = ss();
+			var n = os();
 			t = t === void 0 ? null : t;
 			var r = e();
-			if (qo) {
+			if (Ko) {
 				et(!0);
 				try {
 					e();
@@ -3710,10 +3710,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return n.memoizedState = [r, t], r;
 		},
 		useReducer: function(e, t, n) {
-			var r = ss();
+			var r = os();
 			if (n !== void 0) {
 				var i = n(t);
-				if (qo) {
+				if (Ko) {
 					et(!0);
 					try {
 						n(t);
@@ -3728,54 +3728,54 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				dispatch: null,
 				lastRenderedReducer: e,
 				lastRenderedState: i
-			}, r.queue = e, e = e.dispatch = lc.bind(null, B, e), [r.memoizedState, e];
+			}, r.queue = e, e = e.dispatch = cc.bind(null, V, e), [r.memoizedState, e];
 		},
 		useRef: function(e) {
-			var t = ss();
+			var t = os();
 			return e = { current: e }, t.memoizedState = e;
 		},
 		useState: function(e) {
-			e = Cs(e);
-			var t = e.queue, n = uc.bind(null, B, t);
+			e = Ss(e);
+			var t = e.queue, n = lc.bind(null, V, t);
 			return t.dispatch = n, [e.memoizedState, n];
 		},
-		useDebugValue: Ys,
+		useDebugValue: Js,
 		useDeferredValue: function(e, t) {
-			return Qs(ss(), e, t);
+			return Zs(os(), e, t);
 		},
 		useTransition: function() {
-			var e = Cs(!1);
-			return e = ec.bind(null, B, e.queue, !0, !1), ss().memoizedState = e, [!1, e];
+			var e = Ss(!1);
+			return e = $s.bind(null, V, e.queue, !0, !1), os().memoizedState = e, [!1, e];
 		},
 		useSyncExternalStore: function(e, t, n) {
-			var r = B, a = ss();
-			if (z) {
+			var r = V, a = os();
+			if (B) {
 				if (n === void 0) throw Error(i(407));
 				n = n();
 			} else {
-				if (n = t(), K === null) throw Error(i(349));
-				J & 127 || vs(r, t, n);
+				if (n = t(), q === null) throw Error(i(349));
+				Y & 127 || _s(r, t, n);
 			}
 			a.memoizedState = n;
 			var o = {
 				value: n,
 				getSnapshot: t
 			};
-			return a.queue = o, Vs(bs.bind(null, r, o, e), [e]), r.flags |= 2048, Ls(9, { destroy: void 0 }, ys.bind(null, r, o, n, t), null), n;
+			return a.queue = o, Bs(ys.bind(null, r, o, e), [e]), r.flags |= 2048, Is(9, { destroy: void 0 }, vs.bind(null, r, o, n, t), null), n;
 		},
 		useId: function() {
-			var e = ss(), t = K.identifierPrefix;
-			if (z) {
-				var n = $i, r = Qi;
-				n = (r & ~(1 << 32 - tt(r) - 1)).toString(32) + n, t = "_" + t + "R_" + n, n = Jo++, 0 < n && (t += "H" + n.toString(32)), t += "_";
-			} else n = Zo++, t = "_" + t + "r_" + n.toString(32) + "_";
+			var e = os(), t = q.identifierPrefix;
+			if (B) {
+				var n = Qi, r = Zi;
+				n = (r & ~(1 << 32 - tt(r) - 1)).toString(32) + n, t = "_" + t + "R_" + n, n = qo++, 0 < n && (t += "H" + n.toString(32)), t += "_";
+			} else n = Xo++, t = "_" + t + "r_" + n.toString(32) + "_";
 			return e.memoizedState = t;
 		},
-		useHostTransitionStatus: ac,
-		useFormState: Ms,
-		useActionState: Ms,
+		useHostTransitionStatus: ic,
+		useFormState: js,
+		useActionState: js,
 		useOptimistic: function(e) {
-			var t = ss();
+			var t = os();
 			t.memoizedState = t.baseState = e;
 			var n = {
 				pending: null,
@@ -3784,132 +3784,132 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				lastRenderedReducer: null,
 				lastRenderedState: null
 			};
-			return t.queue = n, t = fc.bind(null, B, !0, n), n.dispatch = t, [e, t];
+			return t.queue = n, t = dc.bind(null, V, !0, n), n.dispatch = t, [e, t];
 		},
-		useMemoCache: fs,
+		useMemoCache: ds,
 		useCacheRefresh: function() {
-			return ss().memoizedState = cc.bind(null, B);
+			return os().memoizedState = sc.bind(null, V);
 		},
 		useEffectEvent: function(e) {
-			var t = ss(), n = { impl: e };
+			var t = os(), n = { impl: e };
 			return t.memoizedState = n, function() {
-				if (G & 2) throw Error(i(440));
+				if (K & 2) throw Error(i(440));
 				return n.impl.apply(void 0, arguments);
 			};
 		}
+	}, _c = {
+		readContext: Ta,
+		use: us,
+		useCallback: Ys,
+		useContext: Ta,
+		useEffect: Vs,
+		useImperativeHandle: qs,
+		useInsertionEffect: Ws,
+		useLayoutEffect: Gs,
+		useMemo: Xs,
+		useReducer: ps,
+		useRef: Ls,
+		useState: function() {
+			return ps(fs);
+		},
+		useDebugValue: Js,
+		useDeferredValue: function(e, t) {
+			return Qs(ss(), H.memoizedState, e, t);
+		},
+		useTransition: function() {
+			var e = ps(fs)[0], t = ss().memoizedState;
+			return [typeof e == "boolean" ? e : ls(e), t];
+		},
+		useSyncExternalStore: gs,
+		useId: ac,
+		useHostTransitionStatus: ic,
+		useFormState: Ms,
+		useActionState: Ms,
+		useOptimistic: function(e, t) {
+			return Cs(ss(), H, e, t);
+		},
+		useMemoCache: ds,
+		useCacheRefresh: oc,
+		useEffectEvent: Us
 	}, vc = {
-		readContext: Ea,
-		use: ds,
-		useCallback: Xs,
-		useContext: Ea,
-		useEffect: Hs,
-		useImperativeHandle: Js,
-		useInsertionEffect: Gs,
-		useLayoutEffect: Ks,
-		useMemo: Zs,
-		useReducer: ms,
-		useRef: Rs,
+		readContext: Ta,
+		use: us,
+		useCallback: Ys,
+		useContext: Ta,
+		useEffect: Vs,
+		useImperativeHandle: qs,
+		useInsertionEffect: Ws,
+		useLayoutEffect: Gs,
+		useMemo: Xs,
+		useReducer: hs,
+		useRef: Ls,
 		useState: function() {
-			return ms(ps);
+			return hs(fs);
 		},
-		useDebugValue: Ys,
+		useDebugValue: Js,
 		useDeferredValue: function(e, t) {
-			return $s(cs(), V.memoizedState, e, t);
+			var n = ss();
+			return H === null ? Zs(n, e, t) : Qs(n, H.memoizedState, e, t);
 		},
 		useTransition: function() {
-			var e = ms(ps)[0], t = cs().memoizedState;
-			return [typeof e == "boolean" ? e : us(e), t];
+			var e = hs(fs)[0], t = ss().memoizedState;
+			return [typeof e == "boolean" ? e : ls(e), t];
 		},
-		useSyncExternalStore: _s,
-		useId: oc,
-		useHostTransitionStatus: ac,
-		useFormState: Ns,
-		useActionState: Ns,
+		useSyncExternalStore: gs,
+		useId: ac,
+		useHostTransitionStatus: ic,
+		useFormState: Fs,
+		useActionState: Fs,
 		useOptimistic: function(e, t) {
-			return ws(cs(), V, e, t);
+			var n = ss();
+			return H === null ? (n.baseState = e, [e, n.queue.dispatch]) : Cs(n, H, e, t);
 		},
-		useMemoCache: fs,
-		useCacheRefresh: sc,
-		useEffectEvent: Ws
-	}, yc = {
-		readContext: Ea,
-		use: ds,
-		useCallback: Xs,
-		useContext: Ea,
-		useEffect: Hs,
-		useImperativeHandle: Js,
-		useInsertionEffect: Gs,
-		useLayoutEffect: Ks,
-		useMemo: Zs,
-		useReducer: gs,
-		useRef: Rs,
-		useState: function() {
-			return gs(ps);
-		},
-		useDebugValue: Ys,
-		useDeferredValue: function(e, t) {
-			var n = cs();
-			return V === null ? Qs(n, e, t) : $s(n, V.memoizedState, e, t);
-		},
-		useTransition: function() {
-			var e = gs(ps)[0], t = cs().memoizedState;
-			return [typeof e == "boolean" ? e : us(e), t];
-		},
-		useSyncExternalStore: _s,
-		useId: oc,
-		useHostTransitionStatus: ac,
-		useFormState: Is,
-		useActionState: Is,
-		useOptimistic: function(e, t) {
-			var n = cs();
-			return V === null ? (n.baseState = e, [e, n.queue.dispatch]) : ws(n, V, e, t);
-		},
-		useMemoCache: fs,
-		useCacheRefresh: sc,
-		useEffectEvent: Ws
+		useMemoCache: ds,
+		useCacheRefresh: oc,
+		useEffectEvent: Us
 	};
-	function bc(e, t, n, r) {
+	function yc(e, t, n, r) {
 		t = e.memoizedState, n = n(r, t), n = n == null ? t : E({}, t, n), e.memoizedState = n, e.lanes === 0 && (e.updateQueue.baseState = n);
 	}
-	var xc = {
+	var bc = {
 		enqueueSetState: function(e, t, n) {
 			e = e._reactInternals;
-			var r = jd(), i = vo(r);
-			i.payload = t, n != null && (i.callback = n), t = yo(e, i, r), t !== null && (Pd(t, e, r), bo(t, e, r));
+			var r = jd(), i = _o(r);
+			i.payload = t, n != null && (i.callback = n), t = vo(e, i, r), t !== null && (Pd(t, e, r), yo(t, e, r));
 		},
 		enqueueReplaceState: function(e, t, n) {
 			e = e._reactInternals;
-			var r = jd(), i = vo(r);
-			i.tag = 1, i.payload = t, n != null && (i.callback = n), t = yo(e, i, r), t !== null && (Pd(t, e, r), bo(t, e, r));
+			var r = jd(), i = _o(r);
+			i.tag = 1, i.payload = t, n != null && (i.callback = n), t = vo(e, i, r), t !== null && (Pd(t, e, r), yo(t, e, r));
 		},
 		enqueueForceUpdate: function(e, t) {
 			e = e._reactInternals;
-			var n = jd(), r = vo(n);
-			r.tag = 2, t != null && (r.callback = t), t = yo(e, r, n), t !== null && (Pd(t, e, n), bo(t, e, n));
+			var n = jd(), r = _o(n);
+			r.tag = 2, t != null && (r.callback = t), t = vo(e, r, n), t !== null && (Pd(t, e, n), yo(t, e, n));
 		}
 	};
-	function Sc(e, t, n, r, i, a, o) {
-		return e = e.stateNode, typeof e.shouldComponentUpdate == "function" ? e.shouldComponentUpdate(r, a, o) : t.prototype && t.prototype.isPureReactComponent ? !Wr(n, r) || !Wr(i, a) : !0;
+	function xc(e, t, n, r, i, a, o) {
+		return e = e.stateNode, typeof e.shouldComponentUpdate == "function" ? e.shouldComponentUpdate(r, a, o) : t.prototype && t.prototype.isPureReactComponent ? !Ur(n, r) || !Ur(i, a) : !0;
 	}
-	function Cc(e, t, n, r) {
-		e = t.state, typeof t.componentWillReceiveProps == "function" && t.componentWillReceiveProps(n, r), typeof t.UNSAFE_componentWillReceiveProps == "function" && t.UNSAFE_componentWillReceiveProps(n, r), t.state !== e && xc.enqueueReplaceState(t, t.state, null);
+	function Sc(e, t, n, r) {
+		e = t.state, typeof t.componentWillReceiveProps == "function" && t.componentWillReceiveProps(n, r), typeof t.UNSAFE_componentWillReceiveProps == "function" && t.UNSAFE_componentWillReceiveProps(n, r), t.state !== e && bc.enqueueReplaceState(t, t.state, null);
 	}
-	function wc(e, t) {
+	function Cc(e, t) {
 		var n = t;
 		if ("ref" in t) for (var r in n = {}, t) r !== "ref" && (n[r] = t[r]);
 		if (e = e.defaultProps) for (var i in n === t && (n = E({}, n)), e) n[i] === void 0 && (n[i] = e[i]);
 		return n;
 	}
-	function Tc(e) {
-		Si(e);
+	function wc(e) {
+		xi(e);
 	}
-	function Ec(e) {
+	function Tc(e) {
 		console.error(e);
 	}
-	function Dc(e) {
-		Si(e);
+	function Ec(e) {
+		xi(e);
 	}
-	function Oc(e, t) {
+	function Dc(e, t) {
 		try {
 			var n = e.onUncaughtError;
 			n(t.value, { componentStack: t.stack });
@@ -3919,7 +3919,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			});
 		}
 	}
-	function kc(e, t, n) {
+	function Oc(e, t, n) {
 		try {
 			var r = e.onCaughtError;
 			r(n.value, {
@@ -3932,39 +3932,39 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			});
 		}
 	}
-	function Ac(e, t, n) {
-		return n = vo(n), n.tag = 3, n.payload = { element: null }, n.callback = function() {
-			Oc(e, t);
+	function kc(e, t, n) {
+		return n = _o(n), n.tag = 3, n.payload = { element: null }, n.callback = function() {
+			Dc(e, t);
 		}, n;
 	}
-	function jc(e) {
-		return e = vo(e), e.tag = 3, e;
+	function Ac(e) {
+		return e = _o(e), e.tag = 3, e;
 	}
-	function Mc(e, t, n, r) {
+	function jc(e, t, n, r) {
 		var i = n.type.getDerivedStateFromError;
 		if (typeof i == "function") {
 			var a = r.value;
 			e.payload = function() {
 				return i(a);
 			}, e.callback = function() {
-				kc(t, n, r);
+				Oc(t, n, r);
 			};
 		}
 		var o = n.stateNode;
 		o !== null && typeof o.componentDidCatch == "function" && (e.callback = function() {
-			kc(t, n, r), typeof i != "function" && (yd === null ? yd = /* @__PURE__ */ new Set([this]) : yd.add(this));
+			Oc(t, n, r), typeof i != "function" && (vd === null ? vd = /* @__PURE__ */ new Set([this]) : vd.add(this));
 			var e = r.stack;
 			this.componentDidCatch(r.value, { componentStack: e === null ? "" : e });
 		});
 	}
-	function Nc(e, t, n, r, a) {
+	function Mc(e, t, n, r, a) {
 		if (n.flags |= 32768, typeof r == "object" && r && typeof r.then == "function") {
-			if (t = n.alternate, t !== null && Ca(t, n, a, !0), n = Mo.current, n !== null) {
+			if (t = n.alternate, t !== null && Sa(t, n, a, !0), n = jo.current, n !== null) {
 				switch (n.tag) {
 					case 31:
 					case 13:
-					case 19: return No === null ? Kd() : n.alternate === null && od === 0 && (od = 3), n.flags &= -257, n.flags |= 65536, n.lanes = a, r === $a ? n.flags |= 16384 : (t = n.updateQueue, t === null ? n.updateQueue = /* @__PURE__ */ new Set([r]) : t.add(r), mf(e, r, a)), !1;
-					case 22: return n.flags |= 65536, r === $a ? n.flags |= 16384 : (t = n.updateQueue, t === null ? (t = {
+					case 19: return Mo === null ? Kd() : n.alternate === null && ad === 0 && (ad = 3), n.flags &= -257, n.flags |= 65536, n.lanes = a, r === Qa ? n.flags |= 16384 : (t = n.updateQueue, t === null ? n.updateQueue = /* @__PURE__ */ new Set([r]) : t.add(r), mf(e, r, a)), !1;
+					case 22: return n.flags |= 65536, r === Qa ? n.flags |= 16384 : (t = n.updateQueue, t === null ? (t = {
 						transitions: null,
 						markerInstances: null,
 						retryQueue: /* @__PURE__ */ new Set([r])
@@ -3974,15 +3974,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			return mf(e, r, a), Kd(), !1;
 		}
-		if (z) return t = Mo.current, t === null ? (r !== ca && (t = Error(i(423), { cause: r }), ha(Wi(t, n))), e = e.current.alternate, e.flags |= 65536, a &= -a, e.lanes |= a, r = Wi(r, n), a = Ac(e.stateNode, r, a), xo(e, a), od !== 4 && (od = 2)) : (!(t.flags & 65536) && (t.flags |= 256), t.flags |= 65536, t.lanes = a, r !== ca && (e = Error(i(422), { cause: r }), ha(Wi(e, n)))), !1;
+		if (B) return t = jo.current, t === null ? (r !== sa && (t = Error(i(423), { cause: r }), ma(Ui(t, n))), e = e.current.alternate, e.flags |= 65536, a &= -a, e.lanes |= a, r = Ui(r, n), a = kc(e.stateNode, r, a), bo(e, a), ad !== 4 && (ad = 2)) : (!(t.flags & 65536) && (t.flags |= 256), t.flags |= 65536, t.lanes = a, r !== sa && (e = Error(i(422), { cause: r }), ma(Ui(e, n)))), !1;
 		var o = Error(i(520), { cause: r });
-		if (o = Wi(o, n), fd === null ? fd = [o] : fd.push(o), od !== 4 && (od = 2), t === null) return !0;
-		r = Wi(r, n), n = t;
+		if (o = Ui(o, n), dd === null ? dd = [o] : dd.push(o), ad !== 4 && (ad = 2), t === null) return !0;
+		r = Ui(r, n), n = t;
 		do {
 			switch (n.tag) {
-				case 3: return n.flags |= 65536, e = a & -a, n.lanes |= e, e = Ac(n.stateNode, r, e), xo(n, e), !1;
+				case 3: return n.flags |= 65536, e = a & -a, n.lanes |= e, e = kc(n.stateNode, r, e), bo(n, e), !1;
 				case 1:
-					if (t = n.type, o = n.stateNode, !(n.flags & 128) && (typeof t.getDerivedStateFromError == "function" || o !== null && typeof o.componentDidCatch == "function" && (yd === null || !yd.has(o)))) return n.flags |= 65536, a &= -a, n.lanes |= a, a = jc(a), Mc(a, e, n, r), xo(n, a), !1;
+					if (t = n.type, o = n.stateNode, !(n.flags & 128) && (typeof t.getDerivedStateFromError == "function" || o !== null && typeof o.componentDidCatch == "function" && (vd === null || !vd.has(o)))) return n.flags |= 65536, a &= -a, n.lanes |= a, a = Ac(a), jc(a, e, n, r), bo(n, a), !1;
 					break;
 				case 22: if (n.memoizedState !== null) return n.flags |= 65536, !1;
 			}
@@ -3990,41 +3990,41 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		} while (n !== null);
 		return !1;
 	}
-	var Pc = Error(i(461)), Fc = !1;
-	function Ic(e, t, n, r) {
-		t.child = e === null ? mo(t, null, n, r) : po(t, e.child, n, r);
+	var Nc = Error(i(461)), Pc = !1;
+	function Fc(e, t, n, r) {
+		t.child = e === null ? po(t, null, n, r) : fo(t, e.child, n, r);
 	}
-	function Lc(e, t, n, r, i) {
+	function Ic(e, t, n, r, i) {
 		n = n.render;
 		var a = t.ref;
 		if ("ref" in r) {
 			var o = {};
 			for (var s in r) s !== "ref" && (o[s] = r[s]);
 		} else o = r;
-		return Ta(t), r = es(e, t, n, o, a, i), s = is(), e !== null && !Fc ? (as(e, t, i), dl(e, t, i)) : (z && s && na(t), t.flags |= 1, Ic(e, t, r, i), t.child);
+		return wa(t), r = $o(e, t, n, o, a, i), s = rs(), e !== null && !Pc ? (is(e, t, i), ul(e, t, i)) : (B && s && ta(t), t.flags |= 1, Fc(e, t, r, i), t.child);
 	}
-	function Rc(e, t, n, r, i) {
+	function Lc(e, t, n, r, i) {
 		if (e === null) {
 			var a = n.type;
-			return typeof a == "function" && !Fi(a) && a.defaultProps === void 0 && n.compare === null ? (t.tag = 15, t.type = a, zc(e, t, a, r, i)) : (e = Ri(n.type, null, r, t, t.mode, i), e.ref = t.ref, e.return = t, t.child = e);
+			return typeof a == "function" && !Pi(a) && a.defaultProps === void 0 && n.compare === null ? (t.tag = 15, t.type = a, Rc(e, t, a, r, i)) : (e = Li(n.type, null, r, t, t.mode, i), e.ref = t.ref, e.return = t, t.child = e);
 		}
-		if (a = e.child, !fl(e, i)) {
+		if (a = e.child, !dl(e, i)) {
 			var o = a.memoizedProps;
-			if (n = n.compare, n = n === null ? Wr : n, n(o, r) && e.ref === t.ref) return dl(e, t, i);
+			if (n = n.compare, n = n === null ? Ur : n, n(o, r) && e.ref === t.ref) return ul(e, t, i);
 		}
-		return t.flags |= 1, e = Ii(a, r), e.ref = t.ref, e.return = t, t.child = e;
+		return t.flags |= 1, e = Fi(a, r), e.ref = t.ref, e.return = t, t.child = e;
 	}
-	function zc(e, t, n, r, i) {
+	function Rc(e, t, n, r, i) {
 		if (e !== null) {
 			var a = e.memoizedProps;
-			if (Wr(a, r) && e.ref === t.ref) {
-				if (Fc = !1, t.pendingProps = r = a, fl(e, i)) e.flags & 131072 && (Fc = !0);
-				else return t.lanes = e.lanes, dl(e, t, i);
+			if (Ur(a, r) && e.ref === t.ref) {
+				if (Pc = !1, t.pendingProps = r = a, dl(e, i)) e.flags & 131072 && (Pc = !0);
+				else return t.lanes = e.lanes, ul(e, t, i);
 			}
 		}
-		return qc(e, t, n, r, i);
+		return Kc(e, t, n, r, i);
 	}
-	function Bc(e, t, n, r) {
+	function zc(e, t, n, r) {
 		var i = r.children, a = e === null ? null : e.memoizedState;
 		if (e === null && t.stateNode === null && (t.stateNode = {
 			_visibility: 1,
@@ -4037,17 +4037,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					for (r = t.child = e.child, i = 0; r !== null;) i = i | r.lanes | r.childLanes, r = r.sibling;
 					r = i & ~a;
 				} else r = 0, t.child = null;
-				return Hc(e, t, a, n, r);
+				return Vc(e, t, a, n, r);
 			}
 			if (n & 536870912) t.memoizedState = {
 				baseLanes: 0,
 				cachePool: null
-			}, e !== null && Ja(t, a === null ? null : a.cachePool), a === null ? Ao() : ko(t, a), Io(t);
-			else return r = t.lanes = 536870912, Hc(e, t, a === null ? n : a.baseLanes | n, n, r);
-		} else a === null ? (e !== null && Ja(t, null), Ao(), Lo()) : (Ja(t, a.cachePool), ko(t, a), Lo(), t.memoizedState = null);
-		return Ic(e, t, i, n), t.child;
+			}, e !== null && qa(t, a === null ? null : a.cachePool), a === null ? ko() : Oo(t, a), Fo(t);
+			else return r = t.lanes = 536870912, Vc(e, t, a === null ? n : a.baseLanes | n, n, r);
+		} else a === null ? (e !== null && qa(t, null), ko(), Io()) : (qa(t, a.cachePool), Oo(t, a), Io(), t.memoizedState = null);
+		return Fc(e, t, i, n), t.child;
 	}
-	function Vc(e, t) {
+	function Bc(e, t) {
 		return e !== null && e.tag === 22 || t.stateNode !== null || (t.stateNode = {
 			_visibility: 1,
 			_pendingMarkers: null,
@@ -4055,68 +4055,68 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			_transitions: null
 		}), t.sibling;
 	}
-	function Hc(e, t, n, r, i) {
-		var a = qa();
+	function Vc(e, t, n, r, i) {
+		var a = Ka();
 		return a = a === null ? null : {
-			parent: Ma._currentValue,
+			parent: ja._currentValue,
 			pool: a
 		}, t.memoizedState = {
 			baseLanes: n,
 			cachePool: a
-		}, e !== null && Ja(t, null), Ao(), Io(t), e !== null && Ca(e, t, r, !0), t.childLanes = i, null;
+		}, e !== null && qa(t, null), ko(), Fo(t), e !== null && Sa(e, t, r, !0), t.childLanes = i, null;
 	}
-	function Uc(e, t) {
-		return t = nl({
+	function Hc(e, t) {
+		return t = tl({
 			mode: t.mode,
 			children: t.children
 		}, e.mode), t.ref = e.ref, e.child = t, t.return = e, t;
 	}
-	function Wc(e, t, n) {
-		return po(t, e.child, null, n), e = Uc(t, t.pendingProps), e.flags |= 2, Ro(t), t.memoizedState = null, e;
+	function Uc(e, t, n) {
+		return fo(t, e.child, null, n), e = Hc(t, t.pendingProps), e.flags |= 2, Lo(t), t.memoizedState = null, e;
 	}
-	function Gc(e, t, n) {
+	function Wc(e, t, n) {
 		var r = t.pendingProps, a = !!(t.flags & 128);
 		if (t.flags &= -129, e === null) {
-			if (z) {
-				if (r.mode === "hidden") return e = Uc(t, r), t.lanes = 536870912, e.memoizedState = {
+			if (B) {
+				if (r.mode === "hidden") return e = Hc(t, r), t.lanes = 536870912, e.memoizedState = {
 					baseLanes: 0,
 					cachePool: null
-				}, Vc(null, e);
-				if (Fo(t), (e = R) ? (e = am(e, sa), e = e !== null && e.data === "&" ? e : null, e !== null && (t.memoizedState = {
+				}, Bc(null, e);
+				if (Po(t), (e = z) ? (e = am(e, oa), e = e !== null && e.data === "&" ? e : null, e !== null && (t.memoizedState = {
 					dehydrated: e,
-					treeContext: Zi === null ? null : {
-						id: Qi,
-						overflow: $i
+					treeContext: Xi === null ? null : {
+						id: Zi,
+						overflow: Qi
 					},
 					retryLane: 536870912,
 					hydrationErrors: null
-				}, n = Vi(e), n.return = t, t.child = n, aa = t, R = null)) : e = null, e === null) throw la(t);
+				}, n = Bi(e), n.return = t, t.child = n, ia = t, z = null)) : e = null, e === null) throw ca(t);
 				return t.lanes = 536870912, null;
 			}
-			return Uc(t, r);
+			return Hc(t, r);
 		}
 		var o = e.memoizedState;
 		if (o !== null) {
 			var s = o.dehydrated;
-			if (Fo(t), a) {
-				if (t.flags & 256) t.flags &= -257, t = Wc(e, t, n);
+			if (Po(t), a) {
+				if (t.flags & 256) t.flags &= -257, t = Uc(e, t, n);
 				else if (t.memoizedState !== null) t.child = e.child, t.flags |= 128, t = null;
 				else throw Error(i(558));
-			} else if (Fc || Ca(e, t, n, !1), a = (n & e.childLanes) !== 0, Fc || a) {
-				if (Do.current === null) {
-					if (r = K, r !== null && (s = vt(r, n), s !== 0 && s !== o.retryLane)) throw o.retryLane = s, ki(e, s), Pd(r, e, s), Pc;
+			} else if (Pc || Sa(e, t, n, !1), a = (n & e.childLanes) !== 0, Pc || a) {
+				if (Eo.current === null) {
+					if (r = q, r !== null && (s = yt(r, n), s !== 0 && s !== o.retryLane)) throw o.retryLane = s, Oi(e, s), Pd(r, e, s), Nc;
 					Kd();
 				}
-				t = Wc(e, t, n);
-			} else e = o.treeContext, R = lm(s.nextSibling), aa = t, z = !0, oa = null, sa = !1, e !== null && ia(t, e), t = Uc(t, r), t.flags |= 134221824;
+				t = Uc(e, t, n);
+			} else e = o.treeContext, z = lm(s.nextSibling), ia = t, B = !0, aa = null, oa = !1, e !== null && ra(t, e), t = Hc(t, r), t.flags |= 134221824;
 			return t;
 		}
-		return e = Ii(e.child, {
+		return e = Fi(e.child, {
 			mode: r.mode,
 			children: r.children
 		}), e.ref = t.ref, t.child = e, e.return = t, e;
 	}
-	function Kc(e, t) {
+	function Gc(e, t) {
 		var n = t.ref;
 		if (n === null) e !== null && e.ref !== null && (t.flags |= 4194816);
 		else {
@@ -4124,135 +4124,135 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			(e === null || e.ref !== n) && (t.flags |= 4194816);
 		}
 	}
-	function qc(e, t, n, r, i) {
-		return Ta(t), n = es(e, t, n, r, void 0, i), r = is(), e !== null && !Fc ? (as(e, t, i), dl(e, t, i)) : (z && r && na(t), t.flags |= 1, Ic(e, t, n, i), t.child);
+	function Kc(e, t, n, r, i) {
+		return wa(t), n = $o(e, t, n, r, void 0, i), r = rs(), e !== null && !Pc ? (is(e, t, i), ul(e, t, i)) : (B && r && ta(t), t.flags |= 1, Fc(e, t, n, i), t.child);
 	}
-	function Jc(e, t, n, r, i, a) {
-		return Ta(t), t.updateQueue = null, n = ns(t, r, n, i), ts(e), r = is(), e !== null && !Fc ? (as(e, t, a), dl(e, t, a)) : (z && r && na(t), t.flags |= 1, Ic(e, t, n, a), t.child);
+	function qc(e, t, n, r, i, a) {
+		return wa(t), t.updateQueue = null, n = ts(t, r, n, i), es(e), r = rs(), e !== null && !Pc ? (is(e, t, a), ul(e, t, a)) : (B && r && ta(t), t.flags |= 1, Fc(e, t, n, a), t.child);
 	}
-	function Yc(e, t, n, r, i) {
-		if (Ta(t), t.stateNode === null) {
-			var a = Mi, o = n.contextType;
-			typeof o == "object" && o && (a = Ea(o)), a = new n(r, a), t.memoizedState = a.state !== null && a.state !== void 0 ? a.state : null, a.updater = xc, t.stateNode = a, a._reactInternals = t, a = t.stateNode, a.props = r, a.state = t.memoizedState, a.refs = {}, go(t), o = n.contextType, a.context = typeof o == "object" && o ? Ea(o) : Mi, a.state = t.memoizedState, o = n.getDerivedStateFromProps, typeof o == "function" && (bc(t, n, o, r), a.state = t.memoizedState), typeof n.getDerivedStateFromProps == "function" || typeof a.getSnapshotBeforeUpdate == "function" || typeof a.UNSAFE_componentWillMount != "function" && typeof a.componentWillMount != "function" || (o = a.state, typeof a.componentWillMount == "function" && a.componentWillMount(), typeof a.UNSAFE_componentWillMount == "function" && a.UNSAFE_componentWillMount(), o !== a.state && xc.enqueueReplaceState(a, a.state, null), wo(t, r, a, i), Co(), a.state = t.memoizedState), typeof a.componentDidMount == "function" && (t.flags |= 4194308), r = !0;
+	function Jc(e, t, n, r, i) {
+		if (wa(t), t.stateNode === null) {
+			var a = ji, o = n.contextType;
+			typeof o == "object" && o && (a = Ta(o)), a = new n(r, a), t.memoizedState = a.state !== null && a.state !== void 0 ? a.state : null, a.updater = bc, t.stateNode = a, a._reactInternals = t, a = t.stateNode, a.props = r, a.state = t.memoizedState, a.refs = {}, ho(t), o = n.contextType, a.context = typeof o == "object" && o ? Ta(o) : ji, a.state = t.memoizedState, o = n.getDerivedStateFromProps, typeof o == "function" && (yc(t, n, o, r), a.state = t.memoizedState), typeof n.getDerivedStateFromProps == "function" || typeof a.getSnapshotBeforeUpdate == "function" || typeof a.UNSAFE_componentWillMount != "function" && typeof a.componentWillMount != "function" || (o = a.state, typeof a.componentWillMount == "function" && a.componentWillMount(), typeof a.UNSAFE_componentWillMount == "function" && a.UNSAFE_componentWillMount(), o !== a.state && bc.enqueueReplaceState(a, a.state, null), Co(t, r, a, i), So(), a.state = t.memoizedState), typeof a.componentDidMount == "function" && (t.flags |= 4194308), r = !0;
 		} else if (e === null) {
 			a = t.stateNode;
-			var s = t.memoizedProps, c = wc(n, s);
+			var s = t.memoizedProps, c = Cc(n, s);
 			a.props = c;
 			var l = a.context, u = n.contextType;
-			o = Mi, typeof u == "object" && u && (o = Ea(u));
+			o = ji, typeof u == "object" && u && (o = Ta(u));
 			var d = n.getDerivedStateFromProps;
-			u = typeof d == "function" || typeof a.getSnapshotBeforeUpdate == "function", s = t.pendingProps !== s, u || typeof a.UNSAFE_componentWillReceiveProps != "function" && typeof a.componentWillReceiveProps != "function" || (s || l !== o) && Cc(t, a, r, o), ho = !1;
+			u = typeof d == "function" || typeof a.getSnapshotBeforeUpdate == "function", s = t.pendingProps !== s, u || typeof a.UNSAFE_componentWillReceiveProps != "function" && typeof a.componentWillReceiveProps != "function" || (s || l !== o) && Sc(t, a, r, o), mo = !1;
 			var f = t.memoizedState;
-			a.state = f, wo(t, r, a, i), Co(), l = t.memoizedState, s || f !== l || ho ? (typeof d == "function" && (bc(t, n, d, r), l = t.memoizedState), (c = ho || Sc(t, n, c, r, f, l, o)) ? (u || typeof a.UNSAFE_componentWillMount != "function" && typeof a.componentWillMount != "function" || (typeof a.componentWillMount == "function" && a.componentWillMount(), typeof a.UNSAFE_componentWillMount == "function" && a.UNSAFE_componentWillMount()), typeof a.componentDidMount == "function" && (t.flags |= 4194308)) : (typeof a.componentDidMount == "function" && (t.flags |= 4194308), t.memoizedProps = r, t.memoizedState = l), a.props = r, a.state = l, a.context = o, r = c) : (typeof a.componentDidMount == "function" && (t.flags |= 4194308), r = !1);
+			a.state = f, Co(t, r, a, i), So(), l = t.memoizedState, s || f !== l || mo ? (typeof d == "function" && (yc(t, n, d, r), l = t.memoizedState), (c = mo || xc(t, n, c, r, f, l, o)) ? (u || typeof a.UNSAFE_componentWillMount != "function" && typeof a.componentWillMount != "function" || (typeof a.componentWillMount == "function" && a.componentWillMount(), typeof a.UNSAFE_componentWillMount == "function" && a.UNSAFE_componentWillMount()), typeof a.componentDidMount == "function" && (t.flags |= 4194308)) : (typeof a.componentDidMount == "function" && (t.flags |= 4194308), t.memoizedProps = r, t.memoizedState = l), a.props = r, a.state = l, a.context = o, r = c) : (typeof a.componentDidMount == "function" && (t.flags |= 4194308), r = !1);
 		} else {
-			a = t.stateNode, _o(e, t), o = t.memoizedProps, u = wc(n, o), a.props = u, d = t.pendingProps, f = a.context, l = n.contextType, c = Mi, typeof l == "object" && l && (c = Ea(l)), s = n.getDerivedStateFromProps, (l = typeof s == "function" || typeof a.getSnapshotBeforeUpdate == "function") || typeof a.UNSAFE_componentWillReceiveProps != "function" && typeof a.componentWillReceiveProps != "function" || (o !== d || f !== c) && Cc(t, a, r, c), ho = !1, f = t.memoizedState, a.state = f, wo(t, r, a, i), Co();
+			a = t.stateNode, go(e, t), o = t.memoizedProps, u = Cc(n, o), a.props = u, d = t.pendingProps, f = a.context, l = n.contextType, c = ji, typeof l == "object" && l && (c = Ta(l)), s = n.getDerivedStateFromProps, (l = typeof s == "function" || typeof a.getSnapshotBeforeUpdate == "function") || typeof a.UNSAFE_componentWillReceiveProps != "function" && typeof a.componentWillReceiveProps != "function" || (o !== d || f !== c) && Sc(t, a, r, c), mo = !1, f = t.memoizedState, a.state = f, Co(t, r, a, i), So();
 			var p = t.memoizedState;
-			o !== d || f !== p || ho || e !== null && e.dependencies !== null && wa(e.dependencies) ? (typeof s == "function" && (bc(t, n, s, r), p = t.memoizedState), (u = ho || Sc(t, n, u, r, f, p, c) || e !== null && e.dependencies !== null && wa(e.dependencies)) ? (l || typeof a.UNSAFE_componentWillUpdate != "function" && typeof a.componentWillUpdate != "function" || (typeof a.componentWillUpdate == "function" && a.componentWillUpdate(r, p, c), typeof a.UNSAFE_componentWillUpdate == "function" && a.UNSAFE_componentWillUpdate(r, p, c)), typeof a.componentDidUpdate == "function" && (t.flags |= 4), typeof a.getSnapshotBeforeUpdate == "function" && (t.flags |= 1024)) : (typeof a.componentDidUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 4), typeof a.getSnapshotBeforeUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 1024), t.memoizedProps = r, t.memoizedState = p), a.props = r, a.state = p, a.context = c, r = u) : (typeof a.componentDidUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 4), typeof a.getSnapshotBeforeUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 1024), r = !1);
+			o !== d || f !== p || mo || e !== null && e.dependencies !== null && Ca(e.dependencies) ? (typeof s == "function" && (yc(t, n, s, r), p = t.memoizedState), (u = mo || xc(t, n, u, r, f, p, c) || e !== null && e.dependencies !== null && Ca(e.dependencies)) ? (l || typeof a.UNSAFE_componentWillUpdate != "function" && typeof a.componentWillUpdate != "function" || (typeof a.componentWillUpdate == "function" && a.componentWillUpdate(r, p, c), typeof a.UNSAFE_componentWillUpdate == "function" && a.UNSAFE_componentWillUpdate(r, p, c)), typeof a.componentDidUpdate == "function" && (t.flags |= 4), typeof a.getSnapshotBeforeUpdate == "function" && (t.flags |= 1024)) : (typeof a.componentDidUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 4), typeof a.getSnapshotBeforeUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 1024), t.memoizedProps = r, t.memoizedState = p), a.props = r, a.state = p, a.context = c, r = u) : (typeof a.componentDidUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 4), typeof a.getSnapshotBeforeUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 1024), r = !1);
 		}
-		return a = r, Kc(e, t), r = !!(t.flags & 128), a || r ? (a = t.stateNode, n = r && typeof n.getDerivedStateFromError != "function" ? null : a.render(), t.flags |= 1, e !== null && r ? (t.child = po(t, e.child, null, i), t.child = po(t, null, n, i)) : Ic(e, t, n, i), t.memoizedState = a.state, e = t.child) : e = dl(e, t, i), e;
+		return a = r, Gc(e, t), r = !!(t.flags & 128), a || r ? (a = t.stateNode, n = r && typeof n.getDerivedStateFromError != "function" ? null : a.render(), t.flags |= 1, e !== null && r ? (t.child = fo(t, e.child, null, i), t.child = fo(t, null, n, i)) : Fc(e, t, n, i), t.memoizedState = a.state, e = t.child) : e = ul(e, t, i), e;
 	}
-	function Xc(e, t, n, r) {
-		return pa(), t.flags |= 256, Ic(e, t, n, r), t.child;
+	function Yc(e, t, n, r) {
+		return fa(), t.flags |= 256, Fc(e, t, n, r), t.child;
 	}
-	var Zc = {
+	var Xc = {
 		dehydrated: null,
 		treeContext: null,
 		retryLane: 0,
 		hydrationErrors: null
 	};
-	function Qc(e) {
+	function Zc(e) {
 		return {
 			baseLanes: e,
-			cachePool: Ya()
+			cachePool: Ja()
 		};
 	}
-	function $c(e, t, n) {
-		return e = e === null ? 0 : e.childLanes & ~n, t && (e |= ud), e;
+	function Qc(e, t, n) {
+		return e = e === null ? 0 : e.childLanes & ~n, t && (e |= ld), e;
 	}
-	function el(e, t, n) {
+	function $c(e, t, n) {
 		var r = t.pendingProps, i = !1, a = !!(t.flags & 128), o;
-		if ((o = a) || (o = e !== null && e.memoizedState === null ? !1 : !!(zo.current & 2)), o && (i = !0, t.flags &= -129), o = !!(t.flags & 32), t.flags &= -33, e === null) {
-			if (z) {
-				if (i ? Po(t) : Lo(), (e = R) ? (e = am(e, sa), e = e !== null && e.data !== "&" ? e : null, e !== null && (t.memoizedState = {
+		if ((o = a) || (o = e !== null && e.memoizedState === null ? !1 : !!(Ro.current & 2)), o && (i = !0, t.flags &= -129), o = !!(t.flags & 32), t.flags &= -33, e === null) {
+			if (B) {
+				if (i ? No(t) : Io(), (e = z) ? (e = am(e, oa), e = e !== null && e.data !== "&" ? e : null, e !== null && (t.memoizedState = {
 					dehydrated: e,
-					treeContext: Zi === null ? null : {
-						id: Qi,
-						overflow: $i
+					treeContext: Xi === null ? null : {
+						id: Zi,
+						overflow: Qi
 					},
 					retryLane: 536870912,
 					hydrationErrors: null
-				}, n = Vi(e), n.return = t, t.child = n, aa = t, R = null)) : e = null, e === null) throw la(t);
+				}, n = Bi(e), n.return = t, t.child = n, ia = t, z = null)) : e = null, e === null) throw ca(t);
 				return t.lanes = sm(e) ? 32 : 536870912, null;
 			}
-			return a = r.children, r = r.fallback, i ? (Lo(), i = t.mode, a = nl({
+			return a = r.children, r = r.fallback, i ? (Io(), i = t.mode, a = tl({
 				mode: "hidden",
 				children: a
-			}, i), r = zi(r, i, n, null), a.return = t, r.return = t, a.sibling = r, t.child = a, r = t.child, r.memoizedState = Qc(n), r.childLanes = $c(e, o, n), t.memoizedState = Zc, Vc(null, r)) : (Po(t), tl(t, a));
+			}, i), r = Ri(r, i, n, null), a.return = t, r.return = t, a.sibling = r, t.child = a, r = t.child, r.memoizedState = Zc(n), r.childLanes = Qc(e, o, n), t.memoizedState = Xc, Bc(null, r)) : (No(t), el(t, a));
 		}
 		var s = e.memoizedState;
 		if (s !== null) {
 			var c = s.dehydrated;
-			if (c !== null) return il(e, t, a, o, r, c, s, n);
+			if (c !== null) return rl(e, t, a, o, r, c, s, n);
 		}
-		return i ? (Lo(), i = r.fallback, a = t.mode, s = e.child, c = s.sibling, r = Ii(s, {
+		return i ? (Io(), i = r.fallback, a = t.mode, s = e.child, c = s.sibling, r = Fi(s, {
 			mode: "hidden",
 			children: r.children
-		}), r.subtreeFlags = s.subtreeFlags & 1206910976, c === null ? (i = zi(i, a, n, null), i.flags |= 2) : i = Ii(c, i), i.return = t, r.return = t, r.sibling = i, t.child = r, Vc(null, r), r = t.child, i = e.child.memoizedState, i === null ? i = Qc(n) : (a = i.cachePool, a === null ? a = Ya() : (s = Ma._currentValue, a = a.parent === s ? a : {
+		}), r.subtreeFlags = s.subtreeFlags & 1206910976, c === null ? (i = Ri(i, a, n, null), i.flags |= 2) : i = Fi(c, i), i.return = t, r.return = t, r.sibling = i, t.child = r, Bc(null, r), r = t.child, i = e.child.memoizedState, i === null ? i = Zc(n) : (a = i.cachePool, a === null ? a = Ja() : (s = ja._currentValue, a = a.parent === s ? a : {
 			parent: s,
 			pool: s
 		}), i = {
 			baseLanes: i.baseLanes | n,
 			cachePool: a
-		}), r.memoizedState = i, r.childLanes = $c(e, o, n), t.memoizedState = Zc, Vc(e.child, r)) : (Po(t), n = e.child, e = n.sibling, n = Ii(n, {
+		}), r.memoizedState = i, r.childLanes = Qc(e, o, n), t.memoizedState = Xc, Bc(e.child, r)) : (No(t), n = e.child, e = n.sibling, n = Fi(n, {
 			mode: "visible",
 			children: r.children
 		}), n.return = t, n.sibling = null, e !== null && (o = t.deletions, o === null ? (t.deletions = [e], t.flags |= 16) : o.push(e)), t.child = n, t.memoizedState = null, n);
 	}
-	function tl(e, t) {
-		return t = nl({
+	function el(e, t) {
+		return t = tl({
 			mode: "visible",
 			children: t
 		}, e.mode), t.return = e, e.child = t;
 	}
-	function nl(e, t) {
-		return e = Pi(22, e, null, t), e.lanes = 0, e;
+	function tl(e, t) {
+		return e = Ni(22, e, null, t), e.lanes = 0, e;
 	}
-	function rl(e, t, n) {
-		return po(t, e.child, null, n), e = tl(t, t.pendingProps.children), e.flags |= 2, t.memoizedState = null, e;
+	function nl(e, t, n) {
+		return fo(t, e.child, null, n), e = el(t, t.pendingProps.children), e.flags |= 2, t.memoizedState = null, e;
 	}
-	function il(e, t, n, r, a, o, s, c) {
-		if (n) return t.flags & 256 ? (Po(t), t.flags &= -257, rl(e, t, c)) : t.memoizedState === null ? (Lo(), o = a.fallback, s = t.mode, a = nl({
+	function rl(e, t, n, r, a, o, s, c) {
+		if (n) return t.flags & 256 ? (No(t), t.flags &= -257, nl(e, t, c)) : t.memoizedState === null ? (Io(), o = a.fallback, s = t.mode, a = tl({
 			mode: "visible",
 			children: a.children
-		}, s), o = zi(o, s, c, null), o.flags |= 2, a.return = t, o.return = t, a.sibling = o, t.child = a, po(t, e.child, null, c), a = t.child, a.memoizedState = Qc(c), a.childLanes = $c(e, r, c), t.memoizedState = Zc, Vc(null, a)) : (Lo(), t.child = e.child, t.flags |= 128, null);
-		if (Po(t), sm(o)) {
+		}, s), o = Ri(o, s, c, null), o.flags |= 2, a.return = t, o.return = t, a.sibling = o, t.child = a, fo(t, e.child, null, c), a = t.child, a.memoizedState = Zc(c), a.childLanes = Qc(e, r, c), t.memoizedState = Xc, Bc(null, a)) : (Io(), t.child = e.child, t.flags |= 128, null);
+		if (No(t), sm(o)) {
 			if (r = o.nextSibling && o.nextSibling.dataset, r) var l = r.dgst;
-			return r = l, r !== "" && (a = Error(i(419)), a.stack = "", a.digest = r, ha({
+			return r = l, r !== "" && (a = Error(i(419)), a.stack = "", a.digest = r, ma({
 				value: a,
 				source: null,
 				stack: null
-			})), rl(e, t, c);
+			})), nl(e, t, c);
 		}
-		if (Fc || Ca(e, t, c, !1), r = (c & e.childLanes) !== 0, Fc || r) {
-			if (Do.current !== null) return rl(e, t, c);
-			if (r = K, r !== null && (a = vt(r, c), a !== 0 && a !== s.retryLane)) throw s.retryLane = a, ki(e, a), Pd(r, e, a), Pc;
-			return om(o) || Kd(), rl(e, t, c);
+		if (Pc || Sa(e, t, c, !1), r = (c & e.childLanes) !== 0, Pc || r) {
+			if (Eo.current !== null) return nl(e, t, c);
+			if (r = q, r !== null && (a = yt(r, c), a !== 0 && a !== s.retryLane)) throw s.retryLane = a, Oi(e, a), Pd(r, e, a), Nc;
+			return om(o) || Kd(), nl(e, t, c);
 		}
-		return om(o) ? (t.flags |= 192, t.child = e.child, null) : (e = s.treeContext, R = lm(o.nextSibling), aa = t, z = !0, oa = null, sa = !1, e !== null && ia(t, e), t = tl(t, a.children), t.flags |= 134221824, t);
+		return om(o) ? (t.flags |= 192, t.child = e.child, null) : (e = s.treeContext, z = lm(o.nextSibling), ia = t, B = !0, aa = null, oa = !1, e !== null && ra(t, e), t = el(t, a.children), t.flags |= 134221824, t);
 	}
-	function al(e, t, n) {
+	function il(e, t, n) {
 		e.lanes |= t;
 		var r = e.alternate;
-		r !== null && (r.lanes |= t), xa(e.return, t, n);
+		r !== null && (r.lanes |= t), ba(e.return, t, n);
 	}
-	function ol(e) {
+	function al(e) {
 		for (var t = null; e !== null;) {
 			var n = e.alternate;
-			n !== null && Ho(n) === null && (t = e), e = e.sibling;
+			n !== null && Vo(n) === null && (t = e), e = e.sibling;
 		}
 		return t;
 	}
-	function sl(e, t, n, r, i, a) {
+	function ol(e, t, n, r, i, a) {
 		var o = e.memoizedState;
 		o === null ? e.memoizedState = {
 			isBackwards: t,
@@ -4264,22 +4264,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			treeForkCount: a
 		} : (o.isBackwards = t, o.rendering = null, o.renderingStartTime = 0, o.last = r, o.tail = n, o.tailMode = i, o.treeForkCount = a);
 	}
-	function cl(e) {
+	function sl(e) {
 		var t = e.child;
 		for (e.child = null; t !== null;) {
 			var n = t.sibling;
 			t.sibling = e.child, e.child = t, t = n;
 		}
 	}
-	function ll(e, t, n) {
+	function cl(e, t, n) {
 		var r = t.pendingProps, i = r.revealOrder, a = r.tail;
 		r = r.children;
-		var o = zo.current;
-		if (t.flags & 128) return Bo(t, o), null;
+		var o = Ro.current;
+		if (t.flags & 128) return zo(t, o), null;
 		var s = !!(o & 2);
-		if (s ? (o = o & 1 | 2, t.flags |= 128) : o &= 1, Bo(t, o), i === "backwards" && e !== null ? (cl(e), Ic(e, t, r, n), cl(e)) : Ic(e, t, r, n), r = z ? Ji : 0, !s && e !== null && e.flags & 128) a: for (e = t.child; e !== null;) {
-			if (e.tag === 13) e.memoizedState !== null && al(e, n, t);
-			else if (e.tag === 19) al(e, n, t);
+		if (s ? (o = o & 1 | 2, t.flags |= 128) : o &= 1, zo(t, o), i === "backwards" && e !== null ? (sl(e), Fc(e, t, r, n), sl(e)) : Fc(e, t, r, n), r = B ? qi : 0, !s && e !== null && e.flags & 128) a: for (e = t.child; e !== null;) {
+			if (e.tag === 13) e.memoizedState !== null && il(e, n, t);
+			else if (e.tag === 19) il(e, n, t);
 			else if (e.child !== null) {
 				e.child.return = e, e = e.child;
 				continue;
@@ -4293,142 +4293,142 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		switch (i) {
 			case "backwards":
-				n = ol(t.child), n === null ? (i = t.child, t.child = null) : (i = n.sibling, n.sibling = null, cl(t)), sl(t, !0, i, null, a, r);
+				n = al(t.child), n === null ? (i = t.child, t.child = null) : (i = n.sibling, n.sibling = null, sl(t)), ol(t, !0, i, null, a, r);
 				break;
 			case "unstable_legacy-backwards":
 				for (n = null, i = t.child, t.child = null; i !== null;) {
-					if (e = i.alternate, e !== null && Ho(e) === null) {
+					if (e = i.alternate, e !== null && Vo(e) === null) {
 						t.child = i;
 						break;
 					}
 					e = i.sibling, i.sibling = n, n = i, i = e;
 				}
-				sl(t, !0, n, null, a, r);
+				ol(t, !0, n, null, a, r);
 				break;
 			case "together":
-				sl(t, !1, null, null, void 0, r);
+				ol(t, !1, null, null, void 0, r);
 				break;
 			case "independent":
 				t.memoizedState = null;
 				break;
-			default: n = ol(t.child), n === null ? (i = t.child, t.child = null) : (i = n.sibling, n.sibling = null), sl(t, !1, i, n, a, r);
+			default: n = al(t.child), n === null ? (i = t.child, t.child = null) : (i = n.sibling, n.sibling = null), ol(t, !1, i, n, a, r);
 		}
 		return t.child;
 	}
-	function ul(e, t, n) {
+	function ll(e, t, n) {
 		var r = t.pendingProps;
-		return ya(t, t.type, r.value), Ic(e, t, r.children, n), t.child;
+		return va(t, t.type, r.value), Fc(e, t, r.children, n), t.child;
 	}
-	function dl(e, t, n) {
-		if (e !== null && (t.dependencies = e.dependencies), sd |= t.lanes, (n & t.childLanes) === 0) {
+	function ul(e, t, n) {
+		if (e !== null && (t.dependencies = e.dependencies), od |= t.lanes, (n & t.childLanes) === 0) {
 			if (e !== null) {
-				if (Ca(e, t, n, !1), (n & t.childLanes) === 0) return null;
+				if (Sa(e, t, n, !1), (n & t.childLanes) === 0) return null;
 			} else return null;
 		}
 		if (e !== null && t.child !== e.child) throw Error(i(153));
 		if (t.child !== null) {
-			for (e = t.child, n = Ii(e, e.pendingProps), t.child = n, n.return = t; e.sibling !== null;) e = e.sibling, n = n.sibling = Ii(e, e.pendingProps), n.return = t;
+			for (e = t.child, n = Fi(e, e.pendingProps), t.child = n, n.return = t; e.sibling !== null;) e = e.sibling, n = n.sibling = Fi(e, e.pendingProps), n.return = t;
 			n.sibling = null;
 		}
 		return t.child;
 	}
-	function fl(e, t) {
-		return (e.lanes & t) !== 0 || (e = e.dependencies, !!(e !== null && wa(e)));
+	function dl(e, t) {
+		return (e.lanes & t) !== 0 || (e = e.dependencies, !!(e !== null && Ca(e)));
 	}
-	function pl(e, t, n) {
+	function fl(e, t, n) {
 		switch (t.tag) {
 			case 3:
-				P(t, t.stateNode.containerInfo), ya(t, Ma, e.memoizedState.cache), pa();
+				ke(t, t.stateNode.containerInfo), va(t, ja, e.memoizedState.cache), fa();
 				break;
 			case 27:
 			case 5:
-				Ae(t);
+				P(t);
 				break;
 			case 4:
-				P(t, t.stateNode.containerInfo);
+				ke(t, t.stateNode.containerInfo);
 				break;
 			case 10:
-				ya(t, t.type, t.memoizedProps.value);
+				va(t, t.type, t.memoizedProps.value);
 				break;
 			case 31:
-				if (t.memoizedState !== null) return t.flags |= 128, Fo(t), null;
+				if (t.memoizedState !== null) return t.flags |= 128, Po(t), null;
 				break;
 			case 13:
 				var r = t.memoizedState;
 				if (r !== null) {
-					if (r.dehydrated !== null) return Po(t), t.flags |= 128, null;
-					r = Ca(e, t, n, !1);
+					if (r.dehydrated !== null) return No(t), t.flags |= 128, null;
+					r = Sa(e, t, n, !1);
 					var i = t.child.childLanes;
-					return r || (n & i) !== 0 ? el(e, t, n) : (Po(t), e = dl(e, t, n), e === null ? null : e.sibling);
+					return r || (n & i) !== 0 ? $c(e, t, n) : (No(t), e = ul(e, t, n), e === null ? null : e.sibling);
 				}
-				Po(t);
+				No(t);
 				break;
 			case 19:
-				if (t.flags & 128) return ll(e, t, n);
-				if (i = !!(e.flags & 128), r = (n & t.childLanes) !== 0, r ||= (Ca(e, t, n, !1), (n & t.childLanes) !== 0), i) {
-					if (r) return ll(e, t, n);
+				if (t.flags & 128) return cl(e, t, n);
+				if (i = !!(e.flags & 128), r = (n & t.childLanes) !== 0, r ||= (Sa(e, t, n, !1), (n & t.childLanes) !== 0), i) {
+					if (r) return cl(e, t, n);
 					t.flags |= 128;
 				}
-				if (i = t.memoizedState, i !== null && (i.rendering = null, i.tail = null, i.lastEffect = null), Bo(t, zo.current), r) break;
+				if (i = t.memoizedState, i !== null && (i.rendering = null, i.tail = null, i.lastEffect = null), zo(t, Ro.current), r) break;
 				return null;
-			case 22: return t.lanes = 0, Bc(e, t, n, t.pendingProps);
-			case 24: ya(t, Ma, e.memoizedState.cache);
+			case 22: return t.lanes = 0, zc(e, t, n, t.pendingProps);
+			case 24: va(t, ja, e.memoizedState.cache);
 		}
-		return dl(e, t, n);
+		return ul(e, t, n);
 	}
-	function ml(e, t, n) {
+	function pl(e, t, n) {
 		if (e !== null) {
-			if (e.memoizedProps !== t.pendingProps) Fc = !0;
+			if (e.memoizedProps !== t.pendingProps) Pc = !0;
 			else {
-				if (!fl(e, n) && !(t.flags & 128)) return Fc = !1, pl(e, t, n);
-				Fc = !!(e.flags & 131072);
+				if (!dl(e, n) && !(t.flags & 128)) return Pc = !1, fl(e, t, n);
+				Pc = !!(e.flags & 131072);
 			}
-		} else Fc = !1, z && t.flags & 1048576 && ta(t, Ji, t.index);
+		} else Pc = !1, B && t.flags & 1048576 && ea(t, qi, t.index);
 		switch (t.lanes = 0, t.tag) {
 			case 16:
 				a: {
 					var r = t.pendingProps;
-					if (e = no(t.elementType), t.type = e, typeof e == "function") Fi(e) ? (r = wc(e, r), t.tag = 1, t = Yc(null, t, e, r, n)) : (t.tag = 0, t = qc(null, t, e, r, n));
+					if (e = to(t.elementType), t.type = e, typeof e == "function") Pi(e) ? (r = Cc(e, r), t.tag = 1, t = Jc(null, t, e, r, n)) : (t.tag = 0, t = Kc(null, t, e, r, n));
 					else {
 						if (e != null) {
 							var a = e.$$typeof;
+							if (a === ce) {
+								t.tag = 11, t = Ic(null, t, e, r, n);
+								break a;
+							}
+							if (a === de) {
+								t.tag = 14, t = Lc(null, t, e, r, n);
+								break a;
+							}
 							if (a === se) {
-								t.tag = 11, t = Lc(null, t, e, r, n);
-								break a;
-							}
-							if (a === ue) {
-								t.tag = 14, t = Rc(null, t, e, r, n);
-								break a;
-							}
-							if (a === oe) {
-								t.tag = 10, t.type = e, t = ul(null, t, n);
+								t.tag = 10, t.type = e, t = ll(null, t, n);
 								break a;
 							}
 						}
-						throw t = ye(e) || e, Error(i(306, t, ""));
+						throw t = xe(e) || e, Error(i(306, t, ""));
 					}
 				}
 				return t;
-			case 0: return qc(e, t, t.type, t.pendingProps, n);
-			case 1: return r = t.type, a = wc(r, t.pendingProps), Yc(e, t, r, a, n);
+			case 0: return Kc(e, t, t.type, t.pendingProps, n);
+			case 1: return r = t.type, a = Cc(r, t.pendingProps), Jc(e, t, r, a, n);
 			case 3:
 				a: {
-					if (P(t, t.stateNode.containerInfo), e === null) throw Error(i(387));
+					if (ke(t, t.stateNode.containerInfo), e === null) throw Error(i(387));
 					r = t.pendingProps;
 					var o = t.memoizedState;
-					a = o.element, _o(e, t), wo(t, r, null, n);
+					a = o.element, go(e, t), Co(t, r, null, n);
 					var s = t.memoizedState;
-					if (r = s.cache, ya(t, Ma, r), r !== o.cache && Sa(t, [Ma], n, !0), Co(), r = s.element, o.isDehydrated) {
+					if (r = s.cache, va(t, ja, r), r !== o.cache && xa(t, [ja], n, !0), So(), r = s.element, o.isDehydrated) {
 						if (o = {
 							element: r,
 							isDehydrated: !1,
 							cache: s.cache
 						}, t.updateQueue.baseState = o, t.memoizedState = o, t.flags & 256) {
-							t = Xc(e, t, r, n);
+							t = Yc(e, t, r, n);
 							break a;
 						}
 						if (r !== a) {
-							a = Wi(Error(i(424)), t), ha(a), t = Xc(e, t, r, n);
+							a = Ui(Error(i(424)), t), ma(a), t = Yc(e, t, r, n);
 							break a;
 						}
 						switch (e = t.stateNode.containerInfo, e.nodeType) {
@@ -4437,76 +4437,76 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								break;
 							default: e = e.nodeName === "HTML" ? e.ownerDocument.body : e;
 						}
-						for (R = lm(e.firstChild), aa = t, z = !0, oa = null, sa = !0, n = mo(t, null, r, n), t.child = n; n;) n.flags = n.flags & -3 | 134221824, n = n.sibling;
+						for (z = lm(e.firstChild), ia = t, B = !0, aa = null, oa = !0, n = po(t, null, r, n), t.child = n; n;) n.flags = n.flags & -3 | 134221824, n = n.sibling;
 					} else {
-						if (pa(), r === a) {
-							t = dl(e, t, n);
+						if (fa(), r === a) {
+							t = ul(e, t, n);
 							break a;
 						}
-						Ic(e, t, r, n);
+						Fc(e, t, r, n);
 					}
 					t = t.child;
 				}
 				return t;
-			case 26: return Kc(e, t), e === null ? (n = Nm(t.type, null, t.pendingProps, null)) ? t.memoizedState = n : z || (t.stateNode = fp(t.type, t.pendingProps, De.current, t)) : t.memoizedState = Nm(t.type, e.memoizedProps, t.pendingProps, e.memoizedState), null;
-			case 27: return Ae(t), e === null && z && (r = t.stateNode = hm(t.type, t.pendingProps, De.current), aa = t, sa = !0, a = R, Sp(t.type) ? (um = a, R = lm(r.firstChild)) : R = a), Ic(e, t, t.pendingProps.children, n), Kc(e, t), e === null && (t.flags |= 4194304), t.child;
-			case 5: return e === null && z && ((a = r = R) && (r = rm(r, t.type, t.pendingProps, sa), r === null ? a = !1 : (t.stateNode = r, aa = t, R = lm(r.firstChild), sa = !1, a = !0)), a || la(t)), Ae(t), a = t.type, o = t.pendingProps, s = e === null ? null : e.memoizedProps, r = o.children, pp(a, o) ? r = null : s !== null && pp(a, s) && (t.flags |= 32), t.memoizedState !== null && (a = es(e, t, rs, null, null, n), sh._currentValue = a), Kc(e, t), Ic(e, t, r, n), t.child;
-			case 6: return e === null && z && ((e = n = R) && (n = im(n, t.pendingProps, sa), n === null ? e = !1 : (t.stateNode = n, aa = t, R = null, e = !0)), e || la(t)), null;
-			case 13: return el(e, t, n);
-			case 4: return P(t, t.stateNode.containerInfo), r = t.pendingProps, e === null ? t.child = po(t, null, r, n) : Ic(e, t, r, n), t.child;
-			case 11: return Lc(e, t, t.type, t.pendingProps, n);
-			case 7: return r = t.pendingProps, Kc(e, t), Ic(e, t, r, n), t.child;
-			case 8: return Ic(e, t, t.pendingProps.children, n), t.child;
-			case 12: return Ic(e, t, t.pendingProps.children, n), t.child;
-			case 10: return ul(e, t, n);
-			case 9: return a = t.type._context, r = t.pendingProps.children, Ta(t), a = Ea(a), r = r(a), t.flags |= 1, Ic(e, t, r, n), t.child;
-			case 14: return Rc(e, t, t.type, t.pendingProps, n);
-			case 15: return zc(e, t, t.type, t.pendingProps, n);
-			case 19: return ll(e, t, n);
-			case 31: return Gc(e, t, n);
-			case 22: return Bc(e, t, n, t.pendingProps);
-			case 24: return Ta(t), r = Ea(Ma), e === null ? (a = qa(), a === null && (a = K, o = Na(), a.pooledCache = o, o.refCount++, o !== null && (a.pooledCacheLanes |= n), a = o), t.memoizedState = {
+			case 26: return Gc(e, t), e === null ? (n = Nm(t.type, null, t.pendingProps, null)) ? t.memoizedState = n : B || (t.stateNode = fp(t.type, t.pendingProps, De.current, t)) : t.memoizedState = Nm(t.type, e.memoizedProps, t.pendingProps, e.memoizedState), null;
+			case 27: return P(t), e === null && B && (r = t.stateNode = hm(t.type, t.pendingProps, De.current), ia = t, oa = !0, a = z, Sp(t.type) ? (um = a, z = lm(r.firstChild)) : z = a), Fc(e, t, t.pendingProps.children, n), Gc(e, t), e === null && (t.flags |= 4194304), t.child;
+			case 5: return e === null && B && ((a = r = z) && (r = rm(r, t.type, t.pendingProps, oa), r === null ? a = !1 : (t.stateNode = r, ia = t, z = lm(r.firstChild), oa = !1, a = !0)), a || ca(t)), P(t), a = t.type, o = t.pendingProps, s = e === null ? null : e.memoizedProps, r = o.children, pp(a, o) ? r = null : s !== null && pp(a, s) && (t.flags |= 32), t.memoizedState !== null && (a = $o(e, t, ns, null, null, n), sh._currentValue = a), Gc(e, t), Fc(e, t, r, n), t.child;
+			case 6: return e === null && B && ((e = n = z) && (n = im(n, t.pendingProps, oa), n === null ? e = !1 : (t.stateNode = n, ia = t, z = null, e = !0)), e || ca(t)), null;
+			case 13: return $c(e, t, n);
+			case 4: return ke(t, t.stateNode.containerInfo), r = t.pendingProps, e === null ? t.child = fo(t, null, r, n) : Fc(e, t, r, n), t.child;
+			case 11: return Ic(e, t, t.type, t.pendingProps, n);
+			case 7: return r = t.pendingProps, Gc(e, t), Fc(e, t, r, n), t.child;
+			case 8: return Fc(e, t, t.pendingProps.children, n), t.child;
+			case 12: return Fc(e, t, t.pendingProps.children, n), t.child;
+			case 10: return ll(e, t, n);
+			case 9: return a = t.type._context, r = t.pendingProps.children, wa(t), a = Ta(a), r = r(a), t.flags |= 1, Fc(e, t, r, n), t.child;
+			case 14: return Lc(e, t, t.type, t.pendingProps, n);
+			case 15: return Rc(e, t, t.type, t.pendingProps, n);
+			case 19: return cl(e, t, n);
+			case 31: return Wc(e, t, n);
+			case 22: return zc(e, t, n, t.pendingProps);
+			case 24: return wa(t), r = Ta(ja), e === null ? (a = Ka(), a === null && (a = q, o = Ma(), a.pooledCache = o, o.refCount++, o !== null && (a.pooledCacheLanes |= n), a = o), t.memoizedState = {
 				parent: r,
 				cache: a
-			}, go(t), ya(t, Ma, a)) : ((e.lanes & n) !== 0 && (_o(e, t), wo(t, null, null, n), Co()), a = e.memoizedState, o = t.memoizedState, a.parent === r ? (r = o.cache, ya(t, Ma, r), r !== a.cache && Sa(t, [Ma], n, !0)) : (a = {
+			}, ho(t), va(t, ja, a)) : ((e.lanes & n) !== 0 && (go(e, t), Co(t, null, null, n), So()), a = e.memoizedState, o = t.memoizedState, a.parent === r ? (r = o.cache, va(t, ja, r), r !== a.cache && xa(t, [ja], n, !0)) : (a = {
 				parent: r,
 				cache: r
-			}, t.memoizedState = a, t.lanes === 0 && (t.memoizedState = t.updateQueue.baseState = a), ya(t, Ma, r))), Ic(e, t, t.pendingProps.children, n), t.child;
+			}, t.memoizedState = a, t.lanes === 0 && (t.memoizedState = t.updateQueue.baseState = a), va(t, ja, r))), Fc(e, t, t.pendingProps.children, n), t.child;
 			case 30: return t.stateNode === null && (t.stateNode = {
 				autoName: null,
 				paired: null,
 				clones: null,
 				ref: null
-			}), r = t.pendingProps, r.name != null && r.name !== "auto" ? t.flags |= e === null ? 18882560 : 18874368 : z && na(t), e !== null && e.memoizedProps.name !== r.name ? t.flags |= 4194816 : Kc(e, t), Ic(e, t, r.children, n), t.child;
+			}), r = t.pendingProps, r.name != null && r.name !== "auto" ? t.flags |= e === null ? 18882560 : 18874368 : B && ta(t), e !== null && e.memoizedProps.name !== r.name ? t.flags |= 4194816 : Gc(e, t), Fc(e, t, r.children, n), t.child;
 			case 29: throw t.pendingProps;
 		}
 		throw Error(i(156, t.tag));
 	}
-	function hl(e) {
+	function ml(e) {
 		e.flags |= 4;
 	}
-	function gl(e, t, n, r, i) {
+	function hl(e, t, n, r, i) {
 		var a;
 		if ((a = !!(e.mode & 32)) && (a = n === null ? Jm(t, r) : Jm(t, r) && (r.src !== n.src || r.srcSet !== n.srcSet)), a) {
 			if (e.flags |= 16777216, (i & 335544128) === i) {
 				if (e.stateNode.complete) e.flags |= 8192;
 				else if (Ud()) e.flags |= 8192;
-				else throw ro = $a, Za;
+				else throw no = Qa, Xa;
 			}
 		} else e.flags &= -16777217;
 	}
-	function _l(e, t) {
+	function gl(e, t) {
 		if (t.type !== "stylesheet" || t.state.loading & 4) e.flags &= -16777217;
 		else if (e.flags |= 16777216, !Ym(t)) {
 			if (Ud()) e.flags |= 8192;
-			else throw ro = $a, Za;
+			else throw no = Qa, Xa;
 		}
 	}
-	function vl(e, t) {
-		t !== null && (e.flags |= 4), e.flags & 16384 && (t = e.tag === 22 ? 536870912 : pt(), e.lanes |= t, dd |= t);
+	function _l(e, t) {
+		t !== null && (e.flags |= 4), e.flags & 16384 && (t = e.tag === 22 ? 536870912 : pt(), e.lanes |= t, ud |= t);
 	}
-	function yl(e, t) {
-		if (!z) switch (e.tailMode) {
+	function vl(e, t) {
+		if (!B) switch (e.tailMode) {
 			case "visible": break;
 			case "collapsed":
 				for (var n = e.tail, r = null; n !== null;) n.alternate !== null && (r = n), n = n.sibling;
@@ -4517,15 +4517,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				n === null ? e.tail = null : n.sibling = null;
 		}
 	}
-	function H(e) {
+	function U(e) {
 		var t = e.alternate !== null && e.alternate.child === e.child, n = 0, r = 0;
 		if (t) for (var i = e.child; i !== null;) n |= i.lanes | i.childLanes, r |= i.subtreeFlags & 1206910976, r |= i.flags & 1206910976, i.return = e, i = i.sibling;
 		else for (i = e.child; i !== null;) n |= i.lanes | i.childLanes, r |= i.subtreeFlags, r |= i.flags, i.return = e, i = i.sibling;
 		return e.subtreeFlags |= r, e.childLanes = n, t;
 	}
-	function bl(e, t, n) {
+	function yl(e, t, n) {
 		var r = t.pendingProps;
-		switch (ra(t), t.tag) {
+		switch (na(t), t.tag) {
 			case 16:
 			case 15:
 			case 0:
@@ -4534,30 +4534,30 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			case 8:
 			case 12:
 			case 9:
-			case 14: return H(t), null;
-			case 1: return H(t), null;
-			case 3: return n = t.stateNode, r = null, e !== null && (r = e.memoizedState.cache), t.memoizedState.cache !== r && (t.flags |= 2048), ba(Ma), ke(), n.pendingContext && (n.context = n.pendingContext, n.pendingContext = null), (e === null || e.child === null) && (fa(t) ? hl(t) : e === null || e.memoizedState.isDehydrated && !(t.flags & 256) || (t.flags |= 1024, ma())), H(t), null;
+			case 14: return U(t), null;
+			case 1: return U(t), null;
+			case 3: return n = t.stateNode, r = null, e !== null && (r = e.memoizedState.cache), t.memoizedState.cache !== r && (t.flags |= 2048), ya(ja), Ae(), n.pendingContext && (n.context = n.pendingContext, n.pendingContext = null), (e === null || e.child === null) && (da(t) ? ml(t) : e === null || e.memoizedState.isDehydrated && !(t.flags & 256) || (t.flags |= 1024, pa())), U(t), null;
 			case 26:
 				var a = t.type, o = t.memoizedState;
-				return e === null ? (hl(t), o === null ? (H(t), gl(t, a, null, r, n)) : (H(t), _l(t, o))) : o ? o === e.memoizedState ? (H(t), t.flags &= -16777217) : (hl(t), H(t), _l(t, o)) : (e = e.memoizedProps, e !== r && hl(t), H(t), gl(t, a, e, r, n)), null;
+				return e === null ? (ml(t), o === null ? (U(t), hl(t, a, null, r, n)) : (U(t), gl(t, o))) : o ? o === e.memoizedState ? (U(t), t.flags &= -16777217) : (ml(t), U(t), gl(t, o)) : (e = e.memoizedProps, e !== r && ml(t), U(t), hl(t, a, e, r, n)), null;
 			case 27:
-				if (je(t), n = De.current, a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && hl(t);
+				if (je(t), n = De.current, a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && ml(t);
 				else {
 					if (!r) {
 						if (t.stateNode === null) throw Error(i(166));
-						return H(t), t.subtreeFlags &= -33554433, null;
+						return U(t), t.subtreeFlags &= -33554433, null;
 					}
-					e = Te.current, fa(t) ? ua(t, e) : (e = hm(a, r, n), t.stateNode = e, hl(t));
+					e = Ee.current, da(t) ? la(t, e) : (e = hm(a, r, n), t.stateNode = e, ml(t));
 				}
-				return H(t), t.subtreeFlags &= -33554433, null;
+				return U(t), t.subtreeFlags &= -33554433, null;
 			case 5:
-				if (je(t), a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && hl(t);
+				if (je(t), a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && ml(t);
 				else {
 					if (!r) {
 						if (t.stateNode === null) throw Error(i(166));
-						return H(t), t.subtreeFlags &= -33554433, null;
+						return U(t), t.subtreeFlags &= -33554433, null;
 					}
-					if (o = Te.current, fa(t)) ua(t, o);
+					if (o = Ee.current, da(t)) la(t, o);
 					else {
 						var s = lp(De.current);
 						switch (o) {
@@ -4583,7 +4583,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								default: o = typeof r.is == "string" ? s.createElement(a, { is: r.is }) : s.createElement(a);
 							}
 						}
-						o[wt] = t, o[Tt] = r;
+						o[I] = t, o[Tt] = r;
 						a: for (s = t.child; s !== null;) {
 							if (s.tag === 5 || s.tag === 6) o.appendChild(s.stateNode);
 							else if (s.tag !== 4 && s.tag !== 27 && s.child !== null) {
@@ -4610,71 +4610,71 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								break a;
 							default: r = !1;
 						}
-						r && hl(t);
+						r && ml(t);
 					}
 				}
-				return H(t), t.subtreeFlags &= -33554433, gl(t, t.type, e === null ? null : e.memoizedProps, t.pendingProps, n), null;
+				return U(t), t.subtreeFlags &= -33554433, hl(t, t.type, e === null ? null : e.memoizedProps, t.pendingProps, n), null;
 			case 6:
-				if (e && t.stateNode != null) e.memoizedProps !== r && hl(t);
+				if (e && t.stateNode != null) e.memoizedProps !== r && ml(t);
 				else {
 					if (typeof r != "string" && t.stateNode === null) throw Error(i(166));
-					if (e = De.current, fa(t)) {
-						if (e = t.stateNode, n = t.memoizedProps, r = null, a = aa, a !== null) switch (a.tag) {
+					if (e = De.current, da(t)) {
+						if (e = t.stateNode, n = t.memoizedProps, r = null, a = ia, a !== null) switch (a.tag) {
 							case 27:
 							case 5: r = a.memoizedProps;
 						}
-						e[wt] = t, e = !!(e.nodeValue === n || r !== null && !0 === r.suppressHydrationWarning || ep(e.nodeValue, n)), e || la(t, !0);
-					} else e = lp(e).createTextNode(r), e[wt] = t, t.stateNode = e;
+						e[I] = t, e = !!(e.nodeValue === n || r !== null && !0 === r.suppressHydrationWarning || ep(e.nodeValue, n)), e || ca(t, !0);
+					} else e = lp(e).createTextNode(r), e[I] = t, t.stateNode = e;
 				}
-				return H(t), null;
+				return U(t), null;
 			case 31:
 				if (n = t.memoizedState, e === null || e.memoizedState !== null) {
-					if (r = fa(t), n !== null) {
+					if (r = da(t), n !== null) {
 						if (e === null) {
 							if (!r) throw Error(i(318));
 							if (e = t.memoizedState, e = e === null ? null : e.dehydrated, !e) throw Error(i(557));
-							e[wt] = t;
-						} else pa(), !(t.flags & 128) && (t.memoizedState = null), t.flags |= 4;
-						H(t), e = !1;
-					} else n = ma(), e !== null && e.memoizedState !== null && (e.memoizedState.hydrationErrors = n), e = !0;
-					if (!e) return t.flags & 256 ? (Ro(t), t) : (Ro(t), null);
+							e[I] = t;
+						} else fa(), !(t.flags & 128) && (t.memoizedState = null), t.flags |= 4;
+						U(t), e = !1;
+					} else n = pa(), e !== null && e.memoizedState !== null && (e.memoizedState.hydrationErrors = n), e = !0;
+					if (!e) return t.flags & 256 ? (Lo(t), t) : (Lo(t), null);
 					if (t.flags & 128) throw Error(i(558));
 				}
-				return H(t), null;
+				return U(t), null;
 			case 13:
 				if (r = t.memoizedState, e === null || e.memoizedState !== null && e.memoizedState.dehydrated !== null) {
-					if (a = fa(t), r !== null && r.dehydrated !== null) {
+					if (a = da(t), r !== null && r.dehydrated !== null) {
 						if (e === null) {
 							if (!a) throw Error(i(318));
 							if (a = t.memoizedState, a = a === null ? null : a.dehydrated, !a) throw Error(i(317));
-							a[wt] = t;
-						} else pa(), !(t.flags & 128) && (t.memoizedState = null), t.flags |= 4;
-						H(t), a = !1;
-					} else a = ma(), e !== null && e.memoizedState !== null && (e.memoizedState.hydrationErrors = a), a = !0;
-					if (!a) return t.flags & 256 ? (Ro(t), t) : (Ro(t), null);
+							a[I] = t;
+						} else fa(), !(t.flags & 128) && (t.memoizedState = null), t.flags |= 4;
+						U(t), a = !1;
+					} else a = pa(), e !== null && e.memoizedState !== null && (e.memoizedState.hydrationErrors = a), a = !0;
+					if (!a) return t.flags & 256 ? (Lo(t), t) : (Lo(t), null);
 				}
-				return Ro(t), t.flags & 128 ? (t.lanes = n, t) : (n = r !== null, e = e !== null && e.memoizedState !== null, n && (r = t.child, a = null, r.alternate !== null && r.alternate.memoizedState !== null && r.alternate.memoizedState.cachePool !== null && (a = r.alternate.memoizedState.cachePool.pool), o = null, r.memoizedState !== null && r.memoizedState.cachePool !== null && (o = r.memoizedState.cachePool.pool), o !== a && (r.flags |= 2048)), n !== e && n && (t.child.flags |= 8192), vl(t, t.updateQueue), H(t), null);
-			case 4: return ke(), e === null && Wf(t.stateNode.containerInfo), t.flags |= 67108864, H(t), null;
-			case 10: return ba(t.type), H(t), null;
+				return Lo(t), t.flags & 128 ? (t.lanes = n, t) : (n = r !== null, e = e !== null && e.memoizedState !== null, n && (r = t.child, a = null, r.alternate !== null && r.alternate.memoizedState !== null && r.alternate.memoizedState.cachePool !== null && (a = r.alternate.memoizedState.cachePool.pool), o = null, r.memoizedState !== null && r.memoizedState.cachePool !== null && (o = r.memoizedState.cachePool.pool), o !== a && (r.flags |= 2048)), n !== e && n && (t.child.flags |= 8192), _l(t, t.updateQueue), U(t), null);
+			case 4: return Ae(), e === null && Wf(t.stateNode.containerInfo), t.flags |= 67108864, U(t), null;
+			case 10: return ya(t.type), U(t), null;
 			case 19:
-				if (Vo(t), r = t.memoizedState, r === null) return H(t), null;
+				if (Bo(t), r = t.memoizedState, r === null) return U(t), null;
 				if (a = !!(t.flags & 128), o = r.rendering, o === null) {
-					if (a) yl(r, !1);
+					if (a) vl(r, !1);
 					else {
-						if (od !== 0 || e !== null && e.flags & 128) for (e = t.child; e !== null;) {
-							if (o = Ho(e), o !== null) {
-								for (t.flags |= 128, yl(r, !1), e = o.updateQueue, t.updateQueue = e, vl(t, e), t.subtreeFlags = 0, e = n, n = t.child; n !== null;) Li(n, e), n = n.sibling;
-								return Bo(t, zo.current & 1 | 2), z && ea(t, r.treeForkCount), t.child;
+						if (ad !== 0 || e !== null && e.flags & 128) for (e = t.child; e !== null;) {
+							if (o = Vo(e), o !== null) {
+								for (t.flags |= 128, vl(r, !1), e = o.updateQueue, t.updateQueue = e, _l(t, e), t.subtreeFlags = 0, e = n, n = t.child; n !== null;) Ii(n, e), n = n.sibling;
+								return zo(t, Ro.current & 1 | 2), B && $i(t, r.treeForkCount), t.child;
 							}
 							e = e.sibling;
 						}
-						r.tail !== null && We() > _d && (t.flags |= 128, a = !0, yl(r, !1), t.lanes = 4194304);
+						r.tail !== null && F() > gd && (t.flags |= 128, a = !0, vl(r, !1), t.lanes = 4194304);
 					}
 				} else {
 					if (!a) {
-						if (e = Ho(o), e !== null) {
-							if (t.flags |= 128, a = !0, e = e.updateQueue, t.updateQueue = e, vl(t, e), yl(r, !0), r.tail === null && r.tailMode !== "collapsed" && r.tailMode !== "visible" && !o.alternate && !z) return H(t), null;
-						} else 2 * We() - r.renderingStartTime > _d && n !== 536870912 && (t.flags |= 128, a = !0, yl(r, !1), t.lanes = 4194304);
+						if (e = Vo(o), e !== null) {
+							if (t.flags |= 128, a = !0, e = e.updateQueue, t.updateQueue = e, _l(t, e), vl(r, !0), r.tail === null && r.tailMode !== "collapsed" && r.tailMode !== "visible" && !o.alternate && !B) return U(t), null;
+						} else 2 * F() - r.renderingStartTime > gd && n !== 536870912 && (t.flags |= 128, a = !0, vl(r, !1), t.lanes = 4194304);
 					}
 					r.isBackwards ? (o.sibling = t.child, t.child = o) : (e = r.last, e === null ? t.child = o : e.sibling = o, r.last = o);
 				}
@@ -4690,50 +4690,50 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						}
 						n = !0;
 					}
-					return r.rendering = e, r.tail = e.sibling, r.renderingStartTime = We(), e.sibling = null, o = zo.current, o = a ? o & 1 | 2 : o & 1, r.tailMode === "visible" || r.tailMode === "collapsed" || !n || z ? Bo(t, o) : (n = o, N(Mo, t), N(zo, n), No === null && (No = t)), z && ea(t, r.treeForkCount), e;
+					return r.rendering = e, r.tail = e.sibling, r.renderingStartTime = F(), e.sibling = null, o = Ro.current, o = a ? o & 1 | 2 : o & 1, r.tailMode === "visible" || r.tailMode === "collapsed" || !n || B ? zo(t, o) : (n = o, M(jo, t), M(Ro, n), Mo === null && (Mo = t)), B && $i(t, r.treeForkCount), e;
 				}
-				return H(t), null;
+				return U(t), null;
 			case 22:
-			case 23: return Ro(t), jo(), r = t.memoizedState !== null, e === null ? r && (t.flags |= 8192) : e.memoizedState !== null !== r && (t.flags |= 8192), r ? n & 536870912 && !(t.flags & 128) && (H(t), t.subtreeFlags & 6 && (t.flags |= 8192)) : H(t), n = t.updateQueue, n !== null && vl(t, n.retryQueue), n = null, e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), r = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (r = t.memoizedState.cachePool.pool), r !== n && (t.flags |= 2048), e !== null && M(Ka), null;
-			case 24: return n = null, e !== null && (n = e.memoizedState.cache), t.memoizedState.cache !== n && (t.flags |= 2048), ba(Ma), H(t), null;
+			case 23: return Lo(t), Ao(), r = t.memoizedState !== null, e === null ? r && (t.flags |= 8192) : e.memoizedState !== null !== r && (t.flags |= 8192), r ? n & 536870912 && !(t.flags & 128) && (U(t), t.subtreeFlags & 6 && (t.flags |= 8192)) : U(t), n = t.updateQueue, n !== null && _l(t, n.retryQueue), n = null, e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), r = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (r = t.memoizedState.cachePool.pool), r !== n && (t.flags |= 2048), e !== null && j(Ga), null;
+			case 24: return n = null, e !== null && (n = e.memoizedState.cache), t.memoizedState.cache !== n && (t.flags |= 2048), ya(ja), U(t), null;
 			case 25: return null;
-			case 30: return t.flags |= 33554432, H(t), null;
+			case 30: return t.flags |= 33554432, U(t), null;
 		}
 		throw Error(i(156, t.tag));
 	}
-	function xl(e, t) {
-		switch (ra(t), t.tag) {
+	function bl(e, t) {
+		switch (na(t), t.tag) {
 			case 1: return e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
-			case 3: return ba(Ma), ke(), e = t.flags, e & 65536 && !(e & 128) ? (t.flags = e & -65537 | 128, t) : null;
+			case 3: return ya(ja), Ae(), e = t.flags, e & 65536 && !(e & 128) ? (t.flags = e & -65537 | 128, t) : null;
 			case 26:
 			case 27:
 			case 5: return je(t), null;
 			case 31:
 				if (t.memoizedState !== null) {
-					if (Ro(t), t.alternate === null) throw Error(i(340));
-					pa();
+					if (Lo(t), t.alternate === null) throw Error(i(340));
+					fa();
 				}
 				return e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
 			case 13:
-				if (Ro(t), e = t.memoizedState, e !== null && e.dehydrated !== null) {
+				if (Lo(t), e = t.memoizedState, e !== null && e.dehydrated !== null) {
 					if (t.alternate === null) throw Error(i(340));
-					pa();
+					fa();
 				}
 				return e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
-			case 19: return Vo(t), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, e = t.memoizedState, e !== null && (e.rendering = null, e.tail = null), t.flags |= 4, t) : null;
-			case 4: return ke(), null;
-			case 10: return ba(t.type), null;
+			case 19: return Bo(t), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, e = t.memoizedState, e !== null && (e.rendering = null, e.tail = null), t.flags |= 4, t) : null;
+			case 4: return Ae(), null;
+			case 10: return ya(t.type), null;
 			case 22:
-			case 23: return Ro(t), jo(), e !== null && M(Ka), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
-			case 24: return ba(Ma), null;
+			case 23: return Lo(t), Ao(), e !== null && j(Ga), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
+			case 24: return ya(ja), null;
 			case 25: return null;
 			default: return null;
 		}
 	}
-	function Sl(e, t) {
-		switch (ra(t), t.tag) {
+	function xl(e, t) {
+		switch (na(t), t.tag) {
 			case 3:
-				ba(Ma), ke();
+				ya(ja), Ae();
 				break;
 			case 26:
 			case 27:
@@ -4741,28 +4741,28 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				je(t);
 				break;
 			case 4:
-				ke();
+				Ae();
 				break;
 			case 31:
-				t.memoizedState !== null && Ro(t);
+				t.memoizedState !== null && Lo(t);
 				break;
 			case 13:
-				Ro(t);
+				Lo(t);
 				break;
 			case 19:
-				Vo(t);
+				Bo(t);
 				break;
 			case 10:
-				ba(t.type);
+				ya(t.type);
 				break;
 			case 22:
 			case 23:
-				Ro(t), jo(), e !== null && M(Ka);
+				Lo(t), Ao(), e !== null && j(Ga);
 				break;
-			case 24: ba(Ma);
+			case 24: ya(ja);
 		}
 	}
-	function Cl(e, t) {
+	function Sl(e, t) {
 		try {
 			var n = t.updateQueue, r = n === null ? null : n.lastEffect;
 			if (r !== null) {
@@ -4781,7 +4781,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Z(t, t.return, e);
 		}
 	}
-	function wl(e, t, n) {
+	function Cl(e, t, n) {
 		try {
 			var r = t.updateQueue, i = r === null ? null : r.lastEffect;
 			if (i !== null) {
@@ -4807,26 +4807,26 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Z(t, t.return, e);
 		}
 	}
-	function Tl(e) {
+	function wl(e) {
 		var t = e.updateQueue;
 		if (t !== null) {
 			var n = e.stateNode;
 			try {
-				Eo(t, n);
+				To(t, n);
 			} catch (t) {
 				Z(e, e.return, t);
 			}
 		}
 	}
-	function El(e, t, n) {
-		n.props = wc(e.type, e.memoizedProps), n.state = e.memoizedState;
+	function Tl(e, t, n) {
+		n.props = Cc(e.type, e.memoizedProps), n.state = e.memoizedState;
 		try {
 			n.componentWillUnmount();
 		} catch (n) {
 			Z(e, t, n);
 		}
 	}
-	function Dl(e, t) {
+	function El(e, t) {
 		try {
 			var n = e.ref;
 			if (n !== null) {
@@ -4837,7 +4837,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						var r = e.stateNode;
 						break;
 					case 30:
-						var i = e.stateNode, a = yi(e.memoizedProps, i);
+						var i = e.stateNode, a = vi(e.memoizedProps, i);
 						(i.ref === null || i.ref.name !== a) && (i.ref = Pp(a)), r = i.ref;
 						break;
 					case 7:
@@ -4855,7 +4855,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Z(e, t, n);
 		}
 	}
-	function Ol(e, t) {
+	function Dl(e, t) {
 		var n = e.ref, r = e.refCleanup;
 		if (n !== null) {
 			if (typeof r == "function") try {
@@ -4873,22 +4873,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			else n.current = null;
 		}
 	}
-	function kl(e, t) {
+	function Ol(e, t) {
 		if ((e.tag === 5 || e.tag === 27 || e.tag === 6) && e.alternate === null && t !== null) for (var n = 0; n < t.length; n++) em(e.stateNode, t[n]);
 	}
+	function kl(e) {
+		for (var t = e.return; t !== null && (Ml(t) && em(e.stateNode, t.stateNode), !jl(t));) t = t.return;
+	}
 	function Al(e) {
-		for (var t = e.return; t !== null && (Nl(t) && em(e.stateNode, t.stateNode), !Ml(t));) t = t.return;
+		for (var t = e.return; t !== null && (Ml(t) && tm(e.stateNode, t.stateNode), !jl(t));) t = t.return;
 	}
 	function jl(e) {
-		for (var t = e.return; t !== null && (Nl(t) && tm(e.stateNode, t.stateNode), !Ml(t));) t = t.return;
-	}
-	function Ml(e) {
 		return e.tag === 5 || e.tag === 3 || e.tag === 27;
 	}
-	function Nl(e) {
+	function Ml(e) {
 		return e && e.tag === 7 && e.stateNode !== null;
 	}
-	function Pl(e) {
+	function Nl(e) {
 		var t = e.type, n = e.memoizedProps, r = e.stateNode;
 		try {
 			a: switch (t) {
@@ -4904,7 +4904,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Z(e, e.return, t);
 		}
 	}
-	function Fl(e, t, n) {
+	function Pl(e, t, n) {
 		try {
 			var r = e.stateNode;
 			ip(r, e.type, n, t), r[Tt] = t;
@@ -4912,13 +4912,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Z(e, e.return, t);
 		}
 	}
-	function Il(e) {
+	function Fl(e) {
 		return e.tag === 5 || e.tag === 3 || e.tag === 26 || e.tag === 27 && Sp(e.type) || e.tag === 4;
 	}
-	function Ll(e) {
+	function Il(e) {
 		a: for (;;) {
 			for (; e.sibling === null;) {
-				if (e.return === null || Il(e.return)) return null;
+				if (e.return === null || Fl(e.return)) return null;
 				e = e.return;
 			}
 			for (e.sibling.return = e.return, e = e.sibling; e.tag !== 5 && e.tag !== 6 && e.tag !== 18;) {
@@ -4928,39 +4928,39 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (!(e.flags & 2)) return e.stateNode;
 		}
 	}
+	function Ll(e, t, n, r) {
+		var i = e.tag;
+		if (i === 5 || i === 6) i = e.stateNode, t ? (n.nodeType === 9 ? n.body : n.nodeName === "HTML" ? n.ownerDocument.body : n).insertBefore(i, t) : (t = n.nodeType === 9 ? n.body : n.nodeName === "HTML" ? n.ownerDocument.body : n, t.appendChild(i), n = n._reactRootContainer, n != null || t.onclick !== null || (t.onclick = yn)), Ol(e, r), L = !0;
+		else if (i !== 4 && (i === 27 && (Ol(e, r), r = null, Sp(e.type) && (n = e.stateNode, t = null)), e = e.child, e !== null)) for (Ll(e, t, n, r), e = e.sibling; e !== null;) Ll(e, t, n, r), e = e.sibling;
+	}
 	function Rl(e, t, n, r) {
 		var i = e.tag;
-		if (i === 5 || i === 6) i = e.stateNode, t ? (n.nodeType === 9 ? n.body : n.nodeName === "HTML" ? n.ownerDocument.body : n).insertBefore(i, t) : (t = n.nodeType === 9 ? n.body : n.nodeName === "HTML" ? n.ownerDocument.body : n, t.appendChild(i), n = n._reactRootContainer, n != null || t.onclick !== null || (t.onclick = bn)), kl(e, r), L = !0;
-		else if (i !== 4 && (i === 27 && (kl(e, r), r = null, Sp(e.type) && (n = e.stateNode, t = null)), e = e.child, e !== null)) for (Rl(e, t, n, r), e = e.sibling; e !== null;) Rl(e, t, n, r), e = e.sibling;
+		if (i === 5 || i === 6) i = e.stateNode, t ? n.insertBefore(i, t) : n.appendChild(i), Ol(e, r), L = !0;
+		else if (i !== 4 && (i === 27 && (Ol(e, r), r = null, Sp(e.type) && (n = e.stateNode)), e = e.child, e !== null)) for (Rl(e, t, n, r), e = e.sibling; e !== null;) Rl(e, t, n, r), e = e.sibling;
 	}
-	function zl(e, t, n, r) {
-		var i = e.tag;
-		if (i === 5 || i === 6) i = e.stateNode, t ? n.insertBefore(i, t) : n.appendChild(i), kl(e, r), L = !0;
-		else if (i !== 4 && (i === 27 && (kl(e, r), r = null, Sp(e.type) && (n = e.stateNode)), e = e.child, e !== null)) for (zl(e, t, n, r), e = e.sibling; e !== null;) zl(e, t, n, r), e = e.sibling;
-	}
-	function Bl(e) {
+	function zl(e) {
 		var t = e.stateNode, n = e.memoizedProps;
 		try {
 			for (var r = e.type, i = t.attributes; i.length;) t.removeAttributeNode(i[0]);
-			np(t, r, n), t[wt] = e, t[Tt] = n;
+			np(t, r, n), t[I] = e, t[Tt] = n;
 		} catch (t) {
 			Z(e, e.return, t);
 		}
 	}
-	var Vl = !1, Hl = null;
-	function Ul(e) {
-		(e.tag === 30 || e.subtreeFlags & 33554432) && (Vl = !0);
+	var Bl = !1, Vl = null;
+	function Hl(e) {
+		(e.tag === 30 || e.subtreeFlags & 33554432) && (Bl = !0);
 	}
-	var Wl = null;
-	function Gl() {
-		var e = Wl;
-		return Wl = null, e;
+	var Ul = null;
+	function Wl() {
+		var e = Ul;
+		return Ul = null, e;
 	}
-	var Kl = 0;
+	var Gl = 0;
+	function Kl(e, t, n, r, i) {
+		return Gl = 0, ql(e.child, t, n, r, i);
+	}
 	function ql(e, t, n, r, i) {
-		return Kl = 0, Jl(e.child, t, n, r, i);
-	}
-	function Jl(e, t, n, r, i) {
 		for (var a = !1; e !== null;) {
 			if (e.tag === 5) {
 				var o = e.stateNode;
@@ -4968,36 +4968,36 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var s = Op(o);
 					r.push(s), s.view && (a = !0);
 				} else a || Op(o).view && (a = !0);
-				Vl = !0, Tp(o, Kl === 0 ? t : t + "_" + Kl, n), Kl++;
-			} else e.tag === 22 && e.memoizedState !== null || e.tag === 30 && i || Jl(e.child, t, n, r, i) && (a = !0);
+				Bl = !0, Tp(o, Gl === 0 ? t : t + "_" + Gl, n), Gl++;
+			} else e.tag === 22 && e.memoizedState !== null || e.tag === 30 && i || ql(e.child, t, n, r, i) && (a = !0);
 			e = e.sibling;
 		}
 		return a;
 	}
-	function Yl(e, t) {
-		for (; e !== null;) e.tag === 5 ? Ep(e.stateNode, e.memoizedProps) : e.tag === 22 && e.memoizedState !== null || e.tag === 30 && t || Yl(e.child, t), e = e.sibling;
+	function Jl(e, t) {
+		for (; e !== null;) e.tag === 5 ? Ep(e.stateNode, e.memoizedProps) : e.tag === 22 && e.memoizedState !== null || e.tag === 30 && t || Jl(e.child, t), e = e.sibling;
 	}
-	function Xl(e) {
+	function Yl(e) {
 		if (e.subtreeFlags & 18874368) for (e = e.child; e !== null;) {
-			if ((e.tag !== 22 || e.memoizedState === null) && (Xl(e), e.tag === 30 && e.flags & 18874368 && e.stateNode.paired)) {
+			if ((e.tag !== 22 || e.memoizedState === null) && (Yl(e), e.tag === 30 && e.flags & 18874368 && e.stateNode.paired)) {
 				var t = e.memoizedProps;
 				if (t.name == null || t.name === "auto") throw Error(i(544));
 				var n = t.name;
-				t = xi(t.default, t.share), t !== "none" && (ql(e, n, t, null, !1) || Yl(e.child, !1));
+				t = bi(t.default, t.share), t !== "none" && (Kl(e, n, t, null, !1) || Jl(e.child, !1));
 			}
 			e = e.sibling;
 		}
 	}
-	function Zl(e, t) {
+	function Xl(e, t) {
 		if (e.tag === 30) {
-			var n = e.stateNode, r = e.memoizedProps, i = yi(r, n), a = xi(r.default, n.paired ? r.share : r.enter);
-			a === "none" ? Xl(e) : ql(e, i, a, null, !1) ? (Xl(e), n.paired || t || Nd(e, r.onEnter)) : Yl(e.child, !1);
-		} else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) Zl(e, t), e = e.sibling;
-		else Xl(e);
+			var n = e.stateNode, r = e.memoizedProps, i = vi(r, n), a = bi(r.default, n.paired ? r.share : r.enter);
+			a === "none" ? Yl(e) : Kl(e, i, a, null, !1) ? (Yl(e), n.paired || t || Nd(e, r.onEnter)) : Jl(e.child, !1);
+		} else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) Xl(e, t), e = e.sibling;
+		else Yl(e);
 	}
-	function Ql(e) {
-		if (Hl !== null && Hl.size !== 0) {
-			var t = Hl;
+	function Zl(e) {
+		if (Vl !== null && Vl.size !== 0) {
+			var t = Vl;
 			if (e.subtreeFlags & 18874368) for (e = e.child; e !== null;) {
 				if (e.tag !== 22 || e.memoizedState === null) {
 					if (e.tag === 30 && e.flags & 18874368) {
@@ -5005,59 +5005,59 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						if (r != null && r !== "auto") {
 							var i = t.get(r);
 							if (i !== void 0) {
-								var a = xi(n.default, n.share);
-								if (a !== "none" && (ql(e, r, a, null, !1) ? (a = e.stateNode, i.paired = a, a.paired = i, Nd(e, n.onShare)) : Yl(e.child, !1)), t.delete(r), t.size === 0) break;
+								var a = bi(n.default, n.share);
+								if (a !== "none" && (Kl(e, r, a, null, !1) ? (a = e.stateNode, i.paired = a, a.paired = i, Nd(e, n.onShare)) : Jl(e.child, !1)), t.delete(r), t.size === 0) break;
 							}
 						}
 					}
-					Ql(e);
+					Zl(e);
 				}
 				e = e.sibling;
 			}
 		}
 	}
-	function $l(e) {
+	function Ql(e) {
 		if (e.tag === 30) {
-			var t = e.memoizedProps, n = yi(t, e.stateNode), r = Hl === null ? void 0 : Hl.get(n), i = xi(t.default, r === void 0 ? t.exit : t.share);
-			i !== "none" && (ql(e, n, i, null, !1) ? r === void 0 ? Nd(e, t.onExit) : (i = e.stateNode, r.paired = i, i.paired = r, Hl.delete(n), Nd(e, t.onShare)) : Yl(e.child, !1)), Hl !== null && Ql(e);
-		} else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) $l(e), e = e.sibling;
-		else Hl !== null && Ql(e);
+			var t = e.memoizedProps, n = vi(t, e.stateNode), r = Vl === null ? void 0 : Vl.get(n), i = bi(t.default, r === void 0 ? t.exit : t.share);
+			i !== "none" && (Kl(e, n, i, null, !1) ? r === void 0 ? Nd(e, t.onExit) : (i = e.stateNode, r.paired = i, i.paired = r, Vl.delete(n), Nd(e, t.onShare)) : Jl(e.child, !1)), Vl !== null && Zl(e);
+		} else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) Ql(e), e = e.sibling;
+		else Vl !== null && Zl(e);
 	}
-	function eu(e) {
+	function $l(e) {
 		for (e = e.child; e !== null;) {
 			if (e.tag === 30) {
-				var t = e.memoizedProps, n = yi(t, e.stateNode);
-				t = xi(t.default, t.update), e.flags &= -5, t !== "none" && ql(e, n, t, e.memoizedState = [], !1);
-			} else e.subtreeFlags & 33554432 && eu(e);
+				var t = e.memoizedProps, n = vi(t, e.stateNode);
+				t = bi(t.default, t.update), e.flags &= -5, t !== "none" && Kl(e, n, t, e.memoizedState = [], !1);
+			} else e.subtreeFlags & 33554432 && $l(e);
 			e = e.sibling;
 		}
 	}
-	function tu(e) {
+	function eu(e) {
 		if (e.subtreeFlags & 18874368) for (e = e.child; e !== null;) {
 			if (e.tag !== 22 || e.memoizedState === null) {
 				if (e.tag === 30 && e.flags & 18874368) {
 					var t = e.stateNode;
-					t.paired !== null && (t.paired = null, Yl(e.child, !1));
+					t.paired !== null && (t.paired = null, Jl(e.child, !1));
 				}
-				tu(e);
+				eu(e);
 			}
 			e = e.sibling;
 		}
 	}
+	function tu(e) {
+		if (e.tag === 30) e.stateNode.paired = null, Jl(e.child, !1), eu(e);
+		else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) tu(e), e = e.sibling;
+		else eu(e);
+	}
 	function nu(e) {
-		if (e.tag === 30) e.stateNode.paired = null, Yl(e.child, !1), tu(e);
-		else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) nu(e), e = e.sibling;
-		else tu(e);
+		for (e = e.child; e !== null;) e.tag === 30 ? Jl(e.child, !1) : e.subtreeFlags & 33554432 && nu(e), e = e.sibling;
 	}
-	function ru(e) {
-		for (e = e.child; e !== null;) e.tag === 30 ? Yl(e.child, !1) : e.subtreeFlags & 33554432 && ru(e), e = e.sibling;
-	}
-	function iu(e, t, n, r, i, a, o) {
+	function ru(e, t, n, r, i, a, o) {
 		for (var s = !1; t !== null;) {
 			if (t.tag === 5) {
 				var c = t.stateNode;
-				if (a !== null && Kl < a.length) {
-					var l = a[Kl], u = Op(c);
+				if (a !== null && Gl < a.length) {
+					var l = a[Gl], u = Op(c);
 					(l.view || u.view) && (s = !0);
 					var d;
 					if (d = !(e.flags & 4)) {
@@ -5070,30 +5070,30 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					}
 					d && (e.flags |= 4), u.abs ? u = !l.abs : (l = l.rect, u = u.rect, u = l.height !== u.height || l.width !== u.width), u && (e.flags |= 32);
 				} else e.flags |= 32;
-				e.flags & 4 && Tp(c, Kl === 0 ? n : n + "_" + Kl, i), s && e.flags & 4 || (Wl === null && (Wl = []), Wl.push(c, Kl === 0 ? r : r + "_" + Kl, t.memoizedProps)), Kl++;
-			} else (t.tag !== 22 || t.memoizedState === null) && (t.tag === 30 && o ? e.flags |= t.flags & 32 : iu(e, t.child, n, r, i, a, o) && (s = !0));
+				e.flags & 4 && Tp(c, Gl === 0 ? n : n + "_" + Gl, i), s && e.flags & 4 || (Ul === null && (Ul = []), Ul.push(c, Gl === 0 ? r : r + "_" + Gl, t.memoizedProps)), Gl++;
+			} else (t.tag !== 22 || t.memoizedState === null) && (t.tag === 30 && o ? e.flags |= t.flags & 32 : ru(e, t.child, n, r, i, a, o) && (s = !0));
 			t = t.sibling;
 		}
 		return s;
 	}
-	function au(e, t) {
+	function iu(e, t) {
 		for (e = e.child; e !== null;) {
 			if (e.tag === 30) {
-				var n = e.memoizedProps, r = e.stateNode, i = yi(n, r), a = xi(n.default, n.update);
+				var n = e.memoizedProps, r = e.stateNode, i = vi(n, r), a = bi(n.default, n.update);
 				if (t) {
 					r = r.clones;
 					var o = r === null ? null : r.map(kp);
 				} else o = e.memoizedState, e.memoizedState = null;
 				r = e;
 				var s = e.child;
-				Kl = 0, i = iu(r, s, i, i, a, o, !1), e.flags & 4 && i && (t || Nd(e, n.onUpdate));
-			} else e.subtreeFlags & 33554432 && au(e, t);
+				Gl = 0, i = ru(r, s, i, i, a, o, !1), e.flags & 4 && i && (t || Nd(e, n.onUpdate));
+			} else e.subtreeFlags & 33554432 && iu(e, t);
 			e = e.sibling;
 		}
 	}
-	var ou = !1, U = !1, su = !1, cu = !1, lu = typeof WeakSet == "function" ? WeakSet : Set, uu = null, du = !1, fu = !1, pu = !1, mu = !1;
-	function hu(e, t, n) {
-		if (e = e.containerInfo, sp = gh, e = Yr(e), Xr(e)) {
+	var au = !1, W = !1, ou = !1, su = !1, cu = typeof WeakSet == "function" ? WeakSet : Set, lu = null, uu = !1, du = !1, fu = !1, pu = !1;
+	function mu(e, t, n) {
+		if (e = e.containerInfo, sp = gh, e = Jr(e), Yr(e)) {
 			if ("selectionStart" in e) var r = {
 				start: e.selectionStart,
 				end: e.selectionEnd
@@ -5135,28 +5135,28 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		for (cp = {
 			focusedElem: e,
 			selectionRange: r
-		}, gh = !1, n = (n & 335544064) === n, uu = t, t = n ? 9270 : 1024; uu !== null;) {
-			if (e = uu, n && (r = e.deletions, r !== null)) for (a = 0; a < r.length; a++) n && $l(r[a]);
-			if (e.alternate === null && e.flags & 2) n && Ul(e), gu(n);
+		}, gh = !1, n = (n & 335544064) === n, lu = t, t = n ? 9270 : 1024; lu !== null;) {
+			if (e = lu, n && (r = e.deletions, r !== null)) for (a = 0; a < r.length; a++) n && Ql(r[a]);
+			if (e.alternate === null && e.flags & 2) n && Hl(e), hu(n);
 			else {
 				if (e.tag === 22) {
 					if (r = e.alternate, e.memoizedState !== null) {
-						r !== null && r.memoizedState === null && n && $l(r), gu(n);
+						r !== null && r.memoizedState === null && n && Ql(r), hu(n);
 						continue;
 					}
 					if (r !== null && r.memoizedState !== null) {
-						n && Ul(e), gu(n);
+						n && Hl(e), hu(n);
 						continue;
 					}
 				}
-				r = e.child, (e.subtreeFlags & t) !== 0 && r !== null ? (r.return = e, uu = r) : (n && eu(e), gu(n));
+				r = e.child, (e.subtreeFlags & t) !== 0 && r !== null ? (r.return = e, lu = r) : (n && $l(e), hu(n));
 			}
 		}
-		Hl = null;
+		Vl = null;
 	}
-	function gu(e) {
-		for (; uu !== null;) {
-			var t = uu, n = e, r = t.alternate, a = t.flags;
+	function hu(e) {
+		for (; lu !== null;) {
+			var t = lu, n = e, r = t.alternate, a = t.flags;
 			switch (t.tag) {
 				case 0:
 				case 11:
@@ -5166,7 +5166,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						n = void 0, a = r.memoizedProps, r = r.memoizedState;
 						var o = t.stateNode;
 						try {
-							var s = wc(t.type, a);
+							var s = Cc(t.type, a);
 							n = o.getSnapshotBeforeUpdate(s, r), o.__reactInternalSnapshotBeforeUpdate = n;
 						} catch (e) {
 							Z(t, t.return, e);
@@ -5193,34 +5193,34 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				case 4:
 				case 17: break;
 				case 30:
-					n && r !== null && (n = yi(r.memoizedProps, r.stateNode), a = t.memoizedProps, a = xi(a.default, a.update), a !== "none" && ql(r, n, a, r.memoizedState = [], !0));
+					n && r !== null && (n = vi(r.memoizedProps, r.stateNode), a = t.memoizedProps, a = bi(a.default, a.update), a !== "none" && Kl(r, n, a, r.memoizedState = [], !0));
 					break;
 				default: if (a & 1024) throw Error(i(163));
 			}
 			if (r = t.sibling, r !== null) {
-				r.return = t.return, uu = r;
+				r.return = t.return, lu = r;
 				break;
 			}
-			uu = t.return;
+			lu = t.return;
 		}
 	}
-	function _u(e, t, n) {
+	function gu(e, t, n) {
 		var r = n.flags;
 		switch (n.tag) {
 			case 0:
 			case 11:
 			case 15:
-				Iu(e, n), r & 4 && Cl(5, n);
+				Fu(e, n), r & 4 && Sl(5, n);
 				break;
 			case 1:
-				if (Iu(e, n), r & 4) {
+				if (Fu(e, n), r & 4) {
 					if (e = n.stateNode, t === null) try {
 						e.componentDidMount();
 					} catch (e) {
 						Z(n, n.return, e);
 					}
 					else {
-						var i = wc(n.type, t.memoizedProps);
+						var i = Cc(n.type, t.memoizedProps);
 						t = t.memoizedState;
 						try {
 							e.componentDidUpdate(i, t, e.__reactInternalSnapshotBeforeUpdate);
@@ -5229,10 +5229,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						}
 					}
 				}
-				r & 64 && Tl(n), r & 512 && Dl(n, n.return);
+				r & 64 && wl(n), r & 512 && El(n, n.return);
 				break;
 			case 3:
-				if (Iu(e, n), r & 64 && (e = n.updateQueue, e !== null)) {
+				if (Fu(e, n), r & 64 && (e = n.updateQueue, e !== null)) {
 					if (t = null, n.child !== null) switch (n.child.tag) {
 						case 27:
 						case 5:
@@ -5241,43 +5241,43 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case 1: t = n.child.stateNode;
 					}
 					try {
-						Eo(e, t);
+						To(e, t);
 					} catch (e) {
 						Z(n, n.return, e);
 					}
 				}
 				break;
-			case 27: t === null && r & 4 && Bl(n);
+			case 27: t === null && r & 4 && zl(n);
 			case 26:
 			case 5:
-				Iu(e, n), t === null && r & 4 && Pl(n), r & 512 && Dl(n, n.return);
+				Fu(e, n), t === null && r & 4 && Nl(n), r & 512 && El(n, n.return);
 				break;
 			case 12:
-				Iu(e, n);
+				Fu(e, n);
 				break;
 			case 31:
-				Iu(e, n), r & 4 && Tu(e, n);
+				Fu(e, n), r & 4 && wu(e, n);
 				break;
 			case 13:
-				Iu(e, n), r & 4 && Eu(e, n), r & 64 && (e = n.memoizedState, e !== null && (e = e.dehydrated, e !== null && (n = _f.bind(null, n), cm(e, n))));
+				Fu(e, n), r & 4 && Tu(e, n), r & 64 && (e = n.memoizedState, e !== null && (e = e.dehydrated, e !== null && (n = _f.bind(null, n), cm(e, n))));
 				break;
 			case 22:
-				if (r = n.memoizedState !== null || ou, !r) {
-					var a = t !== null && t.memoizedState !== null || U;
-					t = ou, i = U, ou = r, (U = a) && !i ? (r = 2, n.subtreeFlags & 8772 && (r |= 1), Ru(e, n, r)) : Iu(e, n), ou = t, U = i;
+				if (r = n.memoizedState !== null || au, !r) {
+					var a = t !== null && t.memoizedState !== null || W;
+					t = au, i = W, au = r, (W = a) && !i ? (r = 2, n.subtreeFlags & 8772 && (r |= 1), Lu(e, n, r)) : Fu(e, n), au = t, W = i;
 				}
 				break;
 			case 30:
-				Iu(e, n), r & 512 && Dl(n, n.return);
+				Fu(e, n), r & 512 && El(n, n.return);
 				break;
-			case 7: r & 512 && Dl(n, n.return);
-			default: Iu(e, n);
+			case 7: r & 512 && El(n, n.return);
+			default: Fu(e, n);
 		}
 	}
-	function vu(e, t) {
-		for (e = e.child; e !== null;) yu(e, t), e = e.sibling;
+	function _u(e, t) {
+		for (e = e.child; e !== null;) vu(e, t), e = e.sibling;
 	}
-	function yu(e, t) {
+	function vu(e, t) {
 		switch (e.tag) {
 			case 5:
 			case 26:
@@ -5293,7 +5293,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				} catch (t) {
 					Z(e, e.return, t);
 				}
-				bu(e, t);
+				yu(e, t);
 				break;
 			case 6:
 				try {
@@ -5312,95 +5312,95 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				break;
 			case 22:
 			case 23:
-				e.memoizedState === null && vu(e, t);
+				e.memoizedState === null && _u(e, t);
 				break;
-			default: vu(e, t);
+			default: _u(e, t);
 		}
 	}
-	function bu(e, t) {
+	function yu(e, t) {
 		if (e.subtreeFlags & 67108864) for (e = e.child; e !== null;) {
 			a: {
 				var n = e, r = t;
 				switch (n.tag) {
 					case 4:
-						yu(n, r);
+						vu(n, r);
 						break a;
 					case 22:
-						n.memoizedState === null && bu(n, r);
+						n.memoizedState === null && yu(n, r);
 						break a;
-					default: bu(n, r);
+					default: yu(n, r);
 				}
 			}
 			e = e.sibling;
 		}
 	}
-	function xu(e) {
+	function bu(e) {
 		var t = e.alternate;
-		t !== null && (e.alternate = null, xu(t)), e.child = null, e.deletions = null, e.sibling = null, e.tag === 5 && (t = e.stateNode, t !== null && Nt(t)), e.stateNode = null, e.return = null, e.dependencies = null, e.memoizedProps = null, e.memoizedState = null, e.pendingProps = null, e.stateNode = null, e.updateQueue = null;
+		t !== null && (e.alternate = null, bu(t)), e.child = null, e.deletions = null, e.sibling = null, e.tag === 5 && (t = e.stateNode, t !== null && Nt(t)), e.stateNode = null, e.return = null, e.dependencies = null, e.memoizedProps = null, e.memoizedState = null, e.pendingProps = null, e.stateNode = null, e.updateQueue = null;
 	}
-	var W = null, Su = !1;
+	var G = null, xu = !1;
+	function Su(e, t, n) {
+		for (n = n.child; n !== null;) Cu(e, t, n), n = n.sibling;
+	}
 	function Cu(e, t, n) {
-		for (n = n.child; n !== null;) wu(e, t, n), n = n.sibling;
-	}
-	function wu(e, t, n) {
 		if ($e && typeof $e.onCommitFiberUnmount == "function") try {
 			$e.onCommitFiberUnmount(Qe, n);
 		} catch {}
 		switch (n.tag) {
 			case 26:
-				U || Ol(n, t), Cu(e, t, n), n.memoizedState ? n.memoizedState.count-- : n.stateNode && !U && (n = n.stateNode, n.parentNode.removeChild(n));
+				W || Dl(n, t), Su(e, t, n), n.memoizedState ? n.memoizedState.count-- : n.stateNode && !W && (n = n.stateNode, n.parentNode.removeChild(n));
 				break;
 			case 27:
-				U || Ol(n, t), jl(n);
-				var r = W, i = Su;
-				Sp(n.type) && (W = n.stateNode, Su = !1), Cu(e, t, n), gm(n.stateNode, n.type, n.memoizedProps), W = r, Su = i;
+				W || Dl(n, t), Al(n);
+				var r = G, i = xu;
+				Sp(n.type) && (G = n.stateNode, xu = !1), Su(e, t, n), gm(n.stateNode, n.type, n.memoizedProps), G = r, xu = i;
 				break;
-			case 5: U || Ol(n, t), jl(n);
+			case 5: W || Dl(n, t), Al(n);
 			case 6:
-				if (n.tag === 6 && jl(n), r = W, i = Su, W = null, Cu(e, t, n), W = r, Su = i, W !== null) {
-					if (Su) try {
-						(W.nodeType === 9 ? W.body : W.nodeName === "HTML" ? W.ownerDocument.body : W).removeChild(n.stateNode), L = !0;
+				if (n.tag === 6 && Al(n), r = G, i = xu, G = null, Su(e, t, n), G = r, xu = i, G !== null) {
+					if (xu) try {
+						(G.nodeType === 9 ? G.body : G.nodeName === "HTML" ? G.ownerDocument.body : G).removeChild(n.stateNode), L = !0;
 					} catch (e) {
 						Z(n, t, e);
 					}
 					else try {
-						W.removeChild(n.stateNode), L = !0;
+						G.removeChild(n.stateNode), L = !0;
 					} catch (e) {
 						Z(n, t, e);
 					}
 				}
 				break;
 			case 18:
-				W !== null && (Su ? (e = W, Cp(e.nodeType === 9 ? e.body : e.nodeName === "HTML" ? e.ownerDocument.body : e, n.stateNode), Hh(e)) : Cp(W, n.stateNode));
+				G !== null && (xu ? (e = G, Cp(e.nodeType === 9 ? e.body : e.nodeName === "HTML" ? e.ownerDocument.body : e, n.stateNode), Hh(e)) : Cp(G, n.stateNode));
 				break;
 			case 4:
-				r = W, i = Su, W = n.stateNode.containerInfo, Su = !0, Cu(e, t, n), W = r, Su = i;
+				r = G, i = xu, G = n.stateNode.containerInfo, xu = !0, Su(e, t, n), G = r, xu = i;
 				break;
 			case 0:
 			case 11:
 			case 14:
 			case 15:
-				wl(2, n, t), U || wl(4, n, t), Cu(e, t, n);
+				Cl(2, n, t), W || Cl(4, n, t), Su(e, t, n);
 				break;
 			case 1:
-				U || (Ol(n, t), r = n.stateNode, typeof r.componentWillUnmount == "function" && El(n, t, r)), Cu(e, t, n);
+				W || (Dl(n, t), r = n.stateNode, typeof r.componentWillUnmount == "function" && Tl(n, t, r)), Su(e, t, n);
 				break;
 			case 21:
-				Cu(e, t, n);
+				Su(e, t, n);
 				break;
 			case 22:
-				U = (r = U) || n.memoizedState !== null, Cu(e, t, n), U = r;
+				W = (r = W) || n.memoizedState !== null, Su(e, t, n), W = r;
 				break;
 			case 30:
-				Ol(n, t), Cu(e, t, n);
+				Dl(n, t), Su(e, t, n);
 				break;
 			case 7:
-				U || Ol(n, t), Cu(e, t, n);
+				W || Dl(n, t), Su(e, t, n);
 				break;
-			default: Cu(e, t, n);
+			default: Su(e, t, n);
 		}
 	}
-	function Tu(e, t) {
+	function wu(e, t) {
 		if (t.memoizedState === null && (e = t.alternate, e !== null && (e = e.memoizedState, e !== null))) {
 			e = e.dehydrated;
 			try {
@@ -5410,26 +5410,26 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 		}
 	}
-	function Eu(e, t) {
+	function Tu(e, t) {
 		if (t.memoizedState === null && (e = t.alternate, e !== null && (e = e.memoizedState, e !== null && (e = e.dehydrated, e !== null)))) try {
 			Hh(e);
 		} catch (e) {
 			Z(t, t.return, e);
 		}
 	}
-	function Du(e) {
+	function Eu(e) {
 		switch (e.tag) {
 			case 31:
 			case 13:
 			case 19:
 				var t = e.stateNode;
-				return t === null && (t = e.stateNode = new lu()), t;
-			case 22: return e = e.stateNode, t = e._retryCache, t === null && (t = e._retryCache = new lu()), t;
+				return t === null && (t = e.stateNode = new cu()), t;
+			case 22: return e = e.stateNode, t = e._retryCache, t === null && (t = e._retryCache = new cu()), t;
 			default: throw Error(i(435, e.tag));
 		}
 	}
-	function Ou(e, t) {
-		var n = Du(e);
+	function Du(e, t) {
+		var n = Eu(e);
 		t.forEach(function(t) {
 			if (!n.has(t)) {
 				n.add(t);
@@ -5438,7 +5438,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 		});
 	}
-	function ku(e, t, n) {
+	function Ou(e, t, n) {
 		var r = t.deletions;
 		if (r !== null) for (var a = 0; a < r.length; a++) {
 			var o = r[a], s = e, c = t, l = c;
@@ -5446,27 +5446,27 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				switch (l.tag) {
 					case 27:
 						if (Sp(l.type)) {
-							W = l.stateNode, Su = !1;
+							G = l.stateNode, xu = !1;
 							break a;
 						}
 						break;
 					case 5:
-						W = l.stateNode, Su = !1;
+						G = l.stateNode, xu = !1;
 						break a;
 					case 3:
 					case 4:
-						W = l.stateNode.containerInfo, Su = !0;
+						G = l.stateNode.containerInfo, xu = !0;
 						break a;
 				}
 				l = l.return;
 			}
-			if (W === null) throw Error(i(160));
-			wu(s, c, o), W = null, Su = !1, s = o.alternate, s !== null && (s.return = null), o.return = null;
+			if (G === null) throw Error(i(160));
+			Cu(s, c, o), G = null, xu = !1, s = o.alternate, s !== null && (s.return = null), o.return = null;
 		}
-		if (t.subtreeFlags & 13886) for (t = t.child; t !== null;) ju(t, e, n), t = t.sibling;
+		if (t.subtreeFlags & 13886) for (t = t.child; t !== null;) Au(t, e, n), t = t.sibling;
 	}
-	var Au = null;
-	function ju(e, t, n) {
+	var ku = null;
+	function Au(e, t, n) {
 		var r = e.alternate, a = e.flags;
 		switch (e.tag) {
 			case 0:
@@ -5477,23 +5477,23 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var s = r[o];
 					s.ref.impl = s.nextImpl;
 				}
-				ku(t, e, n), Mu(e), a & 4 && (wl(3, e, e.return), Cl(3, e), wl(5, e, e.return));
+				Ou(t, e, n), ju(e), a & 4 && (Cl(3, e, e.return), Sl(3, e), Cl(5, e, e.return));
 				break;
 			case 1:
-				ku(t, e, n), Mu(e), a & 512 && (U || r === null || Ol(r, r.return)), a & 64 && ou && (e = e.updateQueue, e !== null && (t = e.callbacks, t !== null && (n = e.shared.hiddenCallbacks, e.shared.hiddenCallbacks = n === null ? t : n.concat(t))));
+				Ou(t, e, n), ju(e), a & 512 && (W || r === null || Dl(r, r.return)), a & 64 && au && (e = e.updateQueue, e !== null && (t = e.callbacks, t !== null && (n = e.shared.hiddenCallbacks, e.shared.hiddenCallbacks = n === null ? t : n.concat(t))));
 				break;
 			case 26:
-				if (o = Au, ku(t, e, n), Mu(e), a & 512 && (U || r === null || Ol(r, r.return)), a & 4) {
+				if (o = ku, Ou(t, e, n), ju(e), a & 512 && (W || r === null || Dl(r, r.return)), a & 4) {
 					if (a = r === null ? null : r.memoizedState, n = e.memoizedState, r === null) {
 						if (n === null) {
 							if (e.stateNode === null) {
-								if (ou) e.stateNode = fp(e.type, e.memoizedProps, t.containerInfo, e);
+								if (au) e.stateNode = fp(e.type, e.memoizedProps, t.containerInfo, e);
 								else {
 									a: {
 										t = e.type, n = e.memoizedProps, a = o.ownerDocument || o;
 										b: switch (t) {
 											case "title":
-												r = a.getElementsByTagName("title")[0], (!r || r[jt] || r[wt] || r.namespaceURI === "http://www.w3.org/2000/svg" || r.hasAttribute("itemprop")) && (r = a.createElement(t), a.head.insertBefore(r, a.querySelector("head > title"))), np(r, t, n), r[wt] = e, Rt(r), t = r;
+												r = a.getElementsByTagName("title")[0], (!r || r[jt] || r[I] || r.namespaceURI === "http://www.w3.org/2000/svg" || r.hasAttribute("itemprop")) && (r = a.createElement(t), a.head.insertBefore(r, a.querySelector("head > title"))), np(r, t, n), r[I] = e, Rt(r), t = r;
 												break a;
 											case "link":
 												if (o = Gm("link", "href", a).get(t + (n.href || ""))) {
@@ -5515,31 +5515,31 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 												break;
 											default: throw Error(i(468, t));
 										}
-										r[wt] = e, Rt(r), t = r;
+										r[I] = e, Rt(r), t = r;
 									}
 									e.stateNode = t;
 								}
-							} else ou || Km(o, e.type, e.stateNode);
+							} else au || Km(o, e.type, e.stateNode);
 						} else e.stateNode = Bm(o, n, e.memoizedProps);
-					} else a === n ? n === null && e.stateNode !== null && Fl(e, e.memoizedProps, r.memoizedProps) : (a === null ? (t = r.stateNode, t === null || U || t.parentNode.removeChild(t)) : a.count--, n === null ? ou || Km(o, e.type, e.stateNode) : Bm(o, n, e.memoizedProps));
+					} else a === n ? n === null && e.stateNode !== null && Pl(e, e.memoizedProps, r.memoizedProps) : (a === null ? (t = r.stateNode, t === null || W || t.parentNode.removeChild(t)) : a.count--, n === null ? au || Km(o, e.type, e.stateNode) : Bm(o, n, e.memoizedProps));
 				}
 				break;
 			case 27:
-				ku(t, e, n), Mu(e), a & 512 && (U || r === null || Ol(r, r.return)), r !== null && a & 4 && Fl(e, e.memoizedProps, r.memoizedProps);
+				Ou(t, e, n), ju(e), a & 512 && (W || r === null || Dl(r, r.return)), r !== null && a & 4 && Pl(e, e.memoizedProps, r.memoizedProps);
 				break;
 			case 5:
-				if (o = su, su = !1, ku(t, e, n), su = o, Mu(e), a & 512 && (U || r === null || Ol(r, r.return)), e.flags & 32) {
+				if (o = ou, ou = !1, Ou(t, e, n), ou = o, ju(e), a & 512 && (W || r === null || Dl(r, r.return)), e.flags & 32) {
 					t = e.stateNode;
 					try {
-						fn(t, ""), L = !0;
+						dn(t, ""), L = !0;
 					} catch (t) {
 						Z(e, e.return, t);
 					}
 				}
-				a & 4 && e.stateNode != null && (t = e.memoizedProps, Fl(e, t, r === null ? t : r.memoizedProps)), a & 1024 && (cu = !0);
+				a & 4 && e.stateNode != null && (t = e.memoizedProps, Pl(e, t, r === null ? t : r.memoizedProps)), a & 1024 && (su = !0);
 				break;
 			case 6:
-				if (ku(t, e, n), Mu(e), a & 4) {
+				if (Ou(t, e, n), ju(e), a & 4) {
 					if (e.stateNode === null) throw Error(i(162));
 					t = e.memoizedProps, n = e.stateNode;
 					try {
@@ -5550,47 +5550,47 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				break;
 			case 3:
-				if (L = !1, Wm = null, o = Au, Au = bm(t.containerInfo), ku(t, e, n), Au = o, Mu(e), a & 4 && r !== null && r.memoizedState.isDehydrated) try {
+				if (L = !1, Wm = null, o = ku, ku = bm(t.containerInfo), Ou(t, e, n), ku = o, ju(e), a & 4 && r !== null && r.memoizedState.isDehydrated) try {
 					Hh(t.containerInfo);
 				} catch (t) {
 					Z(e, e.return, t);
 				}
-				cu && (cu = !1, Nu(e)), L = !1;
+				su && (su = !1, Mu(e)), L = !1;
 				break;
 			case 4:
-				a = su, su = ou, r = Jt(), o = Au, Au = bm(e.stateNode.containerInfo), ku(t, e, n), Mu(e), Au = o, L && fu && (pu = !0), L = r, su = a;
+				a = ou, ou = au, r = Jt(), o = ku, ku = bm(e.stateNode.containerInfo), Ou(t, e, n), ju(e), ku = o, L && du && (fu = !0), L = r, ou = a;
 				break;
 			case 12:
-				ku(t, e, n), Mu(e);
+				Ou(t, e, n), ju(e);
 				break;
 			case 31:
-				ku(t, e, n), Mu(e), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Ou(e, t)));
+				Ou(t, e, n), ju(e), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Du(e, t)));
 				break;
 			case 13:
-				ku(t, e, n), Mu(e), e.child.flags & 8192 && e.memoizedState !== null != (r !== null && r.memoizedState !== null) && (hd = We()), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Ou(e, t)));
+				Ou(t, e, n), ju(e), e.child.flags & 8192 && e.memoizedState !== null != (r !== null && r.memoizedState !== null) && (md = F()), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Du(e, t)));
 				break;
 			case 22:
 				o = e.memoizedState !== null, s = r !== null && r.memoizedState !== null;
-				var c = ou, l = U, u = su;
-				ou = c || o, su = u || o, U = l || s, ku(t, e, n), U = l, su = u, ou = c, Mu(e), a & 8192 && (t = e.stateNode, t._visibility = o ? t._visibility & -2 : t._visibility | 1, !o || r === null || s || ou || U || (t = s || U, n = ou, r = U, ou = o || ou, U = t, Lu(e, 2), ou = n, U = r), !o && su || vu(e, o)), a & 4 && (t = e.updateQueue, t !== null && (n = t.retryQueue, n !== null && (t.retryQueue = null, Ou(e, n))));
+				var c = au, l = W, u = ou;
+				au = c || o, ou = u || o, W = l || s, Ou(t, e, n), W = l, ou = u, au = c, ju(e), a & 8192 && (t = e.stateNode, t._visibility = o ? t._visibility & -2 : t._visibility | 1, !o || r === null || s || au || W || (t = s || W, n = au, r = W, au = o || au, W = t, Iu(e, 2), au = n, W = r), !o && ou || _u(e, o)), a & 4 && (t = e.updateQueue, t !== null && (n = t.retryQueue, n !== null && (t.retryQueue = null, Du(e, n))));
 				break;
 			case 19:
-				ku(t, e, n), Mu(e), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Ou(e, t)));
+				Ou(t, e, n), ju(e), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Du(e, t)));
 				break;
 			case 30:
-				a & 512 && (U || r === null || Ol(r, r.return)), a = Jt(), o = fu, s = (n & 335544064) === n, c = e.memoizedProps, fu = s && xi(c.default, c.update) !== "none", ku(t, e, n), Mu(e), s && r !== null && L && (e.flags |= 4), fu = o, L = a;
+				a & 512 && (W || r === null || Dl(r, r.return)), a = Jt(), o = du, s = (n & 335544064) === n, c = e.memoizedProps, du = s && bi(c.default, c.update) !== "none", Ou(t, e, n), ju(e), s && r !== null && L && (e.flags |= 4), du = o, L = a;
 				break;
 			case 21: break;
-			case 7: a & 512 && (U || r === null || Ol(r, r.return)), r && r.stateNode !== null && (r.stateNode._fragmentFiber = e);
-			default: ku(t, e, n), Mu(e);
+			case 7: a & 512 && (W || r === null || Dl(r, r.return)), r && r.stateNode !== null && (r.stateNode._fragmentFiber = e);
+			default: Ou(t, e, n), ju(e);
 		}
 	}
-	function Mu(e) {
+	function ju(e) {
 		var t = e.flags;
 		if (t & 2) {
 			try {
 				for (var n, r = e.return; r !== null;) {
-					if (Il(r)) {
+					if (Fl(r)) {
 						n = r;
 						break;
 					}
@@ -5598,11 +5598,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				r = null;
 				for (var a = e.return; a !== null;) {
-					if (Nl(a)) {
+					if (Ml(a)) {
 						var o = a.stateNode;
 						r === null ? r = [o] : r.push(o);
 					}
-					if (Ml(a)) break;
+					if (jl(a)) break;
 					a = a.return;
 				}
 				var s = r;
@@ -5610,16 +5610,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				switch (n.tag) {
 					case 27:
 						var c = n.stateNode;
-						zl(e, Ll(e), c, s);
+						Rl(e, Il(e), c, s);
 						break;
 					case 5:
 						var l = n.stateNode;
-						n.flags & 32 && (fn(l, ""), n.flags &= -33), zl(e, Ll(e), l, s);
+						n.flags & 32 && (dn(l, ""), n.flags &= -33), Rl(e, Il(e), l, s);
 						break;
 					case 3:
 					case 4:
 						var u = n.stateNode.containerInfo;
-						Rl(e, Ll(e), u, s);
+						Ll(e, Il(e), u, s);
 						break;
 					default: throw Error(i(161));
 				}
@@ -5630,23 +5630,23 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		t & 4096 && (e.flags &= -4097);
 	}
-	function Nu(e) {
+	function Mu(e) {
 		if (e.subtreeFlags & 1024) for (e = e.child; e !== null;) {
 			var t = e;
-			Nu(t), t.tag === 5 && t.flags & 1024 && (t = t.stateNode, gh = !0, t.reset(), gh = !1), e = e.sibling;
+			Mu(t), t.tag === 5 && t.flags & 1024 && (t = t.stateNode, gh = !0, t.reset(), gh = !1), e = e.sibling;
 		}
 	}
-	function Pu(e, t) {
-		if (t.subtreeFlags & 9270) for (t = t.child; t !== null;) Fu(t, e), t = t.sibling;
-		else au(t, !1);
+	function Nu(e, t) {
+		if (t.subtreeFlags & 9270) for (t = t.child; t !== null;) Pu(t, e), t = t.sibling;
+		else iu(t, !1);
 	}
-	function Fu(e, t) {
+	function Pu(e, t) {
 		var n = e.alternate;
-		if (n === null) Zl(e, !1);
+		if (n === null) Xl(e, !1);
 		else switch (e.tag) {
 			case 3:
-				if (mu = du = !1, Gl(), Pu(t, e), !du && !pu) {
-					if (e = Wl, e !== null) for (var r = 0; r < e.length; r += 3) {
+				if (pu = uu = !1, Wl(), Nu(t, e), !uu && !fu) {
+					if (e = Ul, e !== null) for (var r = 0; r < e.length; r += 3) {
 						n = e[r];
 						var i = e[r + 1];
 						Ep(n, e[r + 2]), n = n.ownerDocument.documentElement, n !== null && n.animate({
@@ -5672,33 +5672,33 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						duration: 0,
 						fill: "forwards",
 						pseudoElement: "::view-transition"
-					})), mu = !0;
+					})), pu = !0;
 				}
-				Wl = null;
+				Ul = null;
 				break;
 			case 5:
-				Pu(t, e);
+				Nu(t, e);
 				break;
 			case 4:
-				r = du, du = !1, Pu(t, e), du && (pu = !0), du = r;
+				r = uu, uu = !1, Nu(t, e), uu && (fu = !0), uu = r;
 				break;
 			case 22:
-				e.memoizedState === null && (n.memoizedState === null ? Pu(t, e) : Zl(e, !1));
+				e.memoizedState === null && (n.memoizedState === null ? Nu(t, e) : Xl(e, !1));
 				break;
 			case 30:
-				r = du, i = Gl(), du = !1, Pu(t, e), du && (e.flags |= 4);
+				r = uu, i = Wl(), uu = !1, Nu(t, e), uu && (e.flags |= 4);
 				var a = e.memoizedProps, o = e.stateNode;
-				t = yi(a, o), o = yi(n.memoizedProps, o);
-				var s = xi(a.default, a.update);
-				s === "none" ? t = !1 : (a = n.memoizedState, n.memoizedState = null, n = e.child, Kl = 0, t = iu(e, n, t, o, s, a, !0), Kl !== (a === null ? 0 : a.length) && (e.flags |= 32)), e.flags & 4 && t ? (Nd(e, e.memoizedProps.onUpdate), Wl = i) : i !== null && (i.push.apply(i, Wl), Wl = i), du = e.flags & 32 ? !0 : r;
+				t = vi(a, o), o = vi(n.memoizedProps, o);
+				var s = bi(a.default, a.update);
+				s === "none" ? t = !1 : (a = n.memoizedState, n.memoizedState = null, n = e.child, Gl = 0, t = ru(e, n, t, o, s, a, !0), Gl !== (a === null ? 0 : a.length) && (e.flags |= 32)), e.flags & 4 && t ? (Nd(e, e.memoizedProps.onUpdate), Ul = i) : i !== null && (i.push.apply(i, Ul), Ul = i), uu = e.flags & 32 ? !0 : r;
 				break;
-			default: Pu(t, e);
+			default: Nu(t, e);
 		}
 	}
-	function Iu(e, t) {
-		if (t.subtreeFlags & 8772) for (t = t.child; t !== null;) _u(e, t.alternate, t), t = t.sibling;
+	function Fu(e, t) {
+		if (t.subtreeFlags & 8772) for (t = t.child; t !== null;) gu(e, t.alternate, t), t = t.sibling;
 	}
-	function Lu(e, t) {
+	function Iu(e, t) {
 		for (e = e.child; e !== null;) {
 			var n = e, r = t;
 			switch (n.tag) {
@@ -5706,46 +5706,46 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				case 11:
 				case 14:
 				case 15:
-					wl(4, n, n.return), Lu(n, r);
+					Cl(4, n, n.return), Iu(n, r);
 					break;
 				case 1:
-					Ol(n, n.return);
+					Dl(n, n.return);
 					var i = n.stateNode;
-					typeof i.componentWillUnmount == "function" && El(n, n.return, i), Lu(n, r);
+					typeof i.componentWillUnmount == "function" && Tl(n, n.return, i), Iu(n, r);
 					break;
 				case 27: r & 2 && gm(n.stateNode, n.type, n.memoizedProps);
 				case 5:
-					Ol(n, n.return), n.tag !== 5 && n.tag !== 27 || jl(n), Lu(n, r);
+					Dl(n, n.return), n.tag !== 5 && n.tag !== 27 || Al(n), Iu(n, r);
 					break;
 				case 6:
-					jl(n);
+					Al(n);
 					break;
 				case 26:
-					Ol(n, n.return), i = n.stateNode, n.memoizedState !== null || i === null || U || i.parentNode.removeChild(i), Lu(n, r);
+					Dl(n, n.return), i = n.stateNode, n.memoizedState !== null || i === null || W || i.parentNode.removeChild(i), Iu(n, r);
 					break;
 				case 22:
-					n.memoizedState === null && Lu(n, r);
+					n.memoizedState === null && Iu(n, r);
 					break;
 				case 30:
-					Ol(n, n.return), Lu(n, r);
+					Dl(n, n.return), Iu(n, r);
 					break;
-				case 7: Ol(n, n.return);
-				default: Lu(n, r);
+				case 7: Dl(n, n.return);
+				default: Iu(n, r);
 			}
 			e = e.sibling;
 		}
 	}
-	function Ru(e, t, n) {
+	function Lu(e, t, n) {
 		for (n = t.subtreeFlags & 8772 ? n : n & -2, t = t.child; t !== null;) {
 			var r = t.alternate, i = e, a = t, o = a.flags, s = !!(n & 1);
 			switch (a.tag) {
 				case 0:
 				case 11:
 				case 15:
-					Ru(i, a, n), Cl(4, a);
+					Lu(i, a, n), Sl(4, a);
 					break;
 				case 1:
-					if (Ru(i, a, n), r = a, i = r.stateNode, typeof i.componentDidMount == "function") try {
+					if (Lu(i, a, n), r = a, i = r.stateNode, typeof i.componentDidMount == "function") try {
 						i.componentDidMount();
 					} catch (e) {
 						Z(r, r.return, e);
@@ -5754,170 +5754,170 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						var c = r.stateNode;
 						try {
 							var l = i.shared.hiddenCallbacks;
-							if (l !== null) for (i.shared.hiddenCallbacks = null, i = 0; i < l.length; i++) To(l[i], c);
+							if (l !== null) for (i.shared.hiddenCallbacks = null, i = 0; i < l.length; i++) wo(l[i], c);
 						} catch (e) {
 							Z(r, r.return, e);
 						}
 					}
-					s && o & 64 && Tl(a), Dl(a, a.return);
+					s && o & 64 && wl(a), El(a, a.return);
 					break;
-				case 27: n & 2 && Bl(a);
+				case 27: n & 2 && zl(a);
 				case 5:
-					a.tag !== 5 && a.tag !== 27 || Al(a), Ru(i, a, n), s && r === null && o & 4 && Pl(a), Dl(a, a.return);
+					a.tag !== 5 && a.tag !== 27 || kl(a), Lu(i, a, n), s && r === null && o & 4 && Nl(a), El(a, a.return);
 					break;
 				case 6:
-					Al(a);
+					kl(a);
 					break;
 				case 26:
-					c = a.stateNode, a.memoizedState !== null || c === null || ou || Km(bm(c.ownerDocument), a.type, c), Ru(i, a, n), s && r === null && o & 4 && Pl(a), Dl(a, a.return);
+					c = a.stateNode, a.memoizedState !== null || c === null || au || Km(bm(c.ownerDocument), a.type, c), Lu(i, a, n), s && r === null && o & 4 && Nl(a), El(a, a.return);
 					break;
 				case 12:
-					Ru(i, a, n);
+					Lu(i, a, n);
 					break;
 				case 31:
-					Ru(i, a, n), s && o & 4 && Tu(i, a);
+					Lu(i, a, n), s && o & 4 && wu(i, a);
 					break;
 				case 13:
-					Ru(i, a, n), s && o & 4 && Eu(i, a);
+					Lu(i, a, n), s && o & 4 && Tu(i, a);
 					break;
 				case 22:
-					a.memoizedState === null && Ru(i, a, n), Dl(a, a.return);
+					a.memoizedState === null && Lu(i, a, n), El(a, a.return);
 					break;
 				case 30:
-					Ru(i, a, n), Dl(a, a.return);
+					Lu(i, a, n), El(a, a.return);
 					break;
-				case 7: Dl(a, a.return);
-				default: Ru(i, a, n);
+				case 7: El(a, a.return);
+				default: Lu(i, a, n);
 			}
 			t = t.sibling;
 		}
 	}
-	function zu(e, t) {
+	function Ru(e, t) {
 		var n = null;
-		e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), e = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (e = t.memoizedState.cachePool.pool), e !== n && (e != null && e.refCount++, n != null && Pa(n));
+		e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), e = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (e = t.memoizedState.cachePool.pool), e !== n && (e != null && e.refCount++, n != null && Na(n));
 	}
-	function Bu(e, t) {
-		e = null, t.alternate !== null && (e = t.alternate.memoizedState.cache), t = t.memoizedState.cache, t !== e && (t.refCount++, e != null && Pa(e));
+	function zu(e, t) {
+		e = null, t.alternate !== null && (e = t.alternate.memoizedState.cache), t = t.memoizedState.cache, t !== e && (t.refCount++, e != null && Na(e));
+	}
+	function Bu(e, t, n, r) {
+		var i = (n & 335544064) === n;
+		if (t.subtreeFlags & (i ? 10262 : 10256)) for (t = t.child; t !== null;) Vu(e, t, n, r), t = t.sibling;
+		else i && nu(t);
 	}
 	function Vu(e, t, n, r) {
 		var i = (n & 335544064) === n;
-		if (t.subtreeFlags & (i ? 10262 : 10256)) for (t = t.child; t !== null;) Hu(e, t, n, r), t = t.sibling;
-		else i && ru(t);
-	}
-	function Hu(e, t, n, r) {
-		var i = (n & 335544064) === n;
-		i && t.alternate === null && t.return !== null && t.return.alternate !== null && nu(t);
+		i && t.alternate === null && t.return !== null && t.return.alternate !== null && tu(t);
 		var a = t.flags;
 		switch (t.tag) {
 			case 0:
 			case 11:
 			case 15:
-				Vu(e, t, n, r), a & 2048 && Cl(9, t);
+				Bu(e, t, n, r), a & 2048 && Sl(9, t);
 				break;
 			case 1:
-				Vu(e, t, n, r);
+				Bu(e, t, n, r);
 				break;
 			case 3:
-				Vu(e, t, n, r), i && mu && (e = e.containerInfo, e = e.nodeType === 9 ? e.body : e.nodeName === "HTML" ? e.ownerDocument.body : e, e.style.viewTransitionName === "root" && (e.style.viewTransitionName = ""), e = e.ownerDocument.documentElement, e !== null && e.style.viewTransitionName === "none" && (e.style.viewTransitionName = "")), a & 2048 && (a = null, t.alternate !== null && (a = t.alternate.memoizedState.cache), t = t.memoizedState.cache, t !== a && (t.refCount++, a != null && Pa(a)));
+				Bu(e, t, n, r), i && pu && (e = e.containerInfo, e = e.nodeType === 9 ? e.body : e.nodeName === "HTML" ? e.ownerDocument.body : e, e.style.viewTransitionName === "root" && (e.style.viewTransitionName = ""), e = e.ownerDocument.documentElement, e !== null && e.style.viewTransitionName === "none" && (e.style.viewTransitionName = "")), a & 2048 && (a = null, t.alternate !== null && (a = t.alternate.memoizedState.cache), t = t.memoizedState.cache, t !== a && (t.refCount++, a != null && Na(a)));
 				break;
 			case 12:
 				if (a & 2048) {
-					Vu(e, t, n, r), a = t.stateNode;
+					Bu(e, t, n, r), a = t.stateNode;
 					try {
 						var o = t.memoizedProps, s = o.id, c = o.onPostCommit;
 						typeof c == "function" && c(s, t.alternate === null ? "mount" : "update", a.passiveEffectDuration, -0);
 					} catch (e) {
 						Z(t, t.return, e);
 					}
-				} else Vu(e, t, n, r);
+				} else Bu(e, t, n, r);
 				break;
 			case 31:
-				Vu(e, t, n, r);
+				Bu(e, t, n, r);
 				break;
 			case 13:
-				Vu(e, t, n, r);
+				Bu(e, t, n, r);
 				break;
 			case 23: break;
 			case 22:
-				o = t.stateNode, s = t.alternate, t.memoizedState === null ? (i && s !== null && s.memoizedState !== null && nu(t), o._visibility & 2 ? Vu(e, t, n, r) : (o._visibility |= 2, Uu(e, t, n, r, !!(t.subtreeFlags & 10256) || !1))) : (i && s !== null && s.memoizedState === null && nu(s), o._visibility & 2 ? Vu(e, t, n, r) : Wu(e, t)), a & 2048 && zu(s, t);
+				o = t.stateNode, s = t.alternate, t.memoizedState === null ? (i && s !== null && s.memoizedState !== null && tu(t), o._visibility & 2 ? Bu(e, t, n, r) : (o._visibility |= 2, Hu(e, t, n, r, !!(t.subtreeFlags & 10256) || !1))) : (i && s !== null && s.memoizedState === null && tu(s), o._visibility & 2 ? Bu(e, t, n, r) : Uu(e, t)), a & 2048 && Ru(s, t);
 				break;
 			case 24:
-				Vu(e, t, n, r), a & 2048 && Bu(t.alternate, t);
+				Bu(e, t, n, r), a & 2048 && zu(t.alternate, t);
 				break;
 			case 30:
-				i && (a = t.alternate, a !== null && (Yl(a.child, !0), Yl(t.child, !0))), Vu(e, t, n, r);
+				i && (a = t.alternate, a !== null && (Jl(a.child, !0), Jl(t.child, !0))), Bu(e, t, n, r);
 				break;
-			default: Vu(e, t, n, r);
+			default: Bu(e, t, n, r);
 		}
 	}
-	function Uu(e, t, n, r, i) {
+	function Hu(e, t, n, r, i) {
 		for (i &&= !!(t.subtreeFlags & 10256) || !1, t = t.child; t !== null;) {
 			var a = e, o = t, s = n, c = r, l = o.flags;
 			switch (o.tag) {
 				case 0:
 				case 11:
 				case 15:
-					Uu(a, o, s, c, i), Cl(8, o);
+					Hu(a, o, s, c, i), Sl(8, o);
 					break;
 				case 23: break;
 				case 22:
 					var u = o.stateNode;
-					o.memoizedState === null ? (u._visibility |= 2, Uu(a, o, s, c, i)) : u._visibility & 2 ? Uu(a, o, s, c, i) : Wu(a, o), i && l & 2048 && zu(o.alternate, o);
+					o.memoizedState === null ? (u._visibility |= 2, Hu(a, o, s, c, i)) : u._visibility & 2 ? Hu(a, o, s, c, i) : Uu(a, o), i && l & 2048 && Ru(o.alternate, o);
 					break;
 				case 24:
-					Uu(a, o, s, c, i), i && l & 2048 && Bu(o.alternate, o);
+					Hu(a, o, s, c, i), i && l & 2048 && zu(o.alternate, o);
 					break;
-				default: Uu(a, o, s, c, i);
+				default: Hu(a, o, s, c, i);
 			}
 			t = t.sibling;
 		}
 	}
-	function Wu(e, t) {
+	function Uu(e, t) {
 		if (t.subtreeFlags & 10256) for (t = t.child; t !== null;) {
 			var n = e, r = t, i = r.flags;
 			switch (r.tag) {
 				case 22:
-					Wu(n, r), i & 2048 && zu(r.alternate, r);
+					Uu(n, r), i & 2048 && Ru(r.alternate, r);
 					break;
 				case 24:
-					Wu(n, r), i & 2048 && Bu(r.alternate, r);
+					Uu(n, r), i & 2048 && zu(r.alternate, r);
 					break;
-				default: Wu(n, r);
+				default: Uu(n, r);
 			}
 			t = t.sibling;
 		}
 	}
-	var Gu = 8192;
-	function Ku(e, t, n) {
-		if (e.subtreeFlags & Gu) for (e = e.child; e !== null;) qu(e, t, n), e = e.sibling;
+	var Wu = 8192;
+	function Gu(e, t, n) {
+		if (e.subtreeFlags & Wu) for (e = e.child; e !== null;) Ku(e, t, n), e = e.sibling;
 	}
-	function qu(e, t, n) {
+	function Ku(e, t, n) {
 		switch (e.tag) {
 			case 26:
-				Ku(e, t, n), e.flags & Gu && (e.memoizedState === null ? (e = e.stateNode, (t & 335544128) === t && Zm(n, e)) : Qm(n, Au, e.memoizedState, e.memoizedProps));
+				Gu(e, t, n), e.flags & Wu && (e.memoizedState === null ? (e = e.stateNode, (t & 335544128) === t && Zm(n, e)) : Qm(n, ku, e.memoizedState, e.memoizedProps));
 				break;
 			case 5:
-				Ku(e, t, n), e.flags & Gu && (e = e.stateNode, (t & 335544128) === t && Zm(n, e));
+				Gu(e, t, n), e.flags & Wu && (e = e.stateNode, (t & 335544128) === t && Zm(n, e));
 				break;
 			case 3:
 			case 4:
-				var r = Au;
-				Au = bm(e.stateNode.containerInfo), Ku(e, t, n), Au = r;
+				var r = ku;
+				ku = bm(e.stateNode.containerInfo), Gu(e, t, n), ku = r;
 				break;
 			case 22:
-				e.memoizedState === null && (r = e.alternate, r !== null && r.memoizedState !== null ? (r = Gu, Gu = 16777216, Ku(e, t, n), Gu = r) : Ku(e, t, n));
+				e.memoizedState === null && (r = e.alternate, r !== null && r.memoizedState !== null ? (r = Wu, Wu = 16777216, Gu(e, t, n), Wu = r) : Gu(e, t, n));
 				break;
 			case 30:
-				if ((e.flags & Gu) !== 0 && (r = e.memoizedProps.name, r != null && r !== "auto")) {
+				if ((e.flags & Wu) !== 0 && (r = e.memoizedProps.name, r != null && r !== "auto")) {
 					var i = e.stateNode;
-					i.paired = null, Hl === null && (Hl = /* @__PURE__ */ new Map()), Hl.set(r, i);
+					i.paired = null, Vl === null && (Vl = /* @__PURE__ */ new Map()), Vl.set(r, i);
 				}
-				Ku(e, t, n);
+				Gu(e, t, n);
 				break;
-			default: Ku(e, t, n);
+			default: Gu(e, t, n);
 		}
 	}
-	function Ju(e) {
+	function qu(e) {
 		var t = e.alternate;
 		if (t !== null && (e = t.child, e !== null)) {
 			t.child = null;
@@ -5926,69 +5926,69 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			while (e !== null);
 		}
 	}
-	function Yu(e) {
+	function Ju(e) {
 		var t = e.deletions;
 		if (e.flags & 16) {
 			if (t !== null) for (var n = 0; n < t.length; n++) {
 				var r = t[n];
-				uu = r, Qu(r, e);
+				lu = r, Zu(r, e);
 			}
-			Ju(e);
+			qu(e);
 		}
-		if (e.subtreeFlags & 10256) for (e = e.child; e !== null;) Xu(e), e = e.sibling;
+		if (e.subtreeFlags & 10256) for (e = e.child; e !== null;) Yu(e), e = e.sibling;
 	}
-	function Xu(e) {
+	function Yu(e) {
 		switch (e.tag) {
 			case 0:
 			case 11:
 			case 15:
-				Yu(e), e.flags & 2048 && wl(9, e, e.return);
+				Ju(e), e.flags & 2048 && Cl(9, e, e.return);
 				break;
 			case 3:
-				Yu(e);
+				Ju(e);
 				break;
 			case 12:
-				Yu(e);
+				Ju(e);
 				break;
 			case 22:
 				var t = e.stateNode;
-				e.memoizedState !== null && t._visibility & 2 && (e.return === null || e.return.tag !== 13) ? (t._visibility &= -3, Zu(e)) : Yu(e);
+				e.memoizedState !== null && t._visibility & 2 && (e.return === null || e.return.tag !== 13) ? (t._visibility &= -3, Xu(e)) : Ju(e);
 				break;
-			default: Yu(e);
+			default: Ju(e);
 		}
 	}
-	function Zu(e) {
+	function Xu(e) {
 		var t = e.deletions;
 		if (e.flags & 16) {
 			if (t !== null) for (var n = 0; n < t.length; n++) {
 				var r = t[n];
-				uu = r, Qu(r, e);
+				lu = r, Zu(r, e);
 			}
-			Ju(e);
+			qu(e);
 		}
 		for (e = e.child; e !== null;) {
 			switch (t = e, t.tag) {
 				case 0:
 				case 11:
 				case 15:
-					wl(8, t, t.return), Zu(t);
+					Cl(8, t, t.return), Xu(t);
 					break;
 				case 22:
-					n = t.stateNode, n._visibility & 2 && (n._visibility &= -3, Zu(t));
+					n = t.stateNode, n._visibility & 2 && (n._visibility &= -3, Xu(t));
 					break;
-				default: Zu(t);
+				default: Xu(t);
 			}
 			e = e.sibling;
 		}
 	}
-	function Qu(e, t) {
-		for (; uu !== null;) {
-			var n = uu;
+	function Zu(e, t) {
+		for (; lu !== null;) {
+			var n = lu;
 			switch (n.tag) {
 				case 0:
 				case 11:
 				case 15:
-					wl(8, n, t);
+					Cl(8, n, t);
 					break;
 				case 23:
 				case 22:
@@ -5997,60 +5997,60 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						r != null && r.refCount++;
 					}
 					break;
-				case 24: Pa(n.memoizedState.cache);
+				case 24: Na(n.memoizedState.cache);
 			}
-			if (r = n.child, r !== null) r.return = n, uu = r;
-			else a: for (n = e; uu !== null;) {
-				r = uu;
+			if (r = n.child, r !== null) r.return = n, lu = r;
+			else a: for (n = e; lu !== null;) {
+				r = lu;
 				var i = r.sibling, a = r.return;
-				if (xu(r), r === n) {
-					uu = null;
+				if (bu(r), r === n) {
+					lu = null;
 					break a;
 				}
 				if (i !== null) {
-					i.return = a, uu = i;
+					i.return = a, lu = i;
 					break a;
 				}
-				uu = a;
+				lu = a;
 			}
 		}
 	}
-	var $u = {
+	var Qu = {
 		getCacheForType: function(e) {
-			var t = Ea(Ma), n = t.data.get(e);
+			var t = Ta(ja), n = t.data.get(e);
 			return n === void 0 && (n = e(), t.data.set(e, n)), n;
 		},
 		cacheSignal: function() {
-			return Ea(Ma).controller.signal;
+			return Ta(ja).controller.signal;
 		}
-	}, ed = typeof WeakMap == "function" ? WeakMap : Map, G = 0, K = null, q = null, J = 0, Y = 0, td = null, nd = !1, rd = !1, id = !1, ad = 0, od = 0, sd = 0, cd = 0, ld = 0, ud = 0, dd = 0, fd = null, pd = null, md = !1, hd = 0, gd = 0, _d = Infinity, vd = null, yd = null, X = 0, bd = null, xd = null, Sd = 0, Cd = 0, wd = null, Td = null, Ed = null, Dd = null, Od = null, kd = 0, Ad = null;
+	}, $u = typeof WeakMap == "function" ? WeakMap : Map, K = 0, q = null, J = null, Y = 0, X = 0, ed = null, td = !1, nd = !1, rd = !1, id = 0, ad = 0, od = 0, sd = 0, cd = 0, ld = 0, ud = 0, dd = null, fd = null, pd = !1, md = 0, hd = 0, gd = Infinity, _d = null, vd = null, yd = 0, bd = null, xd = null, Sd = 0, Cd = 0, wd = null, Td = null, Ed = null, Dd = null, Od = null, kd = 0, Ad = null;
 	function jd() {
-		return G & 2 && J !== 0 ? J & -J : A.T === null ? xt() : Pf();
+		return K & 2 && Y !== 0 ? Y & -Y : k.T === null ? St() : Pf();
 	}
 	function Md() {
-		if (ud === 0) {
-			if (!(J & 536870912) || z) {
+		if (ld === 0) {
+			if (!(Y & 536870912) || B) {
 				var e = ot;
-				ot <<= 1, !(ot & 3932160) && (ot = 262144), ud = e;
-			} else ud = 536870912;
+				ot <<= 1, !(ot & 3932160) && (ot = 262144), ld = e;
+			} else ld = 536870912;
 		}
-		return e = Mo.current, e !== null && (e.flags |= 32), ud;
+		return e = jo.current, e !== null && (e.flags |= 32), ld;
 	}
 	function Nd(e, t) {
 		if (t != null) {
 			var n = e.stateNode, r = n.ref;
-			r === null && (r = n.ref = Pp(yi(e.memoizedProps, n))), Dd === null && (Dd = []), Dd.push(t.bind(null, r));
+			r === null && (r = n.ref = Pp(vi(e.memoizedProps, n))), Dd === null && (Dd = []), Dd.push(t.bind(null, r));
 		}
 	}
 	function Pd(e, t, n) {
-		(e === K && (Y === 2 || Y === 9) || e.cancelPendingCommit !== null) && (Vd(e, 0), Rd(e, J, ud, !1)), ht(e, n), G & 2 && e === K || (e === K && (!(G & 2) && (cd |= n), od === 4 && Rd(e, J, ud, !1)), Ef(e));
+		(e === q && (X === 2 || X === 9) || e.cancelPendingCommit !== null) && (Vd(e, 0), Rd(e, Y, ld, !1)), ht(e, n), K & 2 && e === q || (e === q && (!(K & 2) && (sd |= n), ad === 4 && Rd(e, Y, ld, !1)), Ef(e));
 	}
 	function Fd(e, t, n) {
-		if (G & 6) throw Error(i(327));
+		if (K & 6) throw Error(i(327));
 		var r = !n && !(t & 127) && (t & e.expiredLanes) === 0 || ut(e, t), a = r ? Yd(e, t) : qd(e, t, !0), o = r;
 		do {
 			if (a === 0) {
-				rd && !r && Rd(e, t, 0, !1);
+				nd && !r && Rd(e, t, 0, !1);
 				break;
 			}
 			if (n = e.current.alternate, o && !Ld(n)) a = qd(e, t, !1), o = !1;
@@ -6062,14 +6062,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						t = s;
 						a: {
 							var c = e;
-							a = fd;
+							a = dd;
 							var l = c.current.memoizedState.isDehydrated;
 							if (l && (Vd(c, s).flags |= 256), s = qd(c, s, !1), s !== 2 && s !== 6) {
-								if (id && !l) {
-									c.errorRecoveryDisabledLanes |= o, cd |= o, a = 4;
+								if (rd && !l) {
+									c.errorRecoveryDisabledLanes |= o, sd |= o, a = 4;
 									break a;
 								}
-								o = pd, pd = a, o !== null && (pd === null ? pd = o : pd.push.apply(pd, o));
+								o = fd, fd = a, o !== null && (fd === null ? fd = o : fd.push.apply(fd, o));
 							}
 							a = s;
 						}
@@ -6086,21 +6086,21 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case 1: throw Error(i(345));
 						case 4: if ((t & 4194048) !== t && (t & 62914560) !== t) break;
 						case 6:
-							Rd(r, t, ud, !nd);
+							Rd(r, t, ld, !td);
 							break a;
 						case 2:
-							pd = null;
+							fd = null;
 							break;
 						case 3:
 						case 5: break;
 						default: throw Error(i(329));
 					}
-					if ((t & 62914560) === t && (a = hd + 300 - We(), 10 < a)) {
-						if (Rd(r, t, ud, !nd), lt(r, 0, !0) !== 0) break a;
-						Sd = t, r.timeoutHandle = gp(Id.bind(null, r, n, pd, vd, md, t, ud, cd, dd, nd, o, "Throttled", -0, 0), a);
+					if ((t & 62914560) === t && (a = md + 300 - F(), 10 < a)) {
+						if (Rd(r, t, ld, !td), lt(r, 0, !0) !== 0) break a;
+						Sd = t, r.timeoutHandle = gp(Id.bind(null, r, n, fd, _d, pd, t, ld, sd, ud, td, o, "Throttled", -0, 0), a);
 						break a;
 					}
-					Id(r, n, pd, vd, md, t, ud, cd, dd, nd, o, null, -0, 0);
+					Id(r, n, fd, _d, pd, t, ld, sd, ud, td, o, null, -0, 0);
 				}
 				break;
 			}
@@ -6118,8 +6118,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			suspenseyImages: [],
 			waitingForImages: !0,
 			waitingForViewTransition: !1,
-			unsuspend: bn
-		}, Hl = null, qu(t, a, d), h && (m = d, h = e.containerInfo, h = (h.nodeType === 9 ? h : h.ownerDocument).__reactViewTransition, h != null && (m.count++, m.waitingForViewTransition = !0, m = nh.bind(m), h.finished.then(m, m))), m = (a & 62914560) === a ? hd - We() : (a & 4194048) === a ? gd - We() : 0, m = eh(d, m), m !== null) ? (Sd = a, e.cancelPendingCommit = m(nf.bind(null, e, t, a, n, r, i, o, s, c, l, u, d, null, f, p)), Rd(e, a, o, !l)) : nf(e, t, a, n, r, i, o, s, c, l, u, d);
+			unsuspend: yn
+		}, Vl = null, Ku(t, a, d), h && (m = d, h = e.containerInfo, h = (h.nodeType === 9 ? h : h.ownerDocument).__reactViewTransition, h != null && (m.count++, m.waitingForViewTransition = !0, m = nh.bind(m), h.finished.then(m, m))), m = (a & 62914560) === a ? md - F() : (a & 4194048) === a ? hd - F() : 0, m = eh(d, m), m !== null) ? (Sd = a, e.cancelPendingCommit = m(nf.bind(null, e, t, a, n, r, i, o, s, c, l, u, d, null, f, p)), Rd(e, a, o, !l)) : nf(e, t, a, n, r, i, o, s, c, l, u, d);
 	}
 	function Ld(e) {
 		for (var t = e;;) {
@@ -6128,7 +6128,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				var i = n[r], a = i.getSnapshot;
 				i = i.value;
 				try {
-					if (!Ur(a(), i)) return !1;
+					if (!Hr(a(), i)) return !1;
 				} catch {
 					return !1;
 				}
@@ -6146,7 +6146,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return !0;
 	}
 	function Rd(e, t, n, r) {
-		t = dt(e, t), t &= ~ld, t &= ~cd, e.suspendedLanes |= t, e.pingedLanes &= ~t, r && (e.warmLanes |= t), r = e.expirationTimes;
+		t = dt(e, t), t &= ~cd, t &= ~sd, e.suspendedLanes |= t, e.pingedLanes &= ~t, r && (e.warmLanes |= t), r = e.expirationTimes;
 		for (var i = t; 0 < i;) {
 			var a = 31 - tt(i), o = 1 << a;
 			r[a] = -1, i &= ~o;
@@ -6154,49 +6154,49 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		n !== 0 && _t(e, n, t);
 	}
 	function zd() {
-		return G & 6 ? !0 : (Df(0, !1), !1);
+		return K & 6 ? !0 : (Df(0, !1), !1);
 	}
 	function Bd() {
-		if (q !== null) {
-			if (Y === 0) var e = q.return;
-			else e = q, va = _a = null, os(e), oo = null, so = 0, e = q;
-			for (; e !== null;) Sl(e.alternate, e), e = e.return;
-			q = null;
+		if (J !== null) {
+			if (X === 0) var e = J.return;
+			else e = J, _a = ga = null, as(e), ao = null, oo = 0, e = J;
+			for (; e !== null;) xl(e.alternate, e), e = e.return;
+			J = null;
 		}
 	}
 	function Vd(e, t) {
 		var n = e.timeoutHandle;
-		return n !== -1 && (e.timeoutHandle = -1, _p(n)), n = e.cancelPendingCommit, n !== null && (e.cancelPendingCommit = null, n()), Sd = 0, Bd(), K = e, q = n = Ii(e.current, null), J = t, Y = 0, td = null, nd = !1, rd = ut(e, t), id = !1, dd = ud = ld = cd = sd = od = 0, pd = fd = null, md = !1, ad = dt(e, t), Ei(), n;
+		return n !== -1 && (e.timeoutHandle = -1, _p(n)), n = e.cancelPendingCommit, n !== null && (e.cancelPendingCommit = null, n()), Sd = 0, Bd(), q = e, J = n = Fi(e.current, null), Y = t, X = 0, ed = null, td = !1, nd = ut(e, t), rd = !1, ud = ld = cd = sd = od = ad = 0, fd = dd = null, pd = !1, id = dt(e, t), Ti(), n;
 	}
 	function Hd(e, t) {
-		B = null, A.H = gc, t === Xa || t === Qa ? (t = io(), Y = 3) : t === Za ? (t = io(), Y = 4) : Y = t === Pc ? 8 : typeof t == "object" && t && typeof t.then == "function" ? 6 : 1, td = t, q === null && (od = 1, Oc(e, Wi(t, e.current)));
+		V = null, k.H = hc, t === Ya || t === Za ? (t = ro(), X = 3) : t === Xa ? (t = ro(), X = 4) : X = t === Nc ? 8 : typeof t == "object" && t && typeof t.then == "function" ? 6 : 1, ed = t, J === null && (ad = 1, Dc(e, Ui(t, e.current)));
 	}
 	function Ud() {
-		var e = Mo.current;
-		return e === null ? !0 : (J & 4194048) === J ? No === null : (J & 62914560) === J || J & 536870912 ? e === No : !1;
+		var e = jo.current;
+		return e === null ? !0 : (Y & 4194048) === Y ? Mo === null : (Y & 62914560) === Y || Y & 536870912 ? e === Mo : !1;
 	}
 	function Wd() {
-		var e = A.H;
-		return A.H = gc, e === null ? gc : e;
+		var e = k.H;
+		return k.H = hc, e === null ? hc : e;
 	}
 	function Gd() {
-		var e = A.A;
-		return A.A = $u, e;
+		var e = k.A;
+		return k.A = Qu, e;
 	}
 	function Kd() {
-		od = 4, nd || (J & 4194048) !== J && Mo.current !== null || (rd = !0), !(sd & 134217727) && !(cd & 134217727) || K === null || Rd(K, J, ud, !1);
+		ad = 4, td || (Y & 4194048) !== Y && jo.current !== null || (nd = !0), !(od & 134217727) && !(sd & 134217727) || q === null || Rd(q, Y, ld, !1);
 	}
 	function qd(e, t, n) {
-		var r = G;
-		G |= 2;
+		var r = K;
+		K |= 2;
 		var i = Wd(), a = Gd();
-		(K !== e || J !== t) && (vd = null, Vd(e, t)), t = !1;
-		var o = od;
+		(q !== e || Y !== t) && (_d = null, Vd(e, t)), t = !1;
+		var o = ad;
 		a: do
 			try {
-				if (Y !== 0 && q !== null) {
-					var s = q, c = td;
-					switch (Y) {
+				if (X !== 0 && J !== null) {
+					var s = J, c = ed;
+					switch (X) {
 						case 8:
 							Bd(), o = 6;
 							break a;
@@ -6204,85 +6204,85 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case 2:
 						case 9:
 						case 6:
-							Mo.current === null && (t = !0);
-							var l = Y;
-							if (Y = 0, td = null, $d(e, s, c, l), n && rd) {
+							jo.current === null && (t = !0);
+							var l = X;
+							if (X = 0, ed = null, $d(e, s, c, l), n && nd) {
 								o = 0;
 								break a;
 							}
 							break;
-						default: l = Y, Y = 0, td = null, $d(e, s, c, l);
+						default: l = X, X = 0, ed = null, $d(e, s, c, l);
 					}
 				}
-				Jd(), o = od;
+				Jd(), o = ad;
 				break;
 			} catch (t) {
 				Hd(e, t);
 			}
 		while (1);
-		return t && e.shellSuspendCounter++, va = _a = null, G = r, A.H = i, A.A = a, q === null && (K = null, J = 0, Ei()), o;
+		return t && e.shellSuspendCounter++, _a = ga = null, K = r, k.H = i, k.A = a, J === null && (q = null, Y = 0, Ti()), o;
 	}
 	function Jd() {
-		for (; q !== null;) Zd(q);
+		for (; J !== null;) Zd(J);
 	}
 	function Yd(e, t) {
-		var n = G;
-		G |= 2;
+		var n = K;
+		K |= 2;
 		var r = Wd(), a = Gd();
-		K !== e || J !== t ? (vd = null, _d = We() + 500, Vd(e, t)) : rd = ut(e, t);
+		q !== e || Y !== t ? (_d = null, gd = F() + 500, Vd(e, t)) : nd = ut(e, t);
 		a: do
 			try {
-				if (Y !== 0 && q !== null) {
-					t = q;
-					var o = td;
-					b: switch (Y) {
+				if (X !== 0 && J !== null) {
+					t = J;
+					var o = ed;
+					b: switch (X) {
 						case 1:
-							Y = 0, td = null, $d(e, t, o, 1);
+							X = 0, ed = null, $d(e, t, o, 1);
 							break;
 						case 2:
 						case 9:
-							if (eo(o)) {
-								Y = 0, td = null, Qd(t);
+							if ($a(o)) {
+								X = 0, ed = null, Qd(t);
 								break;
 							}
 							t = function() {
-								Y !== 2 && Y !== 9 || K !== e || (Y = 7), Ef(e);
+								X !== 2 && X !== 9 || q !== e || (X = 7), Ef(e);
 							}, o.then(t, t);
 							break a;
 						case 3:
-							Y = 7;
+							X = 7;
 							break a;
 						case 4:
-							Y = 5;
+							X = 5;
 							break a;
 						case 7:
-							eo(o) ? (Y = 0, td = null, Qd(t)) : (Y = 0, td = null, $d(e, t, o, 7));
+							$a(o) ? (X = 0, ed = null, Qd(t)) : (X = 0, ed = null, $d(e, t, o, 7));
 							break;
 						case 5:
 							var s = null;
-							switch (q.tag) {
-								case 26: s = q.memoizedState;
+							switch (J.tag) {
+								case 26: s = J.memoizedState;
 								case 5:
 								case 27:
-									var c = q;
+									var c = J;
 									if (s ? Ym(s) : c.stateNode.complete) {
-										Y = 0, td = null;
+										X = 0, ed = null;
 										var l = c.sibling;
-										if (l !== null) q = l;
+										if (l !== null) J = l;
 										else {
 											var u = c.return;
-											u === null ? q = null : (q = u, ef(u));
+											u === null ? J = null : (J = u, ef(u));
 										}
 										break b;
 									}
 							}
-							Y = 0, td = null, $d(e, t, o, 5);
+							X = 0, ed = null, $d(e, t, o, 5);
 							break;
 						case 6:
-							Y = 0, td = null, $d(e, t, o, 6);
+							X = 0, ed = null, $d(e, t, o, 6);
 							break;
 						case 8:
-							Bd(), od = 6;
+							Bd(), ad = 6;
 							break a;
 						default: throw Error(i(462));
 					}
@@ -6293,133 +6293,133 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Hd(e, t);
 			}
 		while (1);
-		return va = _a = null, A.H = r, A.A = a, G = n, q === null ? (K = null, J = 0, Ei(), od) : 0;
+		return _a = ga = null, k.H = r, k.A = a, K = n, J === null ? (q = null, Y = 0, Ti(), ad) : 0;
 	}
 	function Xd() {
-		for (; q !== null && !He();) Zd(q);
+		for (; J !== null && !He();) Zd(J);
 	}
 	function Zd(e) {
-		var t = ml(e.alternate, e, ad);
-		e.memoizedProps = e.pendingProps, t === null ? ef(e) : q = t;
+		var t = pl(e.alternate, e, id);
+		e.memoizedProps = e.pendingProps, t === null ? ef(e) : J = t;
 	}
 	function Qd(e) {
 		var t = e, n = t.alternate;
 		switch (t.tag) {
 			case 15:
 			case 0:
-				t = Jc(n, t, t.pendingProps, t.type, void 0, J);
+				t = qc(n, t, t.pendingProps, t.type, void 0, Y);
 				break;
 			case 11:
-				t = Jc(n, t, t.pendingProps, t.type.render, t.ref, J);
+				t = qc(n, t, t.pendingProps, t.type.render, t.ref, Y);
 				break;
 			case 5:
-				os(t);
+				as(t);
 				var r = t;
-				r === aa && (z ? (da(r), r.tag === 5 && r.stateNode != null && (R = r.stateNode)) : (da(r), z = !0));
-			default: Sl(n, t), t = q = Li(t, ad), t = ml(n, t, ad);
+				r === ia && (B ? (ua(r), r.tag === 5 && r.stateNode != null && (z = r.stateNode)) : (ua(r), B = !0));
+			default: xl(n, t), t = J = Ii(t, id), t = pl(n, t, id);
 		}
-		e.memoizedProps = e.pendingProps, t === null ? ef(e) : q = t;
+		e.memoizedProps = e.pendingProps, t === null ? ef(e) : J = t;
 	}
 	function $d(e, t, n, r) {
-		va = _a = null, os(t), oo = null, so = 0;
+		_a = ga = null, as(t), ao = null, oo = 0;
 		var i = t.return;
 		try {
-			if (Nc(e, i, t, n, J)) {
-				od = 1, Oc(e, Wi(n, e.current)), q = null;
+			if (Mc(e, i, t, n, Y)) {
+				ad = 1, Dc(e, Ui(n, e.current)), J = null;
 				return;
 			}
 		} catch (t) {
-			if (i !== null) throw q = i, t;
-			od = 1, Oc(e, Wi(n, e.current)), q = null;
+			if (i !== null) throw J = i, t;
+			ad = 1, Dc(e, Ui(n, e.current)), J = null;
 			return;
 		}
-		t.flags & 32768 ? (z || r === 1 ? e = !0 : rd || J & 536870912 ? e = !1 : (nd = e = !0, (r === 2 || r === 9 || r === 3 || r === 6) && (r = Mo.current, r !== null && r.tag === 13 && (r.flags |= 16384))), tf(t, e)) : ef(t);
+		t.flags & 32768 ? (B || r === 1 ? e = !0 : nd || Y & 536870912 ? e = !1 : (td = e = !0, (r === 2 || r === 9 || r === 3 || r === 6) && (r = jo.current, r !== null && r.tag === 13 && (r.flags |= 16384))), tf(t, e)) : ef(t);
 	}
 	function ef(e) {
 		var t = e;
 		do {
 			if (t.flags & 32768) {
-				tf(t, nd);
+				tf(t, td);
 				return;
 			}
 			e = t.return;
-			var n = bl(t.alternate, t, ad);
+			var n = yl(t.alternate, t, id);
 			if (n !== null) {
-				q = n;
+				J = n;
 				return;
 			}
 			if (t = t.sibling, t !== null) {
-				q = t;
+				J = t;
 				return;
 			}
-			q = t = e;
+			J = t = e;
 		} while (t !== null);
-		od === 0 && (od = 5);
+		ad === 0 && (ad = 5);
 	}
 	function tf(e, t) {
 		do {
-			var n = xl(e.alternate, e);
+			var n = bl(e.alternate, e);
 			if (n !== null) {
-				n.flags &= 32767, q = n;
+				n.flags &= 32767, J = n;
 				return;
 			}
 			if (n = e.return, n !== null && (n.flags |= 32768, n.subtreeFlags = 0, n.deletions = null), !t && (e = e.sibling, e !== null)) {
-				q = e;
+				J = e;
 				return;
 			}
-			q = e = n;
+			J = e = n;
 		} while (e !== null);
-		od = 6, q = null;
+		ad = 6, J = null;
 	}
 	function nf(e, t, n, r, a, o, s, c, l, u, d, f) {
 		e.cancelPendingCommit = null;
 		do
 			df();
-		while (X !== 0);
-		if (G & 6) throw Error(i(327));
+		while (yd !== 0);
+		if (K & 6) throw Error(i(327));
 		if (t !== null) {
 			if (t === e.current) throw Error(i(177));
-			e === K && (q = K = null, J = 0), xd = t, bd = e, Sd = n, wd = a, Td = r, rf(e, t, n, s, c, l, f);
+			e === q && (J = q = null, Y = 0), xd = t, bd = e, Sd = n, wd = a, Td = r, rf(e, t, n, s, c, l, f);
 		}
 	}
 	function rf(e, t, n, r, i, a, o) {
 		var s = t.lanes | t.childLanes;
-		if (Cd = s, s |= Ti, gt(e, n, s, r, i, a), Dd = null, (n & 335544064) === n ? (Od = La(e), r = 10262) : (Od = null, r = 10256), (t.subtreeFlags & r) !== 0 || (t.flags & r) !== 0 ? (e.callbackNode = null, e.callbackPriority = 0, yf(F, function() {
+		if (Cd = s, s |= wi, gt(e, n, s, r, i, a), Dd = null, (n & 335544064) === n ? (Od = Ia(e), r = 10262) : (Od = null, r = 10256), (t.subtreeFlags & r) !== 0 || (t.flags & r) !== 0 ? (e.callbackNode = null, e.callbackPriority = 0, yf(qe, function() {
 			return ff(), null;
-		})) : (e.callbackNode = null, e.callbackPriority = 0), Vl = !1, r = !!(t.flags & 13878), t.subtreeFlags & 13878 || r) {
-			r = A.T, A.T = null, i = j.p, j.p = 2, a = G, G |= 4;
+		})) : (e.callbackNode = null, e.callbackPriority = 0), Bl = !1, r = !!(t.flags & 13878), t.subtreeFlags & 13878 || r) {
+			r = k.T, k.T = null, i = A.p, A.p = 2, a = K, K |= 4;
 			try {
-				hu(e, t, n);
+				mu(e, t, n);
 			} finally {
-				G = a, j.p = i, A.T = r;
+				K = a, A.p = i, k.T = r;
 			}
 		}
-		X = 1, Vl ? Ed = Mp(o, e.containerInfo, Od, sf, cf, of, lf, ff, af, null, null) : (sf(), cf(), lf());
+		yd = 1, Bl ? Ed = Mp(o, e.containerInfo, Od, sf, cf, of, lf, ff, af, null, null) : (sf(), cf(), lf());
 	}
 	function af(e) {
-		if (X !== 0) {
+		if (yd !== 0) {
 			var t = bd.onRecoverableError;
 			t(e, { componentStack: null });
 		}
 	}
 	function of() {
-		X === 3 && (X = 0, Fu(xd, bd), X = 4);
+		yd === 3 && (yd = 0, Pu(xd, bd), yd = 4);
 	}
 	function sf() {
-		if (X === 1) {
-			X = 0;
+		if (yd === 1) {
+			yd = 0;
 			var e = bd, t = xd, n = Sd, r = !!(t.flags & 13878);
 			if (t.subtreeFlags & 13878 || r) {
-				r = A.T, A.T = null;
-				var i = j.p;
-				j.p = 2;
-				var a = G;
-				G |= 4;
+				r = k.T, k.T = null;
+				var i = A.p;
+				A.p = 2;
+				var a = K;
+				K |= 4;
 				try {
-					fu = pu = !1, ju(t, e, n), n = cp;
-					var o = Yr(e.containerInfo), s = n.focusedElem, c = n.selectionRange;
-					if (o !== s && s && s.ownerDocument && Jr(s.ownerDocument.documentElement, s)) {
-						if (c !== null && Xr(s)) {
+					du = fu = !1, Au(t, e, n), n = cp;
+					var o = Jr(e.containerInfo), s = n.focusedElem, c = n.selectionRange;
+					if (o !== s && s && s.ownerDocument && qr(s.ownerDocument.documentElement, s)) {
+						if (c !== null && Yr(s)) {
 							var l = c.start, u = c.end;
 							if (u === void 0 && (u = l), "selectionStart" in s) s.selectionStart = l, s.selectionEnd = Math.min(u, s.value.length);
 							else {
@@ -6427,7 +6427,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								if (f.getSelection) {
 									var p = f.getSelection(), m = s.textContent.length, h = Math.min(c.start, m), g = c.end === void 0 ? h : Math.min(c.end, m);
 									!p.extend && h > g && (o = g, g = h, h = o);
-									var _ = qr(s, h), v = qr(s, g);
+									var _ = Kr(s, h), v = Kr(s, g);
 									if (_ && v && (p.rangeCount !== 1 || p.anchorNode !== _.node || p.anchorOffset !== _.offset || p.focusNode !== v.node || p.focusOffset !== v.offset)) {
 										var y = d.createRange();
 										y.setStart(_.node, _.offset), p.removeAllRanges(), h > g ? (p.addRange(y), p.extend(v.node, v.offset)) : (y.setEnd(v.node, v.offset), p.addRange(y));
@@ -6447,49 +6447,49 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					}
 					gh = !!sp, cp = sp = null;
 				} finally {
-					G = a, j.p = i, A.T = r;
+					K = a, A.p = i, k.T = r;
 				}
 			}
-			e.current = t, X = 2;
+			e.current = t, yd = 2;
 		}
 	}
 	function cf() {
-		if (X === 2) {
-			X = 0;
+		if (yd === 2) {
+			yd = 0;
 			var e = bd, t = xd, n = !!(t.flags & 8772);
 			if (t.subtreeFlags & 8772 || n) {
-				n = A.T, A.T = null;
-				var r = j.p;
-				j.p = 2;
-				var i = G;
-				G |= 4;
+				n = k.T, k.T = null;
+				var r = A.p;
+				A.p = 2;
+				var i = K;
+				K |= 4;
 				try {
-					_u(e, t.alternate, t);
+					gu(e, t.alternate, t);
 				} finally {
-					G = i, j.p = r, A.T = n;
+					K = i, A.p = r, k.T = n;
 				}
 			}
-			X = 3;
+			yd = 3;
 		}
 	}
 	function lf() {
-		if (X === 4 || X === 3) {
-			X = 0;
+		if (yd === 4 || yd === 3) {
+			yd = 0;
 			var e = Ed;
 			Ed = null, Ue();
 			var t = bd, n = xd, r = Sd, i = Td, a = (r & 335544064) === r ? 10262 : 10256;
-			if ((n.subtreeFlags & a) !== 0 || (n.flags & a) !== 0 ? X = 5 : (X = 0, xd = bd = null, uf(t, t.pendingLanes)), a = t.pendingLanes, a === 0 && (yd = null), bt(r), n = n.stateNode, $e && typeof $e.onCommitFiberRoot == "function") try {
+			if ((n.subtreeFlags & a) !== 0 || (n.flags & a) !== 0 ? yd = 5 : (yd = 0, xd = bd = null, uf(t, t.pendingLanes)), a = t.pendingLanes, a === 0 && (vd = null), xt(r), n = n.stateNode, $e && typeof $e.onCommitFiberRoot == "function") try {
 				$e.onCommitFiberRoot(Qe, n, void 0, (n.current.flags & 128) == 128);
 			} catch {}
 			if (i !== null) {
-				n = A.T, a = j.p, j.p = 2, A.T = null;
+				n = k.T, a = A.p, A.p = 2, k.T = null;
 				try {
 					for (var o = t.onRecoverableError, s = 0; s < i.length; s++) {
 						var c = i[s];
 						o(c.value, { componentStack: c.stack });
 					}
 				} finally {
-					A.T = n, j.p = a;
+					k.T = n, A.p = a;
 				}
 			}
 			if (i = Dd, o = Od, Od = null, i !== null && (Dd = null, o === null && (o = []), e !== null)) for (c = 0; c < i.length; c++) n = (0, i[c])(o), n !== void 0 && e.finished.finally(n);
@@ -6497,31 +6497,31 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function uf(e, t) {
-		(e.pooledCacheLanes &= t) === 0 && (t = e.pooledCache, t != null && (e.pooledCache = null, Pa(t)));
+		(e.pooledCacheLanes &= t) === 0 && (t = e.pooledCache, t != null && (e.pooledCache = null, Na(t)));
 	}
 	function df() {
 		return Ed !== null && (Ed.skipTransition(), Ed = null), sf(), cf(), lf(), ff();
 	}
 	function ff() {
-		if (X !== 5) return !1;
+		if (yd !== 5) return !1;
 		var e = bd, t = Cd;
 		Cd = 0;
-		var n = bt(Sd), r = A.T, a = j.p;
+		var n = xt(Sd), r = k.T, a = A.p;
 		try {
-			j.p = 32 > n ? 32 : n, A.T = null, n = wd, wd = null;
+			A.p = 32 > n ? 32 : n, k.T = null, n = wd, wd = null;
 			var o = bd, s = Sd;
-			if (X = 0, xd = bd = null, Sd = 0, G & 6) throw Error(i(331));
-			var c = G;
-			if (G |= 4, Xu(o.current), Hu(o, o.current, s, n), G = c, Df(0, !1), $e && typeof $e.onPostCommitFiberRoot == "function") try {
+			if (yd = 0, xd = bd = null, Sd = 0, K & 6) throw Error(i(331));
+			var c = K;
+			if (K |= 4, Yu(o.current), Vu(o, o.current, s, n), K = c, Df(0, !1), $e && typeof $e.onPostCommitFiberRoot == "function") try {
 				$e.onPostCommitFiberRoot(Qe, o);
 			} catch {}
 			return !0;
 		} finally {
-			j.p = a, A.T = r, uf(e, t);
+			A.p = a, k.T = r, uf(e, t);
 		}
 	}
 	function pf(e, t, n) {
-		t = Wi(n, t), t = Ac(e.stateNode, t, 2), e = yo(e, t, 2), e !== null && (ht(e, 2), Ef(e));
+		t = Ui(n, t), t = kc(e.stateNode, t, 2), e = vo(e, t, 2), e !== null && (ht(e, 2), Ef(e));
 	}
 	function Z(e, t, n) {
 		if (e.tag === 3) pf(e, e, n);
@@ -6532,8 +6532,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			if (t.tag === 1) {
 				var r = t.stateNode;
-				if (typeof t.type.getDerivedStateFromError == "function" || typeof r.componentDidCatch == "function" && (yd === null || !yd.has(r))) {
-					e = Wi(n, e), n = jc(2), r = yo(t, n, 2), r !== null && (Mc(n, r, t, e), ht(r, 2), Ef(r));
+				if (typeof t.type.getDerivedStateFromError == "function" || typeof r.componentDidCatch == "function" && (vd === null || !vd.has(r))) {
+					e = Ui(n, e), n = Ac(2), r = vo(t, n, 2), r !== null && (jc(n, r, t, e), ht(r, 2), Ef(r));
 					break;
 				}
 			}
@@ -6543,18 +6543,18 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function mf(e, t, n) {
 		var r = e.pingCache;
 		if (r === null) {
-			r = e.pingCache = new ed();
+			r = e.pingCache = new $u();
 			var i = /* @__PURE__ */ new Set();
 			r.set(t, i);
 		} else i = r.get(t), i === void 0 && (i = /* @__PURE__ */ new Set(), r.set(t, i));
-		i.has(n) || (id = !0, i.add(n), e = hf.bind(null, e, t, n), t.then(e, e));
+		i.has(n) || (rd = !0, i.add(n), e = hf.bind(null, e, t, n), t.then(e, e));
 	}
 	function hf(e, t, n) {
 		var r = e.pingCache;
-		r !== null && r.delete(t), e.pingedLanes |= e.suspendedLanes & n, e.warmLanes &= ~n, K === e && (J & n) === n && (od === 4 || od === 3 && (J & 62914560) === J && 300 > We() - hd ? G & 2 ? ld |= n : Vd(e, 0) : ld |= n, dd === J && (dd = 0)), Ef(e);
+		r !== null && r.delete(t), e.pingedLanes |= e.suspendedLanes & n, e.warmLanes &= ~n, q === e && (Y & n) === n && (ad === 4 || ad === 3 && (Y & 62914560) === Y && 300 > F() - md ? K & 2 ? cd |= n : Vd(e, 0) : cd |= n, ud === Y && (ud = 0)), Ef(e);
 	}
 	function gf(e, t) {
-		t === 0 && (t = pt()), e = ki(e, t), e !== null && (ht(e, t), Ef(e));
+		t === 0 && (t = pt()), e = Oi(e, t), e !== null && (ht(e, t), Ef(e));
 	}
 	function _f(e) {
 		var t = e.memoizedState, n = 0;
@@ -6599,7 +6599,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								a = (1 << 31 - tt(42 | e) + 1) - 1, a &= i & ~(o & ~s), a = a & 201326741 ? a & 201326741 | 1 : a ? a | 2 : 0;
 							}
 							a !== 0 && (n = !0, Mf(r, a));
-						} else a = J, a = lt(r, r === K ? a : 0, r.cancelPendingCommit !== null || r.timeoutHandle !== -1), !(a & 3) || ut(r, a) || (n = !0, Mf(r, a));
+						} else a = Y, a = lt(r, r === q ? a : 0, r.cancelPendingCommit !== null || r.timeoutHandle !== -1), !(a & 3) || ut(r, a) || (n = !0, Mf(r, a));
 					}
 					r = r.next;
 				}
@@ -6614,43 +6614,43 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		Cf = Sf = !1;
 		var e = 0;
 		Tf !== 0 && hp() && (e = Tf);
-		for (var t = We(), n = null, r = bf; r !== null;) {
+		for (var t = F(), n = null, r = bf; r !== null;) {
 			var i = r.next, a = Af(r, t);
 			a === 0 ? (r.next = null, n === null ? bf = i : n.next = i, i === null && (xf = n)) : (n = r, (e !== 0 || a & 3) && (Cf = !0)), r = i;
 		}
-		X !== 0 && X !== 5 || Df(e, !1), Tf !== 0 && (Tf = 0);
+		yd !== 0 && yd !== 5 || Df(e, !1), Tf !== 0 && (Tf = 0);
 	}
 	function Af(e, t) {
 		for (var n = e.suspendedLanes, r = e.pingedLanes, i = e.expirationTimes, a = e.pendingLanes & -62914561; 0 < a;) {
 			var o = 31 - tt(a), s = 1 << o, c = i[o];
 			c === -1 ? ((s & n) === 0 || (s & r) !== 0) && (i[o] = ft(s, t)) : c <= t && (e.expiredLanes |= s), a &= ~s;
 		}
-		if (t = K, n = J, n = lt(e, e === t ? n : 0, e.cancelPendingCommit !== null || e.timeoutHandle !== -1), r = e.callbackNode, n === 0 || e === t && (Y === 2 || Y === 9) || e.cancelPendingCommit !== null) return r !== null && r !== null && Ve(r), e.callbackNode = null, e.callbackPriority = 0;
+		if (t = q, n = Y, n = lt(e, e === t ? n : 0, e.cancelPendingCommit !== null || e.timeoutHandle !== -1), r = e.callbackNode, n === 0 || e === t && (X === 2 || X === 9) || e.cancelPendingCommit !== null) return r !== null && r !== null && Ve(r), e.callbackNode = null, e.callbackPriority = 0;
 		if (!(n & 3) || ut(e, n)) {
 			if (t = n & -n, t === e.callbackPriority) return t;
-			switch (r !== null && Ve(r), bt(n)) {
+			switch (r !== null && Ve(r), xt(n)) {
 				case 2:
 				case 8:
-					n = qe;
+					n = Ke;
 					break;
 				case 32:
-					n = F;
+					n = qe;
 					break;
 				case 268435456:
 					n = Ye;
 					break;
-				default: n = F;
+				default: n = qe;
 			}
 			return r = jf.bind(null, e), n = Be(n, r), e.callbackPriority = t, e.callbackNode = n, t;
 		}
 		return r !== null && r !== null && Ve(r), e.callbackPriority = 2, e.callbackNode = null, 2;
 	}
 	function jf(e, t) {
-		if (X !== 0 && X !== 5) return e.callbackNode = null, e.callbackPriority = 0, null;
+		if (yd !== 0 && yd !== 5) return e.callbackNode = null, e.callbackPriority = 0, null;
 		var n = e.callbackNode;
 		if (df() && e.callbackNode !== n) return null;
-		var r = J;
-		return r = lt(e, e === K ? r : 0, e.cancelPendingCommit !== null || e.timeoutHandle !== -1), r === 0 ? null : (Fd(e, r, t), Af(e, We()), e.callbackNode != null && e.callbackNode === n ? jf.bind(null, e) : null);
+		var r = Y;
+		return r = lt(e, e === q ? r : 0, e.cancelPendingCommit !== null || e.timeoutHandle !== -1), r === 0 ? null : (Fd(e, r, t), Af(e, F()), e.callbackNode != null && e.callbackNode === n ? jf.bind(null, e) : null);
 	}
 	function Mf(e, t) {
 		if (df()) return null;
@@ -6658,24 +6658,24 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function Nf() {
 		bp(function() {
-			G & 6 ? Be(Ke, Of) : kf();
+			K & 6 ? Be(Ge, Of) : kf();
 		});
 	}
 	function Pf() {
 		if (Tf === 0) {
-			var e = Ba;
+			var e = za;
 			e === 0 && (e = at, at <<= 1, !(at & 261888) && (at = 256)), Tf = e;
 		}
 		return Tf;
 	}
 	function Ff(e) {
-		return e == null || typeof e == "symbol" || typeof e == "boolean" ? null : typeof e == "function" ? e : yn(e);
+		return e == null || typeof e == "symbol" || typeof e == "boolean" ? null : typeof e == "function" ? e : vn(e);
 	}
 	function If(e, t, n, r, i) {
 		if (t === "submit" && n && n.stateNode === i) {
 			var a = Ff((i[Tt] || null).action), o = r.submitter;
 			o && (t = (t = o[Tt] || null) ? Ff(t.formAction) : o.getAttribute("formAction"), t !== null && (a = t, o = null));
-			var s = new Vn("action", "action", null, r, i);
+			var s = new Bn("action", "action", null, r, i);
 			e.push({
 				event: s,
 				listeners: [{
@@ -6684,14 +6684,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						if (r.defaultPrevented) {
 							if (Tf !== 0) {
 								var e = new FormData(i, o);
-								nc(n, {
+								tc(n, {
 									pending: !0,
 									data: e,
 									method: i.method,
 									action: a
 								}, null, e);
 							}
-						} else typeof a == "function" && (s.preventDefault(), e = new FormData(i, o), nc(n, {
+						} else typeof a == "function" && (s.preventDefault(), e = new FormData(i, o), tc(n, {
 							pending: !0,
 							data: e,
 							method: i.method,
@@ -6703,11 +6703,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			});
 		}
 	}
-	for (var Lf = 0; Lf < gi.length; Lf++) {
-		var Rf = gi[Lf];
-		_i(Rf.toLowerCase(), "on" + (Rf[0].toUpperCase() + Rf.slice(1)));
+	for (var Lf = 0; Lf < hi.length; Lf++) {
+		var Rf = hi[Lf];
+		gi(Rf.toLowerCase(), "on" + (Rf[0].toUpperCase() + Rf.slice(1)));
 	}
-	_i(ci, "onAnimationEnd"), _i(li, "onAnimationIteration"), _i(ui, "onAnimationStart"), _i("dblclick", "onDoubleClick"), _i("focusin", "onFocus"), _i("focusout", "onBlur"), _i(di, "onTransitionRun"), _i(fi, "onTransitionStart"), _i(pi, "onTransitionCancel"), _i(mi, "onTransitionEnd"), Ut("onMouseEnter", ["mouseout", "mouseover"]), Ut("onMouseLeave", ["mouseout", "mouseover"]), Ut("onPointerEnter", ["pointerout", "pointerover"]), Ut("onPointerLeave", ["pointerout", "pointerover"]), Ht("onChange", "change click focusin focusout input keydown keyup selectionchange".split(" ")), Ht("onSelect", "focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange".split(" ")), Ht("onBeforeInput", [
+	gi(si, "onAnimationEnd"), gi(ci, "onAnimationIteration"), gi(li, "onAnimationStart"), gi("dblclick", "onDoubleClick"), gi("focusin", "onFocus"), gi("focusout", "onBlur"), gi(ui, "onTransitionRun"), gi(di, "onTransitionStart"), gi(fi, "onTransitionCancel"), gi(pi, "onTransitionEnd"), Ut("onMouseEnter", ["mouseout", "mouseover"]), Ut("onMouseLeave", ["mouseout", "mouseover"]), Ut("onPointerEnter", ["pointerout", "pointerover"]), Ut("onPointerLeave", ["pointerout", "pointerover"]), Ht("onChange", "change click focusin focusout input keydown keyup selectionchange".split(" ")), Ht("onSelect", "focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange".split(" ")), Ht("onBeforeInput", [
 		"compositionend",
 		"keypress",
 		"textInput",
@@ -6728,7 +6728,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					try {
 						a(i);
 					} catch (e) {
-						Si(e);
+						xi(e);
 					}
 					i.currentTarget = null, a = c;
 				}
@@ -6738,7 +6738,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					try {
 						a(i);
 					} catch (e) {
-						Si(e);
+						xi(e);
 					}
 					i.currentTarget = null, a = c;
 				}
@@ -6775,7 +6775,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				break;
 			default: i = yh;
 		}
-		n = i.bind(null, t, n, e), i = void 0, !An || t !== "touchstart" && t !== "touchmove" && t !== "wheel" || (i = !0), r ? i === void 0 ? e.addEventListener(t, n, !0) : e.addEventListener(t, n, {
+		n = i.bind(null, t, n, e), i = void 0, !kn || t !== "touchstart" && t !== "touchmove" && t !== "wheel" || (i = !0), r ? i === void 0 ? e.addEventListener(t, n, !0) : e.addEventListener(t, n, {
 			capture: !0,
 			passive: i
 		}) : i === void 0 ? e.addEventListener(t, n, !1) : e.addEventListener(t, n, { passive: i });
@@ -6804,27 +6804,27 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			r = r.return;
 		}
-		Dn(function() {
-			var r = a, i = Sn(n), s = [];
+		En(function() {
+			var r = a, i = xn(n), s = [];
 			a: {
-				var c = hi.get(e);
+				var c = mi.get(e);
 				if (c !== void 0) {
-					var l = Vn, u = e;
+					var l = Bn, u = e;
 					switch (e) {
-						case "keypress": if (In(n) === 0) break a;
+						case "keypress": if (Fn(n) === 0) break a;
 						case "keydown":
 						case "keyup":
-							l = ar;
+							l = ir;
 							break;
 						case "focusin":
-							u = "focus", l = Xn;
+							u = "focus", l = Yn;
 							break;
 						case "focusout":
-							u = "blur", l = Xn;
+							u = "blur", l = Yn;
 							break;
 						case "beforeblur":
 						case "afterblur":
-							l = Xn;
+							l = Yn;
 							break;
 						case "click": if (n.button === 2) break a;
 						case "auxclick":
@@ -6835,7 +6835,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case "mouseout":
 						case "mouseover":
 						case "contextmenu":
-							l = Jn;
+							l = qn;
 							break;
 						case "drag":
 						case "dragend":
@@ -6845,33 +6845,33 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case "dragover":
 						case "dragstart":
 						case "drop":
-							l = Yn;
+							l = Jn;
 							break;
 						case "touchcancel":
 						case "touchend":
 						case "touchmove":
 						case "touchstart":
-							l = cr;
+							l = sr;
 							break;
+						case si:
 						case ci:
 						case li:
-						case ui:
-							l = Zn;
+							l = Xn;
 							break;
-						case mi:
-							l = lr;
+						case pi:
+							l = cr;
 							break;
 						case "scroll":
 						case "scrollend":
-							l = Un;
+							l = Hn;
 							break;
 						case "wheel":
-							l = ur;
+							l = lr;
 							break;
 						case "copy":
 						case "cut":
 						case "paste":
-							l = Qn;
+							l = Zn;
 							break;
 						case "gotpointercapture":
 						case "lostpointercapture":
@@ -6881,19 +6881,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case "pointerout":
 						case "pointerover":
 						case "pointerup":
-							l = or;
+							l = ar;
 							break;
 						case "submit":
-							l = sr;
+							l = or;
 							break;
 						case "toggle":
-						case "beforetoggle": l = dr;
+						case "beforetoggle": l = ur;
 					}
 					var d = !!(t & 4), f = !d && (e === "scroll" || e === "scrollend"), p = d ? c === null ? null : c + "Capture" : c;
 					d = [];
 					for (var m = r, h; m !== null;) {
 						var g = m;
-						if (h = g.stateNode, g = g.tag, g !== 5 && g !== 26 && g !== 27 || h === null || p === null || (g = On(m, p), g != null && d.push(qf(m, g, h))), f) break;
+						if (h = g.stateNode, g = g.tag, g !== 5 && g !== 26 && g !== 27 || h === null || p === null || (g = Dn(m, p), g != null && d.push(qf(m, g, h))), f) break;
 						m = m.return;
 					}
 					0 < d.length && (c = new l(c, u, null, n, i), s.push({
@@ -6904,45 +6904,45 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			if (!(t & 7)) {
 				a: {
-					if (l = e === "mouseover" || e === "pointerover", c = e === "mouseout" || e === "pointerout", l && n !== xn && (u = n.relatedTarget || n.fromElement) && (Pt(u) || u[Et])) break a;
-					(c || l) && (u = i.window === i ? i : (l = i.ownerDocument) ? l.defaultView || l.parentWindow : window, c ? (l = n.relatedTarget || n.toElement, c = r, l = l ? Pt(l) : null, l !== null && (f = o(l), d = l.tag, l !== f || d !== 5 && d !== 27 && d !== 6) && (l = null)) : (c = null, l = r), c !== l && (d = Jn, g = "onMouseLeave", p = "onMouseEnter", m = "mouse", (e === "pointerout" || e === "pointerover") && (d = or, g = "onPointerLeave", p = "onPointerEnter", m = "pointer"), f = c == null ? u : It(c), h = l == null ? u : It(l), u = new d(g, m + "leave", c, n, i), u.target = f, u.relatedTarget = h, g = null, Pt(i) === r && (d = new d(p, m + "enter", l, n, i), d.target = h, d.relatedTarget = f, g = d), f = g, d = c && l ? ee(c, l, Yf) : null, c !== null && Xf(s, u, c, d, !1), l !== null && f !== null && Xf(s, f, l, d, !0)));
+					if (l = e === "mouseover" || e === "pointerover", c = e === "mouseout" || e === "pointerout", l && n !== bn && (u = n.relatedTarget || n.fromElement) && (Pt(u) || u[Et])) break a;
+					(c || l) && (u = i.window === i ? i : (l = i.ownerDocument) ? l.defaultView || l.parentWindow : window, c ? (l = n.relatedTarget || n.toElement, c = r, l = l ? Pt(l) : null, l !== null && (f = o(l), d = l.tag, l !== f || d !== 5 && d !== 27 && d !== 6) && (l = null)) : (c = null, l = r), c !== l && (d = qn, g = "onMouseLeave", p = "onMouseEnter", m = "mouse", (e === "pointerout" || e === "pointerover") && (d = ar, g = "onPointerLeave", p = "onPointerEnter", m = "pointer"), f = c == null ? u : It(c), h = l == null ? u : It(l), u = new d(g, m + "leave", c, n, i), u.target = f, u.relatedTarget = h, g = null, Pt(i) === r && (d = new d(p, m + "enter", l, n, i), d.target = h, d.relatedTarget = f, g = d), f = g, d = c && l ? ee(c, l, Yf) : null, c !== null && Xf(s, u, c, d, !1), l !== null && f !== null && Xf(s, f, l, d, !0)));
 				}
 				a: {
-					if (c = r ? It(r) : window, l = c.nodeName && c.nodeName.toLowerCase(), l === "select" || l === "input" && c.type === "file") var _ = jr;
-					else if (Tr(c)) {
-						if (Mr) _ = Vr;
+					if (c = r ? It(r) : window, l = c.nodeName && c.nodeName.toLowerCase(), l === "select" || l === "input" && c.type === "file") var _ = Ar;
+					else if (wr(c)) {
+						if (jr) _ = Br;
 						else {
-							_ = zr;
-							var v = Rr;
+							_ = Rr;
+							var v = Lr;
 						}
-					} else l = c.nodeName, !l || l.toLowerCase() !== "input" || c.type !== "checkbox" && c.type !== "radio" ? r && gn(r.elementType) && (_ = jr) : _ = Br;
+					} else l = c.nodeName, !l || l.toLowerCase() !== "input" || c.type !== "checkbox" && c.type !== "radio" ? r && hn(r.elementType) && (_ = Ar) : _ = zr;
 					if (_ &&= _(e, r)) {
-						Er(s, _, n, i);
+						Tr(s, _, n, i);
 						break a;
 					}
 					v && v(e, c, r);
 				}
 				switch (v = r ? It(r) : window, e) {
 					case "focusin":
-						(Tr(v) || v.contentEditable === "true") && (Qr = v, $r = r, ei = null);
+						(wr(v) || v.contentEditable === "true") && (Zr = v, Qr = r, $r = null);
 						break;
 					case "focusout":
-						ei = $r = Qr = null;
+						$r = Qr = Zr = null;
 						break;
 					case "mousedown":
-						ti = !0;
+						ei = !0;
 						break;
 					case "contextmenu":
 					case "mouseup":
 					case "dragend":
-						ti = !1, ni(s, n, i);
+						ei = !1, ti(s, n, i);
 						break;
-					case "selectionchange": if (Zr) break;
+					case "selectionchange": if (Xr) break;
 					case "keydown":
-					case "keyup": ni(s, n, i);
+					case "keyup": ti(s, n, i);
 				}
 				var y;
-				if (pr) b: {
+				if (fr) b: {
 					switch (e) {
 						case "compositionstart":
 							var b = "onCompositionStart";
@@ -6956,11 +6956,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					}
 					b = void 0;
 				}
-				else xr ? yr(e, n) && (b = "onCompositionEnd") : e === "keydown" && n.keyCode === 229 && (b = "onCompositionStart");
-				b && (gr && n.locale !== "ko" && (xr || b !== "onCompositionStart" ? b === "onCompositionEnd" && xr && (y = Fn()) : (Mn = i, Nn = "value" in Mn ? Mn.value : Mn.textContent, xr = !0)), v = Jf(r, b), 0 < v.length && (b = new $n(b, e, null, n, i), s.push({
+				else br ? vr(e, n) && (b = "onCompositionEnd") : e === "keydown" && n.keyCode === 229 && (b = "onCompositionStart");
+				b && (hr && n.locale !== "ko" && (br || b !== "onCompositionStart" ? b === "onCompositionEnd" && br && (y = Pn()) : (jn = i, Mn = "value" in jn ? jn.value : jn.textContent, br = !0)), v = Jf(r, b), 0 < v.length && (b = new Qn(b, e, null, n, i), s.push({
 					event: b,
 					listeners: v
-				}), y ? b.data = y : (y = br(n), y !== null && (b.data = y)))), (y = hr ? Sr(e, n) : Cr(e, n)) && (b = Jf(r, "onBeforeInput"), 0 < b.length && (v = new $n("onBeforeInput", "beforeinput", null, n, i), s.push({
+				}), y ? b.data = y : (y = yr(n), y !== null && (b.data = y)))), (y = mr ? xr(e, n) : Sr(e, n)) && (b = Jf(r, "onBeforeInput"), 0 < b.length && (v = new Qn("onBeforeInput", "beforeinput", null, n, i), s.push({
 					event: v,
 					listeners: b
 				}), v.data = y)), If(s, e, r, n, i);
@@ -6978,7 +6978,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function Jf(e, t) {
 		for (var n = t + "Capture", r = []; e !== null;) {
 			var i = e, a = i.stateNode;
-			if (i = i.tag, i !== 5 && i !== 26 && i !== 27 || a === null || (i = On(e, n), i != null && r.unshift(qf(e, i, a)), i = On(e, t), i != null && r.push(qf(e, i, a))), e.tag === 3) return r;
+			if (i = i.tag, i !== 5 && i !== 26 && i !== 27 || a === null || (i = Dn(e, n), i != null && r.unshift(qf(e, i, a)), i = Dn(e, t), i != null && r.push(qf(e, i, a))), e.tag === 3) return r;
 			e = e.return;
 		}
 		return [];
@@ -6994,7 +6994,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		for (var a = t._reactName, o = []; n !== null && n !== r;) {
 			var s = n, c = s.alternate, l = s.stateNode;
 			if (s = s.tag, c !== null && c === r) break;
-			s !== 5 && s !== 26 && s !== 27 || l === null || (c = l, i ? (l = On(n, a), l != null && o.unshift(qf(n, l, c))) : i || (l = On(n, a), l != null && o.push(qf(n, l, c)))), n = n.return;
+			s !== 5 && s !== 26 && s !== 27 || l === null || (c = l, i ? (l = Dn(n, a), l != null && o.unshift(qf(n, l, c))) : i || (l = Dn(n, a), l != null && o.push(qf(n, l, c)))), n = n.return;
 		}
 		o.length !== 0 && e.push({
 			event: t,
@@ -7011,8 +7011,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function $(e, t, n, r, a, o) {
 		switch (n) {
 			case "children":
-				if (typeof r == "string") t === "body" || t === "textarea" && r === "" || fn(e, r);
-				else if (typeof r == "number" || typeof r == "bigint") t !== "body" && fn(e, "" + r);
+				if (typeof r == "string") t === "body" || t === "textarea" && r === "" || dn(e, r);
+				else if (typeof r == "number" || typeof r == "bigint") t !== "body" && dn(e, "" + r);
 				else return;
 				break;
 			case "className":
@@ -7029,7 +7029,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Xt(e, n, r);
 				break;
 			case "style":
-				hn(e, r, o);
+				mn(e, r, o);
 				return;
 			case "data": if (t !== "object") {
 				Xt(e, "data", r);
@@ -7041,7 +7041,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					e.removeAttribute(n);
 					break;
 				}
-				r = yn(r), e.setAttribute(n, r);
+				r = vn(r), e.setAttribute(n, r);
 				break;
 			case "action":
 			case "formAction":
@@ -7053,10 +7053,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					e.removeAttribute(n);
 					break;
 				}
-				r = yn(r), e.setAttribute(n, r);
+				r = vn(r), e.setAttribute(n, r);
 				break;
 			case "onClick":
-				r != null && (e.onclick = bn);
+				r != null && (e.onclick = yn);
 				return;
 			case "onScroll":
 				r != null && Q("scroll", e);
@@ -7091,7 +7091,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					e.removeAttribute("xlink:href");
 					break;
 				}
-				n = yn(r), e.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", n);
+				n = vn(r), e.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", n);
 				break;
 			case "contentEditable":
 			case "spellCheck":
@@ -7178,7 +7178,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				break;
 			case "innerText":
 			case "textContent": return;
-			default: if (!(2 < n.length) || n[0] !== "o" && n[0] !== "O" || n[1] !== "n" && n[1] !== "N") n = _n.get(n) || n, Yt(e, n, r);
+			default: if (!(2 < n.length) || n[0] !== "o" && n[0] !== "O" || n[1] !== "n" && n[1] !== "N") n = gn.get(n) || n, Yt(e, n, r);
 			else return;
 		}
 		L = !0;
@@ -7186,7 +7186,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function tp(e, t, n, r, a, o) {
 		switch (n) {
 			case "style":
-				hn(e, r, o);
+				mn(e, r, o);
 				return;
 			case "dangerouslySetInnerHTML":
 				if (r != null) {
@@ -7198,8 +7198,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				break;
 			case "children":
-				if (typeof r == "string") fn(e, r);
-				else if (typeof r == "number" || typeof r == "bigint") fn(e, "" + r);
+				if (typeof r == "string") dn(e, r);
+				else if (typeof r == "number" || typeof r == "bigint") dn(e, "" + r);
 				else return;
 				break;
 			case "onScroll":
@@ -7209,7 +7209,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				r != null && Q("scrollend", e);
 				return;
 			case "onClick":
-				r != null && (e.onclick = bn);
+				r != null && (e.onclick = yn);
 				return;
 			case "suppressContentEditableWarning":
 			case "suppressHydrationWarning":
@@ -7289,7 +7289,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						default: $(e, t, r, d, n, null);
 					}
 				}
-				sn(e, o, c, l, u, s, a, !1);
+				on(e, o, c, l, u, s, a, !1);
 				return;
 			case "select":
 				for (a in Q("invalid", e), r = s = o = null, n) if (n.hasOwnProperty(a) && (c = n[a], c != null)) switch (a) {
@@ -7302,7 +7302,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					case "multiple": r = c;
 					default: $(e, t, a, c, n, null);
 				}
-				t = o, n = s, e.multiple = !!r, t == null ? n != null && ln(e, !!r, n, !0) : ln(e, !!r, t, !1);
+				t = o, n = s, e.multiple = !!r, t == null ? n != null && cn(e, !!r, n, !0) : cn(e, !!r, t, !1);
 				return;
 			case "textarea":
 				for (s in Q("invalid", e), o = a = r = null, n) if (n.hasOwnProperty(s) && (c = n[s], c != null)) switch (s) {
@@ -7320,7 +7320,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						break;
 					default: $(e, t, s, c, n, null);
 				}
-				dn(e, r, a, o);
+				un(e, r, a, o);
 				return;
 			case "option":
 				for (l in n) if (n.hasOwnProperty(l) && (r = n[l], r != null)) switch (l) {
@@ -7367,7 +7367,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					default: $(e, t, u, r, n, null);
 				}
 				return;
-			default: if (gn(t)) {
+			default: if (hn(t)) {
 				for (d in n) n.hasOwnProperty(d) && (r = n[d], r !== void 0 && tp(e, t, d, r, n, void 0));
 				return;
 			}
@@ -7424,7 +7424,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						default: m !== f && $(e, t, p, m, r, f);
 					}
 				}
-				on(e, s, c, l, u, d, o, a);
+				an(e, s, c, l, u, d, o, a);
 				return;
 			case "select":
 				for (o in m = s = c = p = null, n) if (l = n[o], n.hasOwnProperty(o) && l != null) switch (o) {
@@ -7442,7 +7442,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					case "multiple": o !== l && (L = !0), s = o;
 					default: o !== l && $(e, t, a, o, r, l);
 				}
-				t = c, n = s, r = m, p == null ? !!r != !!n && (t == null ? ln(e, !!n, n ? [] : "", !1) : ln(e, !!n, t, !0)) : ln(e, !!n, p, !1);
+				t = c, n = s, r = m, p == null ? !!r != !!n && (t == null ? cn(e, !!n, n ? [] : "", !1) : cn(e, !!n, t, !0)) : cn(e, !!n, p, !1);
 				return;
 			case "textarea":
 				for (c in m = p = null, n) if (a = n[c], n.hasOwnProperty(c) && a != null && !r.hasOwnProperty(c)) switch (c) {
@@ -7463,7 +7463,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						break;
 					default: a !== o && $(e, t, s, a, r, o);
 				}
-				un(e, p, m);
+				ln(e, p, m);
 				return;
 			case "option":
 				for (var h in n) if (p = n[h], n.hasOwnProperty(h) && p != null && !r.hasOwnProperty(h)) switch (h) {
@@ -7503,7 +7503,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					default: $(e, t, u, p, r, m);
 				}
 				return;
-			default: if (gn(t)) {
+			default: if (hn(t)) {
 				for (var _ in n) p = n[_], n.hasOwnProperty(_) && p !== void 0 && !r.hasOwnProperty(_) && tp(e, t, _, void 0, r, p);
 				for (d in r) p = r[d], m = n[d], !r.hasOwnProperty(d) || p === m || p === void 0 && m === void 0 || tp(e, t, d, p, r, m);
 				return;
@@ -7562,7 +7562,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return e === 1 && t === "foreignObject" ? 0 : e;
 	}
 	function fp(e, t, n, r) {
-		return n = lp(n).createElement(e), n[wt] = r, n[Tt] = t, np(n, e, t), Rt(n), n;
+		return n = lp(n).createElement(e), n[I] = r, n[Tt] = t, np(n, e, t), Rt(n), n;
 	}
 	function pp(e, t) {
 		return e === "textarea" || e === "noscript" || typeof t.children == "string" || typeof t.children == "number" || typeof t.children == "bigint" || typeof t.dangerouslySetInnerHTML == "object" && t.dangerouslySetInnerHTML !== null && t.dangerouslySetInnerHTML.__html != null;
@@ -8171,7 +8171,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			var i = n[r];
 			n.hasOwnProperty(r) && i != null && $(e, t, r, null, rp, i);
 		}
-		n.dangerouslySetInnerHTML != null && (e.textContent = ""), e.onclick === bn && (e.onclick = null), Nt(e);
+		n.dangerouslySetInnerHTML != null && (e.textContent = ""), e.onclick === yn && (e.onclick = null), Nt(e);
 	}
 	function _m(e) {
 		for (var t = e.attributes; t.length;) e.removeAttributeNode(t[0]);
@@ -8185,8 +8185,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return e.nodeType === 9 ? e : e.ownerDocument;
 	}
-	var xm = j.d;
-	j.d = {
+	var xm = A.d;
+	A.d = {
 		f: Sm,
 		r: Cm,
 		D: Em,
@@ -8203,13 +8203,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function Cm(e) {
 		var t = Ft(e);
-		t !== null && t.tag === 5 && t.type === "form" ? ic(t) : xm.r(e);
+		t !== null && t.tag === 5 && t.type === "form" ? rc(t) : xm.r(e);
 	}
 	var wm = typeof document > "u" ? null : document;
 	function Tm(e, t, n) {
 		var r = wm;
 		if (r && typeof t == "string" && t) {
-			var i = an(t);
+			var i = rn(t);
 			i = "link[rel=\"" + e + "\"][href=\"" + i + "\"]", typeof n == "string" && (i += "[crossorigin=\"" + n + "\"]"), ym.has(i) || (ym.add(i), e = {
 				rel: e,
 				crossOrigin: n,
@@ -8227,8 +8227,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		xm.L(e, t, n);
 		var r = wm;
 		if (r && e && t) {
-			var i = "link[rel=\"preload\"][as=\"" + an(t) + "\"]";
-			t === "image" && n && n.imageSrcSet ? (i += "[imagesrcset=\"" + an(n.imageSrcSet) + "\"]", typeof n.imageSizes == "string" && (i += "[imagesizes=\"" + an(n.imageSizes) + "\"]")) : i += "[href=\"" + an(e) + "\"]";
+			var i = "link[rel=\"preload\"][as=\"" + rn(t) + "\"]";
+			t === "image" && n && n.imageSrcSet ? (i += "[imagesrcset=\"" + rn(n.imageSrcSet) + "\"]", typeof n.imageSizes == "string" && (i += "[imagesizes=\"" + rn(n.imageSizes) + "\"]")) : i += "[href=\"" + rn(e) + "\"]";
 			var a = i;
 			switch (t) {
 				case "style":
@@ -8252,7 +8252,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		xm.m(e, t);
 		var n = wm;
 		if (n && e) {
-			var r = t && typeof t.as == "string" ? t.as : "script", i = "link[rel=\"modulepreload\"][as=\"" + an(r) + "\"][href=\"" + an(e) + "\"]", a = i;
+			var r = t && typeof t.as == "string" ? t.as : "script", i = "link[rel=\"modulepreload\"][as=\"" + rn(r) + "\"][href=\"" + rn(e) + "\"]", a = i;
 			switch (r) {
 				case "audioworklet":
 				case "paintworklet":
@@ -8405,7 +8405,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function Pm(e) {
-		return "href=\"" + an(e) + "\"";
+		return "href=\"" + rn(e) + "\"";
 	}
 	function Fm(e) {
 		return "link[rel=\"stylesheet\"][" + e + "]";
@@ -8430,7 +8430,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		});
 	}
 	function Rm(e) {
-		return "[src=\"" + an(e) + "\"]";
+		return "[src=\"" + rn(e) + "\"]";
 	}
 	function zm(e) {
 		return "script[async]" + e;
@@ -8438,7 +8438,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function Bm(e, t, n) {
 		if (t.count++, t.instance === null) switch (t.type) {
 			case "style":
-				var r = e.querySelector("style[data-href~=\"" + an(n.href) + "\"]");
+				var r = e.querySelector("style[data-href~=\"" + rn(n.href) + "\"]");
 				if (r) return t.instance = r, Rt(r), r;
 				var a = E({}, n, {
 					"data-href": n.href,
@@ -8486,7 +8486,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (r.has(e)) return r;
 		for (r.set(e, null), n = n.getElementsByTagName(e), i = 0; i < n.length; i++) {
 			var a = n[i];
-			if (!(a[jt] || a[wt] || e === "link" && a.getAttribute("rel") === "stylesheet") && a.namespaceURI !== "http://www.w3.org/2000/svg") {
+			if (!(a[jt] || a[I] || e === "link" && a.getAttribute("rel") === "stylesheet") && a.namespaceURI !== "http://www.w3.org/2000/svg") {
 				var o = a.getAttribute(t) || "";
 				o = e + o;
 				var s = r.get(o);
@@ -8601,28 +8601,28 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	var sh = {
-		$$typeof: oe,
+		$$typeof: se,
 		Provider: null,
 		Consumer: null,
-		_currentValue: xe,
-		_currentValue2: xe,
+		_currentValue: Se,
+		_currentValue2: Se,
 		_threadCount: 0
 	};
 	function ch(e, t, n, r, i, a, o, s, c) {
 		this.tag = 1, this.containerInfo = e, this.pingCache = this.current = this.pendingChildren = null, this.timeoutHandle = -1, this.callbackNode = this.next = this.pendingContext = this.context = this.cancelPendingCommit = null, this.callbackPriority = 0, this.expirationTimes = mt(-1), this.entangledLanes = this.shellSuspendCounter = this.errorRecoveryDisabledLanes = this.expiredLanes = this.warmLanes = this.pingedLanes = this.suspendedLanes = this.pendingLanes = 0, this.entanglements = mt(0), this.hiddenUpdates = mt(null), this.identifierPrefix = r, this.onUncaughtError = i, this.onCaughtError = a, this.onRecoverableError = o, this.pooledCache = null, this.pooledCacheLanes = 0, this.formState = c, this.transitionTypes = null, this.incompleteTransitions = /* @__PURE__ */ new Map();
 	}
 	function lh(e, t, n, r, i, a, o, s, c, l, u, d) {
-		return e = new ch(e, t, n, o, c, l, u, d, s), t = 1, !0 === a && (t |= 24), a = Pi(3, null, null, t), e.current = a, a.stateNode = e, t = Na(), t.refCount++, e.pooledCache = t, t.refCount++, a.memoizedState = {
+		return e = new ch(e, t, n, o, c, l, u, d, s), t = 1, !0 === a && (t |= 24), a = Ni(3, null, null, t), e.current = a, a.stateNode = e, t = Ma(), t.refCount++, e.pooledCache = t, t.refCount++, a.memoizedState = {
 			element: r,
 			isDehydrated: n,
 			cache: t
-		}, go(a), e;
+		}, ho(a), e;
 	}
 	function uh(e) {
-		return e ? (e = Mi, e) : Mi;
+		return e ? (e = ji, e) : ji;
 	}
 	function dh(e, t, n, r, i, a) {
-		i = uh(i), r.context === null ? r.context = i : r.pendingContext = i, r = vo(t), r.payload = { element: n }, a = a === void 0 ? null : a, a !== null && (r.callback = a), n = yo(e, r, t), n !== null && (Pd(n, e, t), bo(n, e, t));
+		i = uh(i), r.context === null ? r.context = i : r.pendingContext = i, r = _o(t), r.payload = { element: n }, a = a === void 0 ? null : a, a !== null && (r.callback = a), n = vo(e, r, t), n !== null && (Pd(n, e, t), yo(n, e, t));
 	}
 	function fh(e, t) {
 		if (e = e.memoizedState, e !== null && e.dehydrated !== null) {
@@ -8635,37 +8635,37 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function mh(e) {
 		if (e.tag === 13 || e.tag === 31) {
-			var t = ki(e, 67108864);
+			var t = Oi(e, 67108864);
 			t !== null && Pd(t, e, 67108864), ph(e, 67108864);
 		}
 	}
 	function hh(e) {
 		if (e.tag === 13 || e.tag === 31) {
 			var t = jd();
-			t = yt(t);
-			var n = ki(e, t);
+			t = bt(t);
+			var n = Oi(e, t);
 			n !== null && Pd(n, e, t), ph(e, t);
 		}
 	}
 	var gh = !0;
 	function _h(e, t, n, r) {
-		var i = A.T;
-		A.T = null;
-		var a = j.p;
+		var i = k.T;
+		k.T = null;
+		var a = A.p;
 		try {
-			j.p = 2, yh(e, t, n, r);
+			A.p = 2, yh(e, t, n, r);
 		} finally {
-			j.p = a, A.T = i;
+			A.p = a, k.T = i;
 		}
 	}
 	function vh(e, t, n, r) {
-		var i = A.T;
-		A.T = null;
-		var a = j.p;
+		var i = k.T;
+		k.T = null;
+		var a = A.p;
 		try {
-			j.p = 8, yh(e, t, n, r);
+			A.p = 8, yh(e, t, n, r);
 		} finally {
-			j.p = a, A.T = i;
+			A.p = a, k.T = i;
 		}
 	}
 	function yh(e, t, n, r) {
@@ -8686,12 +8686,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 										var c = 1 << 31 - tt(o);
 										s.entanglements[1] |= c, o &= ~c;
 									}
-									Ef(a), !(G & 6) && (_d = We() + 500, Df(0, !1));
+									Ef(a), !(K & 6) && (gd = F() + 500, Df(0, !1));
 								}
 							}
 							break;
 						case 31:
-						case 13: s = ki(a, 2), s !== null && Pd(s, a, 2), zd(), ph(a, 2);
+						case 13: s = Oi(a, 2), s !== null && Pd(s, a, 2), zd(), ph(a, 2);
 					}
 					if (a = bh(r), a === null && Kf(e, t, r, xh, n), a === i) break;
 					i = a;
@@ -8701,7 +8701,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function bh(e) {
-		return e = Sn(e), Sh(e);
+		return e = xn(e), Sh(e);
 	}
 	var xh = null;
 	function Sh(e) {
@@ -8798,10 +8798,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			case "mouseleave":
 			case "pointerenter":
 			case "pointerleave": return 8;
-			case "message": switch (Ge()) {
-				case Ke: return 2;
-				case qe: return 8;
-				case F:
+			case "message": switch (We()) {
+				case Ge: return 2;
+				case Ke: return 8;
+				case qe:
 				case Je: return 32;
 				case Ye: return 268435456;
 				default: return 32;
@@ -8860,14 +8860,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (n !== null) {
 				if (t = n.tag, t === 13) {
 					if (t = s(n), t !== null) {
-						e.blockedOn = t, St(e.priority, function() {
+						e.blockedOn = t, Ct(e.priority, function() {
 							hh(n);
 						});
 						return;
 					}
 				} else if (t === 31) {
 					if (t = c(n), t !== null) {
-						e.blockedOn = t, St(e.priority, function() {
+						e.blockedOn = t, Ct(e.priority, function() {
 							hh(n);
 						});
 						return;
@@ -8887,7 +8887,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (n === null) {
 				n = e.nativeEvent;
 				var r = new n.constructor(n.type, n);
-				xn = r, n.target.dispatchEvent(r), xn = null;
+				bn = r, n.target.dispatchEvent(r), bn = null;
 			} else return t = Ft(n), t !== null && mh(t), e.blockedOn = n, !1;
 			t.shift();
 		}
@@ -8913,7 +8913,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					break;
 				}
 				var a = Ft(n);
-				a !== null && (e.splice(t, 3), t -= 3, nc(a, {
+				a !== null && (e.splice(t, 3), t -= 3, tc(a, {
 					pending: !0,
 					data: i,
 					method: n.method,
@@ -8998,7 +8998,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	Gh.prototype.unstable_scheduleHydration = function(e) {
 		if (e) {
-			var t = xt();
+			var t = St();
 			e = {
 				blockedOn: null,
 				target: e,
@@ -9010,7 +9010,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	};
 	var Kh = n.version;
 	if (Kh !== "19.3.1") throw Error(i(527, Kh, "19.3.1"));
-	j.findDOMNode = function(e) {
+	A.findDOMNode = function(e) {
 		var t = e._reactInternals;
 		if (t === void 0) throw typeof e.render == "function" ? Error(i(188)) : (e = Object.keys(e).join(","), Error(i(268, e)));
 		return e = d(t), e = e === null ? null : p(e), e = e === null ? null : e.stateNode, e;
@@ -9019,7 +9019,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		bundleType: 0,
 		version: "19.3.1",
 		rendererPackageName: "react-dom",
-		currentDispatcherRef: A,
+		currentDispatcherRef: k,
 		reconcilerVersion: "19.3.1"
 	};
 	if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ < "u") {
@@ -9030,7 +9030,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	e.createRoot = function(e, t) {
 		if (!a(e)) throw Error(i(299));
-		var n = !1, r = "", o = Tc, s = Ec, c = Dc;
+		var n = !1, r = "", o = wc, s = Tc, c = Ec;
 		return t != null && (!0 === t.unstable_strictMode && (n = !0), t.identifierPrefix !== void 0 && (r = t.identifierPrefix), t.onUncaughtError !== void 0 && (o = t.onUncaughtError), t.onCaughtError !== void 0 && (s = t.onCaughtError), t.onRecoverableError !== void 0 && (c = t.onRecoverableError)), t = lh(e, 1, !1, null, null, n, r, null, o, s, c, Uh), e[Et] = t.current, Wf(e), new Wh(t);
 	};
 })), g = /* @__PURE__ */ o(((e, t) => {
@@ -9064,8 +9064,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	currency: "USD",
 	maximumFractionDigits: 0
 }).format(Number(e || 0));
-function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i, role: a, onRole: o, approve: s, loadCase: c, onOpenEvidence: l, onOpenAgent: u }) {
-	let [d, f] = (0, b.useState)("all"), [p, m] = (0, b.useState)("all"), h = e?.periods || [], g = h.filter((e) => Object.values(e.sources || {}).some((e) => e.freshness !== "current")), _ = h.length - g.length, v = r?.result, y = h.filter((e) => (d === "all" || e.period === d) && (p === "all" || p === "exception" === g.some((t) => t.period === e.period)));
+function C({ onOpenReport: e, conditions: t = [], onCondition: n, history: r, historyDetail: i, cases: a, currentCase: o, proposal: s, role: c, onRole: l, approve: u, loadCase: d, onOpenEvidence: f, onOpenAgent: p }) {
+	let [m, h] = (0, b.useState)("all"), [g, _] = (0, b.useState)("all"), [v, y] = (0, b.useState)(""), [C, w] = (0, b.useState)(""), T = r?.periods || [], ee = T.filter((e) => Object.values(e.sources || {}).some((e) => e.freshness !== "current")), E = T.length - ee.length, D = o?.result, te = T.filter((e) => (m === "all" || e.period === m) && (g === "all" || g === "exception" === ee.some((t) => t.period === e.period)));
 	return /* @__PURE__ */ (0, x.jsxs)("section", {
 		className: "surface close-cockpit",
 		"aria-label": "Month-end close work center",
@@ -9090,7 +9090,7 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 					}), /* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						className: "primary",
-						onClick: u,
+						onClick: p,
 						children: "Ask Finance Agent"
 					})]
 				})]
@@ -9100,25 +9100,25 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 				children: [
 					/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, x.jsx)("span", { children: "Close periods" }),
-						/* @__PURE__ */ (0, x.jsx)("strong", { children: h.length }),
+						/* @__PURE__ */ (0, x.jsx)("strong", { children: T.length }),
 						/* @__PURE__ */ (0, x.jsx)("small", { children: "Monthly snapshots" })
 					] }),
 					/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, x.jsx)("span", { children: "Comparable" }),
-						/* @__PURE__ */ (0, x.jsx)("strong", { children: _ }),
+						/* @__PURE__ */ (0, x.jsx)("strong", { children: E }),
 						/* @__PURE__ */ (0, x.jsx)("small", { children: "Current source status" })
 					] }),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
-						className: g.length ? "attention" : "",
+						className: ee.length ? "attention" : "",
 						children: [
 							/* @__PURE__ */ (0, x.jsx)("span", { children: "Exceptions" }),
-							/* @__PURE__ */ (0, x.jsx)("strong", { children: g.length }),
+							/* @__PURE__ */ (0, x.jsx)("strong", { children: ee.length }),
 							/* @__PURE__ */ (0, x.jsx)("small", { children: "Stale source periods" })
 						]
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, x.jsx)("span", { children: "Cases reviewed" }),
-						/* @__PURE__ */ (0, x.jsx)("strong", { children: n.length }),
+						/* @__PURE__ */ (0, x.jsx)("strong", { children: a.length }),
 						/* @__PURE__ */ (0, x.jsx)("small", { children: "This demo session" })
 					] })
 				]
@@ -9127,19 +9127,19 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 				className: "fi-filterbar",
 				children: [
 					/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Period", /* @__PURE__ */ (0, x.jsxs)("select", {
-						value: d,
-						onChange: (e) => f(e.target.value),
+						value: m,
+						onChange: (e) => h(e.target.value),
 						children: [/* @__PURE__ */ (0, x.jsx)("option", {
 							value: "all",
 							children: "All periods"
-						}), h.map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+						}), T.map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
 							value: e.period,
 							children: e.period
 						}, e.period))]
 					})] }),
 					/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Status", /* @__PURE__ */ (0, x.jsxs)("select", {
-						value: p,
-						onChange: (e) => m(e.target.value),
+						value: g,
+						onChange: (e) => _(e.target.value),
 						children: [
 							/* @__PURE__ */ (0, x.jsx)("option", {
 								value: "all",
@@ -9158,16 +9158,53 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						onClick: () => {
-							f("all"), m("all");
+							h("all"), _("all");
 						},
 						children: "Clear filters"
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("span", { children: [
-						y.length,
+						te.length,
 						" of ",
-						h.length,
+						T.length,
 						" periods"
 					] })
+				]
+			}),
+			t.length > 0 && /* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "rr-condition",
+				role: "group",
+				"aria-label": "Simulate a close condition",
+				children: [
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+						className: "eyebrow",
+						children: "SCENARIO LAB · SYNTHETIC"
+					}), /* @__PURE__ */ (0, x.jsx)("strong", { children: "Simulate a close condition" })] }),
+					/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Condition", /* @__PURE__ */ (0, x.jsxs)("select", {
+						value: v,
+						onChange: (e) => {
+							y(e.target.value), w("");
+						},
+						children: [/* @__PURE__ */ (0, x.jsx)("option", {
+							value: "",
+							children: "Choose a condition…"
+						}), t.map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+							value: e.id,
+							children: e.label
+						}, e.id))]
+					})] }),
+					/* @__PURE__ */ (0, x.jsxs)("button", {
+						type: "button",
+						disabled: !v,
+						onClick: () => {
+							n?.(m === "all" ? o?.scope?.period || T[T.length - 1]?.period : m, v), w(v);
+						},
+						children: ["Apply to ", m === "all" ? o?.scope?.period || T[T.length - 1]?.period : m]
+					}),
+					/* @__PURE__ */ (0, x.jsx)("span", {
+						className: "rr-condition-note",
+						role: "status",
+						children: C ? `${t.find((e) => e.id === C)?.what} Run the period again, then open the detailed report.` : v ? t.find((e) => e.id === v)?.what : "Change the synthetic source state, then re-run the reconciliation. The agent never edits SAP."
+					})
 				]
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("div", {
@@ -9175,7 +9212,20 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "fi-table-toolbar",
-						children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "Close worklist" }), /* @__PURE__ */ (0, x.jsx)("span", { children: "Period-end source comparison" })]
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("h3", { children: "Close worklist" }),
+							/* @__PURE__ */ (0, x.jsx)("span", { children: "Period-end source comparison" }),
+							/* @__PURE__ */ (0, x.jsxs)("button", {
+								type: "button",
+								className: "rr-row-report",
+								onClick: () => e?.(m === "all" ? o?.scope?.period || T[T.length - 1]?.period : m),
+								children: [
+									"Detailed report for ",
+									m === "all" ? o?.scope?.period || T[T.length - 1]?.period : m,
+									" →"
+								]
+							})
+						]
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "worklist-header",
@@ -9188,12 +9238,12 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "worklist",
-						children: [y.map((e) => {
-							let t = g.some((t) => t.period === e.period);
+						children: [te.map((e) => {
+							let t = ee.some((t) => t.period === e.period);
 							return /* @__PURE__ */ (0, x.jsxs)("button", {
 								type: "button",
-								className: r?.scope?.period === e.period ? "selected" : "",
-								onClick: () => c?.(e.period),
+								className: o?.scope?.period === e.period ? "selected" : "",
+								onClick: () => d?.(e.period),
 								children: [
 									/* @__PURE__ */ (0, x.jsx)("span", { children: e.period }),
 									/* @__PURE__ */ (0, x.jsx)("strong", { children: t ? "Source review" : S(e.sources.s4.balance - e.sources.cfin.balance) }),
@@ -9203,14 +9253,14 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 									})
 								]
 							}, e.period);
-						}), !y.length && /* @__PURE__ */ (0, x.jsx)("p", {
+						}), !te.length && /* @__PURE__ */ (0, x.jsx)("p", {
 							className: "fi-empty-filter",
 							children: "No periods match the selected filters."
 						})]
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "exception-queue",
-						children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "Exception queue" }), g.map((e) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [
+						children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "Exception queue" }), ee.map((e) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [
 							/* @__PURE__ */ (0, x.jsx)("strong", { children: e.period }),
 							/* @__PURE__ */ (0, x.jsxs)("span", { children: [Object.entries(e.sources).filter(([, e]) => e.freshness !== "current").map(([e]) => e.toUpperCase()).join(", "), " freshness requires review"] }),
 							/* @__PURE__ */ (0, x.jsx)("em", { children: "HELD" })
@@ -9218,7 +9268,7 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "recent-cases",
-						children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "Recent reconciliation cases" }), n.slice(0, 5).map((e) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsxs)("span", { children: [
+						children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "Recent reconciliation cases" }), a.slice(0, 5).map((e) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsxs)("span", { children: [
 							e.scope?.period,
 							" · ",
 							e.scenario
@@ -9228,31 +9278,31 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 					className: "cockpit-detail",
 					children: [
 						/* @__PURE__ */ (0, x.jsx)("h3", { children: "Selected case and controls" }),
-						v ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
+						D ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "detail-line",
-								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Case" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: r.case_id })]
+								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Case" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: o.case_id })]
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "detail-line",
 								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Period / route" }), /* @__PURE__ */ (0, x.jsxs)("strong", { children: [
-									v.scope.period,
+									D.scope.period,
 									" · ",
-									r.scenario
+									o.scenario
 								] })]
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "detail-line",
-								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "S/4HANA − Central Finance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: S(v.variance.amount) })]
+								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "S/4HANA − Central Finance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: S(D.variance.amount) })]
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "detail-line",
-								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Source status" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: v.variance.state })]
+								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Source status" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: D.variance.state })]
 							}),
 							/* @__PURE__ */ (0, x.jsx)("button", {
 								className: "detail-toggle",
 								type: "button",
-								onClick: l,
+								onClick: f,
 								children: "Open account, document and correlation evidence →"
 							})
 						] }) : /* @__PURE__ */ (0, x.jsx)("p", {
@@ -9266,15 +9316,15 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 									className: "eyebrow",
 									children: "SEPARATE SYNTHETIC APPROVAL LANE"
 								}),
-								/* @__PURE__ */ (0, x.jsx)("p", { children: i ? `Proposal ${i.proposal_id} · ${i.status} · signed variance marker ${S(i.amount)}` : "No proposal for this case." }),
+								/* @__PURE__ */ (0, x.jsx)("p", { children: s ? `Proposal ${s.proposal_id} · ${s.status} · signed variance marker ${S(s.amount)}` : "No proposal for this case." }),
 								/* @__PURE__ */ (0, x.jsx)("label", {
 									htmlFor: "demo-role",
 									children: "Demo role"
 								}),
 								/* @__PURE__ */ (0, x.jsxs)("select", {
 									id: "demo-role",
-									value: a,
-									onChange: (e) => o(e.target.value),
+									value: c,
+									onChange: (e) => l(e.target.value),
 									children: [/* @__PURE__ */ (0, x.jsx)("option", {
 										value: "maker",
 										children: "Finance maker"
@@ -9285,8 +9335,8 @@ function C({ history: e, historyDetail: t, cases: n, currentCase: r, proposal: i
 								}),
 								/* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
-									disabled: a !== "approver" || i?.status !== "awaiting_approval",
-									onClick: s,
+									disabled: c !== "approver" || s?.status !== "awaiting_approval",
+									onClick: u,
 									children: "Approve variance marker"
 								}),
 								/* @__PURE__ */ (0, x.jsx)("small", { children: "Approval records a local synthetic marker only; it does not determine accounts or post to SAP." })
@@ -9696,13 +9746,13 @@ function ne({ run: e, questions: t = [], requestedSeq: n }) {
 	});
 }
 // src/ImplementationEvidence.jsx
-var O = [
+var re = [
 	["External agent contract", "AgentCore Runtime, identity and MCP client are named simulator components. The local Python runtime follows a bounded plan; no external agent is connected."],
 	["SAP-owned capability", "The SAP finance tool, Apigee candidate, Integration Suite path and backend roles are simulated boundaries. No SAP tenant call or principal propagation is proved."],
 	["Presentation", "The Fiori-inspired interface is built with React and Node.js tooling. Streamlit hosts its compiled assets; Node.js is not an agent in the runtime path."],
 	["Execution and proof", "Python evaluates the finance rules and SQLite stores synthetic snapshots, cases and request/response events. The variance amount comes from the deterministic engine."]
 ];
-function re({ currentCase: e, events: t = [] }) {
+function ie({ currentCase: e, events: t = [] }) {
 	return /* @__PURE__ */ (0, x.jsxs)("section", {
 		className: "surface implementation-evidence",
 		children: [
@@ -9722,7 +9772,7 @@ function re({ currentCase: e, events: t = [] }) {
 			}),
 			/* @__PURE__ */ (0, x.jsx)("div", {
 				className: "implementation-grid",
-				children: O.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e }), /* @__PURE__ */ (0, x.jsx)("p", { children: t })] }, e))
+				children: re.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e }), /* @__PURE__ */ (0, x.jsx)("p", { children: t })] }, e))
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "implementation-state",
@@ -9741,20 +9791,20 @@ function re({ currentCase: e, events: t = [] }) {
 	});
 }
 // src/EvidenceCorrelation.jsx
-function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, events: i, caseEvents: a, decisionRun: o, decisionQuestions: s, componentDetails: c, reviewPanel: l, focus: u, busy: d, onStart: f, onResolve: p, onTrace: m }) {
+function ae({ investigation: e, currentCase: t, history: n, historyDetail: r, events: i, caseEvents: a, decisionRun: o, decisionQuestions: s, componentDetails: c, reviewPanel: l, focus: u, busy: d, onStart: f, onResolve: p, onTrace: m }) {
 	let [h, g] = (0, b.useState)(null), [_, v] = (0, b.useState)(""), [y, S] = (0, b.useState)("investigation"), [C, w] = (0, b.useState)("proof");
 	(0, b.useEffect)(() => {
 		u?.section && w(u.section);
 	}, [u?.nonce]);
-	let T = (0, b.useRef)(null), E = Math.min(...e?.plan?.map((e) => e.last_event_seq).filter(Boolean) || []), D = Number.isFinite(E) ? E - 2 : 0, O = (0, b.useMemo)(() => i.filter((e) => (y === "full" || e.seq >= D) && `${e.operation} ${e.source_component_id} ${e.target_component_id} ${e.status}`.toLowerCase().includes(_.toLowerCase())), [
+	let T = (0, b.useRef)(null), E = Math.min(...e?.plan?.map((e) => e.last_event_seq).filter(Boolean) || []), D = Number.isFinite(E) ? E - 2 : 0, re = (0, b.useMemo)(() => i.filter((e) => (y === "full" || e.seq >= D) && `${e.operation} ${e.source_component_id} ${e.target_component_id} ${e.status}`.toLowerCase().includes(_.toLowerCase())), [
 		i,
 		_,
 		y,
 		D
-	]), ie = i.find((e) => e.seq === h) || O.at(-1);
+	]), ae = i.find((e) => e.seq === h) || re.at(-1);
 	return (0, b.useEffect)(() => {
 		h && T.current?.querySelector(`[data-seq="${h}"]`)?.scrollIntoView({ block: "nearest" });
-	}, [h, O]), /* @__PURE__ */ (0, x.jsxs)("main", {
+	}, [h, re]), /* @__PURE__ */ (0, x.jsxs)("main", {
 		className: "evidence-workspace",
 		"aria-label": "Evidence and correlation",
 		children: [/* @__PURE__ */ (0, x.jsx)("nav", {
@@ -9879,10 +9929,10 @@ function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 							/* @__PURE__ */ (0, x.jsx)("div", {
 								className: "correlation-events",
 								ref: T,
-								children: O.map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
+								children: re.map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
 									type: "button",
 									"data-seq": e.seq,
-									className: ie?.seq === e.seq ? "selected" : "",
+									className: ae?.seq === e.seq ? "selected" : "",
 									onClick: () => g(e.seq),
 									children: [
 										/* @__PURE__ */ (0, x.jsxs)("span", { children: ["#", e.seq] }),
@@ -9900,23 +9950,23 @@ function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 									]
 								}, e.seq))
 							}),
-							ie && /* @__PURE__ */ (0, x.jsxs)("div", {
+							ae && /* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "correlation-inspector",
 								children: [
 									/* @__PURE__ */ (0, x.jsxs)("span", {
 										className: "eyebrow",
-										children: ["SELECTED MESSAGE · #", ie.seq]
+										children: ["SELECTED MESSAGE · #", ae.seq]
 									}),
-									/* @__PURE__ */ (0, x.jsx)("strong", { children: ie.operation.replaceAll("_", " ") }),
-									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "From" }), /* @__PURE__ */ (0, x.jsx)("b", { children: ie.source_component_id.replaceAll("_", " ") })] }),
-									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "To" }), /* @__PURE__ */ (0, x.jsx)("b", { children: ie.target_component_id.replaceAll("_", " ") })] }),
+									/* @__PURE__ */ (0, x.jsx)("strong", { children: ae.operation.replaceAll("_", " ") }),
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "From" }), /* @__PURE__ */ (0, x.jsx)("b", { children: ae.source_component_id.replaceAll("_", " ") })] }),
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "To" }), /* @__PURE__ */ (0, x.jsx)("b", { children: ae.target_component_id.replaceAll("_", " ") })] }),
 									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Direction" }), /* @__PURE__ */ (0, x.jsxs)("b", { children: [
-										ie.direction,
+										ae.direction,
 										" · ",
-										ie.status
+										ae.status
 									] })] }),
-									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Time" }), /* @__PURE__ */ (0, x.jsx)("b", { children: ie.timestamp_utc })] }),
-									/* @__PURE__ */ (0, x.jsx)("pre", { children: JSON.stringify(ie.payload_summary || {}, null, 2) })
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Time" }), /* @__PURE__ */ (0, x.jsx)("b", { children: ae.timestamp_utc })] }),
+									/* @__PURE__ */ (0, x.jsx)("pre", { children: JSON.stringify(ae.payload_summary || {}, null, 2) })
 								]
 							})
 						]
@@ -9954,7 +10004,7 @@ function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 					questions: s,
 					requestedSeq: u?.section === "questions" ? u.stepSeq : null
 				}),
-				C === "implementation" && /* @__PURE__ */ (0, x.jsx)(re, {
+				C === "implementation" && /* @__PURE__ */ (0, x.jsx)(ie, {
 					currentCase: t,
 					events: a || i
 				})
@@ -9963,7 +10013,7 @@ function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 	});
 }
 // src/ArchitectureQuestions.jsx
-var ae = [
+var oe = [
 	{
 		id: "S1",
 		label: "S1 · Apigee route"
@@ -9977,7 +10027,7 @@ var ae = [
 		label: "S3 · Combined candidate"
 	}
 ];
-function oe({ step: e, selected: t, processing: n, onSelect: r }) {
+function se({ step: e, selected: t, processing: n, onSelect: r }) {
 	return /* @__PURE__ */ (0, x.jsxs)("button", {
 		type: "button",
 		"data-seq": e.seq,
@@ -9995,7 +10045,7 @@ function oe({ step: e, selected: t, processing: n, onSelect: r }) {
 		]
 	});
 }
-function se({ playbooks: e, question: t, initialRoute: n, onClose: r }) {
+function ce({ playbooks: e, question: t, initialRoute: n, onClose: r }) {
 	let [i, a] = (0, b.useState)(n), [o, s] = (0, b.useState)(0), c = e[i], l = c?.steps?.[o];
 	return (0, b.useEffect)(() => {
 		let e = (e) => {
@@ -10029,7 +10079,7 @@ function se({ playbooks: e, question: t, initialRoute: n, onClose: r }) {
 				/* @__PURE__ */ (0, x.jsx)("nav", {
 					className: "route-plan-tabs",
 					"aria-label": "Gateway scenarios",
-					children: ae.map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
+					children: oe.map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						className: i === e.id ? "active" : "",
 						onClick: () => {
@@ -10122,7 +10172,7 @@ function se({ playbooks: e, question: t, initialRoute: n, onClose: r }) {
 		})
 	});
 }
-function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun: i, busy: a, onOpenEvidence: o }) {
+function le({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun: i, busy: a, onOpenEvidence: o }) {
 	let [s, c] = (0, b.useState)(r?.question_id || null), [l, u] = (0, b.useState)(r?.route || "S3"), [d, f] = (0, b.useState)(r?.probe || ""), [p, m] = (0, b.useState)(null), [h, g] = (0, b.useState)(!0), [_, v] = (0, b.useState)(!1), y = (0, b.useRef)(null), S = e.find((e) => e.id === s), C = r?.question_id === s ? r : null, w = C?.steps || [], T = w.filter((e) => e.phase === "design-time"), ee = w.filter((e) => e.phase !== "design-time"), E = w.find((e) => e.seq === p) || w.at(-1), D = w.findIndex((e) => e.seq === E?.seq);
 	(0, b.useEffect)(() => {
 		w.length && (h || p === null || !w.some((e) => e.seq === p)) && m(w.at(-1).seq);
@@ -10149,7 +10199,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 	function ne() {
 		S && (m(null), g(!0), i(S.id, l, d));
 	}
-	function O(e) {
+	function re(e) {
 		let t = w[D + e];
 		t && (m(t.seq), g(!1));
 	}
@@ -10217,7 +10267,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 									"aria-label": "Architecture route",
 									value: l,
 									onChange: (e) => u(e.target.value),
-									children: ae.map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+									children: oe.map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
 										value: e.id,
 										children: e.label
 									}, e.id))
@@ -10259,7 +10309,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 								children: [
 									/* @__PURE__ */ (0, x.jsx)("button", {
 										type: "button",
-										onClick: () => O(-1),
+										onClick: () => re(-1),
 										disabled: D <= 0,
 										"aria-label": "Previous handoff",
 										children: "←"
@@ -10267,7 +10317,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 									/* @__PURE__ */ (0, x.jsx)("span", { children: E ? `${E.seq}/${C.total_steps}` : "—" }),
 									/* @__PURE__ */ (0, x.jsx)("button", {
 										type: "button",
-										onClick: () => O(1),
+										onClick: () => re(1),
 										disabled: D < 0 || D >= w.length - 1,
 										"aria-label": "Next handoff",
 										children: "→"
@@ -10289,7 +10339,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "lab-design-branch",
-								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "DESIGN-TIME PREREQUISITE · NOT A RUNTIME HOP" }), T.map((e) => /* @__PURE__ */ (0, x.jsx)(oe, {
+								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "DESIGN-TIME PREREQUISITE · NOT A RUNTIME HOP" }), T.map((e) => /* @__PURE__ */ (0, x.jsx)(se, {
 									step: e,
 									selected: E?.seq === e.seq,
 									processing: C.status === "running" && e.seq === w.at(-1)?.seq,
@@ -10306,7 +10356,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 										className: "lab-flow-caption",
 										children: "RUNTIME CALL PATH · LEFT TO RIGHT, THEN NEXT ROW"
 									}),
-									ee.map((e) => /* @__PURE__ */ (0, x.jsx)(oe, {
+									ee.map((e) => /* @__PURE__ */ (0, x.jsx)(se, {
 										step: e,
 										selected: E?.seq === e.seq,
 										processing: C.status === "running" && e.seq === w.at(-1)?.seq,
@@ -10386,7 +10436,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 					children: "Select an open question to see its decision owner and required architecture alignment. Control details are in Evidence."
 				})]
 			}),
-			_ && /* @__PURE__ */ (0, x.jsx)(se, {
+			_ && /* @__PURE__ */ (0, x.jsx)(ce, {
 				playbooks: t,
 				question: S,
 				initialRoute: l,
@@ -10396,7 +10446,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 	});
 }
 // src/HostingPriority.jsx
-var le = [
+var ue = [
 	{
 		id: "agentcore",
 		name: "Approved enterprise agent platform",
@@ -10441,36 +10491,36 @@ var le = [
 		gates: "The user reports Joule Studio unavailable. Obtain an exact SKU, provisioning, tenant and integration applicability decision without changing the current setup.",
 		source: "https://help.sap.com/docs/joule-studio/joule-studio/sap-managed-provisioning-for-joule-studio?ai=true&version=CLOUD"
 	}
-], ue = {
+], de = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S1 · Google Apigee MCP</title><desc id=\"d\">Detailed L2 architecture diagram S1 · Google Apigee MCP</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#E8F1FB\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E0\" stroke=\"none\"/><text x=\"1010.12\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">S1  ·  Google Apigee MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Google Apigee · external to AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#5B3F8C\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Apigee mode TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0C8F76\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#6B6B6B\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#0C8F76\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#5B3F8C\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">S1 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", fe = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S2 · AgentCore Gateway MCP</title><desc id=\"d\">Detailed L2 architecture diagram S2 · AgentCore Gateway MCP</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#E8F1FB\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E0\" stroke=\"none\"/><text x=\"999.93\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">S2  ·  AgentCore Gateway MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"132.56\" y=\"172.59\" width=\"446.51\" height=\"315.53\" rx=\"7.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"475.12\" y=\"162.71\" width=\"71.51\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"480.63\" y=\"171.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">AWS trust boundary</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AgentCore Gateway · inside AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#5B3F8C\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Target type TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0C8F76\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#6B6B6B\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#0C8F76\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#5B3F8C\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">S2 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", pe = {
 	label: "Finance user",
 	owner: "Experience",
 	detail: "Fiori-style reconciliation request",
 	out: "business intent",
 	type: "ux"
-}, de = {
+}, me = {
 	label: "SAP Integration Suite",
 	owner: "SAP Integration",
 	detail: "Approved API and iFlow mapping",
 	out: "backend read",
 	type: "sap"
-}, fe = {
+}, he = {
 	label: "Cloud Connector",
 	owner: "SAP connectivity",
 	detail: "Controlled route to SAP landscape",
 	out: "authorized call",
 	type: "sap"
-}, pe = {
+}, ge = {
 	label: "SAP finance backend",
 	owner: "SAP Security + FI",
 	detail: "S/4HANA and Central Finance role checks",
 	out: "finance evidence",
 	type: "sap"
-}, k = {
+}, _e = {
 	S1: {
 		title: "S1 · Direct SAP Apigee MCP",
 		status: "SAP domain baseline · direct access open",
 		stages: [
-			ue,
+			pe,
 			{
 				label: "External finance agent",
 				owner: "Approved agent runtime",
@@ -10485,9 +10535,9 @@ var le = [
 				out: "typed SAP request",
 				type: "gateway"
 			},
-			de,
-			fe,
-			pe
+			me,
+			he,
+			ge
 		],
 		returnFlow: "SAP evidence and correlation ID → Apigee tool response → agent reconciliation → business report",
 		controls: [
@@ -10503,7 +10553,7 @@ var le = [
 		title: "S2 · AgentCore-hosted SAP finance MCP",
 		status: "AWS hosting alternative · approval open",
 		stages: [
-			ue,
+			pe,
 			{
 				label: "External finance agent",
 				owner: "AgentCore Runtime",
@@ -10525,9 +10575,9 @@ var le = [
 				out: "typed finance API",
 				type: "gateway"
 			},
-			de,
-			fe,
-			pe
+			me,
+			he,
+			ge
 		],
 		returnFlow: "SAP evidence → hosted MCP adapter → Gateway → agent reconciliation → business report",
 		controls: [
@@ -10543,7 +10593,7 @@ var le = [
 		title: "S3 · AgentCore Gateway to SAP Apigee MCP",
 		status: "Federated candidate · not approved",
 		stages: [
-			ue,
+			pe,
 			{
 				label: "External finance agent",
 				owner: "Approved runtime",
@@ -10565,9 +10615,9 @@ var le = [
 				out: "typed SAP request",
 				type: "gateway"
 			},
-			de,
-			fe,
-			pe
+			me,
+			he,
+			ge
 		],
 		returnFlow: "SAP evidence → Apigee MCP → AgentCore Gateway → agent reconciliation → business report",
 		controls: [
@@ -10579,12 +10629,12 @@ var le = [
 		decision: "Federated hosting policy, cross-gateway controls and end-to-end principal propagation are unapproved.",
 		source: "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html"
 	}
-}, me = {
+}, ve = {
 	agentcore: {
 		title: "AgentCore Runtime · agent hosting",
 		status: "Leading validation candidate · conditional",
 		stages: [
-			ue,
+			pe,
 			{
 				label: "Custom finance agent",
 				owner: "AgentCore Runtime",
@@ -10599,9 +10649,9 @@ var le = [
 				out: "SAP finance tool",
 				type: "gateway"
 			},
-			de,
-			fe,
-			pe
+			me,
+			he,
+			ge
 		],
 		returnFlow: "SAP evidence → selected MCP route → AgentCore agent → finance result",
 		controls: [
@@ -10617,7 +10667,7 @@ var le = [
 		title: "SAP BTP pro-code · agent hosting",
 		status: "SAP-owned alternative · conditional",
 		stages: [
-			ue,
+			pe,
 			{
 				label: "Python finance agent",
 				owner: "BTP Cloud Foundry",
@@ -10632,9 +10682,9 @@ var le = [
 				out: "SAP finance tool",
 				type: "gateway"
 			},
-			de,
-			fe,
-			pe
+			me,
+			he,
+			ge
 		],
 		returnFlow: "SAP evidence → MCP tool → BTP agent → finance result",
 		controls: [
@@ -10650,7 +10700,7 @@ var le = [
 		title: "Microsoft Foundry · agent hosting",
 		status: "Enterprise-standard check · conditional",
 		stages: [
-			ue,
+			pe,
 			{
 				label: "Hosted finance agent",
 				owner: "Microsoft Foundry",
@@ -10665,9 +10715,9 @@ var le = [
 				out: "SAP finance tool",
 				type: "gateway"
 			},
-			de,
-			fe,
-			pe
+			me,
+			he,
+			ge
 		],
 		returnFlow: "SAP evidence → selected MCP route → Foundry agent → finance result",
 		controls: [
@@ -10704,9 +10754,9 @@ var le = [
 				out: "finance API",
 				type: "gateway"
 			},
-			de,
-			fe,
-			pe
+			me,
+			he,
+			ge
 		],
 		returnFlow: "SAP evidence → approved tool binding → Joule agent → finance result",
 		controls: [
@@ -10718,9 +10768,1932 @@ var le = [
 		decision: "Joule Studio is reported unavailable; no executable tenant path is assumed.",
 		source: "https://architecture.learning.sap.com/docs/golden-path/ai-golden-path/build-and-deliver/build-ai-agents"
 	}
-};
-function he({ kind: e, id: t, onClose: n, onDetails: r }) {
-	let i = (e === "mcp" ? k : me)[t];
+}, ye = "2026-11-24", be = "TBD — REQUIRES VALIDATION", xe = {
+	S1: {
+		id: "S1",
+		label: "S1 · Google Apigee MCP",
+		short: "Apigee only",
+		chain: "Agent runtime (MCP client) → Apigee MCP endpoint → SAP-facing domain capability → SAP Integration Suite → SAP backend",
+		summary: "One MCP gateway, Google Apigee, exposes the SAP Finance domain tools. The baseline is the Apigee-managed pattern: an MCP proxy derives its tools from OpenAPI operations that front SAP Integration Suite APIs. Apigee does not run arbitrary Python MCP-server code; a coded domain MCP server would live on a separate runtime that Apigee proxies.",
+		baseline: "Baseline: Apigee-managed, API-backed MCP exposure. Alternative: separately hosted domain MCP server governed through Apigee (runtime TBD)."
+	},
+	S2: {
+		id: "S2",
+		label: "S2 · AWS AgentCore MCP",
+		short: "AgentCore only",
+		chain: "Agent runtime (MCP client) → AgentCore Gateway → Finance domain MCP server / gateway target → SAP Integration Suite → SAP backend",
+		summary: "One MCP gateway, AgentCore Gateway, fronts the Finance domain MCP capability. The gateway routes and authorizes; it does not execute custom tool code. A coded Finance MCP server runs on AgentCore Runtime (container, MCP protocol), or the gateway generates tools from supported API or function targets. AWS Agent Registry is a separate discovery layer.",
+		baseline: "Baseline: custom Finance MCP server on AgentCore Runtime registered as a gateway MCP-server target. Alternative: gateway-generated tools from an OpenAPI or function target."
+	},
+	S3: {
+		id: "S3",
+		label: "S3 · AgentCore Gateway + Google Apigee",
+		short: "Hybrid",
+		chain: "Agent runtime (MCP client) → AgentCore Gateway → Apigee MCP endpoint → SAP-facing domain capability → SAP Integration Suite → SAP backend",
+		summary: "Two gateways in series. AgentCore Gateway is the enterprise agent entry on the AWS side; Apigee remains the SAP-domain MCP endpoint, so Finance-specific logic stays on the SAP-facing side. The AgentCore-to-Apigee hop is a gateway MCP-server target whose protocol and token-exchange behaviour is documented separately by each vendor and unproven together.",
+		baseline: "Baseline: Apigee owns the SAP-domain MCP interface; AgentCore Gateway holds a reference. Cross-gateway protocol, identity exchange and registry sync are open dependencies."
+	}
+}, O = [
+	"S1",
+	"S2",
+	"S3"
+], k = [
+	["MCP client", "Agent-side component that discovers and invokes MCP tools."],
+	["MCP server", "Protocol endpoint exposing tools and resources over MCP."],
+	["Domain MCP server", "Business-domain MCP implementation, e.g. SAP Finance read or posting."],
+	["MCP gateway", "Governed entry point that routes, authorizes and may aggregate MCP capabilities. It is not necessarily where tool logic runs."],
+	["MCP registry", "Catalog and discovery of MCP servers and tool metadata. Never an invocation hop."],
+	["Artifact repository", "Versioned source, specifications and configuration (Git, container registry)."],
+	["Runtime", "Platform that executes domain logic or MCP-server software."],
+	["Backend integration", "API, integration flow or adapter reaching enterprise applications (SAP Integration Suite)."],
+	["Agent runtime", "Compute and orchestration platform running the agent. Independent of MCP hosting."],
+	["Model runtime", "LLM inference provider. Independent of MCP hosting."]
+], A = [
+	[
+		"Agent development environment",
+		`Enterprise-approved pro-code (Python) agent environment. ${be}`,
+		`Same as S1. ${be}`,
+		`Same as S1. ${be}`
+	],
+	[
+		"Agent hosting runtime",
+		"Independent of the MCP choice. Demo assumption: AgentCore Runtime. Apigee does not require a Google-hosted agent.",
+		"Independent of the MCP choice. AgentCore Runtime is a natural but not mandatory host; choosing AgentCore Gateway does not force it.",
+		"Independent of the MCP choice. Demo assumption: AgentCore Runtime; enterprise Agent Platform or SAP BTP possible."
+	],
+	[
+		"MCP client location",
+		"Inside the agent process on the agent runtime.",
+		"Inside the agent process on the agent runtime.",
+		"Inside the agent process on the agent runtime; the gateway also acts as a client toward Apigee."
+	],
+	[
+		"MCP gateway",
+		"Google Apigee: MCP proxy (Discovery Proxy template) with OAuth and API-product policies.",
+		"AgentCore Gateway: inbound authorizer and outbound credential provider; routes to targets.",
+		"Two gateways in series: AgentCore Gateway (agent entry), then Apigee (SAP-domain endpoint)."
+	],
+	[
+		"Finance domain MCP server creation",
+		"Baseline: tools derived from OpenAPI 3.0.x operations by the SAP integration/API team. A coded server only in the external-server alternative.",
+		"Baseline: coded Finance MCP server by finance engineering. Alternative: gateway-generated tools from an OpenAPI or function target.",
+		"Created on the Apigee side as in S1. AgentCore does not recreate it."
+	],
+	[
+		"Finance domain MCP server hosting",
+		"Apigee-managed proxy runtime. Not a general Python compute platform. A coded server needs a separate runtime behind Apigee (TBD).",
+		"AgentCore Runtime container (MCP protocol, ARM64, port 8000) or none when the gateway generates tools.",
+		"Apigee-managed runtime, as S1."
+	],
+	[
+		"MCP server runtime endpoint",
+		"Apigee MCP endpoint at <apigee-host>/<mcp-basepath> (conceptual placeholder, not a tenant address).",
+		"Gateway MCP URL <gateway-id>.gateway…/mcp; Runtime target at /invocations (conceptual placeholders).",
+		"AgentCore Gateway URL for agents; Apigee endpoint URL held as a gateway target (placeholders)."
+	],
+	[
+		"MCP tool definitions",
+		"Derived from OpenAPI operations; exposed set limited by API products.",
+		"tools/list from the coded server, or from the target schema when gateway-generated.",
+		"Tools originate in Apigee; surfaced through the gateway. Name prefixing and collisions: TO VALIDATE."
+	],
+	[
+		"MCP registry and discovery",
+		"Apigee API hub imports MCP proxies and parses specs into tools; syncs to Google Agent Registry (enabled by default; maturity TO VALIDATE).",
+		"AWS Agent Registry (agent-registry namespace) is a separate discovery and approval layer. Only approved records are discoverable.",
+		"API hub is the proposed SAP-domain source of truth. AWS Agent Registry would hold a reference. No automatic cross-platform sync is documented."
+	],
+	[
+		"Enterprise registry / approval authority",
+		`Enterprise AI Foundry publication approval. ${be}`,
+		`Enterprise AI Foundry, or the AWS Agent Registry curator role. ${be}`,
+		`Enterprise AI Foundry as the single approver across both catalogs. ${be}`
+	],
+	[
+		"Source-code repository",
+		`Organization Git repository for specs, tool definitions, policies and tests. ${be}`,
+		`Organization Git repository for server source, target schemas and infrastructure code. ${be}`,
+		`Organization Git repository covering both sides. ${be}`
+	],
+	[
+		"MCP specifications and versioned artifacts",
+		"OpenAPI spec versions, Apigee proxy bundles, API products, test collections.",
+		"MCP server source, target schemas, gateway and target definitions as code.",
+		"Union of S1 and S2 artifacts, plus a written cross-gateway interface contract."
+	],
+	[
+		"Container / package artifact storage",
+		"Not needed for the baseline. Needed only if an external coded server is chosen (TBD).",
+		"Container registry (Amazon ECR) for the Runtime image.",
+		"Not needed on the AWS side unless an AWS-hosted adapter is added."
+	],
+	[
+		"Gateway-target configuration",
+		"Proxy target endpoint resolves to the SAP-facing Integration Suite API.",
+		"Gateway target of type MCP server (or OpenAPI/function) with a credential provider configuration.",
+		"AgentCore target of type MCP server pointing at the Apigee endpoint. Compatibility must be proven."
+	],
+	[
+		"Authentication and token management",
+		"Inbound: OAuth 2.1 / OIDC bearer or API key per API product. Outbound to Integration Suite: TBD.",
+		"Inbound: JWT authorizer or IAM. Outbound to MCP targets: OAuth (client credentials, authorization code, token exchange), API key or gateway role; AgentCore Identity holds providers.",
+		"Two token hops. Agent-to-AgentCore-to-Apigee token exchange and user-context carry-over are unproven."
+	],
+	[
+		"SAP integration layer",
+		"SAP Integration Suite (API and iFlow). An Integration Suite MCP Server artifact is a separate option, not assumed.",
+		"Same as S1.",
+		"Same as S1."
+	],
+	[
+		"Backend authorization boundary",
+		"ABAP roles of the mapped user or service identity. Principal propagation not proven in the tenant.",
+		"Same as S1.",
+		"Same as S1; the extra hop adds one more identity-mapping point."
+	],
+	[
+		"Logging, monitoring and audit evidence",
+		"Apigee analytics and logging, Integration Suite monitoring, SAP change documents.",
+		"AgentCore Gateway and Runtime observability, Integration Suite monitoring, SAP change documents.",
+		`Two gateway logs. Correlation across them needs a propagated trace id. ${be}`
+	],
+	[
+		"Deployment ownership",
+		"SAP integration / API platform team deploys proxies and products.",
+		"Finance engineering and cloud platform team deploy the container and gateway targets.",
+		"Split ownership between both teams plus an interface-contract owner."
+	],
+	[
+		"Cost and operational responsibility",
+		"Apigee licensing and operations plus Integration Suite. Unmeasured.",
+		"AgentCore Runtime, Gateway and Registry consumption plus ECR. Unmeasured.",
+		"Both stacks plus cross-cloud traffic and latency. Unmeasured."
+	],
+	[
+		"Release prerequisites and outstanding decisions",
+		"Apigee MCP enabled for the organization (optional switch on hybrid), OpenAPI 3.0.x, direct-access policy, API hub and registry scope.",
+		"Region availability, Agent Registry status and namespace, choice of coded server or generated tools.",
+		"Gateway-to-Apigee protocol and auth proof, ownership of double policy, registry synchronization method."
+	]
+], Se = [
+	"Source",
+	"Destination",
+	"Endpoint type",
+	"Protocol",
+	"MCP role",
+	"Endpoint owner",
+	"Hosting location",
+	"Authentication",
+	"Identity context",
+	"Network boundary",
+	"Read / write",
+	"Registry reference",
+	"Verification"
+], Ce = "Vendor-documented · tenant NOT_VERIFIED", we = "Design assumption", Te = be, j = "Read tools default; write tools only via the separate posting domain", M = {
+	S1: [
+		[
+			"Agent MCP client",
+			"Apigee MCP endpoint",
+			"MCP endpoint",
+			"MCP over Streamable HTTP (JSON-RPC 2.0)",
+			"client → server",
+			"SAP integration / API platform team",
+			"Apigee (Google-managed)",
+			"OAuth 2.1 / OIDC bearer, or API key per API product",
+			"Agent identity; end-user delegation TO VALIDATE",
+			"Agent runtime network → Apigee ingress; private path TBD",
+			j,
+			"API hub entry",
+			Ce
+		],
+		[
+			"Apigee MCP proxy",
+			"SAP-facing domain API",
+			"API proxy target",
+			"HTTPS, OpenAPI operation",
+			"tool call mapped to API call",
+			"SAP integration / API platform team",
+			"Apigee",
+			"Target credentials held by Apigee: TBD",
+			"Mapped technical or user identity: TBD",
+			"Apigee → Integration Suite",
+			j,
+			"OpenAPI spec in API hub",
+			Te
+		],
+		[
+			"SAP-facing domain API",
+			"SAP Integration Suite",
+			"API / iFlow",
+			"HTTPS REST or OData",
+			"backend integration",
+			"SAP integration team",
+			"SAP Integration Suite",
+			"OAuth client or certificate",
+			"Technical user or propagated principal",
+			"Customer / SAP BTP boundary",
+			j,
+			"None (not a registry object)",
+			we
+		],
+		[
+			"SAP Integration Suite",
+			"SAP S/4HANA · Central Finance · BW/4HANA",
+			"Backend interface",
+			"RFC / OData via Cloud Connector, or direct",
+			"backend integration",
+			"SAP basis and finance",
+			"Customer SAP landscape",
+			"Principal propagation or technical user",
+			"ABAP roles of the mapped user",
+			"Cloud Connector or private link: needs proof",
+			"Read-only in the demo; posting needs a separate approval path",
+			"None",
+			Te
+		],
+		[
+			"Apigee API hub",
+			"Google Agent Registry",
+			"Registry sync (not invocation)",
+			"Metadata sync",
+			"catalog → catalog",
+			"Google Cloud platform team",
+			"Google Cloud",
+			"Google IAM",
+			"Platform service identity",
+			"Google Cloud internal",
+			"Metadata only",
+			"Registry sync (default on)",
+			"Vendor-documented · maturity TO VALIDATE"
+		],
+		[
+			"Agent runtime",
+			"API hub / Agent Registry",
+			"Discovery lookup (not invocation)",
+			"Registry API or registry MCP endpoint",
+			"client → catalog",
+			"Enterprise AI Foundry (TBD)",
+			"Google Cloud",
+			"Google IAM or OAuth",
+			"Agent identity",
+			"Agent runtime → Google APIs",
+			"Metadata only",
+			"API hub / Agent Registry",
+			Te
+		],
+		[
+			"Git and CI/CD",
+			"Apigee organization",
+			"Deployment (not invocation)",
+			"Apigee management API",
+			"artifact publication",
+			"SAP integration team",
+			"Organization CI/CD",
+			"Pipeline service account",
+			"Deployment identity",
+			"CI/CD → Apigee management plane",
+			"Not applicable",
+			"Spec registered in API hub",
+			we
+		]
+	],
+	S2: [
+		[
+			"Agent MCP client",
+			"AgentCore Gateway",
+			"MCP endpoint",
+			"MCP over Streamable HTTP",
+			"client → server",
+			"Cloud platform team",
+			"AWS (gateway)",
+			"JWT bearer validated by the gateway authorizer, or IAM",
+			"Agent identity; end-user delegation TO VALIDATE",
+			"Agent runtime → AWS gateway endpoint",
+			j,
+			"Registry record (optional)",
+			Ce
+		],
+		[
+			"AgentCore Gateway",
+			"Finance domain MCP server (AgentCore Runtime)",
+			"Gateway MCP-server target",
+			"MCP over Streamable HTTP to the Runtime /invocations URL",
+			"client → server",
+			"Finance engineering",
+			"AgentCore Runtime (container)",
+			"Outbound OAuth, API key or gateway role from an AgentCore Identity credential provider",
+			"Gateway service identity or exchanged token: TBD",
+			"Inside the AWS account",
+			j,
+			"Registry record",
+			Ce
+		],
+		[
+			"AgentCore Gateway",
+			"Gateway-generated tools (alternative)",
+			"OpenAPI / function target",
+			"HTTPS, target schema",
+			"tool call mapped to API call",
+			"Finance engineering",
+			"AgentCore Gateway",
+			"Credential provider per target",
+			"TBD",
+			"AWS → target API",
+			j,
+			"Registry record",
+			"Alternative; " + Ce.toLowerCase()
+		],
+		[
+			"Finance domain MCP server",
+			"SAP Integration Suite",
+			"API / iFlow",
+			"HTTPS REST or OData",
+			"backend integration",
+			"SAP integration team",
+			"SAP Integration Suite",
+			"OAuth client or certificate",
+			"Technical user or propagated principal",
+			"AWS → SAP BTP; private route needs proof",
+			j,
+			"None",
+			Te
+		],
+		[
+			"SAP Integration Suite",
+			"SAP S/4HANA · Central Finance · BW/4HANA",
+			"Backend interface",
+			"RFC / OData via Cloud Connector, or direct",
+			"backend integration",
+			"SAP basis and finance",
+			"Customer SAP landscape",
+			"Principal propagation or technical user",
+			"ABAP roles of the mapped user",
+			"Cloud Connector or private link: needs proof",
+			"Read-only in the demo; posting needs a separate approval path",
+			"None",
+			Te
+		],
+		[
+			"Agent runtime",
+			"AWS Agent Registry",
+			"Discovery lookup (not invocation)",
+			"Registry MCP endpoint or API",
+			"client → catalog",
+			"Enterprise AI Foundry or registry curator",
+			"AWS",
+			"Bearer token or IAM",
+			"Agent identity",
+			"Agent runtime → AWS",
+			"Metadata only; approved records only",
+			"agent-registry namespace",
+			Ce
+		],
+		[
+			"Git and CI/CD",
+			"AgentCore Runtime, container registry and gateway targets",
+			"Deployment (not invocation)",
+			"AWS control-plane API",
+			"artifact publication",
+			"Cloud platform team",
+			"Organization CI/CD",
+			"Pipeline role",
+			"Deployment identity",
+			"CI/CD → AWS control plane",
+			"Not applicable",
+			"Record submitted for approval",
+			we
+		]
+	],
+	S3: [
+		[
+			"Agent MCP client",
+			"AgentCore Gateway",
+			"MCP endpoint",
+			"MCP over Streamable HTTP",
+			"client → server",
+			"Cloud platform team",
+			"AWS (gateway)",
+			"JWT bearer validated by the gateway authorizer, or IAM",
+			"Agent identity; end-user delegation TO VALIDATE",
+			"Agent runtime → AWS gateway endpoint",
+			j,
+			"AWS Agent Registry reference",
+			Ce
+		],
+		[
+			"AgentCore Gateway",
+			"Apigee MCP endpoint",
+			"Gateway MCP-server target (cross-cloud)",
+			"MCP over Streamable HTTP; version compatibility unproven",
+			"client → server",
+			"SAP integration / API platform team",
+			"Apigee (Google-managed)",
+			"Outbound OAuth (client credentials, authorization code or token exchange) or API key; Apigee must accept it",
+			"Token exchange and user-context carry-over: unproven",
+			"AWS → Google ingress; egress and latency unmeasured",
+			j,
+			"API hub entry; AWS record is a manual reference",
+			Te
+		],
+		[
+			"Apigee MCP proxy",
+			"SAP-facing domain API",
+			"API proxy target",
+			"HTTPS, OpenAPI operation",
+			"tool call mapped to API call",
+			"SAP integration / API platform team",
+			"Apigee",
+			"Target credentials held by Apigee: TBD",
+			"Mapped technical or user identity: TBD",
+			"Apigee → Integration Suite",
+			j,
+			"OpenAPI spec in API hub",
+			Te
+		],
+		[
+			"SAP-facing domain API",
+			"SAP Integration Suite",
+			"API / iFlow",
+			"HTTPS REST or OData",
+			"backend integration",
+			"SAP integration team",
+			"SAP Integration Suite",
+			"OAuth client or certificate",
+			"Technical user or propagated principal",
+			"Customer / SAP BTP boundary",
+			j,
+			"None",
+			we
+		],
+		[
+			"SAP Integration Suite",
+			"SAP S/4HANA · Central Finance · BW/4HANA",
+			"Backend interface",
+			"RFC / OData via Cloud Connector, or direct",
+			"backend integration",
+			"SAP basis and finance",
+			"Customer SAP landscape",
+			"Principal propagation or technical user",
+			"ABAP roles of the mapped user",
+			"Cloud Connector or private link: needs proof",
+			"Read-only in the demo; posting needs a separate approval path",
+			"None",
+			Te
+		],
+		[
+			"Apigee API hub",
+			"AWS Agent Registry",
+			"Registry publication (not invocation)",
+			"Manual registration or custom synchronization",
+			"catalog → catalog",
+			"Enterprise AI Foundry (TBD)",
+			"Across clouds",
+			"Both platforms' IAM",
+			"Platform identity",
+			"Cross-cloud",
+			"Metadata only",
+			"No automatic sync documented; implementation dependency",
+			Te
+		],
+		[
+			"Git and CI/CD",
+			"Apigee organization and AWS gateway target",
+			"Deployment (not invocation)",
+			"Apigee management API and AWS control-plane API",
+			"artifact publication",
+			"Both platform teams",
+			"Organization CI/CD",
+			"Pipeline identities",
+			"Deployment identity",
+			"CI/CD → both control planes",
+			"Not applicable",
+			"Specs in API hub; reference record in AWS",
+			we
+		]
+	]
+}, Ee = [
+	{
+		name: "Finance Read MCP",
+		mode: "READ",
+		tools: "Reconciliation balances · ledger and period data · approved journal and document status · reconciliation exceptions · approved analytics",
+		control: "Own scope and role. Read-only backend operations. No write tool is registered in this domain."
+	},
+	{
+		name: "Finance Posting MCP",
+		mode: "WRITE · APPROVAL-GATED",
+		tools: "Propose reconciliation adjustment · invoke governed approval · validate posting authorization · post via approved SAP business API · read posting confirmation and audit evidence",
+		control: "Separate authorization from read. A proposal does not post. Posting needs a business approval, an agent and gateway allowance, an SAP user authorization, idempotency and a posting-period check. The demo never posts."
+	},
+	{
+		name: "Analytical / Data MCP",
+		mode: "READ · FUTURE",
+		tools: "Authorized Databricks or BDC-backed context · governed snapshots and support data",
+		control: "Data owner and freshness stated per source. Entitlement and scope: TO VALIDATE."
+	}
+], N = [
+	[
+		"Approved enterprise Agent Platform / AI Foundry",
+		"Conditional · remote MCP endpoint reachable",
+		"Conditional · remote MCP endpoint reachable",
+		"Tenant validation"
+	],
+	[
+		"AWS AgentCore Runtime",
+		"Conditional · calls Apigee as a remote MCP server",
+		"Documented · native fit",
+		"Documented for runtime and gateway; Apigee hop needs proof"
+	],
+	[
+		"SAP BTP pro-code runtime",
+		"Conditional · remote MCP endpoint reachable",
+		"Tenant validation",
+		"Tenant validation"
+	],
+	[
+		"Microsoft Foundry hosted agent",
+		"Tenant validation",
+		"Tenant validation",
+		"Tenant validation"
+	],
+	[
+		"Joule Studio",
+		"Tenant validation · eligibility TBD",
+		"Not recommended without proof",
+		"Not recommended without proof"
+	]
+], De = [
+	[
+		"MCP development effort",
+		"Low if tools derive from OpenAPI; higher for a coded server",
+		"Medium: coded server plus container and target setup",
+		"Highest: both stacks plus an interface contract"
+	],
+	[
+		"MCP hosting flexibility",
+		"Limited to proxy exposure unless an external server is added",
+		"High: Runtime hosts arbitrary server code",
+		"High on both sides"
+	],
+	[
+		"Registry maturity",
+		"API hub plus Agent Registry sync; maturity TO VALIDATE",
+		"AWS Agent Registry (preview status on release; TO VALIDATE)",
+		"Two catalogs and no documented sync"
+	],
+	[
+		"Enterprise discovery",
+		"Strong for SAP domain; cross-cloud agents need the Google catalog",
+		"Strong for AWS-resident agents",
+		"Weak without a custom synchronization"
+	],
+	[
+		"Identity propagation",
+		"One gateway hop to prove",
+		"One gateway hop to prove",
+		"Two hops to prove; highest risk"
+	],
+	[
+		"SAP connectivity",
+		"Via Integration Suite",
+		"Via Integration Suite",
+		"Via Integration Suite"
+	],
+	[
+		"Security policy ownership",
+		"SAP-facing team",
+		"Cloud platform team",
+		"Split; double enforcement needs justification"
+	],
+	[
+		"Operational complexity",
+		"Lowest of the three",
+		"Medium",
+		"Highest"
+	],
+	[
+		"Cross-cloud traffic",
+		"Agent to Google if the agent runs elsewhere",
+		"None when the agent runs on AWS",
+		"Always cross-cloud"
+	],
+	[
+		"Vendor lock-in",
+		"Apigee for the domain interface",
+		"AgentCore for gateway and server",
+		"Both"
+	],
+	[
+		"Cost drivers",
+		"Apigee licensing",
+		"AgentCore consumption",
+		"Both plus egress"
+	],
+	[
+		"Observability",
+		"Apigee analytics",
+		"AWS-native tracing",
+		"Needs a propagated trace id"
+	],
+	[
+		"Maintainability",
+		"Spec-driven; one owner",
+		"Code-driven; one owner",
+		"Two owners and a contract"
+	],
+	[
+		"Portability",
+		"MCP is open; proxy policy is Apigee-specific",
+		"MCP server code is portable; gateway config is AWS-specific",
+		"Server code stays portable; two configs"
+	],
+	[
+		"Future BDC alignment",
+		"Open: depends on the BDC MCP surface",
+		"Open",
+		"Open"
+	]
+], Oe = {
+	headline: "ARCHITECTURE_RECOMMENDED (proposal for owner decision, not approval): use S1 as the proof-of-concept baseline for the SAP Finance domain interface.",
+	why: [
+		"It keeps the Finance domain contract on the SAP-facing side (API hub plus Integration Suite), so an agent hosted on AWS or elsewhere consumes it as a remote MCP endpoint without moving Finance logic into AWS.",
+		"It has one gateway hop and one identity mapping to prove, against two for S3.",
+		"Documented Apigee capability fits the read-heavy baseline: OpenAPI-derived tools, API-product tool filtering, OAuth 2.1 / OIDC."
+	],
+	standards: [
+		"An enterprise rule on who owns domain MCP interfaces",
+		"An approved agent platform that can reach Apigee",
+		"An API hub and Agent Registry publication process"
+	],
+	open: [
+		"Delegated user versus service identity for reads and posting",
+		"Principal propagation through Integration Suite and Cloud Connector",
+		"Registry source of truth and approval authority",
+		"Whether Apigee MCP and Agent Registry integration are available in the tenant and region"
+	],
+	changes: [
+		"If enterprise standards already host domain MCP servers on AgentCore, choose S2.",
+		"S3 is justified only by a named control that one gateway cannot meet, for example a mandatory AWS-side tool-access policy for all agents plus SAP-owned domain policy. Without that, S3 duplicates policy.",
+		"A failed Apigee-to-Integration-Suite identity test would reopen all three."
+	],
+	poc: [
+		"Stand up one read tool through the S1 path with a service identity and record the call, token and SAP user in evidence.",
+		"Repeat with user delegation; mark the result PASS, HOLD or NOT_VERIFIED.",
+		"Run a single AgentCore Gateway to Apigee call to settle the S3 protocol and token questions before any S3 commitment."
+	]
+}, ke = [
+	[
+		"Google Apigee",
+		"Apigee MCP overview",
+		"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-overview",
+		"MCP proxies expose existing APIs as MCP tools derived from OpenAPI; OAuth 2.1 and OIDC are supported; a proxy may also front your own MCP server.",
+		"Apigee exposes and governs MCP endpoints; it is not an arbitrary Python server runtime. Domain tools come from OpenAPI or an external server.",
+		"Tenant enablement, region, licensing, hybrid enablement"
+	],
+	[
+		"Google Apigee",
+		"Quickstart: MCP Discovery Proxy",
+		"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-quickstart",
+		"OpenAPI 3.0.0 to 3.0.3; JSON-RPC 2.0 payloads; no SSE streams on GET.",
+		"Spec version and transport limits apply to the baseline.",
+		"Spec compatibility of the Finance APIs"
+	],
+	[
+		"Google Apigee",
+		"Register MCP APIs in API hub",
+		"https://docs.cloud.google.com/apigee/docs/apihub/register-mcp-apis",
+		"API hub imports Apigee MCP proxies and parses specs into tools.",
+		"API hub is the natural SAP-domain MCP catalog in S1 and S3.",
+		"API hub licensing and project setup"
+	],
+	[
+		"Google Apigee",
+		"Agent Registry integration",
+		"https://docs.cloud.google.com/apigee/docs/apihub/manage-agent-registry-integration",
+		"API hub syncs MCP tools and server metadata to Agent Registry; sync is on by default; manually styled MCP APIs are not synced.",
+		"Google-side discovery needs no custom sync, but maturity and release status must be checked.",
+		"Preview or GA status in the tenant"
+	],
+	[
+		"AWS AgentCore",
+		"Gateway outbound authorization",
+		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-outbound-auth.html",
+		"For MCP-server targets: no authorization, gateway role, OAuth (client credentials, authorization code, token exchange) and API key; caller IAM and passthrough are not offered.",
+		"S3 outbound auth to Apigee must use one of these; caller identity cannot be passed through.",
+		"Whether Apigee accepts the chosen method and carries user context"
+	],
+	[
+		"AWS AgentCore",
+		"Runtime MCP servers",
+		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-mcp.html",
+		"Runtime hosts MCP servers (Streamable HTTP) when the protocol is set to MCP; containers use port 8000 on ARM64.",
+		"A coded Finance MCP server in S2 runs on Runtime, not in the Gateway.",
+		"Account, region, image pipeline"
+	],
+	[
+		"AWS AgentCore",
+		"AWS Agent Registry",
+		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry.html",
+		"Registry is a discovery and approval catalog; only approved records are discoverable; newer namespace is agent-registry.",
+		"Registry is a separate layer, not an invocation hop; do not use the older namespace as the target.",
+		"Release status and the current namespace in the account"
+	],
+	[
+		"AWS AgentCore",
+		"Gateway MCP-server targets",
+		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html",
+		"A gateway can register an external MCP server as a target.",
+		"Makes the S3 hop possible in principle; interoperability with Apigee is unproven.",
+		"MCP version match and tool discovery against Apigee"
+	],
+	[
+		"SAP",
+		"Integration Suite: MCP Server",
+		"https://help.sap.com/docs/integration-suite/isuite-integrations-and-apis/model-context-protocol-mcp",
+		"Integration Suite can expose MCP servers from an API, an HTTP endpoint with OpenAPI, or RFC; servers run on Integration Cell.",
+		"This is a fourth, SAP-managed option. It is not assumed in S1 to S3, which use Integration Suite only as the API and integration layer.",
+		"Entitlement, edition and Integration Cell availability"
+	],
+	[
+		"SAP",
+		"Reference architecture for agentic SAP access",
+		"https://architecture.learning.sap.com/docs/ref-arch/76ec36",
+		"SAP reference architecture for agents and MCP access.",
+		"Used as context only.",
+		"Fit to our landscape"
+	],
+	[
+		"SAP Community",
+		"Principal propagation for MCP servers",
+		"https://community.sap.com/t5/technology-blog-posts-by-sap/principal-propagation-for-mcp-servers-sap-integration-suite-to-sap-s-4hana/ba-p/14488137",
+		"Describes propagation through Integration Suite and Cloud Connector; a client-credentials token carries no user.",
+		"Secondary source. End-to-end propagation must be proven in our tenant.",
+		"Token exchange, mapping and ABAP authorization"
+	]
+], Ae = `Sources were read on ${ye}. Vendor documents describe product capability only. They are not evidence of our tenant's entitlement, activation or approval.`, P = (e, t, n, r, i, a) => ({
+	id: e,
+	row: t,
+	col: n,
+	title: r,
+	sub: i,
+	kind: a
+}), je = {
+	idp: P("idp", 0, 0, "Enterprise identity provider", "OAuth 2.1 / OIDC · user and agent identity", "identity"),
+	ent: P("ent", 3, 0, "Enterprise AI Foundry", "Publication and approval authority · TBD", "registry"),
+	repo: P("repo", 4, 0, "Git repository", "Source, specs, tool definitions, tests", "artifact")
+}, Me = {
+	S1: {
+		cols: 5,
+		nodes: [
+			je.idp,
+			je.ent,
+			je.repo,
+			P("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
+			P("gw", 1, 1, "Apigee MCP endpoint", "MCP gateway · OAuth and API-product policy", "gateway"),
+			P("dom", 1, 2, "SAP Finance domain tools", "Read domain and separate posting domain · derived from OpenAPI", "domain"),
+			P("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
+			P("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
+			P("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
+			P("hub", 3, 2, "Apigee API hub", "SAP-domain MCP catalog (proposed)", "registry"),
+			P("reg", 3, 3, "Google Agent Registry", "Synced from API hub · maturity TO VALIDATE", "registry"),
+			P("cicd", 4, 1, "CI/CD → Apigee deploy", "Proxies, products, policies", "artifact"),
+			P("spec", 4, 2, "OpenAPI and tool specs", "Versioned in Git, registered in API hub", "artifact")
+		],
+		edges: [
+			[
+				"agent",
+				"gw",
+				"invoke",
+				"MCP tools/call"
+			],
+			[
+				"gw",
+				"dom",
+				"invoke",
+				"proxy flow"
+			],
+			[
+				"dom",
+				"int",
+				"invoke",
+				"HTTPS API"
+			],
+			[
+				"int",
+				"sap",
+				"invoke",
+				"RFC / OData"
+			],
+			[
+				"dom",
+				"data",
+				"invoke",
+				"analytics read"
+			],
+			[
+				"idp",
+				"agent",
+				"identity",
+				"agent / user token"
+			],
+			[
+				"idp",
+				"gw",
+				"identity",
+				"token validation"
+			],
+			[
+				"agent",
+				"hub",
+				"registry",
+				"discover"
+			],
+			[
+				"hub",
+				"reg",
+				"registry",
+				"sync"
+			],
+			[
+				"ent",
+				"hub",
+				"approval",
+				"approve publication"
+			],
+			[
+				"repo",
+				"cicd",
+				"deploy",
+				"commit"
+			],
+			[
+				"cicd",
+				"gw",
+				"deploy",
+				"deploy proxy"
+			],
+			[
+				"spec",
+				"hub",
+				"deploy",
+				"register spec"
+			]
+		],
+		bounds: [[
+			"Google Apigee (external to AWS)",
+			["gw", "dom"],
+			"google"
+		], [
+			"SAP landscape",
+			["int", "sap"],
+			"sap"
+		]]
+	},
+	S2: {
+		cols: 5,
+		nodes: [
+			je.idp,
+			je.ent,
+			je.repo,
+			P("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
+			P("gw", 1, 1, "AgentCore Gateway", "MCP gateway · inbound auth, outbound credentials · no custom tool code", "gateway"),
+			P("dom", 1, 2, "Finance domain MCP server", "Coded server on AgentCore Runtime, or gateway-generated tools", "domain"),
+			P("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
+			P("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
+			P("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
+			P("aid", 0, 1, "AgentCore Identity", "Credential providers for outbound auth", "identity"),
+			P("reg", 3, 2, "AWS Agent Registry", "Discovery and approval · agent-registry namespace", "registry"),
+			P("cicd", 4, 1, "CI/CD → AWS deploy", "Runtime image, gateway targets", "artifact"),
+			P("ecr", 4, 2, "Container registry (ECR)", "Runtime image for the MCP server", "artifact")
+		],
+		edges: [
+			[
+				"agent",
+				"gw",
+				"invoke",
+				"MCP tools/call"
+			],
+			[
+				"gw",
+				"dom",
+				"invoke",
+				"MCP target"
+			],
+			[
+				"dom",
+				"int",
+				"invoke",
+				"HTTPS API"
+			],
+			[
+				"int",
+				"sap",
+				"invoke",
+				"RFC / OData"
+			],
+			[
+				"dom",
+				"data",
+				"invoke",
+				"analytics read"
+			],
+			[
+				"idp",
+				"agent",
+				"identity",
+				"agent / user token"
+			],
+			[
+				"idp",
+				"gw",
+				"identity",
+				"JWT validation"
+			],
+			[
+				"aid",
+				"gw",
+				"identity",
+				"outbound credentials"
+			],
+			[
+				"agent",
+				"reg",
+				"registry",
+				"discover"
+			],
+			[
+				"ent",
+				"reg",
+				"approval",
+				"approve records"
+			],
+			[
+				"repo",
+				"cicd",
+				"deploy",
+				"commit"
+			],
+			[
+				"cicd",
+				"ecr",
+				"deploy",
+				"push image"
+			],
+			[
+				"cicd",
+				"gw",
+				"deploy",
+				"target config"
+			]
+		],
+		bounds: [[
+			"AWS trust boundary",
+			[
+				"agent",
+				"gw",
+				"dom"
+			],
+			"aws"
+		], [
+			"SAP landscape",
+			["int", "sap"],
+			"sap"
+		]]
+	},
+	S3: {
+		cols: 6,
+		nodes: [
+			je.idp,
+			je.ent,
+			je.repo,
+			P("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
+			P("gw", 1, 1, "AgentCore Gateway", "First gateway · agent entry on AWS", "gateway"),
+			P("gw2", 1, 2, "Apigee MCP endpoint", "Second gateway · SAP-domain policy", "gateway"),
+			P("dom", 1, 3, "SAP Finance domain tools", "Owned on the SAP-facing side · from OpenAPI", "domain"),
+			P("int", 1, 4, "SAP Integration Suite", "API and iFlow layer", "integration"),
+			P("sap", 1, 5, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
+			P("data", 2, 4, "Analytical MCP · Databricks / BDC", "Future state · TO VALIDATE", "data"),
+			P("aid", 0, 1, "AgentCore Identity", "Outbound token handling", "identity"),
+			P("areg", 3, 1, "AWS Agent Registry", "Reference record · manual or custom sync", "registry"),
+			P("hub", 3, 3, "Apigee API hub", "SAP-domain source of truth (proposed)", "registry"),
+			P("cicd", 4, 2, "CI/CD → both platforms", "Apigee bundle and AWS target", "artifact"),
+			P("spec", 4, 3, "Specs and interface contract", "OpenAPI plus cross-gateway contract", "artifact")
+		],
+		edges: [
+			[
+				"agent",
+				"gw",
+				"invoke",
+				"MCP tools/call"
+			],
+			[
+				"gw",
+				"gw2",
+				"invoke",
+				"MCP target · unproven"
+			],
+			[
+				"gw2",
+				"dom",
+				"invoke",
+				"proxy flow"
+			],
+			[
+				"dom",
+				"int",
+				"invoke",
+				"HTTPS API"
+			],
+			[
+				"int",
+				"sap",
+				"invoke",
+				"RFC / OData"
+			],
+			[
+				"dom",
+				"data",
+				"invoke",
+				"analytics read"
+			],
+			[
+				"idp",
+				"agent",
+				"identity",
+				"agent / user token"
+			],
+			[
+				"aid",
+				"gw",
+				"identity",
+				"token exchange?"
+			],
+			[
+				"idp",
+				"gw2",
+				"identity",
+				"token validation"
+			],
+			[
+				"agent",
+				"areg",
+				"registry",
+				"discover"
+			],
+			[
+				"hub",
+				"areg",
+				"registry",
+				"manual reference"
+			],
+			[
+				"ent",
+				"areg",
+				"approval",
+				"approve"
+			],
+			[
+				"repo",
+				"cicd",
+				"deploy",
+				"commit"
+			],
+			[
+				"cicd",
+				"gw2",
+				"deploy",
+				"deploy proxy"
+			],
+			[
+				"spec",
+				"hub",
+				"deploy",
+				"register spec"
+			]
+		],
+		bounds: [
+			[
+				"AWS",
+				["agent", "gw"],
+				"aws"
+			],
+			[
+				"Google Apigee",
+				["gw2", "dom"],
+				"google"
+			],
+			[
+				"SAP landscape",
+				["int", "sap"],
+				"sap"
+			]
+		]
+	}
+}, Ne = {
+	control: "#FFFFFF",
+	decision: "#FFF8EE",
+	agent: "#E8F1FB",
+	gateway: "#FFF1E0",
+	domain: "#EAF6EC",
+	integration: "#F0EAF8",
+	backend: "#E3E9EF",
+	data: "#EEF2F5",
+	registry: "#E5F5F2",
+	artifact: "#F3F3F3",
+	identity: "#FFF7DA"
+}, Pe = {
+	invoke: {
+		c: "#0A4F9E",
+		w: 2.6,
+		d: ""
+	},
+	registry: {
+		c: "#0C8F76",
+		w: 2,
+		d: "7 4"
+	},
+	deploy: {
+		c: "#6B6B6B",
+		w: 2,
+		d: "2 4"
+	},
+	identity: {
+		c: "#C26A00",
+		w: 2,
+		d: "8 3 2 3"
+	},
+	approval: {
+		c: "#B3261E",
+		w: 2.4,
+		d: "10 3"
+	},
+	return: {
+		c: "#0C8F76",
+		w: 2.2,
+		d: "7 4"
+	}
+}, Fe = [
+	["invoke", "Runtime invocation"],
+	["registry", "Registry / discovery"],
+	["deploy", "Deployment / artifacts"],
+	["identity", "Identity / authentication"],
+	["approval", "Approval-gated operation"]
+], Ie = {
+	google: "#C26A00",
+	aws: "#0A4F9E",
+	sap: "#5B3F8C"
+}, Le = (e) => String(e).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function Re(e, t) {
+	let n = [], r = "";
+	for (let i of String(e).split(" ")) (r + " " + i).trim().length > t && r ? (n.push(r), r = i) : r = (r + " " + i).trim();
+	return r && n.push(r), n;
+}
+var ze = [
+	[104, "IDENTITY AND SECURITY"],
+	[224, "RUNTIME INVOCATION PATH"],
+	[392, "DATA / ANALYTICS BRANCH"],
+	[514, "REGISTRY AND DISCOVERY (NOT AN INVOCATION HOP)"],
+	[654, "ARTIFACT REPOSITORY AND DEPLOYMENT"]
+], Be = "Proposed design for review. Vendor names are design projections, not connected services. Placeholders are not tenant addresses. Registry and deployment arrows are not invocation traffic.";
+function Ve(e) {
+	let t = Me[e], n = xe[e];
+	return He({
+		...t,
+		title: `${n.label} · MCP topology`,
+		chain: n.chain,
+		banner: "PROPOSED DESIGN · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
+		captions: ze,
+		legend: Fe,
+		footer: Be
+	});
+}
+function He(e) {
+	let t = e.height || 840, n = e.nh || 92, r = (1140 - (e.cols - 1) * 30) / e.cols, i = e.ys || [
+		118,
+		258,
+		398,
+		528,
+		668
+	], a = {};
+	for (let t of e.nodes) {
+		let e = t.span || 1;
+		a[t.id] = {
+			x: 30 + t.col * (r + 30),
+			y: i[t.row],
+			w: e * r + (e - 1) * 30,
+			h: t.h || n,
+			n: t
+		};
+	}
+	let o = [];
+	for (let [t, n, r] of e.bounds) {
+		let e = n.map((e) => a[e]), i = Math.min(...e.map((e) => e.x)) - 10, s = Math.min(...e.map((e) => e.y)) - 24, c = Math.max(...e.map((e) => e.x + e.w)) + 10, l = Math.max(...e.map((e) => e.y + e.h)) + 10;
+		o.push(`<rect x="${i}" y="${s}" width="${c - i}" height="${l - s}" rx="8" fill="none" stroke="${Ie[r]}" stroke-width="2" stroke-dasharray="14 5"/>`), o.push(`<text x="${i + 8}" y="${s + 15}" font-size="12" font-weight="700" fill="${Ie[r]}">${Le(t)}</text>`);
+	}
+	let s = (e, t, n = "end") => o.push(`<text x="${n === "end" ? 1170 : 30}" y="${e}" font-size="11.5" font-weight="700" fill="#506778" text-anchor="${n}">${t}</text>`);
+	for (let [t, n, r] of e.captions) s(t, n, r);
+	let c = [], l = [], u = {};
+	for (let [t, n, r, i, s = {}] of e.edges) {
+		let e = r === "identity" ? u[t] = (u[t] ?? -1) + 1 : 0, d = a[t], f = a[n], p = s.active ? {
+			...Pe[r],
+			c: "#E9730C",
+			w: Pe[r].w + 1
+		} : Pe[r], m = {
+			x: d.x + d.w / 2,
+			y: d.y + d.h / 2
+		}, h = {
+			x: f.x + f.w / 2,
+			y: f.y + f.h / 2
+		}, g, _, v, y, b, x, S;
+		if (r === "return" && d.n.row === f.n.row && !s.straight) {
+			let e = d.x + d.w / 2, t = f.x + f.w / 2, n = d.y + d.h, r = n + 56;
+			g = `M${e},${n} L${e},${r} L${t},${r} L${t},${n}`, _ = (e + t) / 2, v = r - 7, y = t, b = n, x = 0, S = -1;
+		} else if (d.n.row === f.n.row) {
+			let e = d.x < f.x, t = e ? d.x + d.w : d.x, n = e ? f.x : f.x + f.w, i = m.y + (r === "identity" ? 14 : 0);
+			g = `M${t},${i} L${n},${i}`, _ = (t + n) / 2, v = d.y + d.h + (d.n.row === 1 ? 26 : 14), y = n, b = i, x = e ? 1 : -1, S = 0;
+		} else {
+			let t = d.y < f.y, n = t ? d.y + d.h : d.y, i = t ? f.y : f.y + f.h, a = r === "identity" ? 14 + e * 40 : r === "approval" ? -12 : s.off || 0, o = m.x + a, c = h.x + a, l = s.my ?? (n + i) / 2;
+			g = `M${o},${n} L${o},${l} L${c},${l} L${c},${i}`, r === "identity" ? (_ = o, v = n + (t ? 18 + e * 14 : -8)) : s.labelAt === "mid" ? (_ = (o + c) / 2, v = l - 6) : (_ = c, v = t ? i - 8 : i + 20), y = c, b = i, x = 0, S = t ? 1 : -1;
+		}
+		o.push(`<path d="${g}" fill="none" stroke="${p.c}" stroke-width="${p.w}"${p.d ? ` stroke-dasharray="${p.d}"` : ""}${s.active ? " class=\"live-flow\"" : ""} data-edge="${t}-${n}"/>`), l.push(x === 0 ? `<polygon points="${y},${b} ${y - 7 * .7},${b - S * 7 * 1.6} ${y + 7 * .7},${b - S * 7 * 1.6}" fill="${p.c}"/>` : `<polygon points="${y},${b} ${y - x * 7 * 1.6},${b - 7 * .7} ${y - x * 7 * 1.6},${b + 7 * .7}" fill="${p.c}"/>`), c.push([
+			_,
+			v,
+			i,
+			p.c
+		]);
+	}
+	o.push(...l);
+	for (let t of e.nodes) {
+		let e = a[t.id], n = `${t.stage ? " data-stage=\"1\"" : ""}${t.kind === "control" ? " data-control=\"1\"" : ""}`;
+		o.push(`<rect data-node="${t.id}"${n} x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="${Ne[t.kind]}" stroke="${t.stroke || "#506778"}" stroke-width="${t.strokeWidth || 1.4}"${t.dashed ? " stroke-dasharray=\"7 4\"" : ""}${t.cls ? ` class="${t.cls}"` : ""}/>`);
+		let r = Re(t.title, Math.floor(e.w / 7.1)).slice(0, 2);
+		r.forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + n * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${Le(t)}</text>`)), Re(t.sub, Math.floor((e.w - 8) / 5.7)).slice(0, Math.max(2, Math.floor((e.h - 20 - r.length * 15 - 8) / 12.5) - +!!t.status)).forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + r.length * 15 + n * 12.5}" font-size="10.5" fill="#34495C">${Le(t)}</text>`)), t.status && o.push(`<text x="${e.x + 8}" y="${e.y + e.h - 9}" font-size="10.5" font-weight="700" fill="${t.statusColor || "#34495C"}">${Le(t.status)}</text>`), t.zone && o.push(`<rect data-zone="${Le(t.zone)}" x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="transparent"/>`);
+	}
+	for (let [e, t, n, r] of c) {
+		let i = n.length * 5.6 + 10;
+		o.push(`<rect x="${e - i / 2}" y="${t - 11}" width="${i}" height="15" rx="3" fill="#F1F4F7" opacity="0.94"/><text x="${e}" y="${t}" font-size="10.5" font-weight="600" fill="${r}" text-anchor="middle">${Le(n)}</text>`);
+	}
+	let d = 30;
+	o.push(`<rect x="22" y="${t - 54}" width="1156" height="40" rx="6" fill="#FFFFFF" stroke="#D9E1E7"/>`), o.push(`<text x="30" y="${t - 36}" font-size="11" font-weight="700" fill="#506778">LEGEND</text>`);
+	for (let [n, r] of e.legend) {
+		let e = Pe[n];
+		o.push(`<line x1="${d + 60}" y1="${t - 40}" x2="${d + 90}" y2="${t - 40}" stroke="${e.c}" stroke-width="${e.w}"${e.d ? ` stroke-dasharray="${e.d}"` : ""}/><text x="${d + 96}" y="${t - 36}" font-size="11" fill="#1D2D3E">${Le(r)}</text>`), d += 96 + r.length * 5.4 + 8;
+	}
+	o.push(`<text x="30" y="${t - 20}" font-size="10.5" fill="#506778">${Le(e.footer)}</text>`);
+	let f = e.title;
+	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${t}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${Le(f)}</title><desc id="d">${Le(e.chain)}</desc><rect width="1200" height="${t}" fill="#F1F4F7"/><text x="30" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${Le(f)}</text><text x="30" y="62" font-size="12" fill="#34495C">${Le(e.chain.length > 150 ? e.chain.slice(0, 147) + "…" : e.chain)}</text><text x="30" y="82" font-size="11" fill="#B3261E" font-weight="700">${Le(e.banner)}</text>${o.join("")}</svg>\n`;
+}
+// src/landscapeDiagrams.js
+var Ue = [...[
+	"S1",
+	"S2",
+	"S3"
+].map((e) => ({
+	key: `mcp-${e}`,
+	kind: "mcp",
+	id: e,
+	tab: _e[e].title.split(" · ")[0] + " path",
+	title: _e[e].title
+})), ...[
+	["agentcore", "AgentCore"],
+	["btp", "SAP BTP"],
+	["microsoft", "Foundry"],
+	["joule", "Joule"]
+].map(([e, t]) => ({
+	key: `host-${e}`,
+	kind: "hosting",
+	id: e,
+	tab: `Host · ${t}`,
+	title: ve[e].title
+}))], F = (e, t, n, r, i, a, o = {}) => ({
+	id: e,
+	row: t,
+	col: n,
+	title: r,
+	sub: i,
+	kind: a,
+	...o
+}), We = [
+	["invoke", "Request / tool call"],
+	["return", "Evidence / response"],
+	["identity", "Identity / authentication"]
+], Ge = [
+	[104, "IDENTITY AND SECURITY"],
+	[224, "REQUEST AND TOOL-CALL PATH"],
+	[514, "CROSS-CUTTING CONTROLS · design dependencies, not proved connections"],
+	[654, "OPEN DECISION"]
+];
+function Ke(e) {
+	return e.type === "ux" ? "agent" : e.type === "agent" ? "domain" : e.type === "gateway" ? "gateway" : /backend/i.test(e.label) ? "backend" : "integration";
+}
+function qe(e, t) {
+	let n = (e === "mcp" ? _e : ve)[t], r = n.stages.length, i = n.stages.map((e, t) => F(`s${t}`, 1, t, e.label, `${e.owner}. ${e.detail}`, Ke(e), {
+		h: 124,
+		stage: !0
+	}));
+	i.push(F("idp", 0, 0, "Identity and access", "Caller or service identity is proved at every hop. The SAP backend role check is the final authorization.", "identity"));
+	let a = r / 4;
+	n.controls.forEach(([e, t], n) => i.push(F(`c${n}`, 3, n * a, e, t, "control", {
+		span: a,
+		h: 108
+	}))), i.push(F("decision", 4, 0, "Open decision", n.decision, "decision", {
+		span: r,
+		h: 70
+	}));
+	let o = n.stages.slice(1).map((e, t) => [
+		`s${t}`,
+		`s${t + 1}`,
+		"invoke",
+		n.stages[t].out
+	]);
+	o.push([
+		`s${r - 1}`,
+		"s0",
+		"return",
+		n.returnFlow
+	]);
+	let s = n.stages.findIndex((e) => e.type === "gateway");
+	return o.push([
+		"idp",
+		"s1",
+		"identity",
+		"agent identity"
+	]), s > 1 && o.push([
+		"idp",
+		`s${s}`,
+		"identity",
+		"tool credential"
+	]), He({
+		cols: r,
+		nodes: i,
+		edges: o,
+		bounds: [[
+			"SAP landscape",
+			n.stages.map((e, t) => e.type === "sap" && t > 0 ? `s${t}` : null).filter(Boolean),
+			"sap"
+		]],
+		captions: Ge,
+		legend: We,
+		title: n.title,
+		chain: n.stages.map((e) => e.label).join(" → "),
+		banner: n.status.toUpperCase(),
+		footer: "Proposed design for review. Vendor names are design projections, not connected services. Nothing here is an approved tenant architecture."
+	});
+}
+// src/DetailedDiagrams.jsx
+var Je = 1200, Ye = 840, Xe = 12, Ze = [2, 4], Qe = (e, t, n) => Math.min(n, Math.max(t, e)), $e = {
+	S1: {
+		id: "S1",
+		tab: "S1 · Google Apigee MCP",
+		title: "S1 · Google Apigee MCP",
+		svg: de,
+		gateway: "Google Apigee MCP, external to AWS",
+		summary: "The custom agent runs on Amazon Bedrock AgentCore Runtime and reaches the finance-owned domain MCP tools, SAP BAIP and the SAP backends through one MCP gateway: Google Apigee, outside the AWS boundary. Apigee applies inbound authorization and outbound target credentials; read paths return results over the same mediated path."
+	},
+	S2: {
+		id: "S2",
+		tab: "S2 · AgentCore Gateway MCP",
+		title: "S2 · AgentCore Gateway MCP",
+		svg: fe,
+		gateway: "AgentCore Gateway MCP, inside AWS",
+		summary: "The same agent and downstream path, but the single MCP gateway is AgentCore Gateway inside the AWS trust boundary. Inbound authorization and outbound target credentials are applied by the gateway before the finance-owned domain MCP tools, SAP BAIP and the SAP backends."
+	}
+}, et = Object.fromEntries(Ue.map((e) => {
+	let t = (e.kind === "mcp" ? _e : ve)[e.id];
+	return [e.key, {
+		id: e.key,
+		tab: e.tab,
+		title: e.title,
+		svg: qe(e.kind, e.id),
+		file: `landscape-${e.key}`,
+		png: !0,
+		landscape: !0,
+		data: t,
+		summary: `${t.status}. ${t.decision}`
+	}];
+})), tt = "Only MCP gateway placement and its inbound / outbound auth controls change. Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.", nt = [
+	[
+		"Lane 03 MCP gateway",
+		"Google Apigee · external to AWS",
+		"AgentCore Gateway · inside AWS"
+	],
+	[
+		"Trust boundary",
+		"Gateway sits outside the AWS boundary",
+		"AWS trust boundary encloses lanes 02 and 03"
+	],
+	[
+		"MCP entry detail",
+		"Apigee mode TBD",
+		"Target type TBD"
+	],
+	[
+		"Colour coding",
+		"Gateway lane in orange (external)",
+		"Gateway lane in blue (AWS)"
+	],
+	[
+		"Common to both",
+		"ONE selected gateway · no Portkey MCP",
+		"ONE selected gateway · no Portkey MCP"
+	]
+], rt = [
+	"Delegation versus service identity: TO VALIDATE",
+	"Integration Suite / iFlow identity propagation: TBD",
+	"Mapped principal and ABAP roles at each SAP backend: TO VALIDATE",
+	"Operation allowlist and outbound target credential or exchange: TBD",
+	"Direct API versus iFlow / Cloud Connector route per backend; private route needs proof",
+	"SAP Business Data Cloud and Databricks entitlement and scope: TO VALIDATE (future state)"
+];
+function it(e, t) {
+	return e.replace("aria-labelledby=\"t d\"", `aria-labelledby="${t}-t ${t}-d"`).replace("id=\"t\"", `id="${t}-t"`).replace("id=\"d\"", `id="${t}-d"`);
+}
+function at(e) {
+	return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${e}`], { type: "image/svg+xml" });
+}
+function ot({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onExpand: o, compact: s, onPick: c }) {
+	let l = e.w || Je, u = e.h || Ye, d = (0, b.useRef)(null), f = (0, b.useRef)(null), p = (0, b.useRef)(null), m = (0, b.useRef)(n), h = (0, b.useRef)({
+		s: .5,
+		x: 0,
+		y: 0
+	}), g = (0, b.useRef)(!0), _ = (0, b.useRef)(/* @__PURE__ */ new Map()), v = (0, b.useRef)(null);
+	m.current = n;
+	let y = (0, b.useRef)(r), S = (0, b.useRef)(i);
+	y.current = r, S.current = i;
+	let C = (0, b.useMemo)(() => it(e.svg, t), [e, t]), w = (0, b.useCallback)(() => {
+		let e = f.current?.getBoundingClientRect();
+		if (!e || !e.width || !e.height) return null;
+		let t = Math.min((e.width - 16) / l, (e.height - 16) / u);
+		return {
+			s: t,
+			x: (e.width - l * t) / 2,
+			y: (e.height - u * t) / 2
+		};
+	}, [l, u]), T = (0, b.useCallback)(() => {
+		let e = w();
+		e && (h.current = e, g.current = !0, S.current(e));
+	}, [w]);
+	(0, b.useLayoutEffect)(() => {
+		T();
+	}, [
+		T,
+		a,
+		e.id
+	]), (0, b.useEffect)(() => {
+		let e = f.current;
+		if (!e || typeof ResizeObserver > "u") return;
+		let t = new ResizeObserver(() => {
+			if (g.current) T();
+			else {
+				let e = w();
+				e && (h.current = e);
+			}
+		});
+		return t.observe(e), () => t.disconnect();
+	}, [T, w]);
+	let ee = (0, b.useCallback)((e, t, n) => {
+		let r = m.current;
+		if (!r) return;
+		let i = Math.max(.05, h.current.s * .5), a = Qe(r.s * e, i, Xe), o = a / r.s;
+		g.current = !1, y.current({
+			s: a,
+			x: t - (t - r.x) * o,
+			y: n - (n - r.y) * o
+		});
+	}, []), E = (e) => {
+		let t = f.current.getBoundingClientRect();
+		ee(e, t.width / 2, t.height / 2);
+	}, D = (e, t) => {
+		let n = m.current;
+		n && (g.current = !1, y.current({
+			...n,
+			x: n.x + e,
+			y: n.y + t
+		}));
+	}, te = () => {
+		let e = f.current.getBoundingClientRect(), t = m.current, n = 1 / t.s;
+		g.current = !1;
+		let r = e.width / 2, i = e.height / 2;
+		y.current({
+			s: 1,
+			x: r - (r - t.x) * n,
+			y: i - (i - t.y) * n
+		});
+	};
+	(0, b.useEffect)(() => {
+		let e = f.current;
+		if (!e) return;
+		let t = (t) => {
+			t.preventDefault();
+			let n = e.getBoundingClientRect(), r = t.deltaMode === 1 ? 32 : t.deltaMode === 2 ? 400 : 1;
+			ee(Math.exp(-t.deltaY * r * (t.ctrlKey ? .01 : .0016)), t.clientX - n.left, t.clientY - n.top);
+		};
+		return e.addEventListener("wheel", t, { passive: !1 }), () => e.removeEventListener("wheel", t);
+	}, [ee]);
+	let ne = (e) => {
+		if (!e.target.closest("button") && (f.current.setPointerCapture?.(e.pointerId), _.current.set(e.pointerId, {
+			x: e.clientX,
+			y: e.clientY
+		}), d.current = {
+			x: e.clientX,
+			y: e.clientY
+		}, _.current.size === 2)) {
+			let [e, t] = [..._.current.values()];
+			v.current = Math.hypot(e.x - t.x, e.y - t.y);
+		}
+	}, re = (e) => {
+		let t = _.current.get(e.pointerId);
+		if (!t) return;
+		let n = {
+			x: e.clientX,
+			y: e.clientY
+		};
+		if (_.current.size === 1) D(n.x - t.x, n.y - t.y);
+		else if (_.current.size === 2 && v.current) {
+			_.current.set(e.pointerId, n);
+			let [t, r] = [..._.current.values()], i = Math.hypot(t.x - r.x, t.y - r.y), a = f.current.getBoundingClientRect();
+			ee(i / v.current, (t.x + r.x) / 2 - a.left, (t.y + r.y) / 2 - a.top), v.current = i;
+			return;
+		}
+		_.current.set(e.pointerId, n);
+	}, ie = (e) => {
+		let t = d.current;
+		if (_.current.delete(e.pointerId), _.current.size < 2 && (v.current = null), c && t && e.type === "pointerup" && _.current.size === 0 && Math.hypot(e.clientX - t.x, e.clientY - t.y) < 5) {
+			let t = f.current?.getRootNode?.(), n = (t?.elementFromPoint ? t : document).elementFromPoint(e.clientX, e.clientY)?.closest?.("[data-zone]");
+			n && c(n.getAttribute("data-zone"));
+		}
+		d.current = null;
+	}, ae = (e) => {
+		if (e.key === "+" || e.key === "=") E(1.25);
+		else if (e.key === "-" || e.key === "_") E(.8);
+		else if (e.key === "0") T();
+		else if (e.key === "1") te();
+		else if (e.key === "ArrowLeft") D(60, 0);
+		else if (e.key === "ArrowRight") D(-60, 0);
+		else if (e.key === "ArrowUp") D(0, 60);
+		else if (e.key === "ArrowDown") D(0, -60);
+		else if (e.key === "Escape" && a) o(!1);
+		else return;
+		e.preventDefault(), e.stopPropagation();
+	};
+	(0, b.useEffect)(() => {
+		if (!a) return;
+		let e = (e) => {
+			e.key === "Escape" && o(!1);
+		};
+		document.addEventListener("keydown", e);
+		let t = () => {
+			!document.fullscreenElement && a && o(!1);
+		};
+		return document.addEventListener("fullscreenchange", t), () => {
+			document.removeEventListener("keydown", e), document.removeEventListener("fullscreenchange", t);
+		};
+	}, [a, o]);
+	let oe = () => {
+		if (a) document.fullscreenElement && document.exitFullscreen?.().catch(() => {}), o(!1);
+		else {
+			o(!0);
+			try {
+				p.current?.requestFullscreen?.().catch(() => {});
+			} catch {}
+		}
+	}, se = () => {
+		let t = URL.createObjectURL(at(e.svg));
+		window.open(t, "_blank", "noopener"), setTimeout(() => URL.revokeObjectURL(t), 6e4);
+	}, ce = () => {
+		let t = URL.createObjectURL(at(e.svg)), n = document.createElement("a");
+		n.href = t, n.download = `${e.file || `finance-architecture-${e.id.toLowerCase()}`}.svg`, document.body.appendChild(n), n.click(), n.remove(), setTimeout(() => URL.revokeObjectURL(t), 1e3);
+	}, le = (t) => {
+		let n = URL.createObjectURL(at(e.svg)), r = new Image();
+		r.onload = () => {
+			let i = document.createElement("canvas");
+			i.width = l * t, i.height = u * t, i.getContext("2d").drawImage(r, 0, 0, i.width, i.height), URL.revokeObjectURL(n), i.toBlob((n) => {
+				if (!n) return;
+				let r = URL.createObjectURL(n), i = document.createElement("a");
+				i.href = r, i.download = `${e.file || `finance-architecture-${e.id.toLowerCase()}`}-${t}x.png`, document.body.appendChild(i), i.click(), i.remove(), setTimeout(() => URL.revokeObjectURL(r), 1e3);
+			}, "image/png");
+		}, r.onerror = () => URL.revokeObjectURL(n), r.src = n;
+	}, ue = Math.round((n?.s || 0) * 100), de = n ? `translate(${n.x}px,${n.y}px) scale(${n.s})` : "none";
+	return /* @__PURE__ */ (0, x.jsxs)("div", {
+		ref: p,
+		className: `dd-viewer ${a ? "expanded" : ""} ${s ? "compact" : ""}`,
+		children: [/* @__PURE__ */ (0, x.jsxs)("div", {
+			className: "dd-toolbar",
+			role: "toolbar",
+			"aria-label": `${e.title} viewer controls`,
+			children: [/* @__PURE__ */ (0, x.jsxs)("strong", {
+				className: "dd-viewer-title",
+				children: [/* @__PURE__ */ (0, x.jsx)("span", {
+					className: `dd-dot ${e.id.toLowerCase()}`,
+					"aria-hidden": "true"
+				}), e.title]
+			}), /* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "dd-tools",
+				children: [
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: () => E(.8),
+						"aria-label": `Zoom out ${e.id}`,
+						title: "Zoom out (−)",
+						children: "−"
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("output", {
+						className: "dd-zoom",
+						"aria-live": "polite",
+						"aria-label": `${e.id} zoom level`,
+						children: [ue, "%"]
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: () => E(1.25),
+						"aria-label": `Zoom in ${e.id}`,
+						title: "Zoom in (+)",
+						children: "+"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: T,
+						"aria-label": `Reset ${e.id} view to fit`,
+						title: "Reset to fit (0)",
+						children: "Reset"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: te,
+						"aria-label": `${e.id} actual size`,
+						title: "Actual size, 100% (1)",
+						children: "100%"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: oe,
+						"aria-label": a ? `Exit expanded ${e.id} view` : `Expand ${e.id} to full screen`,
+						"aria-pressed": a,
+						children: a ? "Close ✕" : "Expand ⤢"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: se,
+						title: "Open the vector SVG in a new browser tab",
+						children: "Open full-size ↗"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: ce,
+						title: "Download the vector SVG",
+						children: "SVG ⤓"
+					}),
+					e.png && Ze.map((t) => /* @__PURE__ */ (0, x.jsxs)("button", {
+						type: "button",
+						onClick: () => le(t),
+						"aria-label": `Download ${e.id} as ${t}x PNG`,
+						title: `Download a ${l * t} x ${u * t} px PNG`,
+						children: [
+							"PNG ",
+							t,
+							"× ⤓"
+						]
+					}, t))
+				]
+			})]
+		}), /* @__PURE__ */ (0, x.jsxs)("div", {
+			ref: f,
+			className: "dd-viewport",
+			tabIndex: 0,
+			role: "group",
+			"aria-label": `${e.title} diagram. Scroll or pinch to zoom, drag to pan. Keys: plus and minus zoom, arrow keys pan, 0 resets, 1 actual size.`,
+			onPointerDown: ne,
+			onPointerMove: re,
+			onPointerUp: ie,
+			onPointerCancel: ie,
+			onKeyDown: ae,
+			onDoubleClick: (e) => {
+				if (e.target.closest("button")) return;
+				let t = f.current.getBoundingClientRect();
+				ee(1.8, e.clientX - t.left, e.clientY - t.top);
+			},
+			children: [/* @__PURE__ */ (0, x.jsx)("div", {
+				className: "dd-stage",
+				"data-testid": `diagram-${e.id}`,
+				style: {
+					width: l,
+					height: u,
+					transform: de
+				},
+				dangerouslySetInnerHTML: { __html: C }
+			}), /* @__PURE__ */ (0, x.jsx)("span", {
+				className: "dd-hint",
+				"aria-hidden": "true",
+				children: "Scroll to zoom · drag to pan · double-click to zoom in"
+			})]
+		})]
+	});
+}
+function st({ view: e = "S1", onView: t, onBack: n }) {
+	let [r, i] = (0, b.useState)(null), [a, o] = (0, b.useState)(null), [s, c] = (0, b.useState)(!0), [l, u] = (0, b.useState)(null), d = e === "compare", f = (e) => {
+		u(null), t(e);
+	}, p = !!et[e], m = et[e] || $e[d ? "S1" : e] || $e.S1, h = (0, b.useCallback)((e) => {
+		i(e), o(e);
+	}, []), g = ["S1", "S2"];
+	return /* @__PURE__ */ (0, x.jsxs)("main", {
+		className: "detailed-diagrams",
+		"aria-label": "Detailed architecture diagrams",
+		children: [
+			/* @__PURE__ */ (0, x.jsxs)("header", {
+				className: "surface dd-header",
+				children: [
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "dd-title",
+						children: [/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "eyebrow",
+							children: p ? "ARCHITECTURE DIAGRAMS · LANDSCAPE PATH (GENERATED VECTOR)" : "ARCHITECTURE DIAGRAMS · DETAILED L2 VIEW (VECTOR)"
+						}), /* @__PURE__ */ (0, x.jsx)("h2", { children: d ? "S1 and S2 side by side" : m.title })]
+					}),
+					/* @__PURE__ */ (0, x.jsx)("nav", {
+						className: "dd-selector",
+						role: "tablist",
+						"aria-label": "Detailed diagram selection",
+						children: [...g, "compare"].map((t) => /* @__PURE__ */ (0, x.jsx)("button", {
+							type: "button",
+							role: "tab",
+							"aria-selected": e === t,
+							className: e === t ? "active" : "",
+							onClick: () => f(t),
+							children: t === "compare" ? "Compare side-by-side" : $e[t].tab
+						}, t))
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "dd-header-actions",
+						children: [/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "pill warn",
+							children: "PROPOSED DESIGN · REVIEW DRAFT · NOT TENANT-VERIFIED"
+						}), /* @__PURE__ */ (0, x.jsx)("button", {
+							type: "button",
+							onClick: n,
+							children: "← Architecture pros & cons"
+						})]
+					})
+				]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("section", {
+				className: "surface dd-summary",
+				"aria-label": "Diagram summary",
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+					className: "eyebrow",
+					children: d ? "WHAT THIS VIEW SHOWS" : p ? "LANDSCAPE PATH · STATUS AND OPEN DECISION" : `${m.id} · MCP GATEWAY`
+				}), /* @__PURE__ */ (0, x.jsx)("p", { children: d ? "Both detailed diagrams share one worked month-end reconciliation path. Use the synchronized viewers to inspect lane 03 (MCP gateway) and the AWS trust boundary, where they differ." : m.summary })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
+					className: "dd-invariant",
+					children: [/* @__PURE__ */ (0, x.jsx)("span", {
+						className: "eyebrow",
+						children: "SCENARIO INVARIANT"
+					}), /* @__PURE__ */ (0, x.jsx)("p", { children: tt })]
+				})]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("section", {
+				className: "surface dd-landscape-bar",
+				"aria-label": "Landscape diagrams",
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+					className: "eyebrow",
+					children: "LANDSCAPE PATHS"
+				}), /* @__PURE__ */ (0, x.jsx)("strong", { children: "MCP route and agent-hosting diagrams" })] }), /* @__PURE__ */ (0, x.jsx)("nav", {
+					className: "dd-selector",
+					role: "tablist",
+					"aria-label": "Landscape diagram selection",
+					children: Ue.map((t) => /* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						role: "tab",
+						"aria-selected": e === t.key,
+						className: e === t.key ? "active" : "",
+						onClick: () => f(t.key),
+						children: t.tab
+					}, t.key))
+				})]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: `dd-body ${d ? "is-compare" : ""}`,
+				children: [d ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("div", {
+					className: "dd-compare-bar surface",
+					children: [/* @__PURE__ */ (0, x.jsxs)("label", { children: [/* @__PURE__ */ (0, x.jsx)("input", {
+						type: "checkbox",
+						checked: s,
+						onChange: (e) => c(e.target.checked)
+					}), " Synchronize zoom and pan"] }), /* @__PURE__ */ (0, x.jsx)("span", { children: "Zoom into lane 03 and the AWS trust boundary to see where the two options differ." })]
+				}), /* @__PURE__ */ (0, x.jsx)("div", {
+					className: "dd-compare-grid",
+					children: g.map((e, t) => /* @__PURE__ */ (0, x.jsx)(ot, {
+						diagram: $e[e],
+						uid: `dd-${e}-cmp`,
+						compact: !0,
+						view: t === 0 ? r : a,
+						onView: (e) => {
+							s ? h(e) : (t === 0 ? i : o)(e);
+						},
+						onFit: (e) => {
+							s ? h(e) : (t === 0 ? i : o)(e);
+						},
+						expanded: l === e,
+						onExpand: (t) => u(t ? e : null)
+					}, e))
+				})] }) : /* @__PURE__ */ (0, x.jsx)(ot, {
+					diagram: m,
+					uid: `dd-${m.id}`,
+					view: r,
+					onView: i,
+					onFit: i,
+					expanded: l === m.id,
+					onExpand: (e) => u(e ? m.id : null)
+				}, m.id), p ? /* @__PURE__ */ (0, x.jsxs)("aside", {
+					className: "surface dd-side",
+					"aria-label": "Controls and open decision",
+					children: [
+						/* @__PURE__ */ (0, x.jsx)("h3", { children: "Cross-cutting controls" }),
+						/* @__PURE__ */ (0, x.jsx)("ul", { children: m.data.controls.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("li", { children: [
+							/* @__PURE__ */ (0, x.jsxs)("strong", { children: [e, "."] }),
+							" ",
+							t
+						] }, e)) }),
+						/* @__PURE__ */ (0, x.jsx)("h3", { children: "Open decision" }),
+						/* @__PURE__ */ (0, x.jsx)("p", { children: m.data.decision }),
+						/* @__PURE__ */ (0, x.jsx)("p", {
+							className: "micro",
+							children: "Vendor-named components are design projections, not connected services."
+						}),
+						/* @__PURE__ */ (0, x.jsx)("a", {
+							className: "text-link",
+							href: m.data.source,
+							target: "_blank",
+							rel: "noreferrer",
+							children: "Vendor reference ↗"
+						}),
+						/* @__PURE__ */ (0, x.jsx)("button", {
+							type: "button",
+							className: "text-link",
+							onClick: n,
+							children: "Back to architecture pros & cons →"
+						})
+					]
+				}) : /* @__PURE__ */ (0, x.jsxs)("aside", {
+					className: "surface dd-side",
+					"aria-label": "Key differences and open validations",
+					children: [
+						/* @__PURE__ */ (0, x.jsx)("h3", { children: "What changes between S1 and S2" }),
+						/* @__PURE__ */ (0, x.jsxs)("table", { children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+							/* @__PURE__ */ (0, x.jsx)("th", {
+								scope: "col",
+								children: "Item"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("th", {
+								scope: "col",
+								children: "S1"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("th", {
+								scope: "col",
+								children: "S2"
+							})
+						] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: nt.map(([t, n, r]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+							/* @__PURE__ */ (0, x.jsx)("th", {
+								scope: "row",
+								children: t
+							}),
+							/* @__PURE__ */ (0, x.jsx)("td", {
+								className: e === "S2" ? "dim" : "",
+								children: n
+							}),
+							/* @__PURE__ */ (0, x.jsx)("td", {
+								className: e === "S1" ? "dim" : "",
+								children: r
+							})
+						] }, t)) })] }),
+						/* @__PURE__ */ (0, x.jsx)("h3", { children: "Open validations shown in the diagram" }),
+						/* @__PURE__ */ (0, x.jsx)("ul", { children: rt.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) }),
+						/* @__PURE__ */ (0, x.jsx)("p", {
+							className: "micro",
+							children: "Vendor-named components are design projections, not connected services. S3 has no detailed L2 diagram; see the S3 landscape path."
+						}),
+						/* @__PURE__ */ (0, x.jsx)("button", {
+							type: "button",
+							className: "text-link",
+							onClick: n,
+							children: "Back to architecture pros & cons →"
+						})
+					]
+				})]
+			})
+		]
+	});
+}
+// src/ArchitectureDiagram.jsx
+function ct({ kind: e, id: t, onClose: n, onDetails: r }) {
+	let i = (e === "mcp" ? _e : ve)[t], [a, o] = (0, b.useState)(null), [s, c] = (0, b.useState)(!1), l = (0, b.useMemo)(() => i ? {
+		id: `${e}-${t}`,
+		title: i.title,
+		svg: qe(e, t),
+		file: `landscape-${e}-${t}`,
+		png: !0
+	} : null, [
+		i,
+		e,
+		t
+	]);
 	return (0, b.useEffect)(() => {
 		let e = (e) => {
 			e.key === "Escape" && n();
@@ -10752,45 +12725,17 @@ function he({ kind: e, id: t, onClose: n, onDetails: r }) {
 						children: "Close"
 					})] })]
 				}),
-				/* @__PURE__ */ (0, x.jsxs)("div", {
-					className: "arch-diagram-canvas",
-					children: [
-						/* @__PURE__ */ (0, x.jsxs)("div", {
-							className: "arch-diagram-boundary",
-							children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Request and tool call" }), /* @__PURE__ */ (0, x.jsx)("span", { children: "Left to right · proposed component path" })]
-						}),
-						/* @__PURE__ */ (0, x.jsx)("div", {
-							className: "arch-diagram-flow",
-							children: i.stages.map((e, t) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [t > 0 && /* @__PURE__ */ (0, x.jsx)("span", {
-								className: "arch-diagram-arrow",
-								"aria-hidden": "true",
-								children: "→"
-							}), /* @__PURE__ */ (0, x.jsxs)("article", {
-								className: `arch-diagram-node ${e.type}`,
-								children: [
-									/* @__PURE__ */ (0, x.jsxs)("span", { children: [
-										String(t + 1).padStart(2, "0"),
-										" · ",
-										e.owner
-									] }),
-									/* @__PURE__ */ (0, x.jsx)("h3", { children: e.label }),
-									/* @__PURE__ */ (0, x.jsx)("p", { children: e.detail }),
-									/* @__PURE__ */ (0, x.jsxs)("small", { children: ["Out: ", e.out] })
-								]
-							})] }, `${e.label}-${t}`))
-						}),
-						/* @__PURE__ */ (0, x.jsxs)("div", {
-							className: "arch-diagram-return",
-							children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "← Evidence and response" }), /* @__PURE__ */ (0, x.jsx)("span", { children: i.returnFlow })]
-						}),
-						/* @__PURE__ */ (0, x.jsxs)("div", {
-							className: "arch-diagram-controls",
-							children: [/* @__PURE__ */ (0, x.jsxs)("div", {
-								className: "arch-diagram-control-heading",
-								children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Cross-cutting controls" }), /* @__PURE__ */ (0, x.jsx)("span", { children: "These are design dependencies, not proved connections." })]
-							}), i.controls.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e }), /* @__PURE__ */ (0, x.jsx)("span", { children: t })] }, e))]
-						})
-					]
+				/* @__PURE__ */ (0, x.jsx)("div", {
+					className: "arch-diagram-viewer",
+					children: /* @__PURE__ */ (0, x.jsx)(ot, {
+						diagram: l,
+						uid: `arch-${e}-${t}`,
+						view: a,
+						onView: o,
+						onFit: o,
+						expanded: s,
+						onExpand: c
+					})
 				}),
 				/* @__PURE__ */ (0, x.jsxs)("footer", {
 					className: "arch-diagram-footer",
@@ -10814,7 +12759,7 @@ function he({ kind: e, id: t, onClose: n, onDetails: r }) {
 	}) : null;
 }
 // src/McpApproaches.jsx
-var ge = {
+var lt = {
 	S1: {
 		name: "SAP Apigee MCP · direct agent access",
 		position: "SAP domain baseline · direct access policy open",
@@ -10908,7 +12853,7 @@ var ge = {
 		agentcore: "Register the externally reachable Apigee HTTPS MCP URL as an MCP-server target. Configure supported protocol, inbound agent authorization, outbound OAuth or approved token exchange, listing mode, egress and catalog synchronization.",
 		sap: "Publish and secure Apigee tools; map them to Integration Suite and backend APIs. Validate principal or scoped service identity, finance role and company/ledger authorization at the final SAP target."
 	}
-}, _e = [
+}, ut = [
 	[
 		"Agent host",
 		"Demo: AgentCore Runtime; AWS-free host to decide",
@@ -10957,7 +12902,7 @@ var ge = {
 		"AWS hosting and target mode open",
 		"Combined path open"
 	]
-], ve = [
+], dt = [
 	{
 		id: "S1",
 		agent: "AgentCore Runtime in demo; other approved host possible",
@@ -10980,8 +12925,8 @@ var ge = {
 		state: "Combined path approval open"
 	}
 ];
-function ye({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernance: r }) {
-	let [i, a] = (0, b.useState)("S1"), [o, s] = (0, b.useState)(null), [c, l] = (0, b.useState)(null), u = i === "compare" ? null : i, d = u ? ge[u] : null, f = u ? e[u] : null, p = u ? ve.find((e) => e.id === u) : null, m = le.find((e) => e.id === o);
+function ft({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernance: r }) {
+	let [i, a] = (0, b.useState)("S1"), [o, s] = (0, b.useState)(null), [c, l] = (0, b.useState)(null), u = i === "compare" ? null : i, d = u ? lt[u] : null, f = u ? e[u] : null, p = u ? dt.find((e) => e.id === u) : null, m = ue.find((e) => e.id === o);
 	(0, b.useEffect)(() => {
 		if (!o) return;
 		let e = (e) => {
@@ -10990,7 +12935,7 @@ function ye({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 		return window.addEventListener("keydown", e), () => window.removeEventListener("keydown", e);
 	}, [o]);
 	let h = [
-		..._e,
+		...ut,
 		...[
 			"Simplicity",
 			"Cost efficiency",
@@ -11000,17 +12945,17 @@ function ye({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 			"S1",
 			"S2",
 			"S3"
-		].map((e) => `${ge[e].criteria[t][1]} — ${ge[e].criteria[t][2]}`)]),
+		].map((e) => `${lt[e].criteria[t][1]} — ${lt[e].criteria[t][2]}`)]),
 		["Benefits", ...[
 			"S1",
 			"S2",
 			"S3"
-		].map((e) => ge[e].benefits.join(" • "))],
+		].map((e) => lt[e].benefits.join(" • "))],
 		["Tradeoffs", ...[
 			"S1",
 			"S2",
 			"S3"
-		].map((e) => ge[e].tradeoffs.join(" • "))],
+		].map((e) => lt[e].tradeoffs.join(" • "))],
 		["Open decisions", ...[
 			"S1",
 			"S2",
@@ -11046,7 +12991,7 @@ function ye({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 					"aria-selected": i === e,
 					className: i === e ? "active" : "",
 					onClick: () => a(e),
-					children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e === "compare" ? "Compare all" : e }), /* @__PURE__ */ (0, x.jsx)("span", { children: e === "compare" ? "MCP route comparison" : ge[e].name })]
+					children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e === "compare" ? "Compare all" : e }), /* @__PURE__ */ (0, x.jsx)("span", { children: e === "compare" ? "MCP route comparison" : lt[e].name })]
 				}, e))
 			}),
 			u ? /* @__PURE__ */ (0, x.jsxs)("section", {
@@ -11146,8 +13091,8 @@ function ye({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 					})]
 				}), /* @__PURE__ */ (0, x.jsx)("div", {
 					className: "mcp-bird-compare-grid",
-					children: ve.map((e) => {
-						let t = ge[e.id];
+					children: dt.map((e) => {
+						let t = lt[e.id];
 						return /* @__PURE__ */ (0, x.jsxs)("article", { children: [
 							/* @__PURE__ */ (0, x.jsxs)("h4", { children: [
 								e.id,
@@ -11182,7 +13127,7 @@ function ye({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 					}), /* @__PURE__ */ (0, x.jsx)("h3", { children: "Where the custom SAP finance agent could run" })] }), /* @__PURE__ */ (0, x.jsx)("p", { children: "Model access and SAP tool authorization need their own approval." })]
 				}), /* @__PURE__ */ (0, x.jsx)("div", {
 					className: "mcp-bird-host-grid",
-					children: le.map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
+					children: ue.map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
 						onClick: () => l({
 							kind: "hosting",
@@ -11197,7 +13142,7 @@ function ye({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 					}, e.id))
 				})]
 			}),
-			c && /* @__PURE__ */ (0, x.jsx)(he, {
+			c && /* @__PURE__ */ (0, x.jsx)(ct, {
 				kind: c.kind,
 				id: c.id,
 				onClose: () => l(null),
@@ -11317,1718 +13262,8 @@ function ye({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 		]
 	});
 }
-// src/diagrams/s1.svg?raw
-var be = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S1 · Google Apigee MCP</title><desc id=\"d\">Detailed architecture diagram S1 · Google Apigee MCP converted from the supplied deck</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#103C68\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#DCEBFA\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E5\" stroke=\"none\"/><text x=\"1010.12\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#E4781B\" text-anchor=\"start\">S1  ·  Google Apigee MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#557086\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C7D3DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1265AD\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Google Apigee · external to AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#007F79\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#7251AD\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1265AD\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Apigee mode TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#E4781B\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#A6825A\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#7251AD\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C7D3DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1265AD\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#007F79\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#007F79\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C7D3DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#007F79\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#007F79\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#007F79\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#007F79\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#7251AD\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#007F79\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#A6825A\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#A6825A\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#A6825A\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#A6825A\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#A6825A\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#A6825A\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#A6825A\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#1265AD\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#1265AD\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#1265AD\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#1265AD\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#E4781B\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#007F79\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#E4781B\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C7D3DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#103C68\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#7251AD\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#A6825A\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#557086\" text-anchor=\"start\">S1 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", A = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S2 · AgentCore Gateway MCP</title><desc id=\"d\">Detailed architecture diagram S2 · AgentCore Gateway MCP converted from the supplied deck</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#103C68\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#DCEBFA\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E5\" stroke=\"none\"/><text x=\"999.93\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#E4781B\" text-anchor=\"start\">S2  ·  AgentCore Gateway MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#557086\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C7D3DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1265AD\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"132.56\" y=\"172.59\" width=\"446.51\" height=\"315.53\" rx=\"7.06\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"475.12\" y=\"162.71\" width=\"71.51\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C7D3DE\" stroke-width=\"0.28\"/><text x=\"480.63\" y=\"171.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1265AD\" text-anchor=\"start\">AWS trust boundary</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">AgentCore Gateway · inside AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#007F79\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#7251AD\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1265AD\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Target type TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1265AD\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#A6825A\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#7251AD\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F1ECFA\" stroke=\"#7251AD\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#7251AD\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#7251AD\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C7D3DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1265AD\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#007F79\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#007F79\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C7D3DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#007F79\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#1265AD\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#007F79\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#007F79\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#E4781B\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#007F79\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#007F79\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#007F79\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#7251AD\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#007F79\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#007F79\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#A6825A\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#A6825A\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#557086\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#FBF7F1\" stroke=\"#A6825A\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#A6825A\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#557086\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#A6825A\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#A6825A\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#A6825A\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#A6825A\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#1265AD\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#1265AD\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#1265AD\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#1265AD\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#E4781B\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#007F79\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#E4781B\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C7D3DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#103C68\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#EAF3FC\" stroke=\"#1265AD\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E5\" stroke=\"#E4781B\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#17324D\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#557086\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#7251AD\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#1265AD\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#1265AD\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#E4781B\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#E4781B\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#7251AD\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#7251AD\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#A6825A\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#A6825A\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#557086\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#557086\" text-anchor=\"start\">S2 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", j = 1200, xe = 840, Se = 12, Ce = [2, 4], we = (e, t, n) => Math.min(n, Math.max(t, e)), M = {
-	S1: {
-		id: "S1",
-		tab: "S1 · Google Apigee MCP",
-		title: "S1 · Google Apigee MCP",
-		svg: be,
-		gateway: "Google Apigee MCP, external to AWS",
-		summary: "The custom agent runs on Amazon Bedrock AgentCore Runtime and reaches the finance-owned domain MCP tools, SAP BAIP and the SAP backends through one MCP gateway: Google Apigee, outside the AWS boundary. Apigee applies inbound authorization and outbound target credentials; read paths return results over the same mediated path."
-	},
-	S2: {
-		id: "S2",
-		tab: "S2 · AgentCore Gateway MCP",
-		title: "S2 · AgentCore Gateway MCP",
-		svg: A,
-		gateway: "AgentCore Gateway MCP, inside AWS",
-		summary: "The same agent and downstream path, but the single MCP gateway is AgentCore Gateway inside the AWS trust boundary. Inbound authorization and outbound target credentials are applied by the gateway before the finance-owned domain MCP tools, SAP BAIP and the SAP backends."
-	}
-}, N = "Only MCP gateway placement and its inbound / outbound auth controls change. Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.", Te = [
-	[
-		"Lane 03 MCP gateway",
-		"Google Apigee · external to AWS",
-		"AgentCore Gateway · inside AWS"
-	],
-	[
-		"Trust boundary",
-		"Gateway sits outside the AWS boundary",
-		"AWS trust boundary encloses lanes 02 and 03"
-	],
-	[
-		"MCP entry detail",
-		"Apigee mode TBD",
-		"Target type TBD"
-	],
-	[
-		"Colour coding",
-		"Gateway lane in orange (external)",
-		"Gateway lane in blue (AWS)"
-	],
-	[
-		"Common to both",
-		"ONE selected gateway · no Portkey MCP",
-		"ONE selected gateway · no Portkey MCP"
-	]
-], Ee = [
-	"Delegation versus service identity: TO VALIDATE",
-	"Integration Suite / iFlow identity propagation: TBD",
-	"Mapped principal and ABAP roles at each SAP backend: TO VALIDATE",
-	"Operation allowlist and outbound target credential or exchange: TBD",
-	"Direct API versus iFlow / Cloud Connector route per backend; private route needs proof",
-	"SAP Business Data Cloud and Databricks entitlement and scope: TO VALIDATE (future state)"
-];
-function De(e, t) {
-	return e.replace("aria-labelledby=\"t d\"", `aria-labelledby="${t}-t ${t}-d"`).replace("id=\"t\"", `id="${t}-t"`).replace("id=\"d\"", `id="${t}-d"`);
-}
-function Oe(e) {
-	return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${e}`], { type: "image/svg+xml" });
-}
-function P({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onExpand: o, compact: s }) {
-	let c = (0, b.useRef)(null), l = (0, b.useRef)(null), u = (0, b.useRef)(n), d = (0, b.useRef)({
-		s: .5,
-		x: 0,
-		y: 0
-	}), f = (0, b.useRef)(!0), p = (0, b.useRef)(/* @__PURE__ */ new Map()), m = (0, b.useRef)(null);
-	u.current = n;
-	let h = (0, b.useRef)(r), g = (0, b.useRef)(i);
-	h.current = r, g.current = i;
-	let _ = (0, b.useMemo)(() => De(e.svg, t), [e, t]), v = (0, b.useCallback)(() => {
-		let e = c.current?.getBoundingClientRect();
-		if (!e || !e.width || !e.height) return null;
-		let t = Math.min((e.width - 16) / j, (e.height - 16) / xe);
-		return {
-			s: t,
-			x: (e.width - j * t) / 2,
-			y: (e.height - xe * t) / 2
-		};
-	}, []), y = (0, b.useCallback)(() => {
-		let e = v();
-		e && (d.current = e, f.current = !0, g.current(e));
-	}, [v]);
-	(0, b.useLayoutEffect)(() => {
-		y();
-	}, [
-		y,
-		a,
-		e.id
-	]), (0, b.useEffect)(() => {
-		let e = c.current;
-		if (!e || typeof ResizeObserver > "u") return;
-		let t = new ResizeObserver(() => {
-			if (f.current) y();
-			else {
-				let e = v();
-				e && (d.current = e);
-			}
-		});
-		return t.observe(e), () => t.disconnect();
-	}, [y, v]);
-	let S = (0, b.useCallback)((e, t, n) => {
-		let r = u.current;
-		if (!r) return;
-		let i = Math.max(.05, d.current.s * .5), a = we(r.s * e, i, Se), o = a / r.s;
-		f.current = !1, h.current({
-			s: a,
-			x: t - (t - r.x) * o,
-			y: n - (n - r.y) * o
-		});
-	}, []), C = (e) => {
-		let t = c.current.getBoundingClientRect();
-		S(e, t.width / 2, t.height / 2);
-	}, w = (e, t) => {
-		let n = u.current;
-		n && (f.current = !1, h.current({
-			...n,
-			x: n.x + e,
-			y: n.y + t
-		}));
-	}, T = () => {
-		let e = c.current.getBoundingClientRect(), t = u.current, n = 1 / t.s;
-		f.current = !1;
-		let r = e.width / 2, i = e.height / 2;
-		h.current({
-			s: 1,
-			x: r - (r - t.x) * n,
-			y: i - (i - t.y) * n
-		});
-	};
-	(0, b.useEffect)(() => {
-		let e = c.current;
-		if (!e) return;
-		let t = (t) => {
-			t.preventDefault();
-			let n = e.getBoundingClientRect(), r = t.deltaMode === 1 ? 32 : t.deltaMode === 2 ? 400 : 1;
-			S(Math.exp(-t.deltaY * r * (t.ctrlKey ? .01 : .0016)), t.clientX - n.left, t.clientY - n.top);
-		};
-		return e.addEventListener("wheel", t, { passive: !1 }), () => e.removeEventListener("wheel", t);
-	}, [S]);
-	let ee = (e) => {
-		if (!e.target.closest("button") && (c.current.setPointerCapture?.(e.pointerId), p.current.set(e.pointerId, {
-			x: e.clientX,
-			y: e.clientY
-		}), p.current.size === 2)) {
-			let [e, t] = [...p.current.values()];
-			m.current = Math.hypot(e.x - t.x, e.y - t.y);
-		}
-	}, E = (e) => {
-		let t = p.current.get(e.pointerId);
-		if (!t) return;
-		let n = {
-			x: e.clientX,
-			y: e.clientY
-		};
-		if (p.current.size === 1) w(n.x - t.x, n.y - t.y);
-		else if (p.current.size === 2 && m.current) {
-			p.current.set(e.pointerId, n);
-			let [t, r] = [...p.current.values()], i = Math.hypot(t.x - r.x, t.y - r.y), a = c.current.getBoundingClientRect();
-			S(i / m.current, (t.x + r.x) / 2 - a.left, (t.y + r.y) / 2 - a.top), m.current = i;
-			return;
-		}
-		p.current.set(e.pointerId, n);
-	}, D = (e) => {
-		p.current.delete(e.pointerId), p.current.size < 2 && (m.current = null);
-	}, te = (e) => {
-		if (e.key === "+" || e.key === "=") C(1.25);
-		else if (e.key === "-" || e.key === "_") C(.8);
-		else if (e.key === "0") y();
-		else if (e.key === "1") T();
-		else if (e.key === "ArrowLeft") w(60, 0);
-		else if (e.key === "ArrowRight") w(-60, 0);
-		else if (e.key === "ArrowUp") w(0, 60);
-		else if (e.key === "ArrowDown") w(0, -60);
-		else if (e.key === "Escape" && a) o(!1);
-		else return;
-		e.preventDefault(), e.stopPropagation();
-	};
-	(0, b.useEffect)(() => {
-		if (!a) return;
-		let e = (e) => {
-			e.key === "Escape" && o(!1);
-		};
-		document.addEventListener("keydown", e);
-		let t = () => {
-			!document.fullscreenElement && a && o(!1);
-		};
-		return document.addEventListener("fullscreenchange", t), () => {
-			document.removeEventListener("keydown", e), document.removeEventListener("fullscreenchange", t);
-		};
-	}, [a, o]);
-	let ne = () => {
-		if (a) document.fullscreenElement && document.exitFullscreen?.().catch(() => {}), o(!1);
-		else {
-			o(!0);
-			try {
-				l.current?.requestFullscreen?.().catch(() => {});
-			} catch {}
-		}
-	}, O = () => {
-		let t = URL.createObjectURL(Oe(e.svg));
-		window.open(t, "_blank", "noopener"), setTimeout(() => URL.revokeObjectURL(t), 6e4);
-	}, re = () => {
-		let t = URL.createObjectURL(Oe(e.svg)), n = document.createElement("a");
-		n.href = t, n.download = `${e.file || `finance-architecture-${e.id.toLowerCase()}`}.svg`, document.body.appendChild(n), n.click(), n.remove(), setTimeout(() => URL.revokeObjectURL(t), 1e3);
-	}, ie = (t) => {
-		let n = URL.createObjectURL(Oe(e.svg)), r = new Image();
-		r.onload = () => {
-			let i = document.createElement("canvas");
-			i.width = j * t, i.height = xe * t, i.getContext("2d").drawImage(r, 0, 0, i.width, i.height), URL.revokeObjectURL(n), i.toBlob((n) => {
-				if (!n) return;
-				let r = URL.createObjectURL(n), i = document.createElement("a");
-				i.href = r, i.download = `${e.file || `finance-architecture-${e.id.toLowerCase()}`}-${t}x.png`, document.body.appendChild(i), i.click(), i.remove(), setTimeout(() => URL.revokeObjectURL(r), 1e3);
-			}, "image/png");
-		}, r.onerror = () => URL.revokeObjectURL(n), r.src = n;
-	}, ae = Math.round((n?.s || 0) * 100), oe = n ? `translate(${n.x}px,${n.y}px) scale(${n.s})` : "none";
-	return /* @__PURE__ */ (0, x.jsxs)("div", {
-		ref: l,
-		className: `dd-viewer ${a ? "expanded" : ""} ${s ? "compact" : ""}`,
-		children: [/* @__PURE__ */ (0, x.jsxs)("div", {
-			className: "dd-toolbar",
-			role: "toolbar",
-			"aria-label": `${e.title} viewer controls`,
-			children: [/* @__PURE__ */ (0, x.jsxs)("strong", {
-				className: "dd-viewer-title",
-				children: [/* @__PURE__ */ (0, x.jsx)("span", {
-					className: `dd-dot ${e.id.toLowerCase()}`,
-					"aria-hidden": "true"
-				}), e.title]
-			}), /* @__PURE__ */ (0, x.jsxs)("div", {
-				className: "dd-tools",
-				children: [
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						type: "button",
-						onClick: () => C(.8),
-						"aria-label": `Zoom out ${e.id}`,
-						title: "Zoom out (−)",
-						children: "−"
-					}),
-					/* @__PURE__ */ (0, x.jsxs)("output", {
-						className: "dd-zoom",
-						"aria-live": "polite",
-						"aria-label": `${e.id} zoom level`,
-						children: [ae, "%"]
-					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						type: "button",
-						onClick: () => C(1.25),
-						"aria-label": `Zoom in ${e.id}`,
-						title: "Zoom in (+)",
-						children: "+"
-					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						type: "button",
-						onClick: y,
-						"aria-label": `Reset ${e.id} view to fit`,
-						title: "Reset to fit (0)",
-						children: "Reset"
-					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						type: "button",
-						onClick: T,
-						"aria-label": `${e.id} actual size`,
-						title: "Actual size, 100% (1)",
-						children: "100%"
-					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						type: "button",
-						onClick: ne,
-						"aria-label": a ? `Exit expanded ${e.id} view` : `Expand ${e.id} to full screen`,
-						"aria-pressed": a,
-						children: a ? "Close ✕" : "Expand ⤢"
-					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						type: "button",
-						onClick: O,
-						title: "Open the vector SVG in a new browser tab",
-						children: "Open full-size ↗"
-					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						type: "button",
-						onClick: re,
-						title: "Download the vector SVG",
-						children: "SVG ⤓"
-					}),
-					e.png && Ce.map((t) => /* @__PURE__ */ (0, x.jsxs)("button", {
-						type: "button",
-						onClick: () => ie(t),
-						"aria-label": `Download ${e.id} as ${t}x PNG`,
-						title: `Download a ${j * t} x ${xe * t} px PNG`,
-						children: [
-							"PNG ",
-							t,
-							"× ⤓"
-						]
-					}, t))
-				]
-			})]
-		}), /* @__PURE__ */ (0, x.jsxs)("div", {
-			ref: c,
-			className: "dd-viewport",
-			tabIndex: 0,
-			role: "group",
-			"aria-label": `${e.title} diagram. Scroll or pinch to zoom, drag to pan. Keys: plus and minus zoom, arrow keys pan, 0 resets, 1 actual size.`,
-			onPointerDown: ee,
-			onPointerMove: E,
-			onPointerUp: D,
-			onPointerCancel: D,
-			onKeyDown: te,
-			onDoubleClick: (e) => {
-				if (e.target.closest("button")) return;
-				let t = c.current.getBoundingClientRect();
-				S(1.8, e.clientX - t.left, e.clientY - t.top);
-			},
-			children: [/* @__PURE__ */ (0, x.jsx)("div", {
-				className: "dd-stage",
-				"data-testid": `diagram-${e.id}`,
-				style: {
-					width: j,
-					height: xe,
-					transform: oe
-				},
-				dangerouslySetInnerHTML: { __html: _ }
-			}), /* @__PURE__ */ (0, x.jsx)("span", {
-				className: "dd-hint",
-				"aria-hidden": "true",
-				children: "Scroll to zoom · drag to pan · double-click to zoom in"
-			})]
-		})]
-	});
-}
-function ke({ view: e = "S1", onView: t, onBack: n }) {
-	let [r, i] = (0, b.useState)(null), [a, o] = (0, b.useState)(null), [s, c] = (0, b.useState)(!0), [l, u] = (0, b.useState)(null), d = e === "compare", f = (e) => {
-		u(null), t(e);
-	}, p = M[d ? "S1" : e] || M.S1, m = (0, b.useCallback)((e) => {
-		i(e), o(e);
-	}, []), h = ["S1", "S2"];
-	return /* @__PURE__ */ (0, x.jsxs)("main", {
-		className: "detailed-diagrams",
-		"aria-label": "Detailed architecture diagrams",
-		children: [
-			/* @__PURE__ */ (0, x.jsxs)("header", {
-				className: "surface dd-header",
-				children: [
-					/* @__PURE__ */ (0, x.jsxs)("div", {
-						className: "dd-title",
-						children: [/* @__PURE__ */ (0, x.jsx)("span", {
-							className: "eyebrow",
-							children: "ARCHITECTURE DIAGRAMS · DETAILED L2 REFERENCE"
-						}), /* @__PURE__ */ (0, x.jsx)("h2", { children: d ? "S1 and S2 side by side" : p.title })]
-					}),
-					/* @__PURE__ */ (0, x.jsx)("nav", {
-						className: "dd-selector",
-						role: "tablist",
-						"aria-label": "Detailed diagram selection",
-						children: [...h, "compare"].map((t) => /* @__PURE__ */ (0, x.jsx)("button", {
-							type: "button",
-							role: "tab",
-							"aria-selected": e === t,
-							className: e === t ? "active" : "",
-							onClick: () => f(t),
-							children: t === "compare" ? "Compare side-by-side" : M[t].tab
-						}, t))
-					}),
-					/* @__PURE__ */ (0, x.jsxs)("div", {
-						className: "dd-header-actions",
-						children: [/* @__PURE__ */ (0, x.jsx)("span", {
-							className: "pill warn",
-							children: "PROPOSED DESIGN · REVIEW DRAFT · NOT TENANT-VERIFIED"
-						}), /* @__PURE__ */ (0, x.jsx)("button", {
-							type: "button",
-							onClick: n,
-							children: "← Architecture pros & cons"
-						})]
-					})
-				]
-			}),
-			/* @__PURE__ */ (0, x.jsxs)("section", {
-				className: "surface dd-summary",
-				"aria-label": "Diagram summary",
-				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
-					className: "eyebrow",
-					children: d ? "WHAT THIS VIEW SHOWS" : `${p.id} · MCP GATEWAY`
-				}), /* @__PURE__ */ (0, x.jsx)("p", { children: d ? "Both detailed diagrams share one worked month-end reconciliation path. Use the synchronized viewers to inspect lane 03 (MCP gateway) and the AWS trust boundary, where they differ." : p.summary })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
-					className: "dd-invariant",
-					children: [/* @__PURE__ */ (0, x.jsx)("span", {
-						className: "eyebrow",
-						children: "SCENARIO INVARIANT"
-					}), /* @__PURE__ */ (0, x.jsx)("p", { children: N })]
-				})]
-			}),
-			/* @__PURE__ */ (0, x.jsxs)("div", {
-				className: `dd-body ${d ? "is-compare" : ""}`,
-				children: [d ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("div", {
-					className: "dd-compare-bar surface",
-					children: [/* @__PURE__ */ (0, x.jsxs)("label", { children: [/* @__PURE__ */ (0, x.jsx)("input", {
-						type: "checkbox",
-						checked: s,
-						onChange: (e) => c(e.target.checked)
-					}), " Synchronize zoom and pan"] }), /* @__PURE__ */ (0, x.jsx)("span", { children: "Zoom into lane 03 and the AWS trust boundary to see where the two options differ." })]
-				}), /* @__PURE__ */ (0, x.jsx)("div", {
-					className: "dd-compare-grid",
-					children: h.map((e, t) => /* @__PURE__ */ (0, x.jsx)(P, {
-						diagram: M[e],
-						uid: `dd-${e}-cmp`,
-						compact: !0,
-						view: t === 0 ? r : a,
-						onView: (e) => {
-							s ? m(e) : (t === 0 ? i : o)(e);
-						},
-						onFit: (e) => {
-							s ? m(e) : (t === 0 ? i : o)(e);
-						},
-						expanded: l === e,
-						onExpand: (t) => u(t ? e : null)
-					}, e))
-				})] }) : /* @__PURE__ */ (0, x.jsx)(P, {
-					diagram: p,
-					uid: `dd-${p.id}`,
-					view: r,
-					onView: i,
-					onFit: i,
-					expanded: l === p.id,
-					onExpand: (e) => u(e ? p.id : null)
-				}, p.id), /* @__PURE__ */ (0, x.jsxs)("aside", {
-					className: "surface dd-side",
-					"aria-label": "Key differences and open validations",
-					children: [
-						/* @__PURE__ */ (0, x.jsx)("h3", { children: "What changes between S1 and S2" }),
-						/* @__PURE__ */ (0, x.jsxs)("table", { children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
-							/* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "col",
-								children: "Item"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "col",
-								children: "S1"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "col",
-								children: "S2"
-							})
-						] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Te.map(([t, n, r]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
-							/* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "row",
-								children: t
-							}),
-							/* @__PURE__ */ (0, x.jsx)("td", {
-								className: e === "S2" ? "dim" : "",
-								children: n
-							}),
-							/* @__PURE__ */ (0, x.jsx)("td", {
-								className: e === "S1" ? "dim" : "",
-								children: r
-							})
-						] }, t)) })] }),
-						/* @__PURE__ */ (0, x.jsx)("h3", { children: "Open validations shown in the diagram" }),
-						/* @__PURE__ */ (0, x.jsx)("ul", { children: Ee.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) }),
-						/* @__PURE__ */ (0, x.jsx)("p", {
-							className: "micro",
-							children: "Vendor-named components are design projections, not connected services. S3 has no detailed diagram in the supplied reference."
-						}),
-						/* @__PURE__ */ (0, x.jsx)("button", {
-							type: "button",
-							className: "text-link",
-							onClick: n,
-							children: "Back to architecture pros & cons →"
-						})
-					]
-				})]
-			})
-		]
-	});
-}
-// src/mcpScenarios.js
-var Ae = "2026-11-24", je = "TBD — REQUIRES VALIDATION", Me = {
-	S1: {
-		id: "S1",
-		label: "S1 · Google Apigee MCP",
-		short: "Apigee only",
-		chain: "Agent runtime (MCP client) → Apigee MCP endpoint → SAP-facing domain capability → SAP Integration Suite → SAP backend",
-		summary: "One MCP gateway, Google Apigee, exposes the SAP Finance domain tools. The baseline is the Apigee-managed pattern: an MCP proxy derives its tools from OpenAPI operations that front SAP Integration Suite APIs. Apigee does not run arbitrary Python MCP-server code; a coded domain MCP server would live on a separate runtime that Apigee proxies.",
-		baseline: "Baseline: Apigee-managed, API-backed MCP exposure. Alternative: separately hosted domain MCP server governed through Apigee (runtime TBD)."
-	},
-	S2: {
-		id: "S2",
-		label: "S2 · AWS AgentCore MCP",
-		short: "AgentCore only",
-		chain: "Agent runtime (MCP client) → AgentCore Gateway → Finance domain MCP server / gateway target → SAP Integration Suite → SAP backend",
-		summary: "One MCP gateway, AgentCore Gateway, fronts the Finance domain MCP capability. The gateway routes and authorizes; it does not execute custom tool code. A coded Finance MCP server runs on AgentCore Runtime (container, MCP protocol), or the gateway generates tools from supported API or function targets. AWS Agent Registry is a separate discovery layer.",
-		baseline: "Baseline: custom Finance MCP server on AgentCore Runtime registered as a gateway MCP-server target. Alternative: gateway-generated tools from an OpenAPI or function target."
-	},
-	S3: {
-		id: "S3",
-		label: "S3 · AgentCore Gateway + Google Apigee",
-		short: "Hybrid",
-		chain: "Agent runtime (MCP client) → AgentCore Gateway → Apigee MCP endpoint → SAP-facing domain capability → SAP Integration Suite → SAP backend",
-		summary: "Two gateways in series. AgentCore Gateway is the enterprise agent entry on the AWS side; Apigee remains the SAP-domain MCP endpoint, so Finance-specific logic stays on the SAP-facing side. The AgentCore-to-Apigee hop is a gateway MCP-server target whose protocol and token-exchange behaviour is documented separately by each vendor and unproven together.",
-		baseline: "Baseline: Apigee owns the SAP-domain MCP interface; AgentCore Gateway holds a reference. Cross-gateway protocol, identity exchange and registry sync are open dependencies."
-	}
-}, Ne = [
-	"S1",
-	"S2",
-	"S3"
-], Pe = [
-	["MCP client", "Agent-side component that discovers and invokes MCP tools."],
-	["MCP server", "Protocol endpoint exposing tools and resources over MCP."],
-	["Domain MCP server", "Business-domain MCP implementation, e.g. SAP Finance read or posting."],
-	["MCP gateway", "Governed entry point that routes, authorizes and may aggregate MCP capabilities. It is not necessarily where tool logic runs."],
-	["MCP registry", "Catalog and discovery of MCP servers and tool metadata. Never an invocation hop."],
-	["Artifact repository", "Versioned source, specifications and configuration (Git, container registry)."],
-	["Runtime", "Platform that executes domain logic or MCP-server software."],
-	["Backend integration", "API, integration flow or adapter reaching enterprise applications (SAP Integration Suite)."],
-	["Agent runtime", "Compute and orchestration platform running the agent. Independent of MCP hosting."],
-	["Model runtime", "LLM inference provider. Independent of MCP hosting."]
-], Fe = [
-	[
-		"Agent development environment",
-		`Enterprise-approved pro-code (Python) agent environment. ${je}`,
-		`Same as S1. ${je}`,
-		`Same as S1. ${je}`
-	],
-	[
-		"Agent hosting runtime",
-		"Independent of the MCP choice. Demo assumption: AgentCore Runtime. Apigee does not require a Google-hosted agent.",
-		"Independent of the MCP choice. AgentCore Runtime is a natural but not mandatory host; choosing AgentCore Gateway does not force it.",
-		"Independent of the MCP choice. Demo assumption: AgentCore Runtime; enterprise Agent Platform or SAP BTP possible."
-	],
-	[
-		"MCP client location",
-		"Inside the agent process on the agent runtime.",
-		"Inside the agent process on the agent runtime.",
-		"Inside the agent process on the agent runtime; the gateway also acts as a client toward Apigee."
-	],
-	[
-		"MCP gateway",
-		"Google Apigee: MCP proxy (Discovery Proxy template) with OAuth and API-product policies.",
-		"AgentCore Gateway: inbound authorizer and outbound credential provider; routes to targets.",
-		"Two gateways in series: AgentCore Gateway (agent entry), then Apigee (SAP-domain endpoint)."
-	],
-	[
-		"Finance domain MCP server creation",
-		"Baseline: tools derived from OpenAPI 3.0.x operations by the SAP integration/API team. A coded server only in the external-server alternative.",
-		"Baseline: coded Finance MCP server by finance engineering. Alternative: gateway-generated tools from an OpenAPI or function target.",
-		"Created on the Apigee side as in S1. AgentCore does not recreate it."
-	],
-	[
-		"Finance domain MCP server hosting",
-		"Apigee-managed proxy runtime. Not a general Python compute platform. A coded server needs a separate runtime behind Apigee (TBD).",
-		"AgentCore Runtime container (MCP protocol, ARM64, port 8000) or none when the gateway generates tools.",
-		"Apigee-managed runtime, as S1."
-	],
-	[
-		"MCP server runtime endpoint",
-		"Apigee MCP endpoint at <apigee-host>/<mcp-basepath> (conceptual placeholder, not a tenant address).",
-		"Gateway MCP URL <gateway-id>.gateway…/mcp; Runtime target at /invocations (conceptual placeholders).",
-		"AgentCore Gateway URL for agents; Apigee endpoint URL held as a gateway target (placeholders)."
-	],
-	[
-		"MCP tool definitions",
-		"Derived from OpenAPI operations; exposed set limited by API products.",
-		"tools/list from the coded server, or from the target schema when gateway-generated.",
-		"Tools originate in Apigee; surfaced through the gateway. Name prefixing and collisions: TO VALIDATE."
-	],
-	[
-		"MCP registry and discovery",
-		"Apigee API hub imports MCP proxies and parses specs into tools; syncs to Google Agent Registry (enabled by default; maturity TO VALIDATE).",
-		"AWS Agent Registry (agent-registry namespace) is a separate discovery and approval layer. Only approved records are discoverable.",
-		"API hub is the proposed SAP-domain source of truth. AWS Agent Registry would hold a reference. No automatic cross-platform sync is documented."
-	],
-	[
-		"Enterprise registry / approval authority",
-		`Enterprise AI Foundry publication approval. ${je}`,
-		`Enterprise AI Foundry, or the AWS Agent Registry curator role. ${je}`,
-		`Enterprise AI Foundry as the single approver across both catalogs. ${je}`
-	],
-	[
-		"Source-code repository",
-		`Organization Git repository for specs, tool definitions, policies and tests. ${je}`,
-		`Organization Git repository for server source, target schemas and infrastructure code. ${je}`,
-		`Organization Git repository covering both sides. ${je}`
-	],
-	[
-		"MCP specifications and versioned artifacts",
-		"OpenAPI spec versions, Apigee proxy bundles, API products, test collections.",
-		"MCP server source, target schemas, gateway and target definitions as code.",
-		"Union of S1 and S2 artifacts, plus a written cross-gateway interface contract."
-	],
-	[
-		"Container / package artifact storage",
-		"Not needed for the baseline. Needed only if an external coded server is chosen (TBD).",
-		"Container registry (Amazon ECR) for the Runtime image.",
-		"Not needed on the AWS side unless an AWS-hosted adapter is added."
-	],
-	[
-		"Gateway-target configuration",
-		"Proxy target endpoint resolves to the SAP-facing Integration Suite API.",
-		"Gateway target of type MCP server (or OpenAPI/function) with a credential provider configuration.",
-		"AgentCore target of type MCP server pointing at the Apigee endpoint. Compatibility must be proven."
-	],
-	[
-		"Authentication and token management",
-		"Inbound: OAuth 2.1 / OIDC bearer or API key per API product. Outbound to Integration Suite: TBD.",
-		"Inbound: JWT authorizer or IAM. Outbound to MCP targets: OAuth (client credentials, authorization code, token exchange), API key or gateway role; AgentCore Identity holds providers.",
-		"Two token hops. Agent-to-AgentCore-to-Apigee token exchange and user-context carry-over are unproven."
-	],
-	[
-		"SAP integration layer",
-		"SAP Integration Suite (API and iFlow). An Integration Suite MCP Server artifact is a separate option, not assumed.",
-		"Same as S1.",
-		"Same as S1."
-	],
-	[
-		"Backend authorization boundary",
-		"ABAP roles of the mapped user or service identity. Principal propagation not proven in the tenant.",
-		"Same as S1.",
-		"Same as S1; the extra hop adds one more identity-mapping point."
-	],
-	[
-		"Logging, monitoring and audit evidence",
-		"Apigee analytics and logging, Integration Suite monitoring, SAP change documents.",
-		"AgentCore Gateway and Runtime observability, Integration Suite monitoring, SAP change documents.",
-		`Two gateway logs. Correlation across them needs a propagated trace id. ${je}`
-	],
-	[
-		"Deployment ownership",
-		"SAP integration / API platform team deploys proxies and products.",
-		"Finance engineering and cloud platform team deploy the container and gateway targets.",
-		"Split ownership between both teams plus an interface-contract owner."
-	],
-	[
-		"Cost and operational responsibility",
-		"Apigee licensing and operations plus Integration Suite. Unmeasured.",
-		"AgentCore Runtime, Gateway and Registry consumption plus ECR. Unmeasured.",
-		"Both stacks plus cross-cloud traffic and latency. Unmeasured."
-	],
-	[
-		"Release prerequisites and outstanding decisions",
-		"Apigee MCP enabled for the organization (optional switch on hybrid), OpenAPI 3.0.x, direct-access policy, API hub and registry scope.",
-		"Region availability, Agent Registry status and namespace, choice of coded server or generated tools.",
-		"Gateway-to-Apigee protocol and auth proof, ownership of double policy, registry synchronization method."
-	]
-], Ie = [
-	"Source",
-	"Destination",
-	"Endpoint type",
-	"Protocol",
-	"MCP role",
-	"Endpoint owner",
-	"Hosting location",
-	"Authentication",
-	"Identity context",
-	"Network boundary",
-	"Read / write",
-	"Registry reference",
-	"Verification"
-], Le = "Vendor-documented · tenant NOT_VERIFIED", Re = "Design assumption", ze = je, Be = "Read tools default; write tools only via the separate posting domain", Ve = {
-	S1: [
-		[
-			"Agent MCP client",
-			"Apigee MCP endpoint",
-			"MCP endpoint",
-			"MCP over Streamable HTTP (JSON-RPC 2.0)",
-			"client → server",
-			"SAP integration / API platform team",
-			"Apigee (Google-managed)",
-			"OAuth 2.1 / OIDC bearer, or API key per API product",
-			"Agent identity; end-user delegation TO VALIDATE",
-			"Agent runtime network → Apigee ingress; private path TBD",
-			Be,
-			"API hub entry",
-			Le
-		],
-		[
-			"Apigee MCP proxy",
-			"SAP-facing domain API",
-			"API proxy target",
-			"HTTPS, OpenAPI operation",
-			"tool call mapped to API call",
-			"SAP integration / API platform team",
-			"Apigee",
-			"Target credentials held by Apigee: TBD",
-			"Mapped technical or user identity: TBD",
-			"Apigee → Integration Suite",
-			Be,
-			"OpenAPI spec in API hub",
-			ze
-		],
-		[
-			"SAP-facing domain API",
-			"SAP Integration Suite",
-			"API / iFlow",
-			"HTTPS REST or OData",
-			"backend integration",
-			"SAP integration team",
-			"SAP Integration Suite",
-			"OAuth client or certificate",
-			"Technical user or propagated principal",
-			"Customer / SAP BTP boundary",
-			Be,
-			"None (not a registry object)",
-			Re
-		],
-		[
-			"SAP Integration Suite",
-			"SAP S/4HANA · Central Finance · BW/4HANA",
-			"Backend interface",
-			"RFC / OData via Cloud Connector, or direct",
-			"backend integration",
-			"SAP basis and finance",
-			"Customer SAP landscape",
-			"Principal propagation or technical user",
-			"ABAP roles of the mapped user",
-			"Cloud Connector or private link: needs proof",
-			"Read-only in the demo; posting needs a separate approval path",
-			"None",
-			ze
-		],
-		[
-			"Apigee API hub",
-			"Google Agent Registry",
-			"Registry sync (not invocation)",
-			"Metadata sync",
-			"catalog → catalog",
-			"Google Cloud platform team",
-			"Google Cloud",
-			"Google IAM",
-			"Platform service identity",
-			"Google Cloud internal",
-			"Metadata only",
-			"Registry sync (default on)",
-			"Vendor-documented · maturity TO VALIDATE"
-		],
-		[
-			"Agent runtime",
-			"API hub / Agent Registry",
-			"Discovery lookup (not invocation)",
-			"Registry API or registry MCP endpoint",
-			"client → catalog",
-			"Enterprise AI Foundry (TBD)",
-			"Google Cloud",
-			"Google IAM or OAuth",
-			"Agent identity",
-			"Agent runtime → Google APIs",
-			"Metadata only",
-			"API hub / Agent Registry",
-			ze
-		],
-		[
-			"Git and CI/CD",
-			"Apigee organization",
-			"Deployment (not invocation)",
-			"Apigee management API",
-			"artifact publication",
-			"SAP integration team",
-			"Organization CI/CD",
-			"Pipeline service account",
-			"Deployment identity",
-			"CI/CD → Apigee management plane",
-			"Not applicable",
-			"Spec registered in API hub",
-			Re
-		]
-	],
-	S2: [
-		[
-			"Agent MCP client",
-			"AgentCore Gateway",
-			"MCP endpoint",
-			"MCP over Streamable HTTP",
-			"client → server",
-			"Cloud platform team",
-			"AWS (gateway)",
-			"JWT bearer validated by the gateway authorizer, or IAM",
-			"Agent identity; end-user delegation TO VALIDATE",
-			"Agent runtime → AWS gateway endpoint",
-			Be,
-			"Registry record (optional)",
-			Le
-		],
-		[
-			"AgentCore Gateway",
-			"Finance domain MCP server (AgentCore Runtime)",
-			"Gateway MCP-server target",
-			"MCP over Streamable HTTP to the Runtime /invocations URL",
-			"client → server",
-			"Finance engineering",
-			"AgentCore Runtime (container)",
-			"Outbound OAuth, API key or gateway role from an AgentCore Identity credential provider",
-			"Gateway service identity or exchanged token: TBD",
-			"Inside the AWS account",
-			Be,
-			"Registry record",
-			Le
-		],
-		[
-			"AgentCore Gateway",
-			"Gateway-generated tools (alternative)",
-			"OpenAPI / function target",
-			"HTTPS, target schema",
-			"tool call mapped to API call",
-			"Finance engineering",
-			"AgentCore Gateway",
-			"Credential provider per target",
-			"TBD",
-			"AWS → target API",
-			Be,
-			"Registry record",
-			"Alternative; " + Le.toLowerCase()
-		],
-		[
-			"Finance domain MCP server",
-			"SAP Integration Suite",
-			"API / iFlow",
-			"HTTPS REST or OData",
-			"backend integration",
-			"SAP integration team",
-			"SAP Integration Suite",
-			"OAuth client or certificate",
-			"Technical user or propagated principal",
-			"AWS → SAP BTP; private route needs proof",
-			Be,
-			"None",
-			ze
-		],
-		[
-			"SAP Integration Suite",
-			"SAP S/4HANA · Central Finance · BW/4HANA",
-			"Backend interface",
-			"RFC / OData via Cloud Connector, or direct",
-			"backend integration",
-			"SAP basis and finance",
-			"Customer SAP landscape",
-			"Principal propagation or technical user",
-			"ABAP roles of the mapped user",
-			"Cloud Connector or private link: needs proof",
-			"Read-only in the demo; posting needs a separate approval path",
-			"None",
-			ze
-		],
-		[
-			"Agent runtime",
-			"AWS Agent Registry",
-			"Discovery lookup (not invocation)",
-			"Registry MCP endpoint or API",
-			"client → catalog",
-			"Enterprise AI Foundry or registry curator",
-			"AWS",
-			"Bearer token or IAM",
-			"Agent identity",
-			"Agent runtime → AWS",
-			"Metadata only; approved records only",
-			"agent-registry namespace",
-			Le
-		],
-		[
-			"Git and CI/CD",
-			"AgentCore Runtime, container registry and gateway targets",
-			"Deployment (not invocation)",
-			"AWS control-plane API",
-			"artifact publication",
-			"Cloud platform team",
-			"Organization CI/CD",
-			"Pipeline role",
-			"Deployment identity",
-			"CI/CD → AWS control plane",
-			"Not applicable",
-			"Record submitted for approval",
-			Re
-		]
-	],
-	S3: [
-		[
-			"Agent MCP client",
-			"AgentCore Gateway",
-			"MCP endpoint",
-			"MCP over Streamable HTTP",
-			"client → server",
-			"Cloud platform team",
-			"AWS (gateway)",
-			"JWT bearer validated by the gateway authorizer, or IAM",
-			"Agent identity; end-user delegation TO VALIDATE",
-			"Agent runtime → AWS gateway endpoint",
-			Be,
-			"AWS Agent Registry reference",
-			Le
-		],
-		[
-			"AgentCore Gateway",
-			"Apigee MCP endpoint",
-			"Gateway MCP-server target (cross-cloud)",
-			"MCP over Streamable HTTP; version compatibility unproven",
-			"client → server",
-			"SAP integration / API platform team",
-			"Apigee (Google-managed)",
-			"Outbound OAuth (client credentials, authorization code or token exchange) or API key; Apigee must accept it",
-			"Token exchange and user-context carry-over: unproven",
-			"AWS → Google ingress; egress and latency unmeasured",
-			Be,
-			"API hub entry; AWS record is a manual reference",
-			ze
-		],
-		[
-			"Apigee MCP proxy",
-			"SAP-facing domain API",
-			"API proxy target",
-			"HTTPS, OpenAPI operation",
-			"tool call mapped to API call",
-			"SAP integration / API platform team",
-			"Apigee",
-			"Target credentials held by Apigee: TBD",
-			"Mapped technical or user identity: TBD",
-			"Apigee → Integration Suite",
-			Be,
-			"OpenAPI spec in API hub",
-			ze
-		],
-		[
-			"SAP-facing domain API",
-			"SAP Integration Suite",
-			"API / iFlow",
-			"HTTPS REST or OData",
-			"backend integration",
-			"SAP integration team",
-			"SAP Integration Suite",
-			"OAuth client or certificate",
-			"Technical user or propagated principal",
-			"Customer / SAP BTP boundary",
-			Be,
-			"None",
-			Re
-		],
-		[
-			"SAP Integration Suite",
-			"SAP S/4HANA · Central Finance · BW/4HANA",
-			"Backend interface",
-			"RFC / OData via Cloud Connector, or direct",
-			"backend integration",
-			"SAP basis and finance",
-			"Customer SAP landscape",
-			"Principal propagation or technical user",
-			"ABAP roles of the mapped user",
-			"Cloud Connector or private link: needs proof",
-			"Read-only in the demo; posting needs a separate approval path",
-			"None",
-			ze
-		],
-		[
-			"Apigee API hub",
-			"AWS Agent Registry",
-			"Registry publication (not invocation)",
-			"Manual registration or custom synchronization",
-			"catalog → catalog",
-			"Enterprise AI Foundry (TBD)",
-			"Across clouds",
-			"Both platforms' IAM",
-			"Platform identity",
-			"Cross-cloud",
-			"Metadata only",
-			"No automatic sync documented; implementation dependency",
-			ze
-		],
-		[
-			"Git and CI/CD",
-			"Apigee organization and AWS gateway target",
-			"Deployment (not invocation)",
-			"Apigee management API and AWS control-plane API",
-			"artifact publication",
-			"Both platform teams",
-			"Organization CI/CD",
-			"Pipeline identities",
-			"Deployment identity",
-			"CI/CD → both control planes",
-			"Not applicable",
-			"Specs in API hub; reference record in AWS",
-			Re
-		]
-	]
-}, He = [
-	{
-		name: "Finance Read MCP",
-		mode: "READ",
-		tools: "Reconciliation balances · ledger and period data · approved journal and document status · reconciliation exceptions · approved analytics",
-		control: "Own scope and role. Read-only backend operations. No write tool is registered in this domain."
-	},
-	{
-		name: "Finance Posting MCP",
-		mode: "WRITE · APPROVAL-GATED",
-		tools: "Propose reconciliation adjustment · invoke governed approval · validate posting authorization · post via approved SAP business API · read posting confirmation and audit evidence",
-		control: "Separate authorization from read. A proposal does not post. Posting needs a business approval, an agent and gateway allowance, an SAP user authorization, idempotency and a posting-period check. The demo never posts."
-	},
-	{
-		name: "Analytical / Data MCP",
-		mode: "READ · FUTURE",
-		tools: "Authorized Databricks or BDC-backed context · governed snapshots and support data",
-		control: "Data owner and freshness stated per source. Entitlement and scope: TO VALIDATE."
-	}
-], Ue = [
-	[
-		"Approved enterprise Agent Platform / AI Foundry",
-		"Conditional · remote MCP endpoint reachable",
-		"Conditional · remote MCP endpoint reachable",
-		"Tenant validation"
-	],
-	[
-		"AWS AgentCore Runtime",
-		"Conditional · calls Apigee as a remote MCP server",
-		"Documented · native fit",
-		"Documented for runtime and gateway; Apigee hop needs proof"
-	],
-	[
-		"SAP BTP pro-code runtime",
-		"Conditional · remote MCP endpoint reachable",
-		"Tenant validation",
-		"Tenant validation"
-	],
-	[
-		"Microsoft Foundry hosted agent",
-		"Tenant validation",
-		"Tenant validation",
-		"Tenant validation"
-	],
-	[
-		"Joule Studio",
-		"Tenant validation · eligibility TBD",
-		"Not recommended without proof",
-		"Not recommended without proof"
-	]
-], We = [
-	[
-		"MCP development effort",
-		"Low if tools derive from OpenAPI; higher for a coded server",
-		"Medium: coded server plus container and target setup",
-		"Highest: both stacks plus an interface contract"
-	],
-	[
-		"MCP hosting flexibility",
-		"Limited to proxy exposure unless an external server is added",
-		"High: Runtime hosts arbitrary server code",
-		"High on both sides"
-	],
-	[
-		"Registry maturity",
-		"API hub plus Agent Registry sync; maturity TO VALIDATE",
-		"AWS Agent Registry (preview status on release; TO VALIDATE)",
-		"Two catalogs and no documented sync"
-	],
-	[
-		"Enterprise discovery",
-		"Strong for SAP domain; cross-cloud agents need the Google catalog",
-		"Strong for AWS-resident agents",
-		"Weak without a custom synchronization"
-	],
-	[
-		"Identity propagation",
-		"One gateway hop to prove",
-		"One gateway hop to prove",
-		"Two hops to prove; highest risk"
-	],
-	[
-		"SAP connectivity",
-		"Via Integration Suite",
-		"Via Integration Suite",
-		"Via Integration Suite"
-	],
-	[
-		"Security policy ownership",
-		"SAP-facing team",
-		"Cloud platform team",
-		"Split; double enforcement needs justification"
-	],
-	[
-		"Operational complexity",
-		"Lowest of the three",
-		"Medium",
-		"Highest"
-	],
-	[
-		"Cross-cloud traffic",
-		"Agent to Google if the agent runs elsewhere",
-		"None when the agent runs on AWS",
-		"Always cross-cloud"
-	],
-	[
-		"Vendor lock-in",
-		"Apigee for the domain interface",
-		"AgentCore for gateway and server",
-		"Both"
-	],
-	[
-		"Cost drivers",
-		"Apigee licensing",
-		"AgentCore consumption",
-		"Both plus egress"
-	],
-	[
-		"Observability",
-		"Apigee analytics",
-		"AWS-native tracing",
-		"Needs a propagated trace id"
-	],
-	[
-		"Maintainability",
-		"Spec-driven; one owner",
-		"Code-driven; one owner",
-		"Two owners and a contract"
-	],
-	[
-		"Portability",
-		"MCP is open; proxy policy is Apigee-specific",
-		"MCP server code is portable; gateway config is AWS-specific",
-		"Server code stays portable; two configs"
-	],
-	[
-		"Future BDC alignment",
-		"Open: depends on the BDC MCP surface",
-		"Open",
-		"Open"
-	]
-], Ge = {
-	headline: "ARCHITECTURE_RECOMMENDED (proposal for owner decision, not approval): use S1 as the proof-of-concept baseline for the SAP Finance domain interface.",
-	why: [
-		"It keeps the Finance domain contract on the SAP-facing side (API hub plus Integration Suite), so an agent hosted on AWS or elsewhere consumes it as a remote MCP endpoint without moving Finance logic into AWS.",
-		"It has one gateway hop and one identity mapping to prove, against two for S3.",
-		"Documented Apigee capability fits the read-heavy baseline: OpenAPI-derived tools, API-product tool filtering, OAuth 2.1 / OIDC."
-	],
-	standards: [
-		"An enterprise rule on who owns domain MCP interfaces",
-		"An approved agent platform that can reach Apigee",
-		"An API hub and Agent Registry publication process"
-	],
-	open: [
-		"Delegated user versus service identity for reads and posting",
-		"Principal propagation through Integration Suite and Cloud Connector",
-		"Registry source of truth and approval authority",
-		"Whether Apigee MCP and Agent Registry integration are available in the tenant and region"
-	],
-	changes: [
-		"If enterprise standards already host domain MCP servers on AgentCore, choose S2.",
-		"S3 is justified only by a named control that one gateway cannot meet, for example a mandatory AWS-side tool-access policy for all agents plus SAP-owned domain policy. Without that, S3 duplicates policy.",
-		"A failed Apigee-to-Integration-Suite identity test would reopen all three."
-	],
-	poc: [
-		"Stand up one read tool through the S1 path with a service identity and record the call, token and SAP user in evidence.",
-		"Repeat with user delegation; mark the result PASS, HOLD or NOT_VERIFIED.",
-		"Run a single AgentCore Gateway to Apigee call to settle the S3 protocol and token questions before any S3 commitment."
-	]
-}, Ke = [
-	[
-		"Google Apigee",
-		"Apigee MCP overview",
-		"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-overview",
-		"MCP proxies expose existing APIs as MCP tools derived from OpenAPI; OAuth 2.1 and OIDC are supported; a proxy may also front your own MCP server.",
-		"Apigee exposes and governs MCP endpoints; it is not an arbitrary Python server runtime. Domain tools come from OpenAPI or an external server.",
-		"Tenant enablement, region, licensing, hybrid enablement"
-	],
-	[
-		"Google Apigee",
-		"Quickstart: MCP Discovery Proxy",
-		"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-quickstart",
-		"OpenAPI 3.0.0 to 3.0.3; JSON-RPC 2.0 payloads; no SSE streams on GET.",
-		"Spec version and transport limits apply to the baseline.",
-		"Spec compatibility of the Finance APIs"
-	],
-	[
-		"Google Apigee",
-		"Register MCP APIs in API hub",
-		"https://docs.cloud.google.com/apigee/docs/apihub/register-mcp-apis",
-		"API hub imports Apigee MCP proxies and parses specs into tools.",
-		"API hub is the natural SAP-domain MCP catalog in S1 and S3.",
-		"API hub licensing and project setup"
-	],
-	[
-		"Google Apigee",
-		"Agent Registry integration",
-		"https://docs.cloud.google.com/apigee/docs/apihub/manage-agent-registry-integration",
-		"API hub syncs MCP tools and server metadata to Agent Registry; sync is on by default; manually styled MCP APIs are not synced.",
-		"Google-side discovery needs no custom sync, but maturity and release status must be checked.",
-		"Preview or GA status in the tenant"
-	],
-	[
-		"AWS AgentCore",
-		"Gateway outbound authorization",
-		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-outbound-auth.html",
-		"For MCP-server targets: no authorization, gateway role, OAuth (client credentials, authorization code, token exchange) and API key; caller IAM and passthrough are not offered.",
-		"S3 outbound auth to Apigee must use one of these; caller identity cannot be passed through.",
-		"Whether Apigee accepts the chosen method and carries user context"
-	],
-	[
-		"AWS AgentCore",
-		"Runtime MCP servers",
-		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-mcp.html",
-		"Runtime hosts MCP servers (Streamable HTTP) when the protocol is set to MCP; containers use port 8000 on ARM64.",
-		"A coded Finance MCP server in S2 runs on Runtime, not in the Gateway.",
-		"Account, region, image pipeline"
-	],
-	[
-		"AWS AgentCore",
-		"AWS Agent Registry",
-		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry.html",
-		"Registry is a discovery and approval catalog; only approved records are discoverable; newer namespace is agent-registry.",
-		"Registry is a separate layer, not an invocation hop; do not use the older namespace as the target.",
-		"Release status and the current namespace in the account"
-	],
-	[
-		"AWS AgentCore",
-		"Gateway MCP-server targets",
-		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html",
-		"A gateway can register an external MCP server as a target.",
-		"Makes the S3 hop possible in principle; interoperability with Apigee is unproven.",
-		"MCP version match and tool discovery against Apigee"
-	],
-	[
-		"SAP",
-		"Integration Suite: MCP Server",
-		"https://help.sap.com/docs/integration-suite/isuite-integrations-and-apis/model-context-protocol-mcp",
-		"Integration Suite can expose MCP servers from an API, an HTTP endpoint with OpenAPI, or RFC; servers run on Integration Cell.",
-		"This is a fourth, SAP-managed option. It is not assumed in S1 to S3, which use Integration Suite only as the API and integration layer.",
-		"Entitlement, edition and Integration Cell availability"
-	],
-	[
-		"SAP",
-		"Reference architecture for agentic SAP access",
-		"https://architecture.learning.sap.com/docs/ref-arch/76ec36",
-		"SAP reference architecture for agents and MCP access.",
-		"Used as context only.",
-		"Fit to our landscape"
-	],
-	[
-		"SAP Community",
-		"Principal propagation for MCP servers",
-		"https://community.sap.com/t5/technology-blog-posts-by-sap/principal-propagation-for-mcp-servers-sap-integration-suite-to-sap-s-4hana/ba-p/14488137",
-		"Describes propagation through Integration Suite and Cloud Connector; a client-credentials token carries no user.",
-		"Secondary source. End-to-end propagation must be proven in our tenant.",
-		"Token exchange, mapping and ABAP authorization"
-	]
-], qe = `Sources were read on ${Ae}. Vendor documents describe product capability only. They are not evidence of our tenant's entitlement, activation or approval.`, F = (e, t, n, r, i, a) => ({
-	id: e,
-	row: t,
-	col: n,
-	title: r,
-	sub: i,
-	kind: a
-}), Je = {
-	idp: F("idp", 0, 0, "Enterprise identity provider", "OAuth 2.1 / OIDC · user and agent identity", "identity"),
-	ent: F("ent", 3, 0, "Enterprise AI Foundry", "Publication and approval authority · TBD", "registry"),
-	repo: F("repo", 4, 0, "Git repository", "Source, specs, tool definitions, tests", "artifact")
-}, Ye = {
-	S1: {
-		cols: 5,
-		nodes: [
-			Je.idp,
-			Je.ent,
-			Je.repo,
-			F("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
-			F("gw", 1, 1, "Apigee MCP endpoint", "MCP gateway · OAuth and API-product policy", "gateway"),
-			F("dom", 1, 2, "SAP Finance domain tools", "Read domain and separate posting domain · derived from OpenAPI", "domain"),
-			F("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
-			F("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
-			F("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
-			F("hub", 3, 2, "Apigee API hub", "SAP-domain MCP catalog (proposed)", "registry"),
-			F("reg", 3, 3, "Google Agent Registry", "Synced from API hub · maturity TO VALIDATE", "registry"),
-			F("cicd", 4, 1, "CI/CD → Apigee deploy", "Proxies, products, policies", "artifact"),
-			F("spec", 4, 2, "OpenAPI and tool specs", "Versioned in Git, registered in API hub", "artifact")
-		],
-		edges: [
-			[
-				"agent",
-				"gw",
-				"invoke",
-				"MCP tools/call"
-			],
-			[
-				"gw",
-				"dom",
-				"invoke",
-				"proxy flow"
-			],
-			[
-				"dom",
-				"int",
-				"invoke",
-				"HTTPS API"
-			],
-			[
-				"int",
-				"sap",
-				"invoke",
-				"RFC / OData"
-			],
-			[
-				"dom",
-				"data",
-				"invoke",
-				"analytics read"
-			],
-			[
-				"idp",
-				"agent",
-				"identity",
-				"agent / user token"
-			],
-			[
-				"idp",
-				"gw",
-				"identity",
-				"token validation"
-			],
-			[
-				"agent",
-				"hub",
-				"registry",
-				"discover"
-			],
-			[
-				"hub",
-				"reg",
-				"registry",
-				"sync"
-			],
-			[
-				"ent",
-				"hub",
-				"approval",
-				"approve publication"
-			],
-			[
-				"repo",
-				"cicd",
-				"deploy",
-				"commit"
-			],
-			[
-				"cicd",
-				"gw",
-				"deploy",
-				"deploy proxy"
-			],
-			[
-				"spec",
-				"hub",
-				"deploy",
-				"register spec"
-			]
-		],
-		bounds: [[
-			"Google Apigee (external to AWS)",
-			["gw", "dom"],
-			"google"
-		], [
-			"SAP landscape",
-			["int", "sap"],
-			"sap"
-		]]
-	},
-	S2: {
-		cols: 5,
-		nodes: [
-			Je.idp,
-			Je.ent,
-			Je.repo,
-			F("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
-			F("gw", 1, 1, "AgentCore Gateway", "MCP gateway · inbound auth, outbound credentials · no custom tool code", "gateway"),
-			F("dom", 1, 2, "Finance domain MCP server", "Coded server on AgentCore Runtime, or gateway-generated tools", "domain"),
-			F("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
-			F("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
-			F("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
-			F("aid", 0, 1, "AgentCore Identity", "Credential providers for outbound auth", "identity"),
-			F("reg", 3, 2, "AWS Agent Registry", "Discovery and approval · agent-registry namespace", "registry"),
-			F("cicd", 4, 1, "CI/CD → AWS deploy", "Runtime image, gateway targets", "artifact"),
-			F("ecr", 4, 2, "Container registry (ECR)", "Runtime image for the MCP server", "artifact")
-		],
-		edges: [
-			[
-				"agent",
-				"gw",
-				"invoke",
-				"MCP tools/call"
-			],
-			[
-				"gw",
-				"dom",
-				"invoke",
-				"MCP target"
-			],
-			[
-				"dom",
-				"int",
-				"invoke",
-				"HTTPS API"
-			],
-			[
-				"int",
-				"sap",
-				"invoke",
-				"RFC / OData"
-			],
-			[
-				"dom",
-				"data",
-				"invoke",
-				"analytics read"
-			],
-			[
-				"idp",
-				"agent",
-				"identity",
-				"agent / user token"
-			],
-			[
-				"idp",
-				"gw",
-				"identity",
-				"JWT validation"
-			],
-			[
-				"aid",
-				"gw",
-				"identity",
-				"outbound credentials"
-			],
-			[
-				"agent",
-				"reg",
-				"registry",
-				"discover"
-			],
-			[
-				"ent",
-				"reg",
-				"approval",
-				"approve records"
-			],
-			[
-				"repo",
-				"cicd",
-				"deploy",
-				"commit"
-			],
-			[
-				"cicd",
-				"ecr",
-				"deploy",
-				"push image"
-			],
-			[
-				"cicd",
-				"gw",
-				"deploy",
-				"target config"
-			]
-		],
-		bounds: [[
-			"AWS trust boundary",
-			[
-				"agent",
-				"gw",
-				"dom"
-			],
-			"aws"
-		], [
-			"SAP landscape",
-			["int", "sap"],
-			"sap"
-		]]
-	},
-	S3: {
-		cols: 6,
-		nodes: [
-			Je.idp,
-			Je.ent,
-			Je.repo,
-			F("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
-			F("gw", 1, 1, "AgentCore Gateway", "First gateway · agent entry on AWS", "gateway"),
-			F("gw2", 1, 2, "Apigee MCP endpoint", "Second gateway · SAP-domain policy", "gateway"),
-			F("dom", 1, 3, "SAP Finance domain tools", "Owned on the SAP-facing side · from OpenAPI", "domain"),
-			F("int", 1, 4, "SAP Integration Suite", "API and iFlow layer", "integration"),
-			F("sap", 1, 5, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
-			F("data", 2, 4, "Analytical MCP · Databricks / BDC", "Future state · TO VALIDATE", "data"),
-			F("aid", 0, 1, "AgentCore Identity", "Outbound token handling", "identity"),
-			F("areg", 3, 1, "AWS Agent Registry", "Reference record · manual or custom sync", "registry"),
-			F("hub", 3, 3, "Apigee API hub", "SAP-domain source of truth (proposed)", "registry"),
-			F("cicd", 4, 2, "CI/CD → both platforms", "Apigee bundle and AWS target", "artifact"),
-			F("spec", 4, 3, "Specs and interface contract", "OpenAPI plus cross-gateway contract", "artifact")
-		],
-		edges: [
-			[
-				"agent",
-				"gw",
-				"invoke",
-				"MCP tools/call"
-			],
-			[
-				"gw",
-				"gw2",
-				"invoke",
-				"MCP target · unproven"
-			],
-			[
-				"gw2",
-				"dom",
-				"invoke",
-				"proxy flow"
-			],
-			[
-				"dom",
-				"int",
-				"invoke",
-				"HTTPS API"
-			],
-			[
-				"int",
-				"sap",
-				"invoke",
-				"RFC / OData"
-			],
-			[
-				"dom",
-				"data",
-				"invoke",
-				"analytics read"
-			],
-			[
-				"idp",
-				"agent",
-				"identity",
-				"agent / user token"
-			],
-			[
-				"aid",
-				"gw",
-				"identity",
-				"token exchange?"
-			],
-			[
-				"idp",
-				"gw2",
-				"identity",
-				"token validation"
-			],
-			[
-				"agent",
-				"areg",
-				"registry",
-				"discover"
-			],
-			[
-				"hub",
-				"areg",
-				"registry",
-				"manual reference"
-			],
-			[
-				"ent",
-				"areg",
-				"approval",
-				"approve"
-			],
-			[
-				"repo",
-				"cicd",
-				"deploy",
-				"commit"
-			],
-			[
-				"cicd",
-				"gw2",
-				"deploy",
-				"deploy proxy"
-			],
-			[
-				"spec",
-				"hub",
-				"deploy",
-				"register spec"
-			]
-		],
-		bounds: [
-			[
-				"AWS",
-				["agent", "gw"],
-				"aws"
-			],
-			[
-				"Google Apigee",
-				["gw2", "dom"],
-				"google"
-			],
-			[
-				"SAP landscape",
-				["int", "sap"],
-				"sap"
-			]
-		]
-	}
-}, Xe = {
-	agent: "#E8F1FB",
-	gateway: "#FFF1E0",
-	domain: "#EAF6EC",
-	integration: "#F0EAF8",
-	backend: "#E3E9EF",
-	data: "#EEF2F5",
-	registry: "#E5F5F2",
-	artifact: "#F3F3F3",
-	identity: "#FFF7DA"
-}, Ze = {
-	invoke: {
-		c: "#0A4F9E",
-		w: 2.6,
-		d: ""
-	},
-	registry: {
-		c: "#0C8F76",
-		w: 2,
-		d: "7 4"
-	},
-	deploy: {
-		c: "#6B6B6B",
-		w: 2,
-		d: "2 4"
-	},
-	identity: {
-		c: "#C26A00",
-		w: 2,
-		d: "8 3 2 3"
-	},
-	approval: {
-		c: "#B3261E",
-		w: 2.4,
-		d: "10 3"
-	}
-}, Qe = [
-	["invoke", "Runtime invocation"],
-	["registry", "Registry / discovery"],
-	["deploy", "Deployment / artifacts"],
-	["identity", "Identity / authentication"],
-	["approval", "Approval-gated operation"]
-], $e = {
-	google: "#C26A00",
-	aws: "#0A4F9E",
-	sap: "#5B3F8C"
-}, et = (e) => String(e).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-function tt(e, t) {
-	let n = [], r = "";
-	for (let i of String(e).split(" ")) (r + " " + i).trim().length > t && r ? (n.push(r), r = i) : r = (r + " " + i).trim();
-	return r && n.push(r), n;
-}
-function nt(e) {
-	let t = Ye[e], n = Me[e], r = (1140 - (t.cols - 1) * 30) / t.cols, i = [
-		118,
-		258,
-		398,
-		528,
-		668
-	], a = {};
-	for (let e of t.nodes) a[e.id] = {
-		x: 30 + e.col * (r + 30),
-		y: i[e.row],
-		w: r,
-		h: 92,
-		n: e
-	};
-	let o = [];
-	for (let [e, n, r] of t.bounds) {
-		let t = n.map((e) => a[e]), i = Math.min(...t.map((e) => e.x)) - 10, s = Math.min(...t.map((e) => e.y)) - 24, c = Math.max(...t.map((e) => e.x + e.w)) + 10, l = Math.max(...t.map((e) => e.y + e.h)) + 10;
-		o.push(`<rect x="${i}" y="${s}" width="${c - i}" height="${l - s}" rx="8" fill="none" stroke="${$e[r]}" stroke-width="2" stroke-dasharray="14 5"/>`), o.push(`<text x="${i + 8}" y="${s + 15}" font-size="12" font-weight="700" fill="${$e[r]}">${et(e)}</text>`);
-	}
-	let s = (e, t) => o.push(`<text x="1170" y="${e}" font-size="11.5" font-weight="700" fill="#506778" text-anchor="end">${t}</text>`);
-	s(104, "IDENTITY AND SECURITY"), s(224, "RUNTIME INVOCATION PATH"), s(392, "DATA / ANALYTICS BRANCH"), s(514, "REGISTRY AND DISCOVERY (NOT AN INVOCATION HOP)"), s(654, "ARTIFACT REPOSITORY AND DEPLOYMENT");
-	let c = [], l = [], u = {};
-	for (let [e, n, r, i] of t.edges) {
-		let t = r === "identity" ? u[e] = (u[e] ?? -1) + 1 : 0, s = a[e], d = a[n], f = Ze[r], p = {
-			x: s.x + s.w / 2,
-			y: s.y + s.h / 2
-		}, m = {
-			x: d.x + d.w / 2,
-			y: d.y + d.h / 2
-		}, h, g, _, v, y, b, x;
-		if (s.n.row === d.n.row) {
-			let e = s.x < d.x, t = e ? s.x + s.w : s.x, n = e ? d.x : d.x + d.w, i = p.y + (r === "identity" ? 14 : 0);
-			h = `M${t},${i} L${n},${i}`, g = (t + n) / 2, _ = s.y + s.h + (s.n.row === 1 ? 26 : 14), v = n, y = i, b = e ? 1 : -1, x = 0;
-		} else {
-			let e = s.y < d.y, n = e ? s.y + s.h : s.y, i = e ? d.y : d.y + d.h, a = r === "identity" ? 14 + t * 40 : r === "approval" ? -12 : 0, o = p.x + a, c = m.x + a, l = (n + i) / 2;
-			h = `M${o},${n} L${o},${l} L${c},${l} L${c},${i}`, r === "identity" ? (g = o, _ = n + (e ? 18 + t * 14 : -8)) : (g = c, _ = e ? i - 8 : i + 20), v = c, y = i, b = 0, x = e ? 1 : -1;
-		}
-		o.push(`<path d="${h}" fill="none" stroke="${f.c}" stroke-width="${f.w}"${f.d ? ` stroke-dasharray="${f.d}"` : ""} data-edge="${e}-${n}"/>`), l.push(b === 0 ? `<polygon points="${v},${y} ${v - 7 * .7},${y - x * 7 * 1.6} ${v + 7 * .7},${y - x * 7 * 1.6}" fill="${f.c}"/>` : `<polygon points="${v},${y} ${v - b * 7 * 1.6},${y - 7 * .7} ${v - b * 7 * 1.6},${y + 7 * .7}" fill="${f.c}"/>`), c.push([
-			g,
-			_,
-			i,
-			f.c
-		]);
-	}
-	o.push(...l);
-	for (let e of t.nodes) {
-		let t = a[e.id];
-		o.push(`<rect x="${t.x}" y="${t.y}" width="${t.w}" height="${t.h}" rx="7" fill="${Xe[e.kind]}" stroke="#506778" stroke-width="1.4"/>`);
-		let n = tt(e.title, Math.floor(t.w / 7.1)).slice(0, 2);
-		n.forEach((e, n) => o.push(`<text x="${t.x + 8}" y="${t.y + 20 + n * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${et(e)}</text>`)), tt(e.sub, Math.floor(t.w / 5.7)).slice(0, 4).forEach((e, r) => o.push(`<text x="${t.x + 8}" y="${t.y + 20 + n.length * 15 + r * 12.5}" font-size="10.5" fill="#34495C">${et(e)}</text>`));
-	}
-	for (let [e, t, n, r] of c) {
-		let i = n.length * 5.6 + 10;
-		o.push(`<rect x="${e - i / 2}" y="${t - 11}" width="${i}" height="15" rx="3" fill="#F1F4F7" opacity="0.94"/><text x="${e}" y="${t}" font-size="10.5" font-weight="600" fill="${r}" text-anchor="middle">${et(n)}</text>`);
-	}
-	let d = 30;
-	o.push("<rect x=\"22\" y=\"786\" width=\"1156\" height=\"40\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#D9E1E7\"/>"), o.push("<text x=\"30\" y=\"804\" font-size=\"11\" font-weight=\"700\" fill=\"#506778\">LEGEND</text>");
-	for (let [e, t] of Qe) {
-		let n = Ze[e];
-		o.push(`<line x1="${d + 60}" y1="800" x2="${d + 90}" y2="800" stroke="${n.c}" stroke-width="${n.w}"${n.d ? ` stroke-dasharray="${n.d}"` : ""}/><text x="${d + 96}" y="804" font-size="11" fill="#1D2D3E">${et(t)}</text>`), d += 96 + t.length * 5.4 + 8;
-	}
-	o.push("<text x=\"30\" y=\"820\" font-size=\"10.5\" fill=\"#506778\">Proposed design for review. Vendor names are design projections, not connected services. Placeholders are not tenant addresses. Registry and deployment arrows are not invocation traffic.</text>");
-	let f = `${n.label} · MCP topology`;
-	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 840" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${et(f)}</title><desc id="d">${et(n.chain)}</desc><rect width="1200" height="840" fill="#F1F4F7"/><text x="30" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${et(f)}</text><text x="30" y="62" font-size="12" fill="#34495C">${et(n.chain.length > 150 ? n.chain.slice(0, 147) + "…" : n.chain)}</text><text x="30" y="82" font-size="11" fill="#B3261E" font-weight="700">PROPOSED DESIGN · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE</text>${o.join("")}</svg>\n`;
-}
 // src/McpGovernance.jsx
-var rt = [
+var pt = [
 	"MCP registry and discovery",
 	"Enterprise registry / approval authority",
 	"Source-code repository",
@@ -13036,7 +13271,7 @@ var rt = [
 	"Container / package artifact storage",
 	"Gateway-target configuration",
 	"Deployment ownership"
-], it = [
+], mt = [
 	["mg-responsibility", "Responsibility matrix"],
 	["mg-connections", "Endpoint connectivity"],
 	["mg-registry", "Registry and artifacts"],
@@ -13046,29 +13281,61 @@ var rt = [
 	["mg-recommendation", "Recommendation"],
 	["mg-evidence", "Evidence"]
 ];
-function at(e) {
+function ht(e) {
 	return {
 		id: e,
-		title: Me[e].label,
-		svg: nt(e),
+		title: xe[e].label,
+		svg: Ve(e),
 		file: `mcp-topology-${e.toLowerCase()}`,
 		png: !0
 	};
 }
-var ot = (e) => /TBD|TO VALIDATE|unproven|NOT_VERIFIED|REQUIRES VALIDATION|needs proof|must be proven|unmeasured/i.test(e), st = ({ text: e }) => /* @__PURE__ */ (0, x.jsx)("td", {
-	className: ot(e) ? "mg-open" : "",
+var gt = (e) => /TBD|TO VALIDATE|unproven|NOT_VERIFIED|REQUIRES VALIDATION|needs proof|must be proven|unmeasured/i.test(e), _t = ({ text: e }) => /* @__PURE__ */ (0, x.jsx)("td", {
+	className: gt(e) ? "mg-open" : "",
 	children: e
 });
-function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
-	let [i, a] = (0, b.useState)(null), [o, s] = (0, b.useState)(null), [c, l] = (0, b.useState)(!0), [u, d] = (0, b.useState)(null), [f, p] = (0, b.useState)("S3"), m = e === "compare", h = m ? "S1" : e, g = Me[h], _ = (0, b.useMemo)(() => Object.fromEntries(Ne.map((e) => [e, at(e)])), []), v = (0, b.useCallback)((e) => {
-		a(e), s(e);
-	}, []), y = f === h ? Ne.find((e) => e !== h) : f, S = (n) => {
-		n !== e && (d(null), t(n));
-	}, C = (e) => document.getElementById(e)?.scrollIntoView({
-		behavior: "smooth",
-		block: "start"
-	}), w = m ? ["S1", y] : [h];
+function vt({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, children: o }) {
+	return /* @__PURE__ */ (0, x.jsxs)("details", {
+		id: e,
+		className: "surface mg-section mg-fold",
+		"data-testid": t,
+		open: i,
+		onToggle: (t) => a(e, t.currentTarget.open),
+		children: [/* @__PURE__ */ (0, x.jsxs)("summary", { children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: n }), /* @__PURE__ */ (0, x.jsx)("span", {
+			className: "mg-hint",
+			children: r
+		})] }), o]
+	});
+}
+var yt = {
+	"mg-responsibility": "21 rows: who creates, hosts, registers and calls the Finance MCP",
+	"mg-registry": "Catalog, source and artifact owners",
+	"mg-domain": "Read, posting and analytical tools with separate authorizations",
+	"mg-hosting": "Which agent platforms work with which route",
+	"mg-decision": "15 dimensions compared across S1, S2 and S3",
+	"mg-recommendation": "Proposal, what would change it, and the proof plan",
+	"mg-evidence": "Vendor sources read on the access date",
+	"mg-connections": "Every connection, with invocation separated from registry and deployment"
+};
+function bt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
+	let i = (0, b.useRef)(null), [a, o] = (0, b.useState)({ "mg-recommendation": !0 }), s = (e, t) => o((n) => n[e] === t ? n : {
+		...n,
+		[e]: t
+	}), [c, l] = (0, b.useState)(null), [u, d] = (0, b.useState)(null), [f, p] = (0, b.useState)(!0), [m, h] = (0, b.useState)(null), [g, _] = (0, b.useState)("S3"), v = e === "compare", y = v ? "S1" : e, S = xe[y], C = (0, b.useMemo)(() => Object.fromEntries(O.map((e) => [e, ht(e)])), []), w = (0, b.useCallback)((e) => {
+		l(e), d(e);
+	}, []), T = g === y ? O.find((e) => e !== y) : g, ee = (n) => {
+		n !== e && (h(null), t(n));
+	}, E = (e) => {
+		o((t) => ({
+			...t,
+			[e]: !0
+		})), requestAnimationFrame(() => i.current?.querySelector(`#${e}`)?.scrollIntoView({
+			behavior: "smooth",
+			block: "start"
+		}));
+	}, D = v ? ["S1", T] : [y];
 	return /* @__PURE__ */ (0, x.jsxs)("main", {
+		ref: i,
 		className: "detailed-diagrams mcp-governance",
 		"aria-label": "MCP hosting and governance",
 		children: [
@@ -13080,19 +13347,19 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 						children: [/* @__PURE__ */ (0, x.jsx)("span", {
 							className: "eyebrow",
 							children: "MCP HOSTING & GOVERNANCE · WHO CREATES, HOSTS, REGISTERS AND CALLS THE FINANCE MCP"
-						}), /* @__PURE__ */ (0, x.jsx)("h2", { children: m ? "Compare MCP topologies" : g.label })]
+						}), /* @__PURE__ */ (0, x.jsx)("h2", { children: v ? "Compare MCP topologies" : S.label })]
 					}),
 					/* @__PURE__ */ (0, x.jsx)("nav", {
 						className: "dd-selector",
 						role: "tablist",
 						"aria-label": "MCP scenario selection",
-						children: [...Ne, "compare"].map((t) => /* @__PURE__ */ (0, x.jsx)("button", {
+						children: [...O, "compare"].map((t) => /* @__PURE__ */ (0, x.jsx)("button", {
 							type: "button",
 							role: "tab",
 							"aria-selected": e === t,
 							className: e === t ? "active" : "",
-							onClick: () => S(t),
-							children: t === "compare" ? "Compare side-by-side" : Me[t].label
+							onClick: () => ee(t),
+							children: t === "compare" ? "Compare side-by-side" : xe[t].label
 						}, t))
 					}),
 					/* @__PURE__ */ (0, x.jsx)("div", {
@@ -13110,12 +13377,12 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 					/* @__PURE__ */ (0, x.jsx)("span", {
 						className: "eyebrow",
-						children: m ? "WHAT THIS VIEW SHOWS" : `${h} · ${g.short.toUpperCase()}`
+						children: v ? "WHAT THIS VIEW SHOWS" : `${y} · ${S.short.toUpperCase()}`
 					}),
-					/* @__PURE__ */ (0, x.jsx)("p", { children: m ? "Two scenarios side by side. Pick the second one below. The matrices further down always show all three." : g.summary }),
-					!m && /* @__PURE__ */ (0, x.jsx)("p", {
+					/* @__PURE__ */ (0, x.jsx)("p", { children: v ? "Two scenarios side by side. Pick the second one below. The matrices further down always show all three." : S.summary }),
+					!v && /* @__PURE__ */ (0, x.jsx)("p", {
 						className: "mg-baseline",
-						children: g.baseline
+						children: S.baseline
 					})
 				] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "dd-invariant",
@@ -13129,9 +13396,9 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 				className: "mg-anchors",
 				"aria-label": "Sections on this page",
 				children: [
-					it.map(([e, t]) => /* @__PURE__ */ (0, x.jsx)("button", {
+					mt.map(([e, t]) => /* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: () => C(e),
+						onClick: () => E(e),
 						children: t
 					}, e)),
 					/* @__PURE__ */ (0, x.jsx)("button", {
@@ -13141,122 +13408,122 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: () => r(h === "S3" || m ? "S1" : h),
+						onClick: () => r(y === "S3" || v ? "S1" : y),
 						children: "Detailed reference diagrams →"
 					})
 				]
 			}),
-			m && /* @__PURE__ */ (0, x.jsxs)("div", {
+			v && /* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "surface dd-compare-bar",
 				children: [/* @__PURE__ */ (0, x.jsxs)("label", { children: [/* @__PURE__ */ (0, x.jsx)("input", {
 					type: "checkbox",
-					checked: c,
-					onChange: (e) => l(e.target.checked)
+					checked: f,
+					onChange: (e) => p(e.target.checked)
 				}), " Synchronize zoom and pan"] }), /* @__PURE__ */ (0, x.jsxs)("label", { children: ["Compare S1 with ", /* @__PURE__ */ (0, x.jsx)("select", {
-					value: y,
-					onChange: (e) => p(e.target.value),
+					value: T,
+					onChange: (e) => _(e.target.value),
 					"aria-label": "Second scenario",
-					children: Ne.filter((e) => e !== "S1").map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+					children: O.filter((e) => e !== "S1").map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
 						value: e,
-						children: Me[e].label
+						children: xe[e].label
 					}, e))
 				})] })]
 			}),
 			/* @__PURE__ */ (0, x.jsx)("div", {
-				className: `mg-viewers ${m ? "two" : ""}`,
-				children: w.map((e, t) => /* @__PURE__ */ (0, x.jsx)("div", {
+				className: `mg-viewers ${v ? "two" : ""}`,
+				children: D.map((e, t) => /* @__PURE__ */ (0, x.jsx)("div", {
 					className: "mg-viewer",
 					"data-scenario": e,
-					children: /* @__PURE__ */ (0, x.jsx)(P, {
-						diagram: _[e],
-						uid: `mg-${e}-${m ? "c" : "s"}`,
-						compact: m,
-						view: t === 0 ? i : o,
+					children: /* @__PURE__ */ (0, x.jsx)(ot, {
+						diagram: C[e],
+						uid: `mg-${e}-${v ? "c" : "s"}`,
+						compact: v,
+						view: t === 0 ? c : u,
 						onView: (e) => {
-							m && c ? v(e) : (t === 0 ? a : s)(e);
+							v && f ? w(e) : (t === 0 ? l : d)(e);
 						},
 						onFit: (e) => {
-							m && c ? v(e) : (t === 0 ? a : s)(e);
+							v && f ? w(e) : (t === 0 ? l : d)(e);
 						},
-						expanded: u === e,
-						onExpand: (t) => d(t ? e : null)
+						expanded: m === e,
+						onExpand: (t) => h(t ? e : null)
 					})
 				}, e))
 			}),
-			/* @__PURE__ */ (0, x.jsxs)("section", {
+			/* @__PURE__ */ (0, x.jsxs)(vt, {
 				id: "mg-responsibility",
-				className: "surface mg-section",
-				"data-testid": "mg-matrix",
-				children: [
-					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Responsibility matrix · 21 rows" }),
-					/* @__PURE__ */ (0, x.jsxs)("p", {
-						className: "micro",
-						children: [
-							"Selected scenario highlighted. “",
-							je,
-							"” and other open items are tinted. Every cell comes from one scenario configuration."
-						]
-					}),
-					/* @__PURE__ */ (0, x.jsx)("div", {
-						className: "mg-scroll",
-						children: /* @__PURE__ */ (0, x.jsxs)("table", {
-							className: "mg-table",
-							children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "col",
-								children: "Responsibility"
-							}), Ne.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "col",
-								className: w.includes(e) ? "sel" : "",
-								children: Me[e].label
-							}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Fe.map(([e, ...t], n) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsxs)("th", {
-								scope: "row",
-								children: [
-									n + 1,
-									". ",
-									e
-								]
-							}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)("td", {
-								className: `${w.includes(Ne[t]) ? "sel" : ""} ${ot(e) ? "mg-open" : ""}`,
-								children: e
-							}, Ne[t]))] }, e)) })]
-						})
+				testid: "mg-matrix",
+				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Responsibility matrix · 21 rows" }),
+				hint: yt["mg-responsibility"],
+				open: !!a["mg-responsibility"],
+				onToggle: s,
+				children: [/* @__PURE__ */ (0, x.jsxs)("p", {
+					className: "micro",
+					children: [
+						"Selected scenario highlighted. “",
+						be,
+						"” and other open items are tinted. Every cell comes from one scenario configuration."
+					]
+				}), /* @__PURE__ */ (0, x.jsx)("div", {
+					className: "mg-scroll",
+					children: /* @__PURE__ */ (0, x.jsxs)("table", {
+						className: "mg-table",
+						children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
+							scope: "col",
+							children: "Responsibility"
+						}), O.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+							scope: "col",
+							className: D.includes(e) ? "sel" : "",
+							children: xe[e].label
+						}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: A.map(([e, ...t], n) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsxs)("th", {
+							scope: "row",
+							children: [
+								n + 1,
+								". ",
+								e
+							]
+						}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)("td", {
+							className: `${D.includes(O[t]) ? "sel" : ""} ${gt(e) ? "mg-open" : ""}`,
+							children: e
+						}, O[t]))] }, e)) })]
 					})
-				]
+				})]
 			}),
-			w.map((e) => /* @__PURE__ */ (0, x.jsxs)("section", {
-				id: e === w[0] ? "mg-connections" : void 0,
-				className: "surface mg-section",
-				"data-testid": `mg-connections-${e}`,
-				children: [
-					/* @__PURE__ */ (0, x.jsxs)("h3", { children: ["Endpoint connectivity · ", Me[e].label] }),
-					/* @__PURE__ */ (0, x.jsx)("p", {
-						className: "micro",
-						children: "Invocation traffic is listed separately from registry lookups and artifact deployment. Endpoint addresses are conceptual placeholders."
-					}),
-					/* @__PURE__ */ (0, x.jsx)("div", {
-						className: "mg-scroll",
-						children: /* @__PURE__ */ (0, x.jsxs)("table", {
-							className: "mg-table wide",
-							children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsx)("tr", { children: Ie.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "col",
+			D.map((e) => /* @__PURE__ */ (0, x.jsxs)(vt, {
+				id: e === D[0] ? "mg-connections" : `mg-connections-${e}`,
+				testid: `mg-connections-${e}`,
+				title: /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: ["Endpoint connectivity · ", xe[e].label] }),
+				hint: yt["mg-connections"],
+				open: !!a[e === D[0] ? "mg-connections" : `mg-connections-${e}`],
+				onToggle: s,
+				children: [/* @__PURE__ */ (0, x.jsx)("p", {
+					className: "micro",
+					children: "Invocation traffic is listed separately from registry lookups and artifact deployment. Endpoint addresses are conceptual placeholders."
+				}), /* @__PURE__ */ (0, x.jsx)("div", {
+					className: "mg-scroll",
+					children: /* @__PURE__ */ (0, x.jsxs)("table", {
+						className: "mg-table wide",
+						children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsx)("tr", { children: Se.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+							scope: "col",
+							children: e
+						}, e)) }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: M[e].map((e, t) => /* @__PURE__ */ (0, x.jsx)("tr", {
+							className: /not invocation/i.test(e[2]) ? "mg-aside" : "",
+							children: e.map((e, t) => t === 0 ? /* @__PURE__ */ (0, x.jsx)("th", {
+								scope: "row",
 								children: e
-							}, e)) }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Ve[e].map((e, t) => /* @__PURE__ */ (0, x.jsx)("tr", {
-								className: /not invocation/i.test(e[2]) ? "mg-aside" : "",
-								children: e.map((e, t) => t === 0 ? /* @__PURE__ */ (0, x.jsx)("th", {
-									scope: "row",
-									children: e
-								}, t) : /* @__PURE__ */ (0, x.jsx)(st, { text: e }, t))
-							}, t)) })]
-						})
+							}, t) : /* @__PURE__ */ (0, x.jsx)(_t, { text: e }, t))
+						}, t)) })]
 					})
-				]
+				})]
 			}, e)),
-			/* @__PURE__ */ (0, x.jsxs)("section", {
+			/* @__PURE__ */ (0, x.jsxs)(vt, {
 				id: "mg-registry",
-				className: "surface mg-section",
-				"data-testid": "mg-registry",
+				testid: "mg-registry",
+				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Registry and artifact ownership" }),
+				hint: yt["mg-registry"],
+				open: !!a["mg-registry"],
+				onToggle: s,
 				children: [
-					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Registry and artifact ownership" }),
 					/* @__PURE__ */ (0, x.jsx)("p", {
 						className: "micro",
 						children: "Registries catalog; repositories hold source and specifications; runtimes execute. These rows are the same cells as the responsibility matrix."
@@ -13268,17 +13535,17 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 							children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "col",
 								children: "Item"
-							}), Ne.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+							}), O.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "col",
-								className: w.includes(e) ? "sel" : "",
-								children: Me[e].label
-							}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Fe.filter((e) => rt.includes(e[0])).map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
+								className: D.includes(e) ? "sel" : "",
+								children: xe[e].label
+							}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: A.filter((e) => pt.includes(e[0])).map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "row",
 								children: e
 							}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)("td", {
-								className: `${w.includes(Ne[t]) ? "sel" : ""} ${ot(e) ? "mg-open" : ""}`,
+								className: `${D.includes(O[t]) ? "sel" : ""} ${gt(e) ? "mg-open" : ""}`,
 								children: e
-							}, Ne[t]))] }, e)) })]
+							}, O[t]))] }, e)) })]
 						})
 					}),
 					/* @__PURE__ */ (0, x.jsx)("p", {
@@ -13287,19 +13554,21 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)("section", {
+			/* @__PURE__ */ (0, x.jsxs)(vt, {
 				id: "mg-domain",
-				className: "surface mg-section",
-				"data-testid": "mg-domain",
+				testid: "mg-domain",
+				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Finance domain MCP design" }),
+				hint: yt["mg-domain"],
+				open: !!a["mg-domain"],
+				onToggle: s,
 				children: [
-					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Finance domain MCP design" }),
 					/* @__PURE__ */ (0, x.jsx)("p", {
 						className: "micro",
 						children: "Read and write use separate authorizations. No generic write-capable tool may bypass SAP validation, approval, idempotency, posting-period control or audit. This demo never posts to SAP."
 					}),
 					/* @__PURE__ */ (0, x.jsx)("div", {
 						className: "mg-cards",
-						children: He.map((e) => /* @__PURE__ */ (0, x.jsxs)("article", { children: [
+						children: Ee.map((e) => /* @__PURE__ */ (0, x.jsxs)("article", { children: [
 							/* @__PURE__ */ (0, x.jsx)("span", {
 								className: `pill ${e.mode.startsWith("WRITE") ? "warn" : "quiet"}`,
 								children: e.mode
@@ -13317,46 +13586,47 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 						className: "micro",
 						children: [
 							"Five authorizations stay distinct: business approval, agent authorization, gateway authorization, SAP backend user authorization and the actual SAP posting result. Service identity is simpler to prove; end-user delegation needs proven token exchange, Cloud Connector, identity mapping and ABAP roles (",
-							je,
+							be,
 							")."
 						]
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)("section", {
+			/* @__PURE__ */ (0, x.jsxs)(vt, {
 				id: "mg-hosting",
-				className: "surface mg-section",
-				"data-testid": "mg-hosting",
-				children: [
-					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Agent hosting versus MCP scenario" }),
-					/* @__PURE__ */ (0, x.jsx)("p", {
-						className: "micro",
-						children: "A custom agent can run on one platform and consume an MCP endpoint hosted elsewhere. Nothing here is an enterprise approval."
-					}),
-					/* @__PURE__ */ (0, x.jsx)("div", {
-						className: "mg-scroll",
-						children: /* @__PURE__ */ (0, x.jsxs)("table", {
-							className: "mg-table",
-							children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "col",
-								children: "Agent host"
-							}), Ne.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "col",
-								children: Me[e].label
-							}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Ue.map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "row",
-								children: e
-							}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)(st, { text: e }, t))] }, e)) })]
-						})
+				testid: "mg-hosting",
+				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Agent hosting versus MCP scenario" }),
+				hint: yt["mg-hosting"],
+				open: !!a["mg-hosting"],
+				onToggle: s,
+				children: [/* @__PURE__ */ (0, x.jsx)("p", {
+					className: "micro",
+					children: "A custom agent can run on one platform and consume an MCP endpoint hosted elsewhere. Nothing here is an enterprise approval."
+				}), /* @__PURE__ */ (0, x.jsx)("div", {
+					className: "mg-scroll",
+					children: /* @__PURE__ */ (0, x.jsxs)("table", {
+						className: "mg-table",
+						children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
+							scope: "col",
+							children: "Agent host"
+						}), O.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+							scope: "col",
+							children: xe[e].label
+						}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: N.map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
+							scope: "row",
+							children: e
+						}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)(_t, { text: e }, t))] }, e)) })]
 					})
-				]
+				})]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)("section", {
+			/* @__PURE__ */ (0, x.jsxs)(vt, {
 				id: "mg-decision",
-				className: "surface mg-section",
-				"data-testid": "mg-decision",
+				testid: "mg-decision",
+				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Decision matrix" }),
+				hint: yt["mg-decision"],
+				open: !!a["mg-decision"],
+				onToggle: s,
 				children: [
-					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Decision matrix" }),
 					/* @__PURE__ */ (0, x.jsx)("p", {
 						className: "micro",
 						children: "Qualitative assessment. These are architectural judgments, not verified product claims or an approval."
@@ -13368,17 +13638,17 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 							children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "col",
 								children: "Dimension"
-							}), Ne.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+							}), O.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "col",
-								className: w.includes(e) ? "sel" : "",
-								children: Me[e].label
-							}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: We.map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
+								className: D.includes(e) ? "sel" : "",
+								children: xe[e].label
+							}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: De.map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "row",
 								children: e
 							}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)("td", {
-								className: w.includes(Ne[t]) ? "sel" : "",
+								className: D.includes(O[t]) ? "sel" : "",
 								children: e
-							}, Ne[t]))] }, e)) })]
+							}, O[t]))] }, e)) })]
 						})
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
@@ -13389,24 +13659,26 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)("section", {
+			/* @__PURE__ */ (0, x.jsxs)(vt, {
 				id: "mg-recommendation",
-				className: "surface mg-section",
-				"data-testid": "mg-recommendation",
+				testid: "mg-recommendation",
+				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Recommendation and proof plan" }),
+				hint: yt["mg-recommendation"],
+				open: !!a["mg-recommendation"],
+				onToggle: s,
 				children: [
-					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Recommendation and proof plan" }),
 					/* @__PURE__ */ (0, x.jsx)("p", {
 						className: "mg-reco",
-						children: /* @__PURE__ */ (0, x.jsx)("strong", { children: Ge.headline })
+						children: /* @__PURE__ */ (0, x.jsx)("strong", { children: Oe.headline })
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "mg-cards",
 						children: [
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Why" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Ge.why.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Depends on" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Ge.standards.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Open decisions" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Ge.open.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "What would change it" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Ge.changes.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How a POC proves it" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Ge.poc.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] })
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Why" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Oe.why.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Depends on" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Oe.standards.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Open decisions" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Oe.open.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "What would change it" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Oe.changes.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How a POC proves it" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: Oe.poc.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] })
 						]
 					}),
 					/* @__PURE__ */ (0, x.jsx)("p", {
@@ -13415,62 +13687,61 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)("section", {
+			/* @__PURE__ */ (0, x.jsxs)(vt, {
 				id: "mg-evidence",
-				className: "surface mg-section",
-				"data-testid": "mg-evidence",
-				children: [
-					/* @__PURE__ */ (0, x.jsxs)("h3", { children: ["Source evidence · accessed ", Ae] }),
-					/* @__PURE__ */ (0, x.jsx)("p", {
-						className: "micro",
-						children: qe
-					}),
-					/* @__PURE__ */ (0, x.jsx)("div", {
-						className: "mg-scroll",
-						children: /* @__PURE__ */ (0, x.jsxs)("table", {
-							className: "mg-table wide",
-							children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsx)("tr", { children: [
-								"Platform",
-								"Source",
-								"Documented capability",
-								"Architecture consequence",
-								"Validation still required"
-							].map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
-								scope: "col",
+				testid: "mg-evidence",
+				title: /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: ["Source evidence · accessed ", ye] }),
+				hint: yt["mg-evidence"],
+				open: !!a["mg-evidence"],
+				onToggle: s,
+				children: [/* @__PURE__ */ (0, x.jsx)("p", {
+					className: "micro",
+					children: Ae
+				}), /* @__PURE__ */ (0, x.jsx)("div", {
+					className: "mg-scroll",
+					children: /* @__PURE__ */ (0, x.jsxs)("table", {
+						className: "mg-table wide",
+						children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsx)("tr", { children: [
+							"Platform",
+							"Source",
+							"Documented capability",
+							"Architecture consequence",
+							"Validation still required"
+						].map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+							scope: "col",
+							children: e
+						}, e)) }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: ke.map(([e, t, n, r, i, a]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+							/* @__PURE__ */ (0, x.jsx)("th", {
+								scope: "row",
 								children: e
-							}, e)) }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Ke.map(([e, t, n, r, i, a]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
-								/* @__PURE__ */ (0, x.jsx)("th", {
-									scope: "row",
-									children: e
-								}),
-								/* @__PURE__ */ (0, x.jsx)("td", { children: /* @__PURE__ */ (0, x.jsx)("a", {
-									href: n,
-									target: "_blank",
-									rel: "noopener noreferrer",
-									children: t
-								}) }),
-								/* @__PURE__ */ (0, x.jsx)("td", { children: r }),
-								/* @__PURE__ */ (0, x.jsx)("td", { children: i }),
-								/* @__PURE__ */ (0, x.jsx)("td", {
-									className: "mg-open",
-									children: a
-								})
-							] }, n)) })]
-						})
+							}),
+							/* @__PURE__ */ (0, x.jsx)("td", { children: /* @__PURE__ */ (0, x.jsx)("a", {
+								href: n,
+								target: "_blank",
+								rel: "noopener noreferrer",
+								children: t
+							}) }),
+							/* @__PURE__ */ (0, x.jsx)("td", { children: r }),
+							/* @__PURE__ */ (0, x.jsx)("td", { children: i }),
+							/* @__PURE__ */ (0, x.jsx)("td", {
+								className: "mg-open",
+								children: a
+							})
+						] }, n)) })]
 					})
-				]
+				})]
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("section", {
 				className: "surface mg-section",
 				"aria-label": "Glossary",
 				children: [/* @__PURE__ */ (0, x.jsxs)("details", { children: [/* @__PURE__ */ (0, x.jsx)("summary", { children: /* @__PURE__ */ (0, x.jsx)("strong", { children: "Glossary · MCP terms used on this page" }) }), /* @__PURE__ */ (0, x.jsx)("dl", {
 					className: "mg-glossary",
-					children: Pe.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)("dt", { children: e }), /* @__PURE__ */ (0, x.jsx)("dd", { children: t })] }, e))
+					children: k.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)("dt", { children: e }), /* @__PURE__ */ (0, x.jsx)("dd", { children: t })] }, e))
 				})] }), /* @__PURE__ */ (0, x.jsxs)("p", {
 					className: "micro",
 					children: [
 						"Legend: ",
-						Qe.map(([, e]) => e).join(" · "),
+						Fe.map(([, e]) => e).join(" · "),
 						"."
 					]
 				})]
@@ -13478,8 +13749,1099 @@ function ct({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 		]
 	});
 }
+// src/ReconciliationReport.jsx
+var xt = (e) => new Intl.NumberFormat("en-US", {
+	style: "currency",
+	currency: "USD",
+	maximumFractionDigits: 0
+}).format(Number(e || 0)), St = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${xt(Math.abs(Number(e || 0)))}`, Ct = [
+	["summary", "Summary"],
+	["accounts", "Accounts"],
+	["items", "Reconciling items"],
+	["aging", "Aging"],
+	["controls", "Controls"],
+	["ai", "AI review"],
+	["audit", "Audit trail"]
+], wt = {
+	BALANCED: "Balanced",
+	WITHIN_TOLERANCE: "Within tolerance",
+	EXPLAINED: "Explained · approval needed",
+	EXCEPTION: "Exception · investigate",
+	HOLD: "On hold · sources stale"
+}, I = {
+	BALANCED: "ok",
+	WITHIN_TOLERANCE: "ok",
+	EXPLAINED: "info",
+	EXCEPTION: "bad",
+	HOLD: "warn"
+};
+function Tt(e, t, n) {
+	let r = URL.createObjectURL(new Blob([n], { type: t })), i = document.createElement("a");
+	i.href = r, i.download = e, document.body.appendChild(i), i.click(), i.remove(), setTimeout(() => URL.revokeObjectURL(r), 1e3);
+}
+var Et = (e) => `"${String(e ?? "").replace(/"/g, "\"\"")}"`;
+function Dt(e) {
+	let t = [
+		"item_id",
+		"document_id",
+		"document_type",
+		"account",
+		"account_name",
+		"posting_date",
+		"age_days",
+		"s4_amount",
+		"cfin_amount",
+		"difference",
+		"materiality",
+		"category",
+		"reason_code",
+		"status",
+		"owner",
+		"recommended_action",
+		"ai_confidence"
+	];
+	return [t.join(","), ...e.items.map((e) => t.map((t) => Et(t === "ai_confidence" ? e.ai.confidence : e[t])).join(","))].join("\r\n");
+}
+function Ot({ bridge: e }) {
+	let t = e[0].value, n = e[e.length - 1].value, r = Math.min(t, n) * .985, i = Math.max(t, n) * 1.005, a = 640 / e.length, o = (e) => 24 + 142 * (1 - (e - r) / Math.max(1, i - r)), s = t;
+	return /* @__PURE__ */ (0, x.jsx)("svg", {
+		className: "rr-bridge",
+		viewBox: "0 0 640 210",
+		role: "img",
+		"aria-label": "Variance bridge from the S/4HANA balance to the Central Finance balance",
+		children: e.map((e, t) => {
+			let n = t * a + a * .2, i = a * .6, c, l, u;
+			e.kind === "total" ? (c = r, l = e.value, u = "#0a6ed1") : (c = s, l = s + e.value, s = l, u = e.value < 0 ? "#bb0000" : "#107e3e");
+			let d = o(Math.max(c, l)), f = Math.max(3, Math.abs(o(c) - o(l)));
+			return /* @__PURE__ */ (0, x.jsxs)("g", { children: [
+				/* @__PURE__ */ (0, x.jsx)("rect", {
+					x: n,
+					y: d,
+					width: i,
+					height: f,
+					fill: u,
+					rx: "2"
+				}),
+				/* @__PURE__ */ (0, x.jsx)("text", {
+					x: n + i / 2,
+					y: d - 6,
+					textAnchor: "middle",
+					fontSize: "11",
+					fontWeight: "700",
+					fill: "#1d2d3e",
+					children: e.kind === "total" ? xt(e.value) : St(e.value)
+				}),
+				/* @__PURE__ */ (0, x.jsx)("text", {
+					x: n + i / 2,
+					y: 188,
+					textAnchor: "middle",
+					fontSize: "10.5",
+					fill: "#34495c",
+					children: e.label.length > 20 ? e.label.slice(0, 19) + "…" : e.label
+				})
+			] }, e.label);
+		})
+	});
+}
+function kt({ status: e }) {
+	return /* @__PURE__ */ (0, x.jsx)("span", {
+		className: `rr-chip ${String(e).toLowerCase().replace("_", "-")}`,
+		children: String(e).replace("_", " ")
+	});
+}
+function At({ report: e }) {
+	let t = e.summary;
+	return /* @__PURE__ */ (0, x.jsxs)("div", {
+		className: "rr-pane",
+		children: [
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: `rr-banner ${I[t.status]}`,
+				children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: wt[t.status] }), /* @__PURE__ */ (0, x.jsx)("span", { children: t.status_text })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "rr-kpis",
+				children: [
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "S/4HANA balance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: xt(t.s4_total) })] }),
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Central Finance balance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: xt(t.cfin_total) })] }),
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: t.variance ? "attn" : "",
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }),
+							/* @__PURE__ */ (0, x.jsx)("strong", { children: St(t.variance) }),
+							/* @__PURE__ */ (0, x.jsxs)("small", { children: ["Tolerance ", xt(t.tolerance)] })
+						]
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [
+						/* @__PURE__ */ (0, x.jsx)("span", { children: "Explained" }),
+						/* @__PURE__ */ (0, x.jsxs)("strong", { children: [t.explained_pct, "%"] }),
+						/* @__PURE__ */ (0, x.jsxs)("small", { children: [
+							xt(t.explained),
+							" of ",
+							xt(t.variance)
+						] })
+					] }),
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: t.unexplained ? "attn" : "",
+						children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Unexplained" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: xt(t.unexplained) })]
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [
+						/* @__PURE__ */ (0, x.jsx)("span", { children: "Open items" }),
+						/* @__PURE__ */ (0, x.jsx)("strong", { children: t.open_items }),
+						/* @__PURE__ */ (0, x.jsxs)("small", { children: [
+							t.high_items,
+							" high · ",
+							t.matched_movements,
+							" matched movements"
+						] })
+					] })
+				]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "rr-grid2",
+				children: [/* @__PURE__ */ (0, x.jsxs)("section", { children: [
+					/* @__PURE__ */ (0, x.jsx)("h3", { children: "Variance bridge" }),
+					/* @__PURE__ */ (0, x.jsx)("p", {
+						className: "rr-note",
+						children: "From the S/4HANA balance to the Central Finance balance, by reason."
+					}),
+					e.bridge.length > 2 ? /* @__PURE__ */ (0, x.jsx)(Ot, { bridge: e.bridge }) : /* @__PURE__ */ (0, x.jsx)("p", {
+						className: "rr-empty",
+						children: "No reconciling items. The two balances agree."
+					})
+				] }), /* @__PURE__ */ (0, x.jsxs)("section", { children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "Close timeline · source checks" }), /* @__PURE__ */ (0, x.jsx)("ol", {
+					className: "rr-timeline",
+					children: e.timeline.map((e) => /* @__PURE__ */ (0, x.jsxs)("li", {
+						className: e.freshness === "current" ? "ok" : "warn",
+						children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e.step }), /* @__PURE__ */ (0, x.jsxs)("span", { children: [
+							xt(e.balance),
+							" · ",
+							e.freshness,
+							" · ",
+							e.timestamp_utc?.slice(11, 16),
+							" UTC"
+						] })]
+					}, e.source))
+				})] })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("section", { children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "Next actions" }), e.actions.length ? /* @__PURE__ */ (0, x.jsxs)("table", {
+				className: "rr-table",
+				children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "#" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Item" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Owner" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Action" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Due" }),
+					/* @__PURE__ */ (0, x.jsx)("th", {
+						className: "num",
+						children: "Amount"
+					})
+				] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: e.actions.map((e) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.priority }),
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.item_id }),
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.owner }),
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.action }),
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.due }),
+					/* @__PURE__ */ (0, x.jsx)("td", {
+						className: "num",
+						children: St(e.amount)
+					})
+				] }, e.item_id)) })]
+			}) : /* @__PURE__ */ (0, x.jsx)("p", {
+				className: "rr-empty",
+				children: "No action needed for this period."
+			})] }),
+			/* @__PURE__ */ (0, x.jsxs)("p", {
+				className: "rr-note",
+				children: [
+					"Approval readiness: ",
+					t.ready_for_approval ? "ready for a separate finance approval." : "not ready. Resolve the items above first.",
+					" This report never posts to SAP."
+				]
+			})
+		]
+	});
+}
+function jt({ report: e }) {
+	let t = Math.max(1, ...e.accounts.map((e) => Math.abs(e.difference)));
+	return /* @__PURE__ */ (0, x.jsxs)("div", {
+		className: "rr-pane",
+		children: [/* @__PURE__ */ (0, x.jsxs)("table", {
+			className: "rr-table",
+			children: [
+				/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Account" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Name" }),
+					/* @__PURE__ */ (0, x.jsx)("th", {
+						className: "num",
+						children: "S/4HANA"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("th", {
+						className: "num",
+						children: "Central Finance"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("th", {
+						className: "num",
+						children: "Difference"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Open items" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Status" })
+				] }) }),
+				/* @__PURE__ */ (0, x.jsx)("tbody", { children: e.accounts.map((e) => /* @__PURE__ */ (0, x.jsxs)("tr", {
+					className: e.status === "variance" ? "hl" : "",
+					children: [
+						/* @__PURE__ */ (0, x.jsx)("td", { children: e.account }),
+						/* @__PURE__ */ (0, x.jsx)("td", { children: e.name }),
+						/* @__PURE__ */ (0, x.jsx)("td", {
+							className: "num",
+							children: xt(e.s4_balance)
+						}),
+						/* @__PURE__ */ (0, x.jsx)("td", {
+							className: "num",
+							children: xt(e.cfin_balance)
+						}),
+						/* @__PURE__ */ (0, x.jsxs)("td", {
+							className: "num",
+							children: [/* @__PURE__ */ (0, x.jsx)("span", {
+								className: "rr-bar",
+								style: { width: `${Math.abs(e.difference) / t * 60}px` },
+								"aria-hidden": "true"
+							}), St(e.difference)]
+						}),
+						/* @__PURE__ */ (0, x.jsx)("td", { children: e.open_items }),
+						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
+							/* @__PURE__ */ (0, x.jsx)(kt, { status: e.status === "variance" ? "EXCEPTION" : (e.status, "PASS") }),
+							" ",
+							e.status.replace("_", " ")
+						] })
+					]
+				}, e.account)) }),
+				/* @__PURE__ */ (0, x.jsx)("tfoot", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					/* @__PURE__ */ (0, x.jsx)("th", {
+						colSpan: "2",
+						children: "Total"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("td", {
+						className: "num",
+						children: xt(e.summary.s4_total)
+					}),
+					/* @__PURE__ */ (0, x.jsx)("td", {
+						className: "num",
+						children: xt(e.summary.cfin_total)
+					}),
+					/* @__PURE__ */ (0, x.jsx)("td", {
+						className: "num",
+						children: St(e.summary.variance)
+					}),
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.summary.open_items }),
+					/* @__PURE__ */ (0, x.jsx)("td", {})
+				] }) })
+			]
+		}), /* @__PURE__ */ (0, x.jsx)("p", {
+			className: "rr-note",
+			children: "S/4HANA lines come from the synthetic history. Central Finance lines are derived from the document-level differences so that every column adds up."
+		})]
+	});
+}
+function Mt({ report: e }) {
+	let [t, n] = (0, b.useState)("all"), [r, i] = (0, b.useState)("all"), [a, o] = (0, b.useState)(null), s = e.items.filter((e) => (t === "all" || e.status === t) && (r === "all" || e.materiality === r));
+	return /* @__PURE__ */ (0, x.jsxs)("div", {
+		className: "rr-pane",
+		children: [
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "rr-filters",
+				children: [
+					/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Status", /* @__PURE__ */ (0, x.jsxs)("select", {
+						value: t,
+						onChange: (e) => n(e.target.value),
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("option", {
+								value: "all",
+								children: "All"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("option", {
+								value: "needs_review",
+								children: "Needs review"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("option", {
+								value: "explained",
+								children: "Explained"
+							})
+						]
+					})] }),
+					/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Materiality", /* @__PURE__ */ (0, x.jsxs)("select", {
+						value: r,
+						onChange: (e) => i(e.target.value),
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("option", {
+								value: "all",
+								children: "All"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("option", {
+								value: "high",
+								children: "High"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("option", {
+								value: "medium",
+								children: "Medium"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("option", {
+								value: "low",
+								children: "Low"
+							})
+						]
+					})] }),
+					/* @__PURE__ */ (0, x.jsxs)("span", { children: [
+						s.length,
+						" of ",
+						e.items.length,
+						" items"
+					] })
+				]
+			}),
+			e.items.length === 0 ? /* @__PURE__ */ (0, x.jsx)("p", {
+				className: "rr-empty",
+				children: "No reconciling items for this period."
+			}) : /* @__PURE__ */ (0, x.jsxs)("table", {
+				className: "rr-table",
+				children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					/* @__PURE__ */ (0, x.jsx)("th", {}),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Document" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Type" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Account" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Posted" }),
+					/* @__PURE__ */ (0, x.jsx)("th", {
+						className: "num",
+						children: "S/4HANA"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("th", {
+						className: "num",
+						children: "Central Finance"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("th", {
+						className: "num",
+						children: "Difference"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Reason" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Status" })
+				] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: s.map((e) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("tr", {
+					className: a === e.item_id ? "hl" : "",
+					children: [
+						/* @__PURE__ */ (0, x.jsx)("td", { children: /* @__PURE__ */ (0, x.jsx)("button", {
+							type: "button",
+							className: "rr-expand",
+							"aria-expanded": a === e.item_id,
+							"aria-label": `Details for ${e.document_id}`,
+							onClick: () => o(a === e.item_id ? null : e.item_id),
+							children: a === e.item_id ? "▾" : "▸"
+						}) }),
+						/* @__PURE__ */ (0, x.jsx)("td", { children: e.document_id }),
+						/* @__PURE__ */ (0, x.jsx)("td", { children: e.document_type }),
+						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
+							e.account,
+							" ",
+							e.account_name
+						] }),
+						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
+							e.posting_date,
+							" · ",
+							e.age_days,
+							"d"
+						] }),
+						/* @__PURE__ */ (0, x.jsx)("td", {
+							className: "num",
+							children: xt(e.s4_amount)
+						}),
+						/* @__PURE__ */ (0, x.jsx)("td", {
+							className: "num",
+							children: xt(e.cfin_amount)
+						}),
+						/* @__PURE__ */ (0, x.jsx)("td", {
+							className: "num",
+							children: /* @__PURE__ */ (0, x.jsx)("strong", { children: St(e.difference) })
+						}),
+						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
+							e.reason_code,
+							" · ",
+							e.category_label
+						] }),
+						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
+							/* @__PURE__ */ (0, x.jsx)(kt, { status: e.status === "explained" ? "PASS" : "HOLD" }),
+							" ",
+							e.status.replace("_", " "),
+							" · ",
+							e.materiality
+						] })
+					]
+				}), a === e.item_id && /* @__PURE__ */ (0, x.jsxs)("tr", {
+					className: "rr-detail",
+					children: [/* @__PURE__ */ (0, x.jsx)("td", {}), /* @__PURE__ */ (0, x.jsx)("td", {
+						colSpan: "9",
+						children: /* @__PURE__ */ (0, x.jsxs)("div", {
+							className: "rr-detail-grid",
+							children: [
+								/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "AIF / mapping" }), /* @__PURE__ */ (0, x.jsxs)("strong", { children: [
+									e.aif_status,
+									" · ",
+									e.mapping_status
+								] })] }),
+								/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Owner" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: e.owner })] }),
+								/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "SAP reference" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: e.sap_reference })] }),
+								/* @__PURE__ */ (0, x.jsxs)("div", {
+									className: "wide",
+									children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Recommended action" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: e.recommended_action })]
+								}),
+								/* @__PURE__ */ (0, x.jsxs)("div", {
+									className: "wide",
+									children: [
+										/* @__PURE__ */ (0, x.jsxs)("span", { children: [
+											"AI assessment · ",
+											Math.round(e.ai.confidence * 100),
+											"% confidence"
+										] }),
+										/* @__PURE__ */ (0, x.jsx)("strong", { children: e.ai.rationale }),
+										/* @__PURE__ */ (0, x.jsx)("small", { children: e.ai.basis })
+									]
+								})
+							]
+						})
+					})]
+				})] }, e.item_id)) })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("details", {
+				className: "rr-matched",
+				children: [/* @__PURE__ */ (0, x.jsxs)("summary", { children: [/* @__PURE__ */ (0, x.jsxs)("strong", { children: [
+					"Matched movements (",
+					e.matched.length,
+					")"
+				] }), " · agree in S/4HANA and Central Finance"] }), /* @__PURE__ */ (0, x.jsxs)("table", {
+					className: "rr-table",
+					children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+						/* @__PURE__ */ (0, x.jsx)("th", { children: "Journal" }),
+						/* @__PURE__ */ (0, x.jsx)("th", { children: "Account" }),
+						/* @__PURE__ */ (0, x.jsx)("th", { children: "Description" }),
+						/* @__PURE__ */ (0, x.jsx)("th", {
+							className: "num",
+							children: "Amount"
+						})
+					] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: e.matched.map((e) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+						/* @__PURE__ */ (0, x.jsx)("td", { children: e.journal_id }),
+						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
+							e.account,
+							" ",
+							e.account_name
+						] }),
+						/* @__PURE__ */ (0, x.jsx)("td", { children: e.description }),
+						/* @__PURE__ */ (0, x.jsx)("td", {
+							className: "num",
+							children: xt(e.amount)
+						})
+					] }, e.journal_id)) })]
+				})]
+			})
+		]
+	});
+}
+function Nt({ report: e }) {
+	let t = Math.max(1, ...e.aging.map((e) => Math.abs(e.amount)));
+	return /* @__PURE__ */ (0, x.jsxs)("div", {
+		className: "rr-pane",
+		children: [
+			/* @__PURE__ */ (0, x.jsx)("p", {
+				className: "rr-note",
+				children: "Age of open reconciling items at the period end."
+			}),
+			/* @__PURE__ */ (0, x.jsx)("div", {
+				className: "rr-aging",
+				children: e.aging.map((e) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [
+					/* @__PURE__ */ (0, x.jsx)("span", { children: e.bucket }),
+					/* @__PURE__ */ (0, x.jsx)("div", {
+						className: "rr-meter",
+						children: /* @__PURE__ */ (0, x.jsx)("i", { style: { width: `${Math.abs(e.amount) / t * 100}%` } })
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("strong", { children: [
+						e.count,
+						" item",
+						e.count === 1 ? "" : "s",
+						" · ",
+						St(e.amount)
+					] })
+				] }, e.bucket))
+			}),
+			e.aging[3].count + e.aging[2].count > 0 && /* @__PURE__ */ (0, x.jsxs)("p", {
+				className: "rr-banner warn",
+				children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Older items" }), /* @__PURE__ */ (0, x.jsx)("span", { children: "Items older than 30 days need an owner and a clearing date before sign-off." })]
+			})
+		]
+	});
+}
+function Pt({ report: e }) {
+	return /* @__PURE__ */ (0, x.jsxs)("div", {
+		className: "rr-pane",
+		children: [/* @__PURE__ */ (0, x.jsx)("p", {
+			className: "rr-note",
+			children: "PASS, HOLD and NOT_VERIFIED are reported separately. NOT_VERIFIED means the demo cannot prove it without a real tenant."
+		}), /* @__PURE__ */ (0, x.jsxs)("table", {
+			className: "rr-table",
+			children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+				/* @__PURE__ */ (0, x.jsx)("th", { children: "ID" }),
+				/* @__PURE__ */ (0, x.jsx)("th", { children: "Control" }),
+				/* @__PURE__ */ (0, x.jsx)("th", { children: "Status" }),
+				/* @__PURE__ */ (0, x.jsx)("th", { children: "Detail" })
+			] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: e.controls.map((e) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+				/* @__PURE__ */ (0, x.jsx)("td", { children: e.id }),
+				/* @__PURE__ */ (0, x.jsx)("td", { children: e.name }),
+				/* @__PURE__ */ (0, x.jsx)("td", { children: /* @__PURE__ */ (0, x.jsx)(kt, { status: e.status }) }),
+				/* @__PURE__ */ (0, x.jsx)("td", { children: e.detail })
+			] }, e.id)) })]
+		})]
+	});
+}
+function Ft({ report: e }) {
+	let t = e.ai_review;
+	return /* @__PURE__ */ (0, x.jsxs)("div", {
+		className: "rr-pane",
+		children: [
+			/* @__PURE__ */ (0, x.jsxs)("p", {
+				className: "rr-banner info",
+				children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Advisory only" }), /* @__PURE__ */ (0, x.jsxs)("span", { children: [
+					"The assistant explains and ranks. A person decides. Model: ",
+					t.model,
+					"."
+				] })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "rr-grid2",
+				children: [/* @__PURE__ */ (0, x.jsxs)("section", { children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "What the AI did" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: t.did.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }), /* @__PURE__ */ (0, x.jsxs)("section", { children: [/* @__PURE__ */ (0, x.jsx)("h3", { children: "What it did not do" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: t.did_not.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("section", { children: [
+				/* @__PURE__ */ (0, x.jsx)("h3", { children: "Confidence by item" }),
+				e.items.length ? /* @__PURE__ */ (0, x.jsx)("div", {
+					className: "rr-aging",
+					children: e.items.map((e) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [
+						/* @__PURE__ */ (0, x.jsx)("span", { children: e.document_id }),
+						/* @__PURE__ */ (0, x.jsx)("div", {
+							className: "rr-meter",
+							children: /* @__PURE__ */ (0, x.jsx)("i", {
+								style: { width: `${e.ai.confidence * 100}%` },
+								className: e.ai.confidence < .7 ? "low" : ""
+							})
+						}),
+						/* @__PURE__ */ (0, x.jsxs)("strong", { children: [
+							Math.round(e.ai.confidence * 100),
+							"% · ",
+							e.ai.classification
+						] })
+					] }, e.item_id))
+				}) : /* @__PURE__ */ (0, x.jsx)("p", {
+					className: "rr-empty",
+					children: "Nothing to classify."
+				}),
+				/* @__PURE__ */ (0, x.jsx)("p", {
+					className: "rr-note",
+					children: "Items below 70% confidence are flagged for human review."
+				})
+			] })
+		]
+	});
+}
+function It({ report: e }) {
+	return /* @__PURE__ */ (0, x.jsxs)("div", {
+		className: "rr-pane",
+		children: [
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "rr-detail-grid",
+				children: [
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Report" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: e.report_id })] }),
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Case / route" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: e.case_id ? `${e.case_id} · ${e.scenario}` : "Not attached" })] }),
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Trace" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: e.trace_id || "Run the period to attach a trace" })] }),
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "As of" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: e.as_of })] })
+				]
+			}),
+			/* @__PURE__ */ (0, x.jsx)("h3", { children: "Source evidence" }),
+			/* @__PURE__ */ (0, x.jsxs)("table", {
+				className: "rr-table",
+				children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Source" }),
+					/* @__PURE__ */ (0, x.jsx)("th", {
+						className: "num",
+						children: "Balance"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Freshness" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Timestamp" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Evidence id" })
+				] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: e.sources.map((t) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					/* @__PURE__ */ (0, x.jsx)("td", { children: t.source }),
+					/* @__PURE__ */ (0, x.jsx)("td", {
+						className: "num",
+						children: xt(t.balance)
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("td", { children: [
+						/* @__PURE__ */ (0, x.jsx)(kt, { status: t.freshness === "current" ? "PASS" : "HOLD" }),
+						" ",
+						t.freshness
+					] }),
+					/* @__PURE__ */ (0, x.jsxs)("td", { children: [t.timestamp_utc?.replace("T", " ").slice(0, 16), " UTC"] }),
+					/* @__PURE__ */ (0, x.jsxs)("td", { children: [
+						"SYN-",
+						t.source.toUpperCase(),
+						"-",
+						e.period,
+						"-AGG"
+					] })
+				] }, t.source)) })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("h3", { children: [
+				"Stored events (",
+				e.events.length,
+				")"
+			] }),
+			e.events.length ? /* @__PURE__ */ (0, x.jsxs)("table", {
+				className: "rr-table",
+				children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "#" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "From" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "To" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Operation" }),
+					/* @__PURE__ */ (0, x.jsx)("th", { children: "Status" })
+				] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: e.events.map((e) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.seq }),
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.source }),
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.target }),
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.operation }),
+					/* @__PURE__ */ (0, x.jsx)("td", { children: e.status })
+				] }, e.seq)) })]
+			}) : /* @__PURE__ */ (0, x.jsx)("p", {
+				className: "rr-empty",
+				children: "No run is attached to this report. Run the period to record events."
+			}),
+			/* @__PURE__ */ (0, x.jsx)("p", {
+				className: "rr-note",
+				children: e.disclaimer
+			})
+		]
+	});
+}
+function Lt({ report: e, period: t, onClose: n }) {
+	let r = (0, b.useRef)(null), [i, a] = (0, b.useState)("summary"), [o, s] = (0, b.useState)(!1);
+	(0, b.useEffect)(() => {
+		let e = r.current;
+		return e && !e.open && e.showModal(), () => {
+			e?.open && e.close();
+		};
+	}, []), (0, b.useEffect)(() => {
+		if (!o) return;
+		let e = () => s(!1);
+		window.addEventListener("afterprint", e);
+		let t = setTimeout(() => {
+			try {
+				window.print();
+			} catch {
+				e();
+			}
+		}, 60);
+		return () => {
+			clearTimeout(t), window.removeEventListener("afterprint", e);
+		};
+	}, [o]);
+	let c = (0, b.useMemo)(() => e ? {
+		summary: /* @__PURE__ */ (0, x.jsx)(At, { report: e }),
+		accounts: /* @__PURE__ */ (0, x.jsx)(jt, { report: e }),
+		items: /* @__PURE__ */ (0, x.jsx)(Mt, { report: e }),
+		aging: /* @__PURE__ */ (0, x.jsx)(Nt, { report: e }),
+		controls: /* @__PURE__ */ (0, x.jsx)(Pt, { report: e }),
+		ai: /* @__PURE__ */ (0, x.jsx)(Ft, { report: e }),
+		audit: /* @__PURE__ */ (0, x.jsx)(It, { report: e })
+	}[i] : null, [e, i]);
+	return /* @__PURE__ */ (0, x.jsxs)("dialog", {
+		ref: r,
+		className: "rr-dialog",
+		"aria-labelledby": "rr-title",
+		onClose: n,
+		children: [/* @__PURE__ */ (0, x.jsxs)("header", {
+			className: "rr-header",
+			children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsxs)("span", {
+				className: "eyebrow",
+				children: ["SYNTHETIC RECONCILIATION REPORT · ", e?.report_id || `RPT-${t}`]
+			}), /* @__PURE__ */ (0, x.jsx)("h2", {
+				id: "rr-title",
+				children: e ? `Company code ${e.company_code} · ledger ${e.ledger} · ${e.period} · ${e.currency}` : `Loading report for ${t}…`
+			})] }), /* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "rr-actions",
+				children: [
+					e && /* @__PURE__ */ (0, x.jsx)("span", {
+						className: `rr-chip ${I[e.summary.status]}`,
+						children: wt[e.summary.status]
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						disabled: !e,
+						onClick: () => Tt(`${e.report_id}-items.csv`, "text/csv", Dt(e)),
+						children: "Items CSV ⤓"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						disabled: !e,
+						onClick: () => Tt(`${e.report_id}.json`, "application/json", JSON.stringify(e, null, 2)),
+						children: "Report JSON ⤓"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						disabled: !e,
+						onClick: () => s(!0),
+						children: "Print full report"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: n,
+						"aria-label": "Close reconciliation report",
+						children: "×"
+					})
+				]
+			})]
+		}), e && o ? /* @__PURE__ */ (0, x.jsx)("div", {
+			className: "rr-body rr-print-all",
+			children: Ct.map(([t, n]) => /* @__PURE__ */ (0, x.jsxs)("section", { children: [/* @__PURE__ */ (0, x.jsx)("h2", { children: n }), {
+				summary: /* @__PURE__ */ (0, x.jsx)(At, { report: e }),
+				accounts: /* @__PURE__ */ (0, x.jsx)(jt, { report: e }),
+				items: /* @__PURE__ */ (0, x.jsx)(Mt, { report: e }),
+				aging: /* @__PURE__ */ (0, x.jsx)(Nt, { report: e }),
+				controls: /* @__PURE__ */ (0, x.jsx)(Pt, { report: e }),
+				ai: /* @__PURE__ */ (0, x.jsx)(Ft, { report: e }),
+				audit: /* @__PURE__ */ (0, x.jsx)(It, { report: e })
+			}[t]] }, t))
+		}) : e ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)("div", {
+			className: "rr-tabs",
+			role: "tablist",
+			"aria-label": "Report sections",
+			onKeyDown: (e) => {
+				let t = Ct.findIndex(([e]) => e === i);
+				e.key === "ArrowRight" && (a(Ct[(t + 1) % Ct.length][0]), e.preventDefault()), e.key === "ArrowLeft" && (a(Ct[(t + Ct.length - 1) % Ct.length][0]), e.preventDefault());
+			},
+			children: Ct.map(([t, n]) => /* @__PURE__ */ (0, x.jsxs)("button", {
+				type: "button",
+				role: "tab",
+				"aria-selected": i === t,
+				tabIndex: i === t ? 0 : -1,
+				className: i === t ? "active" : "",
+				onClick: () => a(t),
+				children: [n, t === "items" && e.items.length ? /* @__PURE__ */ (0, x.jsx)("em", { children: e.items.length }) : null]
+			}, t))
+		}), /* @__PURE__ */ (0, x.jsx)("div", {
+			className: "rr-body",
+			role: "tabpanel",
+			children: c
+		})] }) : /* @__PURE__ */ (0, x.jsx)("div", {
+			className: "rr-body",
+			children: /* @__PURE__ */ (0, x.jsx)("p", {
+				className: "rr-empty",
+				role: "status",
+				children: "Loading the synthetic report…"
+			})
+		})]
+	});
+}
+// src/AgentCards.jsx
+var Rt = {
+	done: "✓",
+	running: "…",
+	pending: "·",
+	held: "?",
+	blocked: "✕",
+	skipped: "–"
+}, zt = {
+	done: "Plan complete. Open any step to see where it worked.",
+	needs_input: "The plan stopped: it needs one more detail from you.",
+	blocked: "The plan stopped at a control. Nothing was changed.",
+	planned: "Plan ready."
+};
+function Bt({ catalog: e, plan: t, busy: n, onAsk: r, onGo: i, activeId: a }) {
+	let [o, s] = (0, b.useState)("Reconcile November 2026 company code 1000 ledger 0L USD"), c = e?.agents || [];
+	if (!c.length) return null;
+	let l = (e) => {
+		e.preventDefault(), o.trim() && !n && r(o.trim());
+	}, u = Object.fromEntries(c.map((e) => [e.id, e]));
+	return /* @__PURE__ */ (0, x.jsxs)("section", {
+		className: "surface agent-strip",
+		"aria-label": "Finance agents",
+		children: [
+			/* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "agent-head",
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+					className: "eyebrow",
+					children: "AGENTS · SIMULATED"
+				}), /* @__PURE__ */ (0, x.jsx)("strong", { children: "Ask the orchestrator, or open an agent's layer" })] }), /* @__PURE__ */ (0, x.jsxs)("form", {
+					className: "agent-ask",
+					onSubmit: l,
+					children: [
+						/* @__PURE__ */ (0, x.jsx)("label", {
+							htmlFor: "agent-ask",
+							className: "sr-only",
+							children: "Ask the orchestrator"
+						}),
+						/* @__PURE__ */ (0, x.jsx)("input", {
+							id: "agent-ask",
+							value: o,
+							onChange: (e) => s(e.target.value),
+							placeholder: "e.g. Reconcile November 2026, or Explain the route controls"
+						}),
+						/* @__PURE__ */ (0, x.jsx)("button", {
+							type: "submit",
+							className: "primary",
+							disabled: n,
+							children: n ? "Running…" : "Run plan"
+						})
+					]
+				})]
+			}),
+			/* @__PURE__ */ (0, x.jsx)("ul", {
+				className: "agent-cards",
+				children: c.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: /* @__PURE__ */ (0, x.jsxs)("button", {
+					type: "button",
+					className: `agent-card ${a === e.id ? "active" : ""}`,
+					onClick: () => i(e),
+					"aria-label": `Open ${e.name} agent`,
+					title: e.role,
+					children: [
+						/* @__PURE__ */ (0, x.jsx)("strong", { children: e.name }),
+						/* @__PURE__ */ (0, x.jsx)("span", { children: e.role }),
+						/* @__PURE__ */ (0, x.jsx)("em", { children: e.mode })
+					]
+				}) }, e.id))
+			}),
+			t?.steps && /* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "agent-plan",
+				"aria-live": "polite",
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", {
+					className: `agent-plan-note ${t.status}`,
+					children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: t.intent.replace("_", " ") }), /* @__PURE__ */ (0, x.jsx)("span", { children: t.blocked_reason || zt[t.status] || "" })]
+				}), t.steps.length > 0 && /* @__PURE__ */ (0, x.jsx)("ol", { children: t.steps.map((e) => /* @__PURE__ */ (0, x.jsx)("li", {
+					className: e.status,
+					children: /* @__PURE__ */ (0, x.jsxs)("button", {
+						type: "button",
+						onClick: () => i(u[e.agent] || {}, e),
+						"aria-label": `${u[e.agent]?.name || e.agent}: ${e.purpose}`,
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("span", {
+								className: "agent-step-mark",
+								"aria-hidden": "true",
+								children: Rt[e.status]
+							}),
+							/* @__PURE__ */ (0, x.jsx)("b", { children: u[e.agent]?.name || e.agent }),
+							/* @__PURE__ */ (0, x.jsx)("small", { children: e.summary || e.purpose }),
+							/* @__PURE__ */ (0, x.jsxs)("code", {
+								className: "tech",
+								children: [
+									e.tool,
+									" · ",
+									e.rw
+								]
+							})
+						]
+					})
+				}, e.step_id)) })]
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("p", {
+				className: "agent-foot",
+				children: [e.label, ". Agents plan and read; approval, posting and data changes are never agent actions."]
+			})
+		]
+	});
+}
+// src/liveArchitecture.js
+var Vt = {
+	w: 1200,
+	h: 520
+}, Ht = (e, t, n, r, i, a, o = {}) => ({
+	id: e,
+	row: t,
+	col: n,
+	title: r,
+	sub: i,
+	kind: a,
+	...o
+}), Ut = [
+	["invoke", "Tool call"],
+	["return", "Evidence"],
+	["registry", "Reference"],
+	["deploy", "Registration"],
+	["identity", "Identity"],
+	["approval", "Approval"]
+], Wt = [[
+	92,
+	"DESIGN TIME AND IDENTITY",
+	"end"
+], [
+	322,
+	"RESULT, EVIDENCE AND APPROVAL",
+	"start"
+]], Gt = {
+	"Business entry": "agent",
+	"AWS runtime": "domain",
+	"Selected gateway": "gateway",
+	"Domain MCP": "domain",
+	"SAP BAIP": "integration",
+	"SAP backends": "backend",
+	"Enterprise Databricks": "data",
+	"Future BDC": "data",
+	"Model branch": "agent",
+	"AI Foundry design time": "registry",
+	"AWS controls": "identity",
+	"Write approval": "decision"
+}, Kt = {
+	"AI Foundry design time": [0, 0],
+	"AWS controls": [0, 1],
+	"Business entry": [1, 0],
+	"AWS runtime": [1, 1],
+	"Selected gateway": [1, 2],
+	"Domain MCP": [1, 3],
+	"SAP BAIP": [1, 4],
+	"SAP backends": [1, 5],
+	"Enterprise Databricks": [2, 3],
+	"Future BDC": [2, 4],
+	"Write approval": [2, 0],
+	"Model branch": [2, 2]
+};
+function qt({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning: i, reportReady: a, zoneShort: o }) {
+	let s = e?.components || [], c = Object.fromEntries(s.map((e) => [e.component_id, e.zone])), l = (e) => s.filter((t) => t.zone === e).length, u = {};
+	for (let e of t) {
+		let t = c[e.direction === "response" ? e.source_component_id : e.target_component_id];
+		t && (u[t] = (u[t] || 0) + 1);
+	}
+	let d = t.at(-1), f = d ? c[d.direction === "response" ? d.source_component_id : d.target_component_id] : null, p = i && f, m = Object.keys(Kt).map((e) => {
+		let [t, i] = Kt[e], a = p && f === e, s = !!u[e], c = a ? "Processing now" : s ? `${u[e]} events` : e === "Future BDC" ? "Future / simulated" : e === "Write approval" ? "Separate branch" : "Waiting", d = e === "Selected gateway" ? `${n} · ${n === "S1" ? "Apigee, external boundary" : "AgentCore, AWS boundary"}` : `${e} · ${l(e)} components`;
+		return Ht(e, t, i, o[e] || e, d, Gt[e], {
+			zone: e,
+			status: c,
+			statusColor: a ? "#B45309" : s ? "#0D6A33" : "#506778",
+			stroke: e === r ? "#0A6ED1" : a ? "#E9730C" : s ? "#107E3E" : void 0,
+			strokeWidth: e === r ? 3.2 : a ? 3.4 : s ? 2 : void 0,
+			dashed: e === "Future BDC",
+			cls: a ? "node-current" : ""
+		});
+	});
+	m.push(Ht("__report", 2, 1, "Business report", a ? "Analysis and evidence are ready" : "Run the architecture to generate the result", "control", {
+		zone: "__report",
+		status: a ? "Complete · open report" : "Awaiting run",
+		statusColor: a ? "#0D6A33" : "#506778",
+		stroke: a ? "#107E3E" : void 0,
+		strokeWidth: a ? 2 : void 0
+	}));
+	let h = (e) => !!(p && f === e), g = [
+		[
+			"Business entry",
+			"AWS runtime",
+			"invoke",
+			"business intent",
+			{ active: h("Business entry") }
+		],
+		[
+			"AWS runtime",
+			"Selected gateway",
+			"invoke",
+			"MCP tool call",
+			{ active: h("AWS runtime") }
+		],
+		[
+			"Selected gateway",
+			"Domain MCP",
+			"invoke",
+			"authorized call",
+			{ active: h("Selected gateway") }
+		],
+		[
+			"Domain MCP",
+			"SAP BAIP",
+			"invoke",
+			"typed SAP request",
+			{ active: h("Domain MCP") }
+		],
+		[
+			"SAP BAIP",
+			"SAP backends",
+			"invoke",
+			"backend read",
+			{ active: h("SAP BAIP") }
+		],
+		[
+			"Domain MCP",
+			"Enterprise Databricks",
+			"invoke",
+			"data evidence",
+			{ active: h("Enterprise Databricks") }
+		],
+		[
+			"Enterprise Databricks",
+			"Future BDC",
+			"registry",
+			"future reference"
+		],
+		[
+			"AI Foundry design time",
+			"AWS runtime",
+			"deploy",
+			"agent registration",
+			{ off: -34 }
+		],
+		[
+			"AWS controls",
+			"AWS runtime",
+			"identity",
+			"agent identity"
+		],
+		[
+			"SAP backends",
+			"Model branch",
+			"return",
+			"SAP evidence",
+			{ labelAt: "mid" }
+		],
+		[
+			"Enterprise Databricks",
+			"Model branch",
+			"return",
+			"data evidence",
+			{ straight: !0 }
+		],
+		[
+			"Model branch",
+			"__report",
+			"return",
+			"deterministic result",
+			{ straight: !0 }
+		],
+		[
+			"__report",
+			"Write approval",
+			"approval",
+			"separate write branch"
+		]
+	];
+	return He({
+		cols: 6,
+		ys: [
+			100,
+			214,
+			334
+		],
+		nh: 80,
+		height: Vt.h,
+		nodes: m,
+		edges: g,
+		bounds: [[
+			"SAP landscape",
+			["SAP BAIP", "SAP backends"],
+			"sap"
+		]],
+		captions: Wt,
+		legend: Ut,
+		title: `Live architecture · ${n === "S1" ? "S1 Google Apigee MCP" : "S2 AgentCore Gateway MCP"}`,
+		chain: "Finance request → external agent → selected gateway → domain tools → SAP integration → SAP backend",
+		banner: p ? "RUN IN PROGRESS · SIMULATED" : "SIMULATED · NO TENANT CONNECTED",
+		footer: "Orange outline: processing now. Green outline: visited. Blue outline: selected zone. Select a zone to inspect its components below. Vendor names are simulations."
+	});
+}
 // src/AgentJourney.jsx
-var lt = [
+var L = [
 	{
 		label: "Finance intent",
 		operation: "submit_request",
@@ -13516,8 +14878,8 @@ var lt = [
 		description: "Deterministic check completed"
 	}
 ];
-function ut({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: r }) {
-	let i = lt.map((t) => {
+function Jt({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: r }) {
+	let i = L.map((t) => {
 		let n = e.filter((e) => e.operation === t.operation), r = n.findLast((e) => e.direction === t.doneDirection && e.status !== "denied"), i = n.findLast((e) => e.status === "denied");
 		return {
 			...t,
@@ -13556,30 +14918,7 @@ function ut({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: 
 	});
 }
 // src/App.jsx
-var dt = [
-	"Business entry",
-	"AI Foundry design time",
-	"AWS runtime",
-	"AWS controls",
-	"Selected gateway",
-	"Domain MCP",
-	"SAP BAIP",
-	"SAP backends",
-	"Enterprise Databricks",
-	"Future BDC",
-	"Model branch",
-	"Write approval"
-], ft = [
-	"Business entry",
-	"AWS runtime",
-	"Selected gateway",
-	"Domain MCP"
-], pt = [
-	["AI Foundry design time", "Design-time activation"],
-	["AWS controls", "Identity and keys"],
-	["Future BDC", "Future reference only"],
-	["Write approval", "Separate write branch"]
-], mt = {
+var Yt = {
 	"Business entry": "Finance request",
 	"AI Foundry design time": "Agent registration",
 	"AWS runtime": "External finance agent",
@@ -13592,7 +14931,7 @@ var dt = [
 	"Future BDC": "BDC reference",
 	"Model branch": "AI advisory",
 	"Write approval": "Approval"
-}, ht = [
+}, Xt = [
 	["FI", "Variance operands, freshness, posting controls"],
 	["SAP", "Backend roles and approved APIs"],
 	["Central Finance", "Replication mapping and cutoff"],
@@ -13605,7 +14944,7 @@ var dt = [
 	["Portkey / AI", "Redaction, guardrails and advisory text"],
 	["Node.js / Python", "Typed UI contracts and deterministic engine"],
 	["UX", "Task clarity, accessibility and trace readability"]
-], gt = (e) => {
+], Zt = (e) => {
 	if (!e) return "Select month";
 	let [t, n] = e.split("-").map(Number);
 	return new Date(Date.UTC(t, n - 1, 1)).toLocaleString("en-US", {
@@ -13613,12 +14952,12 @@ var dt = [
 		year: "numeric",
 		timeZone: "UTC"
 	});
-}, _t = (e) => e == null ? "—" : new Intl.NumberFormat("en-US", {
+}, Qt = (e) => e == null ? "—" : new Intl.NumberFormat("en-US", {
 	style: "currency",
 	currency: "USD",
 	maximumFractionDigits: 0
 }).format(Number(e));
-async function I(e, t = "GET", n) {
+async function R(e, t = "GET", n) {
 	let r = await fetch(e, {
 		method: t,
 		headers: { "Content-Type": "application/json" },
@@ -13632,7 +14971,7 @@ async function I(e, t = "GET", n) {
 	if (!r.ok) throw Error(i.detail || r.statusText);
 	return i;
 }
-function vt(e, t) {
+function $t(e, t) {
 	if (e.error) return [];
 	let n = e.case_id || t?.case_id || null, r = e.trace_case_id || n, i = !!(e.result || t?.result), a = [];
 	return i && (a.push({
@@ -13656,7 +14995,7 @@ function vt(e, t) {
 		target: "business"
 	}), a;
 }
-function yt({ open: e, onToggle: t, onNavigate: n }) {
+function en({ open: e, onToggle: t, onNavigate: n }) {
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "shell-menu-wrap",
 		children: [/* @__PURE__ */ (0, x.jsxs)("button", {
@@ -13711,7 +15050,7 @@ function yt({ open: e, onToggle: t, onNavigate: n }) {
 		})]
 	});
 }
-function bt({ questions: e, periodCount: t, localBundle: n, onOpenApp: r, onOpenDecision: i, onOpenQuestions: a }) {
+function tn({ questions: e, periodCount: t, localBundle: n, onOpenApp: r, onOpenDecision: i, onOpenQuestions: a }) {
 	return /* @__PURE__ */ (0, x.jsxs)("main", {
 		className: "launchpad-content",
 		"aria-label": "Finance My Home",
@@ -13841,8 +15180,8 @@ function bt({ questions: e, periodCount: t, localBundle: n, onOpenApp: r, onOpen
 		})]
 	});
 }
-function xt({ result: e, onOpenEvidence: t, onRunCurrent: n }) {
-	let r = e?.variance;
+function nn({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r }) {
+	let i = e?.variance;
 	return /* @__PURE__ */ (0, x.jsxs)("section", {
 		className: "surface business-result",
 		children: [/* @__PURE__ */ (0, x.jsxs)("div", {
@@ -13852,19 +15191,19 @@ function xt({ result: e, onOpenEvidence: t, onRunCurrent: n }) {
 				children: "MONTH-END RECONCILIATION"
 			}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "Business outcome" })] }), e && /* @__PURE__ */ (0, x.jsx)("span", {
 				className: "pill quiet",
-				children: gt(e.scope?.period)
+				children: Zt(e.scope?.period)
 			})]
-		}), r ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
+		}), i ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
 			/* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "business-object-status",
 				children: [/* @__PURE__ */ (0, x.jsx)("span", {
-					className: `business-state ${r.state === "comparable" && Number(r.amount) === 0 ? "business-state-ok" : "business-state-warn"}`,
-					children: r.state === "comparable" ? Number(r.amount) === 0 ? "● Reconciled" : "● Variance to review" : "● Source review required"
+					className: `business-state ${i.state === "comparable" && Number(i.amount) === 0 ? "business-state-ok" : "business-state-warn"}`,
+					children: i.state === "comparable" ? Number(i.amount) === 0 ? "● Reconciled" : "● Variance to review" : "● Source review required"
 				}), /* @__PURE__ */ (0, x.jsx)("span", { children: "Period-end close result" })]
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "business-result-metrics",
-				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: r.amount === null ? "Not comparable" : _t(r.amount) })] }), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Source status" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: r.state.toUpperCase() })] })]
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: i.amount === null ? "Not comparable" : Qt(i.amount) })] }), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Source status" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: i.state.toUpperCase() })] })]
 			}),
 			/* @__PURE__ */ (0, x.jsx)("p", {
 				className: "business-result-explanation",
@@ -13875,6 +15214,12 @@ function xt({ result: e, onOpenEvidence: t, onRunCurrent: n }) {
 				className: "business-evidence-link",
 				onClick: t,
 				children: "Inspect source records and calculation →"
+			}),
+			/* @__PURE__ */ (0, x.jsx)("button", {
+				type: "button",
+				className: "primary detail-report-link",
+				onClick: r,
+				children: "Open detailed reconciliation report →"
 			})
 		] }) : /* @__PURE__ */ (0, x.jsxs)("div", {
 			className: "empty-state",
@@ -13895,7 +15240,7 @@ function xt({ result: e, onOpenEvidence: t, onRunCurrent: n }) {
 		})]
 	});
 }
-function St({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
+function rn({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 	let r = (0, b.useRef)(null), i = e?.result, a = i?.variance;
 	return (0, b.useEffect)(() => {
 		let e = r.current;
@@ -13919,7 +15264,7 @@ function St({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 						id: "business-report-title",
 						children: "Business analysis report"
 					}),
-					/* @__PURE__ */ (0, x.jsx)("p", { children: i ? `${gt(i.scope?.period)} · ${i.scenario} · ${i.case_id}` : "No completed case selected" })
+					/* @__PURE__ */ (0, x.jsx)("p", { children: i ? `${Zt(i.scope?.period)} · ${i.scenario} · ${i.case_id}` : "No completed case selected" })
 				] }), /* @__PURE__ */ (0, x.jsx)("button", {
 					type: "button",
 					onClick: t,
@@ -13935,7 +15280,7 @@ function St({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 						children: [
 							/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 								/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }),
-								/* @__PURE__ */ (0, x.jsx)("strong", { children: a.amount === null ? "Not comparable" : _t(a.amount) }),
+								/* @__PURE__ */ (0, x.jsx)("strong", { children: a.amount === null ? "Not comparable" : Qt(a.amount) }),
 								/* @__PURE__ */ (0, x.jsx)("small", { children: "S/4HANA − Central Finance" })
 							] }),
 							/* @__PURE__ */ (0, x.jsxs)("div", { children: [
@@ -13945,7 +15290,7 @@ function St({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 							] }),
 							/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 								/* @__PURE__ */ (0, x.jsx)("span", { children: "Period" }),
-								/* @__PURE__ */ (0, x.jsx)("strong", { children: gt(i.scope?.period) }),
+								/* @__PURE__ */ (0, x.jsx)("strong", { children: Zt(i.scope?.period) }),
 								/* @__PURE__ */ (0, x.jsxs)("small", { children: [i.scenario, " synthetic route"] })
 							] })
 						]
@@ -13985,167 +15330,47 @@ function St({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 		]
 	});
 }
-function Ct({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, viewportRef: a, liveRunning: o, reportReady: s, onOpenReport: c }) {
-	let l = (0, b.useMemo)(() => Object.fromEntries((e?.components || []).map((e) => [e.component_id, e.zone])), [e]), u = (0, b.useMemo)(() => Object.fromEntries(dt.map((t) => [t, (e?.components || []).filter((e) => e.zone === t)])), [e]), d = (0, b.useMemo)(() => {
-		let e = {};
-		for (let n of t) {
-			let t = n.direction === "response" ? n.source_component_id : n.target_component_id, r = l[t];
-			if (!r) continue;
-			let i = e[r] || {
-				count: 0,
-				last: null
-			};
-			i.count++, i.last = n, e[r] = i;
-		}
-		return e;
-	}, [t, l]), f = t.at(-1), p = f ? l[f.direction === "response" ? f.source_component_id : f.target_component_id] : null;
-	(0, b.useEffect)(() => {
-		if (!p || !a.current) return;
-		let e = a.current.querySelector(`[data-zone="${CSS.escape(p)}"]`);
-		e && a.current.scrollTo({
-			left: Math.max(0, e.offsetLeft - a.current.clientWidth * .36),
-			behavior: "smooth"
-		});
-	}, [p, a]);
-	function m(e, t, a = !1) {
-		let s = u[e] || [], c = d[e], l = p === e && o;
-		return /* @__PURE__ */ (0, x.jsxs)("button", {
-			type: "button",
-			"data-zone": e,
-			onClick: () => i(e),
-			className: `route-zone ${a ? "branch-zone" : ""} ${r === e ? "selected" : ""} ${l ? "current" : ""} ${c ? "visited" : ""} ${e === "Future BDC" ? "future-zone" : ""}`,
-			children: [
-				/* @__PURE__ */ (0, x.jsxs)("div", {
-					className: "route-top",
-					children: [/* @__PURE__ */ (0, x.jsx)("span", {
-						className: "route-index",
-						children: String(t + 1).padStart(2, "0")
-					}), /* @__PURE__ */ (0, x.jsx)("span", {
-						className: "route-count",
-						children: e === "Selected gateway" ? `${n} · ${n === "S1" ? "Apigee" : "AgentCore"}` : `${s.length} components`
-					})]
-				}),
-				/* @__PURE__ */ (0, x.jsx)("div", {
-					className: "route-icon",
-					children: {
-						"Business entry": "◫",
-						"AWS runtime": "⬡",
-						"Selected gateway": "⇄",
-						"Domain MCP": "⊞",
-						"SAP BAIP": "⇥",
-						"SAP backends": "▦",
-						"Enterprise Databricks": "▤",
-						"Model branch": "✦",
-						"AI Foundry design time": "◇",
-						"AWS controls": "◈",
-						"Future BDC": "▧",
-						"Write approval": "✓"
-					}[e]
-				}),
-				/* @__PURE__ */ (0, x.jsx)("strong", { children: mt[e] }),
-				/* @__PURE__ */ (0, x.jsx)("small", { children: e === "Selected gateway" ? n === "S1" ? "S1 · Apigee external boundary" : "S2 · AgentCore AWS boundary" : e }),
-				/* @__PURE__ */ (0, x.jsxs)("div", {
-					className: "route-status",
-					children: [/* @__PURE__ */ (0, x.jsx)("span", { className: `status-dot ${l ? "pulsing" : ""}` }), l ? "Processing now" : c ? `${c.count} events` : e === "Future BDC" ? "Future / simulated" : a ? "Separate branch" : "Waiting"]
-				})
-			]
-		});
-	}
-	return /* @__PURE__ */ (0, x.jsxs)("div", {
-		className: "route-scroll",
-		ref: a,
+function an({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, liveRunning: a, reportReady: o, onOpenReport: s }) {
+	let [c, l] = (0, b.useState)(null), [u, d] = (0, b.useState)(!1), f = (0, b.useMemo)(() => qt({
+		registry: e,
+		events: t,
+		scenario: n,
+		selectedZone: r,
+		liveRunning: a,
+		reportReady: o,
+		zoneShort: Yt
+	}), [
+		e,
+		t,
+		n,
+		r,
+		a,
+		o
+	]), p = (0, b.useMemo)(() => ({
+		id: "live",
+		title: `Live architecture · ${n}`,
+		svg: f,
+		w: Vt.w,
+		h: Vt.h,
+		file: "live-architecture",
+		png: !0
+	}), [f, n]);
+	return /* @__PURE__ */ (0, x.jsx)("div", {
+		className: "route-viewer",
 		"aria-label": "Live architecture topology",
-		children: [
-			/* @__PURE__ */ (0, x.jsxs)("div", {
-				className: "route-section-label",
-				children: ["EXTERNAL AGENT DOMAIN ", /* @__PURE__ */ (0, x.jsx)("span", { children: "Finance intent → external agent → selected gateway → approved domain tools" })]
-			}),
-			/* @__PURE__ */ (0, x.jsx)("div", {
-				className: "route-lanes",
-				children: ft.map((e, t) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [m(e, t), t < ft.length - 1 && /* @__PURE__ */ (0, x.jsx)("div", {
-					className: `route-connector ${p === e && o ? "flowing" : ""}`,
-					"aria-hidden": "true",
-					children: /* @__PURE__ */ (0, x.jsx)("span", {})
-				})] }, e))
-			}),
-			/* @__PURE__ */ (0, x.jsxs)("div", {
-				className: "route-section-label branch-label",
-				children: ["SAP-OWNED FINANCE DOMAIN ", /* @__PURE__ */ (0, x.jsx)("span", { children: "Domain tools → SAP integration → backend authorization; data evidence is a separate path" })]
-			}),
-			/* @__PURE__ */ (0, x.jsxs)("div", {
-				className: "source-route-lanes",
-				children: [/* @__PURE__ */ (0, x.jsxs)("div", {
-					className: "source-route-group",
-					children: [/* @__PURE__ */ (0, x.jsx)("span", {
-						className: "source-route-label",
-						children: "SAP path"
-					}), /* @__PURE__ */ (0, x.jsxs)("div", {
-						className: "route-lanes",
-						children: [
-							m("SAP BAIP", 4),
-							/* @__PURE__ */ (0, x.jsx)("div", {
-								className: "route-connector",
-								"aria-hidden": "true",
-								children: /* @__PURE__ */ (0, x.jsx)("span", {})
-							}),
-							m("SAP backends", 5)
-						]
-					})]
-				}), /* @__PURE__ */ (0, x.jsxs)("div", {
-					className: "source-route-group",
-					children: [/* @__PURE__ */ (0, x.jsx)("span", {
-						className: "source-route-label",
-						children: "Data evidence path"
-					}), /* @__PURE__ */ (0, x.jsx)("div", {
-						className: "route-lanes",
-						children: m("Enterprise Databricks", 6)
-					})]
-				})]
-			}),
-			/* @__PURE__ */ (0, x.jsxs)("div", {
-				className: "route-section-label branch-label",
-				children: ["EVIDENCE TO BUSINESS RESULT ", /* @__PURE__ */ (0, x.jsx)("span", { children: "SAP snapshots return to the agent; the finance calculation is deterministic" })]
-			}),
-			/* @__PURE__ */ (0, x.jsxs)("div", {
-				className: "return-lanes",
-				children: [
-					m("Model branch", 7),
-					/* @__PURE__ */ (0, x.jsx)("div", {
-						className: "route-connector",
-						"aria-hidden": "true",
-						children: /* @__PURE__ */ (0, x.jsx)("span", {})
-					}),
-					/* @__PURE__ */ (0, x.jsxs)("button", {
-						type: "button",
-						className: `report-node ${s ? "complete" : ""}`,
-						onClick: c,
-						"aria-label": "Open detailed business report",
-						children: [
-							/* @__PURE__ */ (0, x.jsxs)("span", { children: ["08 / RESULT · ", s ? "COMPLETE" : "AWAITING RUN"] }),
-							/* @__PURE__ */ (0, x.jsx)("strong", { children: "Business report" }),
-							/* @__PURE__ */ (0, x.jsx)("small", { children: s ? "Open analysis and evidence →" : "Run architecture to generate output" })
-						]
-					})
-				]
-			}),
-			/* @__PURE__ */ (0, x.jsxs)("div", {
-				className: "route-section-label branch-label",
-				children: ["CONNECTED ARCHITECTURE BRANCHES ", /* @__PURE__ */ (0, x.jsx)("span", { children: "Activated before a run, invoked as a control, optional future, or separate approval" })]
-			}),
-			/* @__PURE__ */ (0, x.jsx)("div", {
-				className: "branch-lanes",
-				children: pt.map(([e, t], n) => /* @__PURE__ */ (0, x.jsxs)("div", {
-					className: "branch-wrapper",
-					children: [/* @__PURE__ */ (0, x.jsx)("div", {
-						className: "branch-role",
-						children: t
-					}), m(e, n + 8, !0)]
-				}, e))
-			})
-		]
+		children: /* @__PURE__ */ (0, x.jsx)(ot, {
+			diagram: p,
+			uid: "live-arch",
+			view: c,
+			onView: l,
+			onFit: l,
+			expanded: u,
+			onExpand: d,
+			onPick: (e) => e === "__report" ? s() : i(e)
+		})
 	});
 }
-function wt({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
+function on({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
 	let o = (e?.components || []).filter((e) => e.zone === t), s = (0, b.useMemo)(() => {
 		let e = {};
 		for (let t of n) {
@@ -14241,14 +15466,20 @@ function wt({ registry: e, zone: t, events: n, selectedComponent: r, onComponent
 		})]
 	});
 }
-function Tt({ bridge: e }) {
-	let t = !!e, [n, r] = (0, b.useState)(e?.data || null), [i, a] = (0, b.useState)("business"), [o, s] = (0, b.useState)("S1"), [c, l] = (0, b.useState)("S1"), [u, d] = (0, b.useState)("launchpad"), f = (0, b.useRef)("business"), [p, m] = (0, b.useState)(!1), [h, g] = (0, b.useState)(!1), [_, v] = (0, b.useState)(null), [y, S] = (0, b.useState)(null), [T, ee] = (0, b.useState)({
+function sn({ bridge: e }) {
+	let t = !!e, [n, r] = (0, b.useState)(e?.data || null), [i, a] = (0, b.useState)("business"), [o, s] = (0, b.useState)("S1"), [c, l] = (0, b.useState)("S1"), [u, d] = (0, b.useState)(e?.data?.conditions || []), [f, p] = (0, b.useState)(e?.data?.agents || null), [m, h] = (0, b.useState)(e?.data?.agent_plan || null), [g, _] = (0, b.useState)(!1), [v, y] = (0, b.useState)(null), [S, T] = (0, b.useState)(() => {
+		try {
+			return localStorage.getItem("finance.showTech") === "1";
+		} catch {
+			return !1;
+		}
+	}), ee = (0, b.useRef)("approaches"), [E, D] = (0, b.useState)(null), [te, ne] = (0, b.useState)(null), [re, ie] = (0, b.useState)("launchpad"), oe = (0, b.useRef)("business"), [se, ce] = (0, b.useState)(!1), [ue, de] = (0, b.useState)(!1), [fe, pe] = (0, b.useState)(null), [me, he] = (0, b.useState)(null), [ge, _e] = (0, b.useState)({
 		section: "proof",
 		nonce: 0
-	}), [E, D] = (0, b.useState)(!1), [te, ne] = (0, b.useState)("S1"), [O, re] = (0, b.useState)("2026-11"), [ae, oe] = (0, b.useState)(60), [se, le] = (0, b.useState)(""), [ue, de] = (0, b.useState)("Reconcile the selected synthetic period"), [fe, pe] = (0, b.useState)([{
+	}), [ve, ye] = (0, b.useState)(!1), [be, xe] = (0, b.useState)("S1"), [O, k] = (0, b.useState)("2026-11"), [A, Se] = (0, b.useState)(60), [Ce, we] = (0, b.useState)(""), [Te, j] = (0, b.useState)("Reconcile the selected synthetic period"), [M, Ee] = (0, b.useState)([{
 		role: "assistant",
 		text: "Ask about a reconciliation, the source evidence, an architecture component, or a control. Each answer has an inspectable synthetic flow."
-	}]), [k, me] = (0, b.useState)(null), [he, ge] = (0, b.useState)(null), [_e, ve] = (0, b.useState)([]), [be, A] = (0, b.useState)(!1), [j, xe] = (0, b.useState)("Business entry"), [Se, Ce] = (0, b.useState)(null), [we, M] = (0, b.useState)(null), [N, Te] = (0, b.useState)(null), [Ee, De] = (0, b.useState)(!1), [Oe, P] = (0, b.useState)(""), [Ae, je] = (0, b.useState)([]), [Me, Ne] = (0, b.useState)([]), [Pe, Fe] = (0, b.useState)(null), [Ie, Le] = (0, b.useState)(e?.data?.investigation || null), [Re, ze] = (0, b.useState)([]), [Be, Ve] = (0, b.useState)(!1), [He, Ue] = (0, b.useState)("maker"), [We, Ge] = (0, b.useState)(!1), [Ke, qe] = (0, b.useState)(e?.data?.decision_run || null), [F, Je] = (0, b.useState)(!1), Ye = (0, b.useRef)(!1), Xe = (0, b.useRef)(null), Ze = (0, b.useRef)(null), Qe = (0, b.useRef)(null), $e = (0, b.useRef)(null), et = n?.architecture, tt = n?.history, nt = Me.find((e) => e.case_id === k?.case_id);
+	}]), [N, De] = (0, b.useState)(null), [Oe, ke] = (0, b.useState)(null), [Ae, P] = (0, b.useState)([]), [je, Me] = (0, b.useState)(!1), [Ne, Pe] = (0, b.useState)("Business entry"), [Fe, Ie] = (0, b.useState)(null), [Le, Re] = (0, b.useState)(null), [ze, Be] = (0, b.useState)(null), [Ve, He] = (0, b.useState)(!1), [Ue, F] = (0, b.useState)(""), [We, Ge] = (0, b.useState)([]), [Ke, qe] = (0, b.useState)([]), [Je, Ye] = (0, b.useState)(null), [Xe, Ze] = (0, b.useState)(e?.data?.investigation || null), [Qe, $e] = (0, b.useState)([]), [et, tt] = (0, b.useState)(!1), [nt, rt] = (0, b.useState)("maker"), [it, at] = (0, b.useState)(!1), [ot, ct] = (0, b.useState)(e?.data?.decision_run || null), [lt, ut] = (0, b.useState)(!1), dt = (0, b.useRef)(!1), pt = (0, b.useRef)(null), mt = (0, b.useRef)(null), ht = (0, b.useRef)(null), gt = (0, b.useRef)(null), _t = n?.architecture, vt = n?.history, yt = Ke.find((e) => e.case_id === N?.case_id);
 	(0, b.useEffect)(() => {
 		[
 			"business",
@@ -14256,17 +15487,17 @@ function Tt({ bridge: e }) {
 			"approaches",
 			"diagrams",
 			"mcp"
-		].includes(i) && (f.current = i);
+		].includes(i) && (oe.current = i);
 	}, [i]), (0, b.useEffect)(() => {
-		let e = k?.scope?.period;
-		!t && e && I(`/api/history/${e}`).then(Fe).catch(() => Fe(null));
-	}, [t, k?.scope?.period]);
-	let rt = N === null ? _e : _e.slice(0, N + 1), it = we || rt.at(-1), at = it ? it.direction === "response" ? it.source_component_id : it.target_component_id : null, ot = et?.components?.find((e) => e.component_id === at)?.zone;
+		let e = N?.scope?.period;
+		!t && e && R(`/api/history/${e}`).then(Ye).catch(() => Ye(null));
+	}, [t, N?.scope?.period]);
+	let xt = ze === null ? Ae : Ae.slice(0, ze + 1), St = Le || xt.at(-1), Ct = St ? St.direction === "response" ? St.source_component_id : St.target_component_id : null, wt = _t?.components?.find((e) => e.component_id === Ct)?.zone;
 	(0, b.useEffect)(() => {
-		if (!t) return Promise.all([I("/api/bootstrap"), I("/api/proposals")]).then(([e, t]) => {
-			r(e), je(e.cases || []), Ne(t);
-		}).catch((e) => P(e.message)), () => {
-			Xe.current?.close();
+		if (!t) return Promise.all([R("/api/bootstrap"), R("/api/proposals")]).then(([e, t]) => {
+			r(e), Ge(e.cases || []), qe(t);
+		}).catch((e) => F(e.message)), () => {
+			pt.current?.close();
 		};
 	}, [t]), (0, b.useEffect)(() => {
 		if (!t) return;
@@ -14274,20 +15505,20 @@ function Tt({ bridge: e }) {
 		r((e) => ({
 			...e,
 			...n
-		})), je(n.cases || []), Ne(n.proposals || []), Fe(n.history_detail || null), Le(n.investigation || null), ze(n.investigation_events || []), qe(n.decision_run || null), n.decision_run?.status === "complete" && Je(!1), n.active_case && (me(n.active_case), ge(n.active_case.case_id), ne(n.active_case.scenario), re(n.active_case.scope?.period || "2026-11")), n.events && ve(n.events), A(n.active_case?.status === "queued" || n.active_case?.status === "running"), n.response && n.response_nonce !== $e.current && ($e.current = n.response_nonce, Ye.current = !1, Ge(!1), Ve(!1), pe((e) => [...e, {
+		})), Ge(n.cases || []), qe(n.proposals || []), Ye(n.history_detail || null), Ze(n.investigation || null), $e(n.investigation_events || []), ct(n.decision_run || null), n.decision_run?.status === "complete" && ut(!1), n.active_case && (De(n.active_case), ke(n.active_case.case_id), xe(n.active_case.scenario), k(n.active_case.scope?.period || "2026-11")), n.events && P(n.events), Me(n.active_case?.status === "queued" || n.active_case?.status === "running"), n.response && n.response_nonce !== gt.current && (gt.current = n.response_nonce, dt.current = !1, at(!1), tt(!1), Ee((e) => [...e, {
 			role: "assistant",
 			text: n.response.answer || n.response.error || "The synthetic operation completed.",
 			limited: n.response.status === "limited",
-			actions: vt(n.response, n.active_case || k)
-		}]), n.response.error && P(n.response.error));
+			actions: $t(n.response, n.active_case || N)
+		}]), n.response.error && F(n.response.error));
 	}, [t, e?.data]), (0, b.useEffect)(() => {
-		if (t || !Ie?.investigation_id || !["running", "reconciling"].includes(Ie.status)) return;
+		if (t || !Xe?.investigation_id || !["running", "reconciling"].includes(Xe.status)) return;
 		let e = !1, n = setInterval(async () => {
 			try {
-				let [t, n] = await Promise.all([I(`/api/investigations/${Ie.investigation_id}`), I(`/api/architecture/events?case_id=${encodeURIComponent(Ie.case_id)}`)]);
-				e || (Le(t), ze(n), ge(t.case_id), ve(n));
+				let [t, n] = await Promise.all([R(`/api/investigations/${Xe.investigation_id}`), R(`/api/architecture/events?case_id=${encodeURIComponent(Xe.case_id)}`)]);
+				e || (Ze(t), $e(n), ke(t.case_id), P(n));
 			} catch (t) {
-				e || P(t.message);
+				e || F(t.message);
 			}
 		}, 350);
 		return () => {
@@ -14295,23 +15526,23 @@ function Tt({ bridge: e }) {
 		};
 	}, [
 		t,
-		Ie?.investigation_id,
-		Ie?.status
+		Xe?.investigation_id,
+		Xe?.status
 	]), (0, b.useEffect)(() => {
-		!t && i === "evidence" && Ie?.case_id && I(`/api/architecture/events?case_id=${encodeURIComponent(Ie.case_id)}`).then(ze).catch((e) => P(e.message));
+		!t && i === "evidence" && Xe?.case_id && R(`/api/architecture/events?case_id=${encodeURIComponent(Xe.case_id)}`).then($e).catch((e) => F(e.message));
 	}, [
 		t,
 		i,
-		Ie?.case_id,
-		Ie?.status
+		Xe?.case_id,
+		Xe?.status
 	]), (0, b.useEffect)(() => {
-		if (t || !Ke?.run_id || Ke.status === "complete") return;
+		if (t || !ot?.run_id || ot.status === "complete") return;
 		let e = !1, n = setInterval(async () => {
 			try {
-				let t = await I(`/api/architecture/questions/runs/${encodeURIComponent(Ke.run_id)}`);
-				e || (qe(t), t.status === "complete" && Je(!1));
+				let t = await R(`/api/architecture/questions/runs/${encodeURIComponent(ot.run_id)}`);
+				e || (ct(t), t.status === "complete" && ut(!1));
 			} catch (t) {
-				e || (P(t.message), Je(!1));
+				e || (F(t.message), ut(!1));
 			}
 		}, 350);
 		return () => {
@@ -14319,39 +15550,39 @@ function Tt({ bridge: e }) {
 		};
 	}, [
 		t,
-		Ke?.run_id,
-		Ke?.status
+		ot?.run_id,
+		ot?.status
 	]), (0, b.useEffect)(() => {
-		if (!Ee || !_e.length) return;
-		let e = setInterval(() => Te((e) => {
+		if (!Ve || !Ae.length) return;
+		let e = setInterval(() => Be((e) => {
 			let t = (e ?? -1) + 1;
-			return t >= _e.length ? (De(!1), _e.length - 1) : t;
+			return t >= Ae.length ? (He(!1), Ae.length - 1) : t;
 		}), 140);
 		return () => clearInterval(e);
-	}, [Ee, _e.length]), (0, b.useEffect)(() => {
-		Qe.current && (Qe.current.scrollTop = Qe.current.scrollHeight);
-	}, [fe]), (0, b.useEffect)(() => {
-		if (!p) return;
+	}, [Ve, Ae.length]), (0, b.useEffect)(() => {
+		ht.current && (ht.current.scrollTop = ht.current.scrollHeight);
+	}, [M]), (0, b.useEffect)(() => {
+		if (!se) return;
 		let e = (e) => {
-			e.key === "Escape" && m(!1);
+			e.key === "Escape" && ce(!1);
 		};
 		return window.addEventListener("keydown", e), document.getElementById("chat-question")?.focus(), () => window.removeEventListener("keydown", e);
-	}, [p]), (0, b.useEffect)(() => {
-		if (!h) return;
+	}, [se]), (0, b.useEffect)(() => {
+		if (!ue) return;
 		let e = (e) => {
-			e.target.closest(".shell-menu-wrap") || g(!1);
+			e.target.closest(".shell-menu-wrap") || de(!1);
 		}, t = (e) => {
-			e.key === "Escape" && g(!1);
+			e.key === "Escape" && de(!1);
 		};
 		return document.addEventListener("pointerdown", e), window.addEventListener("keydown", t), () => {
 			document.removeEventListener("pointerdown", e), window.removeEventListener("keydown", t);
 		};
-	}, [h]), (0, b.useEffect)(() => {
-		ot && N === null && xe(ot);
-	}, [ot, N]), (0, b.useEffect)(() => {
-		_ && k?.case_id === _ && (v(null), D(!0));
-	}, [_, k?.case_id]);
-	async function st(n) {
+	}, [ue]), (0, b.useEffect)(() => {
+		wt && ze === null && Pe(wt);
+	}, [wt, ze]), (0, b.useEffect)(() => {
+		fe && N?.case_id === fe && (pe(null), ye(!0));
+	}, [fe, N?.case_id]);
+	async function I(n) {
 		if (t) {
 			e.action({
 				type: "load_case",
@@ -14360,247 +15591,369 @@ function Tt({ bridge: e }) {
 			return;
 		}
 		let [r, i, a] = await Promise.all([
-			I(`/api/cases/${encodeURIComponent(n)}`),
-			I(`/api/architecture/events?case_id=${encodeURIComponent(n)}`),
-			I(`/api/investigations?case_id=${encodeURIComponent(n)}`)
+			R(`/api/cases/${encodeURIComponent(n)}`),
+			R(`/api/architecture/events?case_id=${encodeURIComponent(n)}`),
+			R(`/api/investigations?case_id=${encodeURIComponent(n)}`)
 		]);
-		me(r), Le(a[0] || null), ge(n), ne(r.scenario), re(r.scope?.period || O), ve(i), Te(null), M(null);
+		De(r), Ze(a[0] || null), ke(n), xe(r.scenario), k(r.scope?.period || O), P(i), Be(null), Re(null);
 	}
-	function lt(e) {
-		Xe.current?.close();
+	function Tt(e) {
+		pt.current?.close();
 		let t = new EventSource(`/api/architecture/runs/${encodeURIComponent(e)}/stream`);
-		Xe.current = t, t.addEventListener("flow", (e) => {
+		pt.current = t, t.addEventListener("flow", (e) => {
 			let t = JSON.parse(e.data);
-			ve((e) => e.some((e) => e.seq === t.seq) ? e : [...e, t]);
+			P((e) => e.some((e) => e.seq === t.seq) ? e : [...e, t]);
 		}), t.addEventListener("complete", async () => {
-			t.close(), Xe.current = null, A(!1);
+			t.close(), pt.current = null, Me(!1);
 			try {
-				await st(e);
-				let t = await I("/api/cases");
-				je(t.slice(0, 20));
+				await I(e);
+				let t = await R("/api/cases");
+				Ge(t.slice(0, 20));
 			} catch (e) {
-				P(e.message);
+				F(e.message);
 			}
 		}), t.onerror = () => {
-			P("Live connection interrupted. Stored events can be reloaded from the case list.");
+			F("Live connection interrupted. Stored events can be reloaded from the case list.");
 		};
 	}
-	async function dt() {
-		P(""), Le(null), a("architecture"), ve([]), Te(null), M(null), A(!0);
-		let n = ue.trim() === "Reconcile the selected synthetic period" || !ue.trim() ? `Reconcile ${gt(O)}` : ue.trim();
+	async function Et() {
+		F(""), Ze(null), a("architecture"), P([]), Be(null), Re(null), Me(!0);
+		let n = Te.trim() === "Reconcile the selected synthetic period" || !Te.trim() ? `Reconcile ${Zt(O)}` : Te.trim();
 		if (t) e.action({
 			type: "run",
 			message: n,
-			scenario: te,
+			scenario: be,
 			period: O,
-			pace: ae
+			pace: A
 		});
 		else try {
-			let e = await I("/api/runs", "POST", {
+			let e = await R("/api/runs", "POST", {
 				message: n,
-				scenario: te,
+				scenario: be,
 				user_id: "finance.user",
-				demo_pace_ms: ae
+				demo_pace_ms: A
 			});
 			if (e.follow_up) {
-				A(!1), P(e.follow_up);
+				Me(!1), F(e.follow_up);
 				return;
 			}
-			ge(e.case_id), me({
+			ke(e.case_id), De({
 				case_id: e.case_id,
 				scenario: e.scenario,
 				scope: e.scope,
 				status: "running"
-			}), lt(e.case_id);
+			}), Tt(e.case_id);
 		} catch (e) {
-			A(!1), P(e.message);
+			Me(!1), F(e.message);
 		}
 	}
-	async function ft(n = se) {
+	async function Dt(n = Ce) {
 		let r = n.trim();
-		if (r && !Ye.current) {
-			if (Ye.current = !0, Ge(!0), le(""), pe((e) => [...e, {
+		if (r && !dt.current) {
+			if (dt.current = !0, at(!0), we(""), Ee((e) => [...e, {
 				role: "user",
 				text: r
-			}]), P(""), t) e.action({
+			}]), F(""), t) e.action({
 				type: "chat",
 				message: r,
-				scenario: k?.scenario || te,
-				case_id: k?.case_id
+				scenario: N?.scenario || be,
+				case_id: N?.case_id
 			});
 			else try {
-				let e = await I("/api/chat", "POST", {
+				let e = await R("/api/chat", "POST", {
 					message: r,
-					scenario: k?.scenario || te,
-					case_id: k?.case_id,
+					scenario: N?.scenario || be,
+					case_id: N?.case_id,
 					user_id: "finance.user"
 				});
-				pe((t) => [...t, {
+				Ee((t) => [...t, {
 					role: "assistant",
 					text: e.answer || "The synthetic operation completed.",
 					limited: e.status === "limited",
-					actions: vt(e, e.result ? {
+					actions: $t(e, e.result ? {
 						case_id: e.case_id,
 						result: e.result
-					} : k)
-				}]), e.investigation && Le(e.investigation), e.result && (Le(null), me({
+					} : N)
+				}]), e.investigation && Ze(e.investigation), e.result && (Ze(null), De({
 					case_id: e.case_id,
 					scenario: e.scenario,
 					scope: e.result.scope,
 					status: "complete",
 					result: e.result
-				}), re(e.result.scope.period), ne(e.scenario)), e.trace_case_id && (ge(e.trace_case_id), ve(await I(`/api/architecture/events?case_id=${encodeURIComponent(e.trace_case_id)}`)), Te(null));
-				let [t, n] = await Promise.all([I("/api/cases"), I("/api/proposals")]);
-				je(t.slice(0, 20)), Ne(n);
+				}), k(e.result.scope.period), xe(e.scenario)), e.trace_case_id && (ke(e.trace_case_id), P(await R(`/api/architecture/events?case_id=${encodeURIComponent(e.trace_case_id)}`)), Be(null));
+				let [t, n] = await Promise.all([R("/api/cases"), R("/api/proposals")]);
+				Ge(t.slice(0, 20)), qe(n);
 			} catch (e) {
-				pe((t) => [...t, {
+				Ee((t) => [...t, {
 					role: "assistant",
 					text: `I could not complete that synthetic request: ${e.message}`,
 					limited: !0
-				}]), P(e.message);
+				}]), F(e.message);
 			} finally {
-				Ye.current = !1, Ge(!1);
+				dt.current = !1, at(!1);
 			}
 		}
 	}
-	async function pt() {
-		if (He !== "approver") P("Switch to the synthetic finance approver lane first.");
-		else if (t) e.action({
-			type: "approve",
-			case_id: k?.case_id,
-			role: He
+	async function Ot(n) {
+		if (D(n), ne(null), t) e.action({
+			type: "report",
+			period: n
 		});
 		else try {
-			let e = (await I("/api/proposals")).find((e) => e.case_id === k?.case_id && e.status === "awaiting_approval");
+			let e = N?.scope?.period === n ? `?case_id=${encodeURIComponent(N.case_id)}` : "";
+			ne(await R(`/api/reports/${n}${e}`));
+		} catch (e) {
+			F(e.message), D(null);
+		}
+	}
+	(0, b.useEffect)(() => {
+		t ? d(e.data?.conditions || []) : R("/api/conditions").then(d).catch(() => {});
+	}, [t, e?.data?.conditions]);
+	async function kt(n, i) {
+		if (F(""), t) e.action({
+			type: "condition",
+			period: n,
+			condition: i
+		});
+		else try {
+			await R("/api/conditions", "POST", {
+				period: n,
+				condition: i
+			});
+			let e = await R("/api/history");
+			r((t) => ({
+				...t,
+				history: e
+			})), E && Ot(E);
+		} catch (e) {
+			F(e.message);
+		}
+	}
+	function At() {
+		D(null), ne(null), t && e.action({
+			type: "report",
+			period: null
+		});
+	}
+	(0, b.useEffect)(() => {
+		t && E && e.data?.report?.period === E && ne(e.data.report);
+	}, [
+		t,
+		E,
+		e?.data?.report
+	]), (0, b.useEffect)(() => {
+		try {
+			localStorage.setItem("finance.showTech", S ? "1" : "0");
+		} catch {}
+	}, [S]), (0, b.useEffect)(() => {
+		[
+			"approaches",
+			"diagrams",
+			"mcp"
+		].includes(i) && (ee.current = i);
+	}, [i]), (0, b.useEffect)(() => {
+		if (t) {
+			let t = e.data || {};
+			t.agents && p(t.agents), t.agent_plan && t.agent_plan.plan_id !== m?.plan_id && (h(t.agent_plan), _(!1));
+		} else R("/api/agent/catalog").then(p).catch(() => {});
+	}, [
+		t,
+		e?.data?.agents,
+		e?.data?.agent_plan
+	]);
+	async function jt(n) {
+		if (F(""), _(!0), t) e.action({
+			type: "agent_plan",
+			message: n,
+			scenario: be,
+			case_id: N?.case_id || null
+		});
+		else try {
+			let e = await R("/api/agent/plan", "POST", {
+				message: n,
+				scenario: be,
+				user_id: "finance.user",
+				case_id: N?.case_id || null,
+				demo_pace_ms: 0
+			});
+			if (h(e), e.case_id) {
+				await I(e.case_id);
+				let t = await R("/api/history");
+				r((e) => ({
+					...e,
+					history: t
+				})), Ge((await R("/api/cases")).slice(0, 20));
+			}
+		} catch (e) {
+			F(e.message);
+		} finally {
+			_(!1);
+		}
+	}
+	function Mt(e, t) {
+		if (!e?.id) return;
+		y({
+			id: e.id,
+			name: e.name,
+			role: e.role,
+			tools: e.tools || []
+		});
+		let n = t?.view || e.view, r = t?.ref?.period || N?.scope?.period || vt?.available_periods?.at(-1);
+		n === "run" ? a("architecture") : n === "report" ? Ot(r) : n === "evidence-proof" ? Vt("proof") : a(n === "decision-responsibilities" ? "mcp" : "business");
+	}
+	function Nt(e) {
+		let t = [
+			"business",
+			"architecture",
+			"decision"
+		], n = t.findIndex((e) => e === "decision" ? [
+			"approaches",
+			"mcp",
+			"diagrams"
+		].includes(i) : i === e), r = null;
+		if (e.key === "ArrowRight" && (r = (n + 1) % 3), e.key === "ArrowLeft" && (r = (n + 2) % 3), r === null) return;
+		e.preventDefault();
+		let o = t[r], s = e.currentTarget;
+		a(o === "decision" ? ee.current : o), requestAnimationFrame(() => s.querySelectorAll("[role=tab]")[r]?.focus());
+	}
+	async function Pt() {
+		if (nt !== "approver") F("Switch to the synthetic finance approver lane first.");
+		else if (t) e.action({
+			type: "approve",
+			case_id: N?.case_id,
+			role: nt
+		});
+		else try {
+			let e = (await R("/api/proposals")).find((e) => e.case_id === N?.case_id && e.status === "awaiting_approval");
 			if (!e) {
-				P("No pending synthetic proposal for this case.");
+				F("No pending synthetic proposal for this case.");
 				return;
 			}
-			let t = await I("/api/decisions", "POST", {
+			let t = await R("/api/decisions", "POST", {
 				proposal_id: e.proposal_id,
 				approver_id: "finance.approver",
 				approved: !0,
 				payload_hash: e.payload_hash,
 				case_version: e.case_version
 			});
-			pe((e) => [...e, {
+			Ee((e) => [...e, {
 				role: "assistant",
 				text: `Approval result: ${t.status}. Synthetic variance marker ${t.document_number || "not created"}.`
-			}]), ve(await I(`/api/architecture/events?case_id=${encodeURIComponent(k.case_id)}`)), Ne(await I("/api/proposals"));
+			}]), P(await R(`/api/architecture/events?case_id=${encodeURIComponent(N.case_id)}`)), qe(await R("/api/proposals"));
 		} catch (e) {
-			P(e.message);
+			F(e.message);
 		}
 	}
-	async function _t(n) {
-		if (k?.case_id) {
-			if (P(""), Ve(!0), t) e.action({
+	async function Ft(n) {
+		if (N?.case_id) {
+			if (F(""), tt(!0), t) e.action({
 				type: "investigate",
-				case_id: k.case_id,
+				case_id: N.case_id,
 				fault_profile: n
 			});
 			else try {
-				let e = await I("/api/investigations", "POST", {
-					case_id: k.case_id,
+				let e = await R("/api/investigations", "POST", {
+					case_id: N.case_id,
 					fault_profile: n
 				});
-				Le(e), ge(e.case_id), Te(null), ve(await I(`/api/architecture/events?case_id=${encodeURIComponent(e.case_id)}`));
+				Ze(e), ke(e.case_id), Be(null), P(await R(`/api/architecture/events?case_id=${encodeURIComponent(e.case_id)}`));
 			} catch (e) {
-				P(e.message);
+				F(e.message);
 			} finally {
-				Ve(!1);
+				tt(!1);
 			}
 		}
 	}
-	async function Tt(n) {
-		if (P(""), Ve(!0), t) e.action({
+	async function It(n) {
+		if (F(""), tt(!0), t) e.action({
 			type: "reprocess",
 			investigation_id: n,
 			operator_id: "finance.operator"
 		});
 		else try {
-			let e = await I(`/api/investigations/${n}/reprocess`, "POST", { operator_id: "finance.operator" });
-			e.after?.case_id && await st(e.after.case_id), Le(e);
-			let t = await I("/api/history");
+			let e = await R(`/api/investigations/${n}/reprocess`, "POST", { operator_id: "finance.operator" });
+			e.after?.case_id && await I(e.after.case_id), Ze(e);
+			let t = await R("/api/history");
 			r((e) => ({
 				...e,
 				history: t
-			})), je((await I("/api/cases")).slice(0, 20)), pe((t) => [...t, {
+			})), Ge((await R("/api/cases")).slice(0, 20)), Ee((t) => [...t, {
 				role: "assistant",
 				text: e.reason
 			}]);
 		} catch (e) {
-			P(e.message);
+			F(e.message);
 		} finally {
-			Ve(!1);
+			tt(!1);
 		}
 	}
-	async function Et(n) {
+	async function Rt(n) {
 		t ? (e.action({
 			type: "load_case",
 			case_id: n
-		}), a("architecture")) : (ge(n), ve(await I(`/api/architecture/events?case_id=${encodeURIComponent(n)}`)), Te(null), a("architecture"));
+		}), a("architecture")) : (ke(n), P(await R(`/api/architecture/events?case_id=${encodeURIComponent(n)}`)), Be(null), a("architecture"));
 	}
-	async function Dt(n, r, i) {
-		if (a("questions"), P(""), Je(!0), qe(null), t) e.action({
+	async function zt(n, r, i) {
+		if (a("questions"), F(""), ut(!0), ct(null), t) e.action({
 			type: "decision_run",
 			question_id: n,
 			route: r,
 			probe: i
 		});
 		else try {
-			let e = await I("/api/architecture/questions/runs", "POST", {
+			let e = await R("/api/architecture/questions/runs", "POST", {
 				question_id: n,
 				route: r,
 				probe: i
 			});
-			qe(e);
+			ct(e);
 		} catch (e) {
-			P(e.message), Je(!1);
+			F(e.message), ut(!1);
 		}
 	}
-	function Ot(e = "proof", t = {}) {
-		ee((n) => ({
+	function Vt(e = "proof", t = {}) {
+		_e((n) => ({
 			section: e,
 			...t,
 			nonce: n.nonce + 1
 		})), a("evidence");
 	}
-	function kt(e) {
-		g(!1), m(!1), e === "launchpad" ? d("launchpad") : (d("app"), e === "agent" ? (a("business"), m(!0)) : a(e));
+	function Ht(e) {
+		de(!1), ce(!1), e === "launchpad" ? ie("launchpad") : (ie("app"), e === "agent" ? (a("business"), ce(!0)) : a(e));
 	}
-	function At(e) {
-		S((t) => ({
+	function Ut(e) {
+		he((t) => ({
 			id: e,
 			nonce: (t?.nonce || 0) + 1
-		})), d("app"), a("questions");
+		})), ie("app"), a("questions");
 	}
-	async function jt(e) {
-		m(!1), g(!1), e.target === "architecture" ? a("architecture") : e.target === "finance" ? Ot("finance") : a(e.target === "report" ? "business" : e.target);
+	async function Wt(e) {
+		ce(!1), de(!1), e.target === "architecture" ? a("architecture") : e.target === "finance" ? Vt("finance") : a(e.target === "report" ? "business" : e.target);
 		try {
-			if (t && e.target === "report" && e.caseId && e.caseId !== k?.case_id) {
-				v(e.caseId), await st(e.caseId);
+			if (t && e.target === "report" && e.caseId && e.caseId !== N?.case_id) {
+				pe(e.caseId), await I(e.caseId);
 				return;
 			}
-			e.caseId && e.caseId !== k?.case_id && e.target !== "questions" && await st(e.caseId), e.target === "architecture" && e.traceId && !t && (ge(e.traceId), ve(await I(`/api/architecture/events?case_id=${encodeURIComponent(e.traceId)}`)), Te(null)), e.target === "report" && D(!0);
+			e.caseId && e.caseId !== N?.case_id && e.target !== "questions" && await I(e.caseId), e.target === "architecture" && e.traceId && !t && (ke(e.traceId), P(await R(`/api/architecture/events?case_id=${encodeURIComponent(e.traceId)}`)), Be(null)), e.target === "report" && ye(!0);
 		} catch (e) {
-			P(e.message);
+			F(e.message);
 		}
 	}
-	let Mt = /* @__PURE__ */ (0, x.jsx)("footer", {
+	let Gt = /* @__PURE__ */ (0, x.jsx)("footer", {
 		className: "app-footer",
 		children: /* @__PURE__ */ (0, x.jsxs)("span", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Demo and learning purposes only." }), " Synthetic finance data; no live SAP or cloud system is connected."] })
 	});
-	return u === "launchpad" ? /* @__PURE__ */ (0, x.jsxs)("div", {
+	return re === "launchpad" ? /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: `app-shell launchpad-shell ${t ? "embedded" : ""}`,
 		children: [
 			/* @__PURE__ */ (0, x.jsxs)("header", {
 				className: "shell-header launchpad-header",
 				children: [/* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "brand",
-					children: [/* @__PURE__ */ (0, x.jsx)(yt, {
-						open: h,
-						onToggle: () => g((e) => !e),
-						onNavigate: kt
+					children: [/* @__PURE__ */ (0, x.jsx)(en, {
+						open: ue,
+						onToggle: () => de((e) => !e),
+						onNavigate: Ht
 					}), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 						className: "brand-overline",
 						children: "FINANCE / LOCAL DEMO"
@@ -14613,22 +15966,22 @@ function Tt({ bridge: e }) {
 					})
 				})]
 			}),
-			/* @__PURE__ */ (0, x.jsx)(bt, {
+			/* @__PURE__ */ (0, x.jsx)(tn, {
 				questions: n?.decision_questions || [],
-				periodCount: tt?.available_periods?.length || 12,
+				periodCount: vt?.available_periods?.length || 12,
 				localBundle: n?.local_bundle,
 				onOpenApp: () => {
-					a("business"), d("app");
+					a("business"), ie("app");
 				},
-				onOpenDecision: At,
+				onOpenDecision: Ut,
 				onOpenQuestions: () => {
-					S(null), a("questions"), d("app");
+					he(null), a("questions"), ie("app");
 				}
 			}),
-			Mt
+			Gt
 		]
 	}) : /* @__PURE__ */ (0, x.jsxs)("div", {
-		className: `app-shell ${t ? "embedded" : ""}`,
+		className: `app-shell ${t ? "embedded" : ""} ${S ? "" : "tech-off"}`,
 		children: [
 			/* @__PURE__ */ (0, x.jsxs)("header", {
 				className: "shell-header",
@@ -14638,14 +15991,14 @@ function Tt({ bridge: e }) {
 						/* @__PURE__ */ (0, x.jsx)("button", {
 							type: "button",
 							className: "shell-home",
-							onClick: () => kt("launchpad"),
+							onClick: () => Ht("launchpad"),
 							"aria-label": "Back to Finance Launchpad",
 							children: "⌂"
 						}),
-						/* @__PURE__ */ (0, x.jsx)(yt, {
-							open: h,
-							onToggle: () => g((e) => !e),
-							onNavigate: kt
+						/* @__PURE__ */ (0, x.jsx)(en, {
+							open: ue,
+							onToggle: () => de((e) => !e),
+							onNavigate: Ht
 						}),
 						/* @__PURE__ */ (0, x.jsx)("span", {
 							className: "brand-mark",
@@ -14665,125 +16018,73 @@ function Tt({ bridge: e }) {
 							children: "LOCAL SIMULATION"
 						}),
 						/* @__PURE__ */ (0, x.jsx)("span", { className: "header-separator" }),
-						/* @__PURE__ */ (0, x.jsxs)("span", { children: [tt?.available_periods?.length || 12, " monthly periods"] })
+						/* @__PURE__ */ (0, x.jsxs)("span", { children: [vt?.available_periods?.length || 12, " monthly periods"] }),
+						/* @__PURE__ */ (0, x.jsx)("span", { className: "header-separator" }),
+						/* @__PURE__ */ (0, x.jsxs)("label", {
+							className: "tech-toggle",
+							children: [/* @__PURE__ */ (0, x.jsx)("input", {
+								type: "checkbox",
+								checked: S,
+								onChange: (e) => T(e.target.checked)
+							}), " Technical details"]
+						})
 					]
 				})]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)("nav", {
-				className: "tab-nav five",
+			/* @__PURE__ */ (0, x.jsx)("div", {
+				className: "tab-nav three",
+				role: "tablist",
 				"aria-label": "Application sections",
+				onKeyDown: Nt,
 				children: [
-					/* @__PURE__ */ (0, x.jsxs)("button", {
+					[
+						"business",
+						"▦",
+						"Close & reconcile",
+						"Close"
+					],
+					[
+						"architecture",
+						"⇄",
+						"Run & trace",
+						"Run"
+					],
+					[
+						"decision",
+						"⬡",
+						"Architecture decision",
+						"Decide"
+					]
+				].map(([e, t, n, r]) => {
+					let o = e === "decision" ? [
+						"approaches",
+						"mcp",
+						"diagrams"
+					].includes(i) : i === e;
+					return /* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
 						role: "tab",
-						"aria-selected": i === "business",
-						className: i === "business" ? "active" : "",
-						onClick: () => a("business"),
+						tabIndex: o ? 0 : -1,
+						"aria-selected": o,
+						className: o ? "active" : "",
+						onClick: () => a(e === "decision" ? ee.current : e),
 						children: [
 							/* @__PURE__ */ (0, x.jsx)("span", {
 								className: "tab-icon",
 								"aria-hidden": "true",
-								children: "▦"
+								children: t
 							}),
 							/* @__PURE__ */ (0, x.jsx)("span", {
 								className: "tab-label-full",
-								children: "Execution simulator"
+								children: n
 							}),
 							/* @__PURE__ */ (0, x.jsx)("span", {
 								className: "tab-label-mobile",
-								children: "Execute"
+								children: r
 							})
 						]
-					}),
-					/* @__PURE__ */ (0, x.jsxs)("button", {
-						type: "button",
-						role: "tab",
-						"aria-selected": i === "architecture",
-						className: i === "architecture" ? "active" : "",
-						onClick: () => a("architecture"),
-						children: [
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-icon",
-								"aria-hidden": "true",
-								children: "⇄"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-label-full",
-								children: "Live architecture"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-label-mobile",
-								children: "Architecture"
-							})
-						]
-					}),
-					/* @__PURE__ */ (0, x.jsxs)("button", {
-						type: "button",
-						role: "tab",
-						"aria-selected": i === "approaches",
-						className: i === "approaches" ? "active" : "",
-						onClick: () => a("approaches"),
-						children: [
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-icon",
-								"aria-hidden": "true",
-								children: "⇌"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-label-full",
-								children: "Architecture pros & cons"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-label-mobile",
-								children: "Pros & cons"
-							})
-						]
-					}),
-					/* @__PURE__ */ (0, x.jsxs)("button", {
-						type: "button",
-						role: "tab",
-						"aria-selected": i === "diagrams",
-						className: i === "diagrams" ? "active" : "",
-						onClick: () => a("diagrams"),
-						children: [
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-icon",
-								"aria-hidden": "true",
-								children: "◫"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-label-full",
-								children: "Architecture diagrams"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-label-mobile",
-								children: "Diagrams"
-							})
-						]
-					}),
-					/* @__PURE__ */ (0, x.jsxs)("button", {
-						type: "button",
-						role: "tab",
-						"aria-selected": i === "mcp",
-						className: i === "mcp" ? "active" : "",
-						onClick: () => a("mcp"),
-						children: [
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-icon",
-								"aria-hidden": "true",
-								children: "⬡"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-label-full",
-								children: "MCP hosting & governance"
-							}),
-							/* @__PURE__ */ (0, x.jsx)("span", {
-								className: "tab-label-mobile",
-								children: "MCP"
-							})
-						]
-					})
-				]
+					}, e);
+				})
 			}),
 			(i === "evidence" || i === "questions") && /* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "detail-return-bar",
@@ -14792,57 +16093,130 @@ function Tt({ bridge: e }) {
 					children: "ON-DEMAND DETAIL"
 				}), /* @__PURE__ */ (0, x.jsx)("strong", { children: i === "evidence" ? "Evidence & correlation" : "Architecture questions" })] }), /* @__PURE__ */ (0, x.jsxs)("button", {
 					type: "button",
-					onClick: () => a(f.current),
+					onClick: () => a(oe.current),
 					children: ["← Back to ", {
 						business: "Execution simulator",
 						architecture: "Live architecture",
 						approaches: "Architecture pros & cons",
 						diagrams: "Architecture diagrams",
 						mcp: "MCP hosting & governance"
-					}[f.current]]
+					}[oe.current]]
 				})]
 			}),
-			Oe && /* @__PURE__ */ (0, x.jsxs)("div", {
+			Ue && /* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "error-banner",
 				role: "alert",
 				children: [
 					/* @__PURE__ */ (0, x.jsx)("strong", { children: "Needs attention" }),
-					/* @__PURE__ */ (0, x.jsx)("span", { children: Oe }),
+					/* @__PURE__ */ (0, x.jsx)("span", { children: Ue }),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: () => P(""),
+						onClick: () => F(""),
 						"aria-label": "Dismiss error",
 						children: "×"
 					})
 				]
 			}),
-			i === "business" ? /* @__PURE__ */ (0, x.jsxs)("main", {
+			[
+				"approaches",
+				"mcp",
+				"diagrams"
+			].includes(i) && /* @__PURE__ */ (0, x.jsx)("div", {
+				className: "surface decision-nav",
+				role: "tablist",
+				"aria-label": "Architecture decision views",
+				children: [
+					[
+						"approaches",
+						"Compare options",
+						"S1 · S2 · S3 and agent hosting"
+					],
+					[
+						"mcp",
+						"Responsibilities & governance",
+						"Who creates, hosts and registers"
+					],
+					[
+						"diagrams",
+						"Diagrams",
+						"Detailed and landscape, zoom and export"
+					]
+				].map(([e, t, n]) => /* @__PURE__ */ (0, x.jsxs)("button", {
+					type: "button",
+					role: "tab",
+					"aria-selected": i === e,
+					className: i === e ? "active" : "",
+					onClick: () => a(e),
+					children: [t, /* @__PURE__ */ (0, x.jsx)("small", { children: n })]
+				}, e))
+			}),
+			v && /* @__PURE__ */ (0, x.jsxs)("div", {
+				className: "agent-ribbon",
+				role: "status",
+				children: [
+					/* @__PURE__ */ (0, x.jsxs)("strong", { children: [
+						"Opened by the ",
+						v.name,
+						" agent"
+					] }),
+					/* @__PURE__ */ (0, x.jsx)("span", { children: v.role }),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: () => {
+							a("business"), y(null);
+						},
+						children: "Back to Close & reconcile"
+					}),
+					/* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: () => y(null),
+						"aria-label": "Dismiss agent banner",
+						children: "Dismiss"
+					})
+				]
+			}),
+			E && /* @__PURE__ */ (0, x.jsx)(Lt, {
+				report: te,
+				period: E,
+				onClose: At
+			}),
+			i === "business" ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)(Bt, {
+				catalog: f,
+				plan: m,
+				busy: g,
+				onAsk: jt,
+				onGo: Mt,
+				activeId: v?.id
+			}), /* @__PURE__ */ (0, x.jsxs)("main", {
 				className: "business-layout fiori-list-report",
 				children: [
 					/* @__PURE__ */ (0, x.jsx)(C, {
-						history: tt,
-						historyDetail: Pe,
-						onOpenEvidence: () => Ot("finance"),
-						onOpenAgent: () => m(!0),
-						cases: Ae,
-						currentCase: k,
-						proposal: nt,
-						role: He,
-						onRole: Ue,
-						approve: pt,
-						loadCase: (e) => ft(`Reconcile ${gt(e)}`)
+						onOpenReport: Ot,
+						conditions: u,
+						onCondition: kt,
+						history: vt,
+						historyDetail: Je,
+						onOpenEvidence: () => Vt("finance"),
+						onOpenAgent: () => ce(!0),
+						cases: We,
+						currentCase: N,
+						proposal: yt,
+						role: nt,
+						onRole: rt,
+						approve: Pt,
+						loadCase: (e) => Dt(`Reconcile ${Zt(e)}`)
 					}),
-					p && /* @__PURE__ */ (0, x.jsx)("button", {
+					se && /* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						className: "chat-drawer-backdrop",
-						onClick: () => m(!1),
+						onClick: () => ce(!1),
 						"aria-label": "Close Finance Agent panel"
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("section", {
-						className: `surface chat-panel ${p ? "open" : ""}`,
+						className: `surface chat-panel ${se ? "open" : ""}`,
 						role: "dialog",
 						"aria-label": "Finance Agent",
-						"aria-modal": p,
+						"aria-modal": se,
 						children: [
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "section-heading",
@@ -14854,14 +16228,14 @@ function Tt({ bridge: e }) {
 									children: [
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
-											onClick: () => m(!1),
+											onClick: () => ce(!1),
 											"aria-label": "Close Finance Agent",
 											children: "Close"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
-											onClick: () => pe([]),
-											disabled: We || fe.length === 0,
+											onClick: () => Ee([]),
+											disabled: it || M.length === 0,
 											"aria-label": "Clear chat conversation",
 											children: "Clear chat"
 										}),
@@ -14874,12 +16248,12 @@ function Tt({ bridge: e }) {
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "chat-messages",
-								ref: Qe,
+								ref: ht,
 								"aria-live": "polite",
-								children: [!fe.length && /* @__PURE__ */ (0, x.jsx)("div", {
+								children: [!M.length && /* @__PURE__ */ (0, x.jsx)("div", {
 									className: "chat-empty",
 									children: "Chat cleared. The selected case and evidence remain available. Ask a finance question to continue."
-								}), fe.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("div", {
+								}), M.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("div", {
 									className: `chat-message ${e.role} ${e.limited ? "limited" : ""}`,
 									children: [
 										/* @__PURE__ */ (0, x.jsx)("span", { children: e.role === "user" ? "You" : "Finance assistant" }),
@@ -14888,7 +16262,7 @@ function Tt({ bridge: e }) {
 											className: "chat-answer-actions",
 											children: e.actions.map((e, n) => /* @__PURE__ */ (0, x.jsxs)("button", {
 												type: "button",
-												onClick: () => jt(e),
+												onClick: () => Wt(e),
 												children: [e.label, " →"]
 											}, `${t}-${n}`))
 										})
@@ -14898,34 +16272,34 @@ function Tt({ bridge: e }) {
 							/* @__PURE__ */ (0, x.jsxs)("form", {
 								className: "chat-composer",
 								onSubmit: (e) => {
-									e.preventDefault(), ft();
+									e.preventDefault(), Dt();
 								},
 								children: [/* @__PURE__ */ (0, x.jsx)("label", {
 									htmlFor: "chat-question",
 									children: "Question"
 								}), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("input", {
 									id: "chat-question",
-									value: se,
-									onChange: (e) => le(e.target.value),
+									value: Ce,
+									onChange: (e) => we(e.target.value),
 									placeholder: "Ask about a period, variance, source evidence, or controls"
 								}), /* @__PURE__ */ (0, x.jsx)("button", {
 									type: "submit",
 									className: "primary",
-									disabled: We,
-									children: We ? "Working…" : "Send"
+									disabled: it,
+									children: it ? "Working…" : "Send"
 								})] })]
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "suggestions",
 								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Try:" }), [
-									"Reconcile " + gt(O),
+									"Reconcile " + Zt(O),
 									"Why is there a variance?",
 									"Show source evidence",
 									"Investigate this variance"
 								].map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
-									disabled: We,
-									onClick: () => ft(e),
+									disabled: it,
+									onClick: () => Dt(e),
 									children: e
 								}, e))]
 							}),
@@ -14936,28 +16310,32 @@ function Tt({ bridge: e }) {
 									className: "text-link",
 									onClick: () => a("architecture"),
 									children: "Inspect this question’s architecture →"
-								}), k && /* @__PURE__ */ (0, x.jsxs)("span", { children: [
-									"Case ",
-									k.case_id,
-									" · ",
-									k.scenario
-								] })]
+								}), N && /* @__PURE__ */ (0, x.jsxs)("span", {
+									className: "tech",
+									children: [
+										"Case ",
+										N.case_id,
+										" · ",
+										N.scenario
+									]
+								})]
 							})
 						]
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "right-column",
 						children: [
-							Ie && /* @__PURE__ */ (0, x.jsx)(w, {
-								investigation: Ie,
-								onOpen: () => Ot("proof")
+							Xe && /* @__PURE__ */ (0, x.jsx)(w, {
+								investigation: Xe,
+								onOpen: () => Vt("proof")
 							}),
-							/* @__PURE__ */ (0, x.jsx)(xt, {
-								result: k?.result,
-								onOpenEvidence: () => Ot("finance"),
-								onRunCurrent: () => ft(`Reconcile ${gt(O)}`)
+							/* @__PURE__ */ (0, x.jsx)(nn, {
+								result: N?.result,
+								onOpenDetail: () => Ot(N?.result?.scope?.period),
+								onOpenEvidence: () => Vt("finance"),
+								onRunCurrent: () => Dt(`Reconcile ${Zt(O)}`)
 							}),
-							k?.result?.variance?.amount !== null && k?.result?.variance?.amount !== void 0 && Number(k.result.variance.amount) !== 0 && Ie?.case_id !== k.case_id && /* @__PURE__ */ (0, x.jsxs)("section", {
+							N?.result?.variance?.amount !== null && N?.result?.variance?.amount !== void 0 && Number(N.result.variance.amount) !== 0 && Xe?.case_id !== N.case_id && /* @__PURE__ */ (0, x.jsxs)("section", {
 								className: "surface action-strip",
 								children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 									/* @__PURE__ */ (0, x.jsx)("span", {
@@ -14968,14 +16346,14 @@ function Tt({ bridge: e }) {
 									/* @__PURE__ */ (0, x.jsx)("p", { children: "A comparable nonzero variance may create a local marker proposal." })
 								] }), /* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
-									onClick: () => ft("Propose an adjustment"),
+									onClick: () => Dt("Propose an adjustment"),
 									children: "Propose variance marker"
 								})]
 							})
 						]
 					})
 				]
-			}) : i === "architecture" ? /* @__PURE__ */ (0, x.jsxs)("main", {
+			})] }) : i === "architecture" ? /* @__PURE__ */ (0, x.jsxs)("main", {
 				className: "architecture-layout",
 				children: [
 					/* @__PURE__ */ (0, x.jsxs)("section", {
@@ -14997,22 +16375,22 @@ function Tt({ bridge: e }) {
 							className: "command-controls",
 							children: [
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Business intent", /* @__PURE__ */ (0, x.jsx)("input", {
-									value: ue,
-									onChange: (e) => de(e.target.value),
+									value: Te,
+									onChange: (e) => j(e.target.value),
 									"aria-label": "Business intent"
 								})] }),
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Period", /* @__PURE__ */ (0, x.jsx)("select", {
 									value: O,
-									onChange: (e) => re(e.target.value),
-									children: (tt?.available_periods || ["2026-11"]).map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+									onChange: (e) => k(e.target.value),
+									children: (vt?.available_periods || ["2026-11"]).map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
 										value: e,
-										children: gt(e)
+										children: Zt(e)
 									}, e))
 								})] }),
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Route", /* @__PURE__ */ (0, x.jsxs)("select", {
-									value: te,
-									onChange: (e) => ne(e.target.value),
-									disabled: be,
+									value: be,
+									onChange: (e) => xe(e.target.value),
+									disabled: je,
 									children: [/* @__PURE__ */ (0, x.jsx)("option", {
 										value: "S1",
 										children: "S1 · Apigee"
@@ -15022,8 +16400,8 @@ function Tt({ bridge: e }) {
 									})]
 								})] }),
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Pace", /* @__PURE__ */ (0, x.jsxs)("select", {
-									value: ae,
-									onChange: (e) => oe(Number(e.target.value)),
+									value: A,
+									onChange: (e) => Se(Number(e.target.value)),
 									children: [
 										/* @__PURE__ */ (0, x.jsx)("option", {
 											value: 30,
@@ -15042,9 +16420,9 @@ function Tt({ bridge: e }) {
 								/* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
 									className: "primary",
-									onClick: dt,
-									disabled: be,
-									children: be ? "Running…" : "Run architecture"
+									onClick: Et,
+									disabled: je,
+									children: je ? "Running…" : "Run architecture"
 								})
 							]
 						})]
@@ -15057,68 +16435,71 @@ function Tt({ bridge: e }) {
 								children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 									className: "eyebrow",
 									children: "COMPONENT COMMUNICATION"
-								}), /* @__PURE__ */ (0, x.jsx)("h2", { children: be ? "Processing live" : k?.status === "complete" ? "Case complete" : "Architecture ready" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
+								}), /* @__PURE__ */ (0, x.jsx)("h2", { children: je ? "Processing live" : N?.status === "complete" ? "Case complete" : "Architecture ready" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 									className: "route-actions",
 									children: [
 										/* @__PURE__ */ (0, x.jsx)("span", {
-											className: "pill quiet",
-											children: he || "No trace selected"
+											className: "pill quiet tech",
+											children: Oe || "No trace selected"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
 											onClick: () => {
-												Te(-1), M(null), De(!0);
+												Be(-1), Re(null), He(!0);
 											},
-											disabled: !_e.length,
+											disabled: !Ae.length,
 											children: "Replay"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
-											onClick: () => De(!1),
-											disabled: !Ee,
+											onClick: () => He(!1),
+											disabled: !Ve,
 											children: "Pause"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
 											onClick: () => {
-												De(!1), Te(null), M(null);
+												He(!1), Be(null), Re(null);
 											},
-											disabled: N === null,
+											disabled: ze === null,
 											children: "Live"
 										})
 									]
 								})]
 							}),
-							/* @__PURE__ */ (0, x.jsx)(Ct, {
-								registry: et,
-								events: rt,
-								scenario: te,
-								selectedZone: j,
+							/* @__PURE__ */ (0, x.jsx)(an, {
+								registry: _t,
+								events: xt,
+								scenario: be,
+								selectedZone: Ne,
 								onZone: (e) => {
-									xe(e), Ce(null);
+									Pe(e), Ie(null);
 								},
-								viewportRef: Ze,
-								liveRunning: be,
-								reportReady: !!k?.result?.variance,
-								onOpenReport: () => D(!0)
+								viewportRef: mt,
+								liveRunning: je,
+								reportReady: !!N?.result?.variance,
+								onOpenReport: () => ye(!0)
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "flow-caption",
 								children: [
-									/* @__PURE__ */ (0, x.jsx)("span", { className: `status-dot ${be ? "pulsing" : ""}` }),
+									/* @__PURE__ */ (0, x.jsx)("span", { className: `status-dot ${je ? "pulsing" : ""}` }),
 									" ",
-									/* @__PURE__ */ (0, x.jsx)("strong", { children: it ? `${it.status === "denied" ? "Control denied" : "Handoff recorded"} · ${mt[ot || j] || ot || j}` : "Awaiting a business question" }),
-									/* @__PURE__ */ (0, x.jsx)("span", { children: mt[ot] || "Select a route zone" }),
-									/* @__PURE__ */ (0, x.jsxs)("span", { children: [_e.length, " stored events"] })
+									/* @__PURE__ */ (0, x.jsx)("strong", { children: St ? `${St.status === "denied" ? "Control denied" : "Handoff recorded"} · ${Yt[wt || Ne] || wt || Ne}` : "Awaiting a business question" }),
+									/* @__PURE__ */ (0, x.jsx)("span", { children: Yt[wt] || "Select a route zone" }),
+									/* @__PURE__ */ (0, x.jsxs)("span", {
+										className: "tech",
+										children: [Ae.length, " stored events"]
+									})
 								]
 							})
 						]
 					}),
-					/* @__PURE__ */ (0, x.jsx)(ut, {
-						events: rt,
-						running: be,
-						selectedZone: mt[j] || j,
-						onOpenEvidence: () => Ot("components")
+					/* @__PURE__ */ (0, x.jsx)(Jt, {
+						events: xt,
+						running: je,
+						selectedZone: Yt[Ne] || Ne,
+						onOpenEvidence: () => Vt("components")
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("section", {
 						className: "surface case-strip",
@@ -15127,43 +16508,43 @@ function Tt({ bridge: e }) {
 							children: "STORED CASES"
 						}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "Replay an earlier run" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 							className: "case-buttons",
-							children: [Ae.slice(0, 8).map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
+							children: [We.slice(0, 8).map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
 								type: "button",
-								onClick: () => st(e.case_id),
+								onClick: () => I(e.case_id),
 								children: [
-									gt(e.scope?.period),
+									Zt(e.scope?.period),
 									" · ",
 									e.scenario,
 									" · ",
 									e.status
 								]
-							}, e.case_id)), !Ae.length && /* @__PURE__ */ (0, x.jsx)("span", {
+							}, e.case_id)), !We.length && /* @__PURE__ */ (0, x.jsx)("span", {
 								className: "micro",
 								children: "No completed case yet."
 							})]
 						})]
 					})
 				]
-			}) : i === "questions" ? /* @__PURE__ */ (0, x.jsx)(ce, {
+			}) : i === "questions" ? /* @__PURE__ */ (0, x.jsx)(le, {
 				questions: n?.decision_questions || [],
 				routePlaybooks: n?.route_playbooks || {},
-				focus: y,
-				run: Ke,
-				onRun: Dt,
-				busy: F,
-				onOpenEvidence: (e) => Ot("questions", { stepSeq: e })
-			}) : i === "mcp" ? /* @__PURE__ */ (0, x.jsx)(ct, {
+				focus: me,
+				run: ot,
+				onRun: zt,
+				busy: lt,
+				onOpenEvidence: (e) => Vt("questions", { stepSeq: e })
+			}) : i === "mcp" ? /* @__PURE__ */ (0, x.jsx)(bt, {
 				view: c,
 				onView: l,
 				onApproaches: () => a("approaches"),
 				onDetailed: (e) => {
 					s(e), a("diagrams");
 				}
-			}) : i === "diagrams" ? /* @__PURE__ */ (0, x.jsx)(ke, {
+			}) : i === "diagrams" ? /* @__PURE__ */ (0, x.jsx)(st, {
 				view: o,
 				onView: s,
 				onBack: () => a("approaches")
-			}) : i === "approaches" ? /* @__PURE__ */ (0, x.jsx)(ye, {
+			}) : i === "approaches" ? /* @__PURE__ */ (0, x.jsx)(ft, {
 				playbooks: n?.route_playbooks || {},
 				onQuestion: () => a("questions"),
 				onDetailedDiagram: (e) => {
@@ -15172,27 +16553,27 @@ function Tt({ bridge: e }) {
 				onGovernance: (e) => {
 					l(e), a("mcp");
 				}
-			}) : /* @__PURE__ */ (0, x.jsx)(ie, {
-				investigation: Ie,
-				currentCase: k,
-				history: tt,
-				busy: Be,
-				onStart: _t,
-				onResolve: Tt,
-				onTrace: Et,
-				historyDetail: Pe,
-				events: Ie?.case_id === k?.case_id && Re.length ? Re : _e,
-				caseEvents: _e,
-				decisionRun: Ke,
+			}) : /* @__PURE__ */ (0, x.jsx)(ae, {
+				investigation: Xe,
+				currentCase: N,
+				history: vt,
+				busy: et,
+				onStart: Ft,
+				onResolve: It,
+				onTrace: Rt,
+				historyDetail: Je,
+				events: Xe?.case_id === N?.case_id && Qe.length ? Qe : Ae,
+				caseEvents: Ae,
+				decisionRun: ot,
 				decisionQuestions: n?.decision_questions || [],
-				focus: T,
-				componentDetails: /* @__PURE__ */ (0, x.jsx)(wt, {
-					registry: et,
-					zone: j,
-					events: rt,
-					selectedComponent: Se,
-					onComponent: Ce,
-					scenario: te
+				focus: ge,
+				componentDetails: /* @__PURE__ */ (0, x.jsx)(on, {
+					registry: _t,
+					zone: Ne,
+					events: xt,
+					selectedComponent: Fe,
+					onComponent: Ie,
+					scenario: be
 				}),
 				reviewPanel: /* @__PURE__ */ (0, x.jsxs)("section", {
 					className: "surface architect-review",
@@ -15206,7 +16587,7 @@ function Tt({ bridge: e }) {
 						}),
 						/* @__PURE__ */ (0, x.jsx)("div", {
 							className: "review-list",
-							children: ht.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e }), /* @__PURE__ */ (0, x.jsx)("span", { children: t })] }, e))
+							children: Xt.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e }), /* @__PURE__ */ (0, x.jsx)("span", { children: t })] }, e))
 						}),
 						/* @__PURE__ */ (0, x.jsx)("p", {
 							className: "micro",
@@ -15215,27 +16596,27 @@ function Tt({ bridge: e }) {
 					]
 				})
 			}),
-			Mt,
-			E && /* @__PURE__ */ (0, x.jsx)(St, {
-				caseRecord: k,
-				onClose: () => D(!1),
-				onOpenEvidence: () => Ot("finance")
+			Gt,
+			ve && /* @__PURE__ */ (0, x.jsx)(rn, {
+				caseRecord: N,
+				onClose: () => ye(!1),
+				onOpenEvidence: () => Vt("finance")
 			})
 		]
 	});
 }
 // src/streamlit.jsx
-var Et = /* @__PURE__ */ new WeakMap();
-function Dt(e) {
+var cn = /* @__PURE__ */ new WeakMap();
+function ln(e) {
 	let { parentElement: t, data: n, setTriggerValue: r } = e, i = t.querySelector(".finance-root");
 	if (!i) throw Error("Missing finance component mount");
-	let a = Et.get(t);
-	return a || (a = (0, y.createRoot)(i), Et.set(t, a)), a.render(/* @__PURE__ */ (0, x.jsx)(Tt, { bridge: {
+	let a = cn.get(t);
+	return a || (a = (0, y.createRoot)(i), cn.set(t, a)), a.render(/* @__PURE__ */ (0, x.jsx)(sn, { bridge: {
 		data: n || {},
 		action: (e) => r("action", e)
 	} })), () => {
-		let e = Et.get(t);
-		e && (e.unmount(), Et.delete(t));
+		let e = cn.get(t);
+		e && (e.unmount(), cn.delete(t));
 	};
 }
-export { Dt as default };
+export { ln as default };

@@ -1,4 +1,4 @@
-import React,{useCallback,useMemo,useState} from 'react';
+import React,{useCallback,useMemo,useRef,useState} from 'react';
 import {PanZoom} from './DetailedDiagrams';
 import {SCENARIOS,IDS,GLOSSARY,MATRIX,CONN_COLS,CONNECTIONS,DOMAINS,HOSTING,DIMENSIONS,RECOMMENDATION,EVIDENCE,EVIDENCE_NOTE,ACCESSED,topologySvg,LEGEND,TBD} from './mcpScenarios';
 import './detailed-diagrams.css';
@@ -11,7 +11,14 @@ function diagramFor(id){return {id,title:SCENARIOS[id].label,svg:topologySvg(id)
 const isOpen=text=>/TBD|TO VALIDATE|unproven|NOT_VERIFIED|REQUIRES VALIDATION|needs proof|must be proven|unmeasured/i.test(text);
 const Cell=({text})=><td className={isOpen(text)?'mg-open':''}>{text}</td>;
 
+function Fold({id,testid,title,hint,open,onToggle,children}){
+  return <details id={id} className="surface mg-section mg-fold" data-testid={testid} open={open} onToggle={event=>onToggle(id,event.currentTarget.open)}><summary><h3>{title}</h3><span className="mg-hint">{hint}</span></summary>{children}</details>;
+}
+const HINTS={'mg-responsibility':'21 rows: who creates, hosts, registers and calls the Finance MCP','mg-registry':'Catalog, source and artifact owners','mg-domain':'Read, posting and analytical tools with separate authorizations','mg-hosting':'Which agent platforms work with which route','mg-decision':'15 dimensions compared across S1, S2 and S3','mg-recommendation':'Proposal, what would change it, and the proof plan','mg-evidence':'Vendor sources read on the access date','mg-connections':'Every connection, with invocation separated from registry and deployment'};
+
 export default function McpGovernance({view='S1',onView,onApproaches,onDetailed}){
+  const rootRef=useRef(null),[openMap,setOpenMap]=useState({'mg-recommendation':true});
+  const toggleFold=(id,value)=>setOpenMap(previous=>previous[id]===value?previous:{...previous,[id]:value});
   const [viewA,setViewA]=useState(null),[viewB,setViewB]=useState(null),[sync,setSync]=useState(true),[expanded,setExpanded]=useState(null),[other,setOther]=useState('S3');
   const compare=view==='compare';
   const id=compare?'S1':view;
@@ -20,9 +27,9 @@ export default function McpGovernance({view='S1',onView,onApproaches,onDetailed}
   const setBoth=useCallback(next=>{setViewA(next);setViewB(next)},[]);
   const second=other===id?IDS.find(x=>x!==id):other;
   const choose=next=>{if(next===view)return;setExpanded(null);onView(next)};
-  const jump=anchor=>document.getElementById(anchor)?.scrollIntoView({behavior:'smooth',block:'start'});
+  const jump=anchor=>{setOpenMap(previous=>({...previous,[anchor]:true}));requestAnimationFrame(()=>rootRef.current?.querySelector(`#${anchor}`)?.scrollIntoView({behavior:'smooth',block:'start'}))};
   const focusIds=compare?['S1',second]:[id];
-  return <main className="detailed-diagrams mcp-governance" aria-label="MCP hosting and governance">
+  return <main ref={rootRef} className="detailed-diagrams mcp-governance" aria-label="MCP hosting and governance">
     <header className="surface dd-header">
       <div className="dd-title"><span className="eyebrow">MCP HOSTING &amp; GOVERNANCE · WHO CREATES, HOSTS, REGISTERS AND CALLS THE FINANCE MCP</span><h2>{compare?'Compare MCP topologies':sc.label}</h2></div>
       <nav className="dd-selector" role="tablist" aria-label="MCP scenario selection">
@@ -42,36 +49,36 @@ export default function McpGovernance({view='S1',onView,onApproaches,onDetailed}
         expanded={expanded===key} onExpand={on=>setExpanded(on?key:null)}/></div>)}
     </div>
 
-    <section id="mg-responsibility" className="surface mg-section" data-testid="mg-matrix"><h3>Responsibility matrix · 21 rows</h3><p className="micro">Selected scenario highlighted. “{TBD}” and other open items are tinted. Every cell comes from one scenario configuration.</p>
+    <Fold id="mg-responsibility" testid="mg-matrix" title={<>Responsibility matrix · 21 rows</>} hint={HINTS['mg-responsibility']} open={Boolean(openMap['mg-responsibility'])} onToggle={toggleFold}><p className="micro">Selected scenario highlighted. “{TBD}” and other open items are tinted. Every cell comes from one scenario configuration.</p>
       <div className="mg-scroll"><table className="mg-table"><thead><tr><th scope="col">Responsibility</th>{IDS.map(key=><th scope="col" key={key} className={focusIds.includes(key)?'sel':''}>{SCENARIOS[key].label}</th>)}</tr></thead>
-        <tbody>{MATRIX.map(([row,...cells],index)=><tr key={row}><th scope="row">{index+1}. {row}</th>{cells.map((text,i)=><td key={IDS[i]} className={`${focusIds.includes(IDS[i])?'sel':''} ${isOpen(text)?'mg-open':''}`}>{text}</td>)}</tr>)}</tbody></table></div></section>
+        <tbody>{MATRIX.map(([row,...cells],index)=><tr key={row}><th scope="row">{index+1}. {row}</th>{cells.map((text,i)=><td key={IDS[i]} className={`${focusIds.includes(IDS[i])?'sel':''} ${isOpen(text)?'mg-open':''}`}>{text}</td>)}</tr>)}</tbody></table></div></Fold>
 
-    {focusIds.map(key=><section id={key===focusIds[0]?'mg-connections':undefined} className="surface mg-section" key={key} data-testid={`mg-connections-${key}`}><h3>Endpoint connectivity · {SCENARIOS[key].label}</h3><p className="micro">Invocation traffic is listed separately from registry lookups and artifact deployment. Endpoint addresses are conceptual placeholders.</p>
+    {focusIds.map(key=><Fold key={key} id={key===focusIds[0]?'mg-connections':`mg-connections-${key}`} testid={`mg-connections-${key}`} title={<>Endpoint connectivity · {SCENARIOS[key].label}</>} hint={HINTS['mg-connections']} open={Boolean(openMap[key===focusIds[0]?'mg-connections':`mg-connections-${key}`])} onToggle={toggleFold}><p className="micro">Invocation traffic is listed separately from registry lookups and artifact deployment. Endpoint addresses are conceptual placeholders.</p>
       <div className="mg-scroll"><table className="mg-table wide"><thead><tr>{CONN_COLS.map(col=><th scope="col" key={col}>{col}</th>)}</tr></thead>
-        <tbody>{CONNECTIONS[key].map((row,index)=><tr key={index} className={/not invocation/i.test(row[2])?'mg-aside':''}>{row.map((text,i)=>i===0?<th scope="row" key={i}>{text}</th>:<Cell key={i} text={text}/>)}</tr>)}</tbody></table></div></section>)}
+        <tbody>{CONNECTIONS[key].map((row,index)=><tr key={index} className={/not invocation/i.test(row[2])?'mg-aside':''}>{row.map((text,i)=>i===0?<th scope="row" key={i}>{text}</th>:<Cell key={i} text={text}/>)}</tr>)}</tbody></table></div></Fold>)}
 
-    <section id="mg-registry" className="surface mg-section" data-testid="mg-registry"><h3>Registry and artifact ownership</h3><p className="micro">Registries catalog; repositories hold source and specifications; runtimes execute. These rows are the same cells as the responsibility matrix.</p>
+    <Fold id="mg-registry" testid="mg-registry" title={<>Registry and artifact ownership</>} hint={HINTS['mg-registry']} open={Boolean(openMap['mg-registry'])} onToggle={toggleFold}><p className="micro">Registries catalog; repositories hold source and specifications; runtimes execute. These rows are the same cells as the responsibility matrix.</p>
       <div className="mg-scroll"><table className="mg-table"><thead><tr><th scope="col">Item</th>{IDS.map(key=><th scope="col" key={key} className={focusIds.includes(key)?'sel':''}>{SCENARIOS[key].label}</th>)}</tr></thead>
         <tbody>{MATRIX.filter(row=>REGISTRY_ROWS.includes(row[0])).map(([row,...cells])=><tr key={row}><th scope="row">{row}</th>{cells.map((text,i)=><td key={IDS[i]} className={`${focusIds.includes(IDS[i])?'sel':''} ${isOpen(text)?'mg-open':''}`}>{text}</td>)}</tr>)}</tbody></table></div>
-      <p className="micro">Proposed hybrid source of truth: Apigee API hub for the SAP domain; AWS Agent Registry holds a reference; Enterprise AI Foundry owns publication approval. No automatic cross-platform synchronization is assumed.</p></section>
+      <p className="micro">Proposed hybrid source of truth: Apigee API hub for the SAP domain; AWS Agent Registry holds a reference; Enterprise AI Foundry owns publication approval. No automatic cross-platform synchronization is assumed.</p></Fold>
 
-    <section id="mg-domain" className="surface mg-section" data-testid="mg-domain"><h3>Finance domain MCP design</h3><p className="micro">Read and write use separate authorizations. No generic write-capable tool may bypass SAP validation, approval, idempotency, posting-period control or audit. This demo never posts to SAP.</p>
+    <Fold id="mg-domain" testid="mg-domain" title={<>Finance domain MCP design</>} hint={HINTS['mg-domain']} open={Boolean(openMap['mg-domain'])} onToggle={toggleFold}><p className="micro">Read and write use separate authorizations. No generic write-capable tool may bypass SAP validation, approval, idempotency, posting-period control or audit. This demo never posts to SAP.</p>
       <div className="mg-cards">{DOMAINS.map(item=><article key={item.name}><span className={`pill ${item.mode.startsWith('WRITE')?'warn':'quiet'}`}>{item.mode}</span><h4>{item.name}</h4><p>{item.tools}</p><p><strong>Control</strong> {item.control}</p></article>)}</div>
-      <p className="micro">Five authorizations stay distinct: business approval, agent authorization, gateway authorization, SAP backend user authorization and the actual SAP posting result. Service identity is simpler to prove; end-user delegation needs proven token exchange, Cloud Connector, identity mapping and ABAP roles ({TBD}).</p></section>
+      <p className="micro">Five authorizations stay distinct: business approval, agent authorization, gateway authorization, SAP backend user authorization and the actual SAP posting result. Service identity is simpler to prove; end-user delegation needs proven token exchange, Cloud Connector, identity mapping and ABAP roles ({TBD}).</p></Fold>
 
-    <section id="mg-hosting" className="surface mg-section" data-testid="mg-hosting"><h3>Agent hosting versus MCP scenario</h3><p className="micro">A custom agent can run on one platform and consume an MCP endpoint hosted elsewhere. Nothing here is an enterprise approval.</p>
-      <div className="mg-scroll"><table className="mg-table"><thead><tr><th scope="col">Agent host</th>{IDS.map(key=><th scope="col" key={key}>{SCENARIOS[key].label}</th>)}</tr></thead><tbody>{HOSTING.map(([name,...cells])=><tr key={name}><th scope="row">{name}</th>{cells.map((text,i)=><Cell key={i} text={text}/>)}</tr>)}</tbody></table></div></section>
+    <Fold id="mg-hosting" testid="mg-hosting" title={<>Agent hosting versus MCP scenario</>} hint={HINTS['mg-hosting']} open={Boolean(openMap['mg-hosting'])} onToggle={toggleFold}><p className="micro">A custom agent can run on one platform and consume an MCP endpoint hosted elsewhere. Nothing here is an enterprise approval.</p>
+      <div className="mg-scroll"><table className="mg-table"><thead><tr><th scope="col">Agent host</th>{IDS.map(key=><th scope="col" key={key}>{SCENARIOS[key].label}</th>)}</tr></thead><tbody>{HOSTING.map(([name,...cells])=><tr key={name}><th scope="row">{name}</th>{cells.map((text,i)=><Cell key={i} text={text}/>)}</tr>)}</tbody></table></div></Fold>
 
-    <section id="mg-decision" className="surface mg-section" data-testid="mg-decision"><h3>Decision matrix</h3><p className="micro">Qualitative assessment. These are architectural judgments, not verified product claims or an approval.</p>
+    <Fold id="mg-decision" testid="mg-decision" title={<>Decision matrix</>} hint={HINTS['mg-decision']} open={Boolean(openMap['mg-decision'])} onToggle={toggleFold}><p className="micro">Qualitative assessment. These are architectural judgments, not verified product claims or an approval.</p>
       <div className="mg-scroll"><table className="mg-table"><thead><tr><th scope="col">Dimension</th>{IDS.map(key=><th scope="col" key={key} className={focusIds.includes(key)?'sel':''}>{SCENARIOS[key].label}</th>)}</tr></thead><tbody>{DIMENSIONS.map(([dim,...cells])=><tr key={dim}><th scope="row">{dim}</th>{cells.map((text,i)=><td key={IDS[i]} className={focusIds.includes(IDS[i])?'sel':''}>{text}</td>)}</tr>)}</tbody></table></div>
-      <button type="button" className="text-link" onClick={onApproaches}>Compare with the pros &amp; cons view →</button></section>
+      <button type="button" className="text-link" onClick={onApproaches}>Compare with the pros &amp; cons view →</button></Fold>
 
-    <section id="mg-recommendation" className="surface mg-section" data-testid="mg-recommendation"><h3>Recommendation and proof plan</h3><p className="mg-reco"><strong>{RECOMMENDATION.headline}</strong></p>
+    <Fold id="mg-recommendation" testid="mg-recommendation" title={<>Recommendation and proof plan</>} hint={HINTS['mg-recommendation']} open={Boolean(openMap['mg-recommendation'])} onToggle={toggleFold}><p className="mg-reco"><strong>{RECOMMENDATION.headline}</strong></p>
       <div className="mg-cards"><article><h4>Why</h4><ul>{RECOMMENDATION.why.map(x=><li key={x}>{x}</li>)}</ul></article><article><h4>Depends on</h4><ul>{RECOMMENDATION.standards.map(x=><li key={x}>{x}</li>)}</ul></article><article><h4>Open decisions</h4><ul>{RECOMMENDATION.open.map(x=><li key={x}>{x}</li>)}</ul></article><article><h4>What would change it</h4><ul>{RECOMMENDATION.changes.map(x=><li key={x}>{x}</li>)}</ul></article><article><h4>How a POC proves it</h4><ul>{RECOMMENDATION.poc.map(x=><li key={x}>{x}</li>)}</ul></article></div>
-      <p className="micro">A recommendation is not production authorization.</p></section>
+      <p className="micro">A recommendation is not production authorization.</p></Fold>
 
-    <section id="mg-evidence" className="surface mg-section" data-testid="mg-evidence"><h3>Source evidence · accessed {ACCESSED}</h3><p className="micro">{EVIDENCE_NOTE}</p>
-      <div className="mg-scroll"><table className="mg-table wide"><thead><tr>{['Platform','Source','Documented capability','Architecture consequence','Validation still required'].map(c=><th scope="col" key={c}>{c}</th>)}</tr></thead><tbody>{EVIDENCE.map(([platform,title,url,capability,consequence,validate])=><tr key={url}><th scope="row">{platform}</th><td><a href={url} target="_blank" rel="noopener noreferrer">{title}</a></td><td>{capability}</td><td>{consequence}</td><td className="mg-open">{validate}</td></tr>)}</tbody></table></div></section>
+    <Fold id="mg-evidence" testid="mg-evidence" title={<>Source evidence · accessed {ACCESSED}</>} hint={HINTS['mg-evidence']} open={Boolean(openMap['mg-evidence'])} onToggle={toggleFold}><p className="micro">{EVIDENCE_NOTE}</p>
+      <div className="mg-scroll"><table className="mg-table wide"><thead><tr>{['Platform','Source','Documented capability','Architecture consequence','Validation still required'].map(c=><th scope="col" key={c}>{c}</th>)}</tr></thead><tbody>{EVIDENCE.map(([platform,title,url,capability,consequence,validate])=><tr key={url}><th scope="row">{platform}</th><td><a href={url} target="_blank" rel="noopener noreferrer">{title}</a></td><td>{capability}</td><td>{consequence}</td><td className="mg-open">{validate}</td></tr>)}</tbody></table></div></Fold>
 
     <section className="surface mg-section" aria-label="Glossary"><details><summary><strong>Glossary · MCP terms used on this page</strong></summary><dl className="mg-glossary">{GLOSSARY.map(([term,text])=><React.Fragment key={term}><dt>{term}</dt><dd>{text}</dd></React.Fragment>)}</dl></details>
       <p className="micro">Legend: {LEGEND.map(([,text])=>text).join(' · ')}.</p></section>

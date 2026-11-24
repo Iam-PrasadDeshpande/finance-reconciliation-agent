@@ -26,6 +26,8 @@ from .questions import answer_follow_up, request_for_demo, mentioned_period, tra
 from .architecture_view import architecture_registry, architecture_events
 from .decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
 from .route_playbooks import route_playbook_catalog
+from .agents import Context as AgentContext,catalog as agent_catalog,invoke_tool,plan_for,run_plan
+from .recon_report import CONDITIONS,apply_condition,build_report
 from .store import Denied,Store
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -239,6 +241,58 @@ def chat(data:ChatInput):
                     "trace_case_id":result["case_id"],"scenario":result["scenario"],"result":result,"assumed_fields":assumed,"synthetic":True}
         except Exception as exc: fail(exc)
     try: return answer_follow_up(store,approval,data.message,data.case_id,data.scenario)
+    except Exception as exc: fail(exc)
+
+class AgentToolInput(BaseModel):
+    message:str=""
+    period:str|None=None
+    case_id:str|None=None
+    scenario:str="S1"
+    user_id:str="finance.user"
+
+def agent_context(): return AgentContext(store,runtime,investigator,approval,ensure_demo_agent)
+
+@app.get("/api/agent/catalog")
+def agents_catalog(): return agent_catalog()
+
+@app.post("/api/agent/plan")
+def agent_plan(data:ChatInput):
+    try:
+        case=store.case(data.case_id) if data.case_id else None
+        return run_plan(agent_context(),plan_for(data.message,case),data.scenario,data.user_id)
+    except Exception as exc: fail(exc)
+
+@app.get("/api/agent/plans/last")
+def agent_last_plan(): return store.get_state("last_plan") or {}
+
+@app.post("/api/agent/tools/{name}")
+def agent_tool(name:str,data:AgentToolInput):
+    try: return invoke_tool(agent_context(),name,data.model_dump())
+    except Exception as exc: fail(exc)
+
+class Condition(BaseModel):
+    period:str="2026-11"
+    condition:str
+    operator_id:str="finance.operator"
+
+@app.get("/api/conditions")
+def conditions(): return [{"id":key,**value} for key,value in CONDITIONS.items()]
+
+@app.post("/api/conditions")
+def set_condition(change:Condition):
+    if change.operator_id!="finance.operator": raise HTTPException(403,"Synthetic operator role required")
+    if any(c["status"] in ("queued","running") for c in store.cases()): raise HTTPException(409,"Wait for the active run before changing source data")
+    try:
+        result=apply_condition(store,change.period,change.condition)
+        store.emit("fixture","S1","condition","observability","synthetic_close_condition",change.operator_id,"ok","data","event",{"period":change.period,"condition":change.condition},"allow")
+        return result
+    except Exception as exc: fail(exc)
+
+@app.get("/api/reports/{period}")
+def reconciliation_report(period:str,case_id:str|None=None):
+    try:
+        record=store.case(case_id) if case_id else None
+        return build_report(store,period,record,store.events(case_id) if record else None)
     except Exception as exc: fail(exc)
 
 @app.get("/api/cases")

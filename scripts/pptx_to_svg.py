@@ -19,6 +19,19 @@ NS = {"a": "http://schemas.openxmlformats.org/drawingml/2006/main",
 EMU_PT = 12700.0
 FONT = "'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif"
 ASCENT, LINE_H = 1.079, 1.33  # Segoe UI metrics (em)
+
+# App theme: the deck's colours are mapped onto the palette used by the generated MCP hosting and landscape
+# diagrams (frontend/src/mcpScenarios.js), so every diagram in the app shares one look. Geometry, labels and
+# arrow directions are unchanged.
+THEME = {
+    "557086": "506778", "17324D": "1D2D3E", "1265AD": "0A4F9E", "E4781B": "C26A00", "7251AD": "5B3F8C",
+    "007F79": "0C8F76", "A6825A": "6B6B6B", "103C68": "0A4F9E", "C7D3DE": "C9D5DE",
+    "EAF3FC": "E8F1FB", "FFF1E5": "FFF1E0", "F1ECFA": "F0EAF8", "FBF7F1": "F3F3F3", "DCEBFA": "E8F1FB",
+}
+
+
+def theme(value: str) -> str:
+    return THEME.get(value.upper(), value.upper())
 SLIDE_TITLES = {1: "S1 · Google Apigee MCP", 2: "S2 · AgentCore Gateway MCP"}
 
 
@@ -30,7 +43,7 @@ def fill_of(sppr) -> str:
     if sppr.find("a:noFill", NS) is not None:
         return "none"
     srgb = sppr.find("a:solidFill/a:srgbClr", NS)
-    return f"#{srgb.get('val')}" if srgb is not None else "none"
+    return f"#{theme(srgb.get('val'))}" if srgb is not None else "none"
 
 
 def stroke_of(sppr):
@@ -42,7 +55,7 @@ def stroke_of(sppr):
         return None
     width = int(ln.get("w", "12700")) / EMU_PT
     dash = ln.find("a:prstDash", NS)
-    return f"#{srgb.get('val')}", width, (dash.get("val") if dash is not None else None)
+    return f"#{theme(srgb.get('val'))}", width, (dash.get("val") if dash is not None else None)
 
 
 def stroke_attrs(stroke) -> str:
@@ -122,7 +135,7 @@ def convert_slide(xml: bytes, title: str, desc: str) -> str:
         rpr = run.find("a:rPr", NS)
         size = int(rpr.get("sz")) / 100.0
         bold = rpr.get("b") == "1"
-        colour = rpr.find("a:solidFill/a:srgbClr", NS).get("val")
+        colour = theme(rpr.find("a:solidFill/a:srgbClr", NS).get("val"))
         bpr = body.find("a:bodyPr", NS)
         anchor = bpr.get("anchor", "t")
         algn = body.find("a:p/a:pPr", NS).get("algn", "l")
@@ -149,7 +162,7 @@ def main(deck: str, out: str) -> None:
     with zipfile.ZipFile(deck) as z:
         for idx in (1, 2):
             svg = convert_slide(z.read(f"ppt/slides/slide{idx}.xml"), SLIDE_TITLES[idx],
-                                f"Detailed architecture diagram {SLIDE_TITLES[idx]} converted from the supplied deck")
+                                f"Detailed L2 architecture diagram {SLIDE_TITLES[idx]}")
             (out_dir / f"s{idx}.svg").write_text(svg, encoding="utf-8")
             print(f"s{idx}.svg", len(svg), "bytes")
 

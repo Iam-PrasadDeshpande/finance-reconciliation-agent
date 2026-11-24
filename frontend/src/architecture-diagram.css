@@ -9,3 +9,5 @@
 .arch-diagram-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 15px;border-top:1px solid #dce6ec}.arch-diagram-footer p{font-size:11px;line-height:1.35;margin:0;color:#76501c}.arch-diagram-footer>div{display:flex;align-items:center;gap:8px;flex:none}.arch-diagram-footer a{font-size:11px;color:#0a6ed1}
 @media(max-width:1100px){.arch-diagram-modal{width:88vw;height:80vh}}
 @media(max-width:700px){.arch-diagram-modal{width:95vw;height:88vh}.arch-diagram-header{align-items:start}.arch-diagram-header .pill{display:none}.arch-diagram-canvas{overflow:auto;grid-template-rows:auto minmax(180px,1fr) auto auto}.arch-diagram-flow{overflow-x:auto;min-height:180px}.arch-diagram-node{flex:0 0 145px}.arch-diagram-controls{grid-template-columns:1fr 1fr}.arch-diagram-footer{align-items:start;flex-direction:column}.arch-diagram-footer>div{width:100%;justify-content:space-between}}
+
+.arch-diagram-viewer{min-height:0;display:flex;flex-direction:column;padding:8px 12px;overflow:hidden}.arch-diagram-viewer>.dd-viewer{flex:1;min-height:0}
