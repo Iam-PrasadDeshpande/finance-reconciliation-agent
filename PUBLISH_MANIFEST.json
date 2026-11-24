@@ -28,8 +28,8 @@
       "bytes": 142
     },
     "README.md": {
-      "sha256": "0fccdc2f7abee9377ff00eebf82f8ac70dd4bb361102debb980efdb6df714c17",
-      "bytes": 13190
+      "sha256": "d0c9c2c862e2549e36bd4b44ad04b6390ba4eeb9c59c7a46a146aaae0e6c4556",
+      "bytes": 14093
     },
     "Start Finance Demo.cmd": {
       "sha256": "e414f99d52dea360037706f0027e5a99e7fba591155a25bf089458a69c334501",
@@ -48,20 +48,24 @@
       "bytes": 16035
     },
     "docs/DEMO_EVIDENCE.md": {
-      "sha256": "83335dd6443e42bcb6c43864b97cbb47bec3522f43e408141959fba2ab80e89c",
-      "bytes": 10252
+      "sha256": "5d3ea195c74569401cf87213651b2d2fc83ae367697ab47c6bc5152589c04454",
+      "bytes": 10329
     },
     "docs/INDEPENDENT_REVIEW_AND_RELEASE.md": {
       "sha256": "b99a0afd766299b24468ca2d142cd992e3cbdb357a55042c8a247b5effcb2ede",
       "bytes": 4186
     },
     "docs/LOCAL_LAPTOP_GUIDE.md": {
-      "sha256": "6409c5625761a6397bd9aaf29511b64c1a40e3cd621046696f6adb68b0bda125",
-      "bytes": 3765
+      "sha256": "41cc93ea53774a854db174066aad598afb9e8d76f51137a7c69a3577aacb3b01",
+      "bytes": 4032
+    },
+    "docs/MCP_HOSTING_GOVERNANCE.md": {
+      "sha256": "d154fdca2834b63b25772fdec8642b2bc7c66ae99b4496654ccfc8bdc196e2b7",
+      "bytes": 4884
     },
     "docs/POC_LIMITATIONS.md": {
-      "sha256": "0add41bd4613f9dd2a8df431cfcf184ab577990935fe765a358802e3e6fa08e2",
-      "bytes": 11405
+      "sha256": "c264b52042c37e8b754704aa003d675bd95d9369b7410917e1d47cc337271e61",
+      "bytes": 11442
     },
     "docs/evidence/agentic_architecture_proof.png": {
       "sha256": "6ea28ab04743c6917fd92ffe64b2a3693dd31320fd78c2aa53c49b83b94845be",
@@ -175,25 +179,25 @@
       "sha256": "924f4c9ae85601257faf6cda7c1ea201144dce2969cbea74de58440e82c6b228",
       "bytes": 42858
     },
-    "frontend/dist/assets/index-Df5F9iyO.css": {
-      "sha256": "9f51fc273fb970158e98543d9d424441653580688418af41d2ac6d6dbdf112b3",
-      "bytes": 118223
+    "frontend/dist/assets/index-Bhts5f4R.js": {
+      "sha256": "3f59ccf9d075d5e6ae8ea6b990bd44968f2ffde56be231892b828820392f1f26",
+      "bytes": 510560
     },
-    "frontend/dist/assets/index-YVAn4LUC.js": {
-      "sha256": "9ad3b59a40f2ef8f93acd2881d6e0bd0c123a82a6bb9d3e63525a76ec3d7905a",
-      "bytes": 459654
+    "frontend/dist/assets/index-BmPlgtto.css": {
+      "sha256": "fa23fe1932305e3620be0755a112a328eb46806c28a39d37a0a1f1415611604b",
+      "bytes": 121199
     },
     "frontend/dist/index.html": {
-      "sha256": "95eff4766043770cbf5dbe9e670e4980f67b6184dcd692036d5599a963c1f2a9",
+      "sha256": "20295d810af85666a731a11dd4b214a3451bc0d51f6327ed80b75c1d995cefa6",
       "bytes": 391
     },
     "frontend/dist_streamlit/finance_architecture.css": {
-      "sha256": "8680bea585ef81ed411a2baa6a7a6c1a8fcfbe7d13df27de7369a2e8b6435d25",
-      "bytes": 118235
+      "sha256": "8d67e18d535500151d06f79892dd7dbdded75908bdb0f2d5123b56893072e07f",
+      "bytes": 121211
     },
     "frontend/dist_streamlit/finance_architecture.js": {
-      "sha256": "97cf2d45dc1cf382fc85968eb22351c1a6290f09fbf69290de627609c427325b",
-      "bytes": 604367
+      "sha256": "3b108eb1dca33717ea79aca619b5874a22b1997387f8f50766f3f65f5a10d429",
+      "bytes": 667871
     },
     "frontend/index.html": {
       "sha256": "79b48eb50f70682ccdd5c3c116e318a9a72f19b1ed8341f8a058b081b35cb0db",
@@ -212,8 +216,8 @@
       "bytes": 2091
     },
     "frontend/src/App.jsx": {
-      "sha256": "b0aa84b88bdeced3b0e9aa30337e62b777e01465634c71d5b3226fae6befbc72",
-      "bytes": 47076
+      "sha256": "18c5bd151430e40844fbe715901a0c0cffd4d2e08f36c0d22f0264c8e70ee920",
+      "bytes": 47730
     },
     "frontend/src/ArchitectureDiagram.jsx": {
       "sha256": "e84df7ebc901c4fe2bc51f947efc4149e3e8559ed377b7ced51e5f22b5282aea",
@@ -228,8 +232,8 @@
       "bytes": 5399
     },
     "frontend/src/DetailedDiagrams.jsx": {
-      "sha256": "157b73c7aa723d812feee1f4a90967d3395745471cea2e87983b093c318ef346",
-      "bytes": 14438
+      "sha256": "0681fa6f1f46545f578a435f45a6977cabda080cebce42af7b2a8ad53b4c1973",
+      "bytes": 15489
     },
     "frontend/src/EvidenceCorrelation.jsx": {
       "sha256": "46853d31d4c33871a742ce0d58526c57e64fcdc4328a147ce464ffee9cb9187f",
@@ -252,8 +256,12 @@
       "bytes": 1814
     },
     "frontend/src/McpApproaches.jsx": {
-      "sha256": "ca8d8fc5dcb36ab4409777a7a720f49337abd14232767ed5d41f3946b24c7144",
-      "bytes": 14432
+      "sha256": "2bd41b8d93d1d76248a0952ba6605c0e47cc44732f32a4b0e0424ac0df51d36b",
+      "bytes": 14594
+    },
+    "frontend/src/McpGovernance.jsx": {
+      "sha256": "267328309631e5a6cde794d34caf1cb1e4ae85b17a345221718711d362deada1",
+      "bytes": 11955
     },
     "frontend/src/ProofDossier.jsx": {
       "sha256": "fbcaf3c9a6e3877e836775150c0ff6d3bc9a00d67a02db43f66a410f29f420be",
@@ -294,6 +302,14 @@
     "frontend/src/mcp-bird.css": {
       "sha256": "89531762107fa40aaf85c9a590e5836666eba3533f42cf9af2650e4ffa4907de",
       "bytes": 7958
+    },
+    "frontend/src/mcp-governance.css": {
+      "sha256": "aff5085947b89674e9c9d6faa088e5885b54868495965a61faeff6bcf8fdfd12",
+      "bytes": 3023
+    },
+    "frontend/src/mcpScenarios.js": {
+      "sha256": "9563472bddd7f7d6e17c87c5ffdd99f00cbe81cfa549124b8f6b5a899d346573",
+      "bytes": 41966
     },
     "frontend/src/questions.css": {
       "sha256": "1c29ea526f695bd5f0e056493a1c863f1ff6212cb696dc67670b06a62e3bfce0",
@@ -408,12 +424,12 @@
       "bytes": 3289
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "9b6bea53ae438eae1c8529faf44121af70001a7e1042b1a3498b37ef6ba06b78",
-      "bytes": 588862
+      "sha256": "4a1f8b373d25052383ee2524fc6f3d5ecd1d36a704f81816958b4a4c242b4efc",
+      "bytes": 605413
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "578b5158b734af6ad389a7aa2b8963842ce1601a8d4d0797bda0fa52d3731a10",
-      "bytes": 365197
+      "sha256": "d445ea06b95241f7eb07eeb8067ba633a507cf456d0b1540a19b6e2ef7e1f0ac",
+      "bytes": 396647
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -464,8 +480,8 @@
       "bytes": 3421
     },
     "scripts/qa_current_release.py": {
-      "sha256": "827cc6c4a400ac06753542248428ccd5c7745c16b44c020a754330749c6e1a4d",
-      "bytes": 6338
+      "sha256": "7f15e07c22e108070855d1795672ff310a2501fd35d57216807e0708c02c0461",
+      "bytes": 9158
     },
     "scripts/qa_decision_lab.py": {
       "sha256": "cfed2d2a36b689729d98e142b892ff3c277411579f162899226cc0d8c60aa656",
@@ -488,8 +504,8 @@
       "bytes": 4859
     },
     "static/finance_reconciliation_local_windows.zip": {
-      "sha256": "578b5158b734af6ad389a7aa2b8963842ce1601a8d4d0797bda0fa52d3731a10",
-      "bytes": 365197
+      "sha256": "d445ea06b95241f7eb07eeb8067ba633a507cf456d0b1540a19b6e2ef7e1f0ac",
+      "bytes": 396647
     },
     "streamlit_app.py": {
       "sha256": "29c51ac9d39256ff54c7e107337eed6ee1d3ee1a6c962e4ff7e45aef08e50695",
