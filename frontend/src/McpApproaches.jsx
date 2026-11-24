@@ -25,7 +25,7 @@ const CHOICES=[
   {id:'S3',agent:'AgentCore Runtime in demo; external host to review',mcp:'SAP Apigee behind AgentCore Gateway',entry:'AgentCore Gateway',state:'Combined path approval open'},
 ];
 
-export default function McpApproaches({playbooks={},onQuestion,onDetailedDiagram}){
+export default function McpApproaches({playbooks={},onQuestion,onDetailedDiagram,onGovernance}){
   const [section,setSection]=useState('S1');
   const [detail,setDetail]=useState(null);
   const [diagram,setDiagram]=useState(null);
@@ -53,7 +53,7 @@ export default function McpApproaches({playbooks={},onQuestion,onDetailedDiagram
       {['S1','S2','S3','compare'].map(id=><button type="button" role="tab" key={id} aria-selected={section===id} className={section===id?'active':''} onClick={()=>setSection(id)}><strong>{id==='compare'?'Compare all':id}</strong><span>{id==='compare'?'MCP route comparison':APPROACHES[id].name}</span></button>)}
     </nav>
     {route?<section className="surface mcp-bird-panel" role="tabpanel" aria-label={`${route} MCP overview`}>
-      <div className="mcp-bird-panel-title"><div><span className="eyebrow">MCP ACCESS · {route} · {item.position}</span><h3>{item.name}</h3></div><div className="mcp-bird-title-actions"><button type="button" className="diagram-action" onClick={()=>setDiagram({kind:'mcp',id:route})}>Architecture diagram ↗</button>{onDetailedDiagram&&(route==='S1'||route==='S2')&&<button type="button" className="detailed-diagram-action" onClick={()=>onDetailedDiagram(route)}>Detailed diagram (zoom) →</button>}<button type="button" onClick={()=>setDetail('route')}>View handoffs and proof →</button></div></div>
+      <div className="mcp-bird-panel-title"><div><span className="eyebrow">MCP ACCESS · {route} · {item.position}</span><h3>{item.name}</h3></div><div className="mcp-bird-title-actions"><button type="button" className="diagram-action" onClick={()=>setDiagram({kind:'mcp',id:route})}>Architecture diagram ↗</button>{onDetailedDiagram&&(route==='S1'||route==='S2')&&<button type="button" className="detailed-diagram-action" onClick={()=>onDetailedDiagram(route)}>Detailed diagram (zoom) →</button>}{onGovernance&&<button type="button" className="detailed-diagram-action" onClick={()=>onGovernance(route)}>MCP hosting &amp; governance →</button>}<button type="button" onClick={()=>setDetail('route')}>View handoffs and proof →</button></div></div>
       <div className="mcp-bird-path" aria-label="Selected request path">{(plan?.path||'').split(' → ').map((node,index)=><React.Fragment key={node+index}>{index>0&&<span aria-hidden="true">→</span>}<b>{node}</b></React.Fragment>)}</div>
       <div className="mcp-bird-facts"><article><span>Agent runtime</span><strong>{choice.agent}</strong></article><article><span>MCP endpoint</span><strong>{choice.mcp}</strong></article><article><span>Agent entry</span><strong>{choice.entry}</strong></article><article><span>Open decision</span><strong>{choice.state}</strong></article></div>
       <div className="mcp-bird-scores">{item.criteria.map(([label,assessment])=><div key={label}><span>{label}</span><strong>{assessment}</strong></div>)}</div>

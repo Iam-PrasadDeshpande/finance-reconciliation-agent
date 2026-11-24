@@ -1,4 +1,4 @@
-"""Browser regression for the current four-tab synthetic demo (set QA_SKIP_STREAMLIT=1 to run web only)."""
+"""Browser regression for the current five-tab synthetic demo (set QA_SKIP_STREAMLIT=1 to run web only)."""
 from __future__ import annotations
 
 import os
@@ -15,7 +15,7 @@ def check(page, url, hosted):
     page.get_by_role("button", name="Open Finance Reconciliation Agent").wait_for(timeout=30000)
     page.get_by_role("button", name="Open Finance Reconciliation Agent").click()
     tabs = page.locator(".tab-nav [role=tab]")
-    assert tabs.count() == 4
+    assert tabs.count() == 5
 
     # Both detail views are available through contextual links and return to a main view.
     tabs.nth(1).click()
@@ -87,6 +87,50 @@ def check(page, url, hosted):
     page.get_by_role("button", name="← Architecture pros").first.click()
     assert tabs.nth(2).get_attribute("aria-selected") == "true"
 
+    # MCP hosting & governance tab: scenario selection, generated diagrams, matrices, consistency and navigation.
+    tabs.nth(2).click()
+    route_tabs.nth(2).click()
+    page.get_by_role("button", name="MCP hosting & governance").click()
+    assert tabs.nth(4).get_attribute("aria-selected") == "true"
+    scenario = page.get_by_role("tablist", name="MCP scenario selection").get_by_role("tab")
+    assert scenario.count() == 4
+    assert scenario.nth(2).get_attribute("aria-selected") == "true"  # arrived from S3
+    assert page.locator("[data-testid=mg-matrix] tbody tr").count() == 21
+    for index, sid in enumerate(["S1", "S2", "S3"]):
+        scenario.nth(index).click()
+        stage = page.locator(f"[data-testid=diagram-{sid}]")
+        stage.wait_for()
+        assert stage.locator("text").count() >= 60
+        kinds = {"invoke", "registry", "deploy", "identity"}
+        assert all(stage.locator(f"path[stroke-dasharray]").count() or kind == "invoke" for kind in kinds)
+        assert page.locator(f"[data-testid=mg-connections-{sid}] tbody tr").count() >= 6
+        assert page.locator(".mg-open").count() > 0
+        zoom = page.locator(".dd-zoom").first
+        assert zoom.inner_text() != "0%"
+    # S3 shows two gateways in series; S2 shows the AWS trust boundary; registries are never invocation targets.
+    assert page.locator("[data-testid=diagram-S3] text", has_text="Apigee MCP endpoint").count() >= 1
+    assert page.locator("[data-testid=diagram-S3] text", has_text="AgentCore Gateway").count() >= 1
+    scenario.nth(1).click()
+    assert page.locator("[data-testid=diagram-S2] text", has_text="AWS trust boundary").count() == 1
+    svg_text = page.locator("[data-testid=diagram-S2] svg").inner_html()
+    assert "NOT AN INVOCATION HOP" in svg_text and "tool code" in svg_text and "no custom" in svg_text
+    assert "Finance Read MCP" in page.locator("[data-testid=mg-domain]").inner_text()
+    assert "Finance Posting MCP" in page.locator("[data-testid=mg-domain]").inner_text()
+    assert page.locator("[data-testid=mg-evidence] a[href^='https://']").count() >= 8
+    zoom = page.locator(".dd-zoom").first
+    fitted = zoom.inner_text()
+    page.get_by_role("button", name="Zoom in S2").click()
+    assert int(zoom.inner_text()[:-1]) > int(fitted[:-1])
+    page.get_by_role("button", name="Reset S2 view to fit").click()
+    assert zoom.inner_text() == fitted
+    with page.expect_download() as download:
+        page.get_by_role("button", name="Download S2 as 2x PNG").click()
+    assert download.value.suggested_filename == "mcp-topology-s2-2x.png"
+    scenario.nth(3).click()
+    assert page.locator(".dd-viewer").count() == 2
+    page.get_by_role("button", name="Pros & cons →").first.click()
+    assert tabs.nth(2).get_attribute("aria-selected") == "true"
+
     if not hosted:
         tabs.nth(1).click()
         page.get_by_role("button", name="Run architecture").click()
@@ -105,7 +149,7 @@ with sync_playwright() as playwright:
     for label, url, hosted, width in surfaces:
         page = browser.new_page(viewport={"width": width, "height": 900 if width == 1440 else 844})
         check(page, url, hosted)
-        print({"surface": label, "four_tabs": "PASS", "detailed_diagrams_zoom": "PASS", "detail_links": "PASS",
+        print({"surface": label, "five_tabs": "PASS", "mcp_governance": "PASS", "detailed_diagrams_zoom": "PASS", "detail_links": "PASS",
                "four_approach_tabs": "PASS", "seven_diagram_designs": "PASS", "no_desktop_scroll": "PASS", "page_errors": 0}, flush=True)
         page.context.close()
     browser.close()
