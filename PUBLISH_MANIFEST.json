@@ -28,8 +28,8 @@
       "bytes": 142
     },
     "README.md": {
-      "sha256": "7866b53c672ef8836912e8895a907de9df9828881cc00f037f047212f604a575",
-      "bytes": 12048
+      "sha256": "b2514d0e4b0e1be569e92dd5181cba740810da8b83e8a5f914a117176efc68e8",
+      "bytes": 12169
     },
     "Start Finance Demo.cmd": {
       "sha256": "e414f99d52dea360037706f0027e5a99e7fba591155a25bf089458a69c334501",
@@ -44,8 +44,8 @@
       "bytes": 3479
     },
     "docs/ARCHITECTURE_MAPPING.md": {
-      "sha256": "a37cc3df68a548b8e49372e830d1c51dd93af83da1a00f4c804a7aee1f1b53ba",
-      "bytes": 15367
+      "sha256": "1039e586fdae970b5e2f818abfe5dc3f177ea0e9b35a36e57ba8767473a02a58",
+      "bytes": 15408
     },
     "docs/DEMO_EVIDENCE.md": {
       "sha256": "bdcbe0378a8dd19a93d23c23300be23faefa86b5d13b4085e0aba51234497d35",
@@ -60,8 +60,8 @@
       "bytes": 2921
     },
     "docs/POC_LIMITATIONS.md": {
-      "sha256": "0f523e6c4430f9310adfe7264a7a3f7585581b7655c0db65210dbfc821a9e073",
-      "bytes": 10855
+      "sha256": "b9e0195b04806ad460d476f448e3910386a1aa20be3ab6a4dc028d0379e1e459",
+      "bytes": 10919
     },
     "docs/evidence/agentic_architecture_proof.png": {
       "sha256": "6ea28ab04743c6917fd92ffe64b2a3693dd31320fd78c2aa53c49b83b94845be",
@@ -380,12 +380,12 @@
       "bytes": 3289
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "c0c8204ff3d57d77173c5c8f79da478da4840a797f7008dd4be6b1fd92752254",
-      "bytes": 494497
+      "sha256": "bfd4429f1edeb0c0a17710bef451acb883a77c5e7ba3b57acb109d85072fc426",
+      "bytes": 499590
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "87a00e33852a2e970b6eb370ac26107a83330b0d3e0450bde4dc0874ca162de6",
-      "bytes": 304284
+      "sha256": "1dfecdf0f090e9b0b8d3325b382ea783d52f346ba40bf2e497c855bb43a319d3",
+      "bytes": 304357
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -431,6 +431,10 @@
       "sha256": "8476f78085e86eb2664fefcb475ad521bea03f0019eb834a20cce0e183d86400",
       "bytes": 3421
     },
+    "scripts/qa_current_release.py": {
+      "sha256": "0696afb66acfaad789db55bbf60c1e9213c01bc8f07de630d606401171d742c1",
+      "bytes": 3311
+    },
     "scripts/qa_decision_lab.py": {
       "sha256": "cfed2d2a36b689729d98e142b892ff3c277411579f162899226cc0d8c60aa656",
       "bytes": 5776
@@ -452,8 +456,8 @@
       "bytes": 4859
     },
     "static/finance_reconciliation_local_windows.zip": {
-      "sha256": "87a00e33852a2e970b6eb370ac26107a83330b0d3e0450bde4dc0874ca162de6",
-      "bytes": 304284
+      "sha256": "1dfecdf0f090e9b0b8d3325b382ea783d52f346ba40bf2e497c855bb43a319d3",
+      "bytes": 304357
     },
     "streamlit_app.py": {
       "sha256": "400e7e6c334bf77a3cc009eba61ca0c549533d06f9e9ce17ae4b89a5654f2b94",
