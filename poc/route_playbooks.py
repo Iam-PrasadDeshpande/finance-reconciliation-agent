@@ -12,6 +12,8 @@ SOURCES = {
     "apigee_mcp": "https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-overview",
     "apigee_setup": "https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-quickstart",
     "sap_identity": "https://help.sap.com/doc/fc5a7d8c89db4a448903df7d526b36f4/Cloud/en-US/668ddc52b4c54429a3abb37be25b57df.pdf",
+    "btp_python": "https://help.sap.com/docs/btp/sap-business-technology-platform/developing-python-in-cloud-foundry-environment",
+    "btp_kyma": "https://help.sap.com/docs/btp/sap-business-technology-platform/606ec610ee4746c09d5d2bef5a85a124.html",
 }
 
 
@@ -24,21 +26,22 @@ PLAYBOOKS = {
     "S1": {
         "title": "S1 · SAP Apigee is the agent-facing MCP boundary",
         "status": "Simulated alternative · hosting approval open",
-        "path": "External agent on AgentCore Runtime → SAP Apigee MCP endpoint → SAP Integration Suite → SAP backend",
-        "hosting": "SAP Integration owns an Apigee environment, externally reachable MCP hostname and Discovery Proxy. AgentCore Runtime is the MCP client; AgentCore Gateway is not in this route.",
+        "path": "Custom finance agent (approved runtime) → SAP Apigee MCP endpoint → SAP Integration Suite → SAP backend",
+        "hosting": "SAP Integration owns the Apigee MCP endpoint. The custom agent needs a separate host: the simulator depicts AgentCore Runtime, while an AWS-free design could use approved SAP BTP Cloud Foundry, Kyma or another enterprise runtime. Apigee is not the agent host; AgentCore Gateway is absent in this route. PTP/PAP model access is a separate contract unless it also supplies an approved runtime.",
         "steps": [
             step("Finance tool contract → Apigee", "Define read-only reconciliation operations in an OpenAPI 3.0.x contract; deploy the SAP API proxy and MCP Discovery Proxy. Align servers.url with the Apigee environment-group hostname.", "Apigee entitlement/environment, API hub where required, SAP Integration Suite API contract and agreed tool names.", "MCP initialize, tools/list and a typed read tools/call succeed against a nonproduction target.", "SAP Integration"),
-            step("AgentCore Runtime → Apigee MCP", "Give the agent the approved Apigee MCP URL and client identity. Configure Apigee OAuth/OIDC validation, client allowlist and tool-level authorization.", "Approved network egress, DNS/TLS trust, issuer/audience/scopes and a credential lifecycle owner.", "Apigee accepts the allowed client and denies an unapproved client or write tool.", "AI Foundry runtime + SAP Integration + Security"),
+            step("Agent host → Apigee MCP", "Deploy the custom agent on an approved runtime, give its MCP client the Apigee URL and workload identity, and configure Apigee OAuth/OIDC validation, client allowlist and tool-level authorization. Select an approved LLM access path separately.", "Agent hosting entitlement and operator, PTP/PAP model access contract if used, approved egress, DNS/TLS trust, issuer/audience/scopes and credential lifecycle owner.", "Apigee accepts the allowed client and denies an unapproved client or write tool.", "AI Foundry runtime + SAP Integration + Security"),
             step("Apigee → Integration Suite", "Map each MCP tool to one SAP-facing API or iFlow; validate typed arguments, source system, period and operation scope.", "Published Integration Suite endpoint, destination credential model, rate limits and error contract.", "Correlated request and response show exact mapping; malformed inputs fail before SAP.", "SAP Integration"),
             step("Integration Suite → SAP backend", "Select direct cloud API or conditional Cloud Connector route; map delegated or approved service identity to the target backend.", "Connectivity trust, backend API enablement, SAP roles and finance data authorization.", "A named nonproduction principal is authorized for read and denied for out-of-scope company/operation.", "SAP Connectivity + SAP Security + FI"),
             step("SAP result → agent", "Return source timestamp, currency, ledger, totals and evidence reference; retain correlation IDs across Apigee, iFlow and SAP logs.", "Source freshness rule, retention policy and audit ownership.", "Reconciliation ties to source documents; failure and retry evidence is correlated end to end.", "FI + Enterprise Architecture"),
         ],
         "decisions": [
             "Does AI Foundry permit an external agent to call SAP-owned Apigee directly?",
+            "Where is the custom agent hosted if AgentCore Runtime is excluded, and who operates its model access and workload identity?",
             "Who owns agent-facing discovery, authorization and incident response when AgentCore Gateway is absent?",
             "Will Apigee receive delegated user identity or a scoped service identity, and how will SAP authorize it?",
         ],
-        "sources": ["apigee_setup", "apigee_mcp", "sap_identity"],
+        "sources": ["apigee_setup", "apigee_mcp", "btp_python", "btp_kyma", "sap_identity"],
     },
     "S2": {
         "title": "S2 · AgentCore-hosted SAP finance MCP adapter",

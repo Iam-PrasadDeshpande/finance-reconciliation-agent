@@ -27,6 +27,13 @@
 .tab-nav .tab-icon{display:inline-block;margin:0;color:inherit;font-size:17px;line-height:1;font-weight:400}
 .tab-nav button:hover{background:#f2f8fc;color:#0a6ed1}
 .tab-nav button.active{color:#0a6ed1;background:#f7fbff}
+.tab-nav .tab-label-full,.tab-nav .tab-label-mobile{margin:0;color:inherit;font-size:inherit}
+.tab-nav .tab-label-mobile{display:none}
+@media(max-width:720px){.tab-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;gap:0;padding:0 5px}.tab-nav button{font-size:10px;padding:0 2px;white-space:nowrap}.tab-nav .tab-icon{font-size:13px}.tab-nav .tab-label-full{display:none}.tab-nav .tab-label-mobile{display:inline}.detail-return-bar{padding:6px 10px}.detail-return-bar .eyebrow{display:none}.detail-return-bar button{font-size:10px}}
+.detail-return-bar{flex:none;min-height:44px;padding:6px 24px;background:#edf5fa;border-bottom:1px solid #cbdde9;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.detail-return-bar>div{display:flex;align-items:center;gap:9px}.detail-return-bar .eyebrow{font-size:9px}.detail-return-bar strong{font-size:12px;color:#223548}
+.detail-return-bar button{border:1px solid #b9d2e5;border-radius:4px;background:#fff;color:#0a5da7;padding:7px 10px;font-size:11px;font-weight:700}
+.architecture-question-link{font-size:10px;margin-top:7px;text-align:left}
 .surface{border-color:#d9e1e7;border-radius:6px;box-shadow:0 1px 3px #2235480c}
 .section-heading h2,.command-bar h2{color:#223548;letter-spacing:0}
 .eyebrow{color:#536f84;letter-spacing:.11em}
@@ -195,3 +202,5 @@ input,select,.chat-composer input,.command-controls input,.command-controls sele
 .lab-next-action strong{font-size:10px;line-height:1.4;color:#244c36}
 @media(max-width:900px){.launchpad-columns{grid-template-columns:1fr}.launchpad-apps{display:grid;grid-template-columns:170px minmax(0,1fr);gap:10px}.launchpad-apps .launchpad-group-heading{grid-column:1/-1}.launchpad-apps .launchpad-app-tile{height:170px}.launchpad-app-facts{margin:0;align-self:start}.launchpad-decision-list{max-height:none}}
 @media(max-width:720px){.launchpad-content{width:calc(100% - 24px);padding:16px 0}.launchpad-page-title h2{font-size:20px}.launchpad-columns{gap:14px;margin-top:14px}.launchpad-apps{display:block}.launchpad-apps .launchpad-app-tile{height:150px}.launchpad-app-facts{margin-top:8px}.launchpad-decisions-heading{padding:12px;align-items:flex-start}.launchpad-decisions-heading p{display:none}.launchpad-decision-list{max-height:none}.launchpad-decision-row{grid-template-columns:22px minmax(0,1fr) 40px;gap:7px;padding:9px}.launchpad-decision-row b{display:none}.launchpad-decision-copy>span{font-size:9px}}
+
+@media(max-width:720px){.detail-return-bar{padding:6px 10px}.detail-return-bar .eyebrow{display:none}.detail-return-bar button{font-size:10px}}
