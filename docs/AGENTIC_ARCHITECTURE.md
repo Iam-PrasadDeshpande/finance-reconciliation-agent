@@ -1,6 +1,6 @@
 # Agentic architecture (simulated)
 
-Status: synthetic design for review. Agents are deterministic rules over the existing simulators. No model is called, nothing posts to SAP, and no agent approves.
+Status: synthetic design for review. Agents are deterministic rules over the existing simulators. No model is called, nothing posts to SAP, and no agent approves. The tool calls are in-process Python calls shaped like MCP `tools/call` and `tools/list`; there is no MCP transport, so "MCP server" in this document means a tool provider. Plans write local case, event and proposal records, so "read-only" means no SAP writes.
 
 ## Roster
 
@@ -21,9 +21,13 @@ Status: synthetic design for review. Agents are deterministic rules over the exi
 - `run_plan` executes steps through the existing simulators, so every step also writes the stored event trail. A plan stops at a held step (it needs one more detail) or a blocked step (a control refused it).
 - The plan is stored as `last_plan`. The same code serves the FastAPI endpoints and the Streamlit `agent_plan` action.
 
+## Observability
+
+Each event written during a step carries the plan id and step id, and a step's trace is joined on those ids, not on time. A step that produced no events is shown as computed locally and draws no application layer. The orchestrator can adapt a plan from a result: when a reconcile finds a non-zero variance for November 2026 it adds an investigation step and records why.
+
 ## Not agent actions
 
-`sap.post`, `approval.decide`, `approval.execute`, `fixture.mutate` and `investigation.resolve` are not registered as tools. A request to post a journal is refused by the orchestrator. Direct tool calls reach only registered read tools; `plan`, `draft_proposal`, `start_investigation` and `collect_evidence` are available only through a plan.
+`sap.post`, `approval.decide`, `approval.execute`, `fixture.mutate` and `investigation.resolve` are not registered as tools. The demo agent's registration still lists `sap.post`; that binding exists only for the separate, human-approved local marker path and no agent tool exposes it. A request to post a journal is refused by the orchestrator. Direct tool calls reach only registered read tools; `plan`, `draft_proposal`, `start_investigation` and `collect_evidence` are available only through a plan.
 
 ## Navigation and disclosure
 
