@@ -245,13 +245,14 @@ export const TOPOLOGY = {
   },
 };
 
-const FILL = { agent: '#E8F1FB', gateway: '#FFF1E0', domain: '#EAF6EC', integration: '#F0EAF8', backend: '#E3E9EF', data: '#EEF2F5', registry: '#E5F5F2', artifact: '#F3F3F3', identity: '#FFF7DA' };
+const FILL = { control: '#FFFFFF', decision: '#FFF8EE', agent: '#E8F1FB', gateway: '#FFF1E0', domain: '#EAF6EC', integration: '#F0EAF8', backend: '#E3E9EF', data: '#EEF2F5', registry: '#E5F5F2', artifact: '#F3F3F3', identity: '#FFF7DA' };
 const EDGE = {
   invoke: { c: '#0A4F9E', w: 2.6, d: '' },
   registry: { c: '#0C8F76', w: 2, d: '7 4' },
   deploy: { c: '#6B6B6B', w: 2, d: '2 4' },
   identity: { c: '#C26A00', w: 2, d: '8 3 2 3' },
   approval: { c: '#B3261E', w: 2.4, d: '10 3' },
+  return: { c: '#0C8F76', w: 2.2, d: '7 4' },
 };
 export const LEGEND = [['invoke', 'Runtime invocation'], ['registry', 'Registry / discovery'], ['deploy', 'Deployment / artifacts'], ['identity', 'Identity / authentication'], ['approval', 'Approval-gated operation']];
 const BOUND = { google: '#C26A00', aws: '#0A4F9E', sap: '#5B3F8C' };
@@ -266,13 +267,22 @@ function wrap(text, max) {
   return out;
 }
 
+export const CAPTIONS = [[104, 'IDENTITY AND SECURITY'], [224, 'RUNTIME INVOCATION PATH'], [392, 'DATA / ANALYTICS BRANCH'], [514, 'REGISTRY AND DISCOVERY (NOT AN INVOCATION HOP)'], [654, 'ARTIFACT REPOSITORY AND DEPLOYMENT']];
+const MCP_FOOTER = 'Proposed design for review. Vendor names are design projections, not connected services. Placeholders are not tenant addresses. Registry and deployment arrows are not invocation traffic.';
+
 export function topologySvg(id) {
   const t = TOPOLOGY[id], sc = SCENARIOS[id];
-  const W = 1200, H = 840, M = 30, GAP = 30, NH = 92;
+  return renderTopology({ ...t, title: `${sc.label} · MCP topology`, chain: sc.chain, banner: 'PROPOSED DESIGN · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE', captions: CAPTIONS, legend: LEGEND, footer: MCP_FOOTER });
+}
+
+// Shared renderer: every architecture diagram in the app (MCP topology and landscape paths) is drawn here
+// so lanes, node styling, edge styles, legend and header stay identical.
+export function renderTopology(t) {
+  const W = 1200, H = t.height || 840, M = 30, GAP = 30, NH = t.nh || 92;
   const nw = (W - 2 * M - (t.cols - 1) * GAP) / t.cols;
-  const ys = [118, 258, 398, 528, 668];
+  const ys = t.ys || [118, 258, 398, 528, 668];
   const pos = {};
-  for (const n of t.nodes) pos[n.id] = { x: M + n.col * (nw + GAP), y: ys[n.row], w: nw, h: NH, n };
+  for (const n of t.nodes) { const span = n.span || 1; pos[n.id] = { x: M + n.col * (nw + GAP), y: ys[n.row], w: span * nw + (span - 1) * GAP, h: n.h || NH, n }; }
   const parts = [];
   // boundaries first
   for (const [label, members, kind] of t.bounds) {
@@ -283,31 +293,33 @@ export function topologySvg(id) {
     parts.push(`<text x="${x + 8}" y="${y + 15}" font-size="12" font-weight="700" fill="${BOUND[kind]}">${esc(label)}</text>`);
   }
   // identity band label
-  const cap = (y, text) => parts.push(`<text x="${W - M}" y="${y}" font-size="11.5" font-weight="700" fill="#506778" text-anchor="end">${text}</text>`);
-  cap(104, 'IDENTITY AND SECURITY'); cap(224, 'RUNTIME INVOCATION PATH'); cap(392, 'DATA / ANALYTICS BRANCH');
-  cap(514, 'REGISTRY AND DISCOVERY (NOT AN INVOCATION HOP)'); cap(654, 'ARTIFACT REPOSITORY AND DEPLOYMENT');
+  const cap = (y, text, anchor = 'end') => parts.push(`<text x="${anchor === 'end' ? W - M : M}" y="${y}" font-size="11.5" font-weight="700" fill="#506778" text-anchor="${anchor}">${text}</text>`);
+  for (const [y, text, anchor] of t.captions) cap(y, text, anchor);
   // edges
   const labels = [];
   const arrows = [];
   const idCount = {};
-  for (const [a, b, type, label] of t.edges) {
+  for (const [a, b, type, label, opts = {}] of t.edges) {
     const slot = type === 'identity' ? (idCount[a] = (idCount[a] ?? -1) + 1) : 0;
-    const A = pos[a], B = pos[b], st = EDGE[type];
+    const A = pos[a], B = pos[b], st = opts.active ? { ...EDGE[type], c: '#E9730C', w: EDGE[type].w + 1 } : EDGE[type];
     const ac = { x: A.x + A.w / 2, y: A.y + A.h / 2 }, bc = { x: B.x + B.w / 2, y: B.y + B.h / 2 };
     let d, lx, ly, ex, ey, dx, dy;
-    if (A.n.row === B.n.row) {
+    if (type === 'return' && A.n.row === B.n.row && !opts.straight) {
+      const sx = A.x + A.w / 2, tx = B.x + B.w / 2, y0 = A.y + A.h, y1 = y0 + 56;
+      d = `M${sx},${y0} L${sx},${y1} L${tx},${y1} L${tx},${y0}`; lx = (sx + tx) / 2; ly = y1 - 7; ex = tx; ey = y0; dx = 0; dy = -1;
+    } else if (A.n.row === B.n.row) {
       const left = A.x < B.x;
       const sx = left ? A.x + A.w : A.x, tx = left ? B.x : B.x + B.w, y = ac.y + (type === 'identity' ? 14 : 0);
       d = `M${sx},${y} L${tx},${y}`; lx = (sx + tx) / 2; ly = A.y + A.h + (A.n.row === 1 ? 26 : 14); ex = tx; ey = y; dx = left ? 1 : -1; dy = 0;
     } else {
       const down = A.y < B.y;
       const sy = down ? A.y + A.h : A.y, ty = down ? B.y : B.y + B.h;
-      const off = type === 'identity' ? 14 + slot * 40 : type === 'approval' ? -12 : 0;
-      const sx = ac.x + off, tx = bc.x + off, my = (sy + ty) / 2;
+      const off = type === 'identity' ? 14 + slot * 40 : type === 'approval' ? -12 : (opts.off || 0);
+      const sx = ac.x + off, tx = bc.x + off, my = opts.my ?? (sy + ty) / 2;
       d = `M${sx},${sy} L${sx},${my} L${tx},${my} L${tx},${ty}`;
-      if (type === 'identity') { lx = sx; ly = sy + (down ? 18 + slot * 14 : -8); } else { lx = tx; ly = down ? ty - 8 : ty + 20; } ex = tx; ey = ty; dx = 0; dy = down ? 1 : -1;
+      if (type === 'identity') { lx = sx; ly = sy + (down ? 18 + slot * 14 : -8); } else if (opts.labelAt === 'mid') { lx = (sx + tx) / 2; ly = my - 6; } else { lx = tx; ly = down ? ty - 8 : ty + 20; } ex = tx; ey = ty; dx = 0; dy = down ? 1 : -1;
     }
-    parts.push(`<path d="${d}" fill="none" stroke="${st.c}" stroke-width="${st.w}"${st.d ? ` stroke-dasharray="${st.d}"` : ''} data-edge="${a}-${b}"/>`);
+    parts.push(`<path d="${d}" fill="none" stroke="${st.c}" stroke-width="${st.w}"${st.d ? ` stroke-dasharray="${st.d}"` : ''}${opts.active ? ' class="live-flow"' : ''} data-edge="${a}-${b}"/>`);
     const s = 7;
     arrows.push(dx !== 0
       ? `<polygon points="${ex},${ey} ${ex - dx * s * 1.6},${ey - s * 0.7} ${ex - dx * s * 1.6},${ey + s * 0.7}" fill="${st.c}"/>`
@@ -318,11 +330,14 @@ export function topologySvg(id) {
   // nodes
   for (const n of t.nodes) {
     const p = pos[n.id];
-    parts.push(`<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="7" fill="${FILL[n.kind]}" stroke="#506778" stroke-width="1.4"/>`);
+    const tag = `${n.stage ? ' data-stage="1"' : ''}${n.kind === 'control' ? ' data-control="1"' : ''}`;
+    parts.push(`<rect data-node="${n.id}"${tag} x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="7" fill="${FILL[n.kind]}" stroke="${n.stroke || '#506778'}" stroke-width="${n.strokeWidth || 1.4}"${n.dashed ? ' stroke-dasharray="7 4"' : ''}${n.cls ? ` class="${n.cls}"` : ''}/>`);
     const title = wrap(n.title, Math.floor(p.w / 7.1)).slice(0, 2);
     title.forEach((line, i) => parts.push(`<text x="${p.x + 8}" y="${p.y + 20 + i * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${esc(line)}</text>`));
-    const sub = wrap(n.sub, Math.floor(p.w / 5.7)).slice(0, 4);
+    const sub = wrap(n.sub, Math.floor((p.w - 8) / 5.7)).slice(0, Math.max(2, Math.floor((p.h - 20 - title.length * 15 - 8) / 12.5) - (n.status ? 1 : 0)));
     sub.forEach((line, i) => parts.push(`<text x="${p.x + 8}" y="${p.y + 20 + title.length * 15 + i * 12.5}" font-size="10.5" fill="#34495C">${esc(line)}</text>`));
+    if (n.status) parts.push(`<text x="${p.x + 8}" y="${p.y + p.h - 9}" font-size="10.5" font-weight="700" fill="${n.statusColor || '#34495C'}">${esc(n.status)}</text>`);
+    if (n.zone) parts.push(`<rect data-zone="${esc(n.zone)}" x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="7" fill="transparent"/>`);
   }
   for (const [lx, ly, label, c] of labels) {
     const w = label.length * 5.6 + 10;
@@ -330,14 +345,14 @@ export function topologySvg(id) {
   }
   // legend
   let lx0 = M;
-  parts.push(`<rect x="${M - 8}" y="786" width="${W - 2 * M + 16}" height="40" rx="6" fill="#FFFFFF" stroke="#D9E1E7"/>`);
-  parts.push(`<text x="${M}" y="804" font-size="11" font-weight="700" fill="#506778">LEGEND</text>`);
-  for (const [type, text] of LEGEND) {
+  parts.push(`<rect x="${M - 8}" y="${H - 54}" width="${W - 2 * M + 16}" height="40" rx="6" fill="#FFFFFF" stroke="#D9E1E7"/>`);
+  parts.push(`<text x="${M}" y="${H - 36}" font-size="11" font-weight="700" fill="#506778">LEGEND</text>`);
+  for (const [type, text] of t.legend) {
     const st = EDGE[type];
-    parts.push(`<line x1="${lx0 + 60}" y1="800" x2="${lx0 + 90}" y2="800" stroke="${st.c}" stroke-width="${st.w}"${st.d ? ` stroke-dasharray="${st.d}"` : ''}/><text x="${lx0 + 96}" y="804" font-size="11" fill="#1D2D3E">${esc(text)}</text>`);
+    parts.push(`<line x1="${lx0 + 60}" y1="${H - 40}" x2="${lx0 + 90}" y2="${H - 40}" stroke="${st.c}" stroke-width="${st.w}"${st.d ? ` stroke-dasharray="${st.d}"` : ''}/><text x="${lx0 + 96}" y="${H - 36}" font-size="11" fill="#1D2D3E">${esc(text)}</text>`);
     lx0 += 96 + text.length * 5.4 + 8;
   }
-  parts.push(`<text x="${M}" y="820" font-size="10.5" fill="#506778">Proposed design for review. Vendor names are design projections, not connected services. Placeholders are not tenant addresses. Registry and deployment arrows are not invocation traffic.</text>`);
-  const title = `${sc.label} · MCP topology`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 840" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${esc(title)}</title><desc id="d">${esc(sc.chain)}</desc><rect width="1200" height="840" fill="#F1F4F7"/><text x="${M}" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${esc(title)}</text><text x="${M}" y="62" font-size="12" fill="#34495C">${esc(sc.chain.length > 150 ? sc.chain.slice(0, 147) + '…' : sc.chain)}</text><text x="${M}" y="82" font-size="11" fill="#B3261E" font-weight="700">PROPOSED DESIGN · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE</text>${parts.join('')}</svg>\n`;
+  parts.push(`<text x="${M}" y="${H - 20}" font-size="10.5" fill="#506778">${esc(t.footer)}</text>`);
+  const title = t.title;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${H}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${esc(title)}</title><desc id="d">${esc(t.chain)}</desc><rect width="1200" height="${H}" fill="#F1F4F7"/><text x="${M}" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${esc(title)}</text><text x="${M}" y="62" font-size="12" fill="#34495C">${esc(t.chain.length > 150 ? t.chain.slice(0, 147) + '…' : t.chain)}</text><text x="${M}" y="82" font-size="11" fill="#B3261E" font-weight="700">${esc(t.banner)}</text>${parts.join('')}</svg>\n`;
 }

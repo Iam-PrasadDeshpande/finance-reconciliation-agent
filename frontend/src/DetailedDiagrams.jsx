@@ -1,6 +1,8 @@
 import React,{useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import s1Svg from './diagrams/s1.svg?raw';
 import s2Svg from './diagrams/s2.svg?raw';
+import {LANDSCAPE,landscapeSvg} from './landscapeDiagrams';
+import {MCP,HOSTING} from './landscapeData';
 import './detailed-diagrams.css';
 
 // The diagram canvas is the reference deck's slide: 1200 x 840 points.
@@ -16,6 +18,7 @@ const DIAGRAMS={
     gateway:'AgentCore Gateway MCP, inside AWS',
     summary:'The same agent and downstream path, but the single MCP gateway is AgentCore Gateway inside the AWS trust boundary. Inbound authorization and outbound target credentials are applied by the gateway before the finance-owned domain MCP tools, SAP BAIP and the SAP backends.'},
 };
+const LAND=Object.fromEntries(LANDSCAPE.map(item=>{const d=(item.kind==='mcp'?MCP:HOSTING)[item.id];return [item.key,{id:item.key,tab:item.tab,title:item.title,svg:landscapeSvg(item.kind,item.id),file:`landscape-${item.key}`,png:true,landscape:true,data:d,summary:`${d.status}. ${d.decision}`}]}));
 const INVARIANT='Only MCP gateway placement and its inbound / outbound auth controls change. Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.';
 const DIFFERENCES=[
   ['Lane 03 MCP gateway','Google Apigee · external to AWS','AgentCore Gateway · inside AWS'],
@@ -36,7 +39,8 @@ const OPEN_ITEMS=[
 function markup(svg,uid){return svg.replace('aria-labelledby="t d"',`aria-labelledby="${uid}-t ${uid}-d"`).replace('id="t"',`id="${uid}-t"`).replace('id="d"',`id="${uid}-d"`)}
 function svgFile(svg){return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${svg}`],{type:'image/svg+xml'})}
 
-export function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact}){
+export function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact,onPick}){
+  const DW=diagram.w||W,DH=diagram.h||H,startPt=useRef(null);
   const viewport=useRef(null),wrapper=useRef(null),viewRef=useRef(view),fitRef=useRef({s:0.5,x:0,y:0}),fitted=useRef(true),pointers=useRef(new Map()),pinch=useRef(null);
   viewRef.current=view;
   const onViewRef=useRef(onView),onFitRef=useRef(onFit);
@@ -45,9 +49,9 @@ export function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact
   const computeFit=useCallback(()=>{
     const box=viewport.current?.getBoundingClientRect();
     if(!box||!box.width||!box.height)return null;
-    const s=Math.min((box.width-16)/W,(box.height-16)/H);
-    return {s,x:(box.width-W*s)/2,y:(box.height-H*s)/2};
-  },[]);
+    const s=Math.min((box.width-16)/DW,(box.height-16)/DH);
+    return {s,x:(box.width-DW*s)/2,y:(box.height-DH*s)/2};
+  },[DW,DH]);
   const fit=useCallback(()=>{const next=computeFit();if(!next)return;fitRef.current=next;fitted.current=true;onFitRef.current(next)},[computeFit]);
   useLayoutEffect(()=>{fit()},[fit,expanded,diagram.id]);
   useEffect(()=>{
@@ -81,6 +85,7 @@ export function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact
     if(event.target.closest('button'))return;
     viewport.current.setPointerCapture?.(event.pointerId);
     pointers.current.set(event.pointerId,{x:event.clientX,y:event.clientY});
+    startPt.current={x:event.clientX,y:event.clientY};
     if(pointers.current.size===2){const [a,b]=[...pointers.current.values()];pinch.current=Math.hypot(a.x-b.x,a.y-b.y)}
   };
   const onPointerMove=event=>{
@@ -95,7 +100,11 @@ export function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact
     }
     pointers.current.set(event.pointerId,point);
   };
-  const onPointerUp=event=>{pointers.current.delete(event.pointerId);if(pointers.current.size<2)pinch.current=null};
+  const onPointerUp=event=>{
+    const start=startPt.current;pointers.current.delete(event.pointerId);if(pointers.current.size<2)pinch.current=null;
+    if(onPick&&start&&event.type==='pointerup'&&pointers.current.size===0&&Math.hypot(event.clientX-start.x,event.clientY-start.y)<5){const scope=viewport.current?.getRootNode?.();const hit=(scope?.elementFromPoint?scope:document).elementFromPoint(event.clientX,event.clientY)?.closest?.('[data-zone]');if(hit)onPick(hit.getAttribute('data-zone'))}
+    startPt.current=null;
+  };
   const onKeyDown=event=>{
     const step=60;
     if(event.key==='+'||event.key==='=')zoomCenter(1.25);
@@ -127,7 +136,7 @@ export function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact
   const download=()=>{const url=URL.createObjectURL(svgFile(diagram.svg));const link=document.createElement('a');link.href=url;link.download=`${diagram.file||`finance-architecture-${diagram.id.toLowerCase()}`}.svg`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)};
   const downloadPng=scale=>{
     const url=URL.createObjectURL(svgFile(diagram.svg));const image=new Image();
-    image.onload=()=>{const canvas=document.createElement('canvas');canvas.width=W*scale;canvas.height=H*scale;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,canvas.width,canvas.height);URL.revokeObjectURL(url);canvas.toBlob(blob=>{if(!blob)return;const href=URL.createObjectURL(blob);const link=document.createElement('a');link.href=href;link.download=`${diagram.file||`finance-architecture-${diagram.id.toLowerCase()}`}-${scale}x.png`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(href),1000)},'image/png')};
+    image.onload=()=>{const canvas=document.createElement('canvas');canvas.width=DW*scale;canvas.height=DH*scale;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,canvas.width,canvas.height);URL.revokeObjectURL(url);canvas.toBlob(blob=>{if(!blob)return;const href=URL.createObjectURL(blob);const link=document.createElement('a');link.href=href;link.download=`${diagram.file||`finance-architecture-${diagram.id.toLowerCase()}`}-${scale}x.png`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(href),1000)},'image/png')};
     image.onerror=()=>URL.revokeObjectURL(url);image.src=url;
   };
   const percent=Math.round((view?.s||0)*100);
@@ -144,12 +153,12 @@ export function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact
         <button type="button" onClick={toggleExpand} aria-label={expanded?`Exit expanded ${diagram.id} view`:`Expand ${diagram.id} to full screen`} aria-pressed={expanded}>{expanded?'Close ✕':'Expand ⤢'}</button>
         <button type="button" onClick={openFullSize} title="Open the vector SVG in a new browser tab">Open full-size ↗</button>
         <button type="button" onClick={download} title="Download the vector SVG">SVG ⤓</button>
-        {diagram.png&&PNG_SCALES.map(scale=><button type="button" key={scale} onClick={()=>downloadPng(scale)} aria-label={`Download ${diagram.id} as ${scale}x PNG`} title={`Download a ${W*scale} x ${H*scale} px PNG`}>PNG {scale}× ⤓</button>)}
+        {diagram.png&&PNG_SCALES.map(scale=><button type="button" key={scale} onClick={()=>downloadPng(scale)} aria-label={`Download ${diagram.id} as ${scale}x PNG`} title={`Download a ${DW*scale} x ${DH*scale} px PNG`}>PNG {scale}× ⤓</button>)}
       </div>
     </div>
     <div ref={viewport} className="dd-viewport" tabIndex={0} role="group" aria-label={`${diagram.title} diagram. Scroll or pinch to zoom, drag to pan. Keys: plus and minus zoom, arrow keys pan, 0 resets, 1 actual size.`}
       onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp} onKeyDown={onKeyDown} onDoubleClick={event=>{if(event.target.closest('button'))return;const box=viewport.current.getBoundingClientRect();zoomAt(1.8,event.clientX-box.left,event.clientY-box.top)}}>
-      <div className="dd-stage" data-testid={`diagram-${diagram.id}`} style={{width:W,height:H,transform}} dangerouslySetInnerHTML={{__html:html}}/>
+      <div className="dd-stage" data-testid={`diagram-${diagram.id}`} style={{width:DW,height:DH,transform}} dangerouslySetInnerHTML={{__html:html}}/>
       <span className="dd-hint" aria-hidden="true">Scroll to zoom · drag to pan · double-click to zoom in</span>
     </div>
   </div>;
@@ -159,21 +168,23 @@ export default function DetailedDiagrams({view='S1',onView,onBack}){
   const [viewA,setViewA]=useState(null),[viewB,setViewB]=useState(null),[sync,setSync]=useState(true),[expanded,setExpanded]=useState(null);
   const compare=view==='compare';
   const choose=id=>{setExpanded(null);onView(id)};
-  const single=DIAGRAMS[compare?'S1':view]||DIAGRAMS.S1;
+  const landscape=Boolean(LAND[view]);
+  const single=LAND[view]||DIAGRAMS[compare?'S1':view]||DIAGRAMS.S1;
   const setBoth=useCallback(next=>{setViewA(next);setViewB(next)},[]);
   const keys=['S1','S2'];
   return <main className="detailed-diagrams" aria-label="Detailed architecture diagrams">
     <header className="surface dd-header">
-      <div className="dd-title"><span className="eyebrow">ARCHITECTURE DIAGRAMS · DETAILED L2 REFERENCE</span><h2>{compare?'S1 and S2 side by side':single.title}</h2></div>
+      <div className="dd-title"><span className="eyebrow">{landscape?'ARCHITECTURE DIAGRAMS · LANDSCAPE PATH (GENERATED VECTOR)':'ARCHITECTURE DIAGRAMS · DETAILED L2 VIEW (VECTOR)'}</span><h2>{compare?'S1 and S2 side by side':single.title}</h2></div>
       <nav className="dd-selector" role="tablist" aria-label="Detailed diagram selection">
         {[...keys,'compare'].map(id=><button type="button" role="tab" key={id} aria-selected={view===id} className={view===id?'active':''} onClick={()=>choose(id)}>{id==='compare'?'Compare side-by-side':DIAGRAMS[id].tab}</button>)}
       </nav>
       <div className="dd-header-actions"><span className="pill warn">PROPOSED DESIGN · REVIEW DRAFT · NOT TENANT-VERIFIED</span><button type="button" onClick={onBack}>← Architecture pros &amp; cons</button></div>
     </header>
     <section className="surface dd-summary" aria-label="Diagram summary">
-      <div><span className="eyebrow">{compare?'WHAT THIS VIEW SHOWS':`${single.id} · MCP GATEWAY`}</span><p>{compare?'Both detailed diagrams share one worked month-end reconciliation path. Use the synchronized viewers to inspect lane 03 (MCP gateway) and the AWS trust boundary, where they differ.':single.summary}</p></div>
+      <div><span className="eyebrow">{compare?'WHAT THIS VIEW SHOWS':landscape?'LANDSCAPE PATH · STATUS AND OPEN DECISION':`${single.id} · MCP GATEWAY`}</span><p>{compare?'Both detailed diagrams share one worked month-end reconciliation path. Use the synchronized viewers to inspect lane 03 (MCP gateway) and the AWS trust boundary, where they differ.':single.summary}</p></div>
       <div className="dd-invariant"><span className="eyebrow">SCENARIO INVARIANT</span><p>{INVARIANT}</p></div>
     </section>
+    <section className="surface dd-landscape-bar" aria-label="Landscape diagrams"><div><span className="eyebrow">LANDSCAPE PATHS</span><strong>MCP route and agent-hosting diagrams</strong></div><nav className="dd-selector" role="tablist" aria-label="Landscape diagram selection">{LANDSCAPE.map(item=><button type="button" role="tab" key={item.key} aria-selected={view===item.key} className={view===item.key?'active':''} onClick={()=>choose(item.key)}>{item.tab}</button>)}</nav></section>
     <div className={`dd-body ${compare?'is-compare':''}`}>
       {compare?<>
         <div className="dd-compare-bar surface"><label><input type="checkbox" checked={sync} onChange={event=>setSync(event.target.checked)}/> Synchronize zoom and pan</label><span>Zoom into lane 03 and the AWS trust boundary to see where the two options differ.</span></div>
@@ -181,14 +192,14 @@ export default function DetailedDiagrams({view='S1',onView,onBack}){
           {keys.map((id,index)=><PanZoom key={id} diagram={DIAGRAMS[id]} uid={`dd-${id}-cmp`} compact view={index===0?viewA:viewB} onView={next=>{if(sync)setBoth(next);else (index===0?setViewA:setViewB)(next)}} onFit={next=>{if(sync)setBoth(next);else (index===0?setViewA:setViewB)(next)}} expanded={expanded===id} onExpand={on=>setExpanded(on?id:null)}/>)}
         </div>
       </>:<PanZoom key={single.id} diagram={single} uid={`dd-${single.id}`} view={viewA} onView={setViewA} onFit={setViewA} expanded={expanded===single.id} onExpand={on=>setExpanded(on?single.id:null)}/>}
-      <aside className="surface dd-side" aria-label="Key differences and open validations">
+      {landscape?<aside className="surface dd-side" aria-label="Controls and open decision"><h3>Cross-cutting controls</h3><ul>{single.data.controls.map(([name,text])=><li key={name}><strong>{name}.</strong> {text}</li>)}</ul><h3>Open decision</h3><p>{single.data.decision}</p><p className="micro">Vendor-named components are design projections, not connected services.</p><a className="text-link" href={single.data.source} target="_blank" rel="noreferrer">Vendor reference ↗</a><button type="button" className="text-link" onClick={onBack}>Back to architecture pros &amp; cons →</button></aside>:<aside className="surface dd-side" aria-label="Key differences and open validations">
         <h3>What changes between S1 and S2</h3>
         <table><thead><tr><th scope="col">Item</th><th scope="col">S1</th><th scope="col">S2</th></tr></thead><tbody>{DIFFERENCES.map(([item,a,b])=><tr key={item}><th scope="row">{item}</th><td className={view==='S2'?'dim':''}>{a}</td><td className={view==='S1'?'dim':''}>{b}</td></tr>)}</tbody></table>
         <h3>Open validations shown in the diagram</h3>
         <ul>{OPEN_ITEMS.map(item=><li key={item}>{item}</li>)}</ul>
-        <p className="micro">Vendor-named components are design projections, not connected services. S3 has no detailed diagram in the supplied reference.</p>
+        <p className="micro">Vendor-named components are design projections, not connected services. S3 has no detailed L2 diagram; see the S3 landscape path.</p>
         <button type="button" className="text-link" onClick={onBack}>Back to architecture pros &amp; cons →</button>
-      </aside>
+      </aside>}
     </div>
   </main>;
 }

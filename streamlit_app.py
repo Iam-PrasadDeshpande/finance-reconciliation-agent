@@ -22,6 +22,7 @@ from poc.runtime import RuntimeSimulator
 from poc.store import Store
 from poc.decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
 from poc.route_playbooks import route_playbook_catalog
+from poc.recon_report import CONDITIONS, apply_condition, build_report
 
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "frontend" / "dist_streamlit"
@@ -55,6 +56,7 @@ def session():
         st.session_state.finance_response = None
         st.session_state.finance_response_nonce = 0
         st.session_state.finance_decision_run_id = None
+        st.session_state.finance_report_period = None
     return st.session_state.finance_store
 
 
@@ -130,6 +132,11 @@ def handle_action(action: dict):
                 answer = answer_follow_up(store, st.session_state.finance_approval, message, action.get("case_id"), action.get("scenario", "S1"))
                 st.session_state.finance_trace_id = answer["trace_case_id"]
                 publish_response(answer)
+        elif kind == "condition":
+            if not any(c["status"] in ("queued", "running") for c in store.cases()):
+                apply_condition(store, action.get("period", ""), action.get("condition", ""))
+        elif kind == "report":
+            st.session_state.finance_report_period = action.get("period") if action.get("period") in store.available_periods() else None
         elif kind == "load_case":
             case_id = action.get("case_id")
             if not store.case(case_id):
@@ -209,6 +216,8 @@ def show_app():
         "decision_run": get_decision_run(store, st.session_state.finance_decision_run_id) if st.session_state.finance_decision_run_id else None,
         "response": st.session_state.finance_response,
         "response_nonce": st.session_state.finance_response_nonce,
+        "conditions": [{"id": key, **value} for key, value in CONDITIONS.items()],
+        "report": build_report(store, st.session_state.finance_report_period, current if current and current.get("scope", {}).get("period") == st.session_state.finance_report_period else None, store.events(case_id) if current and current.get("scope", {}).get("period") == st.session_state.finance_report_period else None) if st.session_state.finance_report_period else None,
         "simulation": True,
     }
     result = architecture_component(BUILD_VERSION)(data=data, key="finance_architecture", on_action_change=lambda: None)

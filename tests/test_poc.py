@@ -504,3 +504,77 @@ def test_out_of_range_period_and_posting_request_are_refused(tmp_path):
     assert parsed is None and "2027-03" in follow_up
     answer = answer_follow_up(Store(tmp_path / "refuse.sqlite3"), None, "Post a journal entry to SAP for Nov 2026", None, "S1")
     assert answer["kind"] == "posting_refused" and "does not post to SAP" in answer["answer"]
+
+
+def test_detailed_report_adds_up_for_every_period(tmp_path):
+    from poc.history import PERIODS
+    from poc.recon_report import build_report
+    store = Store(tmp_path / "report.sqlite3")
+    for period in PERIODS:
+        report = build_report(store, period)
+        summary = report["summary"]
+        assert summary["s4_total"] - summary["cfin_total"] == summary["variance"]
+        assert sum(item["difference"] for item in report["items"]) == summary["variance"]
+        assert sum(a["difference"] for a in report["accounts"]) == summary["variance"]
+        assert sum(a["cfin_balance"] for a in report["accounts"]) == summary["cfin_total"]
+        assert sum(b["amount"] for b in report["aging"]) == summary["variance"]
+        assert summary["explained"] + summary["unexplained"] == summary["variance"]
+        assert report["bridge"][0]["value"] + sum(s["value"] for s in report["bridge"][1:-1]) == report["bridge"][-1]["value"]
+        assert {c["status"] for c in report["controls"]} <= {"PASS", "HOLD", "NOT_VERIFIED"}
+        assert any(c["status"] == "NOT_VERIFIED" for c in report["controls"])
+        assert report["ai_review"]["advisory_only"] and "Post to SAP" in report["ai_review"]["did_not"]
+    november = build_report(store, "2026-11")
+    assert [i["document_id"] for i in november["items"]] == ["SYN-FI-004"]
+    assert november["summary"]["variance"] == 25000 and november["summary"]["status"] == "EXPLAINED"
+    assert build_report(store, "2025-12")["summary"]["status"] == "BALANCED"
+    assert build_report(store, "2026-03")["summary"]["status"] == "HOLD"
+
+
+def test_report_residual_is_unexplained_after_balance_change(tmp_path):
+    from poc.recon_report import build_report
+    store = Store(tmp_path / "residual.sqlite3")
+    store.mutate_period_source("2026-11", "cfin", "balance", 960000)
+    report = build_report(store, "2026-11")
+    assert sum(i["difference"] for i in report["items"]) == report["summary"]["variance"] == 40000
+    assert report["summary"]["unexplained"] == 15000 and report["summary"]["status"] == "EXCEPTION"
+
+
+def test_report_endpoint_and_rejects_unknown_period():
+    from fastapi.testclient import TestClient
+    import poc.app as application
+    client = TestClient(application.app)
+    ok = client.get("/api/reports/2026-11")
+    assert ok.status_code == 200 and ok.json()["report_id"] == "RPT-2026-11"
+    assert client.get("/api/reports/2030-01").status_code in (400, 403, 404, 409, 422)
+
+
+def test_close_conditions_change_the_report_and_restore(tmp_path):
+    from poc.recon_report import apply_condition, build_report, CONDITIONS
+    store = Store(tmp_path / "conditions.sqlite3")
+    base = build_report(store, "2026-11")["summary"]
+    apply_condition(store, "2026-11", "late_posting")
+    late = build_report(store, "2026-11")
+    assert late["summary"]["variance"] == 43000 and late["summary"]["unexplained"] == 18000 and late["summary"]["status"] == "EXCEPTION"
+    apply_condition(store, "2026-11", "clean_close")
+    clean = build_report(store, "2026-11")
+    assert clean["summary"]["variance"] == 0 and clean["items"] == [] and clean["summary"]["status"] == "BALANCED"
+    for key in ("late_replication", "bw_delay", "pipeline_lag"):
+        apply_condition(store, "2026-11", "baseline")
+        apply_condition(store, "2026-11", key)
+        assert build_report(store, "2026-11")["summary"]["status"] == "HOLD"
+    apply_condition(store, "2026-11", "baseline")
+    assert build_report(store, "2026-11")["summary"] == base
+    apply_condition(store, "2026-03", "baseline")
+    assert build_report(store, "2026-03")["summary"]["status"] == "HOLD"
+    assert set(CONDITIONS) >= {"baseline", "clean_close", "late_replication", "late_posting"}
+
+
+def test_condition_endpoint_guards():
+    from fastapi.testclient import TestClient
+    import poc.app as application
+    client = TestClient(application.app)
+    assert client.post("/api/conditions", json={"condition": "clean_close", "operator_id": "intruder"}).status_code == 403
+    assert client.post("/api/conditions", json={"condition": "nonsense"}).status_code in (400, 403, 404, 409, 422)
+    ok = client.post("/api/conditions", json={"condition": "late_posting"})
+    assert ok.status_code == 200 and client.get("/api/reports/2026-11").json()["summary"]["unexplained"] == 18000
+    assert client.post("/api/conditions", json={"condition": "baseline"}).status_code == 200

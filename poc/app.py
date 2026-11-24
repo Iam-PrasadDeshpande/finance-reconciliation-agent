@@ -26,6 +26,7 @@ from .questions import answer_follow_up, request_for_demo, mentioned_period, tra
 from .architecture_view import architecture_registry, architecture_events
 from .decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
 from .route_playbooks import route_playbook_catalog
+from .recon_report import CONDITIONS,apply_condition,build_report
 from .store import Denied,Store
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -239,6 +240,31 @@ def chat(data:ChatInput):
                     "trace_case_id":result["case_id"],"scenario":result["scenario"],"result":result,"assumed_fields":assumed,"synthetic":True}
         except Exception as exc: fail(exc)
     try: return answer_follow_up(store,approval,data.message,data.case_id,data.scenario)
+    except Exception as exc: fail(exc)
+
+class Condition(BaseModel):
+    period:str="2026-11"
+    condition:str
+    operator_id:str="finance.operator"
+
+@app.get("/api/conditions")
+def conditions(): return [{"id":key,**value} for key,value in CONDITIONS.items()]
+
+@app.post("/api/conditions")
+def set_condition(change:Condition):
+    if change.operator_id!="finance.operator": raise HTTPException(403,"Synthetic operator role required")
+    if any(c["status"] in ("queued","running") for c in store.cases()): raise HTTPException(409,"Wait for the active run before changing source data")
+    try:
+        result=apply_condition(store,change.period,change.condition)
+        store.emit("fixture","S1","condition","observability","synthetic_close_condition",change.operator_id,"ok","data","event",{"period":change.period,"condition":change.condition},"allow")
+        return result
+    except Exception as exc: fail(exc)
+
+@app.get("/api/reports/{period}")
+def reconciliation_report(period:str,case_id:str|None=None):
+    try:
+        record=store.case(case_id) if case_id else None
+        return build_report(store,period,record,store.events(case_id) if record else None)
     except Exception as exc: fail(exc)
 
 @app.get("/api/cases")

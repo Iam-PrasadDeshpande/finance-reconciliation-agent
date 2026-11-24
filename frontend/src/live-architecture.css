@@ -1,0 +1,12 @@
+.route-viewer{height:auto;min-height:340px;display:flex;flex-direction:column}
+.route-viewer>.dd-viewer{flex:1;min-height:0}
+.dd-stage svg [data-zone]{cursor:pointer}
+.dd-stage svg [data-zone]:hover{filter:brightness(.97)}
+.dd-stage svg .node-current{animation:live-pulse 1.3s ease-in-out infinite}
+.dd-stage svg path.live-flow{stroke-dasharray:10 6!important;animation:live-dash .7s linear infinite}
+@keyframes live-pulse{50%{stroke-opacity:.45}}
+@keyframes live-dash{to{stroke-dashoffset:-16}}
+@media(prefers-reduced-motion:reduce){.dd-stage svg .node-current,.dd-stage svg path.live-flow{animation:none}}
+.architecture-layout{grid-template-rows:auto minmax(430px,1fr) auto auto!important;overflow-y:auto!important}
+.architecture-layout .route-viewer{flex:1;min-height:340px;height:auto}
+.architecture-layout .flow-caption{flex:none}

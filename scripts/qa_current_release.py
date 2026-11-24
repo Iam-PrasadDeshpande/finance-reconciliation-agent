@@ -17,6 +17,57 @@ def check(page, url, hosted):
     tabs = page.locator(".tab-nav [role=tab]")
     assert tabs.count() == 5
 
+    # Execution simulator: detailed reconciliation report and scenario lab (restores the baseline at the end).
+    tabs.nth(0).click()
+    dialog = page.locator(".rr-dialog[open]")
+
+    def open_report():
+        page.get_by_role("button", name="Detailed report for").click()
+        dialog.locator(".rr-kpis").wait_for(timeout=30000)
+
+    def close_report():
+        dialog.get_by_role("button", name="Close reconciliation report").click()
+        dialog.wait_for(state="detached", timeout=10000)
+
+    def apply(condition):
+        page.locator(".rr-condition select").select_option(condition)
+        page.get_by_role("button", name="Apply to").click()
+        page.wait_for_timeout(1500 if hosted else 400)
+
+    apply("baseline")
+    open_report()
+    assert dialog.get_by_role("tab").count() == 7
+    assert "Explained" in dialog.locator(".rr-banner").first.inner_text()
+    assert "$25,000" in dialog.locator(".rr-kpis").inner_text()
+    dialog.get_by_role("tab", name="Reconciling items").click()
+    dialog.get_by_role("button", name="Details for SYN-FI-004").click()
+    assert "AIF" in dialog.locator(".rr-detail").inner_text()
+    dialog.get_by_role("tab", name="Controls").click()
+    controls = dialog.locator(".rr-table").inner_text()
+    assert "PASS" in controls and "HOLD" not in controls and "NOT VERIFIED" in controls
+    dialog.get_by_role("tab", name="Aging").click()
+    assert dialog.locator(".rr-aging > div").count() == 4
+    dialog.get_by_role("tab", name="AI review").click()
+    assert "Advisory only" in dialog.locator(".rr-body").inner_text()
+    dialog.get_by_role("tab", name="Reconciling items").click()
+    with page.expect_download() as csv_download:
+        dialog.get_by_role("button", name="Items CSV").click()
+    assert csv_download.value.suggested_filename == "RPT-2026-11-items.csv"
+    close_report()
+    apply("late_posting")
+    open_report()
+    assert "$18,000" in dialog.locator(".rr-kpis").inner_text()
+    assert "Exception" in dialog.locator(".rr-banner").first.inner_text()
+    close_report()
+    apply("late_replication")
+    open_report()
+    assert "On hold" in dialog.locator(".rr-banner").first.inner_text()
+    close_report()
+    apply("baseline")
+    open_report()
+    assert "Explained" in dialog.locator(".rr-banner").first.inner_text()
+    close_report()
+
     # Both detail views are available through contextual links and return to a main view.
     tabs.nth(1).click()
     page.get_by_role("button", name="Inspect event proof in Evidence").click()
@@ -37,8 +88,8 @@ def check(page, url, hosted):
         assert f"MCP ACCESS · {route}" in page.locator(".mcp-bird-panel").inner_text()
         page.locator(".diagram-action").click()
         diagram = page.get_by_role("dialog", name=f"{route} ·", exact=False)
-        assert diagram.locator(".arch-diagram-node").count() >= 6
-        assert diagram.locator(".arch-diagram-controls article").count() == 4
+        assert diagram.locator("[data-stage]").count() >= 6
+        assert diagram.locator("[data-control]").count() == 4
         diagram.get_by_role("button", name="Close").click()
     route_tabs.nth(1).click()
     page.get_by_role("button", name="View handoffs and proof").click()
@@ -57,7 +108,7 @@ def check(page, url, hosted):
     page.get_by_role("dialog", name="Full MCP control matrix").get_by_role("button", name="Close").click()
     page.locator(".mcp-bird-host-grid button").nth(1).click()
     hosting_diagram = page.get_by_role("dialog", name="architecture diagram")
-    assert hosting_diagram.locator(".arch-diagram-node").count() == 6
+    assert hosting_diagram.locator("[data-stage]").count() == 6
     hosting_diagram.get_by_role("button", name="View detailed prerequisites").click()
     assert "Cloud Foundry" in page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").inner_text()
     page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").get_by_role("button", name="Close").click()
@@ -84,6 +135,13 @@ def check(page, url, hosted):
     assert page.locator("[data-testid=diagram-S2] text", has_text="AWS trust boundary").count() == 1
     selector.nth(2).click()
     assert page.locator(".dd-viewer").count() == 2
+    landscape = page.get_by_role("tablist", name="Landscape diagram selection").get_by_role("tab")
+    assert landscape.count() == 7
+    for index in range(7):
+        landscape.nth(index).click()
+        assert page.locator("[data-testid^=diagram-] [data-stage]").count() in (6, 7)
+        assert page.locator("[data-testid^=diagram-] [data-control]").count() == 4
+        assert page.locator(".dd-viewer").count() == 1
     page.get_by_role("button", name="← Architecture pros").first.click()
     assert tabs.nth(2).get_attribute("aria-selected") == "true"
 
@@ -131,6 +189,27 @@ def check(page, url, hosted):
     page.get_by_role("button", name="Pros & cons →").first.click()
     assert tabs.nth(2).get_attribute("aria-selected") == "true"
 
+    # Live architecture: generated vector topology with the shared zoom viewer and clickable zones.
+    tabs.nth(1).click()
+    viewer = page.locator(".route-viewer")
+    viewer.wait_for()
+    assert viewer.locator("[data-zone]").count() >= 12
+    live_zoom = viewer.locator(".dd-zoom")
+    live_fit = live_zoom.inner_text()
+    viewer.get_by_role("button", name="Zoom in live").click()
+    assert int(live_zoom.inner_text()[:-1]) > int(live_fit[:-1])
+    viewer.get_by_role("button", name="Reset live view to fit").click()
+    assert live_zoom.inner_text() == live_fit
+    assert viewer.get_by_role("button", name="Download live as 2x PNG").count() == 1
+    sap_zone = viewer.locator('rect[data-zone="SAP BAIP"]')
+    sap_zone.click()
+    selected = page.locator('rect[data-node="SAP BAIP"]')
+    for _ in range(60):
+        if selected.get_attribute("stroke") == "#0A6ED1":
+            break
+        page.wait_for_timeout(250)
+    assert selected.get_attribute("stroke") == "#0A6ED1"
+
     if not hosted:
         tabs.nth(1).click()
         page.get_by_role("button", name="Run architecture").click()
@@ -149,7 +228,7 @@ with sync_playwright() as playwright:
     for label, url, hosted, width in surfaces:
         page = browser.new_page(viewport={"width": width, "height": 900 if width == 1440 else 844})
         check(page, url, hosted)
-        print({"surface": label, "five_tabs": "PASS", "mcp_governance": "PASS", "detailed_diagrams_zoom": "PASS", "detail_links": "PASS",
+        print({"surface": label, "five_tabs": "PASS", "detailed_report_and_scenario_lab": "PASS", "mcp_governance": "PASS", "detailed_diagrams_zoom": "PASS", "detail_links": "PASS",
                "four_approach_tabs": "PASS", "seven_diagram_designs": "PASS", "no_desktop_scroll": "PASS", "page_errors": 0}, flush=True)
         page.context.close()
     browser.close()
