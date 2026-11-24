@@ -15,6 +15,8 @@
 
 The FastAPI mode stores synthetic cases in `poc_state.sqlite3` beside the extracted app. It binds only to `127.0.0.1`, so another device cannot browse it over the network. The app does not need a SAP, AWS, Google, Databricks or model account.
 
+The current interface has three primary tabs: **Execution simulator**, **Live architecture**, and **Architecture pros & cons**. The third tab has **MCP routes** and **Agent hosting** views. Evidence and architecture questions open from links when needed. All platform and SAP connections remain simulated.
+
 To use a different port, open a terminal in the extracted folder and run `py -3 local_demo.py --port 8899`. If the corporate laptop does not allow local Python or package installation, ask IT for an approved Python runtime and access to the approved package index; no production credentials should be added to this demo.
 
 ## Optional: local Streamlit mode
