@@ -42,6 +42,8 @@ MATRIX = [
     ("treasury", "Show bank fees and credit lines", ["bank_relationship_summary"]),
     ("treasury", "Initiate the bank transfer now", None),
 ]
+if os.environ.get("QA_ONLY"):
+    MATRIX = [row for row in MATRIX if row[0] == os.environ["QA_ONLY"]]
 # any further module (for example the scaffold) is exercised with its own first example
 for manifest in cockpit.manifests():
     if manifest["id"] not in ("reconciliation", "treasury"):
@@ -105,6 +107,7 @@ with sync_playwright() as pw:
         return count
 
     first = True
+    last_request = ""
     for module, prompt, expected_tools in MATRIX:
         label = f"[{module}] {prompt[:46]}"
         if not first:
@@ -112,10 +115,20 @@ with sync_playwright() as pw:
         first = False
         f.locator("#entry-ask-input").fill(prompt)
         check(f"{label}: routes to its module before running", f.locator("[data-testid=route-chip]").get_attribute("data-domain") == module)
+        before = last_request  # the workbench still shows the previous plan until the new one arrives
         f.get_by_role("button", name="Run plan →").click()
-        f.locator("[data-testid=plan-request]").get_by_text(prompt).first.wait_for(timeout=150000)
+        ran = None
+        for _ in range(300):
+            current = f.locator("[data-testid=plan-request]").inner_text() if f.locator("[data-testid=plan-request]").count() else ""
+            if current and current != before:
+                ran = current
+                break
+            page.wait_for_timeout(500)
+        if not check(f"{label}: the request that ran is the one typed", ran is not None and prompt in ran, f"ran: {ran!r}"):
+            continue
         settled()
         a = snapshot()
+        last_request = a["request"]
         check(f"{label}: the agent screen shows the request exactly as typed", prompt in a["request"])
         check(f"{label}: handled by {module}", cockpit.get(module).family_label.lower() in a["domain"].lower())
         if expected_tools is None:

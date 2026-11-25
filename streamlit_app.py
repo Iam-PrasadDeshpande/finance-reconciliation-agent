@@ -10,7 +10,9 @@ import hashlib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+import os
 import sys
+import time
 
 import streamlit as st
 
@@ -96,6 +98,9 @@ def ensure_agent(store: Store):
 def handle_action(action: dict):
     store = session()
     kind = action.get("type")
+    time.sleep(float(os.environ.get("COCKPIT_ACTION_DELAY", "0") or 0))  # test hook: widens the window in which two actions can overlap (default 0)
+    if os.environ.get("COCKPIT_DEBUG"):
+        print(f"ACTION {kind} seq={action.get('_seq')} msg={str(action.get('message', ''))[:40]!r}", flush=True)
     try:
         if kind == "decision_run":
             record = start_decision_run(store, action.get("question_id", ""), action.get("route", "S3"), action.get("probe", ""))
@@ -258,6 +263,7 @@ def show_app():
         "response": st.session_state.finance_response,
         "response_nonce": st.session_state.finance_response_nonce,
         "conditions": [{"id": key, **value} for key, value in CONDITIONS.items()],
+        "action_seq": st.session_state.get("finance_action_seq", -1),
         "agents": cockpit.catalog(),
         "modules": cockpit.manifests(),
         "ontology": cockpit.ontology(),
@@ -269,7 +275,12 @@ def show_app():
     }
     result = architecture_component(BUILD_VERSION)(data=data, key="finance_architecture", on_action_change=lambda: None)
     if result.action:
-        handle_action(result.action)
+        try:
+            handle_action(result.action)
+        finally:  # the browser sends one action at a time and waits for this number before sending the next
+            seq = result.action.get("_seq")
+            if isinstance(seq, int):
+                st.session_state.finance_action_seq = max(st.session_state.get("finance_action_seq", -1), seq)
         st.rerun()
 
 

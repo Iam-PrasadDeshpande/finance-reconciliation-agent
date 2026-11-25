@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useRef,useState} from 'react';
 import {explicitOutsideHistory,fiscalLabel,longMonth,mentionedPeriod,shortMonth} from './period';
 import {useCockpit} from './cockpit';
 import './period.css';
@@ -24,7 +24,9 @@ export function EffectivePeriod({text,period,periods}){
 export function useAskText(period,domain){
   const cockpit=useCockpit();
   const [edited,setEdited]=useState(null);
-  useEffect(()=>{setEdited(null)},[period,domain]);
+  const last=useRef({period,domain});
+  // reset the text only when the period or module really changed, never on mount: a fast typist (or a busy machine) must not lose what was typed
+  useEffect(()=>{if(last.current.period!==period||last.current.domain!==domain){last.current={period,domain};setEdited(null)}},[period,domain]);
   return [edited??cockpit.ask(domain,period),setEdited];
 }
 
