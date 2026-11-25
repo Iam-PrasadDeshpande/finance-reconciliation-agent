@@ -596,12 +596,12 @@
       "bytes": 12350
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "df53a9a8954b428cbb6987a2b7cf25a064b53cbb51f61e1067c012c431ed7987",
-      "bytes": 728340
+      "sha256": "be47a1bf753ec73a942b7cee57a6783177c52783b1e9a1b9be4ca0311123538a",
+      "bytes": 791511
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "45f6813566dac89d96701617d2790fe257e60d35589ee35b6c87d2dab5a36221",
-      "bytes": 452484
+      "sha256": "1d55ba79aef0e7201cf96de757135fbbf4ecc817f72bb162cb54b492fd11085e",
+      "bytes": 531023
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -628,12 +628,12 @@
       "bytes": 2616
     },
     "scripts/package_local.py": {
-      "sha256": "b62dd0d91722a1f684518f0936f744f8a38a9484189ca2eb3e011a56c646769e",
-      "bytes": 2654
+      "sha256": "f308da345a154af7727cbc0123f343df3ac497a88b89081c1817a93cb1cfc032",
+      "bytes": 2979
     },
     "scripts/package_streamlit.py": {
-      "sha256": "82cd2617149745ec8baf45120f4b0d6a545d8aa738de315e1c977bf5a6f10e87",
-      "bytes": 2668
+      "sha256": "3caefaffc04a20f89b75da4840cad1763ad2ed39d7c2de76bc684ef4d7efb707",
+      "bytes": 2712
     },
     "scripts/pptx_to_svg.py": {
       "sha256": "cc227bd385404e081bc1c81662f8e1a470c12409e26b5b443ce748bf7168b43c",
@@ -700,8 +700,8 @@
       "bytes": 4859
     },
     "static/finance_reconciliation_local_windows.zip": {
-      "sha256": "45f6813566dac89d96701617d2790fe257e60d35589ee35b6c87d2dab5a36221",
-      "bytes": 452484
+      "sha256": "1d55ba79aef0e7201cf96de757135fbbf4ecc817f72bb162cb54b492fd11085e",
+      "bytes": 531023
     },
     "streamlit_app.py": {
       "sha256": "414d0aa459630f6ef29e8f8072c31e3068baf367dc000a75016d2e53c10f85fa",
