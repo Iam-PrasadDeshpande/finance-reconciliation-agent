@@ -540,12 +540,12 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: apigee_gateway
-  display_name: Google Apigee MCP simulator (S1)
+  display_name: Google Apigee MCP simulator (S1 and S3 gateway path)
   zone: Selected gateway
   trust_boundary: external Google
   owner: Gateway platform owner
   classification: managed vendor simulator
-  purpose: Google Apigee MCP simulator (S1)
+  purpose: Google Apigee MCP simulator (S1 and S3 gateway path)
   runtime_state: scenario_s1
   code_module: poc.gateway
   health: ready
@@ -675,12 +675,12 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: agentcore_gateway
-  display_name: AgentCore Gateway simulator (S2)
+  display_name: AgentCore Gateway simulator (S2 gateway path)
   zone: Selected gateway
   trust_boundary: AWS logical
   owner: Gateway platform owner
   classification: managed vendor simulator
-  purpose: AgentCore Gateway simulator (S2)
+  purpose: AgentCore Gateway simulator (S2 gateway path)
   runtime_state: scenario_s2
   code_module: poc.gateway
   health: ready

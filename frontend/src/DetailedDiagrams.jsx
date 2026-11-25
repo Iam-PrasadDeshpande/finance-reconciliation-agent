@@ -1,8 +1,5 @@
 import React,{useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
-import s1Svg from './diagrams/s1.svg?raw';
-import s2Svg from './diagrams/s2.svg?raw';
-import {LANDSCAPE,landscapeSvg} from './landscapeDiagrams';
-import {MCP,HOSTING} from './landscapeData';
+import {DIAGRAM_KEYS,DIAGRAM_NAMES,diagramSvg,diagramSpec,SCENARIOS,BANNER} from './mcpScenarios';
 import './detailed-diagrams.css';
 
 // The diagram canvas is the reference deck's slide: 1200 x 840 points.
@@ -10,31 +7,10 @@ const W=1200,H=840,MAX_SCALE=12;
 export const PNG_SCALES=[2,4];
 const clamp=(value,low,high)=>Math.min(high,Math.max(low,value));
 
-const DIAGRAMS={
-  S1:{id:'S1',tab:'S1 · Google Apigee MCP',title:'S1 · Google Apigee MCP',svg:s1Svg,
-    gateway:'Google Apigee MCP, external to AWS',
-    summary:'The custom agent runs on Amazon Bedrock AgentCore Runtime and reaches the finance-owned domain MCP tools, SAP BAIP and the SAP backends through one MCP gateway: Google Apigee, outside the AWS boundary. Apigee applies inbound authorization and outbound target credentials; read paths return results over the same mediated path.'},
-  S2:{id:'S2',tab:'S2 · AgentCore Gateway MCP',title:'S2 · AgentCore Gateway MCP',svg:s2Svg,
-    gateway:'AgentCore Gateway MCP, inside AWS',
-    summary:'The same agent and downstream path, but the single MCP gateway is AgentCore Gateway inside the AWS trust boundary. Inbound authorization and outbound target credentials are applied by the gateway before the finance-owned domain MCP tools, SAP BAIP and the SAP backends.'},
-};
-const LAND=Object.fromEntries(LANDSCAPE.map(item=>{const d=(item.kind==='mcp'?MCP:HOSTING)[item.id];return [item.key,{id:item.key,tab:item.tab,title:item.title,svg:landscapeSvg(item.kind,item.id),file:`landscape-${item.key}`,png:true,landscape:true,data:d,summary:`${d.status}. ${d.decision}`}]}));
-const INVARIANT='Only MCP gateway placement and its inbound / outbound auth controls change. Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.';
-const DIFFERENCES=[
-  ['Lane 03 MCP gateway','Google Apigee · external to AWS','AgentCore Gateway · inside AWS'],
-  ['Trust boundary','Gateway sits outside the AWS boundary','AWS trust boundary encloses lanes 02 and 03'],
-  ['MCP entry detail','Apigee mode TBD','Target type TBD'],
-  ['Colour coding','Gateway lane in orange (external)','Gateway lane in blue (AWS)'],
-  ['Common to both','ONE selected gateway · no Portkey MCP','ONE selected gateway · no Portkey MCP'],
-];
-const OPEN_ITEMS=[
-  'Delegation versus service identity: TO VALIDATE',
-  'Integration Suite / iFlow identity propagation: TBD',
-  'Mapped principal and ABAP roles at each SAP backend: TO VALIDATE',
-  'Operation allowlist and outbound target credential or exchange: TBD',
-  'Direct API versus iFlow / Cloud Connector route per backend; private route needs proof',
-  'SAP Business Data Cloud and Databricks entitlement and scope: TO VALIDATE (future state)',
-];
+const SHORT={D1:'Overview',D2:'S1',D3:'S2',D4:'S3',D5:'Hosting vs registry',D6:'Identity',D7:'LLM',D8:'Lifecycle',D9:'Audit',D10:'Comparison'};
+const DIAGRAMS=Object.fromEntries(DIAGRAM_KEYS.map(key=>{const spec=diagramSpec(key);return [key,{id:key,tab:`${key} · ${SHORT[key]}`,title:`${key} · ${spec.title}`,svg:diagramSvg(key),file:`architecture-${key.toLowerCase()}`,png:true,summary:spec.chain,footer:spec.footer}]}));
+const COMPARE_PAIR=['D2','D4'];
+const OPEN_ITEMS=['Registry product for S1 is unresolved: a plain API catalog is not a complete agent registry','AgentCore Gateway to Apigee protocol and token exchange (S2): unproven','Whether AI Foundry mandates AgentCore Gateway for every tool call (S3-B): policy-dependent','Principal propagation through Integration Suite and Cloud Connector: to validate','Persistence is conditional: HANA Cloud only if durable SAP-side state is required'];
 
 function markup(svg,uid){return svg.replace('aria-labelledby="t d"',`aria-labelledby="${uid}-t ${uid}-d"`).replace('id="t"',`id="${uid}-t"`).replace('id="d"',`id="${uid}-d"`)}
 function svgFile(svg){return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${svg}`],{type:'image/svg+xml'})}
@@ -164,42 +140,41 @@ export function PanZoom({diagram,uid,view,onView,onFit,expanded,onExpand,compact
   </div>;
 }
 
-export default function DetailedDiagrams({view='S1',onView,onBack}){
-  const [viewA,setViewA]=useState(null),[viewB,setViewB]=useState(null),[sync,setSync]=useState(true),[expanded,setExpanded]=useState(null);
+export default function DetailedDiagrams({view='D1',onView,onBack}){
+  const [viewA,setViewA]=useState(null),[viewB,setViewB]=useState(null),[sync,setSync]=useState(true),[expanded,setExpanded]=useState(null),[pair,setPair]=useState(COMPARE_PAIR);
   const compare=view==='compare';
+  const key=DIAGRAMS[view]?view:'D1';
   const choose=id=>{setExpanded(null);onView(id)};
-  const landscape=Boolean(LAND[view]);
-  const single=LAND[view]||DIAGRAMS[compare?'S1':view]||DIAGRAMS.S1;
+  const single=DIAGRAMS[key];
   const setBoth=useCallback(next=>{setViewA(next);setViewB(next)},[]);
-  const keys=['S1','S2'];
-  return <main className="detailed-diagrams" aria-label="Detailed architecture diagrams">
+  const scenarioKeys=['D2','D3','D4'];
+  return <main className="detailed-diagrams" aria-label="Architecture diagrams">
     <header className="surface dd-header">
-      <div className="dd-title"><span className="eyebrow">{landscape?'ARCHITECTURE DIAGRAMS · LANDSCAPE PATH (GENERATED VECTOR)':'ARCHITECTURE DIAGRAMS · DETAILED L2 VIEW (VECTOR)'}</span><h2>{compare?'S1 and S2 side by side':single.title}</h2></div>
+      <div className="dd-title"><span className="eyebrow">ARCHITECTURE DIAGRAMS · V5.1 · GENERATED FROM ONE MODEL (VECTOR)</span><h2>{compare?'Scenario topologies side by side':single.title}</h2></div>
       <nav className="dd-selector" role="tablist" aria-label="Detailed diagram selection">
-        {[...keys,'compare'].map(id=><button type="button" role="tab" key={id} aria-selected={view===id} className={view===id?'active':''} onClick={()=>choose(id)}>{id==='compare'?'Compare side-by-side':DIAGRAMS[id].tab}</button>)}
+        {[...DIAGRAM_KEYS,'compare'].map(id=><button type="button" role="tab" key={id} aria-selected={view===id} className={view===id?'active':''} onClick={()=>choose(id)}>{id==='compare'?'Compare side-by-side':DIAGRAMS[id].tab}</button>)}
       </nav>
-      <div className="dd-header-actions"><span className="pill warn">PROPOSED DESIGN · REVIEW DRAFT · NOT TENANT-VERIFIED</span><button type="button" onClick={onBack}>← Complete architecture</button></div>
+      <div className="dd-header-actions"><span className="pill warn">PROPOSED DESIGN · NOT APPROVED · NOT TENANT-VERIFIED</span><button type="button" onClick={onBack}>← Complete architecture</button></div>
     </header>
     <section className="surface dd-summary" aria-label="Diagram summary">
-      <div><span className="eyebrow">{compare?'WHAT THIS VIEW SHOWS':landscape?'LANDSCAPE PATH · STATUS AND OPEN DECISION':`${single.id} · MCP GATEWAY`}</span><p>{compare?'Both detailed diagrams share one worked month-end reconciliation path. Use the synchronized viewers to inspect lane 03 (MCP gateway) and the AWS trust boundary, where they differ.':single.summary}</p></div>
-      <div className="dd-invariant"><span className="eyebrow">SCENARIO INVARIANT</span><p>{INVARIANT}</p></div>
+      <div><span className="eyebrow">{compare?'WHAT THIS VIEW SHOWS':single.id}</span><p>{compare?'Two scenario topologies from the same model. Pick the scenarios below; zoom and pan can be synchronized.':single.summary}</p></div>
+      <div className="dd-invariant"><span className="eyebrow">COMMON TO S1, S2 AND S3</span><p>Portkey is the LLM gateway. Google Apigee is the SAP-facing MCP/API gateway. SAP Integration Suite is the SAP integration boundary. The SAP backend decides business authorization. A registry is a catalog, never an invocation hop.</p></div>
     </section>
-    <section className="surface dd-landscape-bar" aria-label="Landscape diagrams"><div><span className="eyebrow">LANDSCAPE PATHS</span><strong>MCP route and agent-hosting diagrams</strong></div><nav className="dd-selector" role="tablist" aria-label="Landscape diagram selection">{LANDSCAPE.map(item=><button type="button" role="tab" key={item.key} aria-selected={view===item.key} className={view===item.key?'active':''} onClick={()=>choose(item.key)}>{item.tab}</button>)}</nav></section>
     <div className={`dd-body ${compare?'is-compare':''}`}>
       {compare?<>
-        <div className="dd-compare-bar surface"><label><input type="checkbox" checked={sync} onChange={event=>setSync(event.target.checked)}/> Synchronize zoom and pan</label><span>Zoom into lane 03 and the AWS trust boundary to see where the two options differ.</span></div>
+        <div className="dd-compare-bar surface"><label><input type="checkbox" checked={sync} onChange={event=>setSync(event.target.checked)}/> Synchronize zoom and pan</label>{pair.map((value,index)=><label key={index}>{index?'with':'Compare'} <select value={value} onChange={event=>setPair(previous=>previous.map((x,i)=>i===index?event.target.value:x))}>{scenarioKeys.map(id=><option key={id} value={id}>{DIAGRAMS[id].tab}</option>)}</select></label>)}</div>
         <div className="dd-compare-grid">
-          {keys.map((id,index)=><PanZoom key={id} diagram={DIAGRAMS[id]} uid={`dd-${id}-cmp`} compact view={index===0?viewA:viewB} onView={next=>{if(sync)setBoth(next);else (index===0?setViewA:setViewB)(next)}} onFit={next=>{if(sync)setBoth(next);else (index===0?setViewA:setViewB)(next)}} expanded={expanded===id} onExpand={on=>setExpanded(on?id:null)}/>)}
+          {pair.map((id,index)=><PanZoom key={`${id}-${index}`} diagram={DIAGRAMS[id]} uid={`dd-${id}-cmp-${index}`} compact view={index===0?viewA:viewB} onView={next=>{if(sync)setBoth(next);else (index===0?setViewA:setViewB)(next)}} onFit={next=>{if(sync)setBoth(next);else (index===0?setViewA:setViewB)(next)}} expanded={expanded===index} onExpand={on=>setExpanded(on?index:null)}/>)}
         </div>
       </>:<PanZoom key={single.id} diagram={single} uid={`dd-${single.id}`} view={viewA} onView={setViewA} onFit={setViewA} expanded={expanded===single.id} onExpand={on=>setExpanded(on?single.id:null)}/>}
-      {landscape?<aside className="surface dd-side" aria-label="Controls and open decision"><h3>Cross-cutting controls</h3><ul>{single.data.controls.map(([name,text])=><li key={name}><strong>{name}.</strong> {text}</li>)}</ul><h3>Open decision</h3><p>{single.data.decision}</p><p className="micro">Vendor-named components are design projections, not connected services.</p><a className="text-link" href={single.data.source} target="_blank" rel="noreferrer">Vendor reference ↗</a><button type="button" className="text-link" onClick={onBack}>Back to complete architecture →</button></aside>:<aside className="surface dd-side" aria-label="Key differences and open validations">
-        <h3>What changes between S1 and S2</h3>
-        <table><thead><tr><th scope="col">Item</th><th scope="col">S1</th><th scope="col">S2</th></tr></thead><tbody>{DIFFERENCES.map(([item,a,b])=><tr key={item}><th scope="row">{item}</th><td className={view==='S2'?'dim':''}>{a}</td><td className={view==='S1'?'dim':''}>{b}</td></tr>)}</tbody></table>
-        <h3>Open validations shown in the diagram</h3>
+      <aside className="surface dd-side" aria-label="Open validations">
+        <h3>Scenarios in this model</h3>
+        <ul>{['S1','S2','S3'].map(id=><li key={id}><strong>{id}</strong> {SCENARIOS[id].agent_runtime} · registry: {SCENARIOS[id].agent_registry}</li>)}</ul>
+        <h3>Open validations</h3>
         <ul>{OPEN_ITEMS.map(item=><li key={item}>{item}</li>)}</ul>
-        <p className="micro">Vendor-named components are design projections, not connected services. S3 has no detailed L2 diagram; see the S3 landscape path.</p>
+        <p className="micro">{BANNER}. Vendor-named components are design projections, not connected services.</p>
         <button type="button" className="text-link" onClick={onBack}>Back to complete architecture →</button>
-      </aside>}
+      </aside>
     </div>
   </main>;
 }

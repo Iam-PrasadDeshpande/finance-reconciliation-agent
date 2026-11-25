@@ -19,7 +19,7 @@ QUESTIONS = [
         "current_position": "Existing MCP targets are technically possible; SAP ownership and Apigee hosting approval remain open.",
         "decision": "May SAP own and host this MCP capability through Apigee, and what onboarding contract applies?",
         "owner": "AI Foundry + SAP Solution Architecture + Integration",
-        "next_action": "Confirm SAP-owned Apigee MCP hosting policy and document the AgentCore Gateway target onboarding contract.",
+        "next_action": "Confirm SAP-owned Apigee MCP hosting policy and document the Apigee MCP endpoint onboarding contract (and the AgentCore Gateway target in S2).",
         "default_route": "S3", "probes": [
             {"id": "onboarded", "label": "Target onboarded (candidate)"},
             {"id": "missing_target", "label": "Target absent / denied"},
@@ -27,8 +27,8 @@ QUESTIONS = [
     },
     {
         "id": "gateway_ownership", "title": "Which gateway owns each control?",
-        "summary": "Show AgentCore and Apigee responsibilities on one candidate route.",
-        "current_position": "AgentCore serves the agent-facing runtime boundary; SAP's domain boundary needs an agreed control split.",
+        "summary": "Show gateway, registry and Apigee responsibilities per scenario.",
+        "current_position": "Apigee is the SAP-facing gateway in every scenario; AgentCore Gateway fronts it only in S2; a registry is control plane only. The control split needs agreement.",
         "decision": "Assign one accountable owner for discovery, authorization, credentials, routing and audit at each boundary.",
         "owner": "Enterprise Architecture + AI Foundry + Apigee + Security",
         "next_action": "Sign off a control matrix for both gateways, including policy precedence and cross-gateway audit correlation.",
@@ -42,7 +42,7 @@ QUESTIONS = [
         "summary": "Trace a redacted principal reference across every trust boundary.",
         "current_position": "Gateway authentication does not establish delegated SAP principal propagation or backend authorization.",
         "decision": "Approve delegated-user propagation or an explicitly scoped service-identity alternative.",
-        "owner": "Entra ID + AgentCore Identity + Integration + SAP Security",
+        "owner": "Entra ID + agent platform identity + Integration + SAP Security",
         "next_action": "Trace a real tenant principal through every hop and prove the selected identity model in each SAP backend role check.",
         "default_route": "S3", "probes": [
             {"id": "delegated", "label": "Delegated user candidate"},
@@ -90,16 +90,17 @@ QUESTIONS = [
 ]
 
 ROUTES = {
-    "S1": {"label": "S1 · Apigee route", "status": "Existing alternative", "gateways": ["apigee_mcp"]},
-    "S2": {"label": "S2 · AgentCore route", "status": "Existing alternative", "gateways": ["agentcore_gateway"]},
-    "S3": {"label": "S3 · Combined candidate", "status": "Unapproved candidate", "gateways": ["agentcore_gateway", "apigee_mcp"]},
+    "S1": {"label": "S1 · SAP-centric", "status": "Evaluation candidate", "gateways": ["apigee_mcp"], "agent": "sap_btp", "registry": "domain"},
+    "S2": {"label": "S2 · AWS AgentCore-centric", "status": "Evaluation candidate", "gateways": ["agentcore_gateway", "apigee_mcp"], "agent": "agentcore", "registry": "aws"},
+    "S3": {"label": "S3 · SAP-hosted hybrid", "status": "Preferred candidate, subject to AI Foundry policy and POC validation", "gateways": ["apigee_mcp"], "agent": "sap_btp", "registry": "aws"},
 }
 
 CONTROL_MATRIX = [
-    {"component": "AI Foundry registry", "owner": "AI Foundry", "responsibility": "Design-time owner, approval, version and lifecycle; no SAP access by registration alone."},
-    {"component": "AgentCore Gateway", "owner": "AI Foundry runtime", "responsibility": "Agent-facing target discovery, inbound authorization, outbound target credential and invocation audit."},
-    {"component": "SAP Apigee MCP", "owner": "SAP Integration", "responsibility": "SAP domain MCP facade, domain tool policy, routing and SAP-facing audit."},
-    {"component": "Integration Suite", "owner": "SAP Integration", "responsibility": "Approved SAP API and identity mapping; conditional Cloud Connector route."},
+    {"component": "Agent and MCP registry", "owner": "AI Foundry (S2, S3) or domain team (S1, product pending)", "responsibility": "Registration, discovery, approval, version and lifecycle. Control plane only: registration is not an invocation hop and grants no SAP access."},
+    {"component": "AgentCore Gateway (S2 only)", "owner": "AI Foundry runtime", "responsibility": "Enterprise MCP gateway: inbound authorization, outbound credential and invocation audit toward Apigee."},
+    {"component": "Google Apigee MCP/API", "owner": "SAP Integration", "responsibility": "SAP-facing MCP/API gateway in every scenario: tool mapping, policy, routing and SAP-facing audit."},
+    {"component": "Portkey", "owner": "AI platform", "responsibility": "LLM gateway in every scenario: model selection, credentials, fallback and monitoring. Independent of the MCP gateway."},
+    {"component": "SAP Integration Suite", "owner": "SAP Integration", "responsibility": "SAP integration boundary: approved API, identity mapping and conditional Cloud Connector route."},
     {"component": "SAP backend", "owner": "SAP Security + FI", "responsibility": "Final user or service authorization and finance operation control."},
 ]
 
@@ -128,15 +129,20 @@ def build_run(question_id: str, route: str, probe: str) -> dict:
 
     add("Business intent", "Finance architect", "Typed use-case scope", question["title"], proof="Finance use-case signoff")
     registered = probe != "unregistered"
-    add("AI Foundry registry", "AI Foundry governance", "Owner, approval, version and tool binding",
+    registry_name = {"domain": "Domain-managed catalog (product pending)", "aws": "AWS Agent Registry"}[ROUTES[route]["registry"]]
+    add(registry_name, "AI Foundry governance" if ROUTES[route]["registry"] == "aws" else "Domain team", "Owner, approval, version and tool binding",
         "Registered synthetic tool reference" if registered else "Tool not registered; runtime invocation blocked",
         status="passed" if registered else "denied", phase="design-time",
         proof="Published domain-owned hosting and onboarding policy")
     if registered:
         add("Microsoft Entra ID", "Enterprise identity", "Caller authentication and group claim",
             "Pseudonymous caller reference issued", proof="Real tenant issuer, audience and group mapping")
-        add("AgentCore Runtime + Identity", "AI Foundry runtime", "Agent workload identity and scoped tool request",
-            "Synthetic runtime invokes the selected gateway", proof="Deployed runtime and identity policy")
+        if ROUTES[route]["agent"] == "agentcore":
+            add("AgentCore Runtime + Identity", "AI Foundry runtime", "Agent workload identity and scoped tool request",
+                "Synthetic runtime invokes the selected gateway", proof="Deployed runtime and identity policy")
+        else:
+            add("SAP BTP Cloud Foundry agent", "SAP BTP platform team", "Agent workload identity and scoped tool request",
+                "Synthetic agent invokes the Apigee MCP endpoint", proof="Deployed Cloud Foundry application and identity policy")
         if question_id == "read_vs_post" and probe in ("post_no_approval", "post_with_approval"):
             approved = probe == "post_with_approval"
             add("Finance approval boundary", "FI control owner", "Separate human approval for write intent",
@@ -151,7 +157,7 @@ def build_run(question_id: str, route: str, probe: str) -> dict:
                            else "SAP domain MCP policy, tool mapping and audit")
                 denied = ((probe == "missing_target" and (gateway == ROUTES[route]["gateways"][0])) or
                           (probe == "unapproved_partner" and (gateway == ROUTES[route]["gateways"][0])))
-                overlap = probe == "duplicate_controls" and not is_aws
+                overlap = probe == "duplicate_controls" and not is_aws and len(ROUTES[route]["gateways"]) > 1
                 add(name, owner, control,
                     "Target or caller not approved; invocation denied" if denied else
                     "Control overlap requires owner decision" if overlap else

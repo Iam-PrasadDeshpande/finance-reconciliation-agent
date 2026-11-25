@@ -18,10 +18,12 @@ export const PROCESS = [
 export const CONTROLS = ['Maker and approver are separate roles', 'Approval is bound to the proposal hash and case version', 'Every step is stored as an event you can inspect', 'No agent tool can post to SAP'];
 
 export const DECISIONS = [
-  ['Route for the SAP finance interface', 'S1 as the proof-of-concept baseline', 'Enterprise architecture + SAP integration'],
-  ['Agent runtime host', 'Validate the approved enterprise platform first; SAP BTP is the conditional alternative', 'Enterprise AI + platform team'],
+  ['Scenario to validate first', 'S3 (SAP-hosted hybrid) as the preferred candidate for the POC, subject to AI Foundry policy', 'Enterprise architecture + AI Foundry + SAP integration'],
+  ['Agent runtime host', 'SAP BTP Cloud Foundry in S1 and S3; AWS AgentCore Runtime in S2. Registration is decided separately', 'Enterprise AI + platform team'],
   ['Identity: user delegation or service identity', 'Prove service identity first, then delegation', 'Security + SAP Basis'],
-  ['Registry source of truth', 'API hub for the SAP domain; agent registry holds a reference', 'Enterprise AI Foundry'],
+  ['Registry', 'AWS Agent Registry in S2 and S3; S1 registry product is unresolved (domain-managed catalog)', 'Enterprise AI Foundry'],
+  ['Is AgentCore Gateway mandatory for every tool call?', 'Not in the S3 baseline; if mandated, evaluate S3-B or S2', 'AI Foundry + Security'],
+  ['Is persistence needed?', 'Conditional: HANA Cloud only if durable SAP-side state is required', 'SAP BTP + finance engineering'],
   ['Model access (PTP/PAP)', 'Separate approval; does not decide the host', 'Enterprise AI'],
   ['Posting to SAP', 'Out of scope. Human approval and nonproduction evidence first', 'Finance + SAP'],
   ['12-month total cost', 'Unmeasured; needs an estimate per route', 'Finance + procurement'],
@@ -38,4 +40,4 @@ export const GATES = [
 ];
 
 export const PROVES = ['The workflow shape: ask, plan, specialist calls, evidence, proposal, approval', 'What each agent may and may not do, shown as read-only tools and refusals', 'Where each route puts the gateway, the identity hop and the owner'];
-export const NOT_PROVEN = ['Any live SAP, AWS, Google or Databricks connection', 'A real MCP transport (calls are in-process and MCP-shaped)', 'Identity propagation, performance, availability or cost'];
+export const NOT_PROVEN = ['Any live SAP, AWS, Apigee, Portkey or Databricks connection', 'A real MCP transport (calls are in-process and MCP-shaped)', 'Identity propagation, performance, availability or cost'];

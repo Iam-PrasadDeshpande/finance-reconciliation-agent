@@ -56,9 +56,9 @@ export function liveSvg({registry, events, scenario, selectedZone, liveRunning, 
   ];
   return renderTopology({
     cols: 6, ys: [100, 214, 334], nh: 80, height: LIVE_SIZE.h, nodes, edges, bounds: [['SAP landscape', ['SAP BAIP', 'SAP backends'], 'sap']], captions: CAPTIONS, legend: LEGEND,
-    title: `Live architecture · ${scenario === 'S1' ? 'S1 Google Apigee MCP' : 'S2 AgentCore Gateway MCP'}`,
+    title: `Live run (simulator) · ${scenario === 'S1' ? 'Apigee gateway path (S1, S3)' : 'AgentCore Gateway path (S2)'}`,
     chain: 'Finance request → external agent → selected gateway → domain tools → SAP integration → SAP backend',
     banner: processing ? 'RUN IN PROGRESS · SIMULATED' : 'SIMULATED · NO TENANT CONNECTED',
-    footer: 'Orange outline: processing now. Green outline: visited. Blue outline: selected zone. Select a zone to inspect its components below. Vendor names are simulations.',
+    footer: 'Simulator scope: it replays gateway behaviour and draws the agent in the AWS runtime zone for both paths. It is not the V5.1 topology: see Diagrams D2 to D4. Orange: processing now. Green: visited. Blue: selected zone.',
   });
 }

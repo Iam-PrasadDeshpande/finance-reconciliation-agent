@@ -81,3 +81,8 @@
 @media(max-width:560px){.arch-cards{grid-template-columns:1fr}}
 /* Architecture sub-nav: hints only when there is vertical room. */
 @media(max-height:900px){.decision-nav button small{display:none}.decision-nav button{padding:5px 12px}.decision-nav{margin-top:4px}}
+/* Architecture V5.1: model-driven lists are longer than the old hand-written cards, so sections scroll instead of clipping */
+.arch-grid section{overflow:auto}
+.arch-grid ul{margin:0 0 6px;padding-left:16px;font-size:12px;line-height:1.35}
+.arch-grid li{margin-bottom:3px}
+.arch-grid section.arch-judgment p{font-size:11.5px;line-height:1.35}

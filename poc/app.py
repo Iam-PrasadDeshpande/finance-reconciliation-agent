@@ -29,6 +29,7 @@ from .decision_lab import question_catalog, start_run as start_decision_run, get
 from .route_playbooks import route_playbook_catalog
 from .agents import Context as AgentContext,catalog as agent_catalog,case_for_period,invoke_tool,plan_for,run_plan
 from . import cockpit
+from . import architecture_model as architecture_model_module
 from .recon_report import CONDITIONS,apply_condition,build_report
 from .store import Denied,Store
 
@@ -107,6 +108,10 @@ def health(): return {"status":"ready","simulation":True,"database":str(store.pa
 
 @app.get("/api/registry")
 def registry(): return {"components":components(),"edges":edges(),"gates":{f"G{i}":"OPEN — live vendor proof required" for i in range(1,8)}}
+
+@app.get("/api/architecture/model")
+def architecture_model(): return architecture_model_module.export()
+
 
 @app.get("/api/architecture/registry")
 def neutral_registry(): return architecture_registry()
