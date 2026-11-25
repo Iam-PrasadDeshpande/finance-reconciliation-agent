@@ -15,6 +15,7 @@ def check(page, url, hosted):
     page.get_by_role("button", name="Open Finance Reconciliation Agent").wait_for(timeout=30000)
     # Level 1 entry: agent-first, no open-decision list.
     assert page.locator(".entry-card").count() == 3
+    assert page.locator(".entry-roles li").count() == 4
     assert page.get_by_text("Open decisions").count() == 0
     assert page.get_by_label("What should the agents do?").input_value() != ""
     page.get_by_role("button", name="Open Finance Reconciliation Agent").click()
@@ -27,6 +28,8 @@ def check(page, url, hosted):
 
     def decision_selected(label):
         return page.get_by_role("tablist", name="Architecture views").get_by_role("tab", name=label).get_attribute("aria-selected") == "true"
+
+    assert page.locator(".close-process li").count() == 6
 
     # Agents area: the orchestrator calls specialist agents over MCP and the graph shows what each reached.
     assert page.locator(".agent-ask-bar").count() == 1
@@ -253,6 +256,14 @@ def check(page, url, hosted):
     assert page.locator(".dd-viewer").count() == 2
     page.get_by_role("button", name="Complete architecture →").first.click()
     assert tabs.nth(2).get_attribute("aria-selected") == "true"
+
+    # Audience-ready additions: decision brief, role lenses on My Home and the close process panel.
+    go_decision("Decision brief")
+    assert page.locator(".brief-table tbody tr").count() == 7
+    assert page.locator(".brief-gates li").count() == 7
+    page.get_by_role("button", name="Proves / does not prove").click()
+    assert "real MCP transport" in page.get_by_role("dialog", name="What this demo proves, and what it does not").inner_text()
+    page.get_by_role("dialog", name="What this demo proves, and what it does not").get_by_role("button", name="Close").click()
 
     # Live architecture: generated vector topology with the shared zoom viewer and clickable zones.
     go_decision("Live run")
