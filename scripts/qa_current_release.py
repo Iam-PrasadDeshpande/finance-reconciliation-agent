@@ -29,6 +29,7 @@ def check(page, url, hosted):
     def decision_selected(label):
         return page.get_by_role("tablist", name="Architecture views").get_by_role("tab", name=label).get_attribute("aria-selected") == "true"
 
+    page.locator(".close-process li").first.wait_for(state="attached", timeout=30000)
     assert page.locator(".close-process li").count() == 6
 
     # Agents area: the orchestrator calls specialist agents over MCP and the graph shows what each reached.
@@ -97,7 +98,7 @@ def check(page, url, hosted):
 
     apply("baseline")
     open_report()
-    assert dialog.get_by_role("tab").count() == 7
+    assert dialog.get_by_role("tab").count() == 9
     assert "Explained" in dialog.locator(".rr-banner").first.inner_text()
     assert "$25,000" in dialog.locator(".rr-kpis").inner_text()
     dialog.get_by_role("tab", name="Reconciling items").click()

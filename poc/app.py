@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -26,7 +27,7 @@ from .questions import answer_follow_up, request_for_demo, mentioned_period, tra
 from .architecture_view import architecture_registry, architecture_events
 from .decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
 from .route_playbooks import route_playbook_catalog
-from .agents import Context as AgentContext,catalog as agent_catalog,invoke_tool,plan_for,run_plan
+from .agents import Context as AgentContext,catalog as agent_catalog,case_for_period,invoke_tool,plan_for,run_plan
 from .recon_report import CONDITIONS,apply_condition,build_report
 from .store import Denied,Store
 
@@ -54,6 +55,7 @@ class ChatInput(BaseModel):
     scenario:str="S1"
     user_id:str="finance.user"
     case_id:str|None=None
+    period:str|None=None
     demo_pace_ms:int=80
 
 class Mutation(BaseModel):
@@ -260,8 +262,9 @@ def agent_plan(data:ChatInput):
     if data.scenario not in ("S1","S2"): raise HTTPException(422,"Route must be S1 or S2")
     if len(data.message)>400: raise HTTPException(422,"Message is too long")
     try:
-        case=store.case(data.case_id) if data.case_id else None
-        return run_plan(agent_context(),plan_for(data.message,case),data.scenario,"finance.user")
+        if data.period is not None and (not re.fullmatch(r"\d{4}-\d{2}",data.period) or data.period not in store.available_periods()): raise Denied(f"NO DATA AVAILABLE FOR {data.period}")
+        case=case_for_period(store,data.case_id,data.period)
+        return run_plan(agent_context(),plan_for(data.message,case),data.scenario,"finance.user",{"selected_period":data.period} if data.period else None)
     except Exception as exc: fail(exc)
 
 @app.get("/api/agent/plans/last")

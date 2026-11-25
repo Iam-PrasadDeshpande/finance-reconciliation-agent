@@ -52,6 +52,8 @@ The **Complete architecture** page compares S1 direct Apigee, S2 AgentCore-hoste
 
 **Presenting to an audience.** My Home has four audience lenses (enterprise architect, integration architect, finance, business architect), each linking to the three views that role needs. The Architecture area has a one-screen **Decision brief**: the proposed S1 baseline, seven open decisions with owners, and proof gates G1 to G7, none passed. Close & reconcile shows who does what in the close (system, agent, person) and the controls, until a report is selected. All of it is a proposal on synthetic data, not an approval.
 
+**One selected period.** Level 1 (Close & reconcile) and Level 2 (Agents, detailed report) share one `YYYY-MM` selection that survives navigation, reruns and refresh, and every calculation receives it. A period without data says so instead of showing another month. The detailed report has a Matching details tab whose rows add up to the variance and an SAP posting guide for manual correction in SAP; see `docs/PERIOD_SYNC.md`.
+
 ## Data and verification
 
 SQLite contains December 2025 through November 2026: 12 months, six synthetic G/L accounts, four source systems, 288 per-account balances and 144 journal evidence rows. The bounded seed uses one synthetic finance scope; it is not a document ingestion or arbitrary-company reconciliation service. The closing-balance rule is S/4HANA minus comparable Central Finance. BW/4HANA and Databricks provide freshness and context; an advisory model explanation never determines the amount.

@@ -3,20 +3,22 @@ import {PanZoom} from './DetailedDiagrams';
 import {orchestrationSvg,ORCH_SIZE,effectiveStatus} from './orchestrationSvg';
 import './agents.css';
 import './workbench.css';
+import {DEFAULT_PERIOD,defaultAsk,fiscalLabel,longMonth} from './period';
+import {EffectivePeriod,useAskText} from './PeriodUi';
 
 const MARK={done:'✓',running:'…',pending:'·',held:'?',blocked:'✕',skipped:'–'};
 const VIEW_LABEL={run:'Open the live architecture',report:'Open the detailed report','evidence-proof':'Open the proof dossier','decision-responsibilities':'Open responsibilities & governance',close:'Open Close & reconcile',plan:'Stay here'};
-const EXAMPLES=['Reconcile November 2026 company code 1000 ledger 0L USD','Explain the route controls','Investigate this variance','Post a journal entry to SAP for November 2026'];
 const reduceMotion=()=>{try{return window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch{return false}};
 
-export function AskBar({onAsk,busy,label='Ask the agents'}){
-  const [text,setText]=useState('Reconcile November 2026 company code 1000 ledger 0L USD');
-  return <form className="surface agent-ask-bar" onSubmit={event=>{event.preventDefault();if(text.trim()&&!busy)onAsk(text.trim())}}><label htmlFor="ask-bar-input"><span className="eyebrow">AGENTS · SIMULATED</span><strong>{label}</strong></label><input id="ask-bar-input" value={text} onChange={event=>setText(event.target.value)} aria-label={label}/><button type="submit" className="primary" disabled={busy}>{busy?'Running…':'Ask →'}</button></form>;
+export function AskBar({onAsk,busy,label='Ask the agents',period=DEFAULT_PERIOD,periods}){
+  const [text,setText]=useAskText(period);
+  return <form className="surface agent-ask-bar" onSubmit={event=>{event.preventDefault();if(text.trim()&&!busy)onAsk(text.trim())}}><label htmlFor="ask-bar-input"><span className="eyebrow">AGENTS · SIMULATED</span><strong>{label}</strong></label><div className="ask-main"><input id="ask-bar-input" value={text} onChange={event=>setText(event.target.value)} aria-label={label}/><EffectivePeriod text={text} period={period} periods={periods}/></div><button type="submit" className="primary" disabled={busy}>{busy?'Running…':'Ask →'}</button></form>;
 }
 
-export default function AgentWorkbench({catalog,plan,busy,onAsk,onOpenLayer}){
+export default function AgentWorkbench({catalog,plan,busy,onAsk,onOpenLayer,period=DEFAULT_PERIOD,periods}){
   const agents=catalog?.agents||[];
-  const [text,setText]=useState(EXAMPLES[0]);
+  const [text,setText]=useAskText(period);
+  const examples=[defaultAsk(period),'Explain the route controls','Investigate this variance',`Post a journal entry to SAP for ${longMonth(period)}`];
   const [shown,setShown]=useState(0);
   const [selected,setSelected]=useState(null);
   const [view,setView]=useState(null),[expanded,setExpanded]=useState(false);
@@ -50,9 +52,11 @@ export default function AgentWorkbench({catalog,plan,busy,onAsk,onOpenLayer}){
   return <main className="agent-workbench" aria-label="Agents">
     <header className="surface aw-header">
       <div className="aw-title"><span className="eyebrow">AGENTS · ORCHESTRATED WITH MCP-STYLE TOOL CALLS</span><h2>Watch the orchestrator call its agents</h2><p>The orchestrator plans and calls specialist agents, each a tool provider with a few typed tools. The calls are MCP-shaped but in-process (no MCP transport yet). Select an agent or a step to see what it did and which application layers its events actually touched.</p></div>
-      <form className="aw-ask" onSubmit={submit}><label htmlFor="aw-ask-input" className="sr-only">Ask the orchestrator</label><input id="aw-ask-input" value={text} onChange={event=>setText(event.target.value)} aria-label="Ask the orchestrator"/><button type="submit" className="primary" disabled={busy}>{busy?'Running…':'Run plan'}</button>
-        <div className="aw-examples" role="group" aria-label="Example requests">{EXAMPLES.map(item=><button type="button" key={item} onClick={()=>setText(item)}>{item.length>34?item.slice(0,32)+'…':item}</button>)}</div></form>
+      <form className="aw-ask" onSubmit={submit}><label htmlFor="aw-ask-input" className="sr-only">Ask the orchestrator</label><input id="aw-ask-input" value={text} onChange={event=>setText(event.target.value)} aria-label="Ask the orchestrator"/><button type="submit" className="primary" disabled={busy}>{busy?'Running…':'Run plan'}</button><EffectivePeriod text={text} period={period} periods={periods}/>
+        <div className="aw-examples" role="group" aria-label="Example requests">{examples.map(item=><button type="button" key={item} onClick={()=>setText(item)}>{item.length>34?item.slice(0,32)+'…':item}</button>)}</div></form>
     </header>
+    {plan?.effective_period&&<p className="aw-period" data-testid="plan-period">Plan period: <b>{longMonth(plan.effective_period)}</b> · {fiscalLabel(plan.effective_period)} · taken from {plan.period_source==='request'?'the request':plan.period_source==='selector'?'the period selector':'the open case'}</p>}
+    {plan?.effective_period&&plan.effective_period!==period&&<div className="period-stale" role="alert" data-testid="plan-stale">This plan is for {longMonth(plan.effective_period)}. The selected period is {longMonth(period)}. <button type="button" onClick={()=>onAsk(defaultAsk(period))}>Run for {longMonth(period)}</button></div>}
     {plan&&(done||steps.length===0)&&<section className="surface aw-answer" aria-label="What the agents found"><div><span className="eyebrow">WHAT THE AGENTS FOUND</span><p>{plan.answer||plan.blocked_reason||plan.note}</p></div>{plan.adaptations?.length>0&&<p className="aw-adapt"><b>The orchestrator adapted the plan:</b> {plan.adaptations.map(a=>a.added?`added ${a.added} because ${a.because}`:a.because).join('; ')}.</p>}</section>}
     <div className="aw-body">
       <section className="aw-graph" aria-label="Orchestration graph"><div className="aw-viewer"><PanZoom diagram={diagram} uid="orch" view={view} onView={setView} onFit={setView} expanded={expanded} onExpand={setExpanded} onPick={pick}/></div></section>

@@ -1,0 +1,50 @@
+/* Canonical period controls, provenance strip, Level 1 period panel. */
+.period-select{display:grid;gap:2px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#557695;flex:none}
+.period-select select{font:inherit;font-size:13px;font-weight:700;text-transform:none;letter-spacing:0;color:#223548;padding:7px 8px;border:1px solid #b9d2e5;border-radius:4px;background:#fff;min-width:150px}
+.period-effective{display:inline-flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline;font-size:11px;color:#075793;margin-top:3px}
+.period-effective b{font-weight:800}.period-effective em{font-style:normal;color:#587184}
+.period-effective.bad{color:#BB0000;font-weight:800}
+.agent-ask-bar .ask-main{display:grid;gap:0;min-width:0;flex:1}
+.agent-ask-bar{align-items:center}
+.provenance{display:flex;flex-wrap:wrap;gap:6px}
+.provenance span{display:grid;gap:0;background:#fff8e8;border:1px solid #efd9a9;border-radius:3px;padding:3px 8px}
+.provenance i{font-style:normal;font-size:9px;font-weight:800;letter-spacing:.05em;color:#8a5b13}
+.provenance b{font-size:11px;color:#5d3b05}
+.provenance.compact span{padding:2px 6px}.provenance.compact b{font-size:10px}
+.period-panel{display:grid;gap:8px;text-align:left}
+.period-panel .pp-status{padding:7px 10px;border-radius:3px;font-size:12px;border-left:3px solid #0a6ed1;background:#edf7ff}
+.period-panel .pp-status.ok{border-color:#107E3E;background:#f2faf4}.period-panel .pp-status.bad{border-color:#BB0000;background:#fff3f3}.period-panel .pp-status.warn{border-color:#d99a25;background:#fff8eb}
+.period-panel .pp-kpis{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.period-panel .pp-kpis div{background:#f7fafc;border:1px solid #dce6ec;border-radius:3px;padding:6px 8px;display:grid;gap:1px}
+.period-panel .pp-kpis span{font-size:10px;font-weight:800;text-transform:uppercase;color:#557695}
+.period-panel .pp-kpis strong{font-size:15px}.period-panel .pp-kpis small{font-size:10.5px;color:#587184;line-height:1.3}
+.period-panel .pp-kpis .attn{background:#fff9ec;border-color:#efd9a9}
+.period-panel .pp-actions{display:flex;flex-wrap:wrap;gap:6px}
+.period-panel .pp-actions button{font:inherit;font-size:12px;font-weight:700;padding:7px 10px;border-radius:4px;border:1px solid #a8cce6;background:#edf7ff;color:#075793;cursor:pointer}
+.period-panel .pp-actions button.primary{background:#0a6ed1;color:#fff;border-color:#0a6ed1}
+.period-nodata{padding:14px;border:1px dashed #BB0000;border-radius:4px;color:#BB0000;font-weight:800;text-align:center}
+.pp-sign{font-size:10.5px;color:#587184;line-height:1.35;margin:0}
+.close-process>summary{cursor:pointer;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#557695;padding:4px 0}
+/* Level 2 report: matching and posting guidance */
+.rr-match-totals{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
+.rr-match-totals div{background:#f7fafc;border:1px solid #dce6ec;border-radius:3px;padding:5px 9px;display:grid}
+.rr-match-totals span{font-size:10px;font-weight:800;text-transform:uppercase;color:#557695}.rr-match-totals strong{font-size:14px}
+.rr-match-ok{color:#107E3E;font-weight:800}.rr-match-bad{color:#BB0000;font-weight:800}
+.rr-guide ol{padding-left:18px}.rr-guide li{margin-bottom:6px;font-size:12px;line-height:1.4}
+.rr-guide .rr-apps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0}
+.rr-guide .rr-apps article{border:1px solid #dce6ec;border-radius:3px;padding:8px;background:#f7fafc}
+.rr-guide .rr-apps b{font-size:12px}.rr-guide .rr-apps p{font-size:11.5px;margin:3px 0 0;line-height:1.35}
+.rr-guide .rr-not-done{background:#fff8e8;border:1px solid #efd9a9;border-radius:3px;padding:8px 10px;margin-top:8px}
+.rr-guide .rr-not-done li{font-size:11.5px;margin-bottom:3px}
+@media(max-width:900px){.rr-guide .rr-apps{grid-template-columns:1fr}}
+.aw-period{margin:6px 0;font-size:12px;color:#34495c}.aw-period b{color:#075793}
+.period-stale{margin:6px 0;padding:8px 12px;border:1px solid #d99a25;border-left:4px solid #d99a25;background:#fff8eb;border-radius:3px;font-size:12px;font-weight:700;color:#5d3b05}
+.period-stale button{font:inherit;font-size:12px;font-weight:700;margin-left:10px;padding:4px 10px;border:1px solid #0a6ed1;background:#0a6ed1;color:#fff;border-radius:4px;cursor:pointer}
+.header-meta .period-select{flex-direction:row;align-items:center;display:flex;gap:6px}.header-meta .period-select select{min-width:0;padding:4px 6px;font-size:12px}
+.entry-ask .period-select{margin-right:8px}
+.case-extra{margin-top:10px;padding-top:8px;border-top:1px solid #e2ebf0}.case-extra p{font-size:12px;line-height:1.4;margin:4px 0}
+.period-panel .provenance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.period-panel .provenance span{padding:2px 5px}.period-panel .provenance b{font-size:9.5px;line-height:1.2}.period-panel .provenance i{font-size:8px}
+.period-panel .pp-actions button{font-size:11px;padding:6px 8px}
+.period-panel .pp-kpis div{padding:5px 7px}.period-panel .pp-kpis strong{font-size:14px}
+@media(max-width:700px){.header-meta{flex-wrap:wrap;gap:4px 8px;max-width:100%}.header-meta .header-separator{display:none}.header-meta .pill.simulated{display:none}.agent-ask-bar{flex-wrap:wrap}.agent-ask-bar .ask-main{flex:1 1 100%;min-width:0}.period-effective{max-width:100%}}

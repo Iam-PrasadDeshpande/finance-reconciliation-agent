@@ -3,22 +3,26 @@ import './agents.css';
 import './workbench.css';
 import './brief.css';
 import {ROLES} from './roleData';
+import {DEFAULT_PERIOD,defaultAsk} from './period';
+import {EffectivePeriod,PeriodSelect,useAskText} from './PeriodUi';
 
 const EXAMPLES=['Reconcile November 2026 company code 1000 ledger 0L USD','Investigate this variance','Explain the route controls'];
 
-export default function Entry({periodCount,localBundle,onOpenApp,onOpenAgents,onOpenArchitecture,onAsk,onGo}){
-  const [text,setText]=useState(EXAMPLES[0]);
+export default function Entry({periodCount,localBundle,onOpenApp,onOpenAgents,onOpenArchitecture,onAsk,onGo,period=DEFAULT_PERIOD,periods,onPeriod}){
+  const [text,setText]=useAskText(period);
+  const examples=[defaultAsk(period),...EXAMPLES.slice(1)];
   return <main className="entry" aria-label="Finance agents home">
     <section className="entry-hero">
       <span className="eyebrow">FINANCE / AGENTS</span>
       <h2>Ask the finance agents</h2>
       <p>An orchestrator plans your request and calls specialist agents with MCP-style tool calls. They read the simulated SAP finance layers; people approve and nothing is posted.</p>
       <form className="entry-ask" onSubmit={event=>{event.preventDefault();if(text.trim())onAsk(text.trim())}}>
-        <label htmlFor="entry-ask-input" className="sr-only">What should the agents do?</label>
+        {onPeriod&&<PeriodSelect period={period} periods={periods} onPeriod={onPeriod} id="entry-period"/>}<label htmlFor="entry-ask-input" className="sr-only">What should the agents do?</label>
         <input id="entry-ask-input" value={text} onChange={event=>setText(event.target.value)} aria-label="What should the agents do?"/>
         <button type="submit" className="primary">Run plan →</button>
       </form>
-      <div className="entry-examples" role="group" aria-label="Example requests">{EXAMPLES.map(item=><button type="button" key={item} onClick={()=>setText(item)}>{item}</button>)}</div>
+      <div className="entry-examples" role="group" aria-label="Example requests">{examples.map(item=><button type="button" key={item} onClick={()=>setText(item)}>{item}</button>)}</div>
+      <EffectivePeriod text={text} period={period} periods={periods}/>
     </section>
     <section className="entry-how" aria-label="How it works">
       <div><strong>You ask</strong><span>Plain request</span></div><b aria-hidden="true">→</b>
