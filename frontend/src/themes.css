@@ -1,0 +1,17 @@
+/* SAP Fiori themes for the whole application.
+   Quartz Light is the stylesheet as written. The other themes change the accent token and re-map the rendered colours on the root
+   element, so every screen (including inline diagrams and dialogs) follows without a second stylesheet per screen. */
+:root{--f-accent:#0a6ed1}
+.theme-switch{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#526d80}
+.theme-switch select{font-size:11px;padding:3px 6px;border:1px solid #b8c7d3;border-radius:4px;background:#fff;color:#223548;max-width:170px}
+html[data-theme="morning-horizon"]{--f-accent:#0070f2;background:#f5f6f7}
+html[data-theme="quartz-dark"]{--f-accent:#0a6ed1;background:#fff;filter:invert(.9) hue-rotate(180deg)}
+html[data-theme="evening-horizon"]{--f-accent:#0070f2;background:#fff;filter:invert(.93) hue-rotate(180deg) brightness(1.02)}
+html[data-theme="hcw"]{--f-accent:#0040b0;background:#fff;filter:contrast(1.45) saturate(.6)}
+html[data-theme="hcb"]{--f-accent:#0a6ed1;background:#fff;filter:invert(1) hue-rotate(180deg) contrast(1.5) saturate(.7)}
+/* Dark themes: keep photos, flags and QR-like images natural; diagrams are inline SVG and follow the theme */
+html[data-theme="quartz-dark"] img,html[data-theme="evening-horizon"] img,html[data-theme="hcb"] img{filter:invert(1) hue-rotate(180deg)}
+html[data-theme="hcw"] *,html[data-theme="hcb"] *{text-shadow:none}
+html[data-theme="hcw"] button,html[data-theme="hcw"] select,html[data-theme="hcw"] input,html[data-theme="hcb"] button,html[data-theme="hcb"] select,html[data-theme="hcb"] input{border-width:2px}
+html[data-theme="hcw"] :focus-visible,html[data-theme="hcb"] :focus-visible,html[data-theme="quartz-dark"] :focus-visible,html[data-theme="evening-horizon"] :focus-visible{outline:3px solid #ffbf00;outline-offset:2px}
+@media(max-width:720px){.theme-switch span{display:none}.theme-switch select{max-width:120px}}

@@ -15,7 +15,7 @@ def check(page, url, hosted):
     page.get_by_role("button", name="Open Close & reconcile").wait_for(timeout=30000)
     # Level 1 entry: agent-first, no open-decision list.
     assert page.locator(".entry-card").count() == 4
-    assert page.locator(".entry-roles li").count() == 4
+    assert page.locator(".entry-roles").count() == 0  # the audience block was removed from My Home
     assert page.get_by_text("Open decisions").count() == 0
     assert page.get_by_label("What should the agents do?").input_value() != ""
     page.get_by_role("button", name="Open Close & reconcile").click()

@@ -2,7 +2,6 @@ import React,{useState} from 'react';
 import './agents.css';
 import './workbench.css';
 import './brief.css';
-import {ROLES} from './roleData';
 import {DEFAULT_PERIOD} from './period';
 import {useCockpit} from './cockpit';
 import {EffectivePeriod,PeriodSelect,RouteChip,useAskText} from './PeriodUi';
@@ -37,7 +36,6 @@ export default function Entry({periodCount,localBundle,onOpenApp,onOpenAgents,on
       <li><button type="button" className="entry-card" onClick={onOpenAgents}><span aria-hidden="true">◆</span><strong>Watch the agents work</strong><small>See the orchestrator call each agent and which layers it reached.</small><em>Open Agents →</em></button></li>
       <li><button type="button" className="entry-card" onClick={onOpenArchitecture}><span aria-hidden="true">⬡</span><strong>Review the architecture</strong><small>Live run, the three scenarios (SAP-centric, AgentCore-centric, SAP-hosted hybrid), MCP hosting and diagrams.</small><em>Open Architecture →</em></button></li>
     </ul>
-    {onGo&&<section className="entry-roles" aria-label="Start from your audience"><h3>Presenting this? Start from your audience</h3><ul>{ROLES.map(role=><li key={role.id}><strong>{role.name}</strong><small>{role.ask}</small><div className="role-links">{role.links.map(([id,label])=><button type="button" key={id+label} onClick={()=>onGo(id)}>{label} →</button>)}</div></li>)}</ul></section>
-    }    {localBundle&&<div className="entry-download"><div><strong>Run it on your laptop</strong><span>Windows bundle. Python is needed on first launch. {Math.round(localBundle.bytes/1024)} KB · SHA-256 {localBundle.sha256.slice(0,12)}…</span></div><a href={localBundle.url} download="finance_reconciliation_local_windows.zip" aria-label="Download local Windows demo bundle">Download Windows bundle ↓</a></div>}
+    {localBundle&&<div className="entry-download"><div><strong>Run it on your laptop</strong><span>Windows bundle. Python is needed on first launch. {Math.round(localBundle.bytes/1024)} KB · SHA-256 {localBundle.sha256.slice(0,12)}…</span></div><a href={localBundle.url} download="finance_reconciliation_local_windows.zip" aria-label="Download local Windows demo bundle">Download Windows bundle ↓</a></div>}
   </main>;
 }
