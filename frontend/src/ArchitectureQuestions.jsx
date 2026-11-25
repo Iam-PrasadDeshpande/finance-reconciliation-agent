@@ -103,7 +103,7 @@ export default function ArchitectureQuestions({questions=[],routePlaybooks={},fo
     <aside className="surface lab-decision">
       <div className="section-heading"><div><span className="eyebrow">MEETING DECISION RECORD</span><h2>Required alignment</h2></div></div>
       {question?<>
-        <div className="lab-position"><span>Discussion baseline · not approved policy</span><p>{question.current_position}</p></div>
+        <div className="lab-position"><span>Discussion baseline · not approved policy</span><p>{question.current_position}</p>{question.scenario_position?.[route]&&<p data-testid="scenario-position"><strong>{route}:</strong> {question.scenario_position[route]}</p>}</div>
         <div className="lab-decision-question"><span>Decision to resolve</span><strong>{question.decision}</strong><small>Owner · {question.owner}</small></div>
         <div className="lab-open-status">OPEN · No policy or tenant approval is asserted by this simulator.</div>
         <div className="lab-next-action"><span>Next action</span><strong>{question.next_action}</strong></div>

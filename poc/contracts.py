@@ -6,7 +6,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
 
-Scenario = Literal["S1", "S2"]
+Scenario = Literal["S1", "S2", "S3"]
 
 
 class IdentityContext(BaseModel):

@@ -418,6 +418,25 @@ edges:
   - parent_event_id
   error_behavior: fail closed; audited
   mode: synchronous
+- edge_id: agentcore_audit__apigee_gateway
+  source: agentcore_audit
+  target: apigee_gateway
+  direction: request and response
+  flow_type: read
+  trigger: component invocation
+  transport: local-python; synthetic simulator
+  schema: FlowEvent v1.0
+  redacted_payload_example:
+    scope: 1000/0L/2026-11
+    synthetic: true
+  credential_policy_decision: scoped simulator policy
+  expected_response: typed response or deny
+  correlation_fields:
+  - case_id
+  - trace_id
+  - parent_event_id
+  error_behavior: fail closed; audited
+  mode: synchronous
 - edge_id: agentcore_audit__sap_read_tool
   source: agentcore_audit
   target: sap_read_tool

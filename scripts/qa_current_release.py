@@ -94,7 +94,7 @@ def check(page, url, hosted):
     def apply(condition):
         page.locator(".rr-condition select").select_option(condition)
         page.get_by_role("button", name="Apply to").click()
-        page.wait_for_timeout(1500 if hosted else 400)
+        page.wait_for_timeout(1500 if hosted else 1200)
 
     apply("baseline")
     open_report()

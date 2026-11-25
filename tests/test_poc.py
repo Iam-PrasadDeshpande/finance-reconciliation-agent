@@ -108,7 +108,13 @@ def test_fixture_calculation_and_scenario_equivalence(env):
     assert any(e["operation"]=="direct_api" for e in e1)
     assert {"s4_live_gl","s4_journals","cfin_status","bw_hierarchy","bw_load"}<={e["target_component_id"] for e in e1}
     assert not any(e["source_component_id"].startswith("agentcore_gateway") for e in e1)
-    assert not any(e["source_component_id"].startswith("apigee_gateway") for e in e2)
+    # V5.1: in S2 the call passes AgentCore Gateway and then Apigee; S1 and S3 never touch AgentCore Gateway
+    gate_order=[e["target_component_id"] for e in e2 if e["target_component_id"] in ("agentcore_gateway","apigee_gateway") and e["direction"]=="request"]
+    assert gate_order[:2]==["agentcore_gateway","apigee_gateway"]
+    s3=runtime.reconcile(request("S3"));e3=store.events(s3["case_id"])
+    assert s3["variance"]["amount"]==s1["variance"]["amount"] and s3["variance"]["state"]==s1["variance"]["state"]
+    assert any(e["operation"]=="cross_cloud_mcp" for e in e3) and not any("agentcore_gateway" in (e["source_component_id"],e["target_component_id"]) for e in e3)
+    assert all(e["scenario"]=="S3" for e in e3)
     assert all(e["payload_summary"].get("synthetic",True) for e in e1)
     assert any(e["direction"]=="response" and e["parent_event_id"] for e in e1)
     assert journal_count(store)==0

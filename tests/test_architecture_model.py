@@ -190,3 +190,90 @@ def test_no_page_or_backend_text_still_uses_the_old_scenario_meaning():
     for doc in ("MCP_HOSTING_GOVERNANCE.md", "POC_LIMITATIONS.md"):
         text = (ROOT / "docs" / doc).read_text(encoding="utf-8")
         assert not re.search(r"API hub|Google Agent Registry|S3 AgentCore-to-Apigee", text), doc
+
+
+def test_hosting_vs_registration_diagram_matches_the_scenario_facts():
+    spec = m.diagrams()["D5"]
+    cell = {n["id"]: n["title"] for n in spec["nodes"]}
+    for col, sid in enumerate(("S1", "S2", "S3"), start=1):
+        sc = m.SCENARIOS[sid]
+        assert cell[f"c0_{col}"] == sc["agent_runtime"]
+        assert cell[f"c1_{col}"] == sc["agent_registry"]
+        assert cell[f"c2_{col}"].split(",")[0] in sc["custom_mcp_runtime"].replace("AWS ", "").replace("SAP BTP ", "")
+        assert cell[f"c3_{col}"] == sc["mcp_registry"]
+        assert ("AgentCore Gateway" in cell[f"c4_{col}"]) == sc["agentcore_gateway"] and "Apigee" in cell[f"c4_{col}"]
+        assert cell[f"c5_{col}"] == sc["llm_gateway"]
+
+
+def test_comparison_diagram_shows_each_scenario_chain_portkey_and_registry():
+    spec = m.diagrams()["D10"]
+    ids = {n["id"] for n in spec["nodes"]}
+    for sid in ("S1", "S2", "S3"):
+        sc = m.SCENARIOS[sid]
+        assert f"{sid}_portkey" in ids and f"{sid}_reg" in ids and f"{sid}_apigee" in ids
+        assert (f"{sid}_gw" in ids) == sc["agentcore_gateway"]
+        reg = next(n for n in spec["nodes"] if n["id"] == f"{sid}_reg")
+        assert (reg["title"] == "AWS Agent Registry") == sc["aws_agent_registry"]
+        assert ("PENDING" in reg.get("status", "")) == (sc["agent_registry"] == m.UNRESOLVED)
+    runtime = [(a, b) for a, b, kind, *_ in spec["edges"] if kind == "invoke"]
+    assert all("reg" not in a and "reg" not in b and "portkey" not in a and "portkey" not in b for a, b in runtime)
+
+
+def test_identity_diagram_has_six_identities_and_the_negative_case():
+    spec = m.diagrams()["D6"]
+    titles = [n["title"] for n in spec["nodes"]]
+    for need in ("Business user", "Agent workload identity", "MCP client identity", "Gateway identity", "Integration Suite identity", "SAP backend identity", "Negative case", "What differs by scenario"):
+        assert need in titles, need
+    assert any("Global User ID" in n["sub"] and "not principal propagation" in n["sub"] for n in spec["nodes"])
+
+
+def test_every_diagram_carries_the_evaluation_banner_and_portkey_only_llm_path():
+    for key, spec in m.diagrams().items():
+        assert "NOT AN APPROVED ARCHITECTURE" in spec["banner"], key
+    d7 = m.diagrams()["D7"]
+    assert [(a, b) for a, b, k, *_ in d7["edges"] if k == "llm"] == [("agent", "portkey"), ("portkey", "llm")]
+
+
+def test_s3_is_a_real_runnable_scenario_end_to_end(tmp_path):
+    from poc.contracts import ReconciliationRequest
+    from poc.gateway import GATES
+    from poc.runtime import RuntimeSimulator
+    from poc.foundry import FoundrySimulator
+    from poc.contracts import AgentManifest
+    from poc.store import Store
+    assert GATES == {"S1": ("apigee",), "S2": ("agentcore", "apigee"), "S3": ("apigee",)}
+    store = Store(tmp_path / "s3.sqlite3")
+    FoundrySimulator(store).create(AgentManifest(version="s3-test", tool_bindings=["sap.read", "databricks.read", "sap.post"]))
+    runtime = RuntimeSimulator(store)
+    out = {sid: runtime.reconcile(ReconciliationRequest(scenario=sid, company_code="1000", ledger="0L", period="2026-11", currency="USD")) for sid in ("S1", "S2", "S3")}
+    assert out["S1"]["variance"]["amount"] == out["S2"]["variance"]["amount"] == out["S3"]["variance"]["amount"]
+    touched = {sid: {e["target_component_id"] for e in store.events(r["case_id"])} for sid, r in out.items()}
+    assert "agentcore_gateway" in touched["S2"] and "apigee_gateway" in touched["S2"]
+    assert "agentcore_gateway" not in touched["S1"] and "agentcore_gateway" not in touched["S3"]
+
+
+def test_treasury_reads_follow_each_scenario_gateway_chain(tmp_path):
+    from poc.store import Store
+    from poc.treasury_agents import _read_chain
+    store = Store(tmp_path / "t.sqlite3")
+    seen = {}
+    for sid in ("S1", "S2", "S3"):
+        _read_chain(store, f"case-{sid}", sid, "get_opening_balances", lambda: {"ok": True})
+        seen[sid] = [e["target_component_id"] for e in store.events(f"case-{sid}") if e["direction"] == "request"]
+    assert "agentcore_gateway" not in seen["S1"] and "agentcore_gateway" not in seen["S3"]
+    assert seen["S2"].index("agentcore_gateway") < seen["S2"].index("apigee_gateway") < seen["S2"].index("sap_read_tool")
+    assert seen["S1"].index("apigee_gateway") < seen["S1"].index("sap_read_tool")
+
+
+def test_current_documents_use_the_v5_1_scenario_meaning():
+    stale = re.compile(r"S1 Apigee|S2 AgentCore (?:route|gateway)|S1 and S2 (?:are|remain)|S3 combined|Combined candidate|Microsoft Foundry|Joule Studio|Entra|AWS runtime|seven (?:architecture|MCP) diagrams|PTP/PAP|Bedrock")
+    current = ["README.md", "HANDOVER.md", "CLAUDE.md", "FIRST_TASK_FOR_CLAUDE.txt", "docs/ARCHITECTURE_MAPPING.md", "docs/POC_LIMITATIONS.md", "docs/MCP_HOSTING_GOVERNANCE.md", "docs/LOCAL_LAPTOP_GUIDE.md", "docs/COCKPIT_ARCHITECTURE.md"]
+    hits = {}
+    for name in current:
+        if not (ROOT / name).exists():  # owner handover files are not part of every checkout
+            continue
+        text = (ROOT / name).read_text(encoding="utf-8")
+        found = stale.search(text)
+        if found:
+            hits[name] = text[max(0, found.start() - 40):found.end() + 40]
+    assert hits == {}, hits

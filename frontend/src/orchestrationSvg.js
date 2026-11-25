@@ -12,13 +12,13 @@ const LAYER = {
   'SAP BAIP': ['SAP integration', 'integration', 'API Management and iFlow'],
   'SAP backends': ['SAP backends', 'backend', 'S/4HANA, Central Finance, BW'],
   'Enterprise Databricks': ['Databricks', 'data', 'Data evidence'],
-  'AWS runtime': ['Agent runtime', 'domain', 'Runs the finance agent'],
+  'Agent runtime': ['Agent runtime', 'domain', 'Runs the finance agent'],
   'Business entry': ['Business request', 'agent', 'Intent and scope'],
-  'AWS controls': ['Agent identity', 'identity', 'Workload identity'],
+  'Agent controls': ['Agent identity', 'identity', 'Workload identity'],
   'Model branch': ['AI advisory', 'agent', 'Explanation only'],
   'Write approval': ['Write approval', 'decision', 'Separate branch'],
   'Future BDC': ['BDC (future)', 'data', 'Reference only'],
-  'AI Foundry design time': ['Agent registration', 'registry', 'Design time'],
+  'Design time and registration': ['Agent registration', 'registry', 'Design time'],
 };
 const STATE_COLOR = {done: '#107E3E', running: '#E9730C', held: '#E9730C', blocked: '#BB0000', pending: undefined};
 

@@ -299,7 +299,7 @@ def treasury_view(period:str):
 
 @app.post("/api/agent/plan")
 def agent_plan(data:ChatInput):
-    if data.scenario not in ("S1","S2"): raise HTTPException(422,"Route must be S1 or S2")
+    if data.scenario not in ("S1","S2","S3"): raise HTTPException(422,"Route must be S1, S2 or S3")
     if len(data.message)>400: raise HTTPException(422,"Message is too long")
     try:
         if data.period is not None and (not re.fullmatch(r"\d{4}-\d{2}",data.period) or data.period not in store.available_periods()): raise Denied(f"NO DATA AVAILABLE FOR {data.period}")
@@ -457,10 +457,10 @@ def compare():
     sample=Store(Path(":memory:"))
     FoundrySimulator(sample).create(AgentManifest(version="comparison-1.0",tool_bindings=["sap.read","databricks.read","sap.post"]))
     isolated_runtime=RuntimeSimulator(sample)
-    results=[isolated_runtime.reconcile(ReconciliationRequest(scenario=scenario,company_code="1000",ledger="0L",period="2026-11",currency="USD")) for scenario in ("S1","S2")]
+    results=[isolated_runtime.reconcile(ReconciliationRequest(scenario=scenario,company_code="1000",ledger="0L",period="2026-11",currency="USD")) for scenario in ("S1","S2","S3")]
     traces=[sample.events(r["case_id"]) for r in results]
     gateway_hops=[[e["operation"] for e in events if "gateway" in e["source_component_id"] or "gateway" in e["target_component_id"] or "apigee" in e["source_component_id"] or "apigee" in e["target_component_id"]] for events in traces]
-    return {"equivalent":results[0]["variance"]==results[1]["variance"],"results":results,"gateway_hops":gateway_hops,"synthetic":True}
+    return {"equivalent":all(r["variance"]==results[0]["variance"] for r in results),"results":results,"gateway_hops":gateway_hops,"synthetic":True}
 
 @app.get("/api/failures")
 def failure_kinds(): return {"kinds":KINDS}

@@ -331,24 +331,25 @@ def _d5() -> dict:
         ("MCP implementation hosting and execution", ["Cloud Foundry, only if custom code is needed", "AgentCore Runtime, only if custom code is needed", "Cloud Foundry, only if custom code is needed"]),
         ("MCP registration and discovery", [UNRESOLVED, "AWS Agent Registry", "AWS Agent Registry"]),
         ("MCP gateway / exposure (shared responsibility)", ["Google Apigee", "AgentCore Gateway + Google Apigee", "Google Apigee"]),
+        ("LLM gateway (common to all)", ["Portkey", "Portkey", "Portkey"]),
     ]
     nodes, edges = [], []
     for r, (label, vals) in enumerate(rows):
-        nodes.append(n(f"l{r}", r, 0, label, "Independent decision" if r < 4 else "Shared across scenarios", "decision" if r < 4 else "gateway"))
+        nodes.append(n(f"l{r}", r, 0, label, "Independent decision" if r < 4 else "Shared across scenarios", "decision" if r < 4 else ("gateway" if r == 4 else "llm")))
         for c, v in enumerate(vals, start=1):
-            kind = ("agent", "registry", "domain", "registry", "gateway")[r]
+            kind = ("agent", "registry", "domain", "registry", "gateway", "llm")[r]
             extra = {"dashed": True} if (v == UNRESOLVED) else {}
             nodes.append(n(f"c{r}_{c}", r, c, v, cols[c - 1], kind, **extra, **({"status": "PRODUCT PENDING", "statusColor": "#B3261E"} if v == UNRESOLVED else {})))
     for c in (1, 2, 3):
         edges.append(e(f"c0_{c}", f"c1_{c}", "registry", "metadata only" if c != 2 else "metadata", off=0))
         edges.append(e(f"c2_{c}", f"c3_{c}", "registry", "metadata only"))
-    return _spec("D5", "MCP hosting versus registration", "Four independent decisions, plus the MCP gateway as a separate shared responsibility", nodes, edges, cols=4, legend=["registry"],
+    return _spec("D5", "MCP hosting versus registration", "Four independent decisions, plus the MCP gateway and the LLM gateway as separate shared responsibilities", nodes, edges, cols=4, legend=["registry"], nh=76, ys=[104, 208, 312, 416, 520, 624],
                  footer="Using AWS Agent Registry (S3) does not require AWS agent hosting: the agent still runs on SAP BTP Cloud Foundry. The dashed arrow carries metadata only.")
 
 
 def _d6() -> dict:
     nodes = [
-        n("idp", 0, 1, "SAP Cloud Identity Services (IAS) · candidate trust component", "Evaluate as trust component; Global User ID as identity-correlation attribute where supported", "identity", span=3),
+        n("idp", 0, 1, "SAP Cloud Identity Services (IAS) · candidate trust component", "Evaluate as trust component; Global User ID as identity-correlation attribute where supported", "identity", span=3, h=70),
         n("user", 1, 0, "Business user", "Authenticates at the IdP", "ui"),
         n("agent", 1, 1, "Agent workload identity", "Identity of the agent runtime", "agent"),
         n("mcp", 1, 2, "MCP client identity", "Token the client presents to the gateway", "agent"),
@@ -358,7 +359,8 @@ def _d6() -> dict:
         n("notenough", 2, 0, "Not sufficient on its own", "A Global User ID or an ordinary HTTP header is not principal propagation", "decision", span=2, h=80),
         n("tx", 2, 2, "Token exchange / user mapping", "Subject to validation at every boundary: PENDING, not proven", "decision", span=2, h=80, dashed=True),
         n("neg", 2, 4, "Negative case", "Agent may discover and call the tool; SAP rejects an operation the mapped user lacks authority for", "decision", span=2, h=80),
-        n("auth", 3, 0, "SAP backend is the business authority", "Registry visibility, gateway access and tool discovery never grant business authorization. Business approval is a separate step.", "backend", span=6, h=70),
+        n("auth", 3, 0, "SAP backend is the business authority", "Registry visibility, gateway access and tool discovery never grant business authorization. Business approval is a separate step.", "backend", span=3, h=84),
+        n("byscen", 3, 3, "What differs by scenario", "S1: agent to Apigee, one hop. S2: agent to AgentCore Gateway to Apigee, two hops. S3: as S1, plus a separate registry identity.", "decision", span=3, h=84),
     ]
     edges = [
         e("user", "agent", "identity", "delegated user token"), e("agent", "mcp", "identity", "client credential"), e("mcp", "gw", "identity", "bearer · validated"),
@@ -421,28 +423,30 @@ def _d9() -> dict:
 
 
 def _d10() -> dict:
+    registry = {"S1": ("Registry", UNRESOLVED, True), "S2": ("AWS Agent Registry", "Agent and MCP records", False), "S3": ("AWS Agent Registry", "Metadata only, not a hop", False)}
+    host = {"S1": ("Cloud Foundry agent", "SAP BTP", "SAP-centric"), "S2": ("AgentCore Runtime agent", "AWS", "AWS AgentCore-centric"), "S3": ("Cloud Foundry agent", "SAP BTP", "SAP-hosted hybrid · preferred candidate")}
     nodes, edges = [], []
-    rows = {
-        "S1": [("ui", "SAP Fiori / UI", "ui", ""), ("agent", "Cloud Foundry agent", "agent", "SAP BTP"), None, ("apigee", "Apigee MCP/API", "gateway", "SAP-facing gateway"), ("int", "Integration Suite", "integration", "SAP integration"), ("sap", "SAP backend", "backend", "Authorizes")],
-        "S2": [("ui", "SAP Fiori / UI", "ui", ""), ("agent", "AgentCore Runtime agent", "agent", "AWS"), ("gw", "AgentCore Gateway", "gateway", "Enterprise gateway"), ("apigee", "Apigee MCP/API", "gateway", "SAP-facing gateway"), ("int", "Integration Suite", "integration", "SAP integration"), ("sap", "SAP backend", "backend", "Authorizes")],
-        "S3": [("ui", "SAP Fiori / UI", "ui", ""), ("agent", "Cloud Foundry agent", "agent", "SAP BTP"), None, ("apigee", "Apigee MCP/API", "gateway", "SAP-facing gateway"), ("int", "Integration Suite", "integration", "SAP integration"), ("sap", "SAP backend", "backend", "Authorizes")],
-    }
-    registry = {"S1": ("Registry: " + UNRESOLVED, "S1 · SAP-centric"), "S2": ("Registry: AWS Agent Registry", "S2 · AWS AgentCore-centric"), "S3": ("Registry: AWS Agent Registry (metadata only)", "S3 · SAP-hosted hybrid · preferred candidate")}
-    for r, sid in enumerate(SCENARIO_IDS):
+    for k, sid in enumerate(SCENARIO_IDS):
+        r = 2 * k
+        chain = [("ui", "SAP Fiori / UI", host[sid][2], "ui", 0), ("agent", host[sid][0], host[sid][1], "agent", 1)]
+        if sid == "S2":
+            chain.append(("gw", "AgentCore Gateway", "Enterprise gateway", "gateway", 2))
+        chain += [("apigee", "Apigee MCP/API", "SAP-facing gateway", "gateway", 3), ("int", "Integration Suite", "SAP integration", "integration", 4), ("sap", "SAP backend", "Authorizes", "backend", 5)]
         prev = None
-        for c, item in enumerate(rows[sid]):
-            if item is None:
-                continue
-            nid = f"{sid}_{item[0]}"
-            sub = registry[sid][1] if item[0] == "ui" else item[3]
-            if item[0] == "agent":
-                sub += ". " + registry[sid][0]
-            nodes.append(n(nid, r, c, item[1], sub, item[2]))
+        for key, title, sub, kind, col in chain:
+            nid = f"{sid}_{key}"
+            nodes.append(n(nid, r, col, title, sub, kind))
             if prev:
                 edges.append(e(prev, nid, "invoke", ""))
             prev = nid
-    return _spec("D10", "Three-scenario comparison", "Same labels and ownership boundaries in every scenario; the registry is never in the path", nodes, edges, cols=6, legend=["invoke"], nh=100,
-                 ys=[118, 258, 398, 528, 668], lanes=[(0, "S1"), (1, "S2"), (2, "S3 · PREFERRED CANDIDATE")],
+        nodes.append(n(f"{sid}_portkey", r + 1, 1, "Portkey", "LLM gateway", "llm", h=56))
+        edges.append(e(f"{sid}_agent", f"{sid}_portkey", "llm", ""))
+        title, sub, pending = registry[sid]
+        extra = {"dashed": True, "status": "PENDING", "statusColor": "#B3261E"} if pending else {}
+        nodes.append(n(f"{sid}_reg", r + 1, 2, title, sub, "registry", h=56, **extra))
+        edges.append(e(f"{sid}_agent", f"{sid}_reg", "registry", "", off=22))
+    return _spec("D10", "Three-scenario comparison", "Same labels and ownership boundaries in every scenario; Portkey is common and the registry is never in the path", nodes, edges, cols=6, legend=["invoke", "llm", "registry"], nh=62,
+                 ys=[104, 176, 304, 376, 504, 576], lanes=[(0, "S1"), (2, "S2"), (4, "S3 · PREFERRED CANDIDATE")],
                  footer="Portkey is the LLM gateway in all three. The SAP backend decides authorization in all three. S3-B (AgentCore Gateway mandated) is a separate option, not drawn.")
 
 

@@ -167,6 +167,39 @@ with sync_playwright() as pw:
     check("the diagram comparison shows two scenario diagrams", f.locator(".dd-compare-grid [data-testid^=diagram-D]").count() == 2)
     check("the diagrams page keeps the common-rules note", "Portkey is the LLM gateway" in body())
 
+    # ---- Live run: all three scenarios can be selected and run
+    arch("Live run")
+    route = f.locator("label", has_text="Route").locator("select")
+    check("the live run offers S1, S2 and S3", [o.get_attribute("value") for o in route.locator("option").all()] == ["S1", "S2", "S3"])
+    for sid, hop in (("S3", "Apigee"), ("S2", "AgentCore Gateway, then Apigee")):
+        route.select_option(sid)
+        f.locator("label", has_text="Pace").locator("select").select_option(index=0)
+        f.get_by_role("button", name="Run architecture").click()
+        f.get_by_role("heading", name="Case complete").wait_for(timeout=150000)
+        zone = f.locator("[data-testid=diagram-live] svg").inner_html()
+        check(f"a {sid} run completes and names its gateway path '{hop}'", all(word in zone for word in hop.split(",")[0].split(" ")[:2]) and ("then Apigee" in zone if sid == "S2" else "Apigee" in zone) and SC[sid]["name"].split(" · ")[1].split()[0] in zone)
+
+    # ---- Architecture questions: scenario-specific, with playbooks for all three
+    arch("Live run")
+    f.get_by_role("button", name="Review open architecture questions").click()
+    f.locator(".question-card").first.wait_for(timeout=60000)
+    f.locator(".question-card").first.click()
+    f.get_by_label("Architecture route").wait_for(timeout=60000)
+    seen_positions = []
+    for sid in ("S1", "S2", "S3"):
+        f.get_by_label("Architecture route").select_option(sid); page.wait_for_timeout(300)
+        seen_positions.append(f.locator("[data-testid=scenario-position]").inner_text())
+    check("the question page says what the question means in each scenario", len(set(seen_positions)) == 3 and "Cloud Foundry" in seen_positions[0] and "AgentCore Gateway" in seen_positions[1] and "AWS Agent Registry" in seen_positions[2], " | ".join(x[:30] for x in seen_positions))
+    f.get_by_role("button", name="Hosting & dependencies").click()
+    plan = f.get_by_role("dialog", name="Gateway implementation plan")
+    plan.wait_for(timeout=30000)
+    check("hosting and dependencies has a plan for each of the three scenarios", plan.get_by_role("navigation", name="Gateway scenarios").get_by_role("button").count() == 3)
+    plan.get_by_role("button", name="Close implementation plan").click()
+    f.get_by_role("button", name="Run selected probe").click()
+    f.locator(".lab-flow-panel .pill").filter(has_text="complete").wait_for(timeout=60000)
+    check("a probe on S3 runs through the Cloud Foundry agent and Apigee, with no AgentCore Gateway", "SAP BTP Cloud Foundry agent" in f.locator(".lab-flow-panel").inner_text() and "AgentCore Gateway" not in f.locator(".lab-flow-panel").inner_text())
+    f.locator(".detail-return-bar button").click()
+
     # ---- no obsolete assumptions anywhere we visited
     allowed = "\n".join(seen_text)
     check("no Google agent hosting or Google agent registry appears in any architecture view", not OBSOLETE.search(allowed), (OBSOLETE.search(allowed) or [""])[0] if OBSOLETE.search(allowed) else "")

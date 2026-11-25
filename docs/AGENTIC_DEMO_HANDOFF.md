@@ -25,3 +25,5 @@ The business and architecture tabs show compact status and links; detailed evide
 `release/finance_architecture_streamlit.zip` contains **30 allowlisted files** and `UPLOAD_MANIFEST.json`, with SHA-256 `553943f46f1666db276b203cf4529f3ff41580e899175070616617feee26951b`. It includes the compiled frontend and Python entrypoint; it excludes the local SQLite files, `.venv`, `node_modules`, browser captures and environment files. The earlier archive hash in `INDEPENDENT_REVIEW_AND_RELEASE.md` refers to the prior version.
 
 Hosting had not occurred when this package was prepared. The public Streamlit app was deployed later from the dedicated GitHub repository with `streamlit_app.py` as its entrypoint. This archived package hash is not the current publication manifest. The simulated documents, AIF status, gateways, role switch and reprocess are not live SAP or vendor proof. G1–G7 remain open as described in `POC_LIMITATIONS.md`.
+
+> **Architecture V5.1 note.** The browser suites named above were removed because they targeted a retired interface. The current checks are listed in `docs/ARCHITECTURE_V5_1.md`.

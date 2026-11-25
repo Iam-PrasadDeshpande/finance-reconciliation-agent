@@ -17,6 +17,6 @@ export default function ScenarioDecisions({focus=IDS,title='The independent deci
   return <section className="surface sd-strip" data-testid="decision-strip" aria-label={title}>
     <div className="sd-head"><span className="eyebrow">{title.toUpperCase()}</span><span className="micro">Registration never decides hosting: AWS Agent Registry (S3) does not move the agent to AWS.</span></div>
     <div className="mg-scroll"><table className="mg-table sd-table"><thead><tr><th scope="col">Decision</th>{IDS.map(id=><th scope="col" key={id} className={focus.includes(id)?'sel':''}>{SCENARIOS[id].name}</th>)}</tr></thead>
-      <tbody>{rows.map(([label,field,hint])=><tr key={field}><th scope="row">{label}<small>{hint}</small></th>{IDS.map(id=><td key={id} className={`${focus.includes(id)?'sel':''} ${open(SCENARIOS[id][field])?'mg-open':''}`}>{SCENARIOS[id][field]}</td>)}</tr>)}</tbody></table></div>
+      <tbody>{rows.map(([label,field,hint])=><tr key={field}><th scope="row">{label}<small>{hint}</small></th>{IDS.map(id=><td key={id} data-label={SCENARIOS[id].name} className={`${focus.includes(id)?'sel':''} ${open(SCENARIOS[id][field])?'mg-open':''}`}>{SCENARIOS[id][field]}</td>)}</tr>)}</tbody></table></div>
   </section>;
 }

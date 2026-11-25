@@ -25,7 +25,7 @@ def mentioned_period(text: str) -> str | None:
 ARCHITECTURE_TOPICS = {
     "apigee": ("Google Apigee", "Apigee is the SAP-facing MCP/API gateway in every scenario. The simulator's Apigee path (S1, S3) covers inbound policy, route selection, outbound target credentials and an audit decision."),
     "agentcore gateway": ("AgentCore Gateway", "AgentCore Gateway (S2 only) sits in front of Apigee. The simulator's S2 path covers inbound policy, target registration, outbound credentials and an audit decision at that gateway."),
-    "aws": ("AWS runtime", "The simulated agent runtime checks workload identity, invokes typed tools, assembles evidence and records component events. In V5.1 the agent runs on SAP BTP Cloud Foundry (S1, S3) or AgentCore Runtime (S2); the simulator draws it in an AWS zone."),
+    "aws": ("Agent runtime", "The simulated agent runtime checks workload identity, invokes typed tools, assembles evidence and records component events. In V5.1 the agent runs on SAP BTP Cloud Foundry (S1, S3) or AgentCore Runtime (S2); the simulator shows one agent runtime zone for both."),
     "agentcore": ("AgentCore", "AgentCore Runtime hosts the agent in S2 only; AgentCore Gateway fronts Apigee in S2 only. S1 and S3 run the agent on SAP BTP Cloud Foundry and call Apigee directly."),
     "s/4": ("S/4HANA", "The simulated S/4HANA read API supplies the current G/L balance and journal evidence; the restricted posting API can write only a local synthetic document after approval."),
     "sap": ("SAP integration", "The simulated SAP route traverses the selected gateway, domain tool, API Management, destination mapping, backend role and backend API."),
@@ -124,7 +124,7 @@ def answer_follow_up(store, approval, message: str, case_id: str | None, scenari
         else:
             answer = "No document investigation is recorded for this case. Run a comparable November 2026 reconciliation, then ask me to investigate the variance."
             kind, status, extra = "investigation_status", "needs_case", {}
-    elif any(term in text for term in ("s1 vs s2", "s1 and s2", "compare gateways", "compare scenarios", "apigee versus", "apigee vs")):
+    elif any(term in text for term in ("s1 vs s2", "s1 and s2", "s2 and s3", "s1 and s3", "compare scenarios", "compare gateways", "compare scenarios", "apigee versus", "apigee vs")):
         answer = "In S1 and S3 the typed tool request goes from the Cloud Foundry agent to the Apigee boundary. In S2 it goes through AgentCore Gateway and then Apigee. Both reach the same finance tools and deterministic reconciliation rules; neither route has live tenant proof."
         kind, status, extra = "scenario_comparison", "answered", {}
     elif any(term in text for term in ("limitation", "live gate", "risk", "production ready", "real system", "arbitrary company")):

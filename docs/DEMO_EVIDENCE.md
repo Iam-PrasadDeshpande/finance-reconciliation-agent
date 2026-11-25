@@ -47,3 +47,7 @@ Focused local checks of the latest UI showed a 1440 × 900 Business workspace wi
 ## Current local candidate (not yet deployed)
 
 The current candidate has five visible tabs: Execution simulator, Live architecture, Architecture pros & cons, Architecture diagrams (detailed S1/S2 reference diagrams with zoom) and MCP hosting & governance (S1/S2/S3 topology diagrams, matrices and evidence). Evidence and Architecture questions are on-demand linked views with a return action. `docs/evidence/mcp_approaches_desktop.png` and `mcp_approaches_mobile.png` show the earlier five-tab candidate; retain them only as historical comparison. `three_tabs_1440.png` and `three_tabs_390.png` show the later three-tab candidate. The S2 playbook now selects an MCP-server target with aggregation; Runtime passthrough is a different Gateway design, outside S2. These screenshots and local tests do not prove live SAP, AWS or Apigee connectivity.
+
+## Architecture V5.1 captures
+
+Current pages (1440 × 900 and 390 × 844) are in `docs/evidence/v5_1_*.png`: complete architecture, MCP hosting, agent hosting, registry, diagrams and the live run. Earlier captures above show the previous interface and are kept as history.
