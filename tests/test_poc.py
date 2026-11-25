@@ -38,10 +38,12 @@ def test_architecture_decision_catalog_and_combined_route_are_open():
     assert all(len(item["dependencies"]) >= 3 for item in catalog)
     run = build_run("sap_mcp_hosting", "S3", "onboarded")
     names = [step["component"] for step in run["steps"]]
-    assert "AgentCore Gateway" not in names and "AgentCore Runtime + Identity" not in names  # S3 baseline: no AWS execution hop
-    assert names.index("AWS Agent Registry") < names.index("SAP BTP Cloud Foundry agent") < names.index("SAP Apigee MCP") < names.index("SAP Integration Suite") < names.index("SAP backend role")
+    # V5.2: S3 runs the agent on AgentCore, passes AgentCore Gateway and then Apigee; the registry is design-time only
+    assert names.index("AWS Agent Registry") < names.index("AgentCore Runtime + Identity") < names.index("AgentCore Gateway") < names.index("SAP Apigee MCP") < names.index("SAP Integration Suite") < names.index("SAP backend role")
+    s1 = [step["component"] for step in build_run("sap_mcp_hosting", "S1", "onboarded")["steps"]]
+    assert "AgentCore Gateway" not in s1 and "AgentCore Runtime + Identity" not in s1 and s1.index("SAP BTP Cloud Foundry agent") < s1.index("SAP Apigee MCP")
     s2 = [step["component"] for step in build_run("sap_mcp_hosting", "S2", "onboarded")["steps"]]
-    assert s2.index("AgentCore Gateway") < s2.index("SAP Apigee MCP") < s2.index("SAP Integration Suite")
+    assert "SAP Apigee MCP" not in s2 and s2.index("AgentCore Gateway") < s2.index("SAP Integration Suite")
     assert run["steps"][1]["phase"] == "design-time"
     assert run["steps"][2]["input"] == "Can SAP retain Apigee as its domain MCP layer?"
     assert run["route_status"].startswith("Preferred candidate")
@@ -54,17 +56,17 @@ def test_route_hosting_playbooks_cover_all_three_cases():
     assert set(playbooks) == {"S1", "S2", "S3"}
     assert all(len(item["steps"]) >= 5 and item["decisions"] and item["sources"] for item in playbooks.values())
     assert all(all(stage["configure"] and stage["dependency"] and stage["proof"] and stage["owner"] for stage in item["steps"]) for item in playbooks.values())
-    assert "Apigee MCP/API" in playbooks["S3"]["path"] and "AgentCore" not in playbooks["S3"]["path"]
-    assert "AgentCore Gateway" in playbooks["S2"]["path"] and "AgentCore" not in playbooks["S1"]["path"]
-    assert "Preferred candidate" in playbooks["S3"]["status"] and "interim" in playbooks["S1"]["status"]
+    assert "AgentCore Gateway" in playbooks["S3"]["path"] and "Apigee MCP" in playbooks["S3"]["path"]
+    assert "AgentCore Gateway" in playbooks["S2"]["path"] and "Apigee" not in playbooks["S2"]["path"] and "AgentCore" not in playbooks["S1"]["path"]
+    assert "Preferred candidate" in playbooks["S3"]["status"] and playbooks["S1"]["status"] == "SAP-hosted alternative"
 
 
 @pytest.mark.parametrize("question,probe,denied_at", [
-    ("sap_mcp_hosting", "missing_target", "SAP Apigee MCP"),
+    ("sap_mcp_hosting", "missing_target", "AgentCore Gateway"),
     ("sap_identity", "missing_principal", "SAP backend role"),
     ("read_vs_post", "post_no_approval", "Finance approval boundary"),
     ("foundry_registry", "unregistered", "AWS Agent Registry"),
-    ("external_agent", "unapproved_partner", "SAP Apigee MCP"),
+    ("external_agent", "unapproved_partner", "AgentCore Gateway"),
 ])
 def test_decision_probes_fail_at_the_intended_boundary(question,probe,denied_at):
     run = build_run(question,"S3",probe)
@@ -108,12 +110,12 @@ def test_fixture_calculation_and_scenario_equivalence(env):
     assert any(e["operation"]=="direct_api" for e in e1)
     assert {"s4_live_gl","s4_journals","cfin_status","bw_hierarchy","bw_load"}<={e["target_component_id"] for e in e1}
     assert not any(e["source_component_id"].startswith("agentcore_gateway") for e in e1)
-    # V5.1: in S2 the call passes AgentCore Gateway and then Apigee; S1 and S3 never touch AgentCore Gateway
-    gate_order=[e["target_component_id"] for e in e2 if e["target_component_id"] in ("agentcore_gateway","apigee_gateway") and e["direction"]=="request"]
-    assert gate_order[:2]==["agentcore_gateway","apigee_gateway"]
+    # V5.2: S1 calls Apigee, S2 calls AgentCore Gateway (no Apigee unless inserted), S3 passes AgentCore Gateway and then Apigee
+    assert not any("apigee_gateway" in (e["source_component_id"],e["target_component_id"]) for e in e2)
     s3=runtime.reconcile(request("S3"));e3=store.events(s3["case_id"])
+    gate_order=[e["target_component_id"] for e in e3 if e["target_component_id"] in ("agentcore_gateway","apigee_gateway") and e["direction"]=="request"]
+    assert gate_order[:2]==["agentcore_gateway","apigee_gateway"]
     assert s3["variance"]["amount"]==s1["variance"]["amount"] and s3["variance"]["state"]==s1["variance"]["state"]
-    assert any(e["operation"]=="cross_cloud_mcp" for e in e3) and not any("agentcore_gateway" in (e["source_component_id"],e["target_component_id"]) for e in e3)
     assert all(e["scenario"]=="S3" for e in e3)
     assert all(e["payload_summary"].get("synthetic",True) for e in e1)
     assert any(e["direction"]=="response" and e["parent_event_id"] for e in e1)

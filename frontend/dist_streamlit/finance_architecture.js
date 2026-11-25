@@ -1853,7 +1853,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return e = e.detail, typeof e == "object" && "data" in e ? e.data : null;
 	}
 	var _r = !1;
-	function H(e, t) {
+	function vr(e, t) {
 		switch (e) {
 			case "compositionend": return gr(t);
 			case "keypress": return t.which === 32 ? (mr = !0, pr) : null;
@@ -1861,7 +1861,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return null;
 		}
 	}
-	function vr(e, t) {
+	function yr(e, t) {
 		if (_r) return e === "compositionend" || !lr && hr(e, t) ? (e = jn(), An = kn = On = null, _r = !1, e) : null;
 		switch (e) {
 			case "paste": return null;
@@ -1875,7 +1875,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return null;
 		}
 	}
-	var yr = {
+	var br = {
 		color: !0,
 		date: !0,
 		datetime: !0,
@@ -1892,72 +1892,72 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		url: !0,
 		week: !0
 	};
-	function br(e) {
+	function xr(e) {
 		var t = e && e.nodeName && e.nodeName.toLowerCase();
-		return t === "input" ? !!yr[e.type] : t === "textarea";
+		return t === "input" ? !!br[e.type] : t === "textarea";
 	}
-	function xr(e, t, n, r) {
+	function Sr(e, t, n, r) {
 		yn ? bn ? bn.push(r) : bn = [r] : yn = r, t = Jf(t, "onChange"), 0 < t.length && (n = new Ln("onChange", "change", null, n, r), e.push({
 			event: n,
 			listeners: t
 		}));
 	}
-	var Sr = null, Cr = null;
-	function wr(e) {
+	var Cr = null, wr = null;
+	function Tr(e) {
 		Vf(e, 0);
 	}
-	function Tr(e) {
+	function Er(e) {
 		if (Qt(Mt(e))) return e;
 	}
-	function Er(e, t) {
+	function Dr(e, t) {
 		if (e === "change") return t;
 	}
-	var Dr = !1;
+	var Or = !1;
 	if (Tn) {
-		var Or;
+		var kr;
 		if (Tn) {
-			var kr = "oninput" in document;
-			if (!kr) {
-				var Ar = document.createElement("div");
-				Ar.setAttribute("oninput", "return;"), kr = typeof Ar.oninput == "function";
+			var Ar = "oninput" in document;
+			if (!Ar) {
+				var jr = document.createElement("div");
+				jr.setAttribute("oninput", "return;"), Ar = typeof jr.oninput == "function";
 			}
-			Or = kr;
-		} else Or = !1;
-		Dr = Or && (!document.documentMode || 9 < document.documentMode);
+			kr = Ar;
+		} else kr = !1;
+		Or = kr && (!document.documentMode || 9 < document.documentMode);
 	}
-	function jr() {
-		Sr && (Sr.detachEvent("onpropertychange", Mr), Cr = Sr = null);
+	function Mr() {
+		Cr && (Cr.detachEvent("onpropertychange", Nr), wr = Cr = null);
 	}
-	function Mr(e) {
-		if (e.propertyName === "value" && Tr(Cr)) {
+	function Nr(e) {
+		if (e.propertyName === "value" && Er(wr)) {
 			var t = [];
-			xr(t, Cr, e, vn(e)), Cn(wr, t);
+			Sr(t, wr, e, vn(e)), Cn(Tr, t);
 		}
 	}
-	function Nr(e, t, n) {
-		e === "focusin" ? (jr(), Sr = t, Cr = n, Sr.attachEvent("onpropertychange", Mr)) : e === "focusout" && jr();
+	function Pr(e, t, n) {
+		e === "focusin" ? (Mr(), Cr = t, wr = n, Cr.attachEvent("onpropertychange", Nr)) : e === "focusout" && Mr();
 	}
-	function Pr(e) {
-		if (e === "selectionchange" || e === "keyup" || e === "keydown") return Tr(Cr);
-	}
-	function Fr(e, t) {
-		if (e === "click") return Tr(t);
+	function Fr(e) {
+		if (e === "selectionchange" || e === "keyup" || e === "keydown") return Er(wr);
 	}
 	function Ir(e, t) {
-		if (e === "input" || e === "change") return Tr(t);
+		if (e === "click") return Er(t);
 	}
 	function Lr(e, t) {
+		if (e === "input" || e === "change") return Er(t);
+	}
+	function Rr(e, t) {
 		return e === t && (e !== 0 || 1 / e == 1 / t) || e !== e && t !== t;
 	}
-	var Rr = typeof Object.is == "function" ? Object.is : Lr;
-	function zr(e, t) {
-		if (Rr(e, t)) return !0;
+	var zr = typeof Object.is == "function" ? Object.is : Rr;
+	function H(e, t) {
+		if (zr(e, t)) return !0;
 		if (typeof e != "object" || !e || typeof t != "object" || !t) return !1;
 		var n = Object.keys(e), r = Object.keys(t);
 		if (n.length !== r.length) return !1;
 		for (r = 0; r < n.length; r++) {
 			var i = n[r];
-			if (!Ie.call(t, i) || !Rr(e[i], t[i])) return !1;
+			if (!Ie.call(t, i) || !zr(e[i], t[i])) return !1;
 		}
 		return !0;
 	}
@@ -2029,7 +2029,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			anchorOffset: r.anchorOffset,
 			focusNode: r.focusNode,
 			focusOffset: r.focusOffset
-		}), Yr && zr(Yr, r) || (Yr = r, r = Jf(Jr, "onSelect"), 0 < r.length && (t = new Ln("onSelect", "select", null, t, n), e.push({
+		}), Yr && H(Yr, r) || (Yr = r, r = Jf(Jr, "onSelect"), 0 < r.length && (t = new Ln("onSelect", "select", null, t, n), e.push({
 			event: t,
 			listeners: r
 		}), t.target = qr)));
@@ -2399,7 +2399,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				if (s === null) throw Error(i(387));
 				if (s = s.memoizedProps, s !== null) {
 					var c = a.type;
-					Rr(a.pendingProps.value, s.value) || (e === null ? e = [c] : e.push(c));
+					zr(a.pendingProps.value, s.value) || (e === null ? e = [c] : e.push(c));
 				}
 			} else if (a === Te.current) {
 				if (s = a.alternate, s === null) throw Error(i(387));
@@ -2411,7 +2411,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function ba(e) {
 		for (e = e.firstContext; e !== null;) {
-			if (!Rr(e.context._currentValue, e.memoizedValue)) return !0;
+			if (!zr(e.context._currentValue, e.memoizedValue)) return !0;
 			e = e.next;
 		}
 		return !1;
@@ -3012,7 +3012,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function Yo(e, t) {
 		if (t === null) return !1;
-		for (var n = 0; n < t.length && n < e.length; n++) if (!Rr(e[n], t[n])) return !1;
+		for (var n = 0; n < t.length && n < e.length; n++) if (!zr(e[n], t[n])) return !1;
 		return !0;
 	}
 	function Xo(e, t, n, r, i, a) {
@@ -3183,7 +3183,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}, l === null ? (c = l = p, s = o) : l = l.next = p, W.lanes |= f, od |= f;
 				u = u.next;
 			} while (u !== null && u !== t);
-			if (l === null ? s = o : l.next = c, !Rr(o, e.memoizedState) && (jc = !0, d && (n = La, n !== null))) throw n;
+			if (l === null ? s = o : l.next = c, !zr(o, e.memoizedState) && (jc = !0, d && (n = La, n !== null))) throw n;
 			e.memoizedState = o, e.baseState = s, e.baseQueue = l, r.lastRenderedState = o;
 		}
 		return a === null && (r.lanes = 0), [e.memoizedState, r.dispatch];
@@ -3199,7 +3199,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			do
 				o = e(o, s.action), s = s.next;
 			while (s !== a);
-			Rr(o, t.memoizedState) || (jc = !0), t.memoizedState = o, t.baseQueue === null && (t.baseState = o), n.lastRenderedState = o;
+			zr(o, t.memoizedState) || (jc = !0), t.memoizedState = o, t.baseQueue === null && (t.baseState = o), n.lastRenderedState = o;
 		}
 		return [o, r];
 	}
@@ -3209,7 +3209,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (n === void 0) throw Error(i(407));
 			n = n();
 		} else n = t();
-		var s = !Rr((G || a).memoizedState, n);
+		var s = !zr((G || a).memoizedState, n);
 		if (s && (a.memoizedState = n, jc = !0), a = a.queue, Rs(gs.bind(null, r, a, e), [e]), e = a.getSnapshot !== t || s || Bo !== null && !!(Bo.memoizedState.tag & 1), Ns(e ? 9 : 8, { destroy: void 0 }, hs.bind(null, r, a, n, t), null), e) {
 			if (r.flags |= 2048, $u === null) throw Error(i(349));
 			o || zo & 127 || ms(r, t, n);
@@ -3235,7 +3235,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		e = e.value;
 		try {
 			var n = t();
-			return !Rr(e, n);
+			return !zr(e, n);
 		} catch {
 			return !0;
 		}
@@ -3503,7 +3503,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return n === void 0 || zo & 1073741824 && !(Y & 261930) ? e.memoizedState = t : (e.memoizedState = n, e = Md(), W.lanes |= e, od |= e, n);
 	}
 	function Ys(e, t, n, r) {
-		return Rr(n, t) ? n : Co.current === null ? !(zo & 106) || zo & 1073741824 && !(Y & 261930) ? (jc = !0, e.memoizedState = n) : (e = Md(), W.lanes |= e, od |= e, t) : (e = Js(e, n, r), Rr(e, t) || (jc = !0), e);
+		return zr(n, t) ? n : Co.current === null ? !(zo & 106) || zo & 1073741824 && !(Y & 261930) ? (jc = !0, e.memoizedState = n) : (e = Md(), W.lanes |= e, od |= e, t) : (e = Js(e, n, r), zr(e, t) || (jc = !0), e);
 	}
 	function Xs(e, t, n, r, i) {
 		var a = P.p;
@@ -3619,7 +3619,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			var a = e.alternate;
 			if (e.lanes === 0 && (a === null || a.lanes === 0) && (a = t.lastRenderedReducer, a !== null)) try {
 				var o = t.lastRenderedState, s = a(o, n);
-				if (i.hasEagerState = !0, i.eagerState = s, Rr(s, o)) return Si(e, t, i, 0), $u === null && xi(), !1;
+				if (i.hasEagerState = !0, i.eagerState = s, zr(s, o)) return Si(e, t, i, 0), $u === null && xi(), !1;
 			} catch {}
 			if (n = Ci(e, t, i, r), n !== null) return Pd(n, e, r), dc(n, t, r), !0;
 		}
@@ -3889,7 +3889,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	};
 	function vc(e, t, n, r, i, a, o) {
-		return e = e.stateNode, typeof e.shouldComponentUpdate == "function" ? e.shouldComponentUpdate(r, a, o) : t.prototype && t.prototype.isPureReactComponent ? !zr(n, r) || !zr(i, a) : !0;
+		return e = e.stateNode, typeof e.shouldComponentUpdate == "function" ? e.shouldComponentUpdate(r, a, o) : t.prototype && t.prototype.isPureReactComponent ? !H(n, r) || !H(i, a) : !0;
 	}
 	function yc(e, t, n, r) {
 		e = t.state, typeof t.componentWillReceiveProps == "function" && t.componentWillReceiveProps(n, r), typeof t.UNSAFE_componentWillReceiveProps == "function" && t.UNSAFE_componentWillReceiveProps(n, r), t.state !== e && _c.enqueueReplaceState(t, t.state, null);
@@ -4010,14 +4010,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		if (a = e.child, !cl(e, i)) {
 			var o = a.memoizedProps;
-			if (n = n.compare, n = n === null ? zr : n, n(o, r) && e.ref === t.ref) return sl(e, t, i);
+			if (n = n.compare, n = n === null ? H : n, n(o, r) && e.ref === t.ref) return sl(e, t, i);
 		}
 		return t.flags |= 1, e = ji(a, r), e.ref = t.ref, e.return = t, t.child = e;
 	}
 	function Fc(e, t, n, r, i) {
 		if (e !== null) {
 			var a = e.memoizedProps;
-			if (zr(a, r) && e.ref === t.ref) {
+			if (H(a, r) && e.ref === t.ref) {
 				if (jc = !1, t.pendingProps = r = a, cl(e, i)) e.flags & 131072 && (jc = !0);
 				else return t.lanes = e.lanes, sl(e, t, i);
 			}
@@ -6128,7 +6128,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				var i = n[r], a = i.getSnapshot;
 				i = i.value;
 				try {
-					if (!Rr(a(), i)) return !1;
+					if (!zr(a(), i)) return !1;
 				} catch {
 					return !1;
 				}
@@ -6908,23 +6908,23 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					(c || l) && (u = i.window === i ? i : (l = i.ownerDocument) ? l.defaultView || l.parentWindow : window, c ? (l = n.relatedTarget || n.toElement, c = r, l = l ? At(l) : null, l !== null && (f = o(l), d = l.tag, l !== f || d !== 5 && d !== 27 && d !== 6) && (l = null)) : (c = null, l = r), c !== l && (d = Wn, g = "onMouseLeave", p = "onMouseEnter", m = "mouse", (e === "pointerout" || e === "pointerover") && (d = nr, g = "onPointerLeave", p = "onPointerEnter", m = "pointer"), f = c == null ? u : Mt(c), h = l == null ? u : Mt(l), u = new d(g, m + "leave", c, n, i), u.target = f, u.relatedTarget = h, g = null, At(i) === r && (d = new d(p, m + "enter", l, n, i), d.target = h, d.relatedTarget = f, g = d), f = g, d = c && l ? E(c, l, Yf) : null, c !== null && Xf(s, u, c, d, !1), l !== null && f !== null && Xf(s, f, l, d, !0)));
 				}
 				a: {
-					if (c = r ? Mt(r) : window, l = c.nodeName && c.nodeName.toLowerCase(), l === "select" || l === "input" && c.type === "file") var _ = Er;
-					else if (br(c)) {
-						if (Dr) _ = Ir;
+					if (c = r ? Mt(r) : window, l = c.nodeName && c.nodeName.toLowerCase(), l === "select" || l === "input" && c.type === "file") var _ = Dr;
+					else if (xr(c)) {
+						if (Or) _ = Lr;
 						else {
-							_ = Pr;
-							var v = Nr;
+							_ = Fr;
+							var v = Pr;
 						}
-					} else l = c.nodeName, !l || l.toLowerCase() !== "input" || c.type !== "checkbox" && c.type !== "radio" ? r && fn(r.elementType) && (_ = Er) : _ = Fr;
+					} else l = c.nodeName, !l || l.toLowerCase() !== "input" || c.type !== "checkbox" && c.type !== "radio" ? r && fn(r.elementType) && (_ = Dr) : _ = Ir;
 					if (_ &&= _(e, r)) {
-						xr(s, _, n, i);
+						Sr(s, _, n, i);
 						break a;
 					}
 					v && v(e, c, r);
 				}
 				switch (v = r ? Mt(r) : window, e) {
 					case "focusin":
-						(br(v) || v.contentEditable === "true") && (qr = v, Jr = r, Yr = null);
+						(xr(v) || v.contentEditable === "true") && (qr = v, Jr = r, Yr = null);
 						break;
 					case "focusout":
 						Yr = Jr = qr = null;
@@ -6960,7 +6960,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				b && (fr && n.locale !== "ko" && (_r || b !== "onCompositionStart" ? b === "onCompositionEnd" && _r && (y = jn()) : (On = i, kn = "value" in On ? On.value : On.textContent, _r = !0)), v = Jf(r, b), 0 < v.length && (b = new Yn(b, e, null, n, i), s.push({
 					event: b,
 					listeners: v
-				}), y ? b.data = y : (y = gr(n), y !== null && (b.data = y)))), (y = dr ? H(e, n) : vr(e, n)) && (b = Jf(r, "onBeforeInput"), 0 < b.length && (v = new Yn("onBeforeInput", "beforeinput", null, n, i), s.push({
+				}), y ? b.data = y : (y = gr(n), y !== null && (b.data = y)))), (y = dr ? vr(e, n) : yr(e, n)) && (b = Jf(r, "onBeforeInput"), 0 < b.length && (v = new Yn("onBeforeInput", "beforeinput", null, n, i), s.push({
 					event: v,
 					listeners: b
 				}), v.data = y)), If(s, e, r, n, i);
@@ -11432,7 +11432,7 @@ function Ge({ run: e, questions: t = [], requestedSeq: n }) {
 }
 // src/ImplementationEvidence.jsx
 var Ke = [
-	["External agent contract", "The agent host, identity and MCP client are named simulator components (the V5.1 hosts are SAP BTP Cloud Foundry in S1 and S3 and AgentCore Runtime in S2). The local Python runtime follows a bounded plan; no external agent is connected."],
+	["External agent contract", "The agent host, identity and MCP client are named simulator components (the hosts are SAP BTP Cloud Foundry in S1 and AgentCore Runtime in S2 and S3). The local Python runtime follows a bounded plan; no external agent is connected."],
 	["SAP-owned capability", "The SAP finance tool, Apigee gateway, Integration Suite path and backend roles are simulated boundaries. No SAP tenant call or principal propagation is proved."],
 	["Presentation", "The Fiori-inspired interface is built with React and Node.js tooling. Streamlit hosts its compiled assets; Node.js is not an agent in the runtime path."],
 	["Execution and proof", "Python evaluates the finance rules and SQLite stores synthetic snapshots, cases and request/response events. The variance amount comes from the deterministic engine."]
@@ -11469,7 +11469,7 @@ function qe({ currentCase: e, events: t = [] }) {
 						t.length,
 						" stored events"
 					] }),
-					/* @__PURE__ */ (0, A.jsx)("span", { children: "Simulator runs S1, S2 and S3 · all three scenarios remain proposals" })
+					/* @__PURE__ */ (0, A.jsx)("span", { children: "Simulator runs S1, S2 and S3 · S3 is the preferred candidate to evaluate first · all three remain proposals" })
 				]
 			})
 		]
@@ -11701,15 +11701,15 @@ function Je({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 var Ye = [
 	{
 		id: "S1",
-		label: "S1 · SAP-centric"
+		label: "S1 · SAP-hosted hybrid"
 	},
 	{
 		id: "S2",
-		label: "S2 · AWS AgentCore-centric"
+		label: "S2 · AWS AgentCore-native"
 	},
 	{
 		id: "S3",
-		label: "S3 · SAP-hosted hybrid"
+		label: "S3 · AgentCore + Apigee hybrid"
 	}
 ];
 function Xe({ step: e, selected: t, processing: n, onSelect: r }) {
@@ -11929,7 +11929,7 @@ function Qe({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 					}),
 					/* @__PURE__ */ (0, A.jsx)("p", {
 						className: "lab-footnote",
-						children: "Each probe walks the selected scenario: S1 SAP-centric (Cloud Foundry agent, Apigee), S2 AWS AgentCore-centric (AgentCore Runtime and Gateway, then Apigee) and S3 SAP-hosted hybrid (Cloud Foundry agent, Apigee, AWS Agent Registry for registration only). Results are simulated; approval remains open."
+						children: "Each probe walks the selected scenario: S1 SAP-hosted hybrid (Cloud Foundry agent, Apigee), S2 AWS AgentCore-native (AgentCore Runtime and Gateway) and S3 AgentCore + Apigee hybrid (AgentCore Runtime and Gateway, then Apigee). AWS Agent Registry registers on a separate path in all three. Results are simulated; approval remains open."
 					})
 				]
 			}),
@@ -12142,60 +12142,78 @@ function Qe({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 	});
 }
 var R = {
-	version: "5.1",
+	version: "5.2",
 	banner: "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
 	ids: [
 		"S1",
 		"S2",
 		"S3"
 	],
-	scenarios: /* @__PURE__ */ JSON.parse("{\"S1\":{\"id\":\"S1\",\"name\":\"S1 · SAP-centric\",\"short\":\"SAP-centric\",\"status\":\"Evaluation candidate\",\"objective\":\"SAP owns agent execution and the domain's MCP capability. Apigee is the SAP-facing MCP/API gateway. Registration is an interim catalog on GitLab; no AWS component takes part.\",\"agent_runtime\":\"SAP BTP Cloud Foundry\",\"agent_hosting_owner\":\"SAP BTP platform team\",\"agent_execution_endpoint\":\"Cloud Foundry application route (agent API)\",\"ui_hosting\":\"SAP Fiori launchpad or the existing application UI\",\"mcp_client\":\"Inside the agent process on Cloud Foundry\",\"mcp_endpoint_type\":\"Apigee-managed MCP endpoint (Pattern A); custom MCP server behind Apigee only where logic is needed (Pattern B)\",\"mcp_gateway\":\"Google Apigee (SAP-facing MCP/API gateway and policy layer)\",\"custom_mcp_runtime\":\"SAP BTP Cloud Foundry, only if required\",\"custom_mcp_hosting_owner\":\"SAP BTP platform team\",\"mcp_tool_execution_location\":\"Pattern A: API operation behind Apigee. Pattern B: the custom MCP service on Cloud Foundry\",\"agent_registry\":\"GitLab catalog · interim, not a full agent registry\",\"mcp_registry\":\"GitLab catalog · interim, not a full agent registry\",\"registry_publisher_approver\":\"Integration team with the respective technical approvals (merge request in GitLab); decided by the owner on 2026-11-25\",\"registry_sync\":\"None needed: records live in GitLab and the pipeline publishes an index. Not a runtime registry service\",\"agent_discovery\":\"Query the GitLab catalog (repository or API); the discovery interface is to be built\",\"mcp_tool_discovery\":\"Apigee MCP tools/list at the endpoint; the MCP server record is looked up in the GitLab catalog\",\"agentcore_runtime\":false,\"agentcore_gateway\":false,\"aws_agent_registry\":false,\"llm_gateway\":\"Portkey\",\"llm_boundary\":\"Cloud Foundry agent → Portkey → approved LLM provider. No direct provider route\",\"integration_suite\":\"SAP Integration Suite (API Management / Cloud Integration)\",\"cloud_connector\":\"SAP Cloud Connector, where the system connectivity model needs it (conditional)\",\"backend_authorization\":\"Target SAP backend roles of the mapped user or service identity\",\"identity_boundary\":\"Enterprise IdP or SAP Cloud Identity Services (IAS, candidate); token exchange and user mapping subject to validation\",\"persistence\":\"Conditional: SAP HANA Cloud or an existing approved store, only if durable state is required\",\"monitoring_audit\":\"SAP BTP logs for the agent; Apigee analytics; Integration Suite monitoring; SAP change documents\",\"artifact_repository\":\"GitLab (central platform): source, OpenAPI specs, agent and tool descriptors, catalog records, CI/CD pipelines; Cloud Foundry application artifacts; Apigee proxy bundles\",\"trust_boundaries\":[\"SAP BTP\",\"Google Apigee\",\"SAP landscape\",\"Portkey / LLM provider\"],\"assumptions\":[\"Apigee MCP is enabled for the organization and fronts approved Integration Suite APIs\",\"An enterprise IdP can issue tokens to the Cloud Foundry agent\"],\"unverified\":[\"GitLab catalog design: record schema, discovery interface and revocation process are still to be built; the catalog is interim and is not a complete agent registry\",\"Apigee-to-Integration Suite identity mapping\",\"Principal propagation to the SAP backend\"],\"registry_options\":[\"SAP AI Agent Hub: not available in this landscape (owner, 2026-11-25)\",\"SAP Integration Suite MCP Gateway developer hub: documented for MCP tools only, not an agent registry; not selected\",\"AWS Agent Registry: usable for SAP-hosted agents, but choosing it would make this scenario S3; not selected for S1\",\"GitLab catalog (interim): SELECTED by the owner on 2026-11-25; versioned records with merge-request approval by the integration team\"],\"policy_dependencies\":[\"Whether the enterprise requires central registration of agents and MCP servers\",\"Who owns domain MCP interfaces\"],\"hosting_note\":\"Registry is an interim GitLab catalog, selected by the owner on 2026-11-25 because SAP AI Agent Hub is not available. It is not a complete agent registry: records, approval and revocation live in GitLab.\"},\"S2\":{\"id\":\"S2\",\"name\":\"S2 · AWS AgentCore-centric\",\"short\":\"AgentCore-centric\",\"status\":\"Evaluation candidate\",\"objective\":\"AWS owns agent execution, any custom MCP code hosting, the runtime gateway and enterprise registration. Apigee remains the SAP-facing MCP/API gateway behind AgentCore Gateway.\",\"agent_runtime\":\"AWS AgentCore Runtime\",\"agent_hosting_owner\":\"AWS cloud platform team\",\"agent_execution_endpoint\":\"AgentCore Runtime agent invocation endpoint\",\"ui_hosting\":\"Existing application UI or SAP Fiori acting as an agent client\",\"mcp_client\":\"Inside the agent process on AgentCore Runtime\",\"mcp_endpoint_type\":\"AgentCore Gateway MCP endpoint toward the agent; Apigee-managed MCP endpoint (Pattern A) toward SAP; custom MCP on AgentCore Runtime only if required (Pattern B)\",\"mcp_gateway\":\"AWS AgentCore Gateway (enterprise MCP gateway) and Google Apigee (SAP-facing MCP/API gateway)\",\"custom_mcp_runtime\":\"AWS AgentCore Runtime, if required\",\"custom_mcp_hosting_owner\":\"AWS cloud platform team\",\"mcp_tool_execution_location\":\"Pattern A: API operation behind Apigee. Pattern B: custom MCP on AgentCore Runtime, reached through Apigee as a cross-cloud target (conditional)\",\"agent_registry\":\"AWS Agent Registry\",\"mcp_registry\":\"AWS Agent Registry\",\"registry_publisher_approver\":\"AI Foundry publishes; approval owner TBD · REQUIRES VALIDATION\",\"registry_sync\":\"Registry records created from agent and MCP descriptors; external sources via registry synchronization where supported\",\"agent_discovery\":\"AWS Agent Registry search, approved records only\",\"mcp_tool_discovery\":\"AgentCore Gateway tools/list; MCP descriptor in AWS Agent Registry\",\"agentcore_runtime\":true,\"agentcore_gateway\":true,\"aws_agent_registry\":true,\"llm_gateway\":\"Portkey\",\"llm_boundary\":\"AgentCore Runtime agent → Portkey → approved LLM provider. No direct provider route\",\"integration_suite\":\"SAP Integration Suite (API Management / Cloud Integration)\",\"cloud_connector\":\"SAP Cloud Connector, where the system connectivity model needs it (conditional)\",\"backend_authorization\":\"Target SAP backend roles of the mapped user or service identity\",\"identity_boundary\":\"Enterprise IdP and AgentCore Identity toward the gateway; Apigee and Integration Suite identities beyond; token exchange and user mapping subject to validation\",\"persistence\":\"Conditional: approved AWS persistence, only if durable state is required\",\"monitoring_audit\":\"AgentCore Runtime and Gateway observability; Apigee analytics; Integration Suite monitoring; SAP change documents\",\"artifact_repository\":\"GitLab (central platform): source, specs, descriptors, CI/CD pipelines; container registry for the runtime image; gateway target definitions; Apigee bundles\",\"trust_boundaries\":[\"AWS\",\"Google Apigee\",\"SAP landscape\",\"Portkey / LLM provider\"],\"assumptions\":[\"AgentCore Gateway can register Apigee's MCP endpoint as a target\",\"An AWS-hosted custom MCP can be proxied by Apigee (conditional)\"],\"unverified\":[\"AgentCore Gateway to Apigee: documentation shows overlapping MCP protocol versions (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26) and supported outbound OAuth and token exchange, but no end-to-end call has been made; whether an external MCP server is an MCP or an HTTP target is ambiguous; Apigee MCP does not support SSE streams\",\"Two policy points on one call (gateway then Apigee)\",\"AWS Agent Registry availability and region\"],\"policy_dependencies\":[\"Whether AI Foundry requires AgentCore for all agent hosting\",\"Ownership of duplicated gateway policy\"],\"hosting_note\":\"AgentCore Runtime, AgentCore Gateway and AWS Agent Registry are three distinct capabilities.\"},\"S3\":{\"id\":\"S3\",\"name\":\"S3 · SAP-hosted hybrid\",\"short\":\"SAP-hosted hybrid\",\"status\":\"Preferred candidate — subject to AI Foundry policy and POC validation\",\"objective\":\"SAP retains execution ownership while AI Foundry manages central discovery and registration. Hosting on SAP BTP, registration in AWS Agent Registry, no AWS execution hop.\",\"agent_runtime\":\"SAP BTP Cloud Foundry\",\"agent_hosting_owner\":\"SAP BTP platform team\",\"agent_execution_endpoint\":\"Cloud Foundry application route (agent API)\",\"ui_hosting\":\"SAP Fiori launchpad or the existing application UI\",\"mcp_client\":\"Inside the agent process on Cloud Foundry\",\"mcp_endpoint_type\":\"Apigee-managed MCP endpoint (Pattern A); custom MCP server behind Apigee only where logic is needed (Pattern B)\",\"mcp_gateway\":\"Google Apigee (SAP-facing MCP/API gateway and policy layer)\",\"custom_mcp_runtime\":\"SAP BTP Cloud Foundry, if required\",\"custom_mcp_hosting_owner\":\"SAP BTP platform team\",\"mcp_tool_execution_location\":\"Pattern A: API operation behind Apigee. Pattern B: the custom MCP service on Cloud Foundry\",\"agent_registry\":\"AWS Agent Registry\",\"mcp_registry\":\"AWS Agent Registry\",\"registry_publisher_approver\":\"AI Foundry approves in AWS Agent Registry; the integration team publishes the SAP-hosted agent and Apigee endpoint records from its GitLab pipeline (to confirm)\",\"registry_sync\":\"Records are published to AWS Agent Registry from the GitLab release pipeline through the registry API (proposal); synchronization from the endpoint URL only if Security approves AWS reaching it\",\"agent_discovery\":\"AWS Agent Registry search, approved records only\",\"mcp_tool_discovery\":\"Apigee MCP tools/list at the endpoint; endpoint metadata in AWS Agent Registry\",\"agentcore_runtime\":false,\"agentcore_gateway\":false,\"aws_agent_registry\":true,\"llm_gateway\":\"Portkey\",\"llm_boundary\":\"Cloud Foundry agent → Portkey → approved LLM provider. No direct provider route\",\"integration_suite\":\"SAP Integration Suite (API Management / Cloud Integration)\",\"cloud_connector\":\"SAP Cloud Connector, where the system connectivity model needs it (conditional)\",\"backend_authorization\":\"Target SAP backend roles of the mapped user or service identity\",\"identity_boundary\":\"Enterprise IdP or SAP Cloud Identity Services (IAS, candidate); registry access is a separate control-plane identity; token exchange and user mapping subject to validation\",\"persistence\":\"Conditional: SAP HANA Cloud or an existing approved store, only if durable state is required\",\"monitoring_audit\":\"SAP BTP logs for the agent; Apigee analytics; Integration Suite monitoring; SAP change documents; registry audit for publication events\",\"artifact_repository\":\"GitLab (central platform): source, specs, descriptors, registry record definitions, CI/CD pipelines; Cloud Foundry application artifacts; Apigee bundles\",\"trust_boundaries\":[\"SAP BTP\",\"Google Apigee\",\"SAP landscape\",\"AWS (control plane only)\",\"Portkey / LLM provider\"],\"assumptions\":[\"AWS Agent Registry can hold records for agents and MCP servers that run outside AWS (record sync connects from AWS to the endpoint URL with outbound credentials)\",\"Registration does not require AWS to host or invoke anything\"],\"unverified\":[\"Registry synchronization from the external sources in this tenant: the URL must be HTTPS and AWS must reach it with an outbound credential from a provider in the same account; private-network reachability is not documented; sync runs on creation and on demand only and reverts the record to draft\",\"Whether AWS can reach the Apigee endpoint (not yet checked)\",\"Whether the registry credential provider is in the same AWS account (not yet checked)\",\"Cross-cloud administration of registry records\"],\"policy_dependencies\":[\"AI Foundry written confirmation that AgentCore Gateway is not mandatory for S1 and S3 (the owner states it is not, 2026-11-25)\"],\"hosting_note\":\"AWS Agent Registry handles registration, discovery and governance metadata. It is never an execution hop.\",\"variant_b\":\"S3-B (not required): the owner states that AgentCore Gateway is not mandatory in S1 and S3 (2026-11-25; AI Foundry written confirmation pending). It is documented only as the option that would apply if that policy changed: AgentCore Gateway between the agent and Apigee, plus Apigee accepting only gateway-issued credentials, because AgentCore Policy enforces rules at the gateway but the documentation does not say a target refuses calls that bypass it.\"}}"),
+	scenarios: /* @__PURE__ */ JSON.parse("{\"S1\":{\"id\":\"S1\",\"name\":\"S1 · SAP-hosted hybrid\",\"short\":\"SAP-hosted hybrid\",\"status\":\"SAP-hosted alternative\",\"classification\":\"SAP-hosted alternative for workloads where SAP coupling or verified platform economics justify this placement.\",\"objective\":\"SAP BTP Cloud Foundry hosts and executes the agent. Apigee exposes the SAP MCP capability. AWS Agent Registry holds registration and discovery metadata only; no AgentCore component runs anything.\",\"agent_runtime\":\"SAP BTP Cloud Foundry\",\"agent_hosting_owner\":\"SAP BTP platform team\",\"agent_execution_endpoint\":\"Cloud Foundry application route (agent API)\",\"ui_hosting\":\"SAP Fiori launchpad or the existing application UI\",\"mcp_client\":\"Inside the agent process on Cloud Foundry\",\"mcp_endpoint_type\":\"Apigee-managed MCP endpoint (Pattern A); custom MCP server on Cloud Foundry behind Apigee only where logic needs code (Pattern B)\",\"mcp_gateway\":\"Google Apigee (SAP-facing MCP/API gateway and runtime gateway)\",\"custom_mcp_runtime\":\"SAP BTP Cloud Foundry, if required\",\"custom_mcp_hosting_owner\":\"SAP BTP platform team\",\"mcp_tool_execution_location\":\"Pattern A: API operation behind Apigee. Pattern B: the custom MCP service on Cloud Foundry\",\"agent_registry\":\"AWS Agent Registry\",\"mcp_registry\":\"AWS Agent Registry\",\"registry_publisher_approver\":\"Integration team with the respective technical approvals; records published from the GitLab pipeline; AWS Agent Registry curator approves\",\"registry_sync\":\"Records are published to AWS Agent Registry from the GitLab release pipeline through the registry API; synchronization from the endpoint URL only if Security approves AWS reaching it\",\"agent_discovery\":\"AWS Agent Registry search, approved records only\",\"mcp_tool_discovery\":\"Apigee MCP tools/list at the endpoint; endpoint metadata in AWS Agent Registry\",\"apigee_role\":\"Required: the SAP-facing MCP endpoint and runtime gateway\",\"agentcore_runtime\":false,\"agentcore_gateway\":false,\"aws_agent_registry\":true,\"aws_account\":\"Not used for execution. Registry records live in the central AI Foundry governance account\",\"llm_gateway\":\"Portkey\",\"llm_boundary\":\"Cloud Foundry agent → Portkey → approved LLM provider. No direct provider route\",\"integration_suite\":\"SAP Integration Suite (API Management / Cloud Integration)\",\"cloud_connector\":\"SAP Cloud Connector, where the system connectivity model needs it (conditional)\",\"backend_authorization\":\"Target SAP backend roles of the mapped user or service identity\",\"identity_boundary\":\"Corporate IdP or SAP Cloud Identity Services (IAS, candidate) → Cloud Foundry agent → Apigee → Integration Suite; token exchange and user mapping subject to validation\",\"persistence\":\"Conditional: existing approved service, or SAP HANA Cloud where justified\",\"monitoring_audit\":\"SAP BTP logs for the agent; Apigee analytics; Integration Suite monitoring; SAP change documents; registry publication audit\",\"artifact_repository\":\"GitLab (central platform): source, specs, descriptors, CI/CD pipelines and artifacts; Cloud Foundry application artifacts; Apigee bundles\",\"trust_boundaries\":[\"SAP BTP\",\"Google Apigee\",\"SAP landscape\",\"AWS (control plane only)\",\"Portkey / LLM provider\"],\"assumptions\":[\"Direct Apigee invocation from Cloud Foundry is approved by SAP Integration and Security\",\"AWS Agent Registry can hold records for agents and MCP servers that run outside AWS\"],\"unverified\":[\"Actual Cloud Foundry consumption and contractual charges for frequent agent workloads\",\"Scaling and capacity of Cloud Foundry for the workload\",\"Supportability of custom orchestration on Cloud Foundry\",\"Cross-cloud registry publication and synchronization\",\"Enterprise approval of direct Apigee invocation\"],\"policy_dependencies\":[\"Enterprise permits centrally registered but SAP-hosted agents\",\"SAP Integration approves direct Apigee invocation\"],\"hosting_note\":\"SAP BTP executes; AWS Agent Registry only registers. Choosing the registry does not move the agent to AWS.\",\"advantages\":[\"SAP-domain application and process ownership\",\"Closer alignment with SAP integration and BTP services\",\"Reuse of existing BTP operating practices\"],\"considerations\":[\"Cloud Foundry consumption and contractual charges\",\"Scaling and capacity for frequent agent workloads\",\"Supportability of custom orchestration\",\"Cross-cloud registry publication\",\"Approval of direct Apigee invocation\"]},\"S2\":{\"id\":\"S2\",\"name\":\"S2 · AWS AgentCore-native\",\"short\":\"AgentCore-native\",\"status\":\"AWS-native alternative\",\"classification\":\"AWS-native alternative, particularly suitable where AgentCore meets the technical and governance requirements without an additional Apigee gateway.\",\"objective\":\"AWS owns agent execution, any custom MCP execution and the runtime gateway: AgentCore Runtime hosts the agent and eligible MCP servers, AgentCore Gateway mediates the tools, AWS Agent Registry registers them. Apigee is optional, only where SAP Integration and Security require it.\",\"agent_runtime\":\"AWS AgentCore Runtime\",\"agent_hosting_owner\":\"AWS cloud platform team (SAP-agent account)\",\"agent_execution_endpoint\":\"AgentCore Runtime agent invocation endpoint\",\"ui_hosting\":\"Existing application UI or SAP Fiori acting as an agent client\",\"mcp_client\":\"Inside the agent process on AgentCore Runtime\",\"mcp_endpoint_type\":\"AgentCore Gateway MCP endpoint to the agent; an AgentCore Runtime MCP server target, or an approved API/OpenAPI target that avoids a custom server\",\"mcp_gateway\":\"AWS AgentCore Gateway (runtime gateway); Google Apigee only where SAP Integration policy requires it\",\"custom_mcp_runtime\":\"AWS AgentCore Runtime, when required\",\"custom_mcp_hosting_owner\":\"AWS cloud platform team\",\"mcp_tool_execution_location\":\"A custom MCP server on AgentCore Runtime, or an API operation behind an approved Gateway API target; the target must be validated before use\",\"agent_registry\":\"AWS Agent Registry\",\"mcp_registry\":\"AWS Agent Registry\",\"registry_publisher_approver\":\"Integration team with the respective technical approvals publishes; AWS Agent Registry curator (AI Foundry) approves\",\"registry_sync\":\"Registry records created from agent and MCP descriptors by the GitLab pipeline; external sources via registry synchronization where supported\",\"agent_discovery\":\"AWS Agent Registry search, approved records only\",\"mcp_tool_discovery\":\"AgentCore Gateway tools/list (tool names prefixed with the target name); MCP descriptor in AWS Agent Registry\",\"apigee_role\":\"Optional: inserted into the approved downstream route only where SAP Integration and Security require it; never bypassed silently\",\"agentcore_runtime\":true,\"agentcore_gateway\":true,\"aws_agent_registry\":true,\"aws_account\":\"Dedicated SAP-agent AWS account (proposed, not provisioned); central registry in the AI Foundry governance account\",\"llm_gateway\":\"Portkey\",\"llm_boundary\":\"AgentCore Runtime agent → Portkey → approved LLM provider. No direct provider route\",\"integration_suite\":\"SAP Integration Suite (API Management / Cloud Integration)\",\"cloud_connector\":\"SAP Cloud Connector, where the system connectivity model needs it (conditional)\",\"backend_authorization\":\"Target SAP backend roles of the mapped user or service identity\",\"identity_boundary\":\"Corporate IdP → AgentCore Runtime / AgentCore Identity → AgentCore Gateway → Integration Suite (or Apigee where inserted); token exchange and user mapping subject to validation\",\"persistence\":\"Conditional: approved AWS persistence service\",\"monitoring_audit\":\"AgentCore Runtime and Gateway observability; Integration Suite monitoring; SAP change documents; registry publication audit\",\"artifact_repository\":\"GitLab (central platform): source, specs, descriptors, CI/CD pipelines and artifacts; the AgentCore runtime image, gateway target definitions and registry record definitions are deployed from GitLab\",\"trust_boundaries\":[\"AWS (SAP-agent account)\",\"AWS (AI Foundry governance account)\",\"SAP landscape\",\"Portkey / LLM provider\"],\"assumptions\":[\"An approved API/OpenAPI target or a custom MCP on AgentCore Runtime can reach the SAP Integration Suite API\",\"SAP Integration and Security accept the route without Apigee, or approve Apigee as an exception\"],\"unverified\":[\"AgentCore Runtime, Gateway and Registry entitlements, quota and region in the dedicated account\",\"API/OpenAPI target schema, authentication and connectivity to Integration Suite\",\"SAP API policy exceptions if Apigee is omitted\",\"Cross-platform user identity\",\"Custom MCP lifecycle ownership\"],\"policy_dependencies\":[\"SAP Integration policy on whether Apigee is mandatory for the SAP API route\",\"AWS account approval and service availability\"],\"hosting_note\":\"AgentCore Runtime hosts, AgentCore Gateway mediates, AWS Agent Registry registers: three distinct capabilities. Apigee is optional, not assumed.\",\"advantages\":[\"Centralized AWS runtime and tool-management capabilities\",\"Less dependence on SAP BTP for general-purpose agent compute\",\"Potentially simpler runtime architecture for AWS-native MCP capabilities\",\"Consistent AgentCore operational tooling\"],\"considerations\":[\"AgentCore Runtime and Gateway costs\",\"Custom MCP lifecycle management\",\"SAP API gateway policy exceptions if Apigee is omitted\",\"Cross-platform user identity\",\"AWS account permissions and service availability\",\"Responsibility for SAP-specific API policies\"]},\"S3\":{\"id\":\"S3\",\"name\":\"S3 · AWS AgentCore + Apigee hybrid\",\"short\":\"AgentCore + Apigee\",\"status\":\"Preferred candidate for a comparative POC · conditional\",\"classification\":\"Preferred strategic investment candidate to evaluate first, conditional on account approval, identity validation, gateway interoperability, enterprise policy and measured comparative cost. Not production-approved.\",\"objective\":\"AWS AgentCore Runtime executes the agent, AgentCore Gateway is the enterprise runtime gateway, and Google Apigee stays the SAP-facing MCP/API gateway in front of SAP Integration Suite. AWS Agent Registry registers agents and MCP endpoints on a separate control-plane path. A dedicated SAP-agent AWS account is proposed.\",\"agent_runtime\":\"AWS AgentCore Runtime\",\"agent_hosting_owner\":\"AWS cloud platform team (SAP-agent account)\",\"agent_execution_endpoint\":\"AgentCore Runtime agent invocation endpoint\",\"ui_hosting\":\"SAP Fiori or an enterprise application client\",\"mcp_client\":\"Inside the agent process on AgentCore Runtime (framework executing in the runtime)\",\"mcp_endpoint_type\":\"AgentCore Gateway MCP endpoint to the agent; Apigee-managed MCP endpoint (Pattern A) to SAP; custom MCP behind Apigee only where Apigee-managed MCP is insufficient (Pattern B)\",\"mcp_gateway\":\"AWS AgentCore Gateway (enterprise runtime gateway) in front of Google Apigee (SAP-facing MCP/API gateway)\",\"custom_mcp_runtime\":\"Conditional: an approved runtime, preferably AgentCore Runtime for AWS-owned code, exposed through Apigee\",\"custom_mcp_hosting_owner\":\"AWS cloud platform team\",\"mcp_tool_execution_location\":\"Pattern A: API operation behind Apigee. Pattern B: the custom MCP service on its approved runtime, reached through Apigee\",\"agent_registry\":\"AWS Agent Registry\",\"mcp_registry\":\"AWS Agent Registry\",\"registry_publisher_approver\":\"Integration team with the respective technical approvals publishes from GitLab; AWS Agent Registry curator (AI Foundry) approves\",\"registry_sync\":\"AgentCore agent record and Apigee MCP endpoint metadata are published to AWS Agent Registry as a control-plane path; gateway target configuration is a separate runtime responsibility\",\"agent_discovery\":\"AWS Agent Registry search, approved records only\",\"mcp_tool_discovery\":\"AgentCore Gateway tools/list toward the agent; Apigee tools/list behind it; the registry record is metadata only\",\"apigee_role\":\"Required: the SAP-facing MCP endpoint behind AgentCore Gateway\",\"agentcore_runtime\":true,\"agentcore_gateway\":true,\"aws_agent_registry\":true,\"aws_account\":\"Dedicated SAP-agent AWS account (proposed, not provisioned) with separate environments; the central registry may live in the AI Foundry governance account\",\"llm_gateway\":\"Portkey\",\"llm_boundary\":\"AgentCore Runtime → Portkey → approved enterprise LLM. No direct provider route\",\"integration_suite\":\"SAP Integration Suite (API Management / Cloud Integration)\",\"cloud_connector\":\"SAP Cloud Connector, only for the applicable private-connectivity route (conditional)\",\"backend_authorization\":\"Target SAP backend roles of the mapped user or service identity\",\"identity_boundary\":\"Corporate IdP → AgentCore Runtime / AgentCore Identity → AgentCore Gateway → Apigee → Integration Suite → SAP backend; two token hops to validate\",\"persistence\":\"Conditional: approved AWS persistence service\",\"monitoring_audit\":\"AgentCore Runtime and Gateway observability; Apigee analytics; Integration Suite monitoring; SAP change documents; one correlation id joined across all of them\",\"artifact_repository\":\"GitLab (central platform): source, specs, descriptors, CI/CD pipelines and artifacts; the AgentCore runtime image, gateway targets, Apigee bundles and registry record definitions are deployed from GitLab\",\"trust_boundaries\":[\"AWS (SAP-agent account)\",\"AWS (AI Foundry governance account)\",\"Google Apigee\",\"SAP landscape\",\"Portkey / LLM provider\"],\"assumptions\":[\"AgentCore Gateway can register the Apigee MCP endpoint as a target and exchange tokens\",\"Apigee remains part of the approved SAP integration design\",\"The dedicated AWS account is approved with the AgentCore services\"],\"unverified\":[\"AgentCore Gateway to Apigee: MCP protocol versions overlap (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26) and outbound OAuth and token exchange are documented, but no end-to-end call has been made\",\"Whether the Apigee endpoint is reachable from AWS (not yet checked)\",\"Whether the registry credential provider is in the same AWS account (not yet checked)\",\"Whether an external MCP server is an MCP or an HTTP target for the gateway; Apigee MCP does not support SSE streams\",\"Non-duplicative responsibilities of the two gateways, quota ownership and tool naming\",\"Dedicated account approval, quotas and region\",\"Comparative cost against S1 and S2\"],\"policy_dependencies\":[\"AI Foundry and SAP Integration approve the gateway ownership boundaries\",\"Dedicated SAP-agent AWS account approved\",\"Enterprise approval of the additional gateway hop and its cost\"],\"hosting_note\":\"AgentCore Gateway fronts Apigee: two gateways in series with separate responsibilities. AWS Agent Registry is never an execution hop.\",\"advantages\":[\"AWS-managed agent execution\",\"SAP-specific MCP/API governance retained through Apigee\",\"Central agent and MCP registration\",\"Potential separation of compute cost from SAP BTP\",\"Reusable for multiple SAP systems\",\"Consistent Portkey LLM governance\"],\"considerations\":[\"Two runtime gateways need non-duplicative responsibilities\",\"AgentCore-to-Apigee authentication and token exchange\",\"An additional network hop and gateway charges\",\"MCP protocol and tool schema compatibility\",\"Possible duplicated tool catalogs and policy controls\",\"Multi-cloud incident management and audit correlation\",\"Separate AWS account approval and operational ownership\"]}}"),
 	comparison: [
+		[
+			"Classification",
+			"SAP-hosted alternative",
+			"AWS-native alternative",
+			"Preferred candidate for a comparative POC · conditional"
+		],
 		[
 			"Agent hosting",
 			"SAP BTP Cloud Foundry",
 			"AWS AgentCore Runtime",
-			"SAP BTP Cloud Foundry"
+			"AWS AgentCore Runtime"
 		],
 		[
 			"Agent execution",
 			"Cloud Foundry application",
 			"AgentCore Runtime agent",
-			"Cloud Foundry application"
+			"AgentCore Runtime agent"
 		],
 		[
-			"MCP gateway",
+			"AWS account",
+			"Not used for execution; registry in the central governance account",
+			"Dedicated SAP-agent account (proposed)",
+			"Dedicated SAP-agent account (proposed)"
+		],
+		[
+			"Runtime gateway",
 			"Google Apigee",
-			"AgentCore Gateway (enterprise) in front of Google Apigee (SAP-facing)",
-			"Google Apigee"
+			"AWS AgentCore Gateway",
+			"AWS AgentCore Gateway in front of Google Apigee"
+		],
+		[
+			"Apigee",
+			"Required: SAP-facing MCP endpoint",
+			"Optional, only where SAP Integration and Security require it",
+			"Required: SAP-facing MCP endpoint"
 		],
 		[
 			"Managed MCP endpoint versus custom server",
-			"Pattern A is the default: an approved API exposed as an MCP tool through Apigee, no custom server. Pattern B only where logic needs code",
-			"Same two patterns behind Apigee; AgentCore Gateway fronts both",
-			"Same as S1"
+			"Pattern A (Apigee-managed) by default; Pattern B only where logic needs code",
+			"API/OpenAPI Gateway target avoids a custom server; a custom MCP on AgentCore Runtime where needed",
+			"Pattern A by default; Pattern B only where Apigee-managed MCP is insufficient"
 		],
 		[
 			"Custom MCP server hosting",
-			"SAP BTP Cloud Foundry, only if required",
-			"AWS AgentCore Runtime, if required (proxied by Apigee: cross-cloud, conditional)",
-			"SAP BTP Cloud Foundry, if required"
+			"SAP BTP Cloud Foundry, if required",
+			"AWS AgentCore Runtime, when required",
+			"Conditional; AgentCore Runtime preferred for AWS-owned code, exposed through Apigee"
 		],
 		[
 			"MCP tool execution",
 			"Behind Apigee: API operation, or the Cloud Foundry service",
-			"Behind Apigee: API operation, or the AgentCore-hosted service through a cross-cloud target",
-			"Behind Apigee: API operation, or the Cloud Foundry service"
+			"Behind the Gateway: AgentCore-hosted MCP or an API target",
+			"Behind Apigee: API operation, or the custom MCP service"
 		],
 		[
 			"Agent registry",
-			"GitLab catalog · interim, not a full agent registry",
+			"AWS Agent Registry",
 			"AWS Agent Registry",
 			"AWS Agent Registry"
 		],
 		[
 			"MCP registry",
-			"GitLab catalog · interim, not a full agent registry",
+			"AWS Agent Registry",
 			"AWS Agent Registry",
 			"AWS Agent Registry"
 		],
@@ -12207,21 +12225,21 @@ var R = {
 		],
 		[
 			"Persistence",
-			"Conditional: SAP HANA Cloud or an existing approved store",
-			"Conditional: approved AWS persistence",
-			"Conditional: SAP HANA Cloud or an existing approved store"
+			"Conditional: existing approved service, or SAP HANA Cloud where justified",
+			"Conditional: approved AWS service",
+			"Conditional: approved AWS service"
 		],
 		[
 			"Identity propagation",
-			"Enterprise IdP or IAS to agent, Apigee, Integration Suite; mapping to validate",
-			"Adds AgentCore Identity and a second gateway hop; mapping to validate",
-			"As S1 plus a separate control-plane identity to the registry"
+			"IdP or IAS to the agent, Apigee, Integration Suite; mapping to validate",
+			"IdP to AgentCore Identity and Gateway, then Integration Suite; mapping to validate",
+			"IdP to AgentCore Identity, Gateway, Apigee and Integration Suite; two token hops to validate"
 		],
 		[
 			"SAP connectivity",
-			"Apigee → SAP Integration Suite → Cloud Connector where applicable → SAP backend",
-			"Same after Apigee",
-			"Same as S1"
+			"Apigee → Integration Suite → Cloud Connector where applicable → SAP backend",
+			"Gateway (or Apigee if inserted) → Integration Suite → Cloud Connector where applicable → SAP backend",
+			"Gateway → Apigee → Integration Suite → Cloud Connector where applicable → SAP backend"
 		],
 		[
 			"Business authorization",
@@ -12231,57 +12249,57 @@ var R = {
 		],
 		[
 			"Operational responsibility",
-			"SAP BTP team runs the agent and any custom MCP; the integration team runs Apigee",
-			"AWS team runs agent, gateway and any custom MCP; the integration team runs Apigee",
-			"As S1; AI Foundry runs the registry"
+			"SAP BTP team runs the agent; integration team runs Apigee",
+			"AWS team runs agent, gateway and MCP; Apigee team only if inserted",
+			"AWS team runs agent and gateway; integration team runs Apigee; two teams share incidents"
 		],
 		[
 			"Monitoring and audit",
-			"BTP logs, Apigee analytics, Integration Suite monitoring; correlation id to propagate",
-			"AgentCore observability plus the same SAP-side sources; two gateway logs to correlate",
-			"As S1 plus registry publication audit"
+			"BTP logs, Apigee analytics, Integration Suite monitoring",
+			"AgentCore observability plus SAP-side sources",
+			"AgentCore, Apigee and SAP-side sources joined by a correlation id"
 		],
 		[
 			"Scalability",
-			"Cloud Foundry application scaling; limited by BTP quota",
+			"Cloud Foundry application scaling within BTP quota",
 			"AgentCore managed runtime scaling",
-			"As S1"
+			"AgentCore managed runtime scaling; Apigee capacity limits apply"
 		],
 		[
 			"Network complexity",
-			"Cloud Foundry → Apigee (cross-cloud) → Integration Suite",
-			"AWS → Apigee (cross-cloud) → Integration Suite; Pattern B adds Apigee → AWS",
-			"As S1; registry traffic is separate control-plane traffic"
+			"Cloud Foundry → Apigee → Integration Suite",
+			"AWS → Integration Suite (or via Apigee)",
+			"AWS → Apigee (cross-cloud) → Integration Suite; extra gateway hop"
 		],
 		[
 			"Cost drivers",
-			"BTP runtime, Apigee, Integration Suite, Portkey",
-			"AgentCore Runtime and Gateway, Agent Registry, Apigee, Integration Suite, Portkey",
-			"BTP runtime, Agent Registry, Apigee, Integration Suite, Portkey"
+			"BTP runtime and credits, Apigee, Integration Suite, Portkey",
+			"AgentCore Runtime and Gateway, Agent Registry, Integration Suite, Portkey",
+			"AgentCore Runtime and Gateway, Apigee, Agent Registry, Integration Suite, Portkey, cross-cloud transfer"
 		],
 		[
 			"Vendor and platform dependencies",
-			"SAP BTP, Google Apigee",
-			"AWS, Google Apigee",
-			"SAP BTP, AWS (registry only), Google Apigee"
+			"SAP BTP, Google Apigee, AWS (registry only)",
+			"AWS, SAP",
+			"AWS, Google Apigee, SAP"
 		],
 		[
 			"Enterprise governance alignment",
-			"Interim GitLab catalog with integration-team approval; not a full agent registry",
+			"Central registration with SAP execution ownership",
 			"Aligned with AWS-centric AI Foundry governance",
-			"Central registration under AI Foundry with SAP execution ownership"
+			"Central registration plus SAP-facing MCP governance"
 		],
 		[
 			"Deployment prerequisites",
-			"Cloud Foundry space, Apigee MCP enablement, Integration Suite APIs, IdP, Portkey route",
-			"AgentCore access in region, Gateway target for Apigee, registry, Apigee MCP, IdP, Portkey route",
-			"As S1 plus Agent Registry access and record synchronization method"
+			"Cloud Foundry space and quota, Apigee MCP, GitLab pipeline, registry access",
+			"Dedicated AWS account, AgentCore services, GitLab pipeline, registry access",
+			"As S2 plus Apigee MCP and a gateway-to-Apigee target"
 		],
 		[
 			"Open architecture decisions",
-			"Whether the interim GitLab catalog is enough or a registry product follows",
-			"Gateway-to-Apigee token exchange; duplicate policy ownership",
-			"Whether AWS can reach SAP-hosted endpoints (otherwise publish from GitLab); AI Foundry written confirmation that the gateway is not mandatory"
+			"Approval of direct Apigee invocation; Cloud Foundry economics",
+			"Whether Apigee is mandated; API target validity",
+			"Account approval, interoperability, identity, comparative cost, gateway ownership"
 		]
 	],
 	connCols: [
@@ -12311,7 +12329,15 @@ var R = {
 				"Vendor-documented · tenant NOT_VERIFIED"
 			],
 			[
-				"Apigee MCP/API",
+				"Apigee MCP endpoint",
+				"Custom MCP on Cloud Foundry (Pattern B)",
+				"Runtime (conditional)",
+				"HTTPS proxy target",
+				"Target credential held by Apigee",
+				"Only where custom logic is required"
+			],
+			[
+				"Apigee MCP endpoint",
 				"SAP Integration Suite",
 				"Runtime",
 				"HTTPS REST or OData",
@@ -12351,20 +12377,20 @@ var R = {
 				"Design assumption"
 			],
 			[
-				"Cloud Foundry agent (MCP client)",
-				"GitLab catalog · interim, not a full agent registry",
-				"Registration / discovery (not invocation)",
-				"Registry API",
-				"Registry identity",
-				"TBD · REQUIRES VALIDATION"
+				"GitLab CI/CD",
+				"Deployment targets",
+				"Deployment (not invocation)",
+				"Pipeline",
+				"Pipeline service identity",
+				"Design assumption"
 			],
 			[
-				"Apigee MCP endpoint",
-				"Custom MCP server on Cloud Foundry (Pattern B)",
-				"Runtime (conditional)",
-				"HTTPS proxy target",
-				"Target credential held by Apigee",
-				"Only where custom logic is required"
+				"Cloud Foundry agent (MCP client)",
+				"AWS Agent Registry",
+				"Registration (not invocation)",
+				"Registry API",
+				"Registry identity, separate from runtime identity",
+				"Vendor-documented · tenant NOT_VERIFIED"
 			]
 		],
 		S2: [
@@ -12386,14 +12412,30 @@ var R = {
 			],
 			[
 				"AgentCore Gateway",
-				"Apigee MCP endpoint",
-				"Runtime",
-				"MCP over Streamable HTTP; protocol compatibility unproven",
-				"Outbound OAuth or API key via AgentCore Identity; token exchange to validate",
-				"TBD · REQUIRES VALIDATION"
+				"Custom MCP on AgentCore Runtime",
+				"Runtime (conditional)",
+				"MCP over Streamable HTTP",
+				"Outbound OAuth or gateway role",
+				"Only where a custom MCP is required"
 			],
 			[
-				"Apigee MCP/API",
+				"AgentCore Gateway",
+				"API / OpenAPI target (alternative)",
+				"Runtime (alternative)",
+				"HTTPS, target schema",
+				"Credential provider per target",
+				"Schema, authentication and connectivity must be checked first"
+			],
+			[
+				"AgentCore Gateway",
+				"Apigee MCP endpoint (optional)",
+				"Runtime (conditional)",
+				"MCP over Streamable HTTP",
+				"Outbound OAuth or token exchange",
+				"Only where SAP Integration policy requires Apigee"
+			],
+			[
+				"AgentCore Gateway",
 				"SAP Integration Suite",
 				"Runtime",
 				"HTTPS REST or OData",
@@ -12433,41 +12475,65 @@ var R = {
 				"Design assumption"
 			],
 			[
-				"AgentCore Runtime agent (MCP client)",
-				"AWS Agent Registry",
-				"Registration / discovery (not invocation)",
-				"Registry API",
-				"Registry identity",
-				"Vendor-documented · tenant NOT_VERIFIED"
+				"GitLab CI/CD",
+				"Deployment targets",
+				"Deployment (not invocation)",
+				"Pipeline",
+				"Pipeline service identity",
+				"Design assumption"
 			],
 			[
-				"Apigee MCP endpoint",
-				"Custom MCP on AgentCore Runtime (Pattern B)",
-				"Runtime (conditional, cross-cloud)",
-				"HTTPS proxy target",
-				"Target credential held by Apigee",
-				"Only where custom logic is required; extra network hop"
+				"AgentCore Runtime agent (MCP client)",
+				"AWS Agent Registry",
+				"Registration (not invocation)",
+				"Registry API",
+				"Registry identity, separate from runtime identity",
+				"Vendor-documented · tenant NOT_VERIFIED"
 			]
 		],
 		S3: [
 			[
 				"SAP Fiori / existing UI",
-				"Cloud Foundry agent (MCP client)",
+				"AgentCore Runtime agent (MCP client)",
 				"Runtime",
 				"HTTPS",
 				"User sign-in; delegated token to validate",
 				"Design assumption"
 			],
 			[
-				"Cloud Foundry agent (MCP client)",
-				"Apigee MCP endpoint",
+				"AgentCore Runtime agent (MCP client)",
+				"AgentCore Gateway",
 				"Runtime",
 				"MCP over Streamable HTTP",
-				"OAuth 2.1 / OIDC bearer or API key per product",
+				"JWT bearer validated by the gateway authorizer, or IAM",
 				"Vendor-documented · tenant NOT_VERIFIED"
 			],
 			[
-				"Apigee MCP/API",
+				"AgentCore Gateway",
+				"Apigee MCP endpoint",
+				"Runtime",
+				"MCP over Streamable HTTP; four shared protocol versions",
+				"Outbound OAuth client credentials or token exchange; passthrough is not supported",
+				"TBD · REQUIRES VALIDATION"
+			],
+			[
+				"Apigee MCP endpoint",
+				"Custom MCP service (Pattern B, conditional)",
+				"Runtime (conditional)",
+				"HTTPS proxy target",
+				"Target credential held by Apigee",
+				"Only where Apigee-managed MCP is insufficient"
+			],
+			[
+				"Apigee MCP endpoint metadata",
+				"AWS Agent Registry",
+				"Registration (not invocation)",
+				"Registry API",
+				"Registry identity, separate from runtime identity",
+				"TBD · REQUIRES VALIDATION"
+			],
+			[
+				"Apigee MCP endpoint",
 				"SAP Integration Suite",
 				"Runtime",
 				"HTTPS REST or OData",
@@ -12491,7 +12557,7 @@ var R = {
 				"Design assumption"
 			],
 			[
-				"Cloud Foundry agent (MCP client)",
+				"AgentCore Runtime agent (MCP client)",
 				"Portkey",
 				"LLM",
 				"HTTPS",
@@ -12507,71 +12573,110 @@ var R = {
 				"Design assumption"
 			],
 			[
-				"Cloud Foundry agent (MCP client)",
-				"AWS Agent Registry",
-				"Registration / discovery (not invocation)",
-				"Registry API",
-				"Registry identity",
-				"Vendor-documented · tenant NOT_VERIFIED"
+				"GitLab CI/CD",
+				"Deployment targets",
+				"Deployment (not invocation)",
+				"Pipeline",
+				"Pipeline service identity",
+				"Design assumption"
 			],
 			[
-				"Apigee MCP endpoint metadata",
+				"AgentCore Runtime agent (MCP client)",
 				"AWS Agent Registry",
 				"Registration (not invocation)",
-				"Registry API or synchronization where supported",
+				"Registry API",
 				"Registry identity, separate from runtime identity",
-				"TBD · REQUIRES VALIDATION"
-			],
-			[
-				"Apigee MCP endpoint",
-				"Custom MCP server on Cloud Foundry (Pattern B)",
-				"Runtime (conditional)",
-				"HTTPS proxy target",
-				"Target credential held by Apigee",
-				"Only where custom logic is required"
+				"Vendor-documented · tenant NOT_VERIFIED"
 			]
 		]
 	},
-	diagrams: /* @__PURE__ */ JSON.parse("{\"D1\":{\"id\":\"D1\",\"scenario\":null,\"title\":\"Enterprise architecture overview\",\"chain\":\"Control plane · runtime plane · evidence plane, common to S1, S2 and S3\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Identity providers\",\"sub\":\"Enterprise IdP, SAP Cloud Identity (candidate); trust boundaries\",\"kind\":\"identity\"},{\"id\":\"reg\",\"row\":0,\"col\":2,\"title\":\"Agent and MCP registries\",\"sub\":\"Control plane: catalog, discovery, approval\",\"kind\":\"registry\"},{\"id\":\"ent\",\"row\":0,\"col\":4,\"title\":\"AI Foundry governance\",\"sub\":\"Approval and publication authority\",\"kind\":\"decision\"},{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / existing UI\",\"sub\":\"Finance user entry\",\"kind\":\"ui\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent execution platform\",\"sub\":\"Runtime plane · hosts agent and MCP client\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":2,\"title\":\"MCP gateway / API layer\",\"sub\":\"Google Apigee; AgentCore Gateway in S2 only\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":3,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":4,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP Finance backend\",\"sub\":\"S/4HANA · Central Finance\",\"kind\":\"backend\"},{\"id\":\"portkey\",\"row\":2,\"col\":0,\"title\":\"Portkey\",\"sub\":\"LLM gateway\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":2,\"col\":1,\"title\":\"Approved LLM provider\",\"sub\":\"Only through Portkey\",\"kind\":\"llm\"},{\"id\":\"custom\",\"row\":2,\"col\":2,\"title\":\"Custom MCP runtime\",\"sub\":\"Only where logic needs code; platform per scenario\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"gitlab\",\"row\":3,\"col\":0,\"title\":\"GitLab (central platform)\",\"sub\":\"Source, specs, descriptors, catalog records, CI/CD and artifacts for every scenario\",\"kind\":\"artifact\",\"span\":3},{\"id\":\"obs\",\"row\":3,\"col\":3,\"title\":\"Observability and audit\",\"sub\":\"Evidence plane: logs, traces, change documents\",\"kind\":\"store\",\"span\":3}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"gw\",\"invoke\",\"MCP tools/call\"],[\"gw\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"gw\",\"custom\",\"invoke\",\"proxy target (if needed)\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"tokens\"],[\"agent\",\"reg\",\"registry\",\"register / discover\",{\"off\":14}],[\"ent\",\"reg\",\"approval\",\"approve\"],[\"cc\",\"obs\",\"audit\",\"evidence\"],[\"sap\",\"obs\",\"audit\",\"evidence\"]],\"bounds\":[[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"]],\"lanes\":[[0,\"CONTROL PLANE\"],[1,\"RUNTIME PLANE\"],[2,\"LLM · OPTIONAL\"],[3,\"EVIDENCE PLANE\"]],\"legend\":[\"invoke\",\"registry\",\"llm\",\"identity\",\"audit\",\"approval\"],\"footer\":\"No registry is a runtime hop. Per-scenario placement of the agent platform and gateway is in D2 to D4.\"},\"D2\":{\"id\":\"D2\",\"scenario\":\"S1\",\"title\":\"S1 · SAP-centric · topology\",\"chain\":\"UI → Cloud Foundry agent → Apigee MCP/API → Integration Suite → Cloud Connector (conditional) → SAP backend\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / existing UI\",\"sub\":\"Finance user entry; application unchanged\",\"kind\":\"ui\"},{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Enterprise identity\",\"sub\":\"IdP or SAP Cloud Identity (IAS, candidate); mapping to validate\",\"kind\":\"identity\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent · SAP BTP Cloud Foundry\",\"sub\":\"Agent execution and MCP client\",\"kind\":\"agent\"},{\"id\":\"apigee\",\"row\":1,\"col\":2,\"title\":\"Google Apigee MCP/API\",\"sub\":\"SAP-facing gateway; managed MCP endpoint (Pattern A)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":3,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":4,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional, private connectivity only\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"S/4HANA · Central Finance; business authorization\",\"kind\":\"backend\"},{\"id\":\"custom\",\"row\":2,\"col\":3,\"title\":\"Custom MCP · SAP BTP Cloud Foundry\",\"sub\":\"Pattern B, only if required; behind Apigee\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"portkey\",\"row\":0,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway: model selection, credentials, fallback\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":0,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Reached only through Portkey\",\"kind\":\"llm\"},{\"id\":\"db\",\"row\":2,\"col\":0,\"title\":\"Persistence · conditional\",\"sub\":\"SAP HANA Cloud or existing approved store, only if needed\",\"kind\":\"store\",\"dashed\":true},{\"id\":\"reg_agent\",\"row\":3,\"col\":1,\"title\":\"Agent registry\",\"sub\":\"GitLab catalog, integration-team approval\",\"kind\":\"registry\",\"dashed\":true,\"status\":\"INTERIM · NOT A FULL REGISTRY\",\"statusColor\":\"#8A5B13\"},{\"id\":\"reg_mcp\",\"row\":3,\"col\":2,\"title\":\"MCP registry\",\"sub\":\"GitLab catalog, integration-team approval\",\"kind\":\"registry\",\"dashed\":true,\"status\":\"INTERIM · NOT A FULL REGISTRY\",\"statusColor\":\"#8A5B13\"}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"apigee\",\"invoke\",\"MCP tools/call\"],[\"apigee\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"apigee\",\"custom\",\"invoke\",\"proxy target\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"workload / user token\"],[\"agent\",\"db\",\"invoke\",\"state if required\",{\"off\":20}],[\"agent\",\"reg_agent\",\"registry\",\"register / discover\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"apigee\",\"reg_mcp\",\"registry\",\"register / discover\",{\"off\":-20,\"labelAt\":\"mid\"}]],\"bounds\":[[\"SAP BTP\",[\"agent\"],\"sap\"],[\"Google Apigee\",[\"apigee\"],\"google\"],[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"]],\"lanes\":[[0,\"IDENTITY · LLM\"],[1,\"RUNTIME PATH\"],[2,\"OPTIONAL\"],[3,\"CONTROL PLANE\"]],\"legend\":[\"invoke\",\"llm\",\"identity\",\"registry\"],\"footer\":\"No AWS AgentCore component takes part. The registry is not selected yet: a plain API catalog is not a complete agent registry.\"},\"D3\":{\"id\":\"D3\",\"scenario\":\"S2\",\"title\":\"S2 · AWS AgentCore-centric · topology\",\"chain\":\"UI → AgentCore Runtime agent → AgentCore Gateway → Apigee MCP/API → Integration Suite → Cloud Connector (conditional) → SAP backend\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":7,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / existing UI\",\"sub\":\"Finance user entry; application unchanged\",\"kind\":\"ui\"},{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Enterprise identity\",\"sub\":\"IdP or SAP Cloud Identity (IAS, candidate); mapping to validate\",\"kind\":\"identity\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent · AWS AgentCore Runtime\",\"sub\":\"Agent execution and MCP client\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":2,\"title\":\"AWS AgentCore Gateway\",\"sub\":\"Enterprise MCP gateway; routes and authorizes\",\"kind\":\"gateway\"},{\"id\":\"apigee\",\"row\":1,\"col\":3,\"title\":\"Google Apigee MCP/API\",\"sub\":\"SAP-facing gateway; managed MCP endpoint (Pattern A)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":4,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":5,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional, private connectivity only\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":6,\"title\":\"SAP backend\",\"sub\":\"S/4HANA · Central Finance; business authorization\",\"kind\":\"backend\"},{\"id\":\"custom\",\"row\":2,\"col\":3,\"title\":\"Custom MCP · AgentCore Runtime\",\"sub\":\"Pattern B, conditional; via Apigee, cross-cloud\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"reg_agent\",\"row\":3,\"col\":1,\"title\":\"Agent registry · AWS Agent Registry\",\"sub\":\"Agent descriptor; discovery and approval\",\"kind\":\"registry\"},{\"id\":\"reg_mcp\",\"row\":3,\"col\":2,\"title\":\"MCP registry · AWS Agent Registry\",\"sub\":\"MCP descriptor; discovery and approval\",\"kind\":\"registry\"},{\"id\":\"portkey\",\"row\":0,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway: model selection, credentials, fallback\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":0,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Reached only through Portkey\",\"kind\":\"llm\"},{\"id\":\"db\",\"row\":2,\"col\":0,\"title\":\"Persistence · conditional\",\"sub\":\"Approved AWS store, only if durable state is needed\",\"kind\":\"store\",\"dashed\":true}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"gw\",\"invoke\",\"MCP tools/call\"],[\"gw\",\"apigee\",\"invoke\",\"\"],[\"apigee\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"apigee\",\"custom\",\"invoke\",\"proxy target · cross-cloud\",{\"off\":-30}],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"workload / user token\"],[\"agent\",\"reg_agent\",\"registry\",\"agent descriptor\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"gw\",\"reg_mcp\",\"registry\",\"MCP descriptor\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"agent\",\"db\",\"invoke\",\"state if required\",{\"off\":20}]],\"bounds\":[[\"AWS\",[\"agent\",\"gw\"],\"aws\"],[\"Google Apigee\",[\"apigee\"],\"google\"],[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"]],\"lanes\":[[0,\"IDENTITY · LLM\"],[1,\"RUNTIME PATH\"],[2,\"OPTIONAL\"],[3,\"CONTROL PLANE\"]],\"legend\":[\"invoke\",\"llm\",\"identity\",\"registry\"],\"footer\":\"Registration/discovery goes to AWS Agent Registry and is separate from the runtime path. AgentCore Runtime, Gateway and Registry are three capabilities. Apigee stays mandatory.\"},\"D4\":{\"id\":\"D4\",\"scenario\":\"S3\",\"title\":\"S3 · SAP-hosted hybrid · topology\",\"chain\":\"UI → Cloud Foundry agent → Apigee MCP/API → Integration Suite → Cloud Connector (conditional) → SAP backend\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / existing UI\",\"sub\":\"Finance user entry; application unchanged\",\"kind\":\"ui\"},{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Enterprise identity\",\"sub\":\"IdP or SAP Cloud Identity (IAS, candidate); mapping to validate\",\"kind\":\"identity\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent · SAP BTP Cloud Foundry\",\"sub\":\"Agent execution and MCP client\",\"kind\":\"agent\"},{\"id\":\"apigee\",\"row\":1,\"col\":2,\"title\":\"Google Apigee MCP/API\",\"sub\":\"SAP-facing gateway; managed MCP endpoint (Pattern A)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":3,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":4,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional, private connectivity only\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"S/4HANA · Central Finance; business authorization\",\"kind\":\"backend\"},{\"id\":\"custom\",\"row\":2,\"col\":3,\"title\":\"Custom MCP · SAP BTP Cloud Foundry\",\"sub\":\"Pattern B, only if required; behind Apigee\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"portkey\",\"row\":0,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway: model selection, credentials, fallback\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":0,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Reached only through Portkey\",\"kind\":\"llm\"},{\"id\":\"db\",\"row\":2,\"col\":0,\"title\":\"Persistence · conditional\",\"sub\":\"SAP HANA Cloud or existing approved store, only if needed\",\"kind\":\"store\",\"dashed\":true},{\"id\":\"reg_agent\",\"row\":3,\"col\":1,\"title\":\"Agent registry · AWS Agent Registry\",\"sub\":\"SAP-hosted agent metadata\",\"kind\":\"registry\"},{\"id\":\"reg_mcp\",\"row\":3,\"col\":2,\"title\":\"MCP registry · AWS Agent Registry\",\"sub\":\"Apigee MCP endpoint metadata\",\"kind\":\"registry\"},{\"id\":\"s3b\",\"row\":4,\"col\":0,\"title\":\"S3-B · not required\",\"sub\":\"The owner states AgentCore Gateway is not mandatory in S3. It would sit between agent and Apigee only if that policy changed.\",\"kind\":\"decision\",\"span\":4,\"h\":70,\"dashed\":true}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"apigee\",\"invoke\",\"MCP tools/call\"],[\"apigee\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"apigee\",\"custom\",\"invoke\",\"proxy target\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"workload / user token\"],[\"agent\",\"db\",\"invoke\",\"state if required\",{\"off\":20}],[\"agent\",\"reg_agent\",\"registry\",\"agent metadata\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"apigee\",\"reg_mcp\",\"registry\",\"endpoint metadata\",{\"off\":-20,\"labelAt\":\"mid\"}]],\"bounds\":[[\"SAP BTP\",[\"agent\"],\"sap\"],[\"Google Apigee\",[\"apigee\"],\"google\"],[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"],[\"AWS control plane only\",[\"reg_agent\",\"reg_mcp\"],\"aws\"]],\"lanes\":[[0,\"IDENTITY · LLM\"],[1,\"RUNTIME PATH\"],[2,\"OPTIONAL\"],[3,\"CONTROL PLANE\"]],\"legend\":[\"invoke\",\"llm\",\"identity\",\"registry\"],\"footer\":\"AWS Agent Registry registers and governs. It is not an execution hop: no AgentCore Runtime, and no AgentCore Gateway in the baseline.\"},\"D5\":{\"id\":\"D5\",\"scenario\":null,\"title\":\"MCP hosting versus registration\",\"chain\":\"Four independent decisions, plus the MCP gateway and the LLM gateway as separate shared responsibilities\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":4,\"nh\":76,\"ys\":[104,208,312,416,520,624],\"height\":840,\"nodes\":[{\"id\":\"l0\",\"row\":0,\"col\":0,\"title\":\"Agent hosting and execution\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c0_1\",\"row\":0,\"col\":1,\"title\":\"SAP BTP Cloud Foundry\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"agent\"},{\"id\":\"c0_2\",\"row\":0,\"col\":2,\"title\":\"AWS AgentCore Runtime\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"agent\"},{\"id\":\"c0_3\",\"row\":0,\"col\":3,\"title\":\"SAP BTP Cloud Foundry\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"agent\"},{\"id\":\"l1\",\"row\":1,\"col\":0,\"title\":\"Agent registration and discovery\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c1_1\",\"row\":1,\"col\":1,\"title\":\"GitLab catalog · interim, not a full agent registry\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"registry\",\"dashed\":true,\"status\":\"INTERIM\",\"statusColor\":\"#8A5B13\"},{\"id\":\"c1_2\",\"row\":1,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"registry\"},{\"id\":\"c1_3\",\"row\":1,\"col\":3,\"title\":\"AWS Agent Registry\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"registry\"},{\"id\":\"l2\",\"row\":2,\"col\":0,\"title\":\"MCP implementation hosting and execution\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c2_1\",\"row\":2,\"col\":1,\"title\":\"Cloud Foundry, only if custom code is needed\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"domain\"},{\"id\":\"c2_2\",\"row\":2,\"col\":2,\"title\":\"AgentCore Runtime, only if custom code is needed\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"domain\"},{\"id\":\"c2_3\",\"row\":2,\"col\":3,\"title\":\"Cloud Foundry, only if custom code is needed\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"domain\"},{\"id\":\"l3\",\"row\":3,\"col\":0,\"title\":\"MCP registration and discovery\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c3_1\",\"row\":3,\"col\":1,\"title\":\"GitLab catalog · interim, not a full agent registry\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"registry\",\"dashed\":true,\"status\":\"INTERIM\",\"statusColor\":\"#8A5B13\"},{\"id\":\"c3_2\",\"row\":3,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"registry\"},{\"id\":\"c3_3\",\"row\":3,\"col\":3,\"title\":\"AWS Agent Registry\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"registry\"},{\"id\":\"l4\",\"row\":4,\"col\":0,\"title\":\"MCP gateway / exposure (shared responsibility)\",\"sub\":\"Shared across scenarios\",\"kind\":\"gateway\"},{\"id\":\"c4_1\",\"row\":4,\"col\":1,\"title\":\"Google Apigee\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"gateway\"},{\"id\":\"c4_2\",\"row\":4,\"col\":2,\"title\":\"AgentCore Gateway + Google Apigee\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"gateway\"},{\"id\":\"c4_3\",\"row\":4,\"col\":3,\"title\":\"Google Apigee\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"gateway\"},{\"id\":\"l5\",\"row\":5,\"col\":0,\"title\":\"LLM gateway (common to all)\",\"sub\":\"Shared across scenarios\",\"kind\":\"llm\"},{\"id\":\"c5_1\",\"row\":5,\"col\":1,\"title\":\"Portkey\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"llm\"},{\"id\":\"c5_2\",\"row\":5,\"col\":2,\"title\":\"Portkey\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"llm\"},{\"id\":\"c5_3\",\"row\":5,\"col\":3,\"title\":\"Portkey\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"llm\"}],\"edges\":[[\"c0_1\",\"c1_1\",\"registry\",\"metadata only\",{\"off\":0}],[\"c2_1\",\"c3_1\",\"registry\",\"metadata only\"],[\"c0_2\",\"c1_2\",\"registry\",\"metadata\",{\"off\":0}],[\"c2_2\",\"c3_2\",\"registry\",\"metadata only\"],[\"c0_3\",\"c1_3\",\"registry\",\"metadata only\",{\"off\":0}],[\"c2_3\",\"c3_3\",\"registry\",\"metadata only\"]],\"bounds\":[],\"lanes\":[],\"legend\":[\"registry\"],\"footer\":\"Using AWS Agent Registry (S3) does not require AWS agent hosting: the agent still runs on SAP BTP Cloud Foundry. The dashed arrow carries metadata only.\"},\"D6\":{\"id\":\"D6\",\"scenario\":null,\"title\":\"Identity, authorization and principal propagation\",\"chain\":\"Six identities, five boundaries; SAP decides business authorization\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":96,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"idp\",\"row\":0,\"col\":1,\"title\":\"SAP Cloud Identity Services (IAS) · candidate trust component\",\"sub\":\"Evaluate as trust component; Global User ID as identity-correlation attribute where supported\",\"kind\":\"identity\",\"span\":3,\"h\":70},{\"id\":\"user\",\"row\":1,\"col\":0,\"title\":\"Business user\",\"sub\":\"Authenticates at the IdP\",\"kind\":\"ui\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent workload identity\",\"sub\":\"Identity of the agent runtime\",\"kind\":\"agent\"},{\"id\":\"mcp\",\"row\":1,\"col\":2,\"title\":\"MCP client identity\",\"sub\":\"Token the client presents to the gateway\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":3,\"title\":\"Gateway identity\",\"sub\":\"Apigee (and AgentCore Gateway in S2)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":4,\"title\":\"Integration Suite identity\",\"sub\":\"Service identity toward SAP\",\"kind\":\"integration\"},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP backend identity\",\"sub\":\"Mapped user or technical user executes\",\"kind\":\"backend\"},{\"id\":\"notenough\",\"row\":2,\"col\":0,\"title\":\"Not sufficient on its own\",\"sub\":\"A Global User ID or an ordinary HTTP header is not principal propagation\",\"kind\":\"decision\",\"span\":2,\"h\":80},{\"id\":\"tx\",\"row\":2,\"col\":2,\"title\":\"Token exchange / user mapping\",\"sub\":\"Subject to validation at every boundary: PENDING, not proven\",\"kind\":\"decision\",\"span\":2,\"h\":80,\"dashed\":true},{\"id\":\"neg\",\"row\":2,\"col\":4,\"title\":\"Negative case\",\"sub\":\"Agent may discover and call the tool; SAP rejects an operation the mapped user lacks authority for\",\"kind\":\"decision\",\"span\":2,\"h\":80},{\"id\":\"auth\",\"row\":3,\"col\":0,\"title\":\"SAP backend is the business authority\",\"sub\":\"Registry visibility, gateway access and tool discovery never grant business authorization. Business approval is a separate step.\",\"kind\":\"backend\",\"span\":3,\"h\":84},{\"id\":\"byscen\",\"row\":3,\"col\":3,\"title\":\"What differs by scenario\",\"sub\":\"S1: agent to Apigee, one hop. S2: agent to AgentCore Gateway to Apigee, two hops. S3: as S1, plus a separate registry identity.\",\"kind\":\"decision\",\"span\":3,\"h\":84}],\"edges\":[[\"user\",\"agent\",\"identity\",\"delegated user token\"],[\"agent\",\"mcp\",\"identity\",\"client credential\"],[\"mcp\",\"gw\",\"identity\",\"bearer · validated\"],[\"gw\",\"int\",\"identity\",\"OAuth / cert · mapping\"],[\"int\",\"sap\",\"identity\",\"principal propagation\"],[\"idp\",\"agent\",\"identity\",\"issues tokens\",{\"off\":-20}],[\"idp\",\"gw\",\"identity\",\"validates\",{\"off\":-10}]],\"bounds\":[],\"lanes\":[[1,\"IDENTITIES\"],[2,\"VALIDATION\"]],\"legend\":[\"identity\"],\"footer\":\"Authentication and authorization are separate at each boundary. Token exchange and user mapping are design assumptions until validated.\"},\"D7\":{\"id\":\"D7\",\"scenario\":null,\"title\":\"LLM execution architecture\",\"chain\":\"Agent runtime → Portkey → approved LLM provider (common to S1, S2, S3)\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":5,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"agent\",\"row\":1,\"col\":0,\"title\":\"Agent runtime\",\"sub\":\"S1, S3: SAP BTP Cloud Foundry. S2: AgentCore Runtime\",\"kind\":\"agent\"},{\"id\":\"portkey\",\"row\":1,\"col\":1,\"title\":\"Portkey LLM gateway\",\"sub\":\"Single route to models in all scenarios\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":1,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Selected model\",\"kind\":\"llm\"},{\"id\":\"sep\",\"row\":1,\"col\":4,\"title\":\"MCP gateway and registries\",\"sub\":\"Separate planes: no path to Portkey\",\"kind\":\"gateway\",\"dashed\":true},{\"id\":\"m1\",\"row\":2,\"col\":0,\"title\":\"Model selection\",\"sub\":\"Which approved model serves the request\",\"kind\":\"control\"},{\"id\":\"m2\",\"row\":2,\"col\":1,\"title\":\"Credential management\",\"sub\":\"Provider keys held in Portkey, not in the agent\",\"kind\":\"control\"},{\"id\":\"m3\",\"row\":2,\"col\":2,\"title\":\"Timeout and fallback\",\"sub\":\"Policy for slow or failed calls\",\"kind\":\"control\"},{\"id\":\"m4\",\"row\":2,\"col\":3,\"title\":\"Monitoring\",\"sub\":\"Usage, latency and cost per request\",\"kind\":\"control\"},{\"id\":\"nobypass\",\"row\":3,\"col\":0,\"title\":\"No direct provider route\",\"sub\":\"A call that bypasses Portkey is not permitted in any scenario\",\"kind\":\"decision\",\"span\":5,\"h\":70}],\"edges\":[[\"agent\",\"portkey\",\"llm\",\"LLM request\"],[\"portkey\",\"llm\",\"llm\",\"model call\"]],\"bounds\":[],\"lanes\":[[1,\"LLM PATH\"],[2,\"AT PORTKEY\"]],\"legend\":[\"llm\"],\"footer\":\"Portkey is independent of the MCP gateway and the registry. Model-provider routes that skip Portkey are not drawn because they are not allowed.\"},\"D8\":{\"id\":\"D8\",\"scenario\":null,\"title\":\"Registry lifecycle and synchronization\",\"chain\":\"Developed → artifact → validation → approval → publication → discovery → invocation → monitoring → update or retirement\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":5,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"t0\",\"row\":1,\"col\":0,\"title\":\"Capability developed\",\"sub\":\"Agent or MCP code and descriptor\",\"kind\":\"artifact\"},{\"id\":\"t1\",\"row\":1,\"col\":1,\"title\":\"Versioned artifact\",\"sub\":\"GitLab tag, image or spec version\",\"kind\":\"artifact\"},{\"id\":\"t2\",\"row\":1,\"col\":2,\"title\":\"Domain validation\",\"sub\":\"Domain owner checks scope\",\"kind\":\"artifact\"},{\"id\":\"t3\",\"row\":1,\"col\":3,\"title\":\"Approval\",\"sub\":\"Integration team (S1, S3); AI Foundry for AWS records\",\"kind\":\"registry\"},{\"id\":\"t4\",\"row\":1,\"col\":4,\"title\":\"Registry publication\",\"sub\":\"Registry record created\",\"kind\":\"registry\"},{\"id\":\"b0\",\"row\":2,\"col\":4,\"title\":\"Discovery\",\"sub\":\"Approved records only\",\"kind\":\"registry\"},{\"id\":\"b1\",\"row\":2,\"col\":3,\"title\":\"Invocation under runtime authorization\",\"sub\":\"Not proven by registration alone\",\"kind\":\"agent\"},{\"id\":\"b2\",\"row\":2,\"col\":2,\"title\":\"Monitoring\",\"sub\":\"Runtime and registry telemetry\",\"kind\":\"registry\"},{\"id\":\"b3\",\"row\":2,\"col\":1,\"title\":\"Version update or retirement\",\"sub\":\"New version or retire record\",\"kind\":\"registry\"},{\"id\":\"b4\",\"row\":2,\"col\":0,\"title\":\"Revocation and stale-metadata handling\",\"sub\":\"Sync reverts a record to draft and removes nothing: retire or revoke explicitly\",\"kind\":\"registry\"},{\"id\":\"ext\",\"row\":3,\"col\":0,\"title\":\"External sources (S3)\",\"sub\":\"SAP-hosted agent and Apigee MCP endpoint metadata\",\"kind\":\"domain\",\"span\":1},{\"id\":\"areg\",\"row\":3,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"Synchronizes approved metadata from external sources where supported\",\"kind\":\"registry\",\"span\":1},{\"id\":\"warn\",\"row\":4,\"col\":0,\"title\":\"Publication is not proof\",\"sub\":\"Not proof of endpoint reachability, runtime authorization or SAP execution. Stale or revoked metadata is detected by periodic re-validation.\",\"kind\":\"decision\",\"span\":5,\"h\":70}],\"edges\":[[\"t0\",\"t1\",\"invoke\",\"\"],[\"t1\",\"t2\",\"invoke\",\"\"],[\"t2\",\"t3\",\"invoke\",\"\"],[\"t3\",\"t4\",\"invoke\",\"\"],[\"t4\",\"b0\",\"registry\",\"publish → discover\"],[\"b0\",\"b1\",\"invoke\",\"\"],[\"b1\",\"b2\",\"invoke\",\"\"],[\"b2\",\"b3\",\"invoke\",\"\"],[\"b3\",\"b4\",\"invoke\",\"\"],[\"ext\",\"areg\",\"registry\",\"sync approved metadata\"]],\"bounds\":[],\"lanes\":[[1,\"PUBLISH\"],[2,\"USE · RETIRE\"],[3,\"\"]],\"legend\":[\"invoke\",\"registry\"],\"footer\":\"Lifecycle arrows show order of steps, not runtime traffic. Discovery returns metadata; invocation is a separate authorized call.\"},\"D9\":{\"id\":\"D9\",\"scenario\":null,\"title\":\"Observability and audit\",\"chain\":\"Agent request → LLM → MCP tool → gateway → Integration Suite → SAP backend, joined by a correlation id\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"s0\",\"row\":1,\"col\":0,\"title\":\"Agent request\",\"sub\":\"Session and business correlation id created\",\"kind\":\"agent\"},{\"id\":\"s1\",\"row\":1,\"col\":1,\"title\":\"LLM request\",\"sub\":\"Portkey log with request id\",\"kind\":\"llm\"},{\"id\":\"s2\",\"row\":1,\"col\":2,\"title\":\"MCP tool invocation\",\"sub\":\"Client call and tool name\",\"kind\":\"agent\"},{\"id\":\"s3\",\"row\":1,\"col\":3,\"title\":\"Gateway decision\",\"sub\":\"Apigee (and AgentCore Gateway in S2) allow or deny\",\"kind\":\"gateway\"},{\"id\":\"s4\",\"row\":1,\"col\":4,\"title\":\"Integration Suite execution\",\"sub\":\"Message processing log\",\"kind\":\"integration\"},{\"id\":\"s5\",\"row\":1,\"col\":5,\"title\":\"SAP backend operation\",\"sub\":\"Application log and change documents\",\"kind\":\"backend\"},{\"id\":\"err\",\"row\":2,\"col\":0,\"title\":\"Error / exception outcome\",\"sub\":\"Recorded with the same business correlation id\",\"kind\":\"decision\",\"span\":2,\"h\":80},{\"id\":\"model\",\"row\":2,\"col\":2,\"title\":\"Common correlation model\",\"sub\":\"Business id + session id + per-system request ids. Products do not share one trace id automatically\",\"kind\":\"store\",\"span\":4,\"h\":80},{\"id\":\"join\",\"row\":3,\"col\":0,\"title\":\"Evidence join\",\"sub\":\"Records are joined across systems by the business correlation id in an evidence store\",\"kind\":\"store\",\"span\":3,\"h\":70},{\"id\":\"resp\",\"row\":3,\"col\":3,\"title\":\"Audit responsibility\",\"sub\":\"Agent platform: agent and LLM. Gateway team: gateway. Integration team: Suite. SAP: backend\",\"kind\":\"control\",\"span\":3,\"h\":70}],\"edges\":[[\"s0\",\"s1\",\"audit\",\"correlate\"],[\"s1\",\"s2\",\"audit\",\"correlate\"],[\"s2\",\"s3\",\"audit\",\"correlate\"],[\"s3\",\"s4\",\"audit\",\"correlate\"],[\"s4\",\"s5\",\"audit\",\"correlate\"]],\"bounds\":[],\"lanes\":[[1,\"EVIDENCE\"],[2,\"OUTCOME\"],[3,\"JOIN\"]],\"legend\":[\"audit\"],\"footer\":\"The correlation id must be propagated by design and tested; it is not assumed to be carried by every product.\"},\"D10\":{\"id\":\"D10\",\"scenario\":null,\"title\":\"Three-scenario comparison\",\"chain\":\"Same labels and ownership boundaries in every scenario; Portkey is common and the registry is never in the path\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":62,\"ys\":[104,176,304,376,504,576],\"height\":840,\"nodes\":[{\"id\":\"S1_ui\",\"row\":0,\"col\":0,\"title\":\"SAP Fiori / UI\",\"sub\":\"SAP-centric\",\"kind\":\"ui\"},{\"id\":\"S1_agent\",\"row\":0,\"col\":1,\"title\":\"Cloud Foundry agent\",\"sub\":\"SAP BTP\",\"kind\":\"agent\"},{\"id\":\"S1_apigee\",\"row\":0,\"col\":3,\"title\":\"Apigee MCP/API\",\"sub\":\"SAP-facing gateway\",\"kind\":\"gateway\"},{\"id\":\"S1_int\",\"row\":0,\"col\":4,\"title\":\"Integration Suite\",\"sub\":\"SAP integration\",\"kind\":\"integration\"},{\"id\":\"S1_sap\",\"row\":0,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"Authorizes\",\"kind\":\"backend\"},{\"id\":\"S1_portkey\",\"row\":1,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway\",\"kind\":\"llm\",\"h\":56},{\"id\":\"S1_reg\",\"row\":1,\"col\":2,\"title\":\"GitLab catalog\",\"sub\":\"Interim, not a full registry\",\"kind\":\"registry\",\"h\":56,\"dashed\":true,\"status\":\"INTERIM\",\"statusColor\":\"#8A5B13\"},{\"id\":\"S2_ui\",\"row\":2,\"col\":0,\"title\":\"SAP Fiori / UI\",\"sub\":\"AWS AgentCore-centric\",\"kind\":\"ui\"},{\"id\":\"S2_agent\",\"row\":2,\"col\":1,\"title\":\"AgentCore Runtime agent\",\"sub\":\"AWS\",\"kind\":\"agent\"},{\"id\":\"S2_gw\",\"row\":2,\"col\":2,\"title\":\"AgentCore Gateway\",\"sub\":\"Enterprise gateway\",\"kind\":\"gateway\"},{\"id\":\"S2_apigee\",\"row\":2,\"col\":3,\"title\":\"Apigee MCP/API\",\"sub\":\"SAP-facing gateway\",\"kind\":\"gateway\"},{\"id\":\"S2_int\",\"row\":2,\"col\":4,\"title\":\"Integration Suite\",\"sub\":\"SAP integration\",\"kind\":\"integration\"},{\"id\":\"S2_sap\",\"row\":2,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"Authorizes\",\"kind\":\"backend\"},{\"id\":\"S2_portkey\",\"row\":3,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway\",\"kind\":\"llm\",\"h\":56},{\"id\":\"S2_reg\",\"row\":3,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"Agent and MCP records\",\"kind\":\"registry\",\"h\":56},{\"id\":\"S3_ui\",\"row\":4,\"col\":0,\"title\":\"SAP Fiori / UI\",\"sub\":\"SAP-hosted hybrid · preferred candidate\",\"kind\":\"ui\"},{\"id\":\"S3_agent\",\"row\":4,\"col\":1,\"title\":\"Cloud Foundry agent\",\"sub\":\"SAP BTP\",\"kind\":\"agent\"},{\"id\":\"S3_apigee\",\"row\":4,\"col\":3,\"title\":\"Apigee MCP/API\",\"sub\":\"SAP-facing gateway\",\"kind\":\"gateway\"},{\"id\":\"S3_int\",\"row\":4,\"col\":4,\"title\":\"Integration Suite\",\"sub\":\"SAP integration\",\"kind\":\"integration\"},{\"id\":\"S3_sap\",\"row\":4,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"Authorizes\",\"kind\":\"backend\"},{\"id\":\"S3_portkey\",\"row\":5,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway\",\"kind\":\"llm\",\"h\":56},{\"id\":\"S3_reg\",\"row\":5,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"Metadata only, not a hop\",\"kind\":\"registry\",\"h\":56}],\"edges\":[[\"S1_ui\",\"S1_agent\",\"invoke\",\"\"],[\"S1_agent\",\"S1_apigee\",\"invoke\",\"\"],[\"S1_apigee\",\"S1_int\",\"invoke\",\"\"],[\"S1_int\",\"S1_sap\",\"invoke\",\"\"],[\"S1_agent\",\"S1_portkey\",\"llm\",\"\"],[\"S1_agent\",\"S1_reg\",\"registry\",\"\",{\"off\":22}],[\"S2_ui\",\"S2_agent\",\"invoke\",\"\"],[\"S2_agent\",\"S2_gw\",\"invoke\",\"\"],[\"S2_gw\",\"S2_apigee\",\"invoke\",\"\"],[\"S2_apigee\",\"S2_int\",\"invoke\",\"\"],[\"S2_int\",\"S2_sap\",\"invoke\",\"\"],[\"S2_agent\",\"S2_portkey\",\"llm\",\"\"],[\"S2_agent\",\"S2_reg\",\"registry\",\"\",{\"off\":22}],[\"S3_ui\",\"S3_agent\",\"invoke\",\"\"],[\"S3_agent\",\"S3_apigee\",\"invoke\",\"\"],[\"S3_apigee\",\"S3_int\",\"invoke\",\"\"],[\"S3_int\",\"S3_sap\",\"invoke\",\"\"],[\"S3_agent\",\"S3_portkey\",\"llm\",\"\"],[\"S3_agent\",\"S3_reg\",\"registry\",\"\",{\"off\":22}]],\"bounds\":[],\"lanes\":[[0,\"S1\"],[2,\"S2\"],[4,\"S3 · PREFERRED CANDIDATE\"]],\"legend\":[\"invoke\",\"llm\",\"registry\"],\"footer\":\"Portkey is the LLM gateway in all three. The SAP backend decides authorization in all three. S3-B (AgentCore Gateway mandated) is not required and not drawn.\"}}"),
+	diagrams: /* @__PURE__ */ JSON.parse("{\"D1\":{\"id\":\"D1\",\"scenario\":null,\"title\":\"Enterprise AI reference architecture\",\"chain\":\"Control plane · runtime plane · evidence plane, common to S1, S2 and S3 (S3 is the preferred candidate to evaluate first)\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Identity providers\",\"sub\":\"Corporate IdP, SAP Cloud Identity (candidate); trust boundaries\",\"kind\":\"identity\"},{\"id\":\"reg\",\"row\":0,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"Control plane: agent and MCP catalog, discovery, approval\",\"kind\":\"registry\"},{\"id\":\"ent\",\"row\":0,\"col\":4,\"title\":\"AI Foundry governance\",\"sub\":\"Registry ownership and approval authority\",\"kind\":\"decision\"},{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / app client\",\"sub\":\"Finance user entry\",\"kind\":\"ui\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"AI execution platform\",\"sub\":\"AWS AgentCore Runtime (S2, S3) or SAP BTP Cloud Foundry (S1)\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":2,\"title\":\"Runtime gateways\",\"sub\":\"AgentCore Gateway (S2, S3); Apigee (S1, S3; S2 optional)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":3,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":4,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP Finance backend\",\"sub\":\"S/4HANA · Central Finance\",\"kind\":\"backend\"},{\"id\":\"portkey\",\"row\":2,\"col\":0,\"title\":\"Portkey\",\"sub\":\"LLM gateway\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":2,\"col\":1,\"title\":\"Approved LLM provider\",\"sub\":\"Only through Portkey\",\"kind\":\"llm\"},{\"id\":\"custom\",\"row\":2,\"col\":2,\"title\":\"Custom MCP runtime\",\"sub\":\"Only where logic needs code; platform per scenario\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"gitlab\",\"row\":3,\"col\":0,\"title\":\"GitLab (central platform)\",\"sub\":\"Source, specs, descriptors, CI/CD and artifacts for every scenario\",\"kind\":\"artifact\",\"span\":3},{\"id\":\"obs\",\"row\":3,\"col\":3,\"title\":\"Observability and audit\",\"sub\":\"Evidence plane: logs, traces, change documents\",\"kind\":\"store\",\"span\":3}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"gw\",\"invoke\",\"MCP tools/call\"],[\"gw\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"gw\",\"custom\",\"invoke\",\"proxy target (if needed)\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"tokens\"],[\"agent\",\"reg\",\"registry\",\"register / discover\",{\"off\":14}],[\"ent\",\"reg\",\"approval\",\"approve\"],[\"cc\",\"obs\",\"audit\",\"evidence\"],[\"sap\",\"obs\",\"audit\",\"evidence\"]],\"bounds\":[[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"]],\"lanes\":[[0,\"CONTROL PLANE\"],[1,\"RUNTIME PLANE\"],[2,\"LLM · OPTIONAL\"],[3,\"PLATFORM · EVIDENCE\"]],\"legend\":[\"invoke\",\"registry\",\"llm\",\"identity\",\"audit\",\"approval\"],\"footer\":\"No registry is a runtime hop. Per-scenario placement of the agent platform and gateways is in D2 to D4.\"},\"D2\":{\"id\":\"D2\",\"scenario\":\"S1\",\"title\":\"S1 · SAP-hosted hybrid · topology\",\"chain\":\"UI → Cloud Foundry agent → Apigee MCP → Integration Suite → Cloud Connector (conditional) → SAP backend (registry is control plane only)\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / app client\",\"sub\":\"Finance user entry; application unchanged\",\"kind\":\"ui\"},{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Enterprise identity\",\"sub\":\"Corporate IdP or SAP Cloud Identity (IAS, candidate); mapping to validate\",\"kind\":\"identity\"},{\"id\":\"portkey\",\"row\":0,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway: model selection, credentials, fallback\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":0,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Reached only through Portkey\",\"kind\":\"llm\"},{\"id\":\"gitlab\",\"row\":2,\"col\":0,\"title\":\"GitLab CI/CD\",\"sub\":\"Source, specs and pipelines; deploys the runtime and publishes records\",\"kind\":\"artifact\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent · SAP BTP Cloud Foundry\",\"sub\":\"Agent execution and MCP client\",\"kind\":\"agent\"},{\"id\":\"apigee\",\"row\":1,\"col\":2,\"title\":\"Google Apigee MCP/API\",\"sub\":\"SAP-facing gateway; managed MCP endpoint (Pattern A)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":3,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":4,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional, private connectivity only\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"S/4HANA · Central Finance; business authorization\",\"kind\":\"backend\"},{\"id\":\"custom\",\"row\":2,\"col\":3,\"title\":\"Custom MCP · Cloud Foundry\",\"sub\":\"Pattern B, only if required; behind Apigee\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"db\",\"row\":2,\"col\":5,\"title\":\"Persistence · conditional\",\"sub\":\"Existing approved service or HANA Cloud where justified\",\"kind\":\"store\",\"dashed\":true},{\"id\":\"reg_agent\",\"row\":3,\"col\":1,\"title\":\"Agent registry · AWS Agent Registry\",\"sub\":\"SAP-hosted agent metadata\",\"kind\":\"registry\"},{\"id\":\"reg_mcp\",\"row\":3,\"col\":2,\"title\":\"MCP registry · AWS Agent Registry\",\"sub\":\"Apigee MCP endpoint metadata\",\"kind\":\"registry\"}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"workload / user token\"],[\"gitlab\",\"agent\",\"deploy\",\"deploy\",{\"off\":0}],[\"agent\",\"reg_agent\",\"registry\",\"agent record\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"gitlab\",\"reg_agent\",\"deploy\",\"publish records\",{\"off\":0}],[\"agent\",\"apigee\",\"invoke\",\"MCP tools/call\"],[\"apigee\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"apigee\",\"custom\",\"invoke\",\"proxy target\"],[\"gitlab\",\"custom\",\"deploy\",\"\"],[\"apigee\",\"reg_mcp\",\"registry\",\"endpoint metadata\",{\"off\":-20,\"labelAt\":\"mid\"}]],\"bounds\":[[\"SAP BTP\",[\"agent\"],\"sap\"],[\"Google Apigee\",[\"apigee\"],\"google\"],[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"],[\"AWS control plane only\",[\"reg_agent\",\"reg_mcp\"],\"aws\"]],\"lanes\":[[0,\"IDENTITY · LLM\"],[1,\"RUNTIME PATH\"],[2,\"OPTIONAL · DEPLOY\"],[3,\"CONTROL PLANE\"]],\"legend\":[\"invoke\",\"llm\",\"identity\",\"registry\",\"deploy\"],\"footer\":\"SAP BTP executes; AWS Agent Registry registers metadata only. No AgentCore component runs anything in S1.\"},\"D3\":{\"id\":\"D3\",\"scenario\":\"S2\",\"title\":\"S2 · AWS AgentCore-native · topology\",\"chain\":\"UI → AgentCore agent → AgentCore Gateway → MCP or API target → Integration Suite → Cloud Connector → SAP backend\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":7,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / app client\",\"sub\":\"Finance user entry; application unchanged\",\"kind\":\"ui\"},{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Enterprise identity\",\"sub\":\"Corporate IdP or SAP Cloud Identity (IAS, candidate); mapping to validate\",\"kind\":\"identity\"},{\"id\":\"portkey\",\"row\":0,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway: model selection, credentials, fallback\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":0,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Reached only through Portkey\",\"kind\":\"llm\"},{\"id\":\"gitlab\",\"row\":2,\"col\":0,\"title\":\"GitLab CI/CD\",\"sub\":\"Source, specs and pipelines; deploys the runtime and publishes records\",\"kind\":\"artifact\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent · AWS AgentCore Runtime\",\"sub\":\"Agent execution and MCP client\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":2,\"title\":\"AWS AgentCore Gateway\",\"sub\":\"Enterprise runtime gateway; routes and authorizes\",\"kind\":\"gateway\"},{\"id\":\"custom\",\"row\":2,\"col\":3,\"title\":\"Custom MCP · AgentCore Runtime\",\"sub\":\"Conditional: MCP server target on AgentCore Runtime\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"apigee\",\"row\":2,\"col\":4,\"title\":\"Google Apigee\",\"sub\":\"Optional: only where SAP Integration policy requires it\",\"kind\":\"gateway\",\"dashed\":true},{\"id\":\"int\",\"row\":1,\"col\":4,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":5,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional, private connectivity only\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":6,\"title\":\"SAP backend\",\"sub\":\"S/4HANA · Central Finance; business authorization\",\"kind\":\"backend\"},{\"id\":\"reg_agent\",\"row\":3,\"col\":1,\"title\":\"Agent registry · AWS Agent Registry\",\"sub\":\"Agent descriptor; discovery and approval\",\"kind\":\"registry\"},{\"id\":\"reg_mcp\",\"row\":3,\"col\":2,\"title\":\"MCP registry · AWS Agent Registry\",\"sub\":\"MCP descriptor; discovery and approval\",\"kind\":\"registry\"},{\"id\":\"db\",\"row\":2,\"col\":5,\"title\":\"Persistence · conditional\",\"sub\":\"Approved AWS store, only if durable state is needed\",\"kind\":\"store\",\"dashed\":true}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"workload / user token\"],[\"gitlab\",\"agent\",\"deploy\",\"deploy\",{\"off\":0}],[\"agent\",\"reg_agent\",\"registry\",\"agent record\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"gitlab\",\"reg_agent\",\"deploy\",\"publish records\",{\"off\":0}],[\"agent\",\"gw\",\"invoke\",\"MCP tools/call\"],[\"gw\",\"custom\",\"invoke\",\"MCP target\",{\"my\":372,\"off\":-20}],[\"custom\",\"int\",\"invoke\",\"\",{\"my\":372,\"off\":20}],[\"gw\",\"int\",\"invoke\",\"API target (alt.)\",{\"off\":26}],[\"gw\",\"apigee\",\"invoke\",\"if required\",{\"my\":384,\"off\":12}],[\"apigee\",\"int\",\"invoke\",\"\"],[\"gitlab\",\"custom\",\"deploy\",\"\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"gw\",\"reg_mcp\",\"registry\",\"MCP descriptor\",{\"off\":-20,\"labelAt\":\"mid\"}]],\"bounds\":[[\"AWS SAP-agent account (proposed)\",[\"agent\",\"gw\"],\"aws\"],[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"]],\"lanes\":[[0,\"IDENTITY · LLM\"],[1,\"RUNTIME PATH\"],[2,\"OPTIONAL · DEPLOY\"],[3,\"CONTROL PLANE\"]],\"legend\":[\"invoke\",\"llm\",\"identity\",\"registry\",\"deploy\"],\"footer\":\"Apigee is optional and inserted into the approved route only where required. A Gateway API target avoids a custom MCP server once its schema, authentication and connectivity are checked.\"},\"D4\":{\"id\":\"D4\",\"scenario\":\"S3\",\"title\":\"S3 · AWS AgentCore + Apigee hybrid · topology\",\"chain\":\"UI → AgentCore Runtime agent → AgentCore Gateway → Apigee MCP → Integration Suite → Cloud Connector (conditional) → SAP backend\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":7,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / app client\",\"sub\":\"Finance user entry; application unchanged\",\"kind\":\"ui\"},{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Enterprise identity\",\"sub\":\"Corporate IdP or SAP Cloud Identity (IAS, candidate); mapping to validate\",\"kind\":\"identity\"},{\"id\":\"portkey\",\"row\":0,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway: model selection, credentials, fallback\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":0,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Reached only through Portkey\",\"kind\":\"llm\"},{\"id\":\"gitlab\",\"row\":2,\"col\":0,\"title\":\"GitLab CI/CD\",\"sub\":\"Source, specs and pipelines; deploys the runtime and publishes records\",\"kind\":\"artifact\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent · AWS AgentCore Runtime\",\"sub\":\"Agent execution and MCP client\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":2,\"title\":\"AWS AgentCore Gateway\",\"sub\":\"Enterprise runtime gateway; routes and authorizes\",\"kind\":\"gateway\"},{\"id\":\"apigee\",\"row\":1,\"col\":3,\"title\":\"Google Apigee MCP/API\",\"sub\":\"SAP-facing gateway; managed MCP endpoint (Pattern A)\",\"kind\":\"gateway\"},{\"id\":\"custom\",\"row\":2,\"col\":3,\"title\":\"Custom MCP service\",\"sub\":\"Pattern B, conditional; AgentCore Runtime preferred; behind Apigee\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"int\",\"row\":1,\"col\":4,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":5,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional, private connectivity only\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":6,\"title\":\"SAP backend\",\"sub\":\"S/4HANA · Central Finance; business authorization\",\"kind\":\"backend\"},{\"id\":\"reg_agent\",\"row\":3,\"col\":1,\"title\":\"Agent registry · AWS Agent Registry\",\"sub\":\"Agent descriptor; discovery and approval\",\"kind\":\"registry\"},{\"id\":\"reg_mcp\",\"row\":3,\"col\":2,\"title\":\"MCP registry · AWS Agent Registry\",\"sub\":\"MCP descriptor; discovery and approval\",\"kind\":\"registry\"},{\"id\":\"db\",\"row\":2,\"col\":5,\"title\":\"Persistence · conditional\",\"sub\":\"Approved AWS store, only if durable state is needed\",\"kind\":\"store\",\"dashed\":true}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"workload / user token\"],[\"gitlab\",\"agent\",\"deploy\",\"deploy\",{\"off\":0}],[\"agent\",\"reg_agent\",\"registry\",\"agent record\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"gitlab\",\"reg_agent\",\"deploy\",\"publish records\",{\"off\":0}],[\"agent\",\"gw\",\"invoke\",\"MCP tools/call\"],[\"gw\",\"apigee\",\"invoke\",\"MCP target\"],[\"apigee\",\"int\",\"invoke\",\"API call\"],[\"apigee\",\"custom\",\"invoke\",\"proxy target (if needed)\",{\"off\":-30}],[\"gitlab\",\"custom\",\"deploy\",\"\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"gw\",\"reg_mcp\",\"registry\",\"MCP descriptor\",{\"off\":-20,\"labelAt\":\"mid\"}]],\"bounds\":[[\"AWS SAP-agent account (proposed)\",[\"agent\",\"gw\"],\"aws\"],[\"Google Apigee\",[\"apigee\"],\"google\"],[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"]],\"lanes\":[[0,\"IDENTITY · LLM\"],[1,\"RUNTIME PATH\"],[2,\"OPTIONAL · DEPLOY\"],[3,\"CONTROL PLANE\"]],\"legend\":[\"invoke\",\"llm\",\"identity\",\"registry\",\"deploy\"],\"footer\":\"AgentCore Gateway fronts Apigee: two gateways in series with separate responsibilities. AWS Agent Registry registers and is never an execution hop.\"},\"D5\":{\"id\":\"D5\",\"scenario\":null,\"title\":\"Four responsibility model\",\"chain\":\"Agent hosting, MCP hosting, agent registration and MCP registration, with gateway mediation and the LLM gateway identified separately\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":4,\"nh\":76,\"ys\":[104,208,312,416,520,624],\"height\":840,\"nodes\":[{\"id\":\"l0\",\"row\":0,\"col\":0,\"title\":\"Agent hosting and execution\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c0_1\",\"row\":0,\"col\":1,\"title\":\"SAP BTP Cloud Foundry\",\"sub\":\"S1 · SAP-hosted hybrid\",\"kind\":\"agent\"},{\"id\":\"c0_2\",\"row\":0,\"col\":2,\"title\":\"AWS AgentCore Runtime\",\"sub\":\"S2 · AWS AgentCore-native\",\"kind\":\"agent\"},{\"id\":\"c0_3\",\"row\":0,\"col\":3,\"title\":\"AWS AgentCore Runtime\",\"sub\":\"S3 · AgentCore + Apigee\",\"kind\":\"agent\"},{\"id\":\"l1\",\"row\":1,\"col\":0,\"title\":\"Agent registration and discovery\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c1_1\",\"row\":1,\"col\":1,\"title\":\"AWS Agent Registry\",\"sub\":\"S1 · SAP-hosted hybrid\",\"kind\":\"registry\"},{\"id\":\"c1_2\",\"row\":1,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"S2 · AWS AgentCore-native\",\"kind\":\"registry\"},{\"id\":\"c1_3\",\"row\":1,\"col\":3,\"title\":\"AWS Agent Registry\",\"sub\":\"S3 · AgentCore + Apigee\",\"kind\":\"registry\"},{\"id\":\"l2\",\"row\":2,\"col\":0,\"title\":\"MCP implementation hosting and execution\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c2_1\",\"row\":2,\"col\":1,\"title\":\"Cloud Foundry, only if custom code is needed\",\"sub\":\"S1 · SAP-hosted hybrid\",\"kind\":\"domain\"},{\"id\":\"c2_2\",\"row\":2,\"col\":2,\"title\":\"AgentCore Runtime, when a custom MCP is needed\",\"sub\":\"S2 · AWS AgentCore-native\",\"kind\":\"domain\"},{\"id\":\"c2_3\",\"row\":2,\"col\":3,\"title\":\"Conditional: AgentCore Runtime preferred, exposed through Apigee\",\"sub\":\"S3 · AgentCore + Apigee\",\"kind\":\"domain\"},{\"id\":\"l3\",\"row\":3,\"col\":0,\"title\":\"MCP registration and discovery\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c3_1\",\"row\":3,\"col\":1,\"title\":\"AWS Agent Registry\",\"sub\":\"S1 · SAP-hosted hybrid\",\"kind\":\"registry\"},{\"id\":\"c3_2\",\"row\":3,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"S2 · AWS AgentCore-native\",\"kind\":\"registry\"},{\"id\":\"c3_3\",\"row\":3,\"col\":3,\"title\":\"AWS Agent Registry\",\"sub\":\"S3 · AgentCore + Apigee\",\"kind\":\"registry\"},{\"id\":\"l4\",\"row\":4,\"col\":0,\"title\":\"Runtime gateway mediation (separate responsibility)\",\"sub\":\"Separate responsibility\",\"kind\":\"gateway\"},{\"id\":\"c4_1\",\"row\":4,\"col\":1,\"title\":\"Google Apigee\",\"sub\":\"S1 · SAP-hosted hybrid\",\"kind\":\"gateway\"},{\"id\":\"c4_2\",\"row\":4,\"col\":2,\"title\":\"AgentCore Gateway (Apigee optional)\",\"sub\":\"S2 · AWS AgentCore-native\",\"kind\":\"gateway\"},{\"id\":\"c4_3\",\"row\":4,\"col\":3,\"title\":\"AgentCore Gateway in front of Apigee\",\"sub\":\"S3 · AgentCore + Apigee\",\"kind\":\"gateway\"},{\"id\":\"l5\",\"row\":5,\"col\":0,\"title\":\"LLM gateway (common to all)\",\"sub\":\"Separate responsibility\",\"kind\":\"llm\"},{\"id\":\"c5_1\",\"row\":5,\"col\":1,\"title\":\"Portkey\",\"sub\":\"S1 · SAP-hosted hybrid\",\"kind\":\"llm\"},{\"id\":\"c5_2\",\"row\":5,\"col\":2,\"title\":\"Portkey\",\"sub\":\"S2 · AWS AgentCore-native\",\"kind\":\"llm\"},{\"id\":\"c5_3\",\"row\":5,\"col\":3,\"title\":\"Portkey\",\"sub\":\"S3 · AgentCore + Apigee\",\"kind\":\"llm\"}],\"edges\":[[\"c0_1\",\"c1_1\",\"registry\",\"metadata only\"],[\"c2_1\",\"c3_1\",\"registry\",\"metadata only\"],[\"c0_2\",\"c1_2\",\"registry\",\"metadata only\"],[\"c2_2\",\"c3_2\",\"registry\",\"metadata only\"],[\"c0_3\",\"c1_3\",\"registry\",\"metadata only\"],[\"c2_3\",\"c3_3\",\"registry\",\"metadata only\"]],\"bounds\":[],\"lanes\":[],\"legend\":[\"registry\"],\"footer\":\"Using AWS Agent Registry does not decide where anything runs, and AgentCore Gateway is not an agent-hosting service. The dashed arrow carries metadata only.\"},\"D6\":{\"id\":\"D6\",\"scenario\":null,\"title\":\"AWS account and governance architecture\",\"chain\":\"Dedicated SAP-agent execution account, central AI Foundry registry, identity, network and operational ownership (proposed; nothing is provisioned)\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":5,\"nh\":100,\"ys\":[104,232,388,540,668],\"height\":840,\"nodes\":[{\"id\":\"org\",\"row\":0,\"col\":0,\"title\":\"AWS Organizations and landing zone\",\"sub\":\"SCPs, region and data-residency policy, enterprise compliance\",\"kind\":\"decision\",\"span\":2,\"h\":84},{\"id\":\"idp\",\"row\":0,\"col\":3,\"title\":\"Identity\",\"sub\":\"Corporate IdP, workload roles, least privilege\",\"kind\":\"identity\",\"span\":2,\"h\":84},{\"id\":\"gov\",\"row\":1,\"col\":0,\"title\":\"AI Foundry governance account\",\"sub\":\"Central AWS Agent Registry, curator and approval roles, shared by AWS RAM\",\"kind\":\"registry\",\"span\":2},{\"id\":\"wl\",\"row\":1,\"col\":3,\"title\":\"SAP-agent workload account (proposed)\",\"sub\":\"AgentCore Runtime and Gateway; dev, test and prod separated\",\"kind\":\"agent\",\"span\":2},{\"id\":\"gl\",\"row\":2,\"col\":0,\"title\":\"GitLab (central platform)\",\"sub\":\"Pipelines deploy the runtime and publish registry records\",\"kind\":\"artifact\",\"span\":2,\"h\":84},{\"id\":\"net\",\"row\":2,\"col\":3,\"title\":\"Network and egress\",\"sub\":\"Approved path to Apigee and Integration Suite; Portkey connectivity\",\"kind\":\"integration\",\"span\":2,\"h\":84},{\"id\":\"ops\",\"row\":3,\"col\":0,\"title\":\"Operations\",\"sub\":\"Monitoring, incident response, tagging and lifecycle policies\",\"kind\":\"store\",\"span\":2,\"h\":84},{\"id\":\"fin\",\"row\":3,\"col\":3,\"title\":\"Cost allocation and billing\",\"sub\":\"Budgets and alerts; owner per account\",\"kind\":\"control\",\"span\":2,\"h\":84}],\"edges\":[[\"org\",\"gov\",\"approval\",\"guardrails\"],[\"org\",\"wl\",\"approval\",\"SCPs\",{\"off\":20}],[\"wl\",\"gov\",\"registry\",\"publish records\"],[\"gl\",\"wl\",\"deploy\",\"deploy\",{\"off\":-20}],[\"gl\",\"gov\",\"deploy\",\"publish record definitions\",{\"off\":24}],[\"idp\",\"wl\",\"identity\",\"workload roles\"],[\"wl\",\"net\",\"invoke\",\"egress\"]],\"bounds\":[],\"lanes\":[[0,\"POLICY\"],[1,\"ACCOUNTS\"],[2,\"PLATFORM\"],[3,\"OPERATIONS\"]],\"legend\":[\"invoke\",\"registry\",\"identity\",\"deploy\",\"approval\"],\"footer\":\"Account provisioning does not prove access to every AgentCore capability: confirm policy, entitlements, permissions and region. The registry is not duplicated per account.\"},\"D7\":{\"id\":\"D7\",\"scenario\":null,\"title\":\"Gateway and principal propagation (S3)\",\"chain\":\"Six identities across AWS, Apigee and SAP; S1 drops the AgentCore hops, S2 drops Apigee unless inserted\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":96,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"user\",\"row\":1,\"col\":0,\"title\":\"Business user\",\"sub\":\"Enterprise authentication; delegated user token\",\"kind\":\"ui\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"AgentCore Runtime agent\",\"sub\":\"Agent workload identity (AgentCore Identity)\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":2,\"title\":\"AgentCore Gateway\",\"sub\":\"Inbound JWT validation; outbound credential or token exchange\",\"kind\":\"gateway\"},{\"id\":\"apigee\",\"row\":1,\"col\":3,\"title\":\"Google Apigee\",\"sub\":\"Token validation; API product policy\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":4,\"title\":\"SAP Integration Suite\",\"sub\":\"Service identity toward SAP\",\"kind\":\"integration\"},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"Mapped user executes; SAP roles authorize\",\"kind\":\"backend\"},{\"id\":\"idp\",\"row\":0,\"col\":1,\"title\":\"Corporate IdP · SAP Cloud Identity (candidate)\",\"sub\":\"Issues and exchanges tokens; Global User ID is a correlation attribute, not proof of propagation\",\"kind\":\"identity\",\"span\":3,\"h\":84},{\"id\":\"neg\",\"row\":2,\"col\":0,\"title\":\"Negative case\",\"sub\":\"An authorized and an unauthorized user call the same read-only tool; SAP rejects the unauthorized one\",\"kind\":\"decision\",\"span\":2,\"h\":84},{\"id\":\"val\",\"row\":2,\"col\":2,\"title\":\"Validation status\",\"sub\":\"Token exchange and user mapping are NOT yet proven at any hop\",\"kind\":\"decision\",\"span\":2,\"h\":84,\"dashed\":true},{\"id\":\"auth\",\"row\":2,\"col\":4,\"title\":\"SAP is the business authority\",\"sub\":\"Gateways and registries never grant business authorization\",\"kind\":\"backend\",\"span\":2,\"h\":84}],\"edges\":[[\"user\",\"agent\",\"identity\",\"user token\"],[\"agent\",\"gw\",\"identity\",\"bearer · validated\"],[\"gw\",\"apigee\",\"identity\",\"exchange / client credential\"],[\"apigee\",\"int\",\"identity\",\"OAuth / cert\"],[\"int\",\"sap\",\"identity\",\"principal propagation\"],[\"idp\",\"agent\",\"identity\",\"issues\",{\"off\":-20}],[\"idp\",\"gw\",\"identity\",\"validates\",{\"off\":0}]],\"bounds\":[],\"lanes\":[[1,\"IDENTITIES\"],[2,\"VALIDATION\"]],\"legend\":[\"identity\"],\"footer\":\"The workload token alone is not end-user principal propagation. The final SAP execution identity must be evidenced in the SAP backend.\"},\"D8\":{\"id\":\"D8\",\"scenario\":null,\"title\":\"Cost and operational responsibility architecture\",\"chain\":\"The separately billable runtime, gateway, integration, network, persistence, observability and support layers\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":5,\"nh\":100,\"ys\":[120,250,400,560,700],\"height\":840,\"nodes\":[{\"id\":\"rt\",\"row\":1,\"col\":0,\"title\":\"Agent runtime\",\"sub\":\"S1: BTP credits · S2, S3: AgentCore consumption\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":1,\"title\":\"AgentCore Gateway\",\"sub\":\"S2, S3 only · per tool invocation\",\"kind\":\"gateway\"},{\"id\":\"ap\",\"row\":1,\"col\":2,\"title\":\"Apigee MCP/API\",\"sub\":\"S1, S3 · S2 optional\",\"kind\":\"gateway\"},{\"id\":\"is\",\"row\":1,\"col\":3,\"title\":\"Integration Suite\",\"sub\":\"All · messages or API calls\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":4,\"title\":\"Cloud Connector\",\"sub\":\"Where applicable\",\"kind\":\"integration\"},{\"id\":\"llm\",\"row\":2,\"col\":0,\"title\":\"Portkey and model\",\"sub\":\"All · tokens\",\"kind\":\"llm\"},{\"id\":\"net\",\"row\":2,\"col\":1,\"title\":\"Network and egress\",\"sub\":\"Cross-cloud transfer: highest in S3\",\"kind\":\"control\"},{\"id\":\"db\",\"row\":2,\"col\":2,\"title\":\"Persistence\",\"sub\":\"Conditional\",\"kind\":\"store\"},{\"id\":\"obs\",\"row\":2,\"col\":3,\"title\":\"Observability\",\"sub\":\"Logs per platform\",\"kind\":\"store\"},{\"id\":\"sup\",\"row\":2,\"col\":4,\"title\":\"Support and operations\",\"sub\":\"Teams differ per scenario\",\"kind\":\"decision\"},{\"id\":\"note\",\"row\":3,\"col\":0,\"title\":\"Billable layers differ per scenario\",\"sub\":\"One workload definition, one editable model, no invented rates: see Selection · Cost model\",\"kind\":\"decision\",\"span\":5,\"h\":70}],\"edges\":[],\"bounds\":[],\"lanes\":[[1,\"RUNTIME LAYERS\"],[2,\"SHARED LAYERS\"]],\"legend\":[\"invoke\"],\"footer\":\"Layers are cost and ownership categories, not arrows of traffic.\"},\"D9\":{\"id\":\"D9\",\"scenario\":null,\"title\":\"Architecture selection decision tree\",\"chain\":\"Workload classification and approval gates lead to S1, S2 or S3; the same rules are in Selection · Recommendation\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":4,\"nh\":100,\"ys\":[130,270,410,560,700],\"height\":840,\"nodes\":[{\"id\":\"start\",\"row\":0,\"col\":0,\"title\":\"Classify the workload\",\"sub\":\"SAP-specific or enterprise; frequency, bursts, duration, tools\",\"kind\":\"ui\"},{\"id\":\"q1\",\"row\":0,\"col\":1,\"title\":\"AWS account and AgentCore approved?\",\"sub\":\"Account, services, ownership\",\"kind\":\"decision\"},{\"id\":\"q2\",\"row\":0,\"col\":3,\"title\":\"Apigee required for the SAP route?\",\"sub\":\"SAP Integration and Security\",\"kind\":\"decision\"},{\"id\":\"q3\",\"row\":1,\"col\":3,\"title\":\"Identity and gateway interop validated, cost competitive?\",\"sub\":\"Evidence, not preference\",\"kind\":\"decision\"},{\"id\":\"s1\",\"row\":2,\"col\":0,\"title\":\"S1 · SAP-hosted hybrid\",\"sub\":\"SAP coupling or verified economics, or AWS unavailable\",\"kind\":\"agent\"},{\"id\":\"s2\",\"row\":2,\"col\":2,\"title\":\"S2 · AWS AgentCore-native\",\"sub\":\"Apigee not mandated or exception approved\",\"kind\":\"agent\"},{\"id\":\"s3\",\"row\":2,\"col\":3,\"title\":\"S3 · AgentCore + Apigee\",\"sub\":\"Preferred to evaluate first; conditional\",\"kind\":\"agent\"},{\"id\":\"hold\",\"row\":1,\"col\":1,\"title\":\"HOLD / CONDITIONAL\",\"sub\":\"A missing approval never gives an unconditional choice\",\"kind\":\"control\"}],\"edges\":[[\"start\",\"q1\",\"invoke\",\"\"],[\"q1\",\"q2\",\"invoke\",\"yes\"],[\"q1\",\"hold\",\"invoke\",\"pending\"],[\"q1\",\"s1\",\"invoke\",\"no\",{\"my\":234}],[\"q2\",\"q3\",\"invoke\",\"yes\"],[\"q2\",\"s2\",\"invoke\",\"no\",{\"my\":240}],[\"q3\",\"s3\",\"invoke\",\"yes\"],[\"q3\",\"s1\",\"invoke\",\"S1 cheaper\",{\"my\":372,\"off\":30}]],\"bounds\":[],\"lanes\":[],\"legend\":[\"invoke\"],\"footer\":\"Preferred to evaluate first is not selected. S3 needs its conditions met; S2 and S1 stay valid outcomes.\"},\"D10\":{\"id\":\"D10\",\"scenario\":null,\"title\":\"Three-scenario executive comparison\",\"chain\":\"A decision-ready comparison; S3 is the preferred candidate to evaluate first, S2 and S1 stay valid alternatives\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":4,\"nh\":88,\"ys\":[110,220,330,440,550],\"height\":840,\"nodes\":[{\"id\":\"l0\",\"row\":0,\"col\":0,\"title\":\"Classification\",\"sub\":\"\",\"kind\":\"decision\"},{\"id\":\"c0_1\",\"row\":0,\"col\":1,\"title\":\"SAP-hosted alternative\",\"sub\":\"S1 · SAP-hosted hybrid\",\"kind\":\"agent\"},{\"id\":\"c0_2\",\"row\":0,\"col\":2,\"title\":\"AWS-native alternative\",\"sub\":\"S2 · AWS AgentCore-native\",\"kind\":\"agent\"},{\"id\":\"c0_3\",\"row\":0,\"col\":3,\"title\":\"Preferred candidate for a comparative POC\",\"sub\":\"S3 · AgentCore + Apigee\",\"kind\":\"agent\"},{\"id\":\"l1\",\"row\":1,\"col\":0,\"title\":\"Benefits\",\"sub\":\"\",\"kind\":\"decision\"},{\"id\":\"c1_1\",\"row\":1,\"col\":1,\"title\":\"SAP-domain ownership; BTP practices reused\",\"sub\":\"\",\"kind\":\"integration\"},{\"id\":\"c1_2\",\"row\":1,\"col\":2,\"title\":\"Simpler AWS-native runtime; AgentCore tooling\",\"sub\":\"\",\"kind\":\"integration\"},{\"id\":\"c1_3\",\"row\":1,\"col\":3,\"title\":\"AWS execution plus SAP-specific MCP governance in Apigee\",\"sub\":\"\",\"kind\":\"integration\"},{\"id\":\"l2\",\"row\":2,\"col\":0,\"title\":\"Risks\",\"sub\":\"\",\"kind\":\"decision\"},{\"id\":\"c2_1\",\"row\":2,\"col\":1,\"title\":\"Cloud Foundry cost and capacity for frequent agents\",\"sub\":\"\",\"kind\":\"gateway\"},{\"id\":\"c2_2\",\"row\":2,\"col\":2,\"title\":\"Apigee policy exception; custom MCP lifecycle\",\"sub\":\"\",\"kind\":\"gateway\"},{\"id\":\"c2_3\",\"row\":2,\"col\":3,\"title\":\"Two gateways, extra hop, cross-cloud audit, token exchange\",\"sub\":\"\",\"kind\":\"gateway\"},{\"id\":\"l3\",\"row\":3,\"col\":0,\"title\":\"Pending decisions\",\"sub\":\"\",\"kind\":\"decision\"},{\"id\":\"c3_1\",\"row\":3,\"col\":1,\"title\":\"Direct Apigee invocation; BTP economics\",\"sub\":\"\",\"kind\":\"registry\"},{\"id\":\"c3_2\",\"row\":3,\"col\":2,\"title\":\"Is Apigee mandated; API target validity\",\"sub\":\"\",\"kind\":\"registry\"},{\"id\":\"c3_3\",\"row\":3,\"col\":3,\"title\":\"Account, interoperability, identity, cost, gateway ownership\",\"sub\":\"\",\"kind\":\"registry\"},{\"id\":\"l4\",\"row\":4,\"col\":0,\"title\":\"Recommended when\",\"sub\":\"\",\"kind\":\"decision\"},{\"id\":\"c4_1\",\"row\":4,\"col\":1,\"title\":\"AWS unavailable or SAP coupling and economics favor BTP\",\"sub\":\"\",\"kind\":\"domain\"},{\"id\":\"c4_2\",\"row\":4,\"col\":2,\"title\":\"AWS approved and Apigee not required\",\"sub\":\"\",\"kind\":\"domain\"},{\"id\":\"c4_3\",\"row\":4,\"col\":3,\"title\":\"AWS approved, Apigee required, evidence supports the extra gateway\",\"sub\":\"\",\"kind\":\"domain\"}],\"edges\":[],\"bounds\":[],\"lanes\":[],\"legend\":[\"invoke\"],\"footer\":\"Preferred for evaluation, not approved. Selection is conditional on the evidence listed under Pending decisions and the rules in Selection · Recommendation.\"}}"),
 	diagramNames: {
-		D1: "Enterprise overview",
-		D2: "S1 SAP-centric",
-		D3: "S2 AWS AgentCore-centric",
-		D4: "S3 SAP-hosted hybrid",
-		D5: "MCP hosting versus registration",
-		D6: "Identity and authorization",
-		D7: "LLM execution",
-		D8: "Registry lifecycle",
-		D9: "Observability and audit",
-		D10: "Three-scenario comparison"
+		D1: "Enterprise AI reference",
+		D2: "S1 SAP-hosted hybrid",
+		D3: "S2 AWS-native",
+		D4: "S3 AgentCore + Apigee",
+		D5: "Four responsibility model",
+		D6: "AWS account and governance",
+		D7: "Gateway and principal propagation",
+		D8: "Cost and operations",
+		D9: "Selection decision tree",
+		D10: "Executive comparison"
 	},
 	recommendation: {
-		headline: "S3 is the preferred candidate for POC validation, subject to AI Foundry policy. It is not approved and not production-ready.",
+		headline: "S3 is the preferred candidate to evaluate first in a comparative POC. It is not an unconditional winner and it is not approved: if cost, identity, interoperability or policy fail, recommend S2 or S1 with those reasons.",
 		why: [
-			"SAP keeps execution ownership: the agent and any custom MCP code run on SAP BTP Cloud Foundry, and Apigee stays the SAP-facing gateway.",
-			"AI Foundry still gets central discovery and registration through AWS Agent Registry, which is control plane only and adds no execution hop.",
-			"It needs one gateway hop and one identity mapping to prove, not two as in S2."
+			"AWS runs the agent, which separates compute from SAP BTP and is reusable across SAP systems.",
+			"Apigee keeps the SAP-specific MCP and API governance in front of Integration Suite.",
+			"AWS Agent Registry gives central registration without becoming an execution hop."
 		],
 		depends: [
-			"AI Foundry written confirmation that AgentCore Gateway is not mandatory for S3 (owner position, 2026-11-25)",
-			"AWS Agent Registry accepts records for agents and MCP servers hosted outside AWS, published from GitLab",
-			"The Apigee endpoint reachability from AWS, if registry synchronization is used (not yet checked)"
+			"The dedicated SAP-agent AWS account and AgentCore services are approved",
+			"Apigee remains part of the approved SAP integration design",
+			"AgentCore Gateway can securely invoke the Apigee MCP endpoint",
+			"Delegated user identity is validated end to end",
+			"Comparative cost supports the extra gateway",
+			"AI Foundry and SAP Integration approve the ownership boundaries"
 		],
 		open: [
-			"Whether the interim GitLab catalog for S1 is enough",
-			"Delegated user versus service identity",
-			"Principal propagation through Integration Suite and Cloud Connector",
-			"Whether HANA Cloud is needed at all: persistence is conditional"
+			"Account approval",
+			"Gateway-to-Apigee interoperability",
+			"Identity and principal propagation",
+			"Verified comparative cost",
+			"Non-duplicative gateway responsibilities"
 		],
 		changes: [
-			"If AI Foundry later mandates AgentCore Gateway for every tool call, evaluate S2 (mandatory by design) or the S3-B option.",
-			"If the enterprise requires AWS hosting for all agents, choose S2.",
-			"If a central registry product becomes necessary, S1 gains it only by adopting AWS Agent Registry, which makes it S3."
+			"If Apigee is not mandated, S2 is simpler.",
+			"If AWS is unavailable, restricted or costlier, S1 stays valid.",
+			"If cost, identity or interoperability evidence fails, S3 is not selected."
 		],
 		poc: [
-			"Run one read tool through the S3 path with a service identity and record the call, token and SAP user.",
-			"Repeat with user delegation and mark each result PASS, HOLD or NOT_VERIFIED.",
-			"Register the SAP-hosted agent and the Apigee endpoint in AWS Agent Registry and confirm discovery without any AWS execution hop."
+			"Dedicated AWS account service access",
+			"AgentCore Runtime operation",
+			"AgentCore Gateway tool invocation",
+			"AWS Agent Registry registration and discovery",
+			"Cross-account registry access",
+			"Apigee-managed MCP endpoint",
+			"S2 direct Integration Suite/API pattern, if permitted",
+			"S3 Gateway-to-Apigee pattern",
+			"Portkey model invocation",
+			"Delegated business-user identity",
+			"Backend SAP authorization (authorized and unauthorized user, same tool)",
+			"Read-only reconciliation accuracy",
+			"Network and gateway latency",
+			"Execution cost",
+			"Operational logs and audit",
+			"Failure and retry handling",
+			"Incident and support ownership"
+		],
+		conditions: [
+			"Account approved with AgentCore services",
+			"Gateway interoperability and identity validated",
+			"Cost competitive for the workload",
+			"Ownership agreed"
+		],
+		cost_assumptions: ["No rates are assumed: SAP BTP credits, enterprise AWS discounts and Apigee charges are unknown", "One workload definition across the three scenarios"],
+		risks: [
+			"Two gateways with overlapping policy",
+			"Extra hop and cross-cloud audit",
+			"Token exchange across AWS, Apigee and SAP",
+			"Account approval and ownership"
+		],
+		rejected: ["S2 while Apigee is required for the SAP route (needs an approved exception)", "S1 while AWS execution is approved and the placement is not justified by coupling or verified cost"],
+		missing: [
+			"Dedicated account approval",
+			"End-to-end call through the gateway to Apigee",
+			"Delegated identity validation",
+			"Verified comparative cost"
+		],
+		authority: "AI Foundry with SAP Integration, Security and Enterprise Architecture; Finance for cost",
+		revisit: [
+			"Actual enterprise costs become known",
+			"The AWS account or AgentCore availability changes",
+			"SAP Integration changes the Apigee mandate",
+			"Identity or gateway validation fails or passes",
+			"The workload profile changes",
+			"Enterprise security or data-residency policy changes"
 		]
 	},
 	evidence: [
@@ -12579,92 +12684,84 @@ var R = {
 			"Google Apigee",
 			"Apigee MCP overview",
 			"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-overview",
-			"Existing Apigee APIs are exposed as MCP tools with no MCP server to install or manage. Stateless protocol 2026-07-28 and stateful 2025-11-25, 2025-06-18, 2025-03-26, 2024-11-05 at one endpoint over HTTP/S; SSE streams are not supported. OAuth 2.1 and OIDC. OpenAPI 3.0.x; 1000 tools per organization; capacity limits in some regions. Proxying a separately hosted MCP server is not described on this page.",
-			"Pattern A needs no custom MCP server, within the tool and region limits.",
-			"Tenant enablement, region capacity, hybrid version (1.17.4 or later for stateless)"
+			"Existing Apigee APIs are exposed as MCP tools with no MCP server to install or manage. Stateless protocol 2026-07-28 and stateful 2025-11-25, 2025-06-18, 2025-03-26, 2024-11-05 at one endpoint over HTTP/S; SSE streams are not supported. OAuth 2.1 and OIDC. OpenAPI 3.0.x; 1000 tools per organization; capacity limits in some regions.",
+			"Pattern A needs no custom MCP server, within the limits. Apigee is not arbitrary agent-code hosting.",
+			"Tenant enablement, region capacity, hybrid version"
 		],
 		[
 			"Google Apigee",
 			"Manage MCP tool access",
 			"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/manage-mcp-tool-access",
-			"Access is controlled with API products and developer apps; ParsePayload (JSON-RPC 2.0) plus API-key or OAuth verification; tools outside the client's product are removed from tools/list. This page, not the overview, says traffic can be proxied to your own MCP server.",
-			"Apigee is the policy layer for tool access. Pattern B (custom server behind Apigee) rests on this one statement.",
-			"Prove the custom-server proxy pattern with a Cloud Foundry service in this tenant"
+			"Access is controlled with API products and developer apps; ParsePayload (JSON-RPC 2.0) plus API-key or OAuth verification; tools outside the client's product are removed from tools/list. This page says traffic can be proxied to your own MCP server.",
+			"Apigee is the SAP-domain policy layer. Pattern B rests on this one statement.",
+			"Prove the custom-server proxy pattern in this tenant"
 		],
 		[
 			"AWS AgentCore",
 			"Gateway core concepts",
 			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-core-concepts.html",
-			"Gateway is a secure entry point for agentic traffic with MCP, HTTP and inference target categories and inbound OAuth (JWT), IAM, authenticate-only or none.",
-			"Basis of the S2 gateway hop.",
-			"Target classification of an external MCP server (the page lists it under both MCP and HTTP targets)"
+			"Gateway is a secure entry point for agentic traffic with MCP, HTTP and inference target categories and inbound OAuth (JWT), IAM, authenticate-only or none. It is not an agent-hosting service.",
+			"AgentCore Gateway mediates; AgentCore Runtime hosts.",
+			"Target classification of an external MCP server (listed under both MCP and HTTP targets)"
 		],
 		[
 			"AWS AgentCore",
 			"Gateway MCP server targets and outbound authorization",
 			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html",
-			"Supported MCP versions 2026-07-28, 2025-11-25, 2025-06-18 and 2025-03-26. Outbound auth for MCP-server targets: none (not recommended), gateway role, OAuth client credentials, authorization code, token exchange, API key. Caller token passthrough is not supported; on-behalf-of is supported through token exchange. Listing mode DEFAULT when the authorization server supports client credentials, otherwise DYNAMIC (not interoperable with semantic search or 3LO). Tool names are prefixed with the target name.",
-			"Protocol versions overlap with Apigee (four shared). User identity reaches Apigee only through token exchange.",
-			"An authorization server that supports token exchange; whether a private target is allowed (not documented)"
+			"Supported MCP versions 2026-07-28, 2025-11-25, 2025-06-18 and 2025-03-26. Outbound auth for MCP-server targets: none (not recommended), gateway role, OAuth client credentials, authorization code, token exchange, API key. Caller token passthrough is not supported; on-behalf-of is supported through token exchange. Listing mode DEFAULT when the server supports client credentials, otherwise DYNAMIC. Tool names are prefixed with the target name.",
+			"Four protocol versions are shared with Apigee. User identity reaches Apigee only through token exchange.",
+			"An authorization server that supports token exchange; private targets (not documented)"
 		],
 		[
 			"AWS AgentCore",
 			"AgentCore Policy",
 			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-getting-started.html",
 			"Cedar policies attach to a gateway; in enforce mode every tool call that reaches the gateway is evaluated and denied unless permitted. The pages do not say that a target blocks calls that bypass the gateway.",
-			"A mandate to use AgentCore Gateway (S3-B) is enforceable at the gateway, but bypass prevention is a separate credential or network control.",
-			"Prove that Apigee rejects a direct call that does not carry a gateway-issued credential"
+			"Policy is enforced at the gateway; bypass prevention is a separate credential or network control.",
+			"Prove that Apigee rejects a call that does not carry a gateway-issued credential"
 		],
 		[
 			"AWS AgentCore",
 			"Agent Registry",
 			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry.html",
-			"A managed discovery service: a catalog for organizing, curating and discovering resources. Record types AGENT, MCP, SKILL, CUSTOM and WEB_BOT; publishers submit, curators approve. Runtime and Gateway are related services, so it is separate from both. The older bedrock-agentcore preview namespace was announced for discontinuation on 2026-10-30.",
-			"Registry is a separate capability from Runtime and Gateway and does not require AWS hosting. Use the agent-registry namespace.",
-			"Availability and region in the tenant; curator and approval roles"
+			"A managed discovery service: a catalog for organizing, curating and discovering resources. Record types AGENT, MCP, SKILL, CUSTOM and WEB_BOT; publishers submit, curators approve. Runtime and Gateway are related services, so it is separate from both. The older preview namespace was announced for discontinuation on 2026-10-30.",
+			"The registry is a catalog, not a gateway and not a runtime. Use the agent-registry namespace.",
+			"Availability and region; cross-account sharing (not read in this build)"
 		],
 		[
 			"AWS AgentCore",
 			"Registry: synchronize external records",
 			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-sync-records.html",
-			"The registry connects to a valid HTTPS URL with outbound credentials (none, OAuth from a provider in the same account, or IAM SigV4) and extracts server and tool definitions for MCP servers and A2A agent cards. Sync runs when the record is created and on demand; no schedule is stated. Triggering sync reverts the record to draft. Removal of stale tools is not described. Private-network reachability is not mentioned.",
-			"Supports S3 registration, but AWS must reach the endpoint URL, and stale entries need an explicit retirement process.",
+			"The registry connects to a valid HTTPS URL with outbound credentials (none, OAuth from a provider in the same account, or IAM SigV4) and extracts server and tool definitions. Sync runs when the record is created and on demand; no schedule is stated. Triggering sync reverts the record to draft. Removal of stale tools is not described. Private-network reachability is not mentioned.",
+			"Supports registering SAP-hosted or Apigee endpoints, but AWS must reach the URL; stale entries need an explicit retirement process.",
 			"Reachability of the Apigee URL from AWS; credential provider in the same account"
 		],
 		[
 			"AWS AgentCore",
 			"Registry: supported record types",
 			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-supported-record-types.html",
-			"AGENT records use a2aAgentCard, mcpServer or custom descriptors; MCP records use mcpServer or custom; exactly one primary descriptor per record.",
-			"A SAP-hosted agent can be registered with a custom or mcpServer descriptor.",
+			"AGENT records use a2aAgentCard, mcpServer or custom descriptors; MCP records use mcpServer or custom; SKILL is a separate record type.",
+			"A skill record is metadata and never grants tool permissions.",
 			"Descriptor fit for our agents"
 		],
 		[
 			"SAP",
 			"SAP BTP Cloud Foundry runtime",
 			"https://help.sap.com/docs/cf-runtime/cloud-foundry-runtime/what-is-sap-btp-cloud-foundry-runtime",
-			"The Cloud Foundry runtime on SAP platform runs polyglot cloud-native applications with SAP Java, Node.js and Python buildpacks; apps are started, stopped and scaled with standard Cloud Foundry tools; orgs, spaces and space quota plans are managed; service plans and metering apply. (Page read in a browser on 2026-11-25; the plain fetch returned no body.)",
-			"Cloud Foundry can host the S1 and S3 agent and any custom MCP code.",
-			"Entitlement, space quota and service plan in this tenant"
+			"The Cloud Foundry runtime on SAP platform runs polyglot cloud-native applications with SAP Java, Node.js and Python buildpacks; orgs, spaces and space quota plans are managed; service plans and metering apply. (Read in a browser on 2026-11-25.)",
+			"Cloud Foundry can host the S1 agent and any custom MCP code.",
+			"Entitlement, quota and contractual charges"
 		],
 		[
 			"SAP",
 			"A2A and MCP for AI agent interoperability at SAP (reference architecture, updated 2026-10-26)",
 			"https://architecture.learning.sap.com/docs/ref-arch/76ec36",
-			"SAP recommends Agent Gateway (A2A) for multi-agent collaboration and an MCP Gateway in SAP Integration Suite for governed exposure of APIs as MCP tools; agents use MCP to discover tools. A disclaimer says bidirectional communication with third-party and self-hosted agents through Agent Gateway is not yet generally available.",
-			"SAP offers its own MCP gateway and discovery path; it is an alternative to Apigee that this evaluation does not model. Registry statements for agents are not on this page.",
+			"SAP recommends Agent Gateway (A2A) for multi-agent collaboration and an MCP Gateway in SAP Integration Suite for governed exposure of APIs as MCP tools. A disclaimer says bidirectional communication with third-party and self-hosted agents through Agent Gateway is not yet generally available.",
+			"SAP offers its own MCP gateway; it is an alternative to Apigee that this evaluation does not model.",
 			"Whether SAP's own MCP Gateway should be compared with Apigee"
-		],
-		[
-			"SAP",
-			"SAP AI Agent Hub (product page)",
-			"https://www.sap.com/products/artificial-intelligence/ai-agent-hub.html",
-			"NOT_VERIFIED: the page returned HTTP 403, so no statement is recorded. Web search summaries describe it as a registry of agents, LLMs and MCP servers, but those summaries are secondary and unchecked.",
-			"Not used: the owner states it is not available in this landscape (2026-11-25).",
-			"None unless its availability changes"
 		]
 	],
-	evidenceStatus: "Read on 2026-11-25: six AWS and Google pages through a web fetch, the SAP Cloud Foundry runtime page and the SAP reference architecture in a browser. The SAP AI Agent Hub product page returned HTTP 403 and is NOT_VERIFIED. Vendor documentation describes product capability only; it does not show that a feature is configured, licensed or available in this organization's tenant or region.",
+	evidenceStatus: "Read on 2026-11-25: AWS and Google pages through a web fetch, the SAP Cloud Foundry runtime page and the SAP reference architecture in a browser. Cross-account sharing of AWS Agent Registry (AWS Organizations, AWS Resource Access Manager) and AWS account service entitlements were NOT read in this build and are NOT_VERIFIED. Vendor documentation describes product capability only; it does not show that a feature is configured, licensed or available in this organization's tenant or region.",
 	domains: [
 		{
 			name: "Finance Read MCP",
@@ -12685,183 +12782,708 @@ var R = {
 			control: "Entitlement and scope: TBD · REQUIRES VALIDATION"
 		}
 	],
-	s1Registry: "GitLab catalog · interim, not a full agent registry",
 	decisions: [
 		{
-			id: "s1_registry",
-			title: "Registry for S1",
-			scenarios: ["S1"],
-			status: "DECIDED · INTERIM GITLAB CATALOG",
-			answers: [
-				[
-					"Is SAP AI Agent Hub available?",
-					"No, it is not available (owner)",
-					"DECIDED"
-				],
-				[
-					"Which registry does S1 use?",
-					"An interim catalog on GitLab, the central platform",
-					"DECIDED"
-				],
-				[
-					"Who approves publishing an agent or MCP server?",
-					"The integration team with the respective technical approvals",
-					"DECIDED"
-				]
+			id: "aws_account",
+			title: "Dedicated SAP-agent AWS account",
+			scenarios: ["S2", "S3"],
+			status: "OPEN · APPROVAL NOT RECORDED",
+			answers: [[
+				"Are the tenant entitlements live (Cloud Foundry, Apigee MCP, AgentCore, Agent Registry, Portkey)?",
+				"Live, per the owner (carried forward from 2026-11-25)",
+				"OWNER-CONFIRMED"
+			], [
+				"Has the dedicated SAP-agent AWS account been approved, with AgentCore services?",
+				"Not recorded",
+				"OPEN"
+			]],
+			settled: ["The account is a proposal, not a provisioned resource.", "Provisioning an account does not prove access to every AgentCore capability."],
+			remaining: [
+				"Account approval, quotas, region and permissions",
+				"Separation of development, test and production",
+				"Written entitlement confirmations"
 			],
-			settled: ["S1 uses an interim catalog on GitLab: one versioned record per agent and MCP server, merge-request approval by the integration team.", "It is not a complete agent registry: there is no runtime discovery service, so discovery is a repository or API lookup."],
-			remaining: ["Record schema, discovery interface and revocation process still have to be built", "Whether the interim catalog is later replaced by a registry product"],
 			options: [
-				"GitLab catalog (selected, interim)",
-				"SAP AI Agent Hub (not available)",
-				"SAP Integration Suite MCP Gateway developer hub (MCP tools only; not selected)",
-				"AWS Agent Registry (would make S1 into S3; not selected)"
+				"Dedicated account with separate environments",
+				"Dedicated account plus a central governance account",
+				"Reuse the existing SAP AWS account (the proposal says it is unsuitable for AI-native workloads)"
 			],
-			proposal: "Build the catalog as a GitLab project: one record per agent and MCP server, a merge request for every change approved by the integration team, a pipeline that validates the schema and publishes an index, and revocation by deprecating or removing the record.",
-			proof: "Register the agent and the Apigee MCP endpoint through a merge request, discover them from another client through the index, then revoke one and confirm it disappears.",
-			owner: "Integration team"
+			proposal: "Approve the dedicated account within the AWS Organization and confirm AgentCore entitlements in writing before any build.",
+			proof: "AgentCore Runtime, Gateway and Registry are used in the account by the platform team and logged.",
+			owner: "AI Foundry + AWS platform + Security"
 		},
 		{
-			id: "agentcore_mandate",
-			title: "Is AgentCore Gateway mandatory for every tool call?",
+			id: "registry_ownership",
+			title: "Central AWS Agent Registry and cross-account sharing",
 			scenarios: [
 				"S1",
 				"S2",
 				"S3"
 			],
-			status: "OWNER POSITION · AI FOUNDRY WRITTEN CONFIRMATION PENDING",
+			status: "OPEN · SHARING NOT CONFIRMED",
 			answers: [
 				[
-					"Mandatory in S2?",
-					"Yes, by design: the agent runs on AgentCore and calls through the gateway",
+					"Who approves publishing an agent or MCP record?",
+					"The integration team with the respective technical approvals (owner, carried forward)",
+					"OWNER-CONFIRMED"
+				],
+				[
+					"Is GitLab the central platform for source, specs, descriptors and CI/CD?",
+					"Yes (owner, carried forward)",
 					"DECIDED"
 				],
 				[
-					"Mandatory in S3 (hybrid)?",
-					"No (owner)",
-					"OWNER-CONFIRMED"
-				],
-				[
-					"Mandatory in S1?",
-					"No, S1 has no AgentCore component (owner statement read this way; please confirm)",
-					"OWNER-CONFIRMED"
+					"Does AI Foundry own the registry in a central account, shared with the workload account?",
+					"Not confirmed",
+					"OPEN"
 				]
 			],
-			settled: ["The gateway is part of S2 by design and is not part of S1 or S3, so S3-B is not required.", "AgentCore Policy (Cedar, enforce mode, default deny) enforces rules at the gateway; the documents do not say that a target refuses calls that bypass it, which only matters if the policy changes."],
-			remaining: ["AI Foundry's written confirmation that the gateway is not mandatory for S1 and S3", "Owner to confirm the reading of the S1 statement"],
-			options: [
-				"S2: mandatory by design",
-				"S1 and S3: not mandatory (owner position)",
-				"S3-B: only if the policy changes, with Apigee accepting only gateway-issued credentials"
+			settled: ["Registry records can be published from the GitLab pipeline through the registry API.", "A registry duplicate per account is not wanted."],
+			remaining: [
+				"Cross-account sharing through AWS Organizations and AWS Resource Access Manager (not read in this build)",
+				"Curator and publisher permissions",
+				"Region compatibility and revocation"
 			],
-			proposal: "Keep S1 and S3 without AgentCore Gateway and obtain AI Foundry's written confirmation. Treat S3-B as rejected unless that confirmation says otherwise.",
-			proof: "AI Foundry's written statement is recorded against this decision; if the policy changes, a direct call to Apigee without a gateway-issued credential must be rejected.",
-			owner: "AI Foundry + Security"
+			options: ["Central registry in the AI Foundry account, shared to workload accounts", "Registry inside the workload account (rejected as a duplicate)"],
+			proposal: "Keep one central registry, publish from GitLab, and confirm the sharing mechanism with AWS.",
+			proof: "A record published from the workload account is discovered by a consumer in another account; a revoked record disappears.",
+			owner: "AI Foundry"
 		},
 		{
-			id: "s3_registry_sync",
-			title: "Can AWS Agent Registry reach SAP-hosted endpoints? (S3)",
+			id: "gateway_interop",
+			title: "AgentCore Gateway to Apigee (S3)",
 			scenarios: ["S3"],
 			status: "OPEN · NOT YET CHECKED",
-			answers: [[
-				"Is the Apigee MCP endpoint reachable from AWS?",
-				"Not yet checked",
-				"OPEN"
-			], [
-				"Is the registry credential provider in the same AWS account?",
-				"Not yet checked",
-				"OPEN"
-			]],
+			answers: [
+				[
+					"Has an end-to-end call through the gateway to Apigee been made?",
+					"Not yet checked",
+					"OPEN"
+				],
+				[
+					"Is the Apigee MCP endpoint reachable from AWS?",
+					"Not yet checked",
+					"OPEN"
+				],
+				[
+					"Is the registry credential provider in the same AWS account?",
+					"Not yet checked",
+					"OPEN"
+				]
+			],
 			settled: [
-				"Sync needs a valid HTTPS URL and, for OAuth, a credential provider in the same AWS account.",
-				"Sync runs on creation and on demand only, reverts the record to draft and is not documented to remove stale tools.",
-				"Private-network reachability is not documented.",
-				"GitLab is the central platform, so records can be published to AWS Agent Registry from the GitLab release pipeline without AWS calling into SAP."
+				"Four MCP protocol versions are shared (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26).",
+				"The gateway supports outbound OAuth client credentials, authorization code and token exchange; passthrough is not supported.",
+				"Apigee MCP supports OAuth 2.1 and OIDC and no SSE."
 			],
 			remaining: [
-				"Whether AWS can reach the Apigee URL (not yet checked)",
-				"Whether the credential provider is in the same account (not yet checked)",
-				"Who retires stale records"
+				"The real call",
+				"Target classification and tool naming",
+				"Non-duplicative gateway responsibilities and quota ownership",
+				"Private reachability"
 			],
-			options: [
-				"Publish records from the GitLab release pipeline through the registry API, with no AWS connection into SAP",
-				"Register manually with a custom descriptor",
-				"Allow registry sync to the Apigee endpoint with OAuth client credentials"
-			],
-			proposal: "Publish records from the GitLab pipeline so AWS never calls into SAP; check reachability and the account only if registry sync is wanted.",
-			proof: "Publish a record from GitLab, discover it, release a new version, retire the old record, and confirm discovery shows only the approved version.",
-			owner: "AI Foundry + SAP BTP + Security"
-		},
-		{
-			id: "s2_gateway_apigee",
-			title: "AgentCore Gateway to Apigee: protocol and token exchange (S2)",
-			scenarios: ["S2"],
-			status: "OPEN · REAL CALL NOT YET RUN",
-			answers: [[
-				"Has an end-to-end call through the gateway to Apigee been made?",
-				"Not yet checked",
-				"OPEN"
-			]],
-			settled: [
-				"Both sides support MCP 2026-07-28, 2025-11-25, 2025-06-18 and 2025-03-26.",
-				"The gateway can call an MCP-server target with OAuth client credentials, authorization code or token exchange; caller token passthrough is not supported.",
-				"Apigee MCP accepts OAuth 2.1 and OIDC; it does not support SSE streams."
-			],
-			remaining: [
-				"The real call (one tools/list and one tools/call)",
-				"Target classification (MCP or HTTP target)",
-				"An authorization server that supports token exchange for user delegation",
-				"Whether a private Apigee endpoint is allowed"
-			],
-			options: ["Service identity first: client credentials, DEFAULT listing", "User delegation: token exchange, DYNAMIC listing if the server lacks client credentials"],
+			options: ["Service identity first (client credentials)", "User delegation through token exchange"],
 			proposal: "Prove service identity end to end first, then user delegation.",
-			proof: "One tools/list and one tools/call through the gateway to Apigee and on to a read tool, with the SAP user recorded.",
+			proof: "One tools/list and one tools/call through the gateway to Apigee and on to a read tool, with correlation across both logs.",
 			owner: "AI Foundry + SAP Integration"
 		},
 		{
-			id: "tenant_capabilities",
-			title: "Tenant entitlements and capabilities",
+			id: "identity",
+			title: "Delegated identity and SAP authorization",
 			scenarios: [
 				"S1",
 				"S2",
 				"S3"
 			],
-			status: "OWNER-CONFIRMED · NOT INDEPENDENTLY VERIFIED",
-			answers: [
-				[
-					"SAP BTP Cloud Foundry",
-					"Live (owner)",
-					"OWNER-CONFIRMED"
-				],
-				[
-					"Apigee MCP",
-					"Enabled and live (owner)",
-					"OWNER-CONFIRMED"
-				],
-				[
-					"AgentCore, AWS Agent Registry and Portkey",
-					"The owner states all tenant entitlements are checked and live",
-					"OWNER-CONFIRMED"
-				]
+			status: "OPEN · NOT YET VALIDATED",
+			answers: [[
+				"Is delegated user identity validated end to end?",
+				"Not yet checked",
+				"OPEN"
+			]],
+			settled: ["Global User ID, a user-name header or a workload token alone is not principal propagation.", "SAP backend authorization stays mandatory."],
+			remaining: ["Which platform exchanges each token", "Evidence of the final SAP execution identity"],
+			options: ["Service identity first", "Delegated user through token exchange"],
+			proposal: "Run the negative test: an authorized and an unauthorized user call the same read-only tool.",
+			proof: "SAP rejects the unauthorized user and the evidence names the execution identity.",
+			owner: "Security + SAP Basis"
+		},
+		{
+			id: "cost_evidence",
+			title: "Verified comparative operating cost",
+			scenarios: [
+				"S1",
+				"S2",
+				"S3"
 			],
-			settled: [
-				"SAP BTP Cloud Foundry runs Python applications; space quota plans and service plans apply.",
-				"Apigee MCP needs OpenAPI 3.0.x, allows 1000 tools per organization and has capacity limits in some regions.",
-				"AWS Agent Registry and AgentCore Gateway are documented."
+			status: "OPEN · NO RATES ENTERED",
+			answers: [[
+				"Are SAP BTP credit rates, enterprise AWS discounts and Apigee charges known?",
+				"Not provided",
+				"OPEN"
+			]],
+			settled: ["The model is editable and has no rates; none is invented.", "High invocation frequency does not automatically make AWS cheaper."],
+			remaining: [
+				"Unit rates with provenance",
+				"Measured workload volumes",
+				"Support and staffing assumptions"
 			],
-			remaining: ["Regions, quotas and plans are not recorded", "No written confirmation is attached; this is the owner's statement, not evidence"],
-			options: ["Attach the platform owners' written confirmations per item"],
-			proposal: "Record each platform owner's written confirmation, with region and quota, next to this decision.",
-			proof: "Each item is confirmed in writing by its platform owner; none is inferred from product documentation.",
-			owner: "Platform owners"
+			options: ["Enter rates in the cost model for one workload definition"],
+			proposal: "FinOps supplies rates and volumes; the model then shows totals, sensitivity and break-even.",
+			proof: "The same workload is run on the compared platforms and measured.",
+			owner: "FinOps + platform owners"
+		},
+		{
+			id: "apigee_policy",
+			title: "Is Apigee mandatory for the SAP API route? (S2)",
+			scenarios: ["S2"],
+			status: "OPEN · POLICY NOT RECORDED",
+			answers: [[
+				"Does SAP Integration require Apigee for the route from AWS to Integration Suite?",
+				"Not recorded",
+				"OPEN"
+			]],
+			settled: ["S2 is valid without Apigee only if SAP Integration and Security accept it or approve an exception."],
+			remaining: ["SAP Integration's written position"],
+			options: [
+				"Apigee not required: S2",
+				"Apigee required: S3",
+				"Apigee optional by exception: S2 with Apigee inserted"
+			],
+			proposal: "Obtain SAP Integration's written position per route.",
+			proof: "The policy statement is recorded against the decision.",
+			owner: "SAP Integration + Security"
 		}
 	],
 	decisionSummary: {
-		DECIDED: 4,
-		"OWNER-CONFIRMED": 5,
-		OPEN: 3
+		DECIDED: 1,
+		"OWNER-CONFIRMED": 2,
+		OPEN: 8
 	},
-	ownerDate: "2026-11-25"
+	ownerDate: "2026-11-25",
+	selection: {
+		inputs: [
+			{
+				id: "aws_account",
+				label: "Dedicated SAP-agent AWS account",
+				options: [
+					["approved", "Approved"],
+					["pending", "Pending"],
+					["denied", "Denied"]
+				]
+			},
+			{
+				id: "agentcore",
+				label: "AgentCore Runtime, Gateway and Registry availability",
+				options: [
+					["available", "Available"],
+					["pending", "Pending"],
+					["unavailable", "Unavailable"]
+				]
+			},
+			{
+				id: "apigee",
+				label: "Apigee for the SAP route",
+				options: [
+					["required", "Required"],
+					["optional", "Optional (exception possible)"],
+					["not_required", "Not required"],
+					["undecided", "Undecided"]
+				]
+			},
+			{
+				id: "identity",
+				label: "Delegated user identity and SAP authorization",
+				options: [
+					["validated", "Validated end to end"],
+					["pending", "Not yet validated"],
+					["failed", "Failed"]
+				]
+			},
+			{
+				id: "interop",
+				label: "AgentCore Gateway to Apigee interoperability",
+				options: [
+					["validated", "Validated"],
+					["pending", "Not yet validated"],
+					["failed", "Failed"]
+				]
+			},
+			{
+				id: "cost",
+				label: "Verified comparative operating cost",
+				options: [
+					["s3_competitive", "S3 is competitive"],
+					["s2_cheaper", "S2 is cheaper"],
+					["s1_cheaper", "S1 is cheaper"],
+					["unknown", "Not verified"]
+				]
+			},
+			{
+				id: "ops",
+				label: "Operational ownership and support",
+				options: [
+					["agreed", "Agreed"],
+					["pending", "Pending"],
+					["none", "Not available"]
+				]
+			},
+			{
+				id: "sap_hosting",
+				label: "Enterprise permits centrally registered SAP-hosted agents",
+				options: [["permitted", "Permitted"], ["restricted", "Restricted"]]
+			},
+			{
+				id: "sap_coupling",
+				label: "SAP application coupling",
+				options: [
+					["high", "High"],
+					["medium", "Medium"],
+					["low", "Low"]
+				]
+			},
+			{
+				id: "security",
+				label: "Security restriction",
+				options: [
+					["none", "None"],
+					["no_cross_cloud", "No cross-cloud runtime calls"],
+					["sap_only_execution", "Execution must stay on SAP"]
+				]
+			},
+			{
+				id: "workload",
+				label: "Workload profile",
+				options: [
+					["low_frequency", "Low-frequency SAP-specific agent"],
+					["high_frequency", "High-frequency analytical agent"],
+					["bursty", "Bursty enterprise agent"],
+					["long_running", "Long-running reconciliation workflow"],
+					["multi_agent", "Multi-agent and multi-tool orchestration"]
+				]
+			}
+		],
+		defaults: {
+			aws_account: "pending",
+			agentcore: "pending",
+			apigee: "required",
+			identity: "pending",
+			interop: "pending",
+			cost: "unknown",
+			ops: "pending",
+			sap_hosting: "permitted",
+			sap_coupling: "medium",
+			security: "none",
+			workload: "low_frequency"
+		},
+		rules: [
+			["S1 recommended when", "SAP BTP execution is technically justified; SAP coupling is significant; BTP capacity or terms are verified favorable; AWS execution is unavailable, disallowed or not economical; the enterprise permits centrally registered SAP-hosted agents."],
+			["S2 recommended when", "AWS-hosted execution is approved; AgentCore-managed MCP capabilities meet the tool needs; Apigee is not mandated for the route or an exception exists; a simpler AWS-native runtime is preferable; identity and SAP authorization stay intact."],
+			["S3 recommended when", "AWS execution is approved; AgentCore hosting is suitable; Apigee remains required or preferred; the gateway can invoke Apigee securely; delegated identity is validated end to end; comparative cost supports the extra gateway; AI Foundry and SAP Integration approve the boundaries."],
+			["Hold rule", "A missing mandatory approval or unvalidated prerequisite never produces an unconditional selection: the result is HOLD (selection not allowed) or CONDITIONAL."]
+		],
+		authority: "AI Foundry with SAP Integration, Security and Enterprise Architecture; Finance for cost",
+		revisit: [
+			"Actual enterprise costs become known",
+			"The AWS account or AgentCore availability changes",
+			"SAP Integration changes the Apigee mandate",
+			"Identity or gateway validation fails or passes",
+			"The workload profile changes",
+			"Enterprise security or data-residency policy changes"
+		]
+	},
+	gatewayResponsibilities: [
+		[
+			"Agent-facing MCP access",
+			"Candidate: enterprise entry for agents (MCP endpoint, tool discovery)",
+			"Not the agent-facing entry in S3",
+			"Validate in the POC"
+		],
+		[
+			"Inbound authentication and authorization",
+			"Candidate: JWT, IAM or authenticate-only; Cedar policy in enforce mode",
+			"Candidate: OAuth 2.1 / OIDC or API key per API product",
+			"Neither is assumed to provide every function; validate supported features"
+		],
+		[
+			"Gateway target configuration",
+			"Candidate: MCP-server, OpenAPI and function targets; tool names prefixed with the target name",
+			"Not applicable",
+			"Target classification of an external MCP server is ambiguous in the documents"
+		],
+		[
+			"Outbound credentials",
+			"Candidate: client credentials, authorization code, token exchange, API key, gateway role; no caller passthrough",
+			"Candidate: target credentials held for the SAP-facing API",
+			"Two credential hops in S3"
+		],
+		[
+			"SAP-facing MCP/API exposure",
+			"Not the SAP-facing layer",
+			"Candidate: API products expose Integration Suite APIs as MCP tools; OpenAPI 3.0.x; 1000 tools per organization",
+			"Apigee is not arbitrary agent-code hosting"
+		],
+		[
+			"Domain-specific tool access control",
+			"Enterprise tool-access policies",
+			"API products and apps filter which tools a client sees",
+			"Avoid duplicated or conflicting policies"
+		],
+		[
+			"Schema and backend routing",
+			"Target schema to the next hop",
+			"OpenAPI schema and routing to Integration Suite",
+			"One owner per schema"
+		],
+		[
+			"Telemetry",
+			"Runtime gateway telemetry",
+			"Domain traffic analytics",
+			"A correlation id must join both; products do not share a trace id automatically"
+		],
+		[
+			"Rate limits and quotas",
+			"Gateway quotas",
+			"API product quotas and capacity limits",
+			"Quota ownership to be agreed"
+		]
+	],
+	identityChain: [
+		[
+			"Business user",
+			"Enterprise authentication (corporate IdP; SAP Cloud Identity Services as a candidate trust component)",
+			"User identity; Global User ID is a correlation attribute where supported, not proof of propagation"
+		],
+		[
+			"Agent workload",
+			"AgentCore Runtime / AgentCore Identity (S2, S3) or Cloud Foundry (S1)",
+			"Workload identity, separate from the user"
+		],
+		[
+			"MCP client",
+			"Inside the agent process",
+			"Token presented to the first gateway"
+		],
+		[
+			"Gateway / service",
+			"AgentCore Gateway, then Apigee (S3); Apigee (S1); AgentCore Gateway (S2)",
+			"Inbound validation and outbound token exchange or credential"
+		],
+		[
+			"SAP integration",
+			"SAP Integration Suite, then Cloud Connector where applicable",
+			"Service identity toward SAP; principal propagation to validate"
+		],
+		[
+			"SAP backend",
+			"S/4HANA / Central Finance",
+			"Execution identity: mapped user or technical user; SAP roles decide business authorization"
+		]
+	],
+	account: {
+		status: "PROPOSED · NOT PROVISIONED · NO AWS RESOURCE IS CREATED BY THIS APPLICATION",
+		topology: [
+			[
+				"AI Foundry governance account",
+				"Owns AWS Agent Registry (central), curator and approval roles, shared with workload accounts",
+				"Registry ownership; publisher and consumer permissions; record approval"
+			],
+			[
+				"SAP-agent workload account (proposed)",
+				"AgentCore Runtime and Gateway for SAP-related agents; separate environments (development, test, production) or another enterprise-approved arrangement",
+				"IAM least privilege, SCP guardrails, egress to Apigee and Integration Suite, secrets and encryption, tagging"
+			],
+			[
+				"AWS Organizations and landing zone",
+				"Existing organization; landing-zone compliance; SCPs; region and data-residency policy",
+				"Enterprise policy owner"
+			],
+			[
+				"Shared services",
+				"Portkey connectivity, central logging and monitoring, incident response, cost allocation and billing ownership",
+				"Platform operations"
+			]
+		],
+		evaluate: [
+			"Dedicated account within the approved AWS Organization",
+			"Enterprise landing-zone compliance",
+			"Separation of development, test and production",
+			"IAM roles and least-privilege access",
+			"AWS Organizations SCP restrictions",
+			"Region and data-residency policy",
+			"AgentCore service availability and quotas",
+			"AgentCore Runtime and Gateway permissions",
+			"Approved networking and egress",
+			"Access to Apigee and Integration Suite",
+			"Approved Portkey connectivity",
+			"Secrets management and encryption",
+			"Cost allocation and billing ownership",
+			"Operational monitoring and incident response",
+			"Resource tagging and lifecycle policies"
+		],
+		registry_sharing: [
+			"Registry ownership by AI Foundry in a central governance account",
+			"Publisher permissions for the SAP-agent account",
+			"Consumer permissions for discovering clients",
+			"Record approval authority (curator)",
+			"Cross-account sharing through AWS Organizations and AWS Resource Access Manager",
+			"Region compatibility",
+			"Metadata synchronization and endpoint reachability",
+			"Revocation and versioning",
+			"Registry service entitlements"
+		],
+		qualification: "Account provisioning does not prove access to every AgentCore capability. Confirm enterprise service policy, actual entitlements, permissions and regional support. Do not create a duplicate registry because execution uses a dedicated account."
+	},
+	lifecycle: [
+		"Use-case intake",
+		"Business and risk classification",
+		"Architecture selection",
+		"Identity and security design",
+		"MCP/API contract",
+		"Agent development",
+		"Testing",
+		"Registry publication",
+		"Runtime validation",
+		"Business approval",
+		"Production release",
+		"Monitoring and lifecycle management"
+	],
+	guardrails: [
+		"Approved agent and MCP ownership",
+		"Version-controlled artifacts in GitLab",
+		"LLM routing only through Portkey",
+		"Least-privilege tool access",
+		"User and workload identity separation",
+		"Prompt-injection and data-exfiltration protection",
+		"Read/write capability classification",
+		"Human approval for applicable business operations",
+		"SAP authorization and segregation of duties",
+		"Timeouts, retries and idempotency",
+		"Sensitive data handling and retention",
+		"Cost budgets and alerts",
+		"Centralized audit correlation",
+		"Incident response",
+		"Tool and agent revocation",
+		"Rollback and recovery",
+		"A registered skill never grants additional tool permissions"
+	],
+	raci: [
+		[
+			"Agent runtime (AgentCore or Cloud Foundry)",
+			"AWS platform team / SAP BTP team",
+			"AI Foundry",
+			"Security",
+			"Integration team"
+		],
+		[
+			"Apigee MCP/API policies",
+			"SAP Integration",
+			"SAP Integration lead",
+			"Security, AI Foundry",
+			"Agent teams"
+		],
+		[
+			"AgentCore Gateway targets and policy",
+			"AWS platform team",
+			"AI Foundry",
+			"SAP Integration, Security",
+			"Agent teams"
+		],
+		[
+			"AWS Agent Registry records and approval",
+			"Integration team (publish)",
+			"AI Foundry (curator)",
+			"Security",
+			"Consumers"
+		],
+		[
+			"LLM routing (Portkey)",
+			"AI platform",
+			"AI Foundry",
+			"Security, Finance",
+			"Agent teams"
+		],
+		[
+			"SAP backend authorization",
+			"SAP Security",
+			"SAP Finance owner",
+			"Integration team",
+			"Agent teams"
+		],
+		[
+			"GitLab pipelines and artifacts",
+			"Platform engineering",
+			"Integration team",
+			"Security",
+			"All teams"
+		],
+		[
+			"Cost allocation and budgets",
+			"FinOps",
+			"Platform owners",
+			"Finance",
+			"Agent teams"
+		]
+	],
+	pocValidations: [
+		"Dedicated AWS account service access",
+		"AgentCore Runtime operation",
+		"AgentCore Gateway tool invocation",
+		"AWS Agent Registry registration and discovery",
+		"Cross-account registry access",
+		"Apigee-managed MCP endpoint",
+		"S2 direct Integration Suite/API pattern, if permitted",
+		"S3 Gateway-to-Apigee pattern",
+		"Portkey model invocation",
+		"Delegated business-user identity",
+		"Backend SAP authorization (authorized and unauthorized user, same tool)",
+		"Read-only reconciliation accuracy",
+		"Network and gateway latency",
+		"Execution cost",
+		"Operational logs and audit",
+		"Failure and retry handling",
+		"Incident and support ownership"
+	],
+	cost: {
+		components: [
+			{
+				id: "runtime",
+				label: "Agent runtime CPU and memory",
+				driver: "vCPU-hours and GB-hours per month",
+				applies: {
+					S1: "SAP BTP Cloud Foundry credits",
+					S2: "AgentCore Runtime",
+					S3: "AgentCore Runtime"
+				}
+			},
+			{
+				id: "idle",
+				label: "Runtime idle capacity",
+				driver: "Reserved or idle hours per month",
+				applies: {
+					S1: "Cloud Foundry instances kept running",
+					S2: "AgentCore (consumption)",
+					S3: "AgentCore (consumption)"
+				}
+			},
+			{
+				id: "gateway",
+				label: "AgentCore Gateway tool invocations",
+				driver: "Tool invocations per month",
+				applies: {
+					S2: "AgentCore Gateway",
+					S3: "AgentCore Gateway"
+				}
+			},
+			{
+				id: "apigee",
+				label: "Apigee MCP/API usage",
+				driver: "API calls per month",
+				applies: {
+					S1: "Apigee",
+					S3: "Apigee"
+				}
+			},
+			{
+				id: "integration",
+				label: "SAP Integration Suite consumption",
+				driver: "Messages or API calls per month",
+				applies: {
+					S1: "Integration Suite",
+					S2: "Integration Suite",
+					S3: "Integration Suite"
+				}
+			},
+			{
+				id: "connector",
+				label: "Cloud Connector operating cost",
+				driver: "Operating effort or hosting per month",
+				applies: {
+					S1: "Where applicable",
+					S2: "Where applicable",
+					S3: "Where applicable"
+				}
+			},
+			{
+				id: "llm",
+				label: "Portkey and model-provider cost",
+				driver: "Tokens per month",
+				applies: {
+					S1: "Portkey + provider",
+					S2: "Portkey + provider",
+					S3: "Portkey + provider"
+				}
+			},
+			{
+				id: "egress",
+				label: "Inter-cloud data transfer and egress",
+				driver: "GB per month",
+				applies: {
+					S1: "Cloud Foundry to Apigee and registry",
+					S2: "AWS to SAP",
+					S3: "AWS to Apigee to SAP"
+				}
+			},
+			{
+				id: "persistence",
+				label: "Persistence and storage",
+				driver: "GB per month and operations",
+				applies: {
+					S1: "Approved service or HANA Cloud",
+					S2: "Approved AWS service",
+					S3: "Approved AWS service"
+				}
+			},
+			{
+				id: "observability",
+				label: "Observability and logging",
+				driver: "GB of logs per month",
+				applies: {
+					S1: "BTP + Apigee",
+					S2: "AgentCore",
+					S3: "AgentCore + Apigee"
+				}
+			},
+			{
+				id: "registry",
+				label: "Agent Registry",
+				driver: "Records and requests per month",
+				applies: {
+					S1: "AWS Agent Registry",
+					S2: "AWS Agent Registry",
+					S3: "AWS Agent Registry"
+				}
+			},
+			{
+				id: "support",
+				label: "Support and operational staffing",
+				driver: "FTE-months",
+				applies: {
+					S1: "BTP + integration teams",
+					S2: "AWS platform team",
+					S3: "AWS platform + integration teams"
+				}
+			},
+			{
+				id: "dr",
+				label: "Environment isolation and disaster recovery",
+				driver: "Extra environments per month",
+				applies: {
+					S1: "BTP subaccounts",
+					S2: "AWS accounts",
+					S3: "AWS accounts"
+				}
+			}
+		],
+		workloads: [
+			["low_frequency", "Low-frequency SAP-specific agent"],
+			["high_frequency", "High-frequency analytical agent"],
+			["bursty", "Bursty enterprise agent"],
+			["long_running", "Long-running reconciliation workflow"],
+			["multi_agent", "Multi-agent and multi-tool orchestration"]
+		],
+		note: "No rate is supplied. SAP BTP credit rates, enterprise AWS discounts, Apigee charges and measured savings are not known to this application and are never invented: enter them with their source. One workload definition (the volumes) applies to every scenario."
+	}
 }, $e = "2026-11-25", et = "TBD · REQUIRES VALIDATION", z = R.ids, tt = R.banner, B = Object.fromEntries(R.ids.map((e) => {
 	let t = R.scenarios[e], n = R.diagrams[{
 		S1: "D2",
@@ -12889,13 +13511,9 @@ var nt = Object.keys(R.diagrams), rt = [
 	["Integration Suite", "SAP integration boundary between the gateway and the SAP backend."],
 	["Cloud Connector", "Private connectivity to the SAP landscape; applies only where the connectivity model needs it."]
 ], it = R.comparison, at = R.connCols, ot = R.connections, st = R.domains, ct = {
-	headline: R.recommendation.headline,
-	why: R.recommendation.why,
-	standards: R.recommendation.depends,
-	open: R.recommendation.open,
-	changes: R.recommendation.changes,
-	poc: R.recommendation.poc
-}, lt = R.evidence, ut = R.evidenceStatus, dt = R.s1Registry, ft = R.ownerDate, pt = R.decisionSummary, mt = R.decisions, ht = {
+	...R.recommendation,
+	standards: R.recommendation.depends
+}, lt = R.evidence, ut = R.evidenceStatus, dt = R.ownerDate, ft = R.decisionSummary, pt = R.decisions, mt = R.selection, ht = R.gatewayResponsibilities, gt = R.identityChain, _t = R.account, vt = R.lifecycle, yt = R.guardrails, bt = R.raci, xt = R.pocValidations, St = R.cost, Ct = {
 	invoke: "Runtime invocation",
 	registry: "Registration / discovery",
 	llm: "LLM invocation",
@@ -12903,19 +13521,19 @@ var nt = Object.keys(R.diagrams), rt = [
 	audit: "Audit / correlation",
 	approval: "Approval",
 	deploy: "Deployment"
-}, gt = [
+}, wt = [
 	"invoke",
 	"registry",
 	"llm",
 	"identity",
 	"audit"
-].map((e) => [e, ht[e]]);
-function _t(e) {
+].map((e) => [e, Ct[e]]);
+function Tt(e) {
 	return R.diagrams[e];
 }
-function vt(e) {
+function Et(e) {
 	let t = R.diagrams[e];
-	return Tt({
+	return Nt({
 		...t,
 		title: t.title,
 		captions: (t.lanes || []).map(([e, n]) => [(t.ys || [
@@ -12925,18 +13543,18 @@ function vt(e) {
 			528,
 			668
 		])[e] - (e >= 2 ? 18 : 26), n]),
-		legend: t.legend.map((e) => [e, ht[e]]),
+		legend: t.legend.map((e) => [e, Ct[e]]),
 		height: t.height
 	});
 }
-function yt(e) {
-	return vt({
+function Dt(e) {
+	return Et({
 		S1: "D2",
 		S2: "D3",
 		S3: "D4"
 	}[e]);
 }
-var bt = {
+var Ot = {
 	control: "#FFFFFF",
 	decision: "#FFF8EE",
 	agent: "#E8F1FB",
@@ -12951,7 +13569,7 @@ var bt = {
 	ui: "#EEF4FA",
 	llm: "#F4EAFA",
 	store: "#EEF2F5"
-}, xt = {
+}, kt = {
 	invoke: {
 		c: "#0A4F9E",
 		w: 2.6,
@@ -12992,24 +13610,24 @@ var bt = {
 		w: 1.8,
 		d: "1.5 4"
 	}
-}, St = {
+}, At = {
 	google: "#C26A00",
 	aws: "#0A4F9E",
 	sap: "#5B3F8C"
-}, Ct = (e) => String(e).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-function wt(e, t) {
+}, jt = (e) => String(e).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function Mt(e, t) {
 	let n = [], r = "";
 	for (let i of String(e).split(" ")) (r + " " + i).trim().length > t && r ? (n.push(r), r = i) : r = (r + " " + i).trim();
 	return r && n.push(r), n;
 }
-function Tt(e) {
+function Nt(e) {
 	let t = e.height || 840, n = e.nh || 92, r = (1140 - (e.cols - 1) * 30) / e.cols, i = e.ys || [
 		118,
 		258,
 		398,
 		528,
 		668
-	], a = {}, o = (e, t) => 20 + wt(e.title, Math.floor(t / 7.1)).length * 15 + wt(e.sub, Math.floor((t - 8) / 5.7)).length * 12.5 + 8 + (e.status ? 14 : 0);
+	], a = {}, o = (e, t) => 20 + Mt(e.title, Math.floor(t / 7.1)).length * 15 + Mt(e.sub, Math.floor((t - 8) / 5.7)).length * 12.5 + 8 + (e.status ? 14 : 0);
 	for (let t of e.nodes) {
 		let e = t.span || 1, s = e * r + (e - 1) * 30, c = t.h || n, l = Math.ceil(o(t, s));
 		a[t.id] = {
@@ -13024,17 +13642,17 @@ function Tt(e) {
 	let s = [];
 	for (let [t, n, r] of e.bounds) {
 		let e = n.map((e) => a[e]), i = Math.min(...e.map((e) => e.x)) - 10, o = Math.min(...e.map((e) => e.y)) - 24, c = Math.max(...e.map((e) => e.x + e.w)) + 10, l = Math.max(...e.map((e) => e.y + e.h)) + 5;
-		s.push(`<rect x="${i}" y="${o}" width="${c - i}" height="${l - o}" rx="8" fill="none" stroke="${St[r]}" stroke-width="2" stroke-dasharray="14 5"/>`), s.push(`<text x="${i + 8}" y="${o + 15}" font-size="12" font-weight="700" fill="${St[r]}">${Ct(t)}</text>`);
+		s.push(`<rect x="${i}" y="${o}" width="${c - i}" height="${l - o}" rx="8" fill="none" stroke="${At[r]}" stroke-width="2" stroke-dasharray="14 5"/>`), s.push(`<text x="${i + 8}" y="${o + 15}" font-size="12" font-weight="700" fill="${At[r]}">${jt(t)}</text>`);
 	}
 	let c = (e, t, n = "end") => s.push(`<text x="${n === "end" ? 1170 : 30}" y="${e}" font-size="11.5" font-weight="700" fill="#506778" text-anchor="${n}">${t}</text>`);
 	for (let [t, n, r] of e.captions) c(t, n, r);
 	let l = [], u = [], d = {};
 	for (let [t, n, r, i, o = {}] of e.edges) {
 		let e = r === "identity" ? d[t] = (d[t] ?? -1) + 1 : 0, c = a[t], f = a[n], p = o.active ? {
-			...xt[r],
+			...kt[r],
 			c: "#E9730C",
-			w: xt[r].w + 1
-		} : xt[r], m = {
+			w: kt[r].w + 1
+		} : kt[r], m = {
 			x: c.x + c.w / 2,
 			y: c.y + c.h / 2
 		}, h = {
@@ -13061,63 +13679,63 @@ function Tt(e) {
 	s.push(...u);
 	for (let t of e.nodes) {
 		let e = a[t.id], n = `${t.stage ? " data-stage=\"1\"" : ""}${t.kind === "control" ? " data-control=\"1\"" : ""}`;
-		s.push(`<rect data-node="${t.id}"${e.clipped ? " data-clipped=\"1\"" : ""}${n} x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="${bt[t.kind]}" stroke="${t.stroke || "#506778"}" stroke-width="${t.strokeWidth || 1.4}"${t.dashed ? " stroke-dasharray=\"7 4\"" : ""}${t.cls ? ` class="${t.cls}"` : ""}/>`);
-		let r = wt(t.title, Math.floor(e.w / 7.1));
-		r.forEach((t, n) => s.push(`<text x="${e.x + 8}" y="${e.y + 20 + n * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${Ct(t)}</text>`)), wt(t.sub, Math.floor((e.w - 8) / 5.7)).forEach((t, n) => s.push(`<text x="${e.x + 8}" y="${e.y + 20 + r.length * 15 + n * 12.5}" font-size="10.5" fill="#34495C">${Ct(t)}</text>`)), t.status && s.push(`<text x="${e.x + 8}" y="${e.y + e.h - 9}" font-size="10.5" font-weight="700" fill="${t.statusColor || "#34495C"}">${Ct(t.status)}</text>`), t.zone && s.push(`<rect data-zone="${Ct(t.zone)}" x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="transparent"/>`);
+		s.push(`<rect data-node="${t.id}"${e.clipped ? " data-clipped=\"1\"" : ""}${n} x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="${Ot[t.kind]}" stroke="${t.stroke || "#506778"}" stroke-width="${t.strokeWidth || 1.4}"${t.dashed ? " stroke-dasharray=\"7 4\"" : ""}${t.cls ? ` class="${t.cls}"` : ""}/>`);
+		let r = Mt(t.title, Math.floor(e.w / 7.1));
+		r.forEach((t, n) => s.push(`<text x="${e.x + 8}" y="${e.y + 20 + n * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${jt(t)}</text>`)), Mt(t.sub, Math.floor((e.w - 8) / 5.7)).forEach((t, n) => s.push(`<text x="${e.x + 8}" y="${e.y + 20 + r.length * 15 + n * 12.5}" font-size="10.5" fill="#34495C">${jt(t)}</text>`)), t.status && s.push(`<text x="${e.x + 8}" y="${e.y + e.h - 9}" font-size="10.5" font-weight="700" fill="${t.statusColor || "#34495C"}">${jt(t.status)}</text>`), t.zone && s.push(`<rect data-zone="${jt(t.zone)}" x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="transparent"/>`);
 	}
 	for (let [e, t, n, r] of l) {
 		let i = n.length * 5.6 + 10;
-		s.push(`<rect x="${e - i / 2}" y="${t - 11}" width="${i}" height="15" rx="3" fill="#F1F4F7" opacity="0.94"/><text x="${e}" y="${t}" font-size="10.5" font-weight="600" fill="${r}" text-anchor="middle">${Ct(n)}</text>`);
+		s.push(`<rect x="${e - i / 2}" y="${t - 11}" width="${i}" height="15" rx="3" fill="#F1F4F7" opacity="0.94"/><text x="${e}" y="${t}" font-size="10.5" font-weight="600" fill="${r}" text-anchor="middle">${jt(n)}</text>`);
 	}
 	let f = 30;
 	s.push(`<rect x="22" y="${t - 54}" width="1156" height="40" rx="6" fill="#FFFFFF" stroke="#D9E1E7"/>`), s.push(`<text x="30" y="${t - 36}" font-size="11" font-weight="700" fill="#506778">LEGEND</text>`);
 	for (let [n, r] of e.legend) {
-		let e = xt[n];
-		s.push(`<line x1="${f + 60}" y1="${t - 40}" x2="${f + 90}" y2="${t - 40}" stroke="${e.c}" stroke-width="${e.w}"${e.d ? ` stroke-dasharray="${e.d}"` : ""}/><text x="${f + 96}" y="${t - 36}" font-size="11" fill="#1D2D3E">${Ct(r)}</text>`), f += 96 + r.length * 5.4 + 8;
+		let e = kt[n];
+		s.push(`<line x1="${f + 60}" y1="${t - 40}" x2="${f + 90}" y2="${t - 40}" stroke="${e.c}" stroke-width="${e.w}"${e.d ? ` stroke-dasharray="${e.d}"` : ""}/><text x="${f + 96}" y="${t - 36}" font-size="11" fill="#1D2D3E">${jt(r)}</text>`), f += 96 + r.length * 5.4 + 8;
 	}
-	s.push(`<text x="30" y="${t - 20}" font-size="10.5" fill="#506778">${Ct(e.footer)}</text>`);
+	s.push(`<text x="30" y="${t - 20}" font-size="10.5" fill="#506778">${jt(e.footer)}</text>`);
 	let p = e.title;
-	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${t}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${Ct(p)}</title><desc id="d">${Ct(e.chain)}</desc><rect width="1200" height="${t}" fill="#F1F4F7"/><text x="30" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${Ct(p)}</text><text x="30" y="62" font-size="12" fill="#34495C">${Ct(e.chain.length > 150 ? e.chain.slice(0, 147) + "…" : e.chain)}</text><text x="30" y="82" font-size="11" fill="#B3261E" font-weight="700">${Ct(e.banner)}</text>${s.join("")}</svg>\n`;
+	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${t}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${jt(p)}</title><desc id="d">${jt(e.chain)}</desc><rect width="1200" height="${t}" fill="#F1F4F7"/><text x="30" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${jt(p)}</text><text x="30" y="62" font-size="12" fill="#34495C">${jt(e.chain.length > 150 ? e.chain.slice(0, 147) + "…" : e.chain)}</text><text x="30" y="82" font-size="11" fill="#B3261E" font-weight="700">${jt(e.banner)}</text>${s.join("")}</svg>\n`;
 }
 // src/DetailedDiagrams.jsx
-var Et = 1200, Dt = 840, Ot = 12, kt = [2, 4], At = (e, t, n) => Math.min(n, Math.max(t, e)), jt = {
-	D1: "Overview",
+var Pt = 1200, Ft = 840, It = 12, Lt = [2, 4], Rt = (e, t, n) => Math.min(n, Math.max(t, e)), zt = {
+	D1: "Reference",
 	D2: "S1",
 	D3: "S2",
 	D4: "S3",
-	D5: "Hosting vs registry",
-	D6: "Identity",
-	D7: "LLM",
-	D8: "Lifecycle",
-	D9: "Audit",
-	D10: "Comparison"
-}, Mt = Object.fromEntries(nt.map((e) => {
-	let t = _t(e);
+	D5: "Responsibilities",
+	D6: "AWS account",
+	D7: "Gateway identity",
+	D8: "Cost",
+	D9: "Decision tree",
+	D10: "Executive"
+}, Bt = Object.fromEntries(nt.map((e) => {
+	let t = Tt(e);
 	return [e, {
 		id: e,
-		tab: `${e} · ${jt[e]}`,
+		tab: `${e} · ${zt[e]}`,
 		title: `${e} · ${t.title}`,
-		svg: vt(e),
+		svg: Et(e),
 		file: `architecture-${e.toLowerCase()}`,
 		png: !0,
 		summary: t.chain,
 		footer: t.footer
 	}];
-})), Nt = ["D2", "D4"], Pt = [
-	"S1 registry is an interim GitLab catalog: it is not a complete agent registry",
-	"AgentCore Gateway to Apigee (S2): the real call has not been run",
-	"AgentCore Gateway is not mandatory in S1 and S3 (owner position): AI Foundry written confirmation pending",
-	"Principal propagation through Integration Suite and Cloud Connector: to validate",
-	"Persistence is conditional: HANA Cloud only if durable SAP-side state is required"
+})), Vt = ["D2", "D4"], Ht = [
+	"S3 is the preferred candidate to evaluate first: it is conditional on account approval, identity, gateway interoperability and verified cost",
+	"The dedicated SAP-agent AWS account is proposed and not provisioned",
+	"AgentCore Gateway to Apigee: the real call has not been run; reachability and the credential provider account are not yet checked",
+	"Delegated identity and principal propagation are not yet validated",
+	"No cost rates are entered: the comparison is pending FinOps input"
 ];
-function Ft(e, t) {
+function Ut(e, t) {
 	return e.replace("aria-labelledby=\"t d\"", `aria-labelledby="${t}-t ${t}-d"`).replace("id=\"t\"", `id="${t}-t"`).replace("id=\"d\"", `id="${t}-d"`);
 }
-function It(e) {
+function V(e) {
 	return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${e}`], { type: "image/svg+xml" });
 }
-function Lt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onExpand: o, compact: s, onPick: c }) {
-	let l = e.w || Et, u = e.h || Dt, d = (0, _.useRef)(null), f = (0, _.useRef)(null), p = (0, _.useRef)(null), m = (0, _.useRef)(n), h = (0, _.useRef)({
+function Wt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onExpand: o, compact: s, onPick: c }) {
+	let l = e.w || Pt, u = e.h || Ft, d = (0, _.useRef)(null), f = (0, _.useRef)(null), p = (0, _.useRef)(null), m = (0, _.useRef)(n), h = (0, _.useRef)({
 		s: .5,
 		x: 0,
 		y: 0
@@ -13125,7 +13743,7 @@ function Lt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 	m.current = n;
 	let b = (0, _.useRef)(r), x = (0, _.useRef)(i);
 	b.current = r, x.current = i;
-	let S = (0, _.useMemo)(() => Ft(e.svg, t), [e, t]), C = (0, _.useCallback)(() => {
+	let S = (0, _.useMemo)(() => Ut(e.svg, t), [e, t]), C = (0, _.useCallback)(() => {
 		let e = f.current?.getBoundingClientRect();
 		if (!e || !e.width || !e.height) return null;
 		let t = Math.min((e.width - 16) / l, (e.height - 16) / u);
@@ -13159,7 +13777,7 @@ function Lt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 	let T = (0, _.useCallback)((e, t, n) => {
 		let r = m.current;
 		if (!r) return;
-		let i = Math.max(.05, h.current.s * .5), a = At(r.s * e, i, Ot), o = a / r.s;
+		let i = Math.max(.05, h.current.s * .5), a = Rt(r.s * e, i, It), o = a / r.s;
 		g.current = !1, b.current({
 			s: a,
 			x: t - (t - r.x) * o,
@@ -13263,13 +13881,13 @@ function Lt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 			} catch {}
 		}
 	}, ie = () => {
-		let t = URL.createObjectURL(It(e.svg));
+		let t = URL.createObjectURL(V(e.svg));
 		window.open(t, "_blank", "noopener"), setTimeout(() => URL.revokeObjectURL(t), 6e4);
 	}, ae = () => {
-		let t = URL.createObjectURL(It(e.svg)), n = document.createElement("a");
+		let t = URL.createObjectURL(V(e.svg)), n = document.createElement("a");
 		n.href = t, n.download = `${e.file || `finance-architecture-${e.id.toLowerCase()}`}.svg`, document.body.appendChild(n), n.click(), n.remove(), setTimeout(() => URL.revokeObjectURL(t), 1e3);
 	}, oe = (t) => {
-		let n = URL.createObjectURL(It(e.svg)), r = new Image();
+		let n = URL.createObjectURL(V(e.svg)), r = new Image();
 		r.onload = () => {
 			let i = document.createElement("canvas");
 			i.width = l * t, i.height = u * t, i.getContext("2d").drawImage(r, 0, 0, i.width, i.height), URL.revokeObjectURL(n), i.toBlob((n) => {
@@ -13348,7 +13966,7 @@ function Lt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 						title: "Download the vector SVG",
 						children: "SVG ⤓"
 					}),
-					e.png && kt.map((t) => /* @__PURE__ */ (0, A.jsxs)("button", {
+					e.png && Lt.map((t) => /* @__PURE__ */ (0, A.jsxs)("button", {
 						type: "button",
 						onClick: () => oe(t),
 						"aria-label": `Download ${e.id} as ${t}x PNG`,
@@ -13394,10 +14012,10 @@ function Lt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 		})]
 	});
 }
-function Rt({ view: e = "D1", onView: t, onBack: n }) {
-	let [r, i] = (0, _.useState)(null), [a, o] = (0, _.useState)(null), [s, c] = (0, _.useState)(!0), [l, u] = (0, _.useState)(null), [d, f] = (0, _.useState)(Nt), p = e === "compare", m = Mt[e] ? e : "D1", h = (e) => {
+function Gt({ view: e = "D1", onView: t, onBack: n }) {
+	let [r, i] = (0, _.useState)(null), [a, o] = (0, _.useState)(null), [s, c] = (0, _.useState)(!0), [l, u] = (0, _.useState)(null), [d, f] = (0, _.useState)(Vt), p = e === "compare", m = Bt[e] ? e : "D1", h = (e) => {
 		u(null), t(e);
-	}, g = Mt[m], v = (0, _.useCallback)((e) => {
+	}, g = Bt[m], v = (0, _.useCallback)((e) => {
 		i(e), o(e);
 	}, []), y = [
 		"D2",
@@ -13428,7 +14046,7 @@ function Rt({ view: e = "D1", onView: t, onBack: n }) {
 							"aria-selected": e === t,
 							className: e === t ? "active" : "",
 							onClick: () => h(t),
-							children: t === "compare" ? "Compare side-by-side" : Mt[t].tab
+							children: t === "compare" ? "Compare side-by-side" : Bt[t].tab
 						}, t))
 					}),
 					/* @__PURE__ */ (0, A.jsxs)("div", {
@@ -13455,7 +14073,7 @@ function Rt({ view: e = "D1", onView: t, onBack: n }) {
 					children: [/* @__PURE__ */ (0, A.jsx)("span", {
 						className: "eyebrow",
 						children: "COMMON TO S1, S2 AND S3"
-					}), /* @__PURE__ */ (0, A.jsx)("p", { children: "Portkey is the LLM gateway. Google Apigee is the SAP-facing MCP/API gateway. SAP Integration Suite is the SAP integration boundary. The SAP backend decides business authorization. A registry is a catalog, never an invocation hop." })]
+					}), /* @__PURE__ */ (0, A.jsx)("p", { children: "Portkey is the LLM gateway. SAP Integration Suite is the SAP integration boundary. The SAP backend decides business authorization. GitLab deploys everything and is never a runtime. A registry is a catalog, never an invocation hop." })]
 				})]
 			}),
 			/* @__PURE__ */ (0, A.jsxs)("div", {
@@ -13474,14 +14092,14 @@ function Rt({ view: e = "D1", onView: t, onBack: n }) {
 							onChange: (e) => f((n) => n.map((n, r) => r === t ? e.target.value : n)),
 							children: y.map((e) => /* @__PURE__ */ (0, A.jsx)("option", {
 								value: e,
-								children: Mt[e].tab
+								children: Bt[e].tab
 							}, e))
 						})
 					] }, t))]
 				}), /* @__PURE__ */ (0, A.jsx)("div", {
 					className: "dd-compare-grid",
-					children: d.map((e, t) => /* @__PURE__ */ (0, A.jsx)(Lt, {
-						diagram: Mt[e],
+					children: d.map((e, t) => /* @__PURE__ */ (0, A.jsx)(Wt, {
+						diagram: Bt[e],
 						uid: `dd-${e}-cmp-${t}`,
 						compact: !0,
 						view: t === 0 ? r : a,
@@ -13494,7 +14112,7 @@ function Rt({ view: e = "D1", onView: t, onBack: n }) {
 						expanded: l === t,
 						onExpand: (e) => u(e ? t : null)
 					}, `${e}-${t}`))
-				})] }) : /* @__PURE__ */ (0, A.jsx)(Lt, {
+				})] }) : /* @__PURE__ */ (0, A.jsx)(Wt, {
 					diagram: g,
 					uid: `dd-${g.id}`,
 					view: r,
@@ -13515,11 +14133,11 @@ function Rt({ view: e = "D1", onView: t, onBack: n }) {
 							/* @__PURE__ */ (0, A.jsx)("strong", { children: e }),
 							" ",
 							B[e].agent_runtime,
-							" · registry: ",
-							B[e].agent_registry
+							" · gateway: ",
+							B[e].mcp_gateway
 						] }, e)) }),
 						/* @__PURE__ */ (0, A.jsx)("h3", { children: "Open validations" }),
-						/* @__PURE__ */ (0, A.jsx)("ul", { children: Pt.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) }),
+						/* @__PURE__ */ (0, A.jsx)("ul", { children: Ht.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) }),
 						/* @__PURE__ */ (0, A.jsxs)("p", {
 							className: "micro",
 							children: [tt, ". Vendor-named components are design projections, not connected services."]
@@ -13537,11 +14155,11 @@ function Rt({ view: e = "D1", onView: t, onBack: n }) {
 	});
 }
 // src/ArchitectureDiagram.jsx
-function zt({ diagramKey: e, onClose: t, onDetails: n }) {
-	let r = _t(e), [i, a] = (0, _.useState)(null), [o, s] = (0, _.useState)(!1), c = (0, _.useMemo)(() => r ? {
+function Kt({ diagramKey: e, onClose: t, onDetails: n }) {
+	let r = Tt(e), [i, a] = (0, _.useState)(null), [o, s] = (0, _.useState)(!1), c = (0, _.useMemo)(() => r ? {
 		id: `modal-${e}`,
 		title: r.title,
-		svg: vt(e),
+		svg: Et(e),
 		file: `architecture-${e.toLowerCase()}`,
 		png: !0
 	} : null, [r, e]);
@@ -13578,7 +14196,7 @@ function zt({ diagramKey: e, onClose: t, onDetails: n }) {
 				}),
 				/* @__PURE__ */ (0, A.jsx)("div", {
 					className: "arch-diagram-viewer",
-					children: /* @__PURE__ */ (0, A.jsx)(Lt, {
+					children: /* @__PURE__ */ (0, A.jsx)(Wt, {
 						diagram: c,
 						uid: `arch-${e}`,
 						view: i,
@@ -13608,22 +14226,24 @@ function zt({ diagramKey: e, onClose: t, onDetails: n }) {
 	}) : null;
 }
 // src/McpApproaches.jsx
-var Bt = {
+var qt = {
 	S1: "D2",
 	S2: "D3",
 	S3: "D4"
-}, Vt = [
+}, Jt = [
 	["Agent hosting and execution", "agent_runtime"],
-	["MCP gateway", "mcp_gateway"],
+	["Runtime gateway", "mcp_gateway"],
+	["Apigee", "apigee_role"],
 	["Custom MCP runtime (if required)", "custom_mcp_runtime"],
-	["Agent registry", "agent_registry"],
-	["MCP registry", "mcp_registry"],
+	["AWS account", "aws_account"],
+	["Agent and MCP registry", "agent_registry"],
 	["LLM gateway", "llm_gateway"],
+	["Artifacts and CI/CD", "artifact_repository"],
 	["SAP integration", "integration_suite"],
 	["Business authorization", "backend_authorization"],
 	["Persistence", "persistence"]
 ];
-function Ht({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernance: r, onAgentHosting: i }) {
+function Yt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernance: r, onAgentHosting: i }) {
 	let [a, o] = (0, _.useState)("S3"), [s, c] = (0, _.useState)(null), l = a === "compare" ? null : a, u = l ? B[l] : null, d = l ? e[l] : null;
 	return /* @__PURE__ */ (0, A.jsxs)("main", {
 		className: "mcp-comparison mcp-bird arch-page hosting-page",
@@ -13671,7 +14291,7 @@ function Ht({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 							children: /* @__PURE__ */ (0, A.jsx)("button", {
 								type: "button",
 								className: "diagram-action",
-								onClick: () => c(Bt[l]),
+								onClick: () => c(qt[l]),
 								children: "Architecture diagram ↗"
 							})
 						})]
@@ -13692,7 +14312,7 @@ function Ht({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 								"aria-label": "Route facts",
 								children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Who owns what" }), /* @__PURE__ */ (0, A.jsx)("div", {
 									className: "arch-cards",
-									children: Vt.map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("div", {
+									children: Jt.map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("div", {
 										className: /pending|TBD/i.test(u[t]) ? "warn" : "",
 										children: [/* @__PURE__ */ (0, A.jsx)("span", { children: e }), /* @__PURE__ */ (0, A.jsx)("b", { children: u[t] })]
 									}, t))
@@ -13701,6 +14321,10 @@ function Ht({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 							/* @__PURE__ */ (0, A.jsxs)("section", {
 								"aria-label": "Open dependencies",
 								children: [
+									/* @__PURE__ */ (0, A.jsx)("h4", { children: "Advantages" }),
+									/* @__PURE__ */ (0, A.jsx)("ul", { children: u.advantages.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) }),
+									/* @__PURE__ */ (0, A.jsx)("h4", { children: "Considerations" }),
+									/* @__PURE__ */ (0, A.jsx)("ul", { children: u.considerations.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) }),
 									/* @__PURE__ */ (0, A.jsx)("h4", { children: "Not yet verified" }),
 									/* @__PURE__ */ (0, A.jsx)("ul", { children: u.unverified.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) }),
 									/* @__PURE__ */ (0, A.jsx)("h4", { children: "Enterprise-policy dependencies" }),
@@ -13713,9 +14337,9 @@ function Ht({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 								children: [
 									/* @__PURE__ */ (0, A.jsx)("h4", { children: "Assumptions" }),
 									/* @__PURE__ */ (0, A.jsx)("ul", { children: u.assumptions.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) }),
-									u.variant_b && /* @__PURE__ */ (0, A.jsxs)("p", {
-										className: "bad",
-										children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: "S3-B" }), u.variant_b]
+									/* @__PURE__ */ (0, A.jsxs)("p", {
+										className: "good",
+										children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: "Classification" }), u.classification]
 									}),
 									d?.decisions?.length > 0 && /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Open decisions" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: d.decisions.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] })
 								]
@@ -13781,11 +14405,11 @@ function Ht({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 					})
 				})]
 			}),
-			s && /* @__PURE__ */ (0, A.jsx)(zt, {
+			s && /* @__PURE__ */ (0, A.jsx)(Kt, {
 				diagramKey: s,
 				onClose: () => c(null),
 				onDetails: () => {
-					let e = Object.keys(Bt).find((e) => Bt[e] === s);
+					let e = Object.keys(qt).find((e) => qt[e] === s);
 					c(null), e && n && n(e);
 				}
 			})
@@ -13793,7 +14417,7 @@ function Ht({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 	});
 }
 // src/ScenarioDecisions.jsx
-var Ut = [
+var Xt = [
 	[
 		"Agent hosting and execution",
 		"agent_runtime",
@@ -13824,8 +14448,8 @@ var Ut = [
 		"llm_gateway",
 		"Model access, independent of the rest"
 	]
-], V = (e) => /pending|TBD|unresolved|interim/i.test(e);
-function Wt({ focus: e = z, title: t = "The independent decisions in each scenario", rows: n = Ut }) {
+], Zt = (e) => /pending|TBD|unresolved|interim/i.test(e);
+function Qt({ focus: e = z, title: t = "The independent decisions in each scenario", rows: n = Xt }) {
 	return /* @__PURE__ */ (0, A.jsxs)("section", {
 		className: "surface sd-strip",
 		"data-testid": "decision-strip",
@@ -13855,7 +14479,7 @@ function Wt({ focus: e = z, title: t = "The independent decisions in each scenar
 					children: [t, /* @__PURE__ */ (0, A.jsx)("small", { children: r })]
 				}), z.map((t) => /* @__PURE__ */ (0, A.jsx)("td", {
 					"data-label": B[t].name,
-					className: `${e.includes(t) ? "sel" : ""} ${V(B[t][n]) ? "mg-open" : ""}`,
+					className: `${e.includes(t) ? "sel" : ""} ${Zt(B[t][n]) ? "mg-open" : ""}`,
 					children: B[t][n]
 				}, t))] }, n)) })]
 			})
@@ -13863,14 +14487,14 @@ function Wt({ focus: e = z, title: t = "The independent decisions in each scenar
 	});
 }
 // src/McpGovernance.jsx
-var Gt = [
+var $t = [
 	["mg-responsibility", "Comparison matrix"],
 	["mg-connections", "Endpoint connectivity"],
 	["mg-patterns", "Exposure patterns"],
 	["mg-domain", "Finance domain design"],
 	["mg-recommendation", "Recommendation"],
 	["mg-evidence", "Source evidence"]
-], Kt = {
+], en = {
 	"mg-responsibility": "Hosting, registration, gateway, identity, cost and governance side by side",
 	"mg-patterns": "Managed endpoint (Pattern A) versus custom server (Pattern B)",
 	"mg-domain": "Read, posting and analytical tools with separate authorizations",
@@ -13878,20 +14502,20 @@ var Gt = [
 	"mg-evidence": "Official sources and what they do not prove",
 	"mg-connections": "Every connection, with its plane and verification status"
 };
-function qt(e) {
+function tn(e) {
 	return {
 		id: e,
 		title: B[e].label,
-		svg: yt(e),
+		svg: Dt(e),
 		file: `mcp-topology-${e.toLowerCase()}`,
 		png: !0
 	};
 }
-var Jt = (e) => /TBD|TO VALIDATE|unproven|NOT_VERIFIED|REQUIRES VALIDATION|needs proof|must be proven|unmeasured|pending|unresolved/i.test(e), Yt = ({ text: e }) => /* @__PURE__ */ (0, A.jsx)("td", {
-	className: Jt(e) ? "mg-open" : "",
+var nn = (e) => /TBD|TO VALIDATE|unproven|NOT_VERIFIED|REQUIRES VALIDATION|needs proof|must be proven|unmeasured|pending|unresolved/i.test(e), rn = ({ text: e }) => /* @__PURE__ */ (0, A.jsx)("td", {
+	className: nn(e) ? "mg-open" : "",
 	children: e
 });
-function Xt({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, children: o }) {
+function an({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, children: o }) {
 	return /* @__PURE__ */ (0, A.jsxs)("details", {
 		id: e,
 		className: "surface mg-section mg-fold",
@@ -13904,11 +14528,11 @@ function Xt({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, childre
 		})] }), o]
 	});
 }
-function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onDetailed: i, onRegistry: a }) {
+function on({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onDetailed: i, onRegistry: a }) {
 	let o = (0, _.useRef)(null), [s, c] = (0, _.useState)({ "mg-recommendation": !0 }), l = (e, t) => c((n) => n[e] === t ? n : {
 		...n,
 		[e]: t
-	}), [u, d] = (0, _.useState)(null), [f, p] = (0, _.useState)(null), [m, h] = (0, _.useState)(!0), [g, v] = (0, _.useState)(null), [y, b] = (0, _.useState)("S3"), x = e === "compare", S = x ? "S1" : e, C = B[S] || B.S3, w = (0, _.useMemo)(() => Object.fromEntries(z.map((e) => [e, qt(e)])), []), T = (0, _.useCallback)((e) => {
+	}), [u, d] = (0, _.useState)(null), [f, p] = (0, _.useState)(null), [m, h] = (0, _.useState)(!0), [g, v] = (0, _.useState)(null), [y, b] = (0, _.useState)("S3"), x = e === "compare", S = x ? "S1" : e, C = B[S] || B.S3, w = (0, _.useMemo)(() => Object.fromEntries(z.map((e) => [e, tn(e)])), []), T = (0, _.useCallback)((e) => {
 		d(e), p(e);
 	}, []), E = y === S ? z.find((e) => e !== S) : y, D = (n) => {
 		n !== e && (v(null), t(n));
@@ -13976,10 +14600,10 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 					children: [/* @__PURE__ */ (0, A.jsx)("span", {
 						className: "eyebrow",
 						children: "THIS PAGE: EXPOSURE AND HOSTING"
-					}), /* @__PURE__ */ (0, A.jsx)("p", { children: "Apigee is the SAP-facing MCP/API gateway in every scenario. An approved API is exposed as an MCP tool (Pattern A, no custom server) or a custom MCP server runs on the scenario host behind Apigee (Pattern B). Registration of the agent and the MCP server is a separate decision: see Registry." })]
+					}), /* @__PURE__ */ (0, A.jsx)("p", { children: "AgentCore Gateway (S2, S3) and Apigee (S1, S3; optional in S2) are the runtime gateways. An approved API is exposed as an MCP tool (Pattern A, no custom server) or a custom MCP server runs on an approved runtime (Pattern B). Registration of the agent and the MCP server is a separate decision: see Registry." })]
 				})]
 			}),
-			/* @__PURE__ */ (0, A.jsx)(Wt, {
+			/* @__PURE__ */ (0, A.jsx)(Qt, {
 				focus: x ? ["S1", E] : [S],
 				title: "MCP hosting next to the other decisions",
 				rows: [
@@ -14009,7 +14633,7 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 				className: "mg-anchors",
 				"aria-label": "Sections on this page",
 				children: [
-					Gt.map(([e, t]) => /* @__PURE__ */ (0, A.jsx)("button", {
+					$t.map(([e, t]) => /* @__PURE__ */ (0, A.jsx)("button", {
 						type: "button",
 						onClick: () => O(e),
 						children: t
@@ -14056,7 +14680,7 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 				children: k.map((e, t) => /* @__PURE__ */ (0, A.jsx)("div", {
 					className: "mg-viewer",
 					"data-scenario": e,
-					children: /* @__PURE__ */ (0, A.jsx)(Lt, {
+					children: /* @__PURE__ */ (0, A.jsx)(Wt, {
 						diagram: w[e],
 						uid: `mg-${e}-${x ? "c" : "s"}`,
 						compact: x,
@@ -14072,7 +14696,7 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 					})
 				}, e))
 			}),
-			/* @__PURE__ */ (0, A.jsxs)(Xt, {
+			/* @__PURE__ */ (0, A.jsxs)(an, {
 				id: "mg-responsibility",
 				testid: "mg-matrix",
 				title: /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [
@@ -14080,7 +14704,7 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 					it.length,
 					" rows"
 				] }),
-				hint: Kt["mg-responsibility"],
+				hint: en["mg-responsibility"],
 				open: !!s["mg-responsibility"],
 				onToggle: l,
 				children: [/* @__PURE__ */ (0, A.jsxs)("p", {
@@ -14109,17 +14733,17 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 								e
 							]
 						}), t.map((e, t) => /* @__PURE__ */ (0, A.jsx)("td", {
-							className: `${k.includes(z[t]) ? "sel" : ""} ${Jt(e) ? "mg-open" : ""}`,
+							className: `${k.includes(z[t]) ? "sel" : ""} ${nn(e) ? "mg-open" : ""}`,
 							children: e
 						}, z[t]))] }, e)) })]
 					})
 				})]
 			}),
-			k.map((e) => /* @__PURE__ */ (0, A.jsx)(Xt, {
+			k.map((e) => /* @__PURE__ */ (0, A.jsx)(an, {
 				id: e === k[0] ? "mg-connections" : `mg-connections-${e}`,
 				testid: `mg-connections-${e}`,
 				title: /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: ["Endpoint connectivity · ", B[e].label] }),
-				hint: Kt["mg-connections"],
+				hint: en["mg-connections"],
 				open: !!s[e === k[0] ? "mg-connections" : `mg-connections-${e}`],
 				onToggle: l,
 				children: /* @__PURE__ */ (0, A.jsx)("div", {
@@ -14134,16 +14758,16 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 							children: e.map((e, t) => t === 0 ? /* @__PURE__ */ (0, A.jsx)("th", {
 								scope: "row",
 								children: e
-							}, t) : /* @__PURE__ */ (0, A.jsx)(Yt, { text: e }, t))
+							}, t) : /* @__PURE__ */ (0, A.jsx)(rn, { text: e }, t))
 						}, t)) })]
 					})
 				})
 			}, e)),
-			/* @__PURE__ */ (0, A.jsxs)(Xt, {
+			/* @__PURE__ */ (0, A.jsxs)(an, {
 				id: "mg-patterns",
 				testid: "mg-patterns",
 				title: /* @__PURE__ */ (0, A.jsx)(A.Fragment, { children: "Exposure patterns · managed endpoint versus custom server" }),
-				hint: Kt["mg-patterns"],
+				hint: en["mg-patterns"],
 				open: !!s["mg-patterns"],
 				onToggle: l,
 				children: [
@@ -14159,14 +14783,14 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 								children: "PATTERN A · DEFAULT"
 							}),
 							/* @__PURE__ */ (0, A.jsx)("h4", { children: "Apigee-managed MCP endpoint" }),
-							/* @__PURE__ */ (0, A.jsx)("p", { children: "An existing approved API is exposed as an MCP tool by Apigee. Path: agent, applicable gateway, Apigee endpoint, SAP Integration Suite, SAP backend. No separate MCP application server." })
+							/* @__PURE__ */ (0, A.jsx)("p", { children: "An existing approved API is exposed as an MCP tool by Apigee (S1, S3). Path: agent, applicable gateway, Apigee endpoint, SAP Integration Suite, SAP backend. No separate MCP application server. In S2 an approved API/OpenAPI Gateway target can play the same role once its schema, authentication and connectivity are checked." })
 						] }), /* @__PURE__ */ (0, A.jsxs)("article", { children: [
 							/* @__PURE__ */ (0, A.jsx)("span", {
 								className: "pill warn",
 								children: "PATTERN B · ONLY IF LOGIC NEEDS CODE"
 							}),
-							/* @__PURE__ */ (0, A.jsx)("h4", { children: "Custom MCP server behind Apigee" }),
-							/* @__PURE__ */ (0, A.jsx)("p", { children: "Independently deployed business logic on the scenario host, exposed or proxied by Apigee. The diagram shows both the Apigee endpoint and the separate code runtime." })
+							/* @__PURE__ */ (0, A.jsx)("h4", { children: "Custom MCP server" }),
+							/* @__PURE__ */ (0, A.jsx)("p", { children: "Independently deployed business logic on an approved runtime: Cloud Foundry in S1, AgentCore Runtime in S2, and in S3 behind Apigee on an approved runtime (AgentCore Runtime preferred). Apigee is not arbitrary code hosting." })
 						] })]
 					}),
 					/* @__PURE__ */ (0, A.jsx)("div", {
@@ -14191,22 +14815,22 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 								scope: "row",
 								children: e
 							}), z.map((e) => /* @__PURE__ */ (0, A.jsx)("td", {
-								className: `${k.includes(e) ? "sel" : ""} ${Jt(B[e][t]) ? "mg-open" : ""}`,
+								className: `${k.includes(e) ? "sel" : ""} ${nn(B[e][t]) ? "mg-open" : ""}`,
 								children: B[e][t]
 							}, e))] }, t)) })]
 						})
 					}),
 					/* @__PURE__ */ (0, A.jsx)("p", {
 						className: "micro",
-						children: "In S2 a custom MCP on AgentCore Runtime that Apigee proxies is a conditional cross-cloud path; the extra network hop is drawn, not hidden. Registration of the endpoint is on the Registry page."
+						children: "Where Apigee is inserted in S2 it sits in the approved downstream route and is never bypassed silently. Registration of the endpoint is on the Registry page."
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, A.jsxs)(Xt, {
+			/* @__PURE__ */ (0, A.jsxs)(an, {
 				id: "mg-domain",
 				testid: "mg-domain",
 				title: /* @__PURE__ */ (0, A.jsx)(A.Fragment, { children: "Finance domain MCP design" }),
-				hint: Kt["mg-domain"],
+				hint: en["mg-domain"],
 				open: !!s["mg-domain"],
 				onToggle: l,
 				children: [
@@ -14236,11 +14860,11 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, A.jsxs)(Xt, {
+			/* @__PURE__ */ (0, A.jsxs)(an, {
 				id: "mg-recommendation",
 				testid: "mg-recommendation",
 				title: /* @__PURE__ */ (0, A.jsx)(A.Fragment, { children: "Recommendation and proof plan" }),
-				hint: Kt["mg-recommendation"],
+				hint: en["mg-recommendation"],
 				open: !!s["mg-recommendation"],
 				onToggle: l,
 				children: [
@@ -14264,11 +14888,11 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, A.jsxs)(Xt, {
+			/* @__PURE__ */ (0, A.jsxs)(an, {
 				id: "mg-evidence",
 				testid: "mg-evidence",
 				title: /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: ["Source evidence · listed ", $e] }),
-				hint: Kt["mg-evidence"],
+				hint: en["mg-evidence"],
 				open: !!s["mg-evidence"],
 				onToggle: l,
 				children: [/* @__PURE__ */ (0, A.jsx)("p", {
@@ -14300,7 +14924,7 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 							}) }),
 							/* @__PURE__ */ (0, A.jsx)("td", { children: r }),
 							/* @__PURE__ */ (0, A.jsx)("td", { children: i }),
-							/* @__PURE__ */ (0, A.jsx)(Yt, { text: a })
+							/* @__PURE__ */ (0, A.jsx)(rn, { text: a })
 						] }, n)) })]
 					})
 				})]
@@ -14315,7 +14939,7 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 					className: "micro",
 					children: [
 						"Legend: ",
-						gt.map(([, e]) => e).join(" · "),
+						wt.map(([, e]) => e).join(" · "),
 						"."
 					]
 				})]
@@ -14324,42 +14948,46 @@ function Zt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onD
 	});
 }
 // src/HostingPriority.jsx
-var Qt = [{
+var sn = [{
 	id: "cf",
 	name: "SAP BTP Cloud Foundry",
-	scenarios: ["S1", "S3"],
-	diagrams: {
-		S1: "D2",
-		S3: "D4"
-	},
-	priority: "S1 and S3 · SAP owns execution",
+	scenarios: ["S1"],
+	diagrams: { S1: "D2" },
+	priority: "S1 · SAP owns execution",
 	why: [
 		"The agent, its MCP client and any custom MCP code run in the SAP BTP landscape, next to Integration Suite and the SAP backend.",
 		"The agent calls Apigee directly: one gateway hop and one identity mapping to prove.",
-		"Registration is independent: S1 uses an interim GitLab catalog, S3 registers metadata in AWS Agent Registry without moving anything to AWS."
+		"AWS Agent Registry only registers it: choosing the registry does not move the agent to AWS.",
+		"The case for this host is SAP coupling or verified platform economics, not preference."
 	],
 	prove: [
-		"Cloud Foundry space, entitlement and quota (the SAP documentation page could not be read, so this is NOT_VERIFIED)",
+		"Actual Cloud Foundry consumption and contractual charges for frequent agent workloads",
+		"Scaling and capacity, and supportability of custom orchestration",
 		"Workload identity for the agent and its token to Apigee",
-		"Outbound path from Cloud Foundry to Apigee and to Portkey"
+		"Enterprise approval of direct Apigee invocation"
 	]
 }, {
 	id: "agentcore",
 	name: "AWS AgentCore Runtime",
-	scenarios: ["S2"],
-	diagrams: { S2: "D3" },
-	priority: "S2 · AWS owns execution",
+	scenarios: ["S2", "S3"],
+	diagrams: {
+		S2: "D3",
+		S3: "D4"
+	},
+	priority: "S2 and S3 · AWS owns execution",
 	why: [
-		"The agent and any custom MCP code run on AgentCore Runtime; AgentCore Gateway is the enterprise entry for tool calls and Apigee stays the SAP-facing gateway behind it.",
-		"AgentCore Runtime, Gateway and Agent Registry are three separate capabilities, each with its own configuration and owner.",
-		"A custom MCP on AgentCore Runtime that Apigee proxies is a cross-cloud path and is conditional."
+		"AgentCore Runtime hosts the agent and eligible custom MCP servers; AgentCore Gateway mediates the tools; AWS Agent Registry registers them. These are three separate capabilities.",
+		"S3 keeps Apigee as the SAP-facing MCP/API gateway behind AgentCore Gateway; S2 omits it unless SAP Integration requires it.",
+		"GitLab deploys the runtime image, gateway targets and registry records from one central platform.",
+		"A dedicated SAP-agent AWS account is proposed, not provisioned."
 	],
 	prove: [
-		"AgentCore availability and region in the tenant",
-		"Gateway to Apigee protocol, token exchange and target type",
-		"Duplicated policy at two gateways and who owns it"
+		"Dedicated account approval, AgentCore entitlements, quotas and region",
+		"AgentCore Gateway to Apigee protocol, token exchange and reachability (S3)",
+		"Whether Apigee is mandatory for the SAP route (S2 versus S3)",
+		"Non-duplicative gateway responsibilities and one correlation id"
 	]
-}], $t = [
+}], cn = [
 	["Agent hosting and execution", "agent_runtime"],
 	["Operated by", "agent_hosting_owner"],
 	["Execution endpoint", "agent_execution_endpoint"],
@@ -14371,8 +14999,8 @@ var Qt = [{
 	["Persistence", "persistence"],
 	["Monitoring and audit", "monitoring_audit"]
 ];
-function en({ onMcp: e, onComplete: t, onRegistry: n }) {
-	let [r, i] = (0, _.useState)("cf"), [a, o] = (0, _.useState)(null), [s, c] = (0, _.useState)("S3"), l = Qt.find((e) => e.id === r), u = l.scenarios.includes(s) ? s : l.scenarios[0], d = B[u];
+function ln({ onMcp: e, onComplete: t, onRegistry: n }) {
+	let [r, i] = (0, _.useState)("agentcore"), [a, o] = (0, _.useState)(null), [s, c] = (0, _.useState)("S3"), l = sn.find((e) => e.id === r), u = l.scenarios.includes(s) ? s : l.scenarios[0], d = B[u];
 	return /* @__PURE__ */ (0, A.jsxs)("main", {
 		className: "mcp-comparison mcp-bird arch-page hosting-page",
 		"aria-label": "Agent hosting",
@@ -14381,7 +15009,7 @@ function en({ onMcp: e, onComplete: t, onRegistry: n }) {
 				className: "surface mcp-bird-header",
 				children: [/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("h2", { children: "Agent hosting" }), /* @__PURE__ */ (0, A.jsx)("span", {
 					className: "eyebrow",
-					children: "WHERE THE FINANCE AGENT RUNS AND EXECUTES · REGISTRATION IS A SEPARATE DECISION"
+					children: "WHERE THE FINANCE AGENT RUNS AND EXECUTES · REGISTRATION AND GATEWAYS ARE SEPARATE"
 				})] }), /* @__PURE__ */ (0, A.jsx)("span", {
 					className: "pill warn",
 					children: tt.split(" · ")[0]
@@ -14391,7 +15019,7 @@ function en({ onMcp: e, onComplete: t, onRegistry: n }) {
 				className: "surface mcp-route-tabs mcp-bird-tabs",
 				role: "tablist",
 				"aria-label": "Agent hosting options",
-				children: Qt.map((e) => /* @__PURE__ */ (0, A.jsxs)("button", {
+				children: sn.map((e) => /* @__PURE__ */ (0, A.jsxs)("button", {
 					type: "button",
 					role: "tab",
 					"aria-selected": r === e.id,
@@ -14402,7 +15030,7 @@ function en({ onMcp: e, onComplete: t, onRegistry: n }) {
 					children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: e.name }), /* @__PURE__ */ (0, A.jsx)("span", { children: e.priority })]
 				}, e.id))
 			}),
-			/* @__PURE__ */ (0, A.jsx)(Wt, {
+			/* @__PURE__ */ (0, A.jsx)(Qt, {
 				focus: l.scenarios,
 				title: "Hosting next to the other decisions",
 				rows: [
@@ -14467,7 +15095,7 @@ function en({ onMcp: e, onComplete: t, onRegistry: n }) {
 								"aria-hidden": "true",
 								children: "→"
 							}),
-							/* @__PURE__ */ (0, A.jsx)("b", { children: u === "S2" ? "AgentCore Gateway → Apigee" : "Apigee MCP/API" })
+							/* @__PURE__ */ (0, A.jsx)("b", { children: u === "S3" ? "AgentCore Gateway → Apigee" : u === "S2" ? "AgentCore Gateway" : "Apigee MCP/API" })
 						]
 					}),
 					/* @__PURE__ */ (0, A.jsxs)("div", {
@@ -14503,7 +15131,7 @@ function en({ onMcp: e, onComplete: t, onRegistry: n }) {
 								"aria-label": "What runs where",
 								children: [/* @__PURE__ */ (0, A.jsxs)("h4", { children: ["What runs where in ", u] }), /* @__PURE__ */ (0, A.jsx)("div", {
 									className: "arch-cards one",
-									children: $t.map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: e }), /* @__PURE__ */ (0, A.jsx)("b", { children: d[t] })] }, t))
+									children: cn.map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: e }), /* @__PURE__ */ (0, A.jsx)("b", { children: d[t] })] }, t))
 								})]
 							}),
 							/* @__PURE__ */ (0, A.jsxs)("section", {
@@ -14544,7 +15172,7 @@ function en({ onMcp: e, onComplete: t, onRegistry: n }) {
 					})
 				]
 			}),
-			a && /* @__PURE__ */ (0, A.jsx)(zt, {
+			a && /* @__PURE__ */ (0, A.jsx)(Kt, {
 				diagramKey: a,
 				onClose: () => o(null)
 			})
@@ -14552,7 +15180,7 @@ function en({ onMcp: e, onComplete: t, onRegistry: n }) {
 	});
 }
 // src/themes.css?raw
-var tn = "/* SAP Fiori themes for the whole application.\n   Quartz Light is the stylesheet as written. The other themes change the accent token and re-map the rendered colours on the root\n   element, so every screen (including inline diagrams and dialogs) follows without a second stylesheet per screen. */\n:root{--f-accent:#0a6ed1}\n.theme-switch{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#526d80}\n.theme-switch select{font-size:11px;padding:3px 6px;border:1px solid #b8c7d3;border-radius:4px;background:#fff;color:#223548;max-width:170px}\nhtml[data-theme=\"morning-horizon\"]{--f-accent:#0070f2;background:#f5f6f7}\nhtml[data-theme=\"quartz-dark\"]{--f-accent:#0a6ed1;background:#fff;filter:invert(.9) hue-rotate(180deg)}\nhtml[data-theme=\"evening-horizon\"]{--f-accent:#0070f2;background:#fff;filter:invert(.93) hue-rotate(180deg) brightness(1.02)}\nhtml[data-theme=\"hcw\"]{--f-accent:#0040b0;background:#fff;filter:contrast(1.45) saturate(.6)}\nhtml[data-theme=\"hcb\"]{--f-accent:#0a6ed1;background:#fff;filter:invert(1) hue-rotate(180deg) contrast(1.5) saturate(.7)}\n/* Dark themes: keep photos, flags and QR-like images natural; diagrams are inline SVG and follow the theme */\nhtml[data-theme=\"quartz-dark\"] img,html[data-theme=\"evening-horizon\"] img,html[data-theme=\"hcb\"] img{filter:invert(1) hue-rotate(180deg)}\nhtml[data-theme=\"hcw\"] *,html[data-theme=\"hcb\"] *{text-shadow:none}\nhtml[data-theme=\"hcw\"] button,html[data-theme=\"hcw\"] select,html[data-theme=\"hcw\"] input,html[data-theme=\"hcb\"] button,html[data-theme=\"hcb\"] select,html[data-theme=\"hcb\"] input{border-width:2px}\nhtml[data-theme=\"hcw\"] :focus-visible,html[data-theme=\"hcb\"] :focus-visible,html[data-theme=\"quartz-dark\"] :focus-visible,html[data-theme=\"evening-horizon\"] :focus-visible{outline:3px solid #ffbf00;outline-offset:2px}\n@media(max-width:720px){.theme-switch span{display:none}.theme-switch select{max-width:120px}}\n", nn = [
+var un = "/* SAP Fiori themes for the whole application.\n   Quartz Light is the stylesheet as written. The other themes change the accent token and re-map the rendered colours on the root\n   element, so every screen (including inline diagrams and dialogs) follows without a second stylesheet per screen. */\n:root{--f-accent:#0a6ed1}\n.theme-switch{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#526d80}\n.theme-switch select{font-size:11px;padding:3px 6px;border:1px solid #b8c7d3;border-radius:4px;background:#fff;color:#223548;max-width:170px}\nhtml[data-theme=\"morning-horizon\"]{--f-accent:#0070f2;background:#f5f6f7}\nhtml[data-theme=\"quartz-dark\"]{--f-accent:#0a6ed1;background:#fff;filter:invert(.9) hue-rotate(180deg)}\nhtml[data-theme=\"evening-horizon\"]{--f-accent:#0070f2;background:#fff;filter:invert(.93) hue-rotate(180deg) brightness(1.02)}\nhtml[data-theme=\"hcw\"]{--f-accent:#0040b0;background:#fff;filter:contrast(1.45) saturate(.6)}\nhtml[data-theme=\"hcb\"]{--f-accent:#0a6ed1;background:#fff;filter:invert(1) hue-rotate(180deg) contrast(1.5) saturate(.7)}\n/* Dark themes: keep photos, flags and QR-like images natural; diagrams are inline SVG and follow the theme */\nhtml[data-theme=\"quartz-dark\"] img,html[data-theme=\"evening-horizon\"] img,html[data-theme=\"hcb\"] img{filter:invert(1) hue-rotate(180deg)}\nhtml[data-theme=\"hcw\"] *,html[data-theme=\"hcb\"] *{text-shadow:none}\nhtml[data-theme=\"hcw\"] button,html[data-theme=\"hcw\"] select,html[data-theme=\"hcw\"] input,html[data-theme=\"hcb\"] button,html[data-theme=\"hcb\"] select,html[data-theme=\"hcb\"] input{border-width:2px}\nhtml[data-theme=\"hcw\"] :focus-visible,html[data-theme=\"hcb\"] :focus-visible,html[data-theme=\"quartz-dark\"] :focus-visible,html[data-theme=\"evening-horizon\"] :focus-visible{outline:3px solid #ffbf00;outline-offset:2px}\n@media(max-width:720px){.theme-switch span{display:none}.theme-switch select{max-width:120px}}\n", dn = [
 	{
 		id: "quartz-light",
 		label: "SAP Quartz Light",
@@ -14583,16 +15211,16 @@ var tn = "/* SAP Fiori themes for the whole application.\n   Quartz Light is the
 		label: "SAP High Contrast Black",
 		note: "Accessibility"
 	}
-], rn = "finance-cockpit-theme";
-function an() {
+], fn = "finance-cockpit-theme";
+function pn() {
 	try {
-		let e = window.localStorage.getItem(rn);
-		return nn.some((t) => t.id === e) ? e : "quartz-light";
+		let e = window.localStorage.getItem(fn);
+		return dn.some((t) => t.id === e) ? e : "quartz-light";
 	} catch {
 		return "quartz-light";
 	}
 }
-function on() {
+function mn() {
 	try {
 		if (window.parent && window.parent !== window) return window.parent.document.documentElement, {
 			doc: window.parent.document,
@@ -14604,12 +15232,12 @@ function on() {
 		parent: !1
 	};
 }
-function sn(e) {
-	let { doc: t, parent: n } = on();
+function hn(e) {
+	let { doc: t, parent: n } = mn();
 	try {
 		if (!t.getElementById("finance-cockpit-themes")) {
 			let e = t.createElement("style");
-			e.id = "finance-cockpit-themes", e.textContent = tn, t.head.appendChild(e);
+			e.id = "finance-cockpit-themes", e.textContent = un, t.head.appendChild(e);
 		}
 		t.documentElement.setAttribute("data-theme", e);
 	} catch {}
@@ -14617,20 +15245,20 @@ function sn(e) {
 		n && document.documentElement.setAttribute("data-theme", "hosted"), document.documentElement.setAttribute("data-theme-choice", e);
 	} catch {}
 	try {
-		window.localStorage.setItem(rn, e);
+		window.localStorage.setItem(fn, e);
 	} catch {}
 }
-function cn() {
-	let [e, t] = (0, _.useState)(an);
+function gn() {
+	let [e, t] = (0, _.useState)(pn);
 	return (0, _.useEffect)(() => {
-		sn(e);
+		hn(e);
 	}, [e]), /* @__PURE__ */ (0, A.jsxs)("label", {
 		className: "theme-switch",
 		children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Theme" }), /* @__PURE__ */ (0, A.jsx)("select", {
 			"aria-label": "SAP Fiori theme",
 			value: e,
 			onChange: (e) => t(e.target.value),
-			children: nn.map((e) => /* @__PURE__ */ (0, A.jsx)("option", {
+			children: dn.map((e) => /* @__PURE__ */ (0, A.jsx)("option", {
 				value: e.id,
 				children: e.label
 			}, e.id))
@@ -14638,7 +15266,7 @@ function cn() {
 	});
 }
 // src/RegistryView.jsx
-var ln = [
+var _n = [
 	["Agent registry", "agent_registry"],
 	["MCP registry", "mcp_registry"],
 	["Publisher and approval owner", "registry_publisher_approver"],
@@ -14647,30 +15275,30 @@ var ln = [
 	["MCP tool discovery", "mcp_tool_discovery"],
 	["Identity of the registry caller", "identity_boundary"],
 	["Audit of publication", "monitoring_audit"]
-], un = {
+], vn = {
 	S1: [
-		"SAP AI Agent Hub is not available, so the owner chose an interim catalog on GitLab, the central platform.",
-		"Each agent and MCP server is one versioned record; the integration team, with the respective technical approvals, approves changes through merge requests.",
-		"It is not a complete agent registry: discovery is a repository or API lookup, and the record schema, discovery interface and revocation process still have to be built."
+		"The agent runs on SAP BTP Cloud Foundry and the MCP endpoint is Apigee; only their metadata lives in AWS Agent Registry.",
+		"Records are published from the GitLab pipeline by the integration team, with the respective technical approvals; the registry curator approves.",
+		"Publishing a record is not proof of reachability, authorization or execution."
 	],
 	S2: [
 		"AWS Agent Registry is a separate service from AgentCore Runtime and AgentCore Gateway. It catalogues what they host but is not on the call path.",
-		"Agent and MCP descriptors are submitted, approved by a curator, then discoverable. Use the agent-registry namespace.",
-		"Gateway tool discovery (tools/list) is separate from registry discovery of the MCP server record."
+		"Agent and MCP descriptors are published from GitLab, approved by a curator, then discoverable. Use the agent-registry namespace.",
+		"Gateway tool discovery (tools/list) is separate from registry discovery of the MCP server record. A skill record never grants tool permissions."
 	],
 	S3: [
-		"The agent runs on SAP BTP Cloud Foundry and the MCP endpoint is Apigee; only their metadata lives in AWS Agent Registry.",
-		"Synchronization connects from AWS to the endpoint URL with an outbound credential from a provider in the same account. That is control-plane traffic, never an execution hop.",
-		"AgentCore Gateway is not mandatory in S3 (owner position); S3-B applies only if that policy changes."
+		"The agent runs on AgentCore Runtime and the SAP-facing MCP endpoint is Apigee; the agent record and the Apigee endpoint metadata are published to AWS Agent Registry on a separate control-plane path.",
+		"Gateway target configuration is a separate runtime responsibility: the registry is never a hop between the gateways.",
+		"A central registry owned by AI Foundry is proposed; cross-account sharing (AWS Organizations, AWS Resource Access Manager) is not yet confirmed."
 	]
-}, dn = ["D5", "D8"], fn = (e) => /TBD|not defined|interim/i.test(e);
-function pn({ onMcp: e, onAgentHosting: t, onDiagrams: n }) {
+}, yn = ["D5", "D8"], bn = (e) => /TBD|not defined|pending/i.test(e);
+function xn({ onMcp: e, onAgentHosting: t, onDiagrams: n }) {
 	let [r, i] = (0, _.useState)("S3"), [a, o] = (0, _.useState)("D5"), [s, c] = (0, _.useState)(null), [l, u] = (0, _.useState)(!1), d = r === "compare", f = d ? null : r, p = (0, _.useMemo)(() => {
-		let e = _t(a);
+		let e = Tt(a);
 		return {
 			id: a,
 			title: e.title,
-			svg: vt(a),
+			svg: Et(a),
 			file: `architecture-${a.toLowerCase()}`,
 			png: !0
 		};
@@ -14715,7 +15343,7 @@ function pn({ onMcp: e, onAgentHosting: t, onDiagrams: n }) {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, A.jsx)(Wt, {
+			/* @__PURE__ */ (0, A.jsx)(Qt, {
 				focus: d ? z : [f],
 				title: "Registration next to hosting",
 				rows: [
@@ -14754,17 +15382,17 @@ function pn({ onMcp: e, onAgentHosting: t, onDiagrams: n }) {
 						}), z.map((e) => /* @__PURE__ */ (0, A.jsx)("th", {
 							scope: "col",
 							children: B[e].name
-						}, e))] }) }), /* @__PURE__ */ (0, A.jsxs)("tbody", { children: [ln.slice(0, 6).map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("tr", { children: [/* @__PURE__ */ (0, A.jsx)("th", {
+						}, e))] }) }), /* @__PURE__ */ (0, A.jsxs)("tbody", { children: [_n.slice(0, 6).map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("tr", { children: [/* @__PURE__ */ (0, A.jsx)("th", {
 							scope: "row",
 							children: e
 						}), z.map((e) => /* @__PURE__ */ (0, A.jsx)("td", {
-							className: fn(B[e][t]) ? "mg-open" : "",
+							className: bn(B[e][t]) ? "mg-open" : "",
 							children: B[e][t]
 						}, e))] }, t)), m.map(([e, ...t]) => /* @__PURE__ */ (0, A.jsxs)("tr", { children: [/* @__PURE__ */ (0, A.jsx)("th", {
 							scope: "row",
 							children: e
 						}), t.map((e, t) => /* @__PURE__ */ (0, A.jsx)("td", {
-							className: fn(e) ? "mg-open" : "",
+							className: bn(e) ? "mg-open" : "",
 							children: e
 						}, z[t]))] }, e))] })]
 					})
@@ -14776,11 +15404,11 @@ function pn({ onMcp: e, onAgentHosting: t, onDiagrams: n }) {
 					"data-testid": "registry-facts",
 					children: [/* @__PURE__ */ (0, A.jsxs)("h3", { children: ["How registration works in ", f] }), /* @__PURE__ */ (0, A.jsx)("table", {
 						className: "mg-table",
-						children: /* @__PURE__ */ (0, A.jsx)("tbody", { children: ln.map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("tr", { children: [/* @__PURE__ */ (0, A.jsx)("th", {
+						children: /* @__PURE__ */ (0, A.jsx)("tbody", { children: _n.map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("tr", { children: [/* @__PURE__ */ (0, A.jsx)("th", {
 							scope: "row",
 							children: e
 						}), /* @__PURE__ */ (0, A.jsx)("td", {
-							className: fn(B[f][t]) ? "mg-open" : "",
+							className: bn(B[f][t]) ? "mg-open" : "",
 							children: B[f][t]
 						})] }, t)) })
 					})]
@@ -14789,20 +15417,9 @@ function pn({ onMcp: e, onAgentHosting: t, onDiagrams: n }) {
 					"data-testid": "registry-notes",
 					children: [
 						/* @__PURE__ */ (0, A.jsx)("h3", { children: "What to know" }),
-						/* @__PURE__ */ (0, A.jsx)("ul", { children: un[f].map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) }),
+						/* @__PURE__ */ (0, A.jsx)("ul", { children: vn[f].map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) }),
 						/* @__PURE__ */ (0, A.jsx)("h3", { children: "Not yet verified" }),
-						/* @__PURE__ */ (0, A.jsx)("ul", { children: B[f].unverified.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) }),
-						f === "S1" && /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [
-							/* @__PURE__ */ (0, A.jsx)("h3", { children: "Registry options · GitLab catalog selected" }),
-							/* @__PURE__ */ (0, A.jsx)("ul", {
-								"data-testid": "registry-options",
-								children: B.S1.registry_options.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e))
-							}),
-							/* @__PURE__ */ (0, A.jsxs)("p", {
-								className: "micro",
-								children: [/* @__PURE__ */ (0, A.jsxs)("strong", { children: [dt, "."] }), " The decision, the owner answers and the proof are in the Decision brief."]
-							})
-						] })
+						/* @__PURE__ */ (0, A.jsx)("ul", { children: B[f].unverified.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })
 					]
 				})]
 			}),
@@ -14812,7 +15429,7 @@ function pn({ onMcp: e, onAgentHosting: t, onDiagrams: n }) {
 				children: [
 					/* @__PURE__ */ (0, A.jsxs)("div", {
 						className: "dd-compare-bar",
-						children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: "Diagram" }), dn.map((e) => /* @__PURE__ */ (0, A.jsx)("button", {
+						children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: "Diagram" }), yn.map((e) => /* @__PURE__ */ (0, A.jsx)("button", {
 							type: "button",
 							className: a === e ? "active" : "",
 							"aria-pressed": a === e,
@@ -14826,7 +15443,7 @@ function pn({ onMcp: e, onAgentHosting: t, onDiagrams: n }) {
 						className: "mg-viewers",
 						children: /* @__PURE__ */ (0, A.jsx)("div", {
 							className: "mg-viewer",
-							children: /* @__PURE__ */ (0, A.jsx)(Lt, {
+							children: /* @__PURE__ */ (0, A.jsx)(Wt, {
 								diagram: p,
 								uid: `reg-${a}`,
 								view: s,
@@ -14867,8 +15484,594 @@ function pn({ onMcp: e, onAgentHosting: t, onDiagrams: n }) {
 		]
 	});
 }
+// src/selectionEngine.js
+var Sn = [
+	"S1",
+	"S2",
+	"S3"
+];
+function Cn(e, t) {
+	let n = {
+		...e.defaults,
+		...t || {}
+	}, r = [], i = [], a = [], o = {}, s = n.aws_account === "denied" || n.agentcore === "unavailable" || n.security === "sap_only_execution" || n.security === "no_cross_cloud", c = null, l = "HOLD", u = "S3";
+	if (s) {
+		let e = n.aws_account === "denied" ? "the dedicated AWS account is denied" : n.agentcore === "unavailable" ? "AgentCore is unavailable" : "a security restriction rules out AWS runtime calls";
+		o.S2 = "Not possible: " + e + ".", o.S3 = "Not possible: " + e + ".", u = "S1", n.sap_hosting === "permitted" ? (c = "S1", l = n.ops === "agreed" ? "RECOMMENDED" : "CONDITIONAL", r.push("The AWS execution options are unavailable (" + e + "), so SAP-hosted execution is the remaining option."), n.ops !== "agreed" && a.push("Operational ownership and support for Cloud Foundry"), n.sap_coupling === "high" && r.push("SAP application coupling is high, which supports SAP BTP execution."), i.push("Verify Cloud Foundry capacity and contractual charges for the workload", "SAP Integration and Security approve direct Apigee invocation")) : (r.push("The enterprise does not permit centrally registered SAP-hosted agents and the AWS options are unavailable: no permitted option remains."), a.push("A permitted hosting option"));
+	} else n.aws_account !== "approved" && a.push("Dedicated SAP-agent AWS account approval"), n.agentcore !== "available" && a.push("AgentCore Runtime, Gateway and Registry availability confirmation"), n.ops !== "agreed" && a.push("Operational ownership and support"), n.apigee === "undecided" && a.push("SAP Integration decision on whether Apigee is mandatory for the SAP route"), a.length ? (c = null, l = "HOLD", u = n.apigee === "required" || n.apigee === "undecided" ? "S3" : "S2", r.push("Mandatory approvals are missing, so no scenario can be selected yet. Evaluate " + u + " first in the comparative POC.")) : n.apigee === "required" ? n.identity === "failed" || n.interop === "failed" ? (o.S3 = "Identity or gateway interoperability validation failed.", n.sap_hosting === "permitted" ? (c = "S1", l = "CONDITIONAL", r.push("S3 failed validation; SAP-hosted execution with Apigee is the fallback."), i.push("Verify Cloud Foundry capacity and contractual charges")) : (c = null, l = "HOLD", r.push("S3 failed validation and SAP-hosted agents are restricted."))) : (c = "S3", n.identity !== "validated" && a.push("Delegated user identity validated end to end"), n.interop !== "validated" && a.push("AgentCore Gateway to Apigee interoperability validated"), n.cost === "s1_cheaper" ? n.sap_hosting === "permitted" ? (c = "S1", l = "CONDITIONAL", o.S3 = "Verified cost evidence shows S1 is cheaper for this workload.", r.push("Verified cost evidence favors S1; the extra gateway of S3 is not justified."), i.push("Confirm the cost evidence with FinOps")) : (l = "CONDITIONAL", i.push("S1 is cheaper but SAP-hosted agents are restricted")) : n.cost === "s2_cheaper" ? (c = "S2", l = "CONDITIONAL", o.S3 = "Verified cost evidence shows S2 is cheaper.", r.push("S2 is cheaper; it needs an approved Apigee exception for the SAP route."), i.push("SAP Integration approves an Apigee exception")) : (n.cost === "unknown" && a.push("Verified comparative cost evidence"), l = a.length ? "CONDITIONAL" : "RECOMMENDED", r.push("AWS execution is approved and Apigee is required, so S3 is the preferred candidate."))) : (c = "S2", n.identity === "failed" ? (c = null, l = "HOLD", r.push("Identity validation failed: no AWS scenario can be selected.")) : (n.identity !== "validated" && a.push("Delegated user identity validated end to end"), n.cost === "s1_cheaper" && n.sap_hosting === "permitted" ? (c = "S1", l = "CONDITIONAL", o.S2 = "Verified cost evidence shows S1 is cheaper.", r.push("Verified cost evidence favors S1."), i.push("Confirm the cost evidence with FinOps")) : ((n.cost === "unknown" || n.cost === "s3_competitive") && a.push("Verified comparative cost evidence"), l = a.length ? "CONDITIONAL" : "RECOMMENDED", r.push("Apigee is not mandated for the route, so the simpler AgentCore-native S2 is preferred; S3 is still evaluated first in the POC."), i.push("SAP Integration and Security confirm the route without Apigee"))));
+	if (c === "S3" && i.push("Non-duplicative responsibilities for AgentCore Gateway and Apigee", "Correlation id joined across both gateways"), n.workload === "high_frequency" && r.push("A high-frequency workload makes runtime and gateway charges material; it does not by itself make AWS cheaper."), c && c !== "S1" && !("S1" in o) && (o.S1 = "Not preferred while AWS execution is approved and the SAP-hosted placement is not required by coupling or verified cost."), c === "S1") for (let e of ["S2", "S3"]) e in o || (o[e] = "Not selected: the SAP-hosted placement is preferred for the stated reasons.");
+	return c === "S3" && !("S2" in o) && (o.S2 = "Not preferred while Apigee is required for the SAP route; S2 needs an approved exception."), c === "S2" && !("S3" in o) && (o.S3 = "Not needed while Apigee is not mandated: it would add a gateway hop and its charges."), {
+		scenario: c,
+		status: l,
+		selectable: l === "RECOMMENDED",
+		evaluate_first: u,
+		reasons: r,
+		conditions: i,
+		missing_evidence: a,
+		rejected: Sn.filter((e) => e in o).map((e) => [e, o[e]]),
+		authority: e.authority,
+		revisit: e.revisit
+	};
+}
+var wn = (e) => e == null || e === "";
+function Tn(e, t, n) {
+	let r = {};
+	for (let i of Sn) {
+		let a = 0, o = [], s = [];
+		for (let r of e) {
+			if (!(i in r.applies)) continue;
+			let e = t[r.id], c = (n[r.id] || {})[i];
+			if (wn(e) || wn(c)) {
+				s.push(r.id);
+				continue;
+			}
+			let l = Number(e) * Number(c);
+			a += l, o.push([r.id, l]);
+		}
+		r[i] = {
+			total: s.length ? null : a,
+			partial: a,
+			parts: o,
+			missing: s
+		};
+	}
+	return r;
+}
+function En(e, t, n, r, i, a) {
+	let o = (i) => {
+		let a = 0, o = 0;
+		for (let s of e) {
+			if (!(i in s.applies)) continue;
+			let e = (n[s.id] || {})[i], c = t[s.id];
+			if (wn(e)) return null;
+			if (s.id === r) o = Number(e);
+			else if (wn(c)) return null;
+			else a += Number(c) * Number(e);
+		}
+		return [a, o];
+	}, s = o(i), c = o(a);
+	if (!s || !c || s[1] === c[1]) return null;
+	let l = (c[0] - s[0]) / (s[1] - c[1]);
+	return l > 0 ? l : null;
+}
+// src/SelectionView.jsx
+var Dn = [
+	["recommendation", "Recommendation"],
+	["gateways", "Gateways and identity"],
+	["cost", "Cost model"],
+	["account", "AWS account and governance"]
+], On = {
+	RECOMMENDED: "ok",
+	CONDITIONAL: "warn",
+	HOLD: "hold"
+}, kn = (e) => e == null ? "PENDING" : e.toLocaleString(void 0, { maximumFractionDigits: 2 });
+function An({ head: e, rows: t, testid: n }) {
+	return /* @__PURE__ */ (0, A.jsx)("div", {
+		className: "mg-scroll",
+		children: /* @__PURE__ */ (0, A.jsxs)("table", {
+			className: "mg-table",
+			"data-testid": n,
+			children: [/* @__PURE__ */ (0, A.jsx)("thead", { children: /* @__PURE__ */ (0, A.jsx)("tr", { children: e.map((e) => /* @__PURE__ */ (0, A.jsx)("th", {
+				scope: "col",
+				children: e
+			}, e)) }) }), /* @__PURE__ */ (0, A.jsx)("tbody", { children: t.map((e, t) => /* @__PURE__ */ (0, A.jsx)("tr", { children: e.map((e, t) => t === 0 ? /* @__PURE__ */ (0, A.jsx)("th", {
+				scope: "row",
+				children: e
+			}, t) : /* @__PURE__ */ (0, A.jsx)("td", { children: e }, t)) }, t)) })]
+		})
+	});
+}
+function jn({ onDiagram: e }) {
+	let [t, n] = (0, _.useState)({ ...mt.defaults }), r = (0, _.useMemo)(() => Cn(mt, t), [t]), i = (e, t) => n((n) => ({
+		...n,
+		[e]: t
+	}));
+	return /* @__PURE__ */ (0, A.jsxs)("div", {
+		className: "sel-grid",
+		children: [
+			/* @__PURE__ */ (0, A.jsxs)("section", {
+				className: "surface mg-section",
+				"aria-label": "Preferred candidate",
+				children: [
+					/* @__PURE__ */ (0, A.jsx)("h3", { children: "Preferred candidate to evaluate first" }),
+					/* @__PURE__ */ (0, A.jsx)("p", {
+						className: "mg-reco",
+						"data-testid": "sel-headline",
+						children: /* @__PURE__ */ (0, A.jsx)("strong", { children: ct.headline })
+					}),
+					/* @__PURE__ */ (0, A.jsxs)("div", {
+						className: "mg-cards",
+						children: [
+							/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Conditions" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: ct.conditions.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Cost assumptions" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: ct.cost_assumptions.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Key risks" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: ct.risks.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Rejected alternatives" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: ct.rejected.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Evidence still missing" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: ct.missing.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, A.jsxs)("article", { children: [
+								/* @__PURE__ */ (0, A.jsx)("h4", { children: "Approval authority and revisit" }),
+								/* @__PURE__ */ (0, A.jsx)("p", { children: ct.authority }),
+								/* @__PURE__ */ (0, A.jsx)("ul", { children: ct.revisit.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })
+							] })
+						]
+					})
+				]
+			}),
+			/* @__PURE__ */ (0, A.jsxs)("section", {
+				className: "surface mg-section",
+				"aria-label": "Recommendation evaluator",
+				"data-testid": "sel-evaluator",
+				children: [
+					/* @__PURE__ */ (0, A.jsx)("h3", { children: "Evaluate a workload" }),
+					/* @__PURE__ */ (0, A.jsx)("p", {
+						className: "micro",
+						children: "Set what is actually known. Missing approvals give HOLD or CONDITIONAL, never an unconditional selection. Defaults are the current state: nothing is approved or validated yet."
+					}),
+					/* @__PURE__ */ (0, A.jsx)("div", {
+						className: "sel-form",
+						children: mt.inputs.map((e) => /* @__PURE__ */ (0, A.jsxs)("label", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: e.label }), /* @__PURE__ */ (0, A.jsx)("select", {
+							"aria-label": e.label,
+							"data-input": e.id,
+							value: t[e.id],
+							onChange: (t) => i(e.id, t.target.value),
+							children: e.options.map(([e, t]) => /* @__PURE__ */ (0, A.jsx)("option", {
+								value: e,
+								children: t
+							}, e))
+						})] }, e.id))
+					}),
+					/* @__PURE__ */ (0, A.jsxs)("div", {
+						className: `sel-result ${On[r.status]}`,
+						"data-testid": "sel-result",
+						"data-status": r.status,
+						"data-scenario": r.scenario || "",
+						children: [
+							/* @__PURE__ */ (0, A.jsxs)("div", {
+								className: "sel-head",
+								children: [
+									/* @__PURE__ */ (0, A.jsx)("span", {
+										className: "sel-status",
+										children: r.status
+									}),
+									/* @__PURE__ */ (0, A.jsx)("strong", { children: r.scenario ? `${r.scenario} · ${B[r.scenario].short}` : `No scenario can be selected · evaluate ${r.evaluate_first} first` }),
+									!r.selectable && /* @__PURE__ */ (0, A.jsx)("span", {
+										className: "pill warn",
+										children: r.scenario ? "CONDITIONAL, NOT SELECTABLE YET" : "SELECTION NOT ALLOWED"
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, A.jsxs)("div", {
+								className: "mg-cards",
+								children: [
+									/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Why" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: r.reasons.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }),
+									/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Conditions" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: r.conditions.length ? r.conditions.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) : /* @__PURE__ */ (0, A.jsx)("li", { children: "None beyond the listed evidence" }) })] }),
+									/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Evidence still missing" }), /* @__PURE__ */ (0, A.jsx)("ul", {
+										"data-testid": "sel-missing",
+										children: r.missing_evidence.length ? r.missing_evidence.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) : /* @__PURE__ */ (0, A.jsx)("li", { children: "None" })
+									})] }),
+									/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Rejected" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: r.rejected.map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("li", { children: [
+										/* @__PURE__ */ (0, A.jsx)("strong", { children: e }),
+										" ",
+										t
+									] }, e)) })] })
+								]
+							}),
+							/* @__PURE__ */ (0, A.jsxs)("p", {
+								className: "micro",
+								children: [
+									"Approval authority: ",
+									r.authority,
+									". Revisit when: ",
+									r.revisit.join("; "),
+									"."
+								]
+							})
+						]
+					})
+				]
+			}),
+			/* @__PURE__ */ (0, A.jsxs)("section", {
+				className: "surface mg-section",
+				"aria-label": "Selection rules",
+				children: [
+					/* @__PURE__ */ (0, A.jsx)("h3", { children: "Selection rules" }),
+					/* @__PURE__ */ (0, A.jsx)(An, {
+						head: ["Rule", "Applies when"],
+						rows: mt.rules,
+						testid: "sel-rules"
+					}),
+					/* @__PURE__ */ (0, A.jsx)("button", {
+						type: "button",
+						className: "text-link",
+						onClick: () => e("D9"),
+						children: "Decision tree diagram →"
+					})
+				]
+			})
+		]
+	});
+}
+function Mn({ onDiagram: e }) {
+	return /* @__PURE__ */ (0, A.jsxs)("div", {
+		className: "sel-grid",
+		children: [/* @__PURE__ */ (0, A.jsxs)("section", {
+			className: "surface mg-section",
+			"aria-label": "Gateway responsibilities",
+			children: [
+				/* @__PURE__ */ (0, A.jsx)("h3", { children: "AgentCore Gateway and Google Apigee: responsibilities in S3" }),
+				/* @__PURE__ */ (0, A.jsx)("p", {
+					className: "micro",
+					children: "Candidate responsibilities, not assumptions: each is validated against supported features and the enterprise configuration. Avoid duplicate MCP tool publication or ambiguous tool names for the same capability."
+				}),
+				/* @__PURE__ */ (0, A.jsx)(An, {
+					head: [
+						"Responsibility",
+						"AgentCore Gateway",
+						"Google Apigee",
+						"Note"
+					],
+					rows: ht,
+					testid: "sel-gateways"
+				})
+			]
+		}), /* @__PURE__ */ (0, A.jsxs)("section", {
+			className: "surface mg-section",
+			"aria-label": "Identity chain",
+			children: [
+				/* @__PURE__ */ (0, A.jsx)("h3", { children: "Identities from the business user to the SAP backend" }),
+				/* @__PURE__ */ (0, A.jsx)("p", {
+					className: "micro",
+					children: "Global User ID, a user-name header or a workload token alone is not principal propagation. The negative test: an authorized and an unauthorized user call the same read-only tool and SAP rejects the unauthorized one."
+				}),
+				/* @__PURE__ */ (0, A.jsx)(An, {
+					head: [
+						"Identity",
+						"Where",
+						"What it is"
+					],
+					rows: gt,
+					testid: "sel-identity"
+				}),
+				/* @__PURE__ */ (0, A.jsx)("button", {
+					type: "button",
+					className: "text-link",
+					onClick: () => e("D7"),
+					children: "Gateway and principal propagation diagram →"
+				})
+			]
+		})]
+	});
+}
+function Nn({ onDiagram: e }) {
+	let [t, n] = (0, _.useState)({}), [r, i] = (0, _.useState)({}), [a, o] = (0, _.useState)(St.workloads[0][0]), [s, c] = (0, _.useState)("runtime"), [l, u] = (0, _.useState)(["S1", "S3"]), d = (0, _.useMemo)(() => Tn(St.components, t, r), [t, r]), f = (0, _.useMemo)(() => En(St.components, t, r, s, l[0], l[1]), [
+		t,
+		r,
+		s,
+		l
+	]), p = (e, t, n) => i((r) => ({
+		...r,
+		[e]: {
+			...r[e] || {},
+			[t]: n
+		}
+	})), m = z.filter((e) => d[e].total !== null);
+	return /* @__PURE__ */ (0, A.jsx)("div", {
+		className: "sel-grid",
+		children: /* @__PURE__ */ (0, A.jsxs)("section", {
+			className: "surface mg-section",
+			"aria-label": "Cost model",
+			"data-testid": "cost-model",
+			children: [
+				/* @__PURE__ */ (0, A.jsx)("h3", { children: "Comparative operating cost: one workload, three scenarios" }),
+				/* @__PURE__ */ (0, A.jsx)("p", {
+					className: "micro",
+					"data-testid": "cost-note",
+					children: St.note
+				}),
+				/* @__PURE__ */ (0, A.jsxs)("label", {
+					className: "sel-profile",
+					children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Workload profile (one definition for all scenarios)" }), /* @__PURE__ */ (0, A.jsx)("select", {
+						"aria-label": "Workload profile",
+						value: a,
+						onChange: (e) => o(e.target.value),
+						children: St.workloads.map(([e, t]) => /* @__PURE__ */ (0, A.jsx)("option", {
+							value: e,
+							children: t
+						}, e))
+					})]
+				}),
+				/* @__PURE__ */ (0, A.jsx)("div", {
+					className: "mg-scroll",
+					children: /* @__PURE__ */ (0, A.jsxs)("table", {
+						className: "mg-table sel-cost",
+						children: [
+							/* @__PURE__ */ (0, A.jsx)("thead", { children: /* @__PURE__ */ (0, A.jsxs)("tr", { children: [
+								/* @__PURE__ */ (0, A.jsx)("th", {
+									scope: "col",
+									children: "Cost component"
+								}),
+								/* @__PURE__ */ (0, A.jsx)("th", {
+									scope: "col",
+									children: "Monthly volume"
+								}),
+								z.map((e) => /* @__PURE__ */ (0, A.jsxs)("th", {
+									scope: "col",
+									children: [B[e].short, /* @__PURE__ */ (0, A.jsx)("small", { children: "rate per unit" })]
+								}, e))
+							] }) }),
+							/* @__PURE__ */ (0, A.jsx)("tbody", { children: St.components.map((e) => /* @__PURE__ */ (0, A.jsxs)("tr", { children: [
+								/* @__PURE__ */ (0, A.jsxs)("th", {
+									scope: "row",
+									children: [e.label, /* @__PURE__ */ (0, A.jsx)("small", { children: e.driver })]
+								}),
+								/* @__PURE__ */ (0, A.jsx)("td", { children: /* @__PURE__ */ (0, A.jsx)("input", {
+									type: "number",
+									min: "0",
+									"aria-label": `${e.label} volume`,
+									"data-volume": e.id,
+									value: t[e.id] ?? "",
+									onChange: (t) => n((n) => ({
+										...n,
+										[e.id]: t.target.value
+									}))
+								}) }),
+								z.map((t) => e.applies[t] ? /* @__PURE__ */ (0, A.jsxs)("td", { children: [/* @__PURE__ */ (0, A.jsx)("input", {
+									type: "number",
+									min: "0",
+									step: "any",
+									"aria-label": `${e.label} rate ${t}`,
+									"data-rate": `${e.id}:${t}`,
+									value: (r[e.id] || {})[t] ?? "",
+									onChange: (n) => p(e.id, t, n.target.value)
+								}), /* @__PURE__ */ (0, A.jsx)("small", { children: e.applies[t] })] }, t) : /* @__PURE__ */ (0, A.jsx)("td", {
+									className: "sel-na",
+									children: "not used"
+								}, t))
+							] }, e.id)) }),
+							/* @__PURE__ */ (0, A.jsxs)("tfoot", { children: [/* @__PURE__ */ (0, A.jsxs)("tr", {
+								"data-testid": "cost-totals",
+								children: [
+									/* @__PURE__ */ (0, A.jsx)("th", {
+										scope: "row",
+										children: "Monthly total (illustrative until rates have a source)"
+									}),
+									/* @__PURE__ */ (0, A.jsx)("td", {}),
+									z.map((e) => /* @__PURE__ */ (0, A.jsxs)("td", {
+										"data-total": e,
+										className: d[e].total === null ? "mg-open" : "",
+										children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: kn(d[e].total) }), d[e].total === null && /* @__PURE__ */ (0, A.jsxs)("small", { children: [
+											d[e].missing.length,
+											" input(s) missing · partial ",
+											kn(d[e].partial)
+										] })]
+									}, e))
+								]
+							}), /* @__PURE__ */ (0, A.jsxs)("tr", { children: [
+								/* @__PURE__ */ (0, A.jsx)("th", {
+									scope: "row",
+									children: "Sensitivity, ±20% on every rate"
+								}),
+								/* @__PURE__ */ (0, A.jsx)("td", {}),
+								z.map((e) => /* @__PURE__ */ (0, A.jsx)("td", { children: d[e].total === null ? "PENDING" : `${kn(d[e].total * .8)} to ${kn(d[e].total * 1.2)}` }, e))
+							] })] })
+						]
+					})
+				}),
+				/* @__PURE__ */ (0, A.jsxs)("div", {
+					className: "sel-break",
+					"data-testid": "cost-breakeven",
+					children: [
+						/* @__PURE__ */ (0, A.jsx)("strong", { children: "Break-even" }),
+						" volume of ",
+						/* @__PURE__ */ (0, A.jsx)("select", {
+							"aria-label": "Break-even component",
+							value: s,
+							onChange: (e) => c(e.target.value),
+							children: St.components.map((e) => /* @__PURE__ */ (0, A.jsx)("option", {
+								value: e.id,
+								children: e.label
+							}, e.id))
+						}),
+						" between ",
+						/* @__PURE__ */ (0, A.jsx)("select", {
+							"aria-label": "Break-even first",
+							value: l[0],
+							onChange: (e) => u([e.target.value, l[1]]),
+							children: z.map((e) => /* @__PURE__ */ (0, A.jsx)("option", { children: e }, e))
+						}),
+						" and ",
+						/* @__PURE__ */ (0, A.jsx)("select", {
+							"aria-label": "Break-even second",
+							value: l[1],
+							onChange: (e) => u([l[0], e.target.value]),
+							children: z.map((e) => /* @__PURE__ */ (0, A.jsx)("option", { children: e }, e))
+						}),
+						": ",
+						/* @__PURE__ */ (0, A.jsx)("b", {
+							"data-breakeven": !0,
+							children: f === null ? "not computable (a rate or volume is missing, the slopes are equal or the volume would be negative)" : f.toLocaleString(void 0, { maximumFractionDigits: 2 })
+						}),
+						m.length < 2 && /* @__PURE__ */ (0, A.jsx)("span", {
+							className: "micro",
+							children: " · needs the other components filled in"
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, A.jsx)("p", {
+					className: "micro",
+					children: "Do not conclude that a high invocation frequency makes AWS cheaper: it can raise gateway and runtime charges as well. SAP BTP credit rates, enterprise AWS discounts and Apigee charges must come from the contracts."
+				}),
+				/* @__PURE__ */ (0, A.jsx)("button", {
+					type: "button",
+					className: "text-link",
+					onClick: () => e("D8"),
+					children: "Cost and operational responsibility diagram →"
+				})
+			]
+		})
+	});
+}
+function Pn({ onDiagram: e }) {
+	return /* @__PURE__ */ (0, A.jsxs)("div", {
+		className: "sel-grid",
+		children: [
+			/* @__PURE__ */ (0, A.jsxs)("section", {
+				className: "surface mg-section",
+				"aria-label": "AWS account proposal",
+				"data-testid": "acct-topology",
+				children: [
+					/* @__PURE__ */ (0, A.jsx)("h3", { children: "Dedicated SAP-agent AWS account (proposal)" }),
+					/* @__PURE__ */ (0, A.jsx)("p", {
+						className: "pill warn",
+						children: _t.status
+					}),
+					/* @__PURE__ */ (0, A.jsx)(An, {
+						head: [
+							"Account or layer",
+							"What it holds",
+							"Owns"
+						],
+						rows: _t.topology,
+						testid: "acct-table"
+					}),
+					/* @__PURE__ */ (0, A.jsx)("p", {
+						className: "micro",
+						children: _t.qualification
+					}),
+					/* @__PURE__ */ (0, A.jsx)("button", {
+						type: "button",
+						className: "text-link",
+						onClick: () => e("D6"),
+						children: "AWS account and governance diagram →"
+					})
+				]
+			}),
+			/* @__PURE__ */ (0, A.jsx)("section", {
+				className: "surface mg-section",
+				"aria-label": "Account evaluation",
+				children: /* @__PURE__ */ (0, A.jsxs)("div", {
+					className: "mg-cards",
+					children: [
+						/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Evaluate for the account" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: _t.evaluate.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }),
+						/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Central registry and cross-account sharing" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: _t.registry_sharing.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }),
+						/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Common implementation lifecycle" }), /* @__PURE__ */ (0, A.jsx)("ol", { children: vt.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }),
+						/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "Guardrails for every scenario" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: yt.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] })
+					]
+				})
+			}),
+			/* @__PURE__ */ (0, A.jsxs)("section", {
+				className: "surface mg-section",
+				"aria-label": "Operating ownership",
+				children: [
+					/* @__PURE__ */ (0, A.jsx)("h3", { children: "Operating ownership (RACI)" }),
+					/* @__PURE__ */ (0, A.jsx)(An, {
+						head: [
+							"Area",
+							"Responsible",
+							"Accountable",
+							"Consulted",
+							"Informed"
+						],
+						rows: bt,
+						testid: "acct-raci"
+					}),
+					/* @__PURE__ */ (0, A.jsx)("h3", { children: "POC validations" }),
+					/* @__PURE__ */ (0, A.jsx)("ul", {
+						className: "sel-poc",
+						children: xt.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e))
+					}),
+					/* @__PURE__ */ (0, A.jsx)("p", {
+						className: "micro",
+						children: "Compare S2 and S3 first (both need the AWS runtime) and include S1 as a baseline where SAP BTP remains credible. Nothing here provisions an account or a service."
+					})
+				]
+			})
+		]
+	});
+}
+function Fn({ onRegistry: e, onMcp: t }) {
+	let [n, r] = (0, _.useState)("recommendation"), [i, a] = (0, _.useState)(null);
+	return /* @__PURE__ */ (0, A.jsxs)("main", {
+		className: "detailed-diagrams mcp-governance arch-page selection-page",
+		"aria-label": "Selection and cost",
+		children: [
+			/* @__PURE__ */ (0, A.jsxs)("header", {
+				className: "surface dd-header",
+				children: [
+					/* @__PURE__ */ (0, A.jsxs)("div", {
+						className: "dd-title",
+						children: [/* @__PURE__ */ (0, A.jsx)("span", {
+							className: "eyebrow",
+							children: "SELECTION · RECOMMENDATION FRAMEWORK, GATEWAYS, COST AND AWS ACCOUNT"
+						}), /* @__PURE__ */ (0, A.jsx)("h2", { children: "Choose the hosting by evidence, and revisit it" })]
+					}),
+					/* @__PURE__ */ (0, A.jsx)("nav", {
+						className: "dd-selector",
+						role: "tablist",
+						"aria-label": "Selection views",
+						children: Dn.map(([e, t]) => /* @__PURE__ */ (0, A.jsx)("button", {
+							type: "button",
+							role: "tab",
+							"aria-selected": n === e,
+							className: n === e ? "active" : "",
+							onClick: () => r(e),
+							children: t
+						}, e))
+					}),
+					/* @__PURE__ */ (0, A.jsx)("div", {
+						className: "dd-header-actions",
+						children: /* @__PURE__ */ (0, A.jsx)("span", {
+							className: "pill warn",
+							children: tt.split(" · ").slice(0, 2).join(" · ")
+						})
+					})
+				]
+			}),
+			n === "recommendation" && /* @__PURE__ */ (0, A.jsx)(jn, { onDiagram: a }),
+			n === "gateways" && /* @__PURE__ */ (0, A.jsx)(Mn, { onDiagram: a }),
+			n === "cost" && /* @__PURE__ */ (0, A.jsx)(Nn, { onDiagram: a }),
+			n === "account" && /* @__PURE__ */ (0, A.jsx)(Pn, { onDiagram: a }),
+			/* @__PURE__ */ (0, A.jsxs)("nav", {
+				className: "mg-anchors",
+				"aria-label": "Related views",
+				children: [t && /* @__PURE__ */ (0, A.jsx)("button", {
+					type: "button",
+					onClick: t,
+					children: "MCP hosting →"
+				}), e && /* @__PURE__ */ (0, A.jsx)("button", {
+					type: "button",
+					onClick: e,
+					children: "Registry →"
+				})]
+			}),
+			i && /* @__PURE__ */ (0, A.jsx)(Kt, {
+				diagramKey: i,
+				onClose: () => a(null)
+			})
+		]
+	});
+}
 // src/roleData.js
-var mn = [
+var In = [
 	[
 		"Collect source balances",
 		"System",
@@ -14899,12 +16102,12 @@ var mn = [
 		"Outside this demo",
 		"Human-approved path; only a nonproduction marker is simulated"
 	]
-], hn = [
+], Ln = [
 	"Maker and approver are separate roles",
 	"Approval is bound to the proposal hash and case version",
 	"Every step is stored as an event you can inspect",
 	"No agent tool can post to SAP"
-], gn = [
+], Rn = [
 	[
 		"G1",
 		"Scenario, owners, licensing, cost and network topology",
@@ -14940,21 +16143,21 @@ var mn = [
 		"Cross-system trace correlation, retention and incident ownership",
 		"OPEN"
 	]
-], _n = [
+], zn = [
 	"The workflow shape: ask, plan, specialist calls, evidence, proposal, approval",
 	"What each agent may and may not do, shown as read-only tools and refusals",
 	"Where each route puts the gateway, the identity hop and the owner"
-], vn = [
+], Bn = [
 	"Any live SAP, AWS, Apigee, Portkey or Databricks connection",
 	"A real MCP transport (calls are in-process and MCP-shaped)",
 	"Identity propagation, performance, availability or cost"
-], yn = {
+], Vn = {
 	change: ["What would change the recommendation", ct.changes],
 	poc: ["How a proof of concept settles it", ct.poc],
 	depends: ["What the recommendation depends on", ct.standards],
 	limits: ["What this demo proves, and what it does not", null]
 };
-function bn({ onComplete: e, onMcp: t, onAgentHosting: n }) {
+function Hn({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 	let [r, i] = (0, _.useState)(null);
 	(0, _.useEffect)(() => {
 		if (!r) return;
@@ -15046,22 +16249,22 @@ function bn({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 								className: "eyebrow",
 								children: [
 									"DECISIONS · ",
-									mt.length,
+									pt.length,
 									" · OWNER ANSWERS OF ",
-									ft
+									dt
 								]
 							}),
 							/* @__PURE__ */ (0, A.jsxs)("p", {
 								className: "brief-counts",
 								"data-testid": "decision-summary",
 								children: [
-									/* @__PURE__ */ (0, A.jsx)("b", { children: pt.DECIDED }),
+									/* @__PURE__ */ (0, A.jsx)("b", { children: ft.DECIDED }),
 									" decided · ",
-									/* @__PURE__ */ (0, A.jsx)("b", { children: pt["OWNER-CONFIRMED"] }),
+									/* @__PURE__ */ (0, A.jsx)("b", { children: ft["OWNER-CONFIRMED"] }),
 									" owner-confirmed, not independently verified · ",
 									/* @__PURE__ */ (0, A.jsx)("b", {
 										className: "open",
-										children: pt.OPEN
+										children: ft.OPEN
 									}),
 									" still open"
 								]
@@ -15085,7 +16288,7 @@ function bn({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 										scope: "col",
 										children: "Status"
 									})
-								] }) }), /* @__PURE__ */ (0, A.jsx)("tbody", { children: mt.map((e) => /* @__PURE__ */ (0, A.jsxs)(_.Fragment, { children: [/* @__PURE__ */ (0, A.jsxs)("tr", {
+								] }) }), /* @__PURE__ */ (0, A.jsx)("tbody", { children: pt.map((e) => /* @__PURE__ */ (0, A.jsxs)(_.Fragment, { children: [/* @__PURE__ */ (0, A.jsxs)("tr", {
 									"data-testid": `decision-${e.id}`,
 									children: [
 										/* @__PURE__ */ (0, A.jsxs)("th", {
@@ -15138,7 +16341,7 @@ function bn({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 							children: "PROOF GATES · NONE PASSED"
 						}), /* @__PURE__ */ (0, A.jsx)("ul", {
 							className: "brief-gates",
-							children: gn.map(([e, t, n]) => /* @__PURE__ */ (0, A.jsxs)("li", { children: [
+							children: Rn.map(([e, t, n]) => /* @__PURE__ */ (0, A.jsxs)("li", { children: [
 								/* @__PURE__ */ (0, A.jsx)("b", { children: e }),
 								/* @__PURE__ */ (0, A.jsx)("span", { children: t }),
 								/* @__PURE__ */ (0, A.jsx)("em", {
@@ -15159,13 +16362,13 @@ function bn({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 					className: "surface mcp-bird-modal",
 					role: "dialog",
 					"aria-modal": "true",
-					"aria-label": yn[r][0],
+					"aria-label": Vn[r][0],
 					children: [/* @__PURE__ */ (0, A.jsxs)("div", {
 						className: "mcp-bird-modal-header",
 						children: [/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", {
 							className: "eyebrow",
 							children: "DECISION BRIEF · DESIGN REVIEW ONLY"
-						}), /* @__PURE__ */ (0, A.jsx)("h3", { children: yn[r][0] })] }), /* @__PURE__ */ (0, A.jsx)("button", {
+						}), /* @__PURE__ */ (0, A.jsx)("h3", { children: Vn[r][0] })] }), /* @__PURE__ */ (0, A.jsx)("button", {
 							type: "button",
 							onClick: () => i(null),
 							autoFocus: !0,
@@ -15175,8 +16378,8 @@ function bn({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 						className: "mcp-bird-modal-body",
 						children: r === "limits" ? /* @__PURE__ */ (0, A.jsxs)("div", {
 							className: "mcp-bird-modal-owners",
-							children: [/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "This demo shows" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: _n.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }), /* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "This demo does not prove" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: vn.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] })]
-						}) : /* @__PURE__ */ (0, A.jsx)("ul", { children: yn[r][1].map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })
+							children: [/* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "This demo shows" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: zn.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] }), /* @__PURE__ */ (0, A.jsxs)("article", { children: [/* @__PURE__ */ (0, A.jsx)("h4", { children: "This demo does not prove" }), /* @__PURE__ */ (0, A.jsx)("ul", { children: Bn.map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })] })]
+						}) : /* @__PURE__ */ (0, A.jsx)("ul", { children: Vn[r][1].map((e) => /* @__PURE__ */ (0, A.jsx)("li", { children: e }, e)) })
 					})]
 				})
 			})
@@ -15184,11 +16387,11 @@ function bn({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 	});
 }
 // src/ReconciliationReport.jsx
-var xn = (e) => new Intl.NumberFormat("en-US", {
+var Un = (e) => new Intl.NumberFormat("en-US", {
 	style: "currency",
 	currency: "USD",
 	maximumFractionDigits: 0
-}).format(Number(e || 0)), Sn = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${xn(Math.abs(Number(e || 0)))}`, Cn = [
+}).format(Number(e || 0)), Wn = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${Un(Math.abs(Number(e || 0)))}`, Gn = [
 	["summary", "Summary"],
 	["accounts", "Accounts"],
 	["matching", "Matching details"],
@@ -15198,25 +16401,25 @@ var xn = (e) => new Intl.NumberFormat("en-US", {
 	["posting", "SAP posting guide"],
 	["ai", "AI review"],
 	["audit", "Audit trail"]
-], wn = {
+], Kn = {
 	BALANCED: "Balanced",
 	WITHIN_TOLERANCE: "Within tolerance",
 	EXPLAINED: "Explained · approval needed",
 	EXCEPTION: "Exception · investigate",
 	HOLD: "On hold · sources stale"
-}, Tn = {
+}, qn = {
 	BALANCED: "ok",
 	WITHIN_TOLERANCE: "ok",
 	EXPLAINED: "info",
 	EXCEPTION: "bad",
 	HOLD: "warn"
 };
-function En(e, t, n) {
+function Jn(e, t, n) {
 	let r = URL.createObjectURL(new Blob([n], { type: t })), i = document.createElement("a");
 	i.href = r, i.download = e, document.body.appendChild(i), i.click(), i.remove(), setTimeout(() => URL.revokeObjectURL(r), 1e3);
 }
-var Dn = (e) => `"${String(e ?? "").replace(/"/g, "\"\"")}"`;
-function On(e) {
+var Yn = (e) => `"${String(e ?? "").replace(/"/g, "\"\"")}"`;
+function Xn(e) {
 	let t = [
 		"item_id",
 		"document_id",
@@ -15236,9 +16439,9 @@ function On(e) {
 		"recommended_action",
 		"ai_confidence"
 	];
-	return [t.join(","), ...e.items.map((e) => t.map((t) => Dn(t === "ai_confidence" ? e.ai.confidence : e[t])).join(","))].join("\r\n");
+	return [t.join(","), ...e.items.map((e) => t.map((t) => Yn(t === "ai_confidence" ? e.ai.confidence : e[t])).join(","))].join("\r\n");
 }
-function kn({ bridge: e }) {
+function Zn({ bridge: e }) {
 	let t = e[0].value, n = e[e.length - 1].value, r = Math.min(t, n) * .985, i = Math.max(t, n) * 1.005, a = 640 / e.length, o = (e) => 24 + 142 * (1 - (e - r) / Math.max(1, i - r)), s = t;
 	return /* @__PURE__ */ (0, A.jsx)("svg", {
 		className: "rr-bridge",
@@ -15265,7 +16468,7 @@ function kn({ bridge: e }) {
 					fontSize: "11",
 					fontWeight: "700",
 					fill: "#1d2d3e",
-					children: e.kind === "total" ? xn(e.value) : Sn(e.value)
+					children: e.kind === "total" ? Un(e.value) : Wn(e.value)
 				}),
 				/* @__PURE__ */ (0, A.jsx)("text", {
 					x: n + i / 2,
@@ -15279,46 +16482,46 @@ function kn({ bridge: e }) {
 		})
 	});
 }
-function An({ status: e }) {
+function Qn({ status: e }) {
 	return /* @__PURE__ */ (0, A.jsx)("span", {
 		className: `rr-chip ${String(e).toLowerCase().replace("_", "-")}`,
 		children: String(e).replace("_", " ")
 	});
 }
-function jn({ report: e }) {
+function $n({ report: e }) {
 	let t = e.summary;
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "rr-pane",
 		children: [
 			/* @__PURE__ */ (0, A.jsxs)("div", {
-				className: `rr-banner ${Tn[t.status]}`,
-				children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: wn[t.status] }), /* @__PURE__ */ (0, A.jsx)("span", { children: t.status_text })]
+				className: `rr-banner ${qn[t.status]}`,
+				children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: Kn[t.status] }), /* @__PURE__ */ (0, A.jsx)("span", { children: t.status_text })]
 			}),
 			/* @__PURE__ */ (0, A.jsxs)("div", {
 				className: "rr-kpis",
 				children: [
-					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "S/4HANA balance" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: xn(t.s4_total) })] }),
-					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Central Finance balance" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: xn(t.cfin_total) })] }),
+					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "S/4HANA balance" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: Un(t.s4_total) })] }),
+					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Central Finance balance" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: Un(t.cfin_total) })] }),
 					/* @__PURE__ */ (0, A.jsxs)("div", {
 						className: t.variance ? "attn" : "",
 						children: [
 							/* @__PURE__ */ (0, A.jsx)("span", { children: "Variance" }),
-							/* @__PURE__ */ (0, A.jsx)("strong", { children: Sn(t.variance) }),
-							/* @__PURE__ */ (0, A.jsxs)("small", { children: ["Tolerance ", xn(t.tolerance)] })
+							/* @__PURE__ */ (0, A.jsx)("strong", { children: Wn(t.variance) }),
+							/* @__PURE__ */ (0, A.jsxs)("small", { children: ["Tolerance ", Un(t.tolerance)] })
 						]
 					}),
 					/* @__PURE__ */ (0, A.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, A.jsx)("span", { children: "Explained" }),
 						/* @__PURE__ */ (0, A.jsxs)("strong", { children: [t.explained_pct, "%"] }),
 						/* @__PURE__ */ (0, A.jsxs)("small", { children: [
-							xn(t.explained),
+							Un(t.explained),
 							" of ",
-							xn(t.variance)
+							Un(t.variance)
 						] })
 					] }),
 					/* @__PURE__ */ (0, A.jsxs)("div", {
 						className: t.unexplained ? "attn" : "",
-						children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Unexplained" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: xn(t.unexplained) })]
+						children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Unexplained" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: Un(t.unexplained) })]
 					}),
 					/* @__PURE__ */ (0, A.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, A.jsx)("span", { children: "Open items" }),
@@ -15340,7 +16543,7 @@ function jn({ report: e }) {
 						className: "rr-note",
 						children: "From the S/4HANA balance to the Central Finance balance, by reason."
 					}),
-					e.bridge.length > 2 ? /* @__PURE__ */ (0, A.jsx)(kn, { bridge: e.bridge }) : /* @__PURE__ */ (0, A.jsx)("p", {
+					e.bridge.length > 2 ? /* @__PURE__ */ (0, A.jsx)(Zn, { bridge: e.bridge }) : /* @__PURE__ */ (0, A.jsx)("p", {
 						className: "rr-empty",
 						children: "No reconciling items. The two balances agree."
 					})
@@ -15349,7 +16552,7 @@ function jn({ report: e }) {
 					children: e.timeline.map((e) => /* @__PURE__ */ (0, A.jsxs)("li", {
 						className: e.freshness === "current" ? "ok" : "warn",
 						children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: e.step }), /* @__PURE__ */ (0, A.jsxs)("span", { children: [
-							xn(e.balance),
+							Un(e.balance),
 							" · ",
 							e.freshness,
 							" · ",
@@ -15379,7 +16582,7 @@ function jn({ report: e }) {
 					/* @__PURE__ */ (0, A.jsx)("td", { children: e.due }),
 					/* @__PURE__ */ (0, A.jsx)("td", {
 						className: "num",
-						children: Sn(e.amount)
+						children: Wn(e.amount)
 					})
 				] }, e.item_id)) })]
 			}) : /* @__PURE__ */ (0, A.jsx)("p", {
@@ -15401,7 +16604,7 @@ function jn({ report: e }) {
 		]
 	});
 }
-function Mn({ report: e }) {
+function er({ report: e }) {
 	let t = Math.max(1, ...e.accounts.map((e) => Math.abs(e.difference)));
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "rr-pane",
@@ -15433,11 +16636,11 @@ function Mn({ report: e }) {
 						/* @__PURE__ */ (0, A.jsx)("td", { children: e.name }),
 						/* @__PURE__ */ (0, A.jsx)("td", {
 							className: "num",
-							children: xn(e.s4_balance)
+							children: Un(e.s4_balance)
 						}),
 						/* @__PURE__ */ (0, A.jsx)("td", {
 							className: "num",
-							children: xn(e.cfin_balance)
+							children: Un(e.cfin_balance)
 						}),
 						/* @__PURE__ */ (0, A.jsxs)("td", {
 							className: "num",
@@ -15445,11 +16648,11 @@ function Mn({ report: e }) {
 								className: "rr-bar",
 								style: { width: `${Math.abs(e.difference) / t * 60}px` },
 								"aria-hidden": "true"
-							}), Sn(e.difference)]
+							}), Wn(e.difference)]
 						}),
 						/* @__PURE__ */ (0, A.jsx)("td", { children: e.open_items }),
 						/* @__PURE__ */ (0, A.jsxs)("td", { children: [
-							/* @__PURE__ */ (0, A.jsx)(An, { status: e.status === "variance" ? "EXCEPTION" : (e.status, "PASS") }),
+							/* @__PURE__ */ (0, A.jsx)(Qn, { status: e.status === "variance" ? "EXCEPTION" : (e.status, "PASS") }),
 							" ",
 							e.status.replace("_", " ")
 						] })
@@ -15462,15 +16665,15 @@ function Mn({ report: e }) {
 					}),
 					/* @__PURE__ */ (0, A.jsx)("td", {
 						className: "num",
-						children: xn(e.summary.s4_total)
+						children: Un(e.summary.s4_total)
 					}),
 					/* @__PURE__ */ (0, A.jsx)("td", {
 						className: "num",
-						children: xn(e.summary.cfin_total)
+						children: Un(e.summary.cfin_total)
 					}),
 					/* @__PURE__ */ (0, A.jsx)("td", {
 						className: "num",
-						children: Sn(e.summary.variance)
+						children: Wn(e.summary.variance)
 					}),
 					/* @__PURE__ */ (0, A.jsx)("td", { children: e.summary.open_items }),
 					/* @__PURE__ */ (0, A.jsx)("td", {})
@@ -15482,7 +16685,7 @@ function Mn({ report: e }) {
 		})]
 	});
 }
-var Nn = [
+var tr = [
 	["all", "All rows"],
 	["exceptions", "Exceptions only"],
 	["MATCHED", "Matched"],
@@ -15493,7 +16696,7 @@ var Nn = [
 	["DUPLICATE", "Duplicate"],
 	["REQUIRES_REVIEW", "Requires review"]
 ];
-function Pn({ report: e }) {
+function nr({ report: e }) {
 	let [t, n] = (0, _.useState)("all"), r = e.matching, i = r.totals, a = r.rows.filter((e) => t === "all" || (t === "exceptions" ? e.status !== "MATCHED" : e.status === t));
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "rr-pane",
@@ -15503,8 +16706,8 @@ function Pn({ report: e }) {
 				children: [
 					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Matched" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: i.matched_count })] }),
 					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Exceptions" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: i.exception_count })] }),
-					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Sum of row differences" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: Sn(i.difference_total) })] }),
-					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Summary variance" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: Sn(i.summary_variance) })] }),
+					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Sum of row differences" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: Wn(i.difference_total) })] }),
+					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Summary variance" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: Wn(i.summary_variance) })] }),
 					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Check" }), /* @__PURE__ */ (0, A.jsx)("strong", {
 						className: i.reconciles ? "rr-match-ok" : "rr-match-bad",
 						"data-testid": "match-check",
@@ -15518,7 +16721,7 @@ function Pn({ report: e }) {
 					value: t,
 					onChange: (e) => n(e.target.value),
 					"aria-label": "Matching status filter",
-					children: Nn.map(([e, t]) => /* @__PURE__ */ (0, A.jsx)("option", {
+					children: tr.map(([e, t]) => /* @__PURE__ */ (0, A.jsx)("option", {
 						value: e,
 						children: t
 					}, e))
@@ -15554,14 +16757,14 @@ function Pn({ report: e }) {
 							/* @__PURE__ */ (0, A.jsx)("td", { children: e.target_ref || "none" }),
 							/* @__PURE__ */ (0, A.jsx)("td", {
 								className: "num",
-								children: xn(e.amount)
+								children: Un(e.amount)
 							}),
 							/* @__PURE__ */ (0, A.jsx)("td", { children: e.currency }),
 							/* @__PURE__ */ (0, A.jsx)("td", { children: e.posting_date || "n/a" }),
 							/* @__PURE__ */ (0, A.jsx)("td", { children: e.rule }),
 							/* @__PURE__ */ (0, A.jsx)("td", {
 								className: "num",
-								children: Sn(e.difference)
+								children: Wn(e.difference)
 							}),
 							/* @__PURE__ */ (0, A.jsx)("td", { children: e.status }),
 							/* @__PURE__ */ (0, A.jsx)("td", { children: e.reason || "none" })
@@ -15577,11 +16780,11 @@ function Pn({ report: e }) {
 						}),
 						/* @__PURE__ */ (0, A.jsx)("td", {
 							className: "num",
-							children: Sn(i.difference_total)
+							children: Wn(i.difference_total)
 						}),
 						/* @__PURE__ */ (0, A.jsxs)("td", {
 							colSpan: "2",
-							children: ["Summary variance ", Sn(i.summary_variance)]
+							children: ["Summary variance ", Wn(i.summary_variance)]
 						})
 					] }) })
 				]
@@ -15597,17 +16800,17 @@ function Pn({ report: e }) {
 		]
 	});
 }
-var Fn = [
+var rr = [
 	["Post General Journal Entries (F0718), SAP Help", "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7340a09096454b7abf4379f926a21567/950f8054747b053de10000000a441470.html?version=2023.latest"],
 	["Manage Journal Entries, SAP Help", "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/d2d78154f9a7033de10000000a441470.html?version=2023.latest"],
 	["Verify General Journal Entries – For Requester, SAP Help", "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/6b33e9e760b840098d4c66f49121dc98.html"],
 	["SAP Fiori Apps Reference Library", "https://fioriappslibrary.hana.ondemand.com/"]
-], In = {
+], ir = {
 	no: "No journal entry",
 	conditional: "Conditional",
 	after_investigation: "Only after investigation"
 };
-function Ln({ report: e }) {
+function ar({ report: e }) {
 	let t = e.manual_posting;
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "rr-pane rr-guide",
@@ -15634,9 +16837,9 @@ function Ln({ report: e }) {
 					/* @__PURE__ */ (0, A.jsx)("td", { children: e.category_label }),
 					/* @__PURE__ */ (0, A.jsx)("td", {
 						className: "num",
-						children: Sn(e.difference)
+						children: Wn(e.difference)
 					}),
-					/* @__PURE__ */ (0, A.jsx)("td", { children: In[e.treatment.manual_journal_entry] }),
+					/* @__PURE__ */ (0, A.jsx)("td", { children: ir[e.treatment.manual_journal_entry] }),
 					/* @__PURE__ */ (0, A.jsx)("td", { children: e.treatment.route })
 				] }, e.item_id)) })]
 			}) : /* @__PURE__ */ (0, A.jsx)("p", {
@@ -15680,7 +16883,7 @@ function Ln({ report: e }) {
 			}),
 			/* @__PURE__ */ (0, A.jsx)("p", {
 				className: "rr-note",
-				children: Fn.map(([e, t], n) => /* @__PURE__ */ (0, A.jsxs)(_.Fragment, { children: [n > 0 && " · ", /* @__PURE__ */ (0, A.jsxs)("a", {
+				children: rr.map(([e, t], n) => /* @__PURE__ */ (0, A.jsxs)(_.Fragment, { children: [n > 0 && " · ", /* @__PURE__ */ (0, A.jsxs)("a", {
 					href: t,
 					target: "_blank",
 					rel: "noreferrer",
@@ -15690,7 +16893,7 @@ function Ln({ report: e }) {
 		]
 	});
 }
-function Rn({ report: e }) {
+function or({ report: e }) {
 	let [t, n] = (0, _.useState)("all"), [r, i] = (0, _.useState)("all"), [a, o] = (0, _.useState)(null), s = e.items.filter((e) => (t === "all" || e.status === t) && (r === "all" || e.materiality === r));
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "rr-pane",
@@ -15797,15 +17000,15 @@ function Rn({ report: e }) {
 						] }),
 						/* @__PURE__ */ (0, A.jsx)("td", {
 							className: "num",
-							children: xn(e.s4_amount)
+							children: Un(e.s4_amount)
 						}),
 						/* @__PURE__ */ (0, A.jsx)("td", {
 							className: "num",
-							children: xn(e.cfin_amount)
+							children: Un(e.cfin_amount)
 						}),
 						/* @__PURE__ */ (0, A.jsx)("td", {
 							className: "num",
-							children: /* @__PURE__ */ (0, A.jsx)("strong", { children: Sn(e.difference) })
+							children: /* @__PURE__ */ (0, A.jsx)("strong", { children: Wn(e.difference) })
 						}),
 						/* @__PURE__ */ (0, A.jsxs)("td", { children: [
 							e.reason_code,
@@ -15813,7 +17016,7 @@ function Rn({ report: e }) {
 							e.category_label
 						] }),
 						/* @__PURE__ */ (0, A.jsxs)("td", { children: [
-							/* @__PURE__ */ (0, A.jsx)(An, { status: e.status === "explained" ? "PASS" : "HOLD" }),
+							/* @__PURE__ */ (0, A.jsx)(Qn, { status: e.status === "explained" ? "PASS" : "HOLD" }),
 							" ",
 							e.status.replace("_", " "),
 							" · ",
@@ -15881,7 +17084,7 @@ function Rn({ report: e }) {
 						/* @__PURE__ */ (0, A.jsx)("td", { children: e.description }),
 						/* @__PURE__ */ (0, A.jsx)("td", {
 							className: "num",
-							children: xn(e.amount)
+							children: Un(e.amount)
 						})
 					] }, e.journal_id)) })]
 				})]
@@ -15889,7 +17092,7 @@ function Rn({ report: e }) {
 		]
 	});
 }
-function zn({ report: e }) {
+function sr({ report: e }) {
 	let t = Math.max(1, ...e.aging.map((e) => Math.abs(e.amount)));
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "rr-pane",
@@ -15911,7 +17114,7 @@ function zn({ report: e }) {
 						" item",
 						e.count === 1 ? "" : "s",
 						" · ",
-						Sn(e.amount)
+						Wn(e.amount)
 					] })
 				] }, e.bucket))
 			}),
@@ -15922,7 +17125,7 @@ function zn({ report: e }) {
 		]
 	});
 }
-function Bn({ report: e }) {
+function cr({ report: e }) {
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "rr-pane",
 		children: [/* @__PURE__ */ (0, A.jsx)("p", {
@@ -15938,13 +17141,13 @@ function Bn({ report: e }) {
 			] }) }), /* @__PURE__ */ (0, A.jsx)("tbody", { children: e.controls.map((e) => /* @__PURE__ */ (0, A.jsxs)("tr", { children: [
 				/* @__PURE__ */ (0, A.jsx)("td", { children: e.id }),
 				/* @__PURE__ */ (0, A.jsx)("td", { children: e.name }),
-				/* @__PURE__ */ (0, A.jsx)("td", { children: /* @__PURE__ */ (0, A.jsx)(An, { status: e.status }) }),
+				/* @__PURE__ */ (0, A.jsx)("td", { children: /* @__PURE__ */ (0, A.jsx)(Qn, { status: e.status }) }),
 				/* @__PURE__ */ (0, A.jsx)("td", { children: e.detail })
 			] }, e.id)) })]
 		})]
 	});
 }
-function Vn({ report: e }) {
+function lr({ report: e }) {
 	let t = e.ai_review;
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "rr-pane",
@@ -15992,7 +17195,7 @@ function Vn({ report: e }) {
 		]
 	});
 }
-function Hn({ report: e }) {
+function ur({ report: e }) {
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "rr-pane",
 		children: [
@@ -16021,10 +17224,10 @@ function Hn({ report: e }) {
 					/* @__PURE__ */ (0, A.jsx)("td", { children: t.source }),
 					/* @__PURE__ */ (0, A.jsx)("td", {
 						className: "num",
-						children: xn(t.balance)
+						children: Un(t.balance)
 					}),
 					/* @__PURE__ */ (0, A.jsxs)("td", { children: [
-						/* @__PURE__ */ (0, A.jsx)(An, { status: t.freshness === "current" ? "PASS" : "HOLD" }),
+						/* @__PURE__ */ (0, A.jsx)(Qn, { status: t.freshness === "current" ? "PASS" : "HOLD" }),
 						" ",
 						t.freshness
 					] }),
@@ -16069,7 +17272,7 @@ function Hn({ report: e }) {
 		]
 	});
 }
-function Un({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
+function dr({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 	let a = (0, _.useRef)(null), [o, s] = (0, _.useState)("summary"), [c, l] = (0, _.useState)(!1);
 	(0, _.useEffect)(() => {
 		let e = a.current;
@@ -16092,15 +17295,15 @@ function Un({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 		};
 	}, [c]);
 	let u = (0, _.useMemo)(() => e ? {
-		summary: /* @__PURE__ */ (0, A.jsx)(jn, { report: e }),
-		accounts: /* @__PURE__ */ (0, A.jsx)(Mn, { report: e }),
-		matching: /* @__PURE__ */ (0, A.jsx)(Pn, { report: e }),
-		posting: /* @__PURE__ */ (0, A.jsx)(Ln, { report: e }),
-		items: /* @__PURE__ */ (0, A.jsx)(Rn, { report: e }),
-		aging: /* @__PURE__ */ (0, A.jsx)(zn, { report: e }),
-		controls: /* @__PURE__ */ (0, A.jsx)(Bn, { report: e }),
-		ai: /* @__PURE__ */ (0, A.jsx)(Vn, { report: e }),
-		audit: /* @__PURE__ */ (0, A.jsx)(Hn, { report: e })
+		summary: /* @__PURE__ */ (0, A.jsx)($n, { report: e }),
+		accounts: /* @__PURE__ */ (0, A.jsx)(er, { report: e }),
+		matching: /* @__PURE__ */ (0, A.jsx)(nr, { report: e }),
+		posting: /* @__PURE__ */ (0, A.jsx)(ar, { report: e }),
+		items: /* @__PURE__ */ (0, A.jsx)(or, { report: e }),
+		aging: /* @__PURE__ */ (0, A.jsx)(sr, { report: e }),
+		controls: /* @__PURE__ */ (0, A.jsx)(cr, { report: e }),
+		ai: /* @__PURE__ */ (0, A.jsx)(lr, { report: e }),
+		audit: /* @__PURE__ */ (0, A.jsx)(ur, { report: e })
 	}[o] : null, [e, o]);
 	return /* @__PURE__ */ (0, A.jsxs)("dialog", {
 		ref: a,
@@ -16132,19 +17335,19 @@ function Un({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 						id: "rr-period"
 					}),
 					e && /* @__PURE__ */ (0, A.jsx)("span", {
-						className: `rr-chip ${Tn[e.summary.status]}`,
-						children: wn[e.summary.status]
+						className: `rr-chip ${qn[e.summary.status]}`,
+						children: Kn[e.summary.status]
 					}),
 					/* @__PURE__ */ (0, A.jsx)("button", {
 						type: "button",
 						disabled: !e,
-						onClick: () => En(`${e.report_id}-items.csv`, "text/csv", On(e)),
+						onClick: () => Jn(`${e.report_id}-items.csv`, "text/csv", Xn(e)),
 						children: "Items CSV ⤓"
 					}),
 					/* @__PURE__ */ (0, A.jsx)("button", {
 						type: "button",
 						disabled: !e,
-						onClick: () => En(`${e.report_id}.json`, "application/json", JSON.stringify(e, null, 2)),
+						onClick: () => Jn(`${e.report_id}.json`, "application/json", JSON.stringify(e, null, 2)),
 						children: "Report JSON ⤓"
 					}),
 					/* @__PURE__ */ (0, A.jsx)("button", {
@@ -16163,26 +17366,26 @@ function Un({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 			})]
 		}), e && c ? /* @__PURE__ */ (0, A.jsx)("div", {
 			className: "rr-body rr-print-all",
-			children: Cn.map(([t, n]) => /* @__PURE__ */ (0, A.jsxs)("section", { children: [/* @__PURE__ */ (0, A.jsx)("h2", { children: n }), {
-				summary: /* @__PURE__ */ (0, A.jsx)(jn, { report: e }),
-				accounts: /* @__PURE__ */ (0, A.jsx)(Mn, { report: e }),
-				matching: /* @__PURE__ */ (0, A.jsx)(Pn, { report: e }),
-				posting: /* @__PURE__ */ (0, A.jsx)(Ln, { report: e }),
-				items: /* @__PURE__ */ (0, A.jsx)(Rn, { report: e }),
-				aging: /* @__PURE__ */ (0, A.jsx)(zn, { report: e }),
-				controls: /* @__PURE__ */ (0, A.jsx)(Bn, { report: e }),
-				ai: /* @__PURE__ */ (0, A.jsx)(Vn, { report: e }),
-				audit: /* @__PURE__ */ (0, A.jsx)(Hn, { report: e })
+			children: Gn.map(([t, n]) => /* @__PURE__ */ (0, A.jsxs)("section", { children: [/* @__PURE__ */ (0, A.jsx)("h2", { children: n }), {
+				summary: /* @__PURE__ */ (0, A.jsx)($n, { report: e }),
+				accounts: /* @__PURE__ */ (0, A.jsx)(er, { report: e }),
+				matching: /* @__PURE__ */ (0, A.jsx)(nr, { report: e }),
+				posting: /* @__PURE__ */ (0, A.jsx)(ar, { report: e }),
+				items: /* @__PURE__ */ (0, A.jsx)(or, { report: e }),
+				aging: /* @__PURE__ */ (0, A.jsx)(sr, { report: e }),
+				controls: /* @__PURE__ */ (0, A.jsx)(cr, { report: e }),
+				ai: /* @__PURE__ */ (0, A.jsx)(lr, { report: e }),
+				audit: /* @__PURE__ */ (0, A.jsx)(ur, { report: e })
 			}[t]] }, t))
 		}) : e ? /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [/* @__PURE__ */ (0, A.jsx)("div", {
 			className: "rr-tabs",
 			role: "tablist",
 			"aria-label": "Report sections",
 			onKeyDown: (e) => {
-				let t = Cn.findIndex(([e]) => e === o);
-				e.key === "ArrowRight" && (s(Cn[(t + 1) % Cn.length][0]), e.preventDefault()), e.key === "ArrowLeft" && (s(Cn[(t + Cn.length - 1) % Cn.length][0]), e.preventDefault());
+				let t = Gn.findIndex(([e]) => e === o);
+				e.key === "ArrowRight" && (s(Gn[(t + 1) % Gn.length][0]), e.preventDefault()), e.key === "ArrowLeft" && (s(Gn[(t + Gn.length - 1) % Gn.length][0]), e.preventDefault());
 			},
-			children: Cn.map(([t, n]) => /* @__PURE__ */ (0, A.jsxs)("button", {
+			children: Gn.map(([t, n]) => /* @__PURE__ */ (0, A.jsxs)("button", {
 				type: "button",
 				role: "tab",
 				"aria-selected": o === t,
@@ -16206,10 +17409,10 @@ function Un({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 	});
 }
 // src/orchestrationSvg.js
-var Wn = {
+var fr = {
 	w: 1200,
 	h: 660
-}, Gn = (e, t, n, r, i, a, o = {}) => ({
+}, pr = (e, t, n, r, i, a, o = {}) => ({
 	id: e,
 	row: t,
 	col: n,
@@ -16217,16 +17420,16 @@ var Wn = {
 	sub: i,
 	kind: a,
 	...o
-}), Kn = [
+}), mr = [
 	["invoke", "MCP-style tools/call (in-process)"],
 	["registry", "Reaches application layer"],
 	["identity", "Needs input"],
 	["approval", "Blocked by a control"]
-], qn = {
+], hr = {
 	"Selected gateway": [
 		"Selected MCP gateway",
 		"gateway",
-		"Apigee, or AgentCore Gateway in S2"
+		"Apigee (S1), AgentCore Gateway (S2), both (S3)"
 	],
 	"Domain MCP": [
 		"Domain MCP tools",
@@ -16283,18 +17486,18 @@ var Wn = {
 		"registry",
 		"Design time"
 	]
-}, Jn = {
+}, gr = {
 	done: "#107E3E",
 	running: "#E9730C",
 	held: "#E9730C",
 	blocked: "#BB0000",
 	pending: void 0
 };
-function Yn(e, t, n) {
+function _r(e, t, n) {
 	return t < n ? e.status : t === n ? "running" : "pending";
 }
-function Xn({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
-	let i = (t?.agents || []).filter((e) => e.kind !== "orchestrator"), a = e?.steps || [], o = Math.min(n, a.length), s = (t, r) => e ? Yn(t, r, n) : "pending", c = {};
+function vr({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
+	let i = (t?.agents || []).filter((e) => e.kind !== "orchestrator"), a = e?.steps || [], o = Math.min(n, a.length), s = (t, r) => e ? _r(t, r, n) : "pending", c = {};
 	a.forEach((e, t) => {
 		(c[e.agent] ||= []).push({
 			step: e,
@@ -16302,7 +17505,7 @@ function Xn({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 		});
 	});
 	let l = [], u = e ? o >= a.length ? "All steps dispatched" : `Dispatching step ${o + 1} of ${a.length}` : "Waiting for a request";
-	l.push(Gn("orch", 0, 1.5, "Orchestrator · tool client", e ? `${e.orchestrator?.rule || ""}. ${u}. It plans and calls tools; it never touches SAP.` : "Ask a question to start. It plans and calls tools; it never touches SAP.", "agent", {
+	l.push(pr("orch", 0, 1.5, "Orchestrator · tool client", e ? `${e.orchestrator?.rule || ""}. ${u}. It plans and calls tools; it never touches SAP.` : "Ask a question to start. It plans and calls tools; it never touches SAP.", "agent", {
 		span: 3,
 		h: 84,
 		zone: "agent:orchestrator",
@@ -16312,12 +17515,12 @@ function Xn({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 		strokeWidth: 2.4
 	})), i.forEach((e, t) => {
 		let n = c[e.id] || [], a = n.map(({ step: e, index: t }) => s(e, t)), o = n.length > 0 && a.some((e) => e !== "pending"), u = a.includes("blocked") ? "blocked" : a.includes("held") ? "held" : a.includes("running") ? "running" : o ? "done" : "pending", d = a.filter((e) => e === "done").length;
-		l.push(Gn(`agent:${e.id}`, 1, t + (6 - i.length) / 2, e.name, `${e.mcp_server} · ${e.tools.join(", ")}`, "domain", {
+		l.push(pr(`agent:${e.id}`, 1, t + (6 - i.length) / 2, e.name, `${e.mcp_server} · ${e.tools.join(", ")}`, "domain", {
 			h: 84,
 			zone: `agent:${e.id}`,
 			status: n.length ? o ? `${d}/${n.length} calls done${n.every(({ step: e }) => !e.trace?.layers?.length) ? " · computed locally" : ""}` : "Queued" : "Not called",
-			statusColor: o ? Jn[u] : "#506778",
-			stroke: r === e.id ? "#0A6ED1" : o ? Jn[u] : "#B8C7D3",
+			statusColor: o ? gr[u] : "#506778",
+			stroke: r === e.id ? "#0A6ED1" : o ? gr[u] : "#B8C7D3",
 			strokeWidth: r === e.id ? 3.2 : o ? 2.2 : 1.2,
 			dashed: !o && n.length === 0
 		}));
@@ -16334,12 +17537,12 @@ function Xn({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 			]);
 		});
 	}), d.forEach((e, t) => {
-		let n = qn[e] || [
+		let n = hr[e] || [
 			e,
 			"control",
 			""
 		];
-		l.push(Gn(`layer:${e}`, t < 6 ? 2 : 3, t % 6, n[0], n[2], n[1], {
+		l.push(pr(`layer:${e}`, t < 6 ? 2 : 3, t % 6, n[0], n[2], n[1], {
 			h: 84,
 			status: "Reached",
 			statusColor: "#0D6A33",
@@ -16359,7 +17562,7 @@ function Xn({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 			i,
 			{ active: n.includes("running") }
 		]);
-	}), h.push(...m), Tt({
+	}), h.push(...m), Nt({
 		cols: 6,
 		ys: [
 			96,
@@ -16368,11 +17571,11 @@ function Xn({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 			508
 		],
 		nh: 84,
-		height: Wn.h,
+		height: fr.h,
 		nodes: l,
 		edges: h,
 		bounds: [],
-		legend: Kn,
+		legend: mr,
 		captions: [[
 			88,
 			"ORCHESTRATOR · TOOL CLIENT",
@@ -16389,14 +17592,14 @@ function Xn({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 	});
 }
 // src/AgentWorkbench.jsx
-var Zn = {
+var yr = {
 	done: "✓",
 	running: "…",
 	pending: "·",
 	held: "?",
 	blocked: "✕",
 	skipped: "–"
-}, Qn = {
+}, br = {
 	treasury: "Open Cash & treasury",
 	"treasury-forecast": "Open the cash forecast",
 	"treasury-banks": "Open bank relationships",
@@ -16406,14 +17609,14 @@ var Zn = {
 	"decision-responsibilities": "Open responsibilities & governance",
 	close: "Open Close & reconcile",
 	plan: "Stay here"
-}, $n = /* @__PURE__ */ new Set(), er = () => {
+}, xr = /* @__PURE__ */ new Set(), Sr = () => {
 	try {
 		return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	} catch {
 		return !1;
 	}
 };
-function tr({ onAsk: e, busy: t, label: n = "Ask the agents", period: r = y, periods: i, domain: a = "reconciliation" }) {
+function Cr({ onAsk: e, busy: t, label: n = "Ask the agents", period: r = y, periods: i, domain: a = "reconciliation" }) {
 	let [o, s] = ye(r, a);
 	return /* @__PURE__ */ (0, A.jsxs)("form", {
 		className: "surface agent-ask-bar",
@@ -16453,7 +17656,7 @@ function tr({ onAsk: e, busy: t, label: n = "Ask the agents", period: r = y, per
 		]
 	});
 }
-function nr({ plan: e }) {
+function wr({ plan: e }) {
 	return /* @__PURE__ */ (0, A.jsxs)("section", {
 		className: "surface aw-result tr-result",
 		"aria-label": "Result",
@@ -16500,7 +17703,7 @@ function nr({ plan: e }) {
 		]
 	});
 }
-function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConcept: a, onOpenOutput: o, period: s = y, periods: c, ontology: l }) {
+function Tr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConcept: a, onOpenOutput: o, period: s = y, periods: c, ontology: l }) {
 	let u = re(), d = e?.order || ["reconciliation"], [f, p] = (0, _.useState)(null), m = f || e?.default || d[0], h = p;
 	(0, _.useEffect)(() => {
 		t?.domain && p(t.domain);
@@ -16508,17 +17711,17 @@ function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 	let g = e?.domains?.[m] || e, v = t && (t.domain || e?.default) === m ? t : null, b = g?.agents || [], x = (e) => b.find((t) => t.id === e)?.kind === "orchestrator", S = (b.find((e) => e.kind === "orchestrator") || {}).id || "orchestrator", [w, E] = ye(s, m), D = u.examples(m, s), O = (e) => ((l?.classes || []).find((t) => t.id === e) || {}).label || String(e).split(".").pop(), [k, ee] = (0, _.useState)(0), [te, ne] = (0, _.useState)(null), [ie, ae] = (0, _.useState)(null), [oe, se] = (0, _.useState)(!1), ce = (0, _.useRef)(null), j = v?.steps || [];
 	(0, _.useEffect)(() => {
 		if (!v || ce.current === v.plan_id) return;
-		if (ce.current = v.plan_id, ne(null), er() || !j.length || $n.has(v.plan_id)) {
-			$n.add(v.plan_id), ee(j.length);
+		if (ce.current = v.plan_id, ne(null), Sr() || !j.length || xr.has(v.plan_id)) {
+			xr.add(v.plan_id), ee(j.length);
 			return;
 		}
-		$n.add(v.plan_id), ee(0);
+		xr.add(v.plan_id), ee(0);
 		let e = 0, t = setInterval(() => {
 			e += 1, ee(e), e >= j.length && clearInterval(t);
 		}, 650);
 		return () => clearInterval(t);
 	}, [v?.plan_id]);
-	let le = te?.agent || null, ue = (0, _.useMemo)(() => Xn({
+	let le = te?.agent || null, ue = (0, _.useMemo)(() => vr({
 		plan: v,
 		catalog: g,
 		shown: k,
@@ -16532,8 +17735,8 @@ function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 		id: "orchestration",
 		title: "Orchestration",
 		svg: ue,
-		w: Wn.w,
-		h: Wn.h,
+		w: fr.w,
+		h: fr.h,
 		file: "orchestration",
 		png: !0
 	}), [ue]), fe = Object.fromEntries(b.map((e) => [e.id, e])), pe = (e) => {
@@ -16723,7 +17926,7 @@ function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 					"aria-label": "Orchestration graph",
 					children: /* @__PURE__ */ (0, A.jsx)("div", {
 						className: "aw-viewer",
-						children: /* @__PURE__ */ (0, A.jsx)(Lt, {
+						children: /* @__PURE__ */ (0, A.jsx)(Wt, {
 							diagram: de,
 							uid: "orch",
 							view: ie,
@@ -16774,7 +17977,7 @@ function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 										]
 									})
 								}), j.map((e, t) => {
-									let n = Yn(e, t, k);
+									let n = _r(e, t, k);
 									return n === "pending" && t > k ? null : /* @__PURE__ */ (0, A.jsx)("li", {
 										className: `${n} ${te?.step_id === e.step_id ? "sel" : ""}`,
 										children: /* @__PURE__ */ (0, A.jsxs)("button", {
@@ -16787,7 +17990,7 @@ function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 												/* @__PURE__ */ (0, A.jsx)("span", {
 													className: "aw-mark",
 													"aria-hidden": "true",
-													children: Zn[n]
+													children: yr[n]
 												}),
 												/* @__PURE__ */ (0, A.jsxs)("b", { children: [
 													"#",
@@ -16907,7 +18110,7 @@ function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 										type: "button",
 										className: "aw-open",
 										onClick: () => i(he, M),
-										children: [he.view_label || Qn[M.view || he.view] || "Open layer", " →"]
+										children: [he.view_label || br[M.view || he.view] || "Open layer", " →"]
 									})
 								] }) : /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [
 									/* @__PURE__ */ (0, A.jsxs)("dl", { children: [
@@ -16926,7 +18129,7 @@ function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 										type: "button",
 										className: "aw-open",
 										onClick: () => i(he),
-										children: [he.view_label || Qn[he.view] || "Open layer", " →"]
+										children: [he.view_label || br[he.view] || "Open layer", " →"]
 									})
 								] })
 							]
@@ -16934,7 +18137,7 @@ function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 					]
 				})]
 			}),
-			v?.result_blocks?.length > 0 && (ge || j.length === 0) && /* @__PURE__ */ (0, A.jsx)(nr, { plan: v }),
+			v?.result_blocks?.length > 0 && (ge || j.length === 0) && /* @__PURE__ */ (0, A.jsx)(wr, { plan: v }),
 			/* @__PURE__ */ (0, A.jsxs)("section", {
 				className: "surface aw-roster",
 				"aria-label": "Agent roster",
@@ -17013,7 +18216,7 @@ function rr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 	});
 }
 // src/Entry.jsx
-function ir({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onOpenArchitecture: i, onOpenTreasury: a, onAsk: o, onGo: s, period: c = y, periods: l, onPeriod: u }) {
+function Er({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onOpenArchitecture: i, onOpenTreasury: a, onAsk: o, onGo: s, period: c = y, periods: l, onPeriod: u }) {
 	let d = re(), [f, p] = ye(c, d.def?.id), m = d.modules.flatMap((e) => d.examples(e.id, c).slice(0, 2));
 	return /* @__PURE__ */ (0, A.jsxs)("main", {
 		className: "entry",
@@ -17150,7 +18353,7 @@ function ir({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onO
 								children: "⬡"
 							}),
 							/* @__PURE__ */ (0, A.jsx)("strong", { children: "Review the architecture" }),
-							/* @__PURE__ */ (0, A.jsx)("small", { children: "Live run, the three scenarios (SAP-centric, AgentCore-centric, SAP-hosted hybrid), MCP hosting and diagrams." }),
+							/* @__PURE__ */ (0, A.jsx)("small", { children: "Live run, the three scenarios (SAP-hosted hybrid, AgentCore-native, AgentCore + Apigee), selection and cost, and diagrams." }),
 							/* @__PURE__ */ (0, A.jsx)("em", { children: "Open Architecture →" })
 						]
 					}) })
@@ -17175,10 +18378,10 @@ function ir({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onO
 	});
 }
 // src/liveArchitecture.js
-var ar = {
+var Dr = {
 	w: 1200,
 	h: 520
-}, or = (e, t, n, r, i, a, o = {}) => ({
+}, Or = (e, t, n, r, i, a, o = {}) => ({
 	id: e,
 	row: t,
 	col: n,
@@ -17186,14 +18389,14 @@ var ar = {
 	sub: i,
 	kind: a,
 	...o
-}), sr = [
+}), kr = [
 	["invoke", "Tool call"],
 	["return", "Evidence"],
 	["registry", "Reference"],
 	["deploy", "Registration"],
 	["identity", "Identity"],
 	["approval", "Approval"]
-], cr = [[
+], Ar = [[
 	92,
 	"DESIGN TIME AND IDENTITY",
 	"end"
@@ -17201,7 +18404,7 @@ var ar = {
 	322,
 	"RESULT, EVIDENCE AND APPROVAL",
 	"start"
-]], lr = {
+]], jr = {
 	"Business entry": "agent",
 	"Agent runtime": "domain",
 	"Selected gateway": "gateway",
@@ -17214,7 +18417,7 @@ var ar = {
 	"Design time and registration": "registry",
 	"Agent controls": "identity",
 	"Write approval": "decision"
-}, ur = {
+}, Mr = {
 	"Design time and registration": [0, 0],
 	"Agent controls": [0, 1],
 	"Business entry": [1, 0],
@@ -17228,15 +18431,15 @@ var ar = {
 	"Write approval": [2, 0],
 	"Model branch": [2, 2]
 };
-function dr({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning: i, reportReady: a, zoneShort: o }) {
+function Nr({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning: i, reportReady: a, zoneShort: o }) {
 	let s = e?.components || [], c = Object.fromEntries(s.map((e) => [e.component_id, e.zone])), l = (e) => s.filter((t) => t.zone === e).length, u = {};
 	for (let e of t) {
 		let t = c[e.direction === "response" ? e.source_component_id : e.target_component_id];
 		t && (u[t] = (u[t] || 0) + 1);
 	}
-	let d = t.at(-1), f = d ? c[d.direction === "response" ? d.source_component_id : d.target_component_id] : null, p = i && f, m = Object.keys(ur).map((e) => {
-		let [t, i] = ur[e], a = p && f === e, s = !!u[e], c = a ? "Processing now" : s ? `${u[e]} events` : e === "Future BDC" ? "Future / simulated" : e === "Write approval" ? "Separate branch" : "Waiting", d = e === "Selected gateway" ? `${n} · ${n === "S2" ? "AgentCore Gateway, then Apigee" : "Apigee"}` : `${e} · ${l(e)} components`;
-		return or(e, t, i, o[e] || e, d, lr[e], {
+	let d = t.at(-1), f = d ? c[d.direction === "response" ? d.source_component_id : d.target_component_id] : null, p = i && f, m = Object.keys(Mr).map((e) => {
+		let [t, i] = Mr[e], a = p && f === e, s = !!u[e], c = a ? "Processing now" : s ? `${u[e]} events` : e === "Future BDC" ? "Future / simulated" : e === "Write approval" ? "Separate branch" : "Waiting", d = e === "Selected gateway" ? `${n} · ${n === "S3" ? "AgentCore Gateway, then Apigee" : n === "S2" ? "AgentCore Gateway" : "Apigee"}` : `${e} · ${l(e)} components`;
+		return Or(e, t, i, o[e] || e, d, jr[e], {
 			zone: e,
 			status: c,
 			statusColor: a ? "#B45309" : s ? "#0D6A33" : "#506778",
@@ -17246,7 +18449,7 @@ function dr({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			cls: a ? "node-current" : ""
 		});
 	});
-	m.push(or("__report", 2, 1, "Business report", a ? "Analysis and evidence are ready" : "Run the architecture to generate the result", "control", {
+	m.push(Or("__report", 2, 1, "Business report", a ? "Analysis and evidence are ready" : "Run the architecture to generate the result", "control", {
 		zone: "__report",
 		status: a ? "Complete · open report" : "Awaiting run",
 		statusColor: a ? "#0D6A33" : "#506778",
@@ -17343,7 +18546,7 @@ function dr({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			"separate write branch"
 		]
 	];
-	return Tt({
+	return Nt({
 		cols: 6,
 		ys: [
 			100,
@@ -17351,7 +18554,7 @@ function dr({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			334
 		],
 		nh: 80,
-		height: ar.h,
+		height: Dr.h,
 		nodes: m,
 		edges: g,
 		bounds: [[
@@ -17359,16 +18562,16 @@ function dr({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			["SAP BAIP", "SAP backends"],
 			"sap"
 		]],
-		captions: cr,
-		legend: sr,
+		captions: Ar,
+		legend: kr,
 		title: `Live run (simulator) · ${(B[n] || B.S1).name}`,
 		chain: "Finance request → external agent → selected gateway → domain tools → SAP integration → SAP backend",
 		banner: p ? "RUN IN PROGRESS · SIMULATED" : "SIMULATED · NO TENANT CONNECTED",
-		footer: "Simulator scope: the agent runtime zone stands for Cloud Foundry (S1, S3) or AgentCore Runtime (S2). S2 passes AgentCore Gateway and then Apigee; S1 and S3 call Apigee directly (S3 registration is not on the call path). The full topology is in Diagrams D2 to D4. Orange: processing now. Green: visited. Blue: selected zone."
+		footer: "Simulator scope: the agent runtime zone stands for Cloud Foundry (S1) or AgentCore Runtime (S2, S3). S1 calls Apigee; S2 calls AgentCore Gateway; S3 passes AgentCore Gateway and then Apigee. Registration is never on the call path. The full topology is in Diagrams D2 to D4. Orange: processing now. Green: visited. Blue: selected zone."
 	});
 }
 // src/AgentJourney.jsx
-var fr = [
+var Pr = [
 	{
 		label: "Finance intent",
 		operation: "submit_request",
@@ -17405,8 +18608,8 @@ var fr = [
 		description: "Deterministic check completed"
 	}
 ];
-function pr({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: r }) {
-	let i = fr.map((t) => {
+function Fr({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: r }) {
+	let i = Pr.map((t) => {
 		let n = e.filter((e) => e.operation === t.operation), r = n.findLast((e) => e.direction === t.doneDirection && e.status !== "denied"), i = n.findLast((e) => e.status === "denied");
 		return {
 			...t,
@@ -17445,7 +18648,7 @@ function pr({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: 
 	});
 }
 // src/App.jsx
-var mr = {
+var Ir = {
 	"Business entry": "Finance request",
 	"Design time and registration": "Agent registration",
 	"Agent runtime": "External finance agent",
@@ -17458,20 +18661,20 @@ var mr = {
 	"Future BDC": "BDC reference",
 	"Model branch": "AI advisory",
 	"Write approval": "Approval"
-}, hr = [
+}, Lr = [
 	["FI", "Variance operands, freshness, posting controls"],
 	["SAP", "Backend roles and approved APIs"],
 	["Central Finance", "Replication mapping and cutoff"],
 	["BW/4HANA", "Aggregate context and load state"],
 	["Integration", "BAIP, destinations and identity"],
-	["Apigee", "SAP-facing MCP/API policy, routing and audit (S1, S2, S3)"],
-	["AWS", "AgentCore Gateway and runtime identity (S2); Agent Registry (S2, S3)"],
+	["Apigee", "SAP-facing MCP/API policy, routing and audit (S1, S3; optional in S2)"],
+	["AWS", "AgentCore Runtime and Gateway (S2, S3); Agent Registry (all)"],
 	["Databricks", "Unity Catalog and Delta evidence"],
 	["BDC", "Future sharing boundary"],
 	["Portkey / AI", "Redaction, guardrails and advisory text"],
 	["Node.js / Python", "Typed UI contracts and deterministic engine"],
 	["UX", "Task clarity, accessibility and trace readability"]
-], gr = (e) => {
+], Rr = (e) => {
 	if (!e) return "Select month";
 	let [t, n] = e.split("-").map(Number);
 	return new Date(Date.UTC(t, n - 1, 1)).toLocaleString("en-US", {
@@ -17479,7 +18682,7 @@ var mr = {
 		year: "numeric",
 		timeZone: "UTC"
 	});
-}, _r = (e) => e == null ? "—" : new Intl.NumberFormat("en-US", {
+}, zr = (e) => e == null ? "—" : new Intl.NumberFormat("en-US", {
 	style: "currency",
 	currency: "USD",
 	maximumFractionDigits: 0
@@ -17498,7 +18701,7 @@ async function H(e, t = "GET", n) {
 	if (!r.ok) throw Error(i.detail || r.statusText);
 	return i;
 }
-function vr(e, t) {
+function Br(e, t) {
 	if (e.error) return [];
 	let n = e.case_id || t?.case_id || null, r = e.trace_case_id || n, i = !!(e.result || t?.result), a = [];
 	return i && (a.push({
@@ -17522,7 +18725,7 @@ function vr(e, t) {
 		target: "business"
 	}), a;
 }
-function yr({ menuModules: e = [], open: t, onToggle: n, onNavigate: r }) {
+function Vr({ menuModules: e = [], open: t, onToggle: n, onNavigate: r }) {
 	return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "shell-menu-wrap",
 		children: [/* @__PURE__ */ (0, A.jsxs)("button", {
@@ -17587,8 +18790,8 @@ function yr({ menuModules: e = [], open: t, onToggle: n, onNavigate: r }) {
 		})]
 	});
 }
-var br = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${_r(Math.abs(Number(e || 0)))}`;
-function xr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun: a }) {
+var Hr = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${zr(Math.abs(Number(e || 0)))}`;
+function Ur({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun: a }) {
 	if (t === "none") return /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: "period-nodata",
 		role: "alert",
@@ -17646,13 +18849,13 @@ function xr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 							/* @__PURE__ */ (0, A.jsx)("span", { children: "Variance" }),
 							/* @__PURE__ */ (0, A.jsx)("strong", {
 								"data-testid": "level1-variance",
-								children: br(o.variance)
+								children: Hr(o.variance)
 							}),
 							/* @__PURE__ */ (0, A.jsx)("small", { children: "S/4HANA − Central Finance · positive means S/4HANA is higher" })
 						]
 					}),
-					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Source balance (S/4HANA)" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: _r(o.s4_total) })] }),
-					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Target balance (Central Finance)" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: _r(o.cfin_total) })] }),
+					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Source balance (S/4HANA)" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: zr(o.s4_total) })] }),
+					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Target balance (Central Finance)" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: zr(o.cfin_total) })] }),
 					/* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", { children: "Matched items" }), /* @__PURE__ */ (0, A.jsx)("strong", { children: s.matched_count })] }),
 					/* @__PURE__ */ (0, A.jsxs)("div", {
 						className: s.exception_count ? "attn" : "",
@@ -17663,7 +18866,7 @@ function xr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 								" · ",
 								s.exception_count
 							] }),
-							/* @__PURE__ */ (0, A.jsxs)("small", { children: ["Unexplained ", _r(o.unexplained)] })
+							/* @__PURE__ */ (0, A.jsxs)("small", { children: ["Unexplained ", zr(o.unexplained)] })
 						]
 					})
 				]
@@ -17681,7 +18884,7 @@ function xr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 				className: "close-process",
 				children: [
 					/* @__PURE__ */ (0, A.jsx)("summary", { children: "Who does what in the close" }),
-					/* @__PURE__ */ (0, A.jsx)("ol", { children: mn.map(([e, t, n]) => /* @__PURE__ */ (0, A.jsxs)("li", { children: [
+					/* @__PURE__ */ (0, A.jsx)("ol", { children: In.map(([e, t, n]) => /* @__PURE__ */ (0, A.jsxs)("li", { children: [
 						/* @__PURE__ */ (0, A.jsx)("b", { children: e }),
 						/* @__PURE__ */ (0, A.jsx)("em", { children: t }),
 						/* @__PURE__ */ (0, A.jsx)("small", { children: n })
@@ -17689,7 +18892,7 @@ function xr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 					/* @__PURE__ */ (0, A.jsxs)("p", { children: [
 						/* @__PURE__ */ (0, A.jsx)("strong", { children: "Controls:" }),
 						" ",
-						hn.join(" · "),
+						Ln.join(" · "),
 						"."
 					] })
 				]
@@ -17697,17 +18900,18 @@ function xr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 		]
 	});
 }
-var Sr = [
+var Wr = [
 	"architecture",
 	"approaches",
 	"mcp",
 	"agenthost",
 	"registry",
+	"selection",
 	"brief",
 	"ontology",
 	"diagrams"
 ];
-function Cr({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r, period: i, summary: a, summaryState: o, onAskPeriod: s }) {
+function Gr({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r, period: i, summary: a, summaryState: o, onAskPeriod: s }) {
 	return e?.scope?.period === i && e?.variance, /* @__PURE__ */ (0, A.jsxs)("section", {
 		className: "surface business-result",
 		children: [/* @__PURE__ */ (0, A.jsxs)("div", {
@@ -17719,12 +18923,12 @@ function Cr({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r, pe
 				className: "pill quiet",
 				"data-testid": "level1-period",
 				children: [
-					gr(i),
+					Rr(i),
 					" · ",
 					T(i)
 				]
 			})]
-		}), /* @__PURE__ */ (0, A.jsx)(xr, {
+		}), /* @__PURE__ */ (0, A.jsx)(Ur, {
 			summary: a,
 			state: o,
 			period: i,
@@ -17734,7 +18938,7 @@ function Cr({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r, pe
 		})]
 	});
 }
-function wr({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
+function Kr({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 	let r = (0, _.useRef)(null), i = e?.result, a = i?.variance;
 	return (0, _.useEffect)(() => {
 		let e = r.current;
@@ -17758,7 +18962,7 @@ function wr({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 						id: "business-report-title",
 						children: "Business analysis report"
 					}),
-					/* @__PURE__ */ (0, A.jsx)("p", { children: i ? `${gr(i.scope?.period)} · ${i.scenario} · ${i.case_id}` : "No completed case selected" })
+					/* @__PURE__ */ (0, A.jsx)("p", { children: i ? `${Rr(i.scope?.period)} · ${i.scenario} · ${i.case_id}` : "No completed case selected" })
 				] }), /* @__PURE__ */ (0, A.jsx)("button", {
 					type: "button",
 					onClick: t,
@@ -17774,7 +18978,7 @@ function wr({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 						children: [
 							/* @__PURE__ */ (0, A.jsxs)("div", { children: [
 								/* @__PURE__ */ (0, A.jsx)("span", { children: "Variance" }),
-								/* @__PURE__ */ (0, A.jsx)("strong", { children: a.amount === null ? "Not comparable" : _r(a.amount) }),
+								/* @__PURE__ */ (0, A.jsx)("strong", { children: a.amount === null ? "Not comparable" : zr(a.amount) }),
 								/* @__PURE__ */ (0, A.jsx)("small", { children: "S/4HANA − Central Finance" })
 							] }),
 							/* @__PURE__ */ (0, A.jsxs)("div", { children: [
@@ -17784,7 +18988,7 @@ function wr({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 							] }),
 							/* @__PURE__ */ (0, A.jsxs)("div", { children: [
 								/* @__PURE__ */ (0, A.jsx)("span", { children: "Period" }),
-								/* @__PURE__ */ (0, A.jsx)("strong", { children: gr(i.scope?.period) }),
+								/* @__PURE__ */ (0, A.jsx)("strong", { children: Rr(i.scope?.period) }),
 								/* @__PURE__ */ (0, A.jsxs)("small", { children: [i.scenario, " synthetic route"] })
 							] })
 						]
@@ -17824,15 +19028,15 @@ function wr({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 		]
 	});
 }
-function Tr({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, liveRunning: a, reportReady: o, onOpenReport: s }) {
-	let [c, l] = (0, _.useState)(null), [u, d] = (0, _.useState)(!1), f = (0, _.useMemo)(() => dr({
+function qr({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, liveRunning: a, reportReady: o, onOpenReport: s }) {
+	let [c, l] = (0, _.useState)(null), [u, d] = (0, _.useState)(!1), f = (0, _.useMemo)(() => Nr({
 		registry: e,
 		events: t,
 		scenario: n,
 		selectedZone: r,
 		liveRunning: a,
 		reportReady: o,
-		zoneShort: mr
+		zoneShort: Ir
 	}), [
 		e,
 		t,
@@ -17844,15 +19048,15 @@ function Tr({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, l
 		id: "live",
 		title: `Live run (simulator) · ${n}`,
 		svg: f,
-		w: ar.w,
-		h: ar.h,
+		w: Dr.w,
+		h: Dr.h,
 		file: "live-architecture",
 		png: !0
 	}), [f, n]);
 	return /* @__PURE__ */ (0, A.jsx)("div", {
 		className: "route-viewer",
 		"aria-label": "Live architecture topology",
-		children: /* @__PURE__ */ (0, A.jsx)(Lt, {
+		children: /* @__PURE__ */ (0, A.jsx)(Wt, {
 			diagram: p,
 			uid: "live-arch",
 			view: c,
@@ -17864,7 +19068,7 @@ function Tr({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, l
 		})
 	});
 }
-function Er({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
+function Jr({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
 	let o = (e?.components || []).filter((e) => e.zone === t), s = (0, _.useMemo)(() => {
 		let e = {};
 		for (let t of n) {
@@ -17960,7 +19164,7 @@ function Er({ registry: e, zone: t, events: n, selectedComponent: r, onComponent
 		})]
 	});
 }
-function Dr({ bridge: e }) {
+function Yr({ bridge: e }) {
 	let t = !!e, [n, r] = (0, _.useState)(e?.data || null), i = (0, _.useMemo)(() => ee((t ? e?.data?.modules : n?.modules) || []), [
 		t,
 		e?.data?.modules,
@@ -18037,8 +19241,8 @@ function Dr({ bridge: e }) {
 		Lt,
 		Mt
 	]);
-	let zt = (n) => t ? e?.data?.module_views?.[n]?.period === F ? e.data.module_views[n] : null : Pt[n]?.period === F && Pt[n].view || null, Bt = (e) => zt(e) ? "ok" : Et?.available_periods && !Et.available_periods.includes(F) || !t && Pt[e]?.period === F && Pt[e].error ? "none" : "loading", Vt = zt("treasury");
-	async function Ut(n, r) {
+	let Rt = (n) => t ? e?.data?.module_views?.[n]?.period === F ? e.data.module_views[n] : null : Pt[n]?.period === F && Pt[n].view || null, zt = (e) => Rt(e) ? "ok" : Et?.available_periods && !Et.available_periods.includes(F) || !t && Pt[e]?.period === F && Pt[e].error ? "none" : "loading", Bt = Rt("treasury");
+	async function Vt(n, r) {
 		if (ft !== "approver") {
 			z("Switch to the finance approver role first.");
 			return;
@@ -18065,15 +19269,15 @@ function Dr({ bridge: e }) {
 			z(e.message);
 		}
 	}
-	let [V, Wt] = (0, _.useState)(e?.data?.ontology || null), [Gt, Kt] = (0, _.useState)(null);
+	let [Ht, Ut] = (0, _.useState)(e?.data?.ontology || null), [V, Wt] = (0, _.useState)(null);
 	(0, _.useEffect)(() => {
-		t ? e?.data?.ontology && Wt(e.data.ontology) : V || H("/api/cockpit/ontology").then(Wt).catch(() => {});
+		t ? e?.data?.ontology && Ut(e.data.ontology) : Ht || H("/api/cockpit/ontology").then(Ut).catch(() => {});
 	}, [t, e?.data?.ontology]);
-	let qt = Object.values(p?.domains || {}).flatMap((e) => e.references || []);
-	function Jt(e) {
-		Kt(e), o("ontology");
+	let Kt = Object.values(p?.domains || {}).flatMap((e) => e.references || []);
+	function qt(e) {
+		Wt(e), o("ontology");
 	}
-	let Yt = (e) => {
+	let Jt = (e) => {
 		let t = h;
 		if (!t || t.domain !== e || t.status !== "done" || !t.effective_period || t.effective_period !== F) return null;
 		let n = String(t.answer || "");
@@ -18101,16 +19305,16 @@ function Dr({ bridge: e }) {
 		let n = i.byId[e.domain];
 		if (!n) return;
 		let r = e.effective_period;
-		r && r !== F && Ce(r), t === "detail" && n.renderer === "builtin:reconciliation" ? (o("business"), dn(r || F)) : t === "detail" && n.renderer === "treasury" ? (o("treasury"), jt("position")) : n.tab && o(n.tab.id);
+		r && r !== F && Ce(r), t === "detail" && n.renderer === "builtin:reconciliation" ? (o("business"), un(r || F)) : t === "detail" && n.renderer === "treasury" ? (o("treasury"), jt("position")) : n.tab && o(n.tab.id);
 	}
-	let Qt = Et?.available_periods, $t = kt ? "ok" : Qt && !Qt.includes(F) || !t && Dt?.period === F && Dt.error ? "none" : "loading", tn = nt.find((e) => e.case_id === L?.case_id);
+	let Zt = Et?.available_periods, Qt = kt ? "ok" : Zt && !Zt.includes(F) || !t && Dt?.period === F && Dt.error ? "none" : "loading", $t = nt.find((e) => e.case_id === L?.case_id);
 	(0, _.useEffect)(() => {
-		(a === "business" || a === "agents" || Sr.includes(a) || i.tabs.some((e) => e.tab.id === a)) && (se.current = a);
+		(a === "business" || a === "agents" || Wr.includes(a) || i.tabs.some((e) => e.tab.id === a)) && (se.current = a);
 	}, [a]), (0, _.useEffect)(() => {
 		let e = L?.scope?.period;
 		!t && e && H(`/api/history/${e}`).then(at).catch(() => at(null));
 	}, [t, L?.scope?.period]);
-	let nn = Xe === null ? Le : Le.slice(0, Xe + 1), rn = qe || nn.at(-1), an = rn ? rn.direction === "response" ? rn.source_component_id : rn.target_component_id : null, on = Tt?.components?.find((e) => e.component_id === an)?.zone;
+	let en = Xe === null ? Le : Le.slice(0, Xe + 1), tn = qe || en.at(-1), nn = tn ? tn.direction === "response" ? tn.source_component_id : tn.target_component_id : null, rn = Tt?.components?.find((e) => e.component_id === nn)?.zone;
 	(0, _.useEffect)(() => {
 		if (!t) return Promise.all([H("/api/bootstrap"), H("/api/proposals")]).then(([e, t]) => {
 			r(e), B(e.cases || []), rt(t);
@@ -18127,7 +19331,7 @@ function Dr({ bridge: e }) {
 			role: "assistant",
 			text: n.response.answer || n.response.error || "The synthetic operation completed.",
 			limited: n.response.status === "limited",
-			actions: vr(n.response, n.active_case || L)
+			actions: Br(n.response, n.active_case || L)
 		}]), n.response.error && z(n.response.error));
 	}, [t, e?.data]), (0, _.useEffect)(() => {
 		if (t || !ot?.investigation_id || !["running", "reconciling"].includes(ot.status)) return;
@@ -18196,11 +19400,11 @@ function Dr({ bridge: e }) {
 			document.removeEventListener("pointerdown", e), window.removeEventListener("keydown", t);
 		};
 	}, [le]), (0, _.useEffect)(() => {
-		on && Xe === null && We(on);
-	}, [on, Xe]), (0, _.useEffect)(() => {
+		rn && Xe === null && We(rn);
+	}, [rn, Xe]), (0, _.useEffect)(() => {
 		de && L?.case_id === de && (fe(null), N(!0));
 	}, [de, L?.case_id]);
-	async function sn(n) {
+	async function an(n) {
 		if (t) {
 			e.action({
 				type: "load_case",
@@ -18215,7 +19419,7 @@ function Dr({ bridge: e }) {
 		]);
 		Ne(i), st(o[0] || null), Ie(n), ye(i.scenario), r === I.current && i.scope?.period && i.scope.period !== F && Ce(i.scope.period), Be(a), Ze(null), Ye(null);
 	}
-	function ln(e) {
+	function sn(e) {
 		xt.current?.close();
 		let t = new EventSource(`/api/architecture/runs/${encodeURIComponent(e)}/stream`);
 		xt.current = t, t.addEventListener("flow", (e) => {
@@ -18224,7 +19428,7 @@ function Dr({ bridge: e }) {
 		}), t.addEventListener("complete", async () => {
 			t.close(), xt.current = null, He(!1);
 			try {
-				await sn(e);
+				await an(e);
 				let t = await H("/api/cases");
 				B(t.slice(0, 20));
 			} catch (e) {
@@ -18234,9 +19438,9 @@ function Dr({ bridge: e }) {
 			z("Live connection interrupted. Stored events can be reloaded from the case list.");
 		};
 	}
-	async function un() {
+	async function cn() {
 		z(""), st(null), o("architecture"), Be([]), Ze(null), Ye(null), He(!0);
-		let n = ke.trim() === "Reconcile the selected synthetic period" || !ke.trim() ? `Reconcile ${gr(F)}` : ke.trim();
+		let n = ke.trim() === "Reconcile the selected synthetic period" || !ke.trim() ? `Reconcile ${Rr(F)}` : ke.trim();
 		if (t) e.action({
 			type: "run",
 			message: n,
@@ -18260,12 +19464,12 @@ function Dr({ bridge: e }) {
 				scenario: e.scenario,
 				scope: e.scope,
 				status: "running"
-			}), ln(e.case_id);
+			}), sn(e.case_id);
 		} catch (e) {
 			He(!1), z(e.message);
 		}
 	}
-	async function dn(n) {
+	async function un(n) {
 		if (Ce(n), te(n), ie(null), t) e.action({
 			type: "report",
 			period: n
@@ -18280,7 +19484,7 @@ function Dr({ bridge: e }) {
 	(0, _.useEffect)(() => {
 		t ? f(e.data?.conditions || []) : H("/api/conditions").then(f).catch(() => {});
 	}, [t, e?.data?.conditions]);
-	async function fn(n, i) {
+	async function dn(n, i) {
 		if (z(""), t) e.action({
 			type: "condition",
 			period: n,
@@ -18295,12 +19499,12 @@ function Dr({ bridge: e }) {
 			r((t) => ({
 				...t,
 				history: e
-			})), D && dn(D);
+			})), D && un(D);
 		} catch (e) {
 			z(e.message);
 		}
 	}
-	function mn() {
+	function fn() {
 		te(null), ie(null), t && e.action({
 			type: "report",
 			period: null
@@ -18317,7 +19521,7 @@ function Dr({ bridge: e }) {
 			localStorage.setItem("finance.showTech", w ? "1" : "0");
 		} catch {}
 	}, [w]), (0, _.useEffect)(() => {
-		Sr.includes(a) && (E.current = a);
+		Wr.includes(a) && (E.current = a);
 	}, [a]), (0, _.useEffect)(() => {
 		if (t) {
 			let t = e.data || {};
@@ -18328,7 +19532,7 @@ function Dr({ bridge: e }) {
 		e?.data?.agents,
 		e?.data?.agent_plan
 	]);
-	async function hn(n) {
+	async function pn(n) {
 		z(""), oe("app"), o("agents"), y(!0);
 		let i = ++Se.current;
 		if (t) e.action({
@@ -18349,7 +19553,7 @@ function Dr({ bridge: e }) {
 			});
 			if (i !== Se.current) return;
 			if (e.period_source === "request" && e.effective_period && e.effective_period !== F && Ce(e.effective_period), g(e), Nt((e) => e + 1), e.trace_case_id && !e.case_id && (Ie(e.trace_case_id), Be(await H(`/api/architecture/events?case_id=${encodeURIComponent(e.trace_case_id)}`)), Ze(null)), e.case_id) {
-				await sn(e.case_id);
+				await an(e.case_id);
 				let t = await H("/api/history");
 				r((e) => ({
 					...e,
@@ -18362,7 +19566,7 @@ function Dr({ bridge: e }) {
 			y(!1);
 		}
 	}
-	function gn(e, t) {
+	function mn(e, t) {
 		if (!e?.id) return;
 		x({
 			id: e.id,
@@ -18372,26 +19576,26 @@ function Dr({ bridge: e }) {
 		});
 		let n = t?.view || e.view, r = t?.ref?.period || L?.scope?.period || Et?.available_periods?.at(-1);
 		if (n === "run") o("architecture");
-		else if (n === "report") dn(r);
-		else if (n === "evidence-proof") wn("proof");
+		else if (n === "report") un(r);
+		else if (n === "evidence-proof") Cn("proof");
 		else if (n === "decision-responsibilities") o("mcp");
 		else if (typeof n == "string" && n.startsWith("module:")) {
 			let [, e, t] = n.split(":"), r = i.byId[e];
 			r?.tab && o(r.tab.id), e === "treasury" && t && jt(t);
 		} else o("business");
 	}
-	function _n(e) {
+	function hn(e) {
 		let t = [
 			...i.tabs.map((e) => e.tab.id),
 			"agents",
 			"architecture"
-		], n = t.findIndex((e) => e === "architecture" ? Sr.includes(a) : a === e), r = null;
+		], n = t.findIndex((e) => e === "architecture" ? Wr.includes(a) : a === e), r = null;
 		if (e.key === "ArrowRight" && (r = (n + 1) % t.length), e.key === "ArrowLeft" && (r = (n + t.length - 1) % t.length), r === null) return;
 		e.preventDefault();
 		let s = t[r], c = e.currentTarget;
 		o(s === "architecture" ? E.current : s), requestAnimationFrame(() => c.querySelectorAll("[role=tab]")[r]?.focus());
 	}
-	async function vn() {
+	async function _n() {
 		if (ft !== "approver") z("Switch to the synthetic finance approver lane first.");
 		else if (t) e.action({
 			type: "approve",
@@ -18419,7 +19623,7 @@ function Dr({ bridge: e }) {
 			z(e.message);
 		}
 	}
-	async function yn(n) {
+	async function vn(n) {
 		if (L?.case_id) {
 			if (z(""), dt(!0), t) e.action({
 				type: "investigate",
@@ -18439,7 +19643,7 @@ function Dr({ bridge: e }) {
 			}
 		}
 	}
-	async function xn(n) {
+	async function yn(n) {
 		if (z(""), dt(!0), t) e.action({
 			type: "reprocess",
 			investigation_id: n,
@@ -18447,7 +19651,7 @@ function Dr({ bridge: e }) {
 		});
 		else try {
 			let e = await H(`/api/investigations/${n}/reprocess`, "POST", { operator_id: "finance.operator" });
-			e.after?.case_id && await sn(e.after.case_id), st(e);
+			e.after?.case_id && await an(e.after.case_id), st(e);
 			let t = await H("/api/history");
 			r((e) => ({
 				...e,
@@ -18462,13 +19666,13 @@ function Dr({ bridge: e }) {
 			dt(!1);
 		}
 	}
-	async function Sn(n) {
+	async function bn(n) {
 		t ? (e.action({
 			type: "load_case",
 			case_id: n
 		}), o("architecture")) : (Ie(n), Be(await H(`/api/architecture/events?case_id=${encodeURIComponent(n)}`)), Ze(null), o("architecture"));
 	}
-	async function Cn(n, r, i) {
+	async function Sn(n, r, i) {
 		if (o("questions"), z(""), yt(!0), _t(null), t) e.action({
 			type: "decision_run",
 			question_id: n,
@@ -18486,17 +19690,17 @@ function Dr({ bridge: e }) {
 			z(e.message), yt(!1);
 		}
 	}
-	function wn(e = "proof", t = {}) {
+	function Cn(e = "proof", t = {}) {
 		ge((n) => ({
 			section: e,
 			...t,
 			nonce: n.nonce + 1
 		})), o("evidence");
 	}
-	function Tn(e) {
+	function wn(e) {
 		ue(!1), j(!1), e === "launchpad" ? oe("launchpad") : (oe("app"), o(e === "agent" ? "agents" : e));
 	}
-	let En = /* @__PURE__ */ (0, A.jsx)("footer", {
+	let Tn = /* @__PURE__ */ (0, A.jsx)("footer", {
 		className: "app-footer",
 		children: /* @__PURE__ */ (0, A.jsxs)("span", { children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: "Demo and learning purposes only." }), " Synthetic finance data; no live SAP or cloud system is connected."] })
 	});
@@ -18510,24 +19714,24 @@ function Dr({ bridge: e }) {
 				className: "shell-header launchpad-header",
 				children: [/* @__PURE__ */ (0, A.jsxs)("div", {
 					className: "brand",
-					children: [/* @__PURE__ */ (0, A.jsx)(yr, {
+					children: [/* @__PURE__ */ (0, A.jsx)(Vr, {
 						menuModules: i.modules,
 						open: le,
 						onToggle: () => ue((e) => !e),
-						onNavigate: Tn
+						onNavigate: wn
 					}), /* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("span", {
 						className: "brand-overline",
 						children: "SAP FINANCE AGENT COCKPIT / LOCAL DEMO"
 					}), /* @__PURE__ */ (0, A.jsx)("h1", { children: "My Home" })] })]
 				}), /* @__PURE__ */ (0, A.jsxs)("div", {
 					className: "header-meta",
-					children: [/* @__PURE__ */ (0, A.jsx)(cn, {}), /* @__PURE__ */ (0, A.jsx)("span", {
+					children: [/* @__PURE__ */ (0, A.jsx)(gn, {}), /* @__PURE__ */ (0, A.jsx)("span", {
 						className: "pill simulated",
 						children: "LOCAL SIMULATION"
 					})]
 				})]
 			}),
-			/* @__PURE__ */ (0, A.jsx)(ir, {
+			/* @__PURE__ */ (0, A.jsx)(Er, {
 				period: F,
 				periods: Et?.available_periods,
 				onPeriod: Ce,
@@ -18545,12 +19749,12 @@ function Dr({ bridge: e }) {
 				onOpenTreasury: () => {
 					o("treasury"), oe("app");
 				},
-				onAsk: hn,
+				onAsk: pn,
 				onGo: (e) => {
 					o(e === "live" ? "architecture" : e), oe("app");
 				}
 			}),
-			En
+			Tn
 		]
 	}) : /* @__PURE__ */ (0, A.jsxs)("div", {
 		className: `app-shell ${t ? "embedded" : ""} ${w ? "" : "tech-off"}`,
@@ -18563,15 +19767,15 @@ function Dr({ bridge: e }) {
 						/* @__PURE__ */ (0, A.jsx)("button", {
 							type: "button",
 							className: "shell-home",
-							onClick: () => Tn("launchpad"),
+							onClick: () => wn("launchpad"),
 							"aria-label": "Back to Finance Launchpad",
 							children: "⌂"
 						}),
-						/* @__PURE__ */ (0, A.jsx)(yr, {
+						/* @__PURE__ */ (0, A.jsx)(Vr, {
 							menuModules: i.modules,
 							open: le,
 							onToggle: () => ue((e) => !e),
-							onNavigate: Tn
+							onNavigate: wn
 						}),
 						/* @__PURE__ */ (0, A.jsx)("span", {
 							className: "brand-mark",
@@ -18586,7 +19790,7 @@ function Dr({ bridge: e }) {
 				}), /* @__PURE__ */ (0, A.jsxs)("div", {
 					className: "header-meta",
 					children: [
-						/* @__PURE__ */ (0, A.jsx)(cn, {}),
+						/* @__PURE__ */ (0, A.jsx)(gn, {}),
 						/* @__PURE__ */ (0, A.jsx)("span", { className: "header-separator" }),
 						/* @__PURE__ */ (0, A.jsx)("span", {
 							className: "pill simulated",
@@ -18616,7 +19820,7 @@ function Dr({ bridge: e }) {
 				style: { gridTemplateColumns: `repeat(${i.tabs.length + 2},minmax(0,1fr))` },
 				role: "tablist",
 				"aria-label": "Application sections",
-				onKeyDown: _n,
+				onKeyDown: hn,
 				children: [
 					...i.tabs.map((e) => [
 						e.tab.id,
@@ -18637,7 +19841,7 @@ function Dr({ bridge: e }) {
 						"Design"
 					]
 				].map(([e, t, n, r]) => {
-					let i = e === "architecture" ? Sr.includes(a) : a === e;
+					let i = e === "architecture" ? Wr.includes(a) : a === e;
 					return /* @__PURE__ */ (0, A.jsxs)("button", {
 						type: "button",
 						role: "tab",
@@ -18699,7 +19903,7 @@ function Dr({ bridge: e }) {
 					})
 				]
 			}),
-			Sr.includes(a) && /* @__PURE__ */ (0, A.jsx)("div", {
+			Wr.includes(a) && /* @__PURE__ */ (0, A.jsx)("div", {
 				className: "surface decision-nav",
 				role: "tablist",
 				"aria-label": "Architecture views",
@@ -18728,6 +19932,11 @@ function Dr({ bridge: e }) {
 						"registry",
 						"Registry",
 						"Where agents and MCP servers are catalogued"
+					],
+					[
+						"selection",
+						"Selection & cost",
+						"Recommendation, gateways, cost, AWS account"
 					],
 					[
 						"brief",
@@ -18779,53 +19988,53 @@ function Dr({ bridge: e }) {
 				]
 			}),
 			At && /* @__PURE__ */ (0, A.jsx)(Fe, {
-				data: Vt,
+				data: Bt,
 				period: F,
 				periods: Et?.available_periods,
 				onPeriod: Ce,
 				role: ft,
-				onDecision: Ut,
-				onAsk: hn,
+				onDecision: Vt,
+				onAsk: pn,
 				refs: p?.domains?.treasury?.references,
 				initial: At,
 				onClose: () => jt(null)
 			}),
-			D && /* @__PURE__ */ (0, A.jsx)(Un, {
+			D && /* @__PURE__ */ (0, A.jsx)(dr, {
 				report: re,
 				period: D,
 				periods: Et?.available_periods,
-				onPeriod: dn,
-				onClose: mn
+				onPeriod: un,
+				onClose: fn
 			}),
 			It ? /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [
-				/* @__PURE__ */ (0, A.jsx)(tr, {
-					onAsk: hn,
+				/* @__PURE__ */ (0, A.jsx)(Cr, {
+					onAsk: pn,
 					busy: v,
 					period: F,
 					periods: Et?.available_periods,
 					domain: It.id,
 					label: `Ask the ${It.short_name} agents`
 				}),
-				Yt(It.id),
+				Jt(It.id),
 				It.renderer === "treasury" ? /* @__PURE__ */ (0, A.jsx)(De, {
 					period: F,
 					periods: Et?.available_periods,
-					data: Vt,
-					state: Bt("treasury"),
+					data: Bt,
+					state: zt("treasury"),
 					role: ft,
 					onRole: pt,
 					onOpenDetail: jt,
-					onDecision: Ut,
-					onAsk: hn
+					onDecision: Vt,
+					onAsk: pn
 				}) : /* @__PURE__ */ (0, A.jsx)(xe, {
 					module: It,
 					period: F,
-					view: zt(It.id),
-					state: Bt(It.id),
-					onAsk: hn
+					view: Rt(It.id),
+					state: zt(It.id),
+					onAsk: pn
 				})
-			] }) : a === "business" ? /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [/* @__PURE__ */ (0, A.jsx)(tr, {
-				onAsk: hn,
+			] }) : a === "business" ? /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [/* @__PURE__ */ (0, A.jsx)(Cr, {
+				onAsk: pn,
 				busy: v,
 				period: F,
 				periods: Et?.available_periods,
@@ -18833,33 +20042,33 @@ function Dr({ bridge: e }) {
 			}), /* @__PURE__ */ (0, A.jsx)(Re, {
 				period: F,
 				onPeriod: Ce,
-				onOpenReport: dn,
-				onAsk: () => hn(i.ask("reconciliation", F)),
-				banner: Yt("reconciliation"),
+				onOpenReport: un,
+				onAsk: () => pn(i.ask("reconciliation", F)),
+				banner: Jt("reconciliation"),
 				conditions: d,
-				onCondition: fn,
+				onCondition: dn,
 				history: Et,
 				cases: tt,
 				currentCase: L,
-				proposal: tn,
+				proposal: $t,
 				role: ft,
 				onRole: pt,
-				approve: vn,
-				onOpenEvidence: () => wn("finance"),
+				approve: _n,
+				onOpenEvidence: () => Cn("finance"),
 				summary: kt,
-				periodPanel: /* @__PURE__ */ (0, A.jsx)(Cr, {
+				periodPanel: /* @__PURE__ */ (0, A.jsx)(Gr, {
 					result: L?.result,
 					period: F,
 					summary: kt,
-					summaryState: $t,
-					onAskPeriod: () => hn(i.ask("reconciliation", F)),
-					onOpenDetail: () => dn(F),
-					onOpenEvidence: () => wn("finance"),
-					onRunCurrent: () => hn(i.ask("reconciliation", F))
+					summaryState: Qt,
+					onAskPeriod: () => pn(i.ask("reconciliation", F)),
+					onOpenDetail: () => un(F),
+					onOpenEvidence: () => Cn("finance"),
+					onRunCurrent: () => pn(i.ask("reconciliation", F))
 				}),
 				extrasRight: ot ? /* @__PURE__ */ (0, A.jsx)(ze, {
 					investigation: ot,
-					onOpen: () => wn("proof")
+					onOpen: () => Cn("proof")
 				}) : null,
 				extrasLeft: /* @__PURE__ */ (0, A.jsx)(A.Fragment, { children: L?.result?.variance?.amount !== null && L?.result?.variance?.amount !== void 0 && Number(L.result.variance.amount) !== 0 && ot?.case_id !== L.case_id && /* @__PURE__ */ (0, A.jsxs)("section", {
 					className: "surface action-strip",
@@ -18872,19 +20081,19 @@ function Dr({ bridge: e }) {
 						/* @__PURE__ */ (0, A.jsx)("p", { children: "A comparable nonzero variance may create a local marker proposal." })
 					] }), /* @__PURE__ */ (0, A.jsx)("button", {
 						type: "button",
-						onClick: () => hn("Propose an adjustment"),
+						onClick: () => pn("Propose an adjustment"),
 						children: "Ask the agents to propose a variance marker"
 					})]
 				}) })
-			})] }) : a === "agents" ? /* @__PURE__ */ (0, A.jsx)(rr, {
+			})] }) : a === "agents" ? /* @__PURE__ */ (0, A.jsx)(Tr, {
 				catalog: p,
 				plan: h,
 				busy: v,
-				onAsk: hn,
-				onOpenLayer: gn,
-				onOpenConcept: Jt,
+				onAsk: pn,
+				onOpenLayer: mn,
+				onOpenConcept: qt,
 				onOpenOutput: Xt,
-				ontology: V,
+				ontology: Ht,
 				period: F,
 				periods: Et?.available_periods
 			}) : a === "architecture" ? /* @__PURE__ */ (0, A.jsxs)("main", {
@@ -18898,7 +20107,7 @@ function Dr({ bridge: e }) {
 								children: "EXTERNAL AGENT → SAP FINANCE"
 							}),
 							/* @__PURE__ */ (0, A.jsx)("h2", { children: "Follow an external agent into SAP" }),
-							/* @__PURE__ */ (0, A.jsx)("p", { children: "This simulator replays one synthetic reconciliation through the selected scenario: S1 and S3 call Apigee directly, S2 passes AgentCore Gateway and then Apigee. The full topology is in the Diagrams tab (D2 to D4)." }),
+							/* @__PURE__ */ (0, A.jsx)("p", { children: "This simulator replays one synthetic reconciliation through the selected scenario: S1 calls Apigee, S2 calls AgentCore Gateway, S3 passes AgentCore Gateway and then Apigee. The full topology is in the Diagrams tab (D2 to D4)." }),
 							/* @__PURE__ */ (0, A.jsx)("button", {
 								type: "button",
 								className: "text-link architecture-question-link",
@@ -18918,7 +20127,7 @@ function Dr({ bridge: e }) {
 									onChange: (e) => Ce(e.target.value),
 									children: (Et?.available_periods || ["2026-11"]).map((e) => /* @__PURE__ */ (0, A.jsx)("option", {
 										value: e,
-										children: gr(e)
+										children: Rr(e)
 									}, e))
 								})] }),
 								/* @__PURE__ */ (0, A.jsxs)("label", { children: ["Route", /* @__PURE__ */ (0, A.jsxs)("select", {
@@ -18928,15 +20137,15 @@ function Dr({ bridge: e }) {
 									children: [
 										/* @__PURE__ */ (0, A.jsx)("option", {
 											value: "S1",
-											children: "S1 · SAP-centric"
+											children: "S1 · SAP-hosted hybrid"
 										}),
 										/* @__PURE__ */ (0, A.jsx)("option", {
 											value: "S2",
-											children: "S2 · AWS AgentCore-centric"
+											children: "S2 · AWS AgentCore-native"
 										}),
 										/* @__PURE__ */ (0, A.jsx)("option", {
 											value: "S3",
-											children: "S3 · SAP-hosted hybrid"
+											children: "S3 · AgentCore + Apigee hybrid"
 										})
 									]
 								})] }),
@@ -18961,7 +20170,7 @@ function Dr({ bridge: e }) {
 								/* @__PURE__ */ (0, A.jsx)("button", {
 									type: "button",
 									className: "primary",
-									onClick: un,
+									onClick: cn,
 									disabled: Ve,
 									children: Ve ? "Running…" : "Run architecture"
 								})
@@ -19008,9 +20217,9 @@ function Dr({ bridge: e }) {
 									]
 								})]
 							}),
-							/* @__PURE__ */ (0, A.jsx)(Tr, {
+							/* @__PURE__ */ (0, A.jsx)(qr, {
 								registry: Tt,
-								events: nn,
+								events: en,
 								scenario: ve,
 								selectedZone: Ue,
 								onZone: (e) => {
@@ -19026,8 +20235,8 @@ function Dr({ bridge: e }) {
 								children: [
 									/* @__PURE__ */ (0, A.jsx)("span", { className: `status-dot ${Ve ? "pulsing" : ""}` }),
 									" ",
-									/* @__PURE__ */ (0, A.jsx)("strong", { children: rn ? `${rn.status === "denied" ? "Control denied" : "Handoff recorded"} · ${mr[on || Ue] || on || Ue}` : "Awaiting a business question" }),
-									/* @__PURE__ */ (0, A.jsx)("span", { children: mr[on] || "Select a route zone" }),
+									/* @__PURE__ */ (0, A.jsx)("strong", { children: tn ? `${tn.status === "denied" ? "Control denied" : "Handoff recorded"} · ${Ir[rn || Ue] || rn || Ue}` : "Awaiting a business question" }),
+									/* @__PURE__ */ (0, A.jsx)("span", { children: Ir[rn] || "Select a route zone" }),
 									/* @__PURE__ */ (0, A.jsxs)("span", {
 										className: "tech",
 										children: [Le.length, " stored events"]
@@ -19036,11 +20245,11 @@ function Dr({ bridge: e }) {
 							})
 						]
 					}),
-					/* @__PURE__ */ (0, A.jsx)(pr, {
-						events: nn,
+					/* @__PURE__ */ (0, A.jsx)(Fr, {
+						events: en,
 						running: Ve,
-						selectedZone: mr[Ue] || Ue,
-						onOpenEvidence: () => wn("components")
+						selectedZone: Ir[Ue] || Ue,
+						onOpenEvidence: () => Cn("components")
 					}),
 					/* @__PURE__ */ (0, A.jsxs)("section", {
 						className: "surface case-strip",
@@ -19051,9 +20260,9 @@ function Dr({ bridge: e }) {
 							className: "case-buttons",
 							children: [tt.slice(0, 8).map((e) => /* @__PURE__ */ (0, A.jsxs)("button", {
 								type: "button",
-								onClick: () => sn(e.case_id),
+								onClick: () => an(e.case_id),
 								children: [
-									gr(e.scope?.period),
+									Rr(e.scope?.period),
 									" · ",
 									e.scenario,
 									" · ",
@@ -19071,29 +20280,32 @@ function Dr({ bridge: e }) {
 				routePlaybooks: n?.route_playbooks || {},
 				focus: pe,
 				run: gt,
-				onRun: Cn,
+				onRun: Sn,
 				busy: vt,
-				onOpenEvidence: (e) => wn("questions", { stepSeq: e })
+				onOpenEvidence: (e) => Cn("questions", { stepSeq: e })
 			}) : a === "ontology" ? /* @__PURE__ */ (0, A.jsx)(me, {
-				ontology: V,
-				references: qt,
-				focus: Gt,
+				ontology: Ht,
+				references: Kt,
+				focus: V,
 				onOpenTab: (e) => o(e)
-			}) : a === "brief" ? /* @__PURE__ */ (0, A.jsx)(bn, {
+			}) : a === "brief" ? /* @__PURE__ */ (0, A.jsx)(Hn, {
 				onComplete: () => o("approaches"),
 				onMcp: () => o("mcp"),
 				onAgentHosting: () => o("agenthost")
-			}) : a === "registry" ? /* @__PURE__ */ (0, A.jsx)(pn, {
+			}) : a === "selection" ? /* @__PURE__ */ (0, A.jsx)(Fn, {
+				onMcp: () => o("mcp"),
+				onRegistry: () => o("registry")
+			}) : a === "registry" ? /* @__PURE__ */ (0, A.jsx)(xn, {
 				onMcp: () => o("mcp"),
 				onAgentHosting: () => o("agenthost"),
 				onDiagrams: (e) => {
 					c(e), o("diagrams");
 				}
-			}) : a === "agenthost" ? /* @__PURE__ */ (0, A.jsx)(en, {
+			}) : a === "agenthost" ? /* @__PURE__ */ (0, A.jsx)(ln, {
 				onMcp: () => o("mcp"),
 				onComplete: () => o("approaches"),
 				onRegistry: () => o("registry")
-			}) : a === "mcp" ? /* @__PURE__ */ (0, A.jsx)(Zt, {
+			}) : a === "mcp" ? /* @__PURE__ */ (0, A.jsx)(on, {
 				view: l,
 				onView: u,
 				onApproaches: () => o("approaches"),
@@ -19106,11 +20318,11 @@ function Dr({ bridge: e }) {
 						S3: "D4"
 					}[e] || e), o("diagrams");
 				}
-			}) : a === "diagrams" ? /* @__PURE__ */ (0, A.jsx)(Rt, {
+			}) : a === "diagrams" ? /* @__PURE__ */ (0, A.jsx)(Gt, {
 				view: s,
 				onView: c,
 				onBack: () => o("approaches")
-			}) : a === "approaches" ? /* @__PURE__ */ (0, A.jsx)(Ht, {
+			}) : a === "approaches" ? /* @__PURE__ */ (0, A.jsx)(Yt, {
 				playbooks: n?.route_playbooks || {},
 				onQuestion: () => o("questions"),
 				onDetailedDiagram: (e) => {
@@ -19129,19 +20341,19 @@ function Dr({ bridge: e }) {
 				currentCase: L,
 				history: Et,
 				busy: ut,
-				onStart: yn,
-				onResolve: xn,
-				onTrace: Sn,
+				onStart: vn,
+				onResolve: yn,
+				onTrace: bn,
 				historyDetail: it,
 				events: ot?.case_id === L?.case_id && ct.length ? ct : Le,
 				caseEvents: Le,
 				decisionRun: gt,
 				decisionQuestions: n?.decision_questions || [],
 				focus: he,
-				componentDetails: /* @__PURE__ */ (0, A.jsx)(Er, {
+				componentDetails: /* @__PURE__ */ (0, A.jsx)(Jr, {
 					registry: Tt,
 					zone: Ue,
-					events: nn,
+					events: en,
 					selectedComponent: Ge,
 					onComponent: Ke,
 					scenario: ve
@@ -19158,7 +20370,7 @@ function Dr({ bridge: e }) {
 						}),
 						/* @__PURE__ */ (0, A.jsx)("div", {
 							className: "review-list",
-							children: hr.map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: e }), /* @__PURE__ */ (0, A.jsx)("span", { children: t })] }, e))
+							children: Lr.map(([e, t]) => /* @__PURE__ */ (0, A.jsxs)("div", { children: [/* @__PURE__ */ (0, A.jsx)("strong", { children: e }), /* @__PURE__ */ (0, A.jsx)("span", { children: t })] }, e))
 						}),
 						/* @__PURE__ */ (0, A.jsx)("p", {
 							className: "micro",
@@ -19167,47 +20379,47 @@ function Dr({ bridge: e }) {
 					]
 				})
 			}),
-			En,
-			_e && /* @__PURE__ */ (0, A.jsx)(wr, {
+			Tn,
+			_e && /* @__PURE__ */ (0, A.jsx)(Kr, {
 				caseRecord: L,
 				onClose: () => N(!1),
-				onOpenEvidence: () => wn("finance")
+				onOpenEvidence: () => Cn("finance")
 			})
 		]
 	}));
 }
 // src/streamlit.jsx
-var Or = /* @__PURE__ */ new WeakMap(), kr = [], Ar = null, jr = null, Mr = 0;
-function Nr() {
-	if (Ar || !kr.length || !jr) return;
-	Ar = kr.shift();
-	let e = Ar;
-	jr("action", {
+var Xr = /* @__PURE__ */ new WeakMap(), Zr = [], Qr = null, $r = null, ei = 0;
+function ti() {
+	if (Qr || !Zr.length || !$r) return;
+	Qr = Zr.shift();
+	let e = Qr;
+	$r("action", {
 		...e.payload,
 		_seq: e.seq
 	}), e.timer = setTimeout(() => {
-		Ar === e && (Ar = null, Nr());
+		Qr === e && (Qr = null, ti());
 	}, 12e3);
 }
-function Pr(e) {
-	e?.type === "select_period" && (kr = kr.filter((e) => e.payload.type !== "select_period")), kr.push({
+function ni(e) {
+	e?.type === "select_period" && (Zr = Zr.filter((e) => e.payload.type !== "select_period")), Zr.push({
 		payload: e,
-		seq: ++Mr
-	}), Nr();
+		seq: ++ei
+	}), ti();
 }
-function Fr(e) {
-	Ar && typeof e == "number" && e >= Ar.seq && (clearTimeout(Ar.timer), Ar = null, Nr());
+function ri(e) {
+	Qr && typeof e == "number" && e >= Qr.seq && (clearTimeout(Qr.timer), Qr = null, ti());
 }
-function Ir(e) {
+function ii(e) {
 	let { parentElement: t, data: n, setTriggerValue: r } = e, i = t.querySelector(".finance-root");
 	if (!i) throw Error("Missing finance component mount");
-	let a = Or.get(t);
-	return a || (a = (0, v.createRoot)(i), Or.set(t, a)), jr = r, Fr(n?.action_seq), a.render(/* @__PURE__ */ (0, A.jsx)(Dr, { bridge: {
+	let a = Xr.get(t);
+	return a || (a = (0, v.createRoot)(i), Xr.set(t, a)), $r = r, ri(n?.action_seq), a.render(/* @__PURE__ */ (0, A.jsx)(Yr, { bridge: {
 		data: n || {},
-		action: Pr
+		action: ni
 	} })), () => {
-		let e = Or.get(t);
-		e && (e.unmount(), Or.delete(t));
+		let e = Xr.get(t);
+		e && (e.unmount(), Xr.delete(t));
 	};
 }
-export { Ir as default };
+export { ii as default };

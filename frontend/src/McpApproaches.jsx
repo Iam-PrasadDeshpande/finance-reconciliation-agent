@@ -7,7 +7,7 @@ import {SCENARIOS,IDS,MATRIX,BANNER} from './mcpScenarios';
 
 // Complete architecture: one overview per scenario and a side-by-side comparison, all generated from the canonical model.
 const DIAGRAM={S1:'D2',S2:'D3',S3:'D4'};
-const FACTS=[['Agent hosting and execution','agent_runtime'],['MCP gateway','mcp_gateway'],['Custom MCP runtime (if required)','custom_mcp_runtime'],['Agent registry','agent_registry'],['MCP registry','mcp_registry'],['LLM gateway','llm_gateway'],['SAP integration','integration_suite'],['Business authorization','backend_authorization'],['Persistence','persistence']];
+const FACTS=[['Agent hosting and execution','agent_runtime'],['Runtime gateway','mcp_gateway'],['Apigee','apigee_role'],['Custom MCP runtime (if required)','custom_mcp_runtime'],['AWS account','aws_account'],['Agent and MCP registry','agent_registry'],['LLM gateway','llm_gateway'],['Artifacts and CI/CD','artifact_repository'],['SAP integration','integration_suite'],['Business authorization','backend_authorization'],['Persistence','persistence']];
 
 export default function McpApproaches({playbooks={},onQuestion,onDetailedDiagram,onGovernance,onAgentHosting}){
   const [section,setSection]=useState('S3');
@@ -26,8 +26,8 @@ export default function McpApproaches({playbooks={},onQuestion,onDetailedDiagram
       <p>{sc.objective}</p>
       <div className="arch-grid">
         <section aria-label="Route facts"><h4>Who owns what</h4><div className="arch-cards">{FACTS.map(([label,field])=><div key={field} className={/pending|TBD/i.test(sc[field])?'warn':''}><span>{label}</span><b>{sc[field]}</b></div>)}</div></section>
-        <section aria-label="Open dependencies"><h4>Not yet verified</h4><ul>{sc.unverified.map(x=><li key={x}>{x}</li>)}</ul><h4>Enterprise-policy dependencies</h4><ul>{sc.policy_dependencies.map(x=><li key={x}>{x}</li>)}</ul></section>
-        <section aria-label="Assumptions" className="arch-judgment"><h4>Assumptions</h4><ul>{sc.assumptions.map(x=><li key={x}>{x}</li>)}</ul>{sc.variant_b&&<p className="bad"><strong>S3-B</strong>{sc.variant_b}</p>}{plan?.decisions?.length>0&&<><h4>Open decisions</h4><ul>{plan.decisions.map(x=><li key={x}>{x}</li>)}</ul></>}</section>
+        <section aria-label="Open dependencies"><h4>Advantages</h4><ul>{sc.advantages.map(x=><li key={x}>{x}</li>)}</ul><h4>Considerations</h4><ul>{sc.considerations.map(x=><li key={x}>{x}</li>)}</ul><h4>Not yet verified</h4><ul>{sc.unverified.map(x=><li key={x}>{x}</li>)}</ul><h4>Enterprise-policy dependencies</h4><ul>{sc.policy_dependencies.map(x=><li key={x}>{x}</li>)}</ul></section>
+        <section aria-label="Assumptions" className="arch-judgment"><h4>Assumptions</h4><ul>{sc.assumptions.map(x=><li key={x}>{x}</li>)}</ul><p className="good"><strong>Classification</strong>{sc.classification}</p>{plan?.decisions?.length>0&&<><h4>Open decisions</h4><ul>{plan.decisions.map(x=><li key={x}>{x}</li>)}</ul></>}</section>
       </div>
       <div className="arch-links"><span>Related, separate views:</span>{onGovernance&&<button type="button" className="text-link" onClick={()=>onGovernance(route)}>MCP hosting →</button>}{onAgentHosting&&<button type="button" className="text-link" onClick={onAgentHosting}>Agent hosting →</button>}{onDetailedDiagram&&<button type="button" className="text-link" onClick={()=>onDetailedDiagram(route)}>All diagrams →</button>}{onQuestion&&<button type="button" className="text-link" onClick={onQuestion}>Architecture questions →</button>}</div>
     </section>:<section className="surface mcp-bird-panel mcp-bird-compare arch-panel" role="tabpanel" aria-label="Route comparison overview">

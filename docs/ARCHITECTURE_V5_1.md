@@ -1,3 +1,5 @@
+> **Superseded by Architecture V5.2** (`docs/ARCHITECTURE_V5_2.md`). This page records the earlier V5.1 meaning of S1, S2 and S3 for history.
+
 # Architecture V5.1: three scenarios, one model
 
 Status: **proposed design for evaluation. Nothing here is approved, deployed or tenant-verified.** No cloud resource, registry, gateway, SAP system or credential is created or contacted by this application.

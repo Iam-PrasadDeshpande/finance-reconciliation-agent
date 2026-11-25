@@ -23,10 +23,10 @@ def mentioned_period(text: str) -> str | None:
             return f"{match.group(1)}-{month:02d}"
     return None
 ARCHITECTURE_TOPICS = {
-    "apigee": ("Google Apigee", "Apigee is the SAP-facing MCP/API gateway in every scenario. The simulator's Apigee path (S1, S3) covers inbound policy, route selection, outbound target credentials and an audit decision."),
-    "agentcore gateway": ("AgentCore Gateway", "AgentCore Gateway (S2 only) sits in front of Apigee. The simulator's S2 path covers inbound policy, target registration, outbound credentials and an audit decision at that gateway."),
-    "aws": ("Agent runtime", "The simulated agent runtime checks workload identity, invokes typed tools, assembles evidence and records component events. In V5.1 the agent runs on SAP BTP Cloud Foundry (S1, S3) or AgentCore Runtime (S2); the simulator shows one agent runtime zone for both."),
-    "agentcore": ("AgentCore", "AgentCore Runtime hosts the agent in S2 only; AgentCore Gateway fronts Apigee in S2 only. S1 and S3 run the agent on SAP BTP Cloud Foundry and call Apigee directly."),
+    "apigee": ("Google Apigee", "Apigee is the SAP-facing MCP/API gateway in S1 and S3 and optional in S2. The simulator's Apigee step covers inbound policy, route selection, outbound target credentials and an audit decision."),
+    "agentcore gateway": ("AgentCore Gateway", "AgentCore Gateway is the runtime gateway in S2 and S3 (in S3 it fronts Apigee). The simulator's step covers inbound policy, target registration, outbound credentials and an audit decision at that gateway."),
+    "aws": ("Agent runtime", "The simulated agent runtime checks workload identity, invokes typed tools, assembles evidence and records component events. The agent runs on SAP BTP Cloud Foundry (S1) or AgentCore Runtime (S2, S3); the simulator shows one agent runtime zone for both."),
+    "agentcore": ("AgentCore", "AgentCore Runtime hosts the agent in S2 and S3; AgentCore Gateway is the runtime gateway in S2 and S3 and fronts Apigee in S3. S1 runs the agent on SAP BTP Cloud Foundry and calls Apigee directly."),
     "s/4": ("S/4HANA", "The simulated S/4HANA read API supplies the current G/L balance and journal evidence; the restricted posting API can write only a local synthetic document after approval."),
     "sap": ("SAP integration", "The simulated SAP route traverses the selected gateway, domain tool, API Management, destination mapping, backend role and backend API."),
     "central finance": ("Central Finance", "The simulated mapped accounting snapshot is the comparable balance for the deterministic S/4HANA minus Central Finance variance."),
@@ -125,7 +125,7 @@ def answer_follow_up(store, approval, message: str, case_id: str | None, scenari
             answer = "No document investigation is recorded for this case. Run a comparable November 2026 reconciliation, then ask me to investigate the variance."
             kind, status, extra = "investigation_status", "needs_case", {}
     elif any(term in text for term in ("s1 vs s2", "s1 and s2", "s2 and s3", "s1 and s3", "compare scenarios", "compare gateways", "compare scenarios", "apigee versus", "apigee vs")):
-        answer = "In S1 and S3 the typed tool request goes from the Cloud Foundry agent to the Apigee boundary. In S2 it goes through AgentCore Gateway and then Apigee. Both reach the same finance tools and deterministic reconciliation rules; neither route has live tenant proof."
+        answer = "In S1 the typed tool request goes from the Cloud Foundry agent to Apigee. In S2 it goes from the AgentCore agent through AgentCore Gateway to the MCP or API target. In S3 it goes through AgentCore Gateway and then Apigee. Both reach the same finance tools and deterministic reconciliation rules; neither route has live tenant proof."
         kind, status, extra = "scenario_comparison", "answered", {}
     elif any(term in text for term in ("limitation", "live gate", "risk", "production ready", "real system", "arbitrary company")):
         answer = "This is a local synthetic simulator. It covers one seeded finance scope and 12 months. G1–G7 remain open for live identity, gateway, SAP authorization, source rules, approval, privacy and trace evidence; no vendor tenant or production posting is connected."
@@ -196,7 +196,7 @@ def answer_follow_up(store, approval, message: str, case_id: str | None, scenari
         answer = f"The synthetic SQLite seed spans {periods[0]} through {periods[-1]} across {len(periods)} months. {period} has {count} journal evidence records. These records illustrate the source trail and do not calculate the closing balance."
         kind, status, extra = "history", "answered", {"period": period, "journal_count": count}
     elif "flow" in text or "architecture" in text or "component" in text:
-        answer = "The live route is business entry → synthetic identity → agent runtime → Apigee (behind AgentCore Gateway in S2) → typed domain tool → SAP integration and data sources → context and deterministic reconciliation → advisory model → report. Approval and posting form a separate controlled branch."
+        answer = "The live route is business entry → synthetic identity → agent runtime → runtime gateway (Apigee in S1, AgentCore Gateway in S2, both in S3) → typed domain tool → SAP integration and data sources → context and deterministic reconciliation → advisory model → report. Approval and posting form a separate controlled branch."
         kind, status, extra = "architecture", "answered", {}
     else:
         topic = next(((name, description) for term,(name,description) in ARCHITECTURE_TOPICS.items() if term in text), None)

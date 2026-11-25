@@ -26,7 +26,7 @@ When the second agent (Cash and Treasury) was added, the application worked, but
 | Shell: header, period selector, areas, routing, provenance labels | Cockpit | One canonical period for every screen (see `PERIOD_SYNC.md`). |
 | Agent module: agents, tools, runner, Level 1 view, ontology fragment, SAP references | The module (`poc/agent_modules/<id>.py`) | The only thing a new agent adds. |
 | MCP-shaped tool calls and plan/step shape | Cockpit | In-process; there is no MCP transport. A tool is `read`, `local-draft` or `none`. A write to SAP is never a tool. |
-| Selected scenario (S1, S2 or S3; the simulator replays the Apigee path or the AgentCore Gateway path) and the simulated SAP layers | Cockpit | Modules read through it; they add no architecture components. |
+| Selected scenario (S1 SAP-hosted hybrid, S2 AWS AgentCore-native or S3 AgentCore + Apigee; the simulator replays each gateway chain) and the simulated SAP layers | Cockpit | Modules read through it; they add no architecture components. |
 | Architecture pages (complete architecture, MCP hosting, agent hosting, diagrams) | Cockpit | About hosting and routes, so they apply to every module. They are not per-agent. |
 | Synthetic data | The module | Deterministic, labelled synthetic, no SAP connection. |
 | Ontology | Merged by the cockpit from shared concepts plus each module's fragment | The demo's own model, grounded to SAP terms where SAP documents them. Not an SAP-published ontology. |

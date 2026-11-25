@@ -7,7 +7,7 @@ export const ORCH_SIZE = {w: 1200, h: 660};
 const N = (id, row, col, title, sub, kind, extra = {}) => ({id, row, col, title, sub, kind, ...extra});
 const LEGEND = [['invoke', 'MCP-style tools/call (in-process)'], ['registry', 'Reaches application layer'], ['identity', 'Needs input'], ['approval', 'Blocked by a control']];
 const LAYER = {
-  'Selected gateway': ['Selected MCP gateway', 'gateway', 'Apigee, or AgentCore Gateway in S2'],
+  'Selected gateway': ['Selected MCP gateway', 'gateway', 'Apigee (S1), AgentCore Gateway (S2), both (S3)'],
   'Domain MCP': ['Domain MCP tools', 'domain', 'Finance read tools'],
   'SAP BAIP': ['SAP integration', 'integration', 'API Management and iFlow'],
   'SAP backends': ['SAP backends', 'backend', 'S/4HANA, Central Finance, BW'],
