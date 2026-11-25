@@ -54,7 +54,8 @@ SCENARIOS: dict[str, dict] = {
         "artifact_repository": "Organization Git; Cloud Foundry application artifacts; Apigee proxy bundles and OpenAPI specs",
         "trust_boundaries": ["SAP BTP", "Google Apigee", "SAP landscape", "Portkey / LLM provider"],
         "assumptions": ["Apigee MCP is enabled for the organization and fronts approved Integration Suite APIs", "An enterprise IdP can issue tokens to the Cloud Foundry agent"],
-        "unverified": ["Registry product for agents and MCP", "Apigee-to-Integration Suite identity mapping", "Principal propagation to the SAP backend"],
+        "unverified": ["Registry product for agents and MCP: candidates are identified (see the decision register) but none is selected or verified for this tenant", "Apigee-to-Integration Suite identity mapping", "Principal propagation to the SAP backend", "SAP BTP Cloud Foundry entitlement and quota in this tenant (the runtime itself is documented)"],
+        "registry_candidates": ["SAP AI Agent Hub: reported as a vendor-agnostic registry of agents, LLMs and MCP servers; the SAP product page could not be read (HTTP 403), so availability and entitlement are NOT_VERIFIED", "SAP Integration Suite MCP Gateway with its developer hub: documented for governed exposure and discovery of MCP tools, not a registry of agents", "AWS Agent Registry: documented and usable for SAP-hosted agents, but choosing it turns this scenario into S3", "Interim domain-run catalog (versioned records in Git with an approval step): no product, but gives approval and revocation an owner"],
         "policy_dependencies": ["Whether the enterprise requires central registration of agents and MCP servers", "Who owns domain MCP interfaces"],
         "hosting_note": "Registry is Domain-managed — product selection pending. Do not read it as an SAP-native Agent Registry.",
     },
@@ -90,7 +91,7 @@ SCENARIOS: dict[str, dict] = {
         "artifact_repository": "Organization Git; container registry for the runtime image; gateway target definitions; Apigee bundles and specs",
         "trust_boundaries": ["AWS", "Google Apigee", "SAP landscape", "Portkey / LLM provider"],
         "assumptions": ["AgentCore Gateway can register Apigee's MCP endpoint as a target", "An AWS-hosted custom MCP can be proxied by Apigee (conditional)"],
-        "unverified": ["AgentCore Gateway to Apigee protocol and token exchange; target classification of an external MCP server (MCP or HTTP target) is unclear in the documentation", "Two policy points on one call (gateway then Apigee)", "AWS Agent Registry availability and region"],
+        "unverified": ["AgentCore Gateway to Apigee: documentation shows overlapping MCP protocol versions (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26) and supported outbound OAuth and token exchange, but no end-to-end call has been made; whether an external MCP server is an MCP or an HTTP target is ambiguous; Apigee MCP does not support SSE streams", "Two policy points on one call (gateway then Apigee)", "AWS Agent Registry availability and region"],
         "policy_dependencies": ["Whether AI Foundry requires AgentCore for all agent hosting", "Ownership of duplicated gateway policy"],
         "hosting_note": "AgentCore Runtime, AgentCore Gateway and AWS Agent Registry are three distinct capabilities.",
     },
@@ -126,10 +127,10 @@ SCENARIOS: dict[str, dict] = {
         "artifact_repository": "Organization Git; Cloud Foundry application artifacts; Apigee bundles and specs; registry record definitions",
         "trust_boundaries": ["SAP BTP", "Google Apigee", "SAP landscape", "AWS (control plane only)", "Portkey / LLM provider"],
         "assumptions": ["AWS Agent Registry can hold records for agents and MCP servers that run outside AWS (record sync connects from AWS to the endpoint URL with outbound credentials)", "Registration does not require AWS to host or invoke anything"],
-        "unverified": ["Registry synchronization from the external sources in this tenant: AWS must be able to reach the Apigee or Cloud Foundry URL with an outbound credential from a provider in the same account", "AI Foundry stance on tool calls that bypass AgentCore Gateway", "Cross-cloud administration of registry records"],
+        "unverified": ["Registry synchronization from the external sources in this tenant: the URL must be HTTPS and AWS must reach it with an outbound credential from a provider in the same account; private-network reachability is not documented; sync runs on creation and on demand only and reverts the record to draft", "AI Foundry stance on tool calls that bypass AgentCore Gateway", "Cross-cloud administration of registry records"],
         "policy_dependencies": ["AI Foundry policy on whether AgentCore Gateway is mandatory for all tool invocations (see S3-B)"],
         "hosting_note": "AWS Agent Registry handles registration, discovery and governance metadata. It is never an execution hop.",
-        "variant_b": "S3-B (policy-dependent, not baseline): if AI Foundry mandates AgentCore Gateway for every tool invocation, AgentCore Gateway sits between the agent and Apigee. It is documented as an option, not a fourth primary scenario.",
+        "variant_b": "S3-B (policy-dependent, not baseline): if AI Foundry mandates AgentCore Gateway for every tool invocation, AgentCore Gateway sits between the agent and Apigee. AgentCore Policy (Cedar, enforce mode, default deny) enforces rules at the gateway, but the documentation does not say that a target refuses calls that bypass it, so the mandate also needs Apigee to accept only gateway-issued credentials. It is an option, not a fourth primary scenario.",
     },
 }
 
@@ -392,7 +393,7 @@ def _d8() -> dict:
     top = ["Capability developed", "Versioned artifact", "Domain validation", "Approval", "Registry publication"]
     bottom = ["Discovery", "Invocation under runtime authorization", "Monitoring", "Version update or retirement", "Revocation and stale-metadata handling"]
     subs_top = ["Agent or MCP code and descriptor", "Git tag, image or spec version", "Domain owner checks scope", "AI Foundry or domain owner", "Registry record created"]
-    subs_bottom = ["Approved records only", "Not proven by registration alone", "Runtime and registry telemetry", "New version or retire record", "Expired or revoked records must disappear"]
+    subs_bottom = ["Approved records only", "Not proven by registration alone", "Runtime and registry telemetry", "New version or retire record", "Sync reverts a record to draft and removes nothing: retire or revoke explicitly"]
     nodes = [n(f"t{i}", 1, i, t, subs_top[i], "artifact" if i < 3 else "registry") for i, t in enumerate(top)]
     nodes += [n(f"b{i}", 2, 4 - i, t, subs_bottom[i], "agent" if i == 1 else "registry") for i, t in enumerate(bottom)]
     nodes += [
@@ -472,16 +473,20 @@ RECOMMENDATION = {
 }
 
 EVIDENCE = [
-    ["Google Apigee", "Apigee MCP overview", "https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-overview", "Existing Apigee APIs can be exposed as MCP tools through MCP endpoints with no local or remote MCP server to install or manage. OpenAPI 3.0.x only; a limit of 1000 MCP tools per organization; capacity limits in some regions; stateless protocol 2026-07-28 and stateful versions 2025-11-25 down to 2024-11-05.", "Pattern A needs no custom MCP server, within the tool and region limits.", "Tenant enablement, region capacity and hybrid version"],
-    ["Google Apigee", "Manage MCP tool access", "https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/manage-mcp-tool-access", "Access is controlled with API products and developer apps; ParsePayload (JSON-RPC 2.0) plus API-key or OAuth verification; tools outside the client's product are removed from tools/list. The page also says traffic can be proxied to your own MCP server.", "Apigee is the policy layer for tool access, and Pattern B (custom server behind Apigee) is documented.", "API product design and the custom-server proxy pattern in this tenant"],
-    ["AWS AgentCore", "Gateway core concepts", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-core-concepts.html", "Gateway is a secure entry point for agentic traffic with MCP, HTTP and inference target categories and inbound OAuth (JWT), IAM, authenticate-only or none. The page lists MCP servers under MCP targets and external MCP servers under HTTP targets, so target classification needs confirming.", "Makes the S2 gateway hop plausible; Apigee as a gateway target is unproven.", "Which target type fits the Apigee MCP endpoint; token exchange"],
-    ["AWS AgentCore", "Agent Registry", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry.html", "A managed discovery service: a catalog for organizing, curating and discovering resources. Record types AGENT, MCP, SKILL, CUSTOM and WEB_BOT; publishers submit, curators approve. Runtime and Gateway are listed as related services, so it is separate from both. The older bedrock-agentcore preview namespace was announced for discontinuation on 2026-10-30.", "Registry is a separate capability from Runtime and Gateway and does not require AWS hosting. Use the agent-registry namespace.", "Availability and region in the tenant; curator and approval roles"],
-    ["AWS AgentCore", "Registry: synchronize external records", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-sync-records.html", "The registry can synchronize record metadata from external sources by connecting to the provided URL with outbound credentials: MCP servers and A2A agent cards (credentials: none, OAuth through an AgentCore Identity provider, or IAM SigV4). The credential provider must be in the same account.", "Supports S3 registration of SAP-hosted metadata, but AWS must be able to reach the endpoint URL: that is a network and credential dependency, not an execution hop.", "Reachability of Apigee or Cloud Foundry URLs from AWS; credential provider"],
-    ["AWS AgentCore", "Registry: supported record types", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-supported-record-types.html", "AGENT records use a2aAgentCard, mcpServer or custom descriptors; MCP records use mcpServer or custom; exactly one primary descriptor per record. Agents that do not follow A2A can use mcpServer or custom.", "A SAP-hosted agent can be registered with a custom or mcpServer descriptor.", "Descriptor fit for our agents"],
-    ["SAP", "SAP BTP Cloud Foundry runtime", "https://help.sap.com/docs/cf-runtime/cloud-foundry-runtime/what-is-sap-btp-cloud-foundry-runtime", "NOT_VERIFIED: the page returned no readable body when fetched (script-rendered), so no capability statement is recorded here.", "Cloud Foundry as the S1 and S3 agent host rests on the owner's brief and general knowledge, not on this page.", "Read the page in a browser; confirm entitlement and quota"],
+    ["Google Apigee", "Apigee MCP overview", "https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-overview", "Existing Apigee APIs are exposed as MCP tools with no MCP server to install or manage. Stateless protocol 2026-07-28 and stateful 2025-11-25, 2025-06-18, 2025-03-26, 2024-11-05 at one endpoint over HTTP/S; SSE streams are not supported. OAuth 2.1 and OIDC. OpenAPI 3.0.x; 1000 tools per organization; capacity limits in some regions. Proxying a separately hosted MCP server is not described on this page.", "Pattern A needs no custom MCP server, within the tool and region limits.", "Tenant enablement, region capacity, hybrid version (1.17.4 or later for stateless)"],
+    ["Google Apigee", "Manage MCP tool access", "https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/manage-mcp-tool-access", "Access is controlled with API products and developer apps; ParsePayload (JSON-RPC 2.0) plus API-key or OAuth verification; tools outside the client's product are removed from tools/list. This page, not the overview, says traffic can be proxied to your own MCP server.", "Apigee is the policy layer for tool access. Pattern B (custom server behind Apigee) rests on this one statement.", "Prove the custom-server proxy pattern with a Cloud Foundry service in this tenant"],
+    ["AWS AgentCore", "Gateway core concepts", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-core-concepts.html", "Gateway is a secure entry point for agentic traffic with MCP, HTTP and inference target categories and inbound OAuth (JWT), IAM, authenticate-only or none.", "Basis of the S2 gateway hop.", "Target classification of an external MCP server (the page lists it under both MCP and HTTP targets)"],
+    ["AWS AgentCore", "Gateway MCP server targets and outbound authorization", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html", "Supported MCP versions 2026-07-28, 2025-11-25, 2025-06-18 and 2025-03-26. Outbound auth for MCP-server targets: none (not recommended), gateway role, OAuth client credentials, authorization code, token exchange, API key. Caller token passthrough is not supported; on-behalf-of is supported through token exchange. Listing mode DEFAULT when the authorization server supports client credentials, otherwise DYNAMIC (not interoperable with semantic search or 3LO). Tool names are prefixed with the target name.", "Protocol versions overlap with Apigee (four shared). User identity reaches Apigee only through token exchange.", "An authorization server that supports token exchange; whether a private target is allowed (not documented)"],
+    ["AWS AgentCore", "AgentCore Policy", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-getting-started.html", "Cedar policies attach to a gateway; in enforce mode every tool call that reaches the gateway is evaluated and denied unless permitted. The pages do not say that a target blocks calls that bypass the gateway.", "A mandate to use AgentCore Gateway (S3-B) is enforceable at the gateway, but bypass prevention is a separate credential or network control.", "Prove that Apigee rejects a direct call that does not carry a gateway-issued credential"],
+    ["AWS AgentCore", "Agent Registry", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry.html", "A managed discovery service: a catalog for organizing, curating and discovering resources. Record types AGENT, MCP, SKILL, CUSTOM and WEB_BOT; publishers submit, curators approve. Runtime and Gateway are related services, so it is separate from both. The older bedrock-agentcore preview namespace was announced for discontinuation on 2026-10-30.", "Registry is a separate capability from Runtime and Gateway and does not require AWS hosting. Use the agent-registry namespace.", "Availability and region in the tenant; curator and approval roles"],
+    ["AWS AgentCore", "Registry: synchronize external records", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-sync-records.html", "The registry connects to a valid HTTPS URL with outbound credentials (none, OAuth from a provider in the same account, or IAM SigV4) and extracts server and tool definitions for MCP servers and A2A agent cards. Sync runs when the record is created and on demand; no schedule is stated. Triggering sync reverts the record to draft. Removal of stale tools is not described. Private-network reachability is not mentioned.", "Supports S3 registration, but AWS must reach the endpoint URL, and stale entries need an explicit retirement process.", "Reachability of the Apigee URL from AWS; credential provider in the same account"],
+    ["AWS AgentCore", "Registry: supported record types", "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-supported-record-types.html", "AGENT records use a2aAgentCard, mcpServer or custom descriptors; MCP records use mcpServer or custom; exactly one primary descriptor per record.", "A SAP-hosted agent can be registered with a custom or mcpServer descriptor.", "Descriptor fit for our agents"],
+    ["SAP", "SAP BTP Cloud Foundry runtime", "https://help.sap.com/docs/cf-runtime/cloud-foundry-runtime/what-is-sap-btp-cloud-foundry-runtime", "The Cloud Foundry runtime on SAP platform runs polyglot cloud-native applications with SAP Java, Node.js and Python buildpacks; apps are started, stopped and scaled with standard Cloud Foundry tools; orgs, spaces and space quota plans are managed; service plans and metering apply. (Page read in a browser on 2026-11-25; the plain fetch returned no body.)", "Cloud Foundry can host the S1 and S3 agent and any custom MCP code.", "Entitlement, space quota and service plan in this tenant"],
+    ["SAP", "A2A and MCP for AI agent interoperability at SAP (reference architecture, updated 2026-10-26)", "https://architecture.learning.sap.com/docs/ref-arch/76ec36", "SAP recommends Agent Gateway (A2A) for multi-agent collaboration and an MCP Gateway in SAP Integration Suite for governed exposure of APIs as MCP tools; agents use MCP to discover tools. A disclaimer says bidirectional communication with third-party and self-hosted agents through Agent Gateway is not yet generally available.", "SAP offers its own MCP gateway and discovery path; it is an alternative to Apigee that this evaluation does not model. Registry statements for agents are not on this page.", "Whether SAP's own MCP Gateway should be compared with Apigee"],
+    ["SAP", "SAP AI Agent Hub (product page)", "https://www.sap.com/products/artificial-intelligence/ai-agent-hub.html", "NOT_VERIFIED: the page returned HTTP 403, so no statement is recorded. Web search summaries describe it as a registry of agents, LLMs and MCP servers, but those summaries are secondary and unchecked.", "Named only as a candidate for the S1 registry; nothing is claimed about its availability.", "Read the product documentation with an SAP account and confirm availability and entitlement"],
 ]
-EVIDENCE_STATUS = ("Pages read through a web fetch on 2026-11-25: six of seven returned content, summarized above; the SAP Cloud Foundry page returned no body and is NOT_VERIFIED. "
-                   "Vendor documentation describes product capability only. It does not show that a feature is configured, licensed or available in this organization's tenant or region.")
+EVIDENCE_STATUS = ("Read on 2026-11-25: six AWS and Google pages through a web fetch, the SAP Cloud Foundry runtime page and the SAP reference architecture in a browser. "
+                   "The SAP AI Agent Hub product page returned HTTP 403 and is NOT_VERIFIED. Vendor documentation describes product capability only; it does not show that a feature is configured, licensed or available in this organization's tenant or region.")
 
 DOMAINS = [
     {"name": "Finance Read MCP", "mode": "READ", "tools": "Reconciliation balances, ledger and period data, journal and document status, reconciliation exceptions", "control": "Read-only backend operations. No write tool is registered. This is the only capability the application uses."},
@@ -489,6 +494,45 @@ DOMAINS = [
     {"name": "Analytical / Data MCP", "mode": "READ · FUTURE", "tools": "Authorized Databricks or BDC-backed context", "control": "Entitlement and scope: " + PENDING},
 ]
 
+
+# MCP protocol versions as listed in the vendor documentation read on 2026-11-25.
+MCP_PROTOCOL_VERSIONS = {"agentcore_gateway": ["2026-07-28", "2025-11-25", "2025-06-18", "2025-03-26"],
+                         "apigee": ["2026-07-28", "2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"]}
+
+# --------------------------------------------------------------------------- decision register
+# Each open item: what the documentation settles, what only the owner or the tenant can close, the options, a proposal and the proof.
+DECISIONS = [
+    {"id": "s1_registry", "title": "Registry product for S1", "scenarios": ["S1"], "status": "OPEN · OWNER DECISION",
+     "settled": ["Candidates exist and are listed with their evidence status; none is selected.", "AWS Agent Registry works for SAP-hosted agents, but choosing it makes the design S3."],
+     "remaining": ["Availability and entitlement of SAP AI Agent Hub (product page could not be read)", "Who approves publication and revokes records"],
+     "options": ["SAP AI Agent Hub (candidate, NOT_VERIFIED)", "SAP Integration Suite MCP Gateway developer hub (MCP tools only)", "AWS Agent Registry (this is S3)", "Interim domain-run catalog in Git with an approval step"],
+     "proposal": "Confirm SAP AI Agent Hub first; if it is unavailable, run the interim Git catalog or move to S3. Do not call a plain API catalog an agent registry.",
+     "proof": "Register the agent and the Apigee MCP endpoint, discover them as another client, then revoke one and confirm it disappears.", "owner": "Enterprise architecture + AI Foundry"},
+    {"id": "agentcore_mandate", "title": "Is AgentCore Gateway mandatory for every tool call? (S3-B)", "scenarios": ["S3"], "status": "OPEN · POLICY DECISION",
+     "settled": ["AgentCore Policy (Cedar, enforce mode, default deny) enforces rules at the gateway.", "The documentation does not say that a target refuses calls that bypass the gateway."],
+     "remaining": ["AI Foundry's written position", "A bypass control if it is mandated"],
+     "options": ["Not mandated: S3 baseline, Cloud Foundry agent calls Apigee directly", "Mandated: variant S3-B, with Apigee accepting only gateway-issued credentials", "Mandated and AWS-hosted: S2"],
+     "proposal": "Keep the S3 baseline. If AI Foundry mandates the gateway, adopt S3-B and make Apigee reject any call without a gateway-issued credential.",
+     "proof": "A direct call to Apigee without the gateway credential is rejected; a call through the gateway succeeds and is audited in both places.", "owner": "AI Foundry + Security"},
+    {"id": "s3_registry_sync", "title": "Can AWS Agent Registry reach SAP-hosted endpoints? (S3)", "scenarios": ["S3"], "status": "OPEN · SECURITY DECISION",
+     "settled": ["Sync needs a valid HTTPS URL and, for OAuth, a credential provider in the same AWS account.", "Sync runs on creation and on demand only, reverts the record to draft and is not documented to remove stale tools.", "Private-network reachability is not documented."],
+     "remaining": ["Whether the Apigee or Cloud Foundry URL may be reached from AWS", "Who retires stale records"],
+     "options": ["Publish records from the SAP release pipeline through the registry API, with no AWS connection to SAP", "Register manually with a custom descriptor", "Allow registry sync to the Apigee endpoint with OAuth client credentials"],
+     "proposal": "Start with pipeline-published records so AWS never calls into SAP; use sync only if Security approves the reachability.",
+     "proof": "Publish a record, discover it, release a new version, retire the old record, and confirm discovery shows only the approved version.", "owner": "AI Foundry + SAP BTP + Security"},
+    {"id": "s2_gateway_apigee", "title": "AgentCore Gateway to Apigee: protocol and token exchange (S2)", "scenarios": ["S2"], "status": "EVIDENCE READ · TENANT PROOF PENDING",
+     "settled": ["Both sides support MCP 2026-07-28, 2025-11-25, 2025-06-18 and 2025-03-26.", "The gateway can call an MCP-server target with OAuth client credentials, authorization code or token exchange; caller token passthrough is not supported.", "Apigee MCP accepts OAuth 2.1 and OIDC; it does not support SSE streams."],
+     "remaining": ["Target classification (MCP or HTTP target)", "An authorization server that supports token exchange for user delegation", "Whether a private Apigee endpoint is allowed", "Tool names are prefixed with the target name"],
+     "options": ["Service identity first: client credentials, DEFAULT listing", "User delegation: token exchange, DYNAMIC listing if the server lacks client credentials"],
+     "proposal": "Prove service identity end to end first, then user delegation.",
+     "proof": "One tools/list and one tools/call through the gateway to Apigee and on to a read tool, with the SAP user recorded.", "owner": "AI Foundry + SAP Integration"},
+    {"id": "tenant_capabilities", "title": "Tenant entitlements and capabilities", "scenarios": ["S1", "S2", "S3"], "status": "CAPABILITY DOCUMENTED · ENTITLEMENT NOT_VERIFIED",
+     "settled": ["SAP BTP Cloud Foundry runs Python applications; space quota plans and service plans apply.", "Apigee MCP needs OpenAPI 3.0.x, allows 1000 tools per organization and has capacity limits in some regions.", "AWS Agent Registry and AgentCore Gateway are documented."],
+     "remaining": ["Cloud Foundry space and quota", "Apigee MCP enablement and region", "AgentCore and Agent Registry availability and region", "Portkey routes"],
+     "options": ["Check each item per scenario before the POC starts"],
+     "proposal": "Run an entitlement checklist per scenario before any build.",
+     "proof": "Each item is confirmed by the platform owner in writing; none is inferred from product documentation.", "owner": "Platform owners"},
+]
 
 # --------------------------------------------------------------------------- validation
 BAD_GOOGLE = re.compile(r"Cloud Run|Vertex|Google Agent Registry|Google Agent Runtime|Agent Engine|Google Cloud agent", re.I)
@@ -581,6 +625,12 @@ def validate(model: dict | None = None) -> list[str]:
         errors.append("S3: registries must be AWS Agent Registry")
     if "Preferred candidate" not in c["status"]:
         errors.append("S3 must be labelled a preferred candidate subject to policy and POC")
+    if {d["id"] for d in DECISIONS} != {"s1_registry", "agentcore_mandate", "s3_registry_sync", "s2_gateway_apigee", "tenant_capabilities"}:
+        errors.append("the decision register must cover the five open items")
+    if any(not d["proposal"] or not d["proof"] or not d["owner"] or not d["remaining"] for d in DECISIONS):
+        errors.append("every register item needs a proposal, proof, owner and what remains")
+    if not a["registry_candidates"] or any("selected" in x.lower() and "not selected" not in x.lower() for x in a["registry_candidates"]):
+        errors.append("S1 lists registry candidates but must not claim one is selected")
     if re.search(r"production-ready|enterprise-approved", " ".join(map(str, c.values())), re.I):
         errors.append("S3 must not claim production readiness or approval")
     for name, spec in diagrams().items():
@@ -591,4 +641,4 @@ def validate(model: dict | None = None) -> list[str]:
 def export() -> dict:
     return {"version": MODEL_VERSION, "banner": STATUS_BANNER, "ids": list(SCENARIO_IDS), "scenarios": SCENARIOS, "comparison": COMPARISON, "connCols": CONN_COLS,
             "connections": CONNECTIONS, "diagrams": diagrams(), "diagramNames": DIAGRAM_NAMES, "recommendation": RECOMMENDATION, "evidence": EVIDENCE, "evidenceStatus": EVIDENCE_STATUS,
-            "domains": DOMAINS, "unresolvedRegistry": UNRESOLVED}
+            "domains": DOMAINS, "unresolvedRegistry": UNRESOLVED, "decisions": DECISIONS}

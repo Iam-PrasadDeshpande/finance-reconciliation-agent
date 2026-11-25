@@ -167,6 +167,19 @@ with sync_playwright() as pw:
     check("the diagram comparison shows two scenario diagrams", f.locator(".dd-compare-grid [data-testid^=diagram-D]").count() == 2)
     check("the diagrams page keeps the common-rules note", "Portkey is the LLM gateway" in body())
 
+    # ---- Decision brief: the five open decisions with what is settled and what remains
+    arch("Decision brief")
+    rows = f.locator("tr[data-testid^=decision-]")
+    check("the decision brief lists the five open decisions", rows.count() == len(model.DECISIONS))
+    f.locator("summary", has_text="Settled, remaining").first.click()
+    d0 = f.locator(".brief-detail").first.inner_text()
+    check("each decision shows what is settled, what remains, options and proof", all(h in d0.upper() for h in ("SETTLED BY THE DOCUMENTS", "ONLY THE OWNER OR TENANT", "OPTIONS", "PROOF")))
+    check("the S1 registry decision names candidates and keeps SAP AI Agent Hub NOT_VERIFIED", "SAP AI Agent Hub" in d0 and "NOT_VERIFIED" in d0)
+    arch("Registry")
+    f.get_by_role("tablist", name="Registry scenario selection").get_by_role("tab").nth(0).click(); page.wait_for_timeout(300)
+    cand = f.locator("[data-testid=registry-candidates]").inner_text()
+    check("the S1 registry page lists candidates and says none is selected", "SAP AI Agent Hub" in cand and "AWS Agent Registry" in cand and "none selected" in f.locator("main.registry-page").inner_text().lower())
+
     # ---- Live run: all three scenarios can be selected and run
     arch("Live run")
     route = f.locator("label", has_text="Route").locator("select")

@@ -39,6 +39,7 @@ export const RECOMMENDATION = { headline: MODEL.recommendation.headline, why: MO
 export const EVIDENCE = MODEL.evidence;
 export const EVIDENCE_NOTE = MODEL.evidenceStatus;
 export const UNRESOLVED = MODEL.unresolvedRegistry;
+export const DECISIONS = MODEL.decisions;
 
 const LEGEND_TEXT = { invoke: 'Runtime invocation', registry: 'Registration / discovery', llm: 'LLM invocation', identity: 'Identity / token', audit: 'Audit / correlation', approval: 'Approval', deploy: 'Deployment' };
 export const LEGEND = ['invoke', 'registry', 'llm', 'identity', 'audit'].map(k => [k, LEGEND_TEXT[k]]);

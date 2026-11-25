@@ -207,7 +207,7 @@ def check(page, url, hosted):
 
     # Audience-ready additions: decision brief, role lenses on My Home and the close process panel.
     go_decision("Decision brief")
-    assert page.locator(".brief-table tbody tr").count() == 9
+    assert page.locator(".brief-table tr[data-testid^=decision-]").count() == 5
     assert page.locator(".brief-gates li").count() == 7
     page.get_by_role("button", name="Proves / does not prove").click()
     assert "real MCP transport" in page.get_by_role("dialog", name="What this demo proves, and what it does not").inner_text()

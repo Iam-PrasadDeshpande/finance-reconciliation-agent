@@ -106,3 +106,15 @@ A shared decision strip (agent hosting, agent registry, MCP hosting, MCP registr
 - `tests/test_architecture_model.py` (28 tests): model invariants, corrupted-model rejection, diagram rules, D5, D6 and D10 against the scenario facts, S3 end to end, treasury gateway chains, and a guard against old scenario, Microsoft and Entra wording.
 - `scripts/qa_architecture_v51.py`: browser checks of every architecture view, the ten diagrams, no cut-off node text, live runs of S2 and S3, scenario-specific questions and the three playbooks.
 - Removed as obsolete (they asserted pages that no longer exist): `qa_v3.py`, `qa_release.py`, `qa_agentic.py`, `qa_architecture_v2.py`, `qa_decision_lab.py`, `qa_route_playbooks.py`, `qa_ux_layout.py`, and `pptx_to_svg.py`. `docs/evidence` keeps older captures of the previous interface as history and adds `v5_1_*` captures of the current pages.
+
+## V5.2: the open items, researched
+
+The five items that were open after V5.1 were researched against current documentation (2026-11-25) and recorded as a decision register (`DECISIONS` in the model, shown in the Decision brief). The register separates what the documents settle from what only the owner or the tenant can close, with options, a proposal, a proof and an owner. The proofs and the entitlement checklist are in `docs/POC_PROOF_AND_ENTITLEMENT_CHECKLIST.md`.
+
+| Open item | What changed |
+|---|---|
+| S1 registry product | Candidates identified: SAP AI Agent Hub (reported; product page unreadable, so NOT_VERIFIED), SAP Integration Suite MCP Gateway developer hub (MCP tools only), AWS Agent Registry (turns S1 into S3), an interim Git catalog. None selected. |
+| AgentCore Gateway mandatory (S3-B) | AgentCore Policy enforces Cedar rules at the gateway; the documents do not say targets refuse calls that bypass it, so a mandate also needs Apigee to accept only gateway-issued credentials. |
+| AWS reaching SAP-hosted endpoints (S3) | Sync needs an HTTPS URL, runs on creation and on demand, reverts the record to draft and does not remove stale tools; private reachability is not documented. Proposal: publish records from the SAP release pipeline so AWS never calls into SAP. |
+| AgentCore Gateway to Apigee (S2) | Four MCP protocol versions are shared; outbound OAuth client credentials, authorization code and token exchange are supported, passthrough is not; Apigee has no SSE. End-to-end proof still pending. |
+| SAP Cloud Foundry and tenant capabilities | The Cloud Foundry runtime page was read in a browser (Python buildpack, space quotas, service plans). Entitlement per tenant stays NOT_VERIFIED. |
