@@ -26,7 +26,9 @@ for (const key of Object.keys(model.diagrams)) {
   const wantNodes = spec.nodes.map(n => n.id).sort();
   const wantEdges = spec.edges.map(e => `${e[0]}-${e[1]}`).sort();
   const ok = JSON.stringify(nodes) === JSON.stringify(wantNodes) && JSON.stringify(edges) === JSON.stringify(wantEdges);
-  if (!ok) failed++;
+  const clipped = [...svg.matchAll(/data-node="([^"]+)" data-clipped/g)].map(m => m[1]);
+  if (clipped.length) console.log(`CLIPPED TEXT in ${key}: ${clipped.join(', ')}`);
+  if (!ok || clipped.length) failed++;
   console.log(`${ok ? 'PASS' : 'FAIL'} ${key} ${spec.title} nodes=${nodes.length}/${wantNodes.length} edges=${edges.length}/${wantEdges.length}`);
 }
 console.log(`${failed ? 'FAILED' : 'ALL DIAGRAMS MATCH THEIR SPEC'} (${Object.keys(model.diagrams).length} diagrams) -> ${out}`);

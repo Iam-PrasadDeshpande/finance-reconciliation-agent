@@ -109,8 +109,8 @@ components:
   remaining_live_vendor_validation: G1, G3 OPEN; no tenant proof
 - component_id: foundry_sdk
   display_name: Custom Foundry SDK
-  zone: AI Foundry design time
-  trust_boundary: AI Foundry design time
+  zone: Design time and registration
+  trust_boundary: Design time and registration
   owner: Foundry platform owner
   classification: custom Python simulator
   purpose: Custom Foundry SDK
@@ -135,8 +135,8 @@ components:
   remaining_live_vendor_validation: G1, G7 OPEN; no tenant proof
 - component_id: creation_api
   display_name: Local agent creation API
-  zone: AI Foundry design time
-  trust_boundary: AI Foundry design time
+  zone: Design time and registration
+  trust_boundary: Design time and registration
   owner: Foundry platform owner
   classification: custom Python simulator
   purpose: Local agent creation API
@@ -162,8 +162,8 @@ components:
   remaining_live_vendor_validation: G1, G7 OPEN; no tenant proof
 - component_id: agent_package
   display_name: Python agent package and typed bindings
-  zone: AI Foundry design time
-  trust_boundary: AI Foundry design time
+  zone: Design time and registration
+  trust_boundary: Design time and registration
   owner: Foundry platform owner
   classification: custom Python simulator
   purpose: Python agent package and typed bindings
@@ -189,8 +189,8 @@ components:
   remaining_live_vendor_validation: G1, G7 OPEN; no tenant proof
 - component_id: gitlab_pipeline
   display_name: GitLab source, tests, CI/CD and receipt
-  zone: AI Foundry design time
-  trust_boundary: AI Foundry design time
+  zone: Design time and registration
+  trust_boundary: Design time and registration
   owner: Foundry platform owner
   classification: custom Python simulator
   purpose: GitLab source, tests, CI/CD and receipt
@@ -215,12 +215,14 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G1, G7 OPEN; no tenant proof
 - component_id: agentcore_runtime
-  display_name: AgentCore Runtime simulator
-  zone: AWS runtime
-  trust_boundary: AWS logical
-  owner: AWS and Foundry owner
+  display_name: Agent runtime simulator (Cloud Foundry in S1 and S3, AgentCore Runtime
+    in S2)
+  zone: Agent runtime
+  trust_boundary: agent platform logical
+  owner: Agent platform owner
   classification: managed vendor simulator
-  purpose: AgentCore Runtime simulator
+  purpose: Agent runtime simulator (Cloud Foundry in S1 and S3, AgentCore Runtime
+    in S2)
   runtime_state: simulated
   code_module: poc.runtime
   health: ready
@@ -244,12 +246,12 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: agentcore_identity
-  display_name: AgentCore Identity simulator
-  zone: AWS runtime
-  trust_boundary: AWS logical
-  owner: AWS and Foundry owner
+  display_name: Agent workload identity simulator
+  zone: Agent runtime
+  trust_boundary: agent platform logical
+  owner: Agent platform owner
   classification: managed vendor simulator
-  purpose: AgentCore Identity simulator
+  purpose: Agent workload identity simulator
   runtime_state: simulated
   code_module: poc.identity
   health: ready
@@ -272,9 +274,9 @@ components:
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: mcp_client
   display_name: MCP client / gateway integration
-  zone: AWS runtime
-  trust_boundary: AWS logical
-  owner: AWS and Foundry owner
+  zone: Agent runtime
+  trust_boundary: agent platform logical
+  owner: Agent platform owner
   classification: custom Python simulator
   purpose: MCP client / gateway integration
   runtime_state: simulated
@@ -300,9 +302,9 @@ components:
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: context_manager
   display_name: Context Manager
-  zone: AWS runtime
-  trust_boundary: AWS logical
-  owner: AWS and Foundry owner
+  zone: Agent runtime
+  trust_boundary: agent platform logical
+  owner: Agent platform owner
   classification: custom Python simulator
   purpose: Context Manager
   runtime_state: simulated
@@ -327,9 +329,9 @@ components:
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: reconciliation_engine
   display_name: Deterministic Reconciliation Engine
-  zone: AWS runtime
-  trust_boundary: AWS logical
-  owner: AWS and Foundry owner
+  zone: Agent runtime
+  trust_boundary: agent platform logical
+  owner: Agent platform owner
   classification: custom Python simulator
   purpose: Deterministic Reconciliation Engine
   runtime_state: simulated
@@ -353,12 +355,12 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: agentcore_memory
-  display_name: Optional AgentCore Memory simulator
-  zone: AWS runtime
-  trust_boundary: AWS logical
-  owner: AWS and Foundry owner
+  display_name: Optional agent memory simulator
+  zone: Agent runtime
+  trust_boundary: agent platform logical
+  owner: Agent platform owner
   classification: managed vendor simulator
-  purpose: Optional AgentCore Memory simulator
+  purpose: Optional agent memory simulator
   runtime_state: inactive
   code_module: poc.runtime
   health: inactive
@@ -380,9 +382,9 @@ components:
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: observability
   display_name: Observability / correlation simulator
-  zone: AWS runtime
-  trust_boundary: AWS logical
-  owner: AWS and Foundry owner
+  zone: Agent runtime
+  trust_boundary: agent platform logical
+  owner: Agent platform owner
   classification: managed vendor simulator
   purpose: Observability / correlation simulator
   runtime_state: simulated
@@ -406,9 +408,9 @@ components:
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: posting_executor
   display_name: Controlled Posting Executor
-  zone: AWS runtime
-  trust_boundary: AWS logical
-  owner: AWS and Foundry owner
+  zone: Agent runtime
+  trust_boundary: agent platform logical
+  owner: Agent platform owner
   classification: custom Python simulator
   purpose: Controlled Posting Executor
   runtime_state: simulated
@@ -432,12 +434,12 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: iam_roles
-  display_name: IAM / workload role simulator
-  zone: AWS controls
-  trust_boundary: AWS logical
-  owner: AWS security owner
+  display_name: Workload role simulator
+  zone: Agent controls
+  trust_boundary: agent platform logical
+  owner: Platform security owner
   classification: custom Python simulator
-  purpose: IAM / workload role simulator
+  purpose: Workload role simulator
   runtime_state: simulated
   code_module: poc.identity
   health: ready
@@ -459,12 +461,12 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: secret_reference
-  display_name: Secrets Manager-style reference
-  zone: AWS controls
-  trust_boundary: AWS logical
-  owner: AWS security owner
+  display_name: Secret reference
+  zone: Agent controls
+  trust_boundary: agent platform logical
+  owner: Platform security owner
   classification: custom Python simulator
-  purpose: Secrets Manager-style reference
+  purpose: Secret reference
   runtime_state: simulated
   code_module: poc.identity
   health: ready
@@ -486,12 +488,12 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: kms_key_use
-  display_name: KMS-style key-use event
-  zone: AWS controls
-  trust_boundary: AWS logical
-  owner: AWS security owner
+  display_name: Key-use event
+  zone: Agent controls
+  trust_boundary: agent platform logical
+  owner: Platform security owner
   classification: custom Python simulator
-  purpose: KMS-style key-use event
+  purpose: Key-use event
   runtime_state: simulated
   code_module: poc.identity
   health: ready
@@ -513,12 +515,12 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: cloudwatch_sink
-  display_name: CloudWatch-style trace sink
-  zone: AWS controls
-  trust_boundary: AWS logical
-  owner: AWS security owner
+  display_name: Trace sink
+  zone: Agent controls
+  trust_boundary: agent platform logical
+  owner: Platform security owner
   classification: custom Python simulator
-  purpose: CloudWatch-style trace sink
+  purpose: Trace sink
   runtime_state: simulated
   code_module: poc.store
   health: ready
@@ -540,13 +542,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2, G7 OPEN; no tenant proof
 - component_id: apigee_gateway
-  display_name: Google Apigee MCP simulator (S1 and S3 gateway path)
+  display_name: Google Apigee MCP simulator (SAP-facing gateway in S1, S2 and S3)
   zone: Selected gateway
   trust_boundary: external Google
   owner: Gateway platform owner
   classification: managed vendor simulator
-  purpose: Google Apigee MCP simulator (S1 and S3 gateway path)
-  runtime_state: scenario_s1
+  purpose: Google Apigee MCP simulator (SAP-facing gateway in S1, S2 and S3)
+  runtime_state: gateway_apigee
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -558,6 +560,7 @@ components:
   identity_authorization: synthetic scoped policy
   data_classification: SYNTHETIC FINANCE
   dependencies:
+  - agentcore_audit
   - mcp_client
   timeout_retry: 2s; no automatic write retry
   failure_deny: fail closed and emit deny event
@@ -567,13 +570,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: apigee_inbound
-  display_name: S1 inbound caller policy
+  display_name: Apigee inbound caller policy
   zone: Selected gateway
   trust_boundary: external Google
   owner: Gateway platform owner
   classification: custom Python simulator
-  purpose: S1 inbound caller policy
-  runtime_state: scenario_s1
+  purpose: Apigee inbound caller policy
+  runtime_state: gateway_apigee
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -594,13 +597,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: apigee_registry
-  display_name: S1 tool registry / route
+  display_name: Apigee tool registry / route
   zone: Selected gateway
   trust_boundary: external Google
   owner: Gateway platform owner
   classification: custom Python simulator
-  purpose: S1 tool registry / route
-  runtime_state: scenario_s1
+  purpose: Apigee tool registry / route
+  runtime_state: gateway_apigee
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -621,13 +624,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: apigee_outbound
-  display_name: S1 outbound target credential
+  display_name: Apigee outbound target credential
   zone: Selected gateway
   trust_boundary: external Google
   owner: Gateway platform owner
   classification: custom Python simulator
-  purpose: S1 outbound target credential
-  runtime_state: scenario_s1
+  purpose: Apigee outbound target credential
+  runtime_state: gateway_apigee
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -648,13 +651,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: apigee_audit
-  display_name: S1 audit decision
+  display_name: Apigee audit decision
   zone: Selected gateway
   trust_boundary: external Google
   owner: Gateway platform owner
   classification: custom Python simulator
-  purpose: S1 audit decision
-  runtime_state: scenario_s1
+  purpose: Apigee audit decision
+  runtime_state: gateway_apigee
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -675,13 +678,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: agentcore_gateway
-  display_name: AgentCore Gateway simulator (S2 gateway path)
+  display_name: AgentCore Gateway simulator (S2 only, in front of Apigee)
   zone: Selected gateway
-  trust_boundary: AWS logical
+  trust_boundary: agent platform logical
   owner: Gateway platform owner
   classification: managed vendor simulator
-  purpose: AgentCore Gateway simulator (S2 gateway path)
-  runtime_state: scenario_s2
+  purpose: AgentCore Gateway simulator (S2 only, in front of Apigee)
+  runtime_state: gateway_agentcore
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -702,13 +705,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: agentcore_inbound
-  display_name: S2 inbound caller policy
+  display_name: AgentCore Gateway inbound caller policy
   zone: Selected gateway
-  trust_boundary: AWS logical
+  trust_boundary: agent platform logical
   owner: Gateway platform owner
   classification: custom Python simulator
-  purpose: S2 inbound caller policy
-  runtime_state: scenario_s2
+  purpose: AgentCore Gateway inbound caller policy
+  runtime_state: gateway_agentcore
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -729,13 +732,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: agentcore_registry
-  display_name: S2 target registry / route
+  display_name: AgentCore Gateway target registry / route
   zone: Selected gateway
-  trust_boundary: AWS logical
+  trust_boundary: agent platform logical
   owner: Gateway platform owner
   classification: custom Python simulator
-  purpose: S2 target registry / route
-  runtime_state: scenario_s2
+  purpose: AgentCore Gateway target registry / route
+  runtime_state: gateway_agentcore
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -756,13 +759,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: agentcore_outbound
-  display_name: S2 outbound target credential
+  display_name: AgentCore Gateway outbound target credential
   zone: Selected gateway
-  trust_boundary: AWS logical
+  trust_boundary: agent platform logical
   owner: Gateway platform owner
   classification: custom Python simulator
-  purpose: S2 outbound target credential
-  runtime_state: scenario_s2
+  purpose: AgentCore Gateway outbound target credential
+  runtime_state: gateway_agentcore
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -783,13 +786,13 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G2 OPEN; no tenant proof
 - component_id: agentcore_audit
-  display_name: S2 audit decision
+  display_name: AgentCore Gateway audit decision
   zone: Selected gateway
-  trust_boundary: AWS logical
+  trust_boundary: agent platform logical
   owner: Gateway platform owner
   classification: custom Python simulator
-  purpose: S2 audit decision
-  runtime_state: scenario_s2
+  purpose: AgentCore Gateway audit decision
+  runtime_state: gateway_agentcore
   code_module: poc.gateway
   health: ready
   inbound_interfaces:
@@ -1814,12 +1817,12 @@ components:
   audit_events: []
   remaining_live_vendor_validation: G6 OPEN; no tenant proof
 - component_id: bedrock_response
-  display_name: Amazon Bedrock model response simulator
+  display_name: Model response simulator (reached through Portkey)
   zone: Model branch
   trust_boundary: Model branch
   owner: AI platform owner
   classification: managed vendor simulator
-  purpose: Amazon Bedrock model response simulator
+  purpose: Model response simulator (reached through Portkey)
   runtime_state: simulated
   code_module: poc.model
   health: ready

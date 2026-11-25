@@ -46,7 +46,7 @@ export const LEGEND = ['invoke', 'registry', 'llm', 'identity', 'audit'].map(k =
 export function diagramSpec(key) { return MODEL.diagrams[key]; }
 export function diagramSvg(key) {
   const d = MODEL.diagrams[key];
-  return renderTopology({ ...d, title: d.title, captions: (d.lanes || []).map(([row, text]) => [(d.ys || [118, 258, 398, 528, 668])[row] - 26, text]), legend: d.legend.map(k => [k, LEGEND_TEXT[k]]), height: d.height });
+  return renderTopology({ ...d, title: d.title, captions: (d.lanes || []).map(([row, text]) => [(d.ys || [118, 258, 398, 528, 668])[row] - (row >= 2 ? 18 : 26), text]), legend: d.legend.map(k => [k, LEGEND_TEXT[k]]), height: d.height });
 }
 export function topologySvg(id) { return diagramSvg({ S1: 'D2', S2: 'D3', S3: 'D4' }[id]); }
 
@@ -80,7 +80,12 @@ export function renderTopology(t) {
   const nw = (W - 2 * M - (t.cols - 1) * GAP) / t.cols;
   const ys = t.ys || [118, 258, 398, 528, 668];
   const pos = {};
-  for (const n of t.nodes) { const span = n.span || 1; pos[n.id] = { x: M + n.col * (nw + GAP), y: ys[n.row], w: span * nw + (span - 1) * GAP, h: n.h || NH, n }; }
+  // A node grows to fit all of its text (up to the row gap) instead of silently cutting lines off.
+  const needed = (n, w) => 20 + wrap(n.title, Math.floor(w / 7.1)).length * 15 + wrap(n.sub, Math.floor((w - 8) / 5.7)).length * 12.5 + 8 + (n.status ? 14 : 0);
+  for (const n of t.nodes) {
+    const span = n.span || 1, w = span * nw + (span - 1) * GAP, base = n.h || NH, need = Math.ceil(needed(n, w));
+    pos[n.id] = { x: M + n.col * (nw + GAP), y: ys[n.row], w, h: need > base ? Math.min(need, 136) : base, clipped: need > 136, n };
+  }
   const parts = [];
   // boundaries first
   for (const [label, members, kind] of t.bounds) {
@@ -129,10 +134,10 @@ export function renderTopology(t) {
   for (const n of t.nodes) {
     const p = pos[n.id];
     const tag = `${n.stage ? ' data-stage="1"' : ''}${n.kind === 'control' ? ' data-control="1"' : ''}`;
-    parts.push(`<rect data-node="${n.id}"${tag} x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="7" fill="${FILL[n.kind]}" stroke="${n.stroke || '#506778'}" stroke-width="${n.strokeWidth || 1.4}"${n.dashed ? ' stroke-dasharray="7 4"' : ''}${n.cls ? ` class="${n.cls}"` : ''}/>`);
-    const title = wrap(n.title, Math.floor(p.w / 7.1)).slice(0, 2);
+    parts.push(`<rect data-node="${n.id}"${p.clipped ? ' data-clipped="1"' : ''}${tag} x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="7" fill="${FILL[n.kind]}" stroke="${n.stroke || '#506778'}" stroke-width="${n.strokeWidth || 1.4}"${n.dashed ? ' stroke-dasharray="7 4"' : ''}${n.cls ? ` class="${n.cls}"` : ''}/>`);
+    const title = wrap(n.title, Math.floor(p.w / 7.1));
     title.forEach((line, i) => parts.push(`<text x="${p.x + 8}" y="${p.y + 20 + i * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${esc(line)}</text>`));
-    const sub = wrap(n.sub, Math.floor((p.w - 8) / 5.7)).slice(0, Math.max(2, Math.floor((p.h - 20 - title.length * 15 - 8) / 12.5) - (n.status ? 1 : 0)));
+    const sub = wrap(n.sub, Math.floor((p.w - 8) / 5.7));
     sub.forEach((line, i) => parts.push(`<text x="${p.x + 8}" y="${p.y + 20 + title.length * 15 + i * 12.5}" font-size="10.5" fill="#34495C">${esc(line)}</text>`));
     if (n.status) parts.push(`<text x="${p.x + 8}" y="${p.y + p.h - 9}" font-size="10.5" font-weight="700" fill="${n.statusColor || '#34495C'}">${esc(n.status)}</text>`);
     if (n.zone) parts.push(`<rect data-zone="${esc(n.zone)}" x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="7" fill="transparent"/>`);

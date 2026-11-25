@@ -54,7 +54,7 @@ with sync_playwright() as pw:
 
     f.get_by_role("button", name="Open Agents").click() if f.get_by_role("button", name="Open Agents").count() else None
     # ---- every architecture tab opens
-    for name in ("Live run", "Complete architecture", "MCP hosting", "Agent hosting", "Decision brief", "Ontology", "Diagrams"):
+    for name in ("Live run", "Complete architecture", "MCP hosting", "Agent hosting", "Registry", "Decision brief", "Ontology", "Diagrams"):
         arch(name)
         check(f"architecture tab '{name}' opens", len(body()) > 200)
 
@@ -98,15 +98,33 @@ with sync_playwright() as pw:
     f.get_by_role("tablist", name="MCP scenario selection").get_by_role("tab").nth(2).click()
     f.locator("[data-testid=mg-matrix] summary").click(); page.wait_for_timeout(300)
     check("the MCP hosting matrix lists every comparison row", f.locator("[data-testid=mg-matrix] tbody tr").count() == len(model.COMPARISON))
-    f.locator("[data-testid=mg-registry] summary").click(); page.wait_for_timeout(300)
-    reg = f.locator("[data-testid=mg-registry]").inner_text()
-    check("the registry table separates registration from hosting and keeps S1 unresolved", "AWS Agent Registry" in reg and "pending" in reg.lower())
-    check("the MCP hosting page makes the four independent decisions explicit", "Four independent decisions".upper() in body().upper() or "FOUR INDEPENDENT DECISIONS" in body().upper())
+    f.locator("[data-testid=mg-patterns] summary").click(); page.wait_for_timeout(300)
+    pat = f.locator("[data-testid=mg-patterns]").inner_text()
+    check("MCP hosting explains the managed endpoint versus the custom server", "PATTERN A" in pat.upper() and "PATTERN B" in pat.upper() and "Cloud Foundry" in pat)
+    check("MCP hosting shows a decision strip with hosting next to registration", f.locator("[data-testid=decision-strip]").count() >= 1)
+    check("the MCP hosting page points registration to its own page", "Registry" in body())
 
     # ---- Agent hosting
     arch("Agent hosting")
     ah = body()
-    check("agent hosting offers SAP BTP Cloud Foundry and AWS AgentCore Runtime only", "SAP BTP Cloud Foundry" in ah and "AWS AgentCore Runtime" in ah and "Joule" not in ah and "Microsoft" not in ah)
+    check("agent hosting offers SAP BTP Cloud Foundry and AWS AgentCore Runtime only", "SAP BTP Cloud Foundry" in ah and "AWS AgentCore Runtime" in ah and "Joule" not in ah and "Microsoft" not in ah and "Kyma" not in ah)
+    check("agent hosting states that registration is a separate decision", "separate decision" in ah.lower() or "Registration is separate" in ah or "not decided by hosting" in ah.lower())
+
+    # ---- Registry
+    arch("Registry")
+    rg = f.locator("main.registry-page").inner_text()
+    check("registry shows registration next to hosting", f.locator("[data-testid=decision-strip]").count() == 1)
+    tabsr = f.get_by_role("tablist", name="Registry scenario selection").get_by_role("tab")
+    check("registry offers S1, S2, S3 and a comparison", tabsr.count() == 4)
+    tabsr.nth(0).click(); page.wait_for_timeout(300)
+    s1r = f.locator("main.registry-page").inner_text()
+    check("S1 registry is shown as unresolved with no product invented", "product selection pending" in s1r.lower() and "AWS Agent Registry" not in f.locator("[data-testid=registry-facts]").inner_text())
+    tabsr.nth(2).click(); page.wait_for_timeout(300)
+    s3r = f.locator("[data-testid=registry-facts]").inner_text() + f.locator("[data-testid=registry-notes]").inner_text()
+    check("S3 registers in AWS Agent Registry as control plane only", "AWS Agent Registry" in s3r and "never an execution hop" in s3r)
+    tabsr.nth(3).click(); page.wait_for_timeout(300)
+    check("registry comparison lists the three scenarios", f.locator("[data-testid=registry-compare] thead th").count() == 4)
+    check("registry shows D5 and offers D8", f.locator("[data-testid=diagram-D5] svg [data-node]").count() == len(SPECS["D5"]["nodes"]))
 
     # ---- The ten diagrams: render, zoom, pan, reset, expand, export
     arch("Diagrams")
@@ -117,6 +135,7 @@ with sync_playwright() as pw:
         svg = f.locator(f"[data-testid=diagram-{key}] svg")
         nodes = svg.locator("[data-node]").count(); edges = svg.locator("[data-edge]").count()
         check(f"{key} {model.DIAGRAM_NAMES[key]}: SVG has {len(SPECS[key]['nodes'])} nodes and {len(SPECS[key]['edges'])} edges", nodes == len(SPECS[key]["nodes"]) and edges == len(SPECS[key]["edges"]), f"{nodes}/{edges}")
+        check(f"{key}: no node text is cut off", svg.locator("[data-clipped]").count() == 0)
     selector.nth(2).click(); page.wait_for_timeout(300)
     zoom = f.locator("output.dd-zoom")
     before = int(zoom.inner_text().rstrip("%"))
@@ -147,6 +166,39 @@ with sync_playwright() as pw:
     selector.nth(10).click(); page.wait_for_timeout(400)
     check("the diagram comparison shows two scenario diagrams", f.locator(".dd-compare-grid [data-testid^=diagram-D]").count() == 2)
     check("the diagrams page keeps the common-rules note", "Portkey is the LLM gateway" in body())
+
+    # ---- Live run: all three scenarios can be selected and run
+    arch("Live run")
+    route = f.locator("label", has_text="Route").locator("select")
+    check("the live run offers S1, S2 and S3", [o.get_attribute("value") for o in route.locator("option").all()] == ["S1", "S2", "S3"])
+    for sid, hop in (("S3", "Apigee"), ("S2", "AgentCore Gateway, then Apigee")):
+        route.select_option(sid)
+        f.locator("label", has_text="Pace").locator("select").select_option(index=0)
+        f.get_by_role("button", name="Run architecture").click()
+        f.get_by_role("heading", name="Case complete").wait_for(timeout=150000)
+        zone = f.locator("[data-testid=diagram-live] svg").inner_html()
+        check(f"a {sid} run completes and names its gateway path '{hop}'", all(word in zone for word in hop.split(",")[0].split(" ")[:2]) and ("then Apigee" in zone if sid == "S2" else "Apigee" in zone) and SC[sid]["name"].split(" · ")[1].split()[0] in zone)
+
+    # ---- Architecture questions: scenario-specific, with playbooks for all three
+    arch("Live run")
+    f.get_by_role("button", name="Review open architecture questions").click()
+    f.locator(".question-card").first.wait_for(timeout=60000)
+    f.locator(".question-card").first.click()
+    f.get_by_label("Architecture route").wait_for(timeout=60000)
+    seen_positions = []
+    for sid in ("S1", "S2", "S3"):
+        f.get_by_label("Architecture route").select_option(sid); page.wait_for_timeout(300)
+        seen_positions.append(f.locator("[data-testid=scenario-position]").inner_text())
+    check("the question page says what the question means in each scenario", len(set(seen_positions)) == 3 and "Cloud Foundry" in seen_positions[0] and "AgentCore Gateway" in seen_positions[1] and "AWS Agent Registry" in seen_positions[2], " | ".join(x[:30] for x in seen_positions))
+    f.get_by_role("button", name="Hosting & dependencies").click()
+    plan = f.get_by_role("dialog", name="Gateway implementation plan")
+    plan.wait_for(timeout=30000)
+    check("hosting and dependencies has a plan for each of the three scenarios", plan.get_by_role("navigation", name="Gateway scenarios").get_by_role("button").count() == 3)
+    plan.get_by_role("button", name="Close implementation plan").click()
+    f.get_by_role("button", name="Run selected probe").click()
+    f.locator(".lab-flow-panel .pill").filter(has_text="complete").wait_for(timeout=60000)
+    check("a probe on S3 runs through the Cloud Foundry agent and Apigee, with no AgentCore Gateway", "SAP BTP Cloud Foundry agent" in f.locator(".lab-flow-panel").inner_text() and "AgentCore Gateway" not in f.locator(".lab-flow-panel").inner_text())
+    f.locator(".detail-return-bar button").click()
 
     # ---- no obsolete assumptions anywhere we visited
     allowed = "\n".join(seen_text)

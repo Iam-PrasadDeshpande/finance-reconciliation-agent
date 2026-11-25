@@ -61,5 +61,5 @@ MODULE = AgentModule(
     ask_template="Reconcile {period} company code 1000 ledger 0L USD", examples=["Reconcile {period} company code 1000 ledger 0L USD", "Investigate this variance", "Explain the route controls", "Post a journal entry to SAP for {period}"],
     catalog=_catalog, run=_run, ontology=lambda: ONTOLOGY, tool_concepts=TOOL_CONCEPTS, default=True,
     output={"screen_name": "Close & reconcile", "open_label": "Open in Close & reconcile", "detail_label": "Open the detailed reconciliation report"},
-    architecture={"route": "Selected MCP route S1 or S2 (gateway, domain MCP, SAP BAIP, S/4HANA, Central Finance, BW) plus Databricks", "data": "poc/history.py and poc/recon_report.py (synthetic)", "hosting": "Agent runtime and MCP hosting are chosen on the Architecture pages; they apply to every module"},
+    architecture={"route": "Selected scenario (S1, S2 or S3: Apigee MCP/API, with AgentCore Gateway in front in S2) (gateway, domain MCP, SAP BAIP, S/4HANA, Central Finance, BW) plus Databricks", "data": "poc/history.py and poc/recon_report.py (synthetic)", "hosting": "Agent runtime and MCP hosting are chosen on the Architecture pages; they apply to every module"},
 )

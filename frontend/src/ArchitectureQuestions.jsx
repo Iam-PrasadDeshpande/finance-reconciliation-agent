@@ -1,9 +1,9 @@
 import React,{useEffect,useRef,useState} from 'react';
 
 const ROUTES=[
-  {id:'S1',label:'S1 · Apigee route'},
-  {id:'S2',label:'S2 · AgentCore route'},
-  {id:'S3',label:'S3 · Combined candidate'},
+  {id:'S1',label:'S1 · SAP-centric'},
+  {id:'S2',label:'S2 · AWS AgentCore-centric'},
+  {id:'S3',label:'S3 · SAP-hosted hybrid'},
 ];
 
 function FlowNode({step,selected,processing,onSelect}){
@@ -74,7 +74,7 @@ export default function ArchitectureQuestions({questions=[],routePlaybooks={},fo
       <div className="question-list">{questions.map((item,index)=><button type="button" key={item.id} className={`question-card ${selectedId===item.id?'selected':''}`} onClick={()=>choose(item)} aria-pressed={selectedId===item.id}>
         <span>Q{index+1} · OPEN</span><strong>{item.title}</strong><small>{item.summary}</small>
       </button>)}</div>
-      <p className="lab-footnote">S1 and S2 are simulated alternatives. S3 tests a proposed external agent → AgentCore Gateway → SAP Apigee path; approval remains open.</p>
+      <p className="lab-footnote">Each probe walks the selected scenario: S1 SAP-centric (Cloud Foundry agent, Apigee), S2 AWS AgentCore-centric (AgentCore Runtime and Gateway, then Apigee) and S3 SAP-hosted hybrid (Cloud Foundry agent, Apigee, AWS Agent Registry for registration only). Results are simulated; approval remains open.</p>
     </aside>
 
     <section className="lab-center">
@@ -103,7 +103,7 @@ export default function ArchitectureQuestions({questions=[],routePlaybooks={},fo
     <aside className="surface lab-decision">
       <div className="section-heading"><div><span className="eyebrow">MEETING DECISION RECORD</span><h2>Required alignment</h2></div></div>
       {question?<>
-        <div className="lab-position"><span>Discussion baseline · not approved policy</span><p>{question.current_position}</p></div>
+        <div className="lab-position"><span>Discussion baseline · not approved policy</span><p>{question.current_position}</p>{question.scenario_position?.[route]&&<p data-testid="scenario-position"><strong>{route}:</strong> {question.scenario_position[route]}</p>}</div>
         <div className="lab-decision-question"><span>Decision to resolve</span><strong>{question.decision}</strong><small>Owner · {question.owner}</small></div>
         <div className="lab-open-status">OPEN · No policy or tenant approval is asserted by this simulator.</div>
         <div className="lab-next-action"><span>Next action</span><strong>{question.next_action}</strong></div>

@@ -1227,7 +1227,7 @@
      "gw",
      "apigee",
      "invoke",
-     "MCP"
+     ""
     ],
     [
      "apigee",
@@ -1646,16 +1646,17 @@
    "id": "D5",
    "scenario": null,
    "title": "MCP hosting versus registration",
-   "chain": "Four independent decisions, plus the MCP gateway as a separate shared responsibility",
+   "chain": "Four independent decisions, plus the MCP gateway and the LLM gateway as separate shared responsibilities",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 4,
-   "nh": 100,
+   "nh": 76,
    "ys": [
-    118,
-    258,
-    398,
-    528,
-    668
+    104,
+    208,
+    312,
+    416,
+    520,
+    624
    ],
    "height": 840,
    "nodes": [
@@ -1824,6 +1825,38 @@
      "title": "Google Apigee",
      "sub": "S3 · SAP-hosted hybrid",
      "kind": "gateway"
+    },
+    {
+     "id": "l5",
+     "row": 5,
+     "col": 0,
+     "title": "LLM gateway (common to all)",
+     "sub": "Shared across scenarios",
+     "kind": "llm"
+    },
+    {
+     "id": "c5_1",
+     "row": 5,
+     "col": 1,
+     "title": "Portkey",
+     "sub": "S1 · SAP-centric",
+     "kind": "llm"
+    },
+    {
+     "id": "c5_2",
+     "row": 5,
+     "col": 2,
+     "title": "Portkey",
+     "sub": "S2 · AWS AgentCore-centric",
+     "kind": "llm"
+    },
+    {
+     "id": "c5_3",
+     "row": 5,
+     "col": 3,
+     "title": "Portkey",
+     "sub": "S3 · SAP-hosted hybrid",
+     "kind": "llm"
     }
    ],
    "edges": [
@@ -1904,7 +1937,8 @@
      "title": "SAP Cloud Identity Services (IAS) · candidate trust component",
      "sub": "Evaluate as trust component; Global User ID as identity-correlation attribute where supported",
      "kind": "identity",
-     "span": 3
+     "span": 3,
+     "h": 70
     },
     {
      "id": "user",
@@ -1992,8 +2026,18 @@
      "title": "SAP backend is the business authority",
      "sub": "Registry visibility, gateway access and tool discovery never grant business authorization. Business approval is a separate step.",
      "kind": "backend",
-     "span": 6,
-     "h": 70
+     "span": 3,
+     "h": 84
+    },
+    {
+     "id": "byscen",
+     "row": 3,
+     "col": 3,
+     "title": "What differs by scenario",
+     "sub": "S1: agent to Apigee, one hop. S2: agent to AgentCore Gateway to Apigee, two hops. S3: as S1, plus a separate registry identity.",
+     "kind": "decision",
+     "span": 3,
+     "h": 84
     }
    ],
    "edges": [
@@ -2556,16 +2600,17 @@
    "id": "D10",
    "scenario": null,
    "title": "Three-scenario comparison",
-   "chain": "Same labels and ownership boundaries in every scenario; the registry is never in the path",
+   "chain": "Same labels and ownership boundaries in every scenario; Portkey is common and the registry is never in the path",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 6,
-   "nh": 100,
+   "nh": 62,
    "ys": [
-    118,
-    258,
-    398,
-    528,
-    668
+    104,
+    176,
+    304,
+    376,
+    504,
+    576
    ],
    "height": 840,
    "nodes": [
@@ -2574,7 +2619,7 @@
      "row": 0,
      "col": 0,
      "title": "SAP Fiori / UI",
-     "sub": "S1 · SAP-centric",
+     "sub": "SAP-centric",
      "kind": "ui"
     },
     {
@@ -2582,7 +2627,7 @@
      "row": 0,
      "col": 1,
      "title": "Cloud Foundry agent",
-     "sub": "SAP BTP. Registry: Domain-managed catalog · product selection pending",
+     "sub": "SAP BTP",
      "kind": "agent"
     },
     {
@@ -2610,24 +2655,45 @@
      "kind": "backend"
     },
     {
-     "id": "S2_ui",
+     "id": "S1_portkey",
      "row": 1,
+     "col": 1,
+     "title": "Portkey",
+     "sub": "LLM gateway",
+     "kind": "llm",
+     "h": 56
+    },
+    {
+     "id": "S1_reg",
+     "row": 1,
+     "col": 2,
+     "title": "Registry",
+     "sub": "Domain-managed catalog · product selection pending",
+     "kind": "registry",
+     "h": 56,
+     "dashed": true,
+     "status": "PENDING",
+     "statusColor": "#B3261E"
+    },
+    {
+     "id": "S2_ui",
+     "row": 2,
      "col": 0,
      "title": "SAP Fiori / UI",
-     "sub": "S2 · AWS AgentCore-centric",
+     "sub": "AWS AgentCore-centric",
      "kind": "ui"
     },
     {
      "id": "S2_agent",
-     "row": 1,
+     "row": 2,
      "col": 1,
      "title": "AgentCore Runtime agent",
-     "sub": "AWS. Registry: AWS Agent Registry",
+     "sub": "AWS",
      "kind": "agent"
     },
     {
      "id": "S2_gw",
-     "row": 1,
+     "row": 2,
      "col": 2,
      "title": "AgentCore Gateway",
      "sub": "Enterprise gateway",
@@ -2635,7 +2701,7 @@
     },
     {
      "id": "S2_apigee",
-     "row": 1,
+     "row": 2,
      "col": 3,
      "title": "Apigee MCP/API",
      "sub": "SAP-facing gateway",
@@ -2643,7 +2709,7 @@
     },
     {
      "id": "S2_int",
-     "row": 1,
+     "row": 2,
      "col": 4,
      "title": "Integration Suite",
      "sub": "SAP integration",
@@ -2651,31 +2717,49 @@
     },
     {
      "id": "S2_sap",
-     "row": 1,
+     "row": 2,
      "col": 5,
      "title": "SAP backend",
      "sub": "Authorizes",
      "kind": "backend"
     },
     {
+     "id": "S2_portkey",
+     "row": 3,
+     "col": 1,
+     "title": "Portkey",
+     "sub": "LLM gateway",
+     "kind": "llm",
+     "h": 56
+    },
+    {
+     "id": "S2_reg",
+     "row": 3,
+     "col": 2,
+     "title": "AWS Agent Registry",
+     "sub": "Agent and MCP records",
+     "kind": "registry",
+     "h": 56
+    },
+    {
      "id": "S3_ui",
-     "row": 2,
+     "row": 4,
      "col": 0,
      "title": "SAP Fiori / UI",
-     "sub": "S3 · SAP-hosted hybrid · preferred candidate",
+     "sub": "SAP-hosted hybrid · preferred candidate",
      "kind": "ui"
     },
     {
      "id": "S3_agent",
-     "row": 2,
+     "row": 4,
      "col": 1,
      "title": "Cloud Foundry agent",
-     "sub": "SAP BTP. Registry: AWS Agent Registry (metadata only)",
+     "sub": "SAP BTP",
      "kind": "agent"
     },
     {
      "id": "S3_apigee",
-     "row": 2,
+     "row": 4,
      "col": 3,
      "title": "Apigee MCP/API",
      "sub": "SAP-facing gateway",
@@ -2683,7 +2767,7 @@
     },
     {
      "id": "S3_int",
-     "row": 2,
+     "row": 4,
      "col": 4,
      "title": "Integration Suite",
      "sub": "SAP integration",
@@ -2691,11 +2775,29 @@
     },
     {
      "id": "S3_sap",
-     "row": 2,
+     "row": 4,
      "col": 5,
      "title": "SAP backend",
      "sub": "Authorizes",
      "kind": "backend"
+    },
+    {
+     "id": "S3_portkey",
+     "row": 5,
+     "col": 1,
+     "title": "Portkey",
+     "sub": "LLM gateway",
+     "kind": "llm",
+     "h": 56
+    },
+    {
+     "id": "S3_reg",
+     "row": 5,
+     "col": 2,
+     "title": "AWS Agent Registry",
+     "sub": "Metadata only, not a hop",
+     "kind": "registry",
+     "h": 56
     }
    ],
    "edges": [
@@ -2722,6 +2824,21 @@
      "S1_sap",
      "invoke",
      ""
+    ],
+    [
+     "S1_agent",
+     "S1_portkey",
+     "llm",
+     ""
+    ],
+    [
+     "S1_agent",
+     "S1_reg",
+     "registry",
+     "",
+     {
+      "off": 22
+     }
     ],
     [
      "S2_ui",
@@ -2754,6 +2871,21 @@
      ""
     ],
     [
+     "S2_agent",
+     "S2_portkey",
+     "llm",
+     ""
+    ],
+    [
+     "S2_agent",
+     "S2_reg",
+     "registry",
+     "",
+     {
+      "off": 22
+     }
+    ],
+    [
      "S3_ui",
      "S3_agent",
      "invoke",
@@ -2776,6 +2908,21 @@
      "S3_sap",
      "invoke",
      ""
+    ],
+    [
+     "S3_agent",
+     "S3_portkey",
+     "llm",
+     ""
+    ],
+    [
+     "S3_agent",
+     "S3_reg",
+     "registry",
+     "",
+     {
+      "off": 22
+     }
     ]
    ],
    "bounds": [],
@@ -2785,16 +2932,18 @@
      "S1"
     ],
     [
-     1,
+     2,
      "S2"
     ],
     [
-     2,
+     4,
      "S3 · PREFERRED CANDIDATE"
     ]
    ],
    "legend": [
-    "invoke"
+    "invoke",
+    "llm",
+    "registry"
    ],
    "footer": "Portkey is the LLM gateway in all three. The SAP backend decides authorization in all three. S3-B (AgentCore Gateway mandated) is a separate option, not drawn."
   }

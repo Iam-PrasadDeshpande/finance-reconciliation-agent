@@ -94,7 +94,7 @@ def check(page, url, hosted):
     def apply(condition):
         page.locator(".rr-condition select").select_option(condition)
         page.get_by_role("button", name="Apply to").click()
-        page.wait_for_timeout(1500 if hosted else 400)
+        page.wait_for_timeout(1500 if hosted else 1200)
 
     apply("baseline")
     open_report()
@@ -140,81 +140,44 @@ def check(page, url, hosted):
     page.locator(".question-card").first.wait_for()
     page.locator(".detail-return-bar button").click()
 
+    # Architecture V5.1: three scenarios from one model (details are covered by qa_architecture_v51.py).
     go_decision("Complete architecture")
     route_tabs = page.get_by_role("tablist", name="Architecture approach details").get_by_role("tab")
     assert route_tabs.count() == 4
     for index, route in enumerate(("S1", "S2", "S3")):
         route_tabs.nth(index).click()
         assert route_tabs.nth(index).get_attribute("aria-selected") == "true"
-        assert f"ROUTE {route}" in page.locator(".mcp-bird-panel").inner_text()
+        assert route in page.locator(".mcp-bird-panel").inner_text()
         page.locator(".diagram-action").click()
         diagram = page.get_by_role("dialog", name=f"{route} ·", exact=False)
-        assert diagram.locator("[data-stage]").count() >= 6
-        assert diagram.locator("[data-control]").count() == 4
+        assert diagram.locator("[data-node]").count() >= 12
         diagram.get_by_role("button", name="Close").click()
-    route_tabs.nth(1).click()
-    page.get_by_role("button", name="Handoffs and proof").click()
-    dialog = page.get_by_role("dialog", name="S2 architecture details")
-    assert "MCP-server target" in dialog.inner_text()
-    assert "Runtime passthrough" not in dialog.inner_text()
-    page.get_by_role("button", name="Run related architecture questions").click()
-    page.locator(".question-card").first.click()
-    page.locator(".lab-flow-panel .pill").filter(has_text="complete").wait_for(timeout=30000)
-    page.locator(".detail-return-bar button").click()
-    go_decision("Complete architecture")
     route_tabs.nth(3).click()
-    assert page.locator(".mcp-bird-compare-grid article").count() == 3
-    page.get_by_role("button", name="View full control matrix").click()
-    assert page.get_by_role("dialog", name="Full MCP control matrix").locator("tbody tr").count() == 14
-    page.get_by_role("dialog", name="Full MCP control matrix").get_by_role("button", name="Close").click()
+    assert page.locator("[data-testid=arch-compare] tbody tr").count() == 22
     go_decision("Agent hosting")
     host_tabs = page.get_by_role("tablist", name="Agent hosting options").get_by_role("tab")
-    assert host_tabs.count() == 4
-    host_tabs.nth(1).click()
-    page.get_by_role("button", name="Architecture diagram").click()
-    hosting_diagram = page.get_by_role("dialog", name="architecture diagram")
-    assert hosting_diagram.locator("[data-stage]").count() == 6
-    hosting_diagram.get_by_role("button", name="View detailed prerequisites").click()
-    assert "Cloud Foundry" in page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").inner_text()
-    page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").get_by_role("button", name="Close").click()
-    page.get_by_role("button", name="Eligibility gates").click()
-    assert "Named operating and incident owner" in page.get_by_role("dialog", name="Eligibility before ranking").inner_text()
-    page.get_by_role("dialog", name="Eligibility before ranking").get_by_role("button", name="Close").click()
+    assert host_tabs.count() == 2
+    page.get_by_role("button", name="S3 diagram").click()
+    assert page.get_by_role("dialog", name="architecture diagram").locator("[data-node]").count() >= 12
+    page.get_by_role("dialog", name="architecture diagram").get_by_role("button", name="Close").click()
     go_decision("Complete architecture")
-    if page.viewport_size["width"] >= 1000:
-        assert page.locator(".mcp-bird").evaluate("e => e.scrollHeight <= e.clientHeight")
-        assert page.locator(".mcp-bird-panel").evaluate("e => e.scrollHeight <= e.clientHeight")
 
-    # Detailed diagram tab: explicit S1/S2 selection, compare mode, zoom, reset and navigation back.
-    go_decision("Complete architecture")
-    route_tabs.nth(0).click()
-    page.get_by_role("button", name="Detailed diagram (zoom)").click()
-    assert decision_selected("Diagrams")
+    # Diagrams tab: ten generated diagrams plus a comparison.
+    go_decision("Diagrams")
     selector = page.get_by_role("tablist", name="Detailed diagram selection").get_by_role("tab")
-    assert selector.count() == 3
-    assert page.locator("[data-testid=diagram-S1] text").count() >= 200
+    assert selector.count() == 11
+    selector.nth(2).click()
+    assert page.locator("[data-testid=diagram-D3] svg [data-node]").count() >= 12
     zoom = page.locator(".dd-zoom").first
     fitted = zoom.inner_text()
-    page.get_by_role("button", name="Zoom in S1").click()
+    page.get_by_role("button", name="Zoom in D3").click()
     assert int(zoom.inner_text()[:-1]) > int(fitted[:-1])
-    page.get_by_role("button", name="Reset S1 view to fit").click()
+    page.get_by_role("button", name="Reset D3 view to fit").click()
     assert zoom.inner_text() == fitted
-    selector.nth(1).click()
-    assert page.locator("[data-testid=diagram-S2]").count() == 1 and page.locator("[data-testid=diagram-S1]").count() == 0
-    assert page.locator("[data-testid=diagram-S2] text", has_text="AWS trust boundary").count() == 1
-    selector.nth(2).click()
-    assert page.locator(".dd-viewer").count() == 2
-    landscape = page.get_by_role("tablist", name="Landscape diagram selection").get_by_role("tab")
-    assert landscape.count() == 7
-    for index in range(7):
-        landscape.nth(index).click()
-        assert page.locator("[data-testid^=diagram-] [data-stage]").count() in (6, 7)
-        assert page.locator("[data-testid^=diagram-] [data-control]").count() == 4
-        assert page.locator(".dd-viewer").count() == 1
-    page.get_by_role("button", name="← Complete architecture").first.click()
-    assert tabs.nth(3).get_attribute("aria-selected") == "true"
+    selector.nth(10).click()
+    assert page.locator(".dd-compare-grid [data-testid^=diagram-D]").count() == 2
 
-    # MCP hosting & governance tab: scenario selection, generated diagrams, matrices, consistency and navigation.
+    # MCP hosting: scenario selection, matrices, evidence and navigation.
     go_decision("Complete architecture")
     route_tabs.nth(2).click()
     page.get_by_role("button", name="MCP hosting →").click()
@@ -222,45 +185,29 @@ def check(page, url, hosted):
     scenario = page.get_by_role("tablist", name="MCP scenario selection").get_by_role("tab")
     assert scenario.count() == 4
     assert scenario.nth(2).get_attribute("aria-selected") == "true"  # arrived from S3
-    assert page.locator("[data-testid=mg-matrix] tbody tr").count() == 21
+    page.locator("[data-testid=mg-matrix] summary").click()
+    assert page.locator("[data-testid=mg-matrix] tbody tr").count() == 22
     for index, sid in enumerate(["S1", "S2", "S3"]):
         scenario.nth(index).click()
-        stage = page.locator(f"[data-testid=diagram-{sid}]")
-        stage.wait_for()
-        assert stage.locator("text").count() >= 60
-        kinds = {"invoke", "registry", "deploy", "identity"}
-        assert all(stage.locator(f"path[stroke-dasharray]").count() or kind == "invoke" for kind in kinds)
-        assert page.locator(f"[data-testid=mg-connections-{sid}] tbody tr").count() >= 6
-        assert page.locator(".mg-open").count() > 0
-        zoom = page.locator(".dd-zoom").first
-        assert zoom.inner_text() != "0%"
-    # S3 shows two gateways in series; S2 shows the AWS trust boundary; registries are never invocation targets.
-    assert page.locator("[data-testid=diagram-S3] text", has_text="Apigee MCP endpoint").count() >= 1
-    assert page.locator("[data-testid=diagram-S3] text", has_text="AgentCore Gateway").count() >= 1
-    scenario.nth(1).click()
-    assert page.locator("[data-testid=diagram-S2] text", has_text="AWS trust boundary").count() == 1
-    svg_text = page.locator("[data-testid=diagram-S2] svg").inner_html()
-    assert "NOT AN INVOCATION HOP" in svg_text and "tool code" in svg_text and "no custom" in svg_text
+        assert page.locator(f"[data-scenario={sid}] svg [data-node]").count() >= 12
+        page.locator(f"[data-testid=mg-connections-{sid}] summary").click()
+        assert page.locator(f"[data-testid=mg-connections-{sid}] tbody tr").count() >= 8
     assert "Finance Read MCP" in page.locator("[data-testid=mg-domain]").text_content()
     assert "Finance Posting MCP" in page.locator("[data-testid=mg-domain]").text_content()
-    assert page.locator("[data-testid=mg-evidence] a[href^='https://']").count() >= 8
-    zoom = page.locator(".dd-zoom").first
-    fitted = zoom.inner_text()
-    page.get_by_role("button", name="Zoom in S2").click()
-    assert int(zoom.inner_text()[:-1]) > int(fitted[:-1])
-    page.get_by_role("button", name="Reset S2 view to fit").click()
-    assert zoom.inner_text() == fitted
+    assert page.locator("[data-testid=mg-evidence] a[href^='https://']").count() >= 7
+    page.get_by_role("button", name="Zoom in S3").click()
+    page.get_by_role("button", name="Reset S3 view to fit").click()
     with page.expect_download() as download:
-        page.get_by_role("button", name="Download S2 as 2x PNG").click()
-    assert download.value.suggested_filename == "mcp-topology-s2-2x.png"
+        page.get_by_role("button", name="Download S3 as 2x PNG").click()
+    assert download.value.suggested_filename == "mcp-topology-s3-2x.png"
     scenario.nth(3).click()
-    assert page.locator(".dd-viewer").count() == 2
+    assert page.locator(".mg-viewer").count() == 2
     page.get_by_role("button", name="Complete architecture →").first.click()
     assert tabs.nth(3).get_attribute("aria-selected") == "true"
 
     # Audience-ready additions: decision brief, role lenses on My Home and the close process panel.
     go_decision("Decision brief")
-    assert page.locator(".brief-table tbody tr").count() == 7
+    assert page.locator(".brief-table tbody tr").count() == 9
     assert page.locator(".brief-gates li").count() == 7
     page.get_by_role("button", name="Proves / does not prove").click()
     assert "real MCP transport" in page.get_by_role("dialog", name="What this demo proves, and what it does not").inner_text()

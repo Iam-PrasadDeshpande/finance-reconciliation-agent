@@ -86,3 +86,25 @@
 .arch-grid ul{margin:0 0 6px;padding-left:16px;font-size:12px;line-height:1.35}
 .arch-grid li{margin-bottom:3px}
 .arch-grid section.arch-judgment p{font-size:11.5px;line-height:1.35}
+/* V5.1 decision strip, registry page */
+.sd-strip{padding:10px 14px;margin-bottom:10px}.sd-head{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px}
+.sd-table th small{display:block;font-weight:400;color:#587184;font-size:10.5px}.sd-table td,.sd-table th{font-size:12px;vertical-align:top}
+.arch-cards.one{grid-template-columns:1fr}
+.registry-cards{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:12px;margin:10px 0}.registry-cards ul{margin:0 0 8px;padding-left:18px;font-size:12.5px}
+@media(max-width:900px){.registry-cards{grid-template-columns:1fr}}
+
+/* Agent hosting carries a decision strip above the panel, so it scrolls as a page instead of using the fixed one-screen grid */
+.arch-page.hosting-page.mcp-bird{display:block;overflow:auto}
+.hosting-page .arch-panel.mcp-bird-panel{overflow:visible;margin-top:10px}
+.hosting-page .arch-grid section{overflow:visible}
+.hosting-page .sd-strip{margin:10px 0 0}
+/* Phones: the shell header grows with its title instead of overlapping the tabs, and the decision strip stacks one scenario per card */
+@media(max-width:720px){
+  .app-shell .shell-header,body .shell-header{height:auto;min-height:62px;padding-top:6px;padding-bottom:6px}
+  body .shell-header .brand h1{line-height:1.15;white-space:normal}
+  .sd-table thead{display:none}.sd-table,.sd-table tbody,.sd-table tr,.sd-table th,.sd-table td{display:block;width:100%}
+  .sd-table tr{border:1px solid #dce6ec;border-radius:4px;margin-bottom:8px;padding:6px 8px;background:#fff}
+  .sd-table td::before{content:attr(data-label);display:block;font-size:10px;font-weight:700;text-transform:uppercase;color:#557695}
+  .sd-table td{padding:3px 0}
+}
+

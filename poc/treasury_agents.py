@@ -148,13 +148,16 @@ def _run_chain(store, case_id, scenario, hops, fn):
 def _read_chain(store, case_id, scenario, tool, fn):
     """The same selected-route layers the reconciliation reads use: gateway, domain MCP tool, BAIP, then the S/4HANA backend.
     Only existing components are used, so the architecture views are unchanged."""
-    p = "apigee" if scenario == "S1" else "agentcore"
+    from .gateway import GATES, OPERATION
     s = {"tool": tool}
-    hops = [("agentcore_runtime", "mcp_client", "invoke_treasury_tool", "read", s),
-            ("mcp_client", f"{p}_gateway", "cross_cloud_mcp" if p == "apigee" else "aws_internal_mcp", "read", s),
-            (f"{p}_inbound", f"{p}_registry", "target_lookup", "control", s),
-            (f"{p}_registry", f"{p}_outbound", "credential_reference", "identity", {"credential": "synthetic-reference-only"}),
-            (f"{p}_outbound", "sap_read_tool", "treasury_read_tool", "read", s),
+    hops = [("agentcore_runtime", "mcp_client", "invoke_treasury_tool", "read", s)]
+    gates = GATES[scenario]
+    for i, p in enumerate(gates):
+        caller = "mcp_client" if i == 0 else f"{gates[i - 1]}_audit"
+        hops += [(caller, f"{p}_gateway", OPERATION[p], "read", s),
+                 (f"{p}_inbound", f"{p}_registry", "target_lookup", "control", s),
+                 (f"{p}_registry", f"{p}_outbound", "credential_reference", "identity", {"credential": "synthetic-reference-only"})]
+    hops += [(f"{gates[-1]}_outbound", "sap_read_tool", "treasury_read_tool", "read", s),
             ("tool_audit", "api_management", "sap_read", "read", {"backend": "s4"}),
             ("api_management", "destination_mapping", "direct_api", "read", {"backend": "s4"}),
             ("destination_mapping", "s4_roles", "backend_authorize", "identity", {"backend": "s4"}),

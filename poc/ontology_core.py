@@ -17,6 +17,11 @@ CORE = {
         {"id": "FlowEvent", "label": "Flow event", "kind": "artifact", "description": "A stored record of a call between two architecture components, used to show which layers a step touched.", "properties": ["source", "target", "operation", "status"], "sap_term": None, "sap_status": "DEMO_ONLY", "sources": []},
         {"id": "ApprovalMarker", "label": "Approval marker", "kind": "artifact", "description": "A local record that a person approved a draft. It never posts to SAP and never initiates a bank transfer.", "properties": ["decided by", "payload hash", "status"], "sap_term": None, "sap_status": "DEMO_ONLY", "sources": []},
         {"id": "ReferenceSource", "label": "SAP source", "kind": "artifact", "description": "An SAP page an answer is based on, with whether it was read or is not verified.", "properties": ["title", "url", "status"], "sap_term": None, "sap_status": "DEMO_ONLY", "sources": []},
+        {"id": "Scenario", "label": "Architecture scenario", "kind": "artifact", "description": "One of three designs under evaluation: S1 SAP-centric, S2 AWS AgentCore-centric, S3 SAP-hosted hybrid. A proposal, never an approval.", "properties": ["id", "status", "agent host", "gateway", "registry"], "sap_term": None, "sap_status": "DEMO_ONLY", "sources": []},
+        {"id": "AgentHost", "label": "Agent host", "kind": "actor", "description": "The platform where an agent runs and executes: SAP BTP Cloud Foundry in S1 and S3, AWS AgentCore Runtime in S2. Independent of where the agent is registered.", "properties": ["platform", "operator"], "sap_term": None, "sap_status": "DEMO_ONLY", "sources": []},
+        {"id": "McpGateway", "label": "MCP gateway", "kind": "actor", "description": "Exposes and governs tools. Google Apigee is the SAP-facing gateway in every scenario; AgentCore Gateway sits in front of it in S2 only.", "properties": ["product", "policy"], "sap_term": None, "sap_status": "DEMO_ONLY", "sources": []},
+        {"id": "Registry", "label": "Agent and MCP registry", "kind": "artifact", "description": "A catalog of agents and MCP servers for discovery and approval: unresolved in S1, AWS Agent Registry in S2 and S3. Control plane only, never an invocation hop.", "properties": ["product", "approval owner"], "sap_term": None, "sap_status": "DEMO_ONLY", "sources": []},
+        {"id": "LlmGateway", "label": "LLM gateway", "kind": "actor", "description": "Portkey in every scenario: model selection, credentials, fallback and monitoring. Independent of the MCP gateway and the registry.", "properties": ["product"], "sap_term": None, "sap_status": "DEMO_ONLY", "sources": []},
     ],
     "relations": [
         {"from": "CompanyCode", "to": "Ledger", "label": "keeps", "kind": "has"},
@@ -28,5 +33,10 @@ CORE = {
         {"from": "Provenance", "to": "Tool", "label": "labels results of", "kind": "labels"},
         {"from": "ApprovalMarker", "to": "Agent", "label": "never decided by", "kind": "guards"},
         {"from": "Agent", "to": "ReferenceSource", "label": "cites", "kind": "cites"},
+        {"from": "Agent", "to": "AgentHost", "label": "runs on", "kind": "has"},
+        {"from": "Tool", "to": "McpGateway", "label": "exposed through", "kind": "served_by"},
+        {"from": "Agent", "to": "Registry", "label": "catalogued in (not on the call path)", "kind": "labels"},
+        {"from": "Agent", "to": "LlmGateway", "label": "reaches models only through", "kind": "calls"},
+        {"from": "Scenario", "to": "AgentHost", "label": "chooses", "kind": "has"},
     ],
 }

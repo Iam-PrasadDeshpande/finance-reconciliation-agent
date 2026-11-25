@@ -15,7 +15,7 @@ export default function McpApproaches({playbooks={},onQuestion,onDetailedDiagram
   const route=section==='compare'?null:section;
   const sc=route?SCENARIOS[route]:null;
   const plan=route?playbooks[route]:null;
-  return <main className="mcp-comparison mcp-bird arch-page" aria-label="Complete architecture">
+  return <main className="mcp-comparison mcp-bird arch-page hosting-page" aria-label="Complete architecture">
     <header className="surface mcp-bird-header"><div><h2>Complete architecture</h2><span className="eyebrow">AGENT → MCP → SAP, END TO END · THREE SCENARIOS UNDER EVALUATION</span></div><span className="pill warn">{BANNER.split(' · ')[0]}</span></header>
     <nav className="surface mcp-route-tabs mcp-bird-tabs" role="tablist" aria-label="Architecture approach details">
       {[...IDS,'compare'].map(id=><button type="button" role="tab" key={id} aria-selected={section===id} className={section===id?'active':''} onClick={()=>setSection(id)}><strong>{id==='compare'?'Compare all':id}</strong><span>{id==='compare'?'Three scenarios side by side':SCENARIOS[id].short}</span></button>)}

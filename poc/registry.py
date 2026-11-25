@@ -12,32 +12,32 @@ ROWS = [
  ("Business entry","business_chat","Business chat application","poc.app","simulated"),
  ("Business entry","enterprise_idp","Enterprise IdP / SSO","poc.identity","simulated"),
  ("Business entry","finance_policy","Finance read-only / write policy","poc.identity","simulated"),
- ("AI Foundry design time","foundry_sdk","Custom Foundry SDK","poc.foundry","simulated"),
- ("AI Foundry design time","creation_api","Local agent creation API","poc.app","simulated"),
- ("AI Foundry design time","agent_package","Python agent package and typed bindings","poc.runtime","simulated"),
- ("AI Foundry design time","gitlab_pipeline","GitLab source, tests, CI/CD and receipt","poc.foundry","simulated"),
- ("AWS runtime","agentcore_runtime","AgentCore Runtime simulator","poc.runtime","simulated"),
- ("AWS runtime","agentcore_identity","AgentCore Identity simulator","poc.identity","simulated"),
- ("AWS runtime","mcp_client","MCP client / gateway integration","poc.runtime","simulated"),
- ("AWS runtime","context_manager","Context Manager","poc.runtime","simulated"),
- ("AWS runtime","reconciliation_engine","Deterministic Reconciliation Engine","poc.runtime","simulated"),
- ("AWS runtime","agentcore_memory","Optional AgentCore Memory simulator","poc.runtime","inactive"),
- ("AWS runtime","observability","Observability / correlation simulator","poc.store","simulated"),
- ("AWS runtime","posting_executor","Controlled Posting Executor","poc.approval","simulated"),
- ("AWS controls","iam_roles","IAM / workload role simulator","poc.identity","simulated"),
- ("AWS controls","secret_reference","Secrets Manager-style reference","poc.identity","simulated"),
- ("AWS controls","kms_key_use","KMS-style key-use event","poc.identity","simulated"),
- ("AWS controls","cloudwatch_sink","CloudWatch-style trace sink","poc.store","simulated"),
- ("Selected gateway","apigee_gateway","Google Apigee MCP simulator (S1 and S3 gateway path)","poc.gateway","scenario_s1"),
- ("Selected gateway","apigee_inbound","S1 inbound caller policy","poc.gateway","scenario_s1"),
- ("Selected gateway","apigee_registry","S1 tool registry / route","poc.gateway","scenario_s1"),
- ("Selected gateway","apigee_outbound","S1 outbound target credential","poc.gateway","scenario_s1"),
- ("Selected gateway","apigee_audit","S1 audit decision","poc.gateway","scenario_s1"),
- ("Selected gateway","agentcore_gateway","AgentCore Gateway simulator (S2 gateway path)","poc.gateway","scenario_s2"),
- ("Selected gateway","agentcore_inbound","S2 inbound caller policy","poc.gateway","scenario_s2"),
- ("Selected gateway","agentcore_registry","S2 target registry / route","poc.gateway","scenario_s2"),
- ("Selected gateway","agentcore_outbound","S2 outbound target credential","poc.gateway","scenario_s2"),
- ("Selected gateway","agentcore_audit","S2 audit decision","poc.gateway","scenario_s2"),
+ ("Design time and registration","foundry_sdk","Custom Foundry SDK","poc.foundry","simulated"),
+ ("Design time and registration","creation_api","Local agent creation API","poc.app","simulated"),
+ ("Design time and registration","agent_package","Python agent package and typed bindings","poc.runtime","simulated"),
+ ("Design time and registration","gitlab_pipeline","GitLab source, tests, CI/CD and receipt","poc.foundry","simulated"),
+ ("Agent runtime","agentcore_runtime","Agent runtime simulator (Cloud Foundry in S1 and S3, AgentCore Runtime in S2)","poc.runtime","simulated"),
+ ("Agent runtime","agentcore_identity","Agent workload identity simulator","poc.identity","simulated"),
+ ("Agent runtime","mcp_client","MCP client / gateway integration","poc.runtime","simulated"),
+ ("Agent runtime","context_manager","Context Manager","poc.runtime","simulated"),
+ ("Agent runtime","reconciliation_engine","Deterministic Reconciliation Engine","poc.runtime","simulated"),
+ ("Agent runtime","agentcore_memory","Optional agent memory simulator","poc.runtime","inactive"),
+ ("Agent runtime","observability","Observability / correlation simulator","poc.store","simulated"),
+ ("Agent runtime","posting_executor","Controlled Posting Executor","poc.approval","simulated"),
+ ("Agent controls","iam_roles","Workload role simulator","poc.identity","simulated"),
+ ("Agent controls","secret_reference","Secret reference","poc.identity","simulated"),
+ ("Agent controls","kms_key_use","Key-use event","poc.identity","simulated"),
+ ("Agent controls","cloudwatch_sink","Trace sink","poc.store","simulated"),
+ ("Selected gateway","apigee_gateway","Google Apigee MCP simulator (SAP-facing gateway in S1, S2 and S3)","poc.gateway","gateway_apigee"),
+ ("Selected gateway","apigee_inbound","Apigee inbound caller policy","poc.gateway","gateway_apigee"),
+ ("Selected gateway","apigee_registry","Apigee tool registry / route","poc.gateway","gateway_apigee"),
+ ("Selected gateway","apigee_outbound","Apigee outbound target credential","poc.gateway","gateway_apigee"),
+ ("Selected gateway","apigee_audit","Apigee audit decision","poc.gateway","gateway_apigee"),
+ ("Selected gateway","agentcore_gateway","AgentCore Gateway simulator (S2 only, in front of Apigee)","poc.gateway","gateway_agentcore"),
+ ("Selected gateway","agentcore_inbound","AgentCore Gateway inbound caller policy","poc.gateway","gateway_agentcore"),
+ ("Selected gateway","agentcore_registry","AgentCore Gateway target registry / route","poc.gateway","gateway_agentcore"),
+ ("Selected gateway","agentcore_outbound","AgentCore Gateway outbound target credential","poc.gateway","gateway_agentcore"),
+ ("Selected gateway","agentcore_audit","AgentCore Gateway audit decision","poc.gateway","gateway_agentcore"),
  ("Domain MCP","sap_read_tool","SAP Finance read target","poc.tools","simulated"),
  ("Domain MCP","sap_post_tool","Restricted SAP Finance posting target","poc.tools","simulated"),
  ("Domain MCP","databricks_read_tool","Enterprise Databricks read target","poc.tools","simulated"),
@@ -75,7 +75,7 @@ ROWS = [
  ("Model branch","portkey_redaction","Portkey redaction simulator","poc.model","simulated"),
  ("Model branch","portkey_guardrails","Portkey guardrails simulator","poc.model","simulated"),
  ("Model branch","portkey_usage","Portkey log, usage and cost simulator","poc.model","simulated"),
- ("Model branch","bedrock_response","Amazon Bedrock model response simulator","poc.model","simulated"),
+ ("Model branch","bedrock_response","Model response simulator (reached through Portkey)","poc.model","simulated"),
  ("Write approval","n8n_workflow","n8n workflow simulator","poc.approval","simulated"),
  ("Write approval","finance_approver","Finance approver actor","poc.approval","simulated"),
  ("Write approval","trusted_callback","Trusted decision callback","poc.approval","simulated"),
@@ -85,11 +85,11 @@ ROWS = [
 
 def components():
     output=[]
-    owners={"Business entry":"Finance process and app owner","AI Foundry design time":"Foundry platform owner","AWS runtime":"AWS and Foundry owner","AWS controls":"AWS security owner","Selected gateway":"Gateway platform owner","Domain MCP":"Finance tool owner","SAP BAIP":"Integration Suite owner","SAP backends":"SAP finance and security owner","Enterprise Databricks":"Enterprise data owner","Future BDC":"SAP BDC data product owner","Model branch":"AI platform owner","Write approval":"Finance controls owner"}
-    gates={"Business entry":"G1, G3","AI Foundry design time":"G1, G7","AWS runtime":"G2, G7","AWS controls":"G2, G7","Selected gateway":"G2","Domain MCP":"G2, G5","SAP BAIP":"G3","SAP backends":"G3, G4, G5","Enterprise Databricks":"G4, G6","Future BDC":"G6","Model branch":"G6","Write approval":"G5"}
+    owners={"Business entry":"Finance process and app owner","Design time and registration":"Foundry platform owner","Agent runtime":"Agent platform owner","Agent controls":"Platform security owner","Selected gateway":"Gateway platform owner","Domain MCP":"Finance tool owner","SAP BAIP":"Integration Suite owner","SAP backends":"SAP finance and security owner","Enterprise Databricks":"Enterprise data owner","Future BDC":"SAP BDC data product owner","Model branch":"AI platform owner","Write approval":"Finance controls owner"}
+    gates={"Business entry":"G1, G3","Design time and registration":"G1, G7","Agent runtime":"G2, G7","Agent controls":"G2, G7","Selected gateway":"G2","Domain MCP":"G2, G5","SAP BAIP":"G3","SAP backends":"G3, G4, G5","Enterprise Databricks":"G4, G6","Future BDC":"G6","Model branch":"G6","Write approval":"G5"}
     managed={"agentcore_runtime","agentcore_identity","agentcore_memory","observability","apigee_gateway","agentcore_gateway","api_management","custom_iflow","cloud_connector","unity_catalog","sql_warehouse","bedrock_response","n8n_workflow"}
     for zone,cid,name,module,state in ROWS:
-        output.append(dict(component_id=cid,display_name=name,zone=zone,trust_boundary=("external Google" if cid.startswith("apigee") else "AWS logical" if zone in ("AWS runtime","AWS controls") or cid.startswith("agentcore_") else zone),owner=owners[zone],classification="future simulator" if state=="future" else "managed vendor simulator" if cid in managed else "custom Python simulator",purpose=name,runtime_state=state,code_module=module,health="inactive" if state in ("inactive","future") else "ready",inbound_interfaces=["local-python"],outbound_interfaces=["local-python"],request_schema="FlowEvent/ToolCall v1.0",response_schema="FlowEvent/ToolResult v1.0",identity_authorization="synthetic scoped policy",data_classification="SYNTHETIC FINANCE",dependencies=sorted({s for s,t,_ in CHAINS if t==cid}),timeout_retry="2s; no automatic write retry",failure_deny="fail closed and emit deny event",latency_ms=0,latest_trace_id=None,latest_case_id=None,audit_events=[],remaining_live_vendor_validation=f"{gates[zone]} OPEN; no tenant proof"))
+        output.append(dict(component_id=cid,display_name=name,zone=zone,trust_boundary=("external Google" if cid.startswith("apigee") else "agent platform logical" if zone in ("Agent runtime","Agent controls") or cid.startswith("agentcore_") else zone),owner=owners[zone],classification="future simulator" if state=="future" else "managed vendor simulator" if cid in managed else "custom Python simulator",purpose=name,runtime_state=state,code_module=module,health="inactive" if state in ("inactive","future") else "ready",inbound_interfaces=["local-python"],outbound_interfaces=["local-python"],request_schema="FlowEvent/ToolCall v1.0",response_schema="FlowEvent/ToolResult v1.0",identity_authorization="synthetic scoped policy",data_classification="SYNTHETIC FINANCE",dependencies=sorted({s for s,t,_ in CHAINS if t==cid}),timeout_retry="2s; no automatic write retry",failure_deny="fail closed and emit deny event",latency_ms=0,latest_trace_id=None,latest_case_id=None,audit_events=[],remaining_live_vendor_validation=f"{gates[zone]} OPEN; no tenant proof"))
     return output
 
 # A request and its response are persisted separately by the event store.
@@ -97,7 +97,7 @@ CHAINS = [
  ("finance_user","business_chat","read"),("business_chat","enterprise_idp","identity"),("enterprise_idp","finance_policy","identity"),("business_chat","agentcore_runtime","read"),("agentcore_runtime","agentcore_identity","identity"),("agentcore_identity","iam_roles","identity"),("iam_roles","secret_reference","control"),("secret_reference","kms_key_use","control"),("agentcore_runtime","mcp_client","read"),
  ("mcp_client","apigee_gateway","read"),("apigee_gateway","apigee_inbound","identity"),("apigee_inbound","apigee_registry","control"),("apigee_registry","apigee_outbound","identity"),("apigee_outbound","apigee_audit","control"),
  ("mcp_client","agentcore_gateway","read"),("agentcore_gateway","agentcore_inbound","identity"),("agentcore_inbound","agentcore_registry","control"),("agentcore_registry","agentcore_outbound","identity"),("agentcore_outbound","agentcore_audit","control"),
- ("apigee_audit","sap_read_tool","read"),("apigee_audit","databricks_read_tool","read"),("apigee_audit","sap_post_tool","write"),("agentcore_audit","sap_read_tool","read"),("agentcore_audit","databricks_read_tool","read"),("agentcore_audit","sap_post_tool","write"),
+ ("apigee_audit","sap_read_tool","read"),("apigee_audit","databricks_read_tool","read"),("apigee_audit","sap_post_tool","write"),("agentcore_audit","apigee_gateway","read"),("agentcore_audit","sap_read_tool","read"),("agentcore_audit","databricks_read_tool","read"),("agentcore_audit","sap_post_tool","write"),
  ("sap_read_tool","tool_contract","control"),("tool_contract","operation_policy","control"),("operation_policy","input_validation","control"),("input_validation","tool_audit","control"),("tool_audit","api_management","read"),("api_management","custom_iflow","read"),("custom_iflow","destination_mapping","read"),("api_management","destination_mapping","read"),("destination_mapping","cloud_connector","read"),
  ("destination_mapping","s4_roles","identity"),("s4_roles","s4_read_api","read"),("s4_read_api","s4_live_gl","read"),("s4_read_api","s4_journals","read"),("destination_mapping","cfin_roles","identity"),("cfin_roles","cfin_accounting","read"),("cfin_accounting","cfin_status","read"),("destination_mapping","bw_roles","identity"),("bw_roles","bw_aggregate","read"),("bw_aggregate","bw_hierarchy","read"),("bw_aggregate","bw_load","read"),
  ("databricks_read_tool","databricks_access","read"),("databricks_access","sql_warehouse","read"),("sql_warehouse","unity_catalog","identity"),("unity_catalog","delta_history","read"),("delta_history","data_pipeline","read"),

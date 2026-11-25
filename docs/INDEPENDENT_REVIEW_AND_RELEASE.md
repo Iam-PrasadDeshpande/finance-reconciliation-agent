@@ -28,3 +28,5 @@ Two separate read-only reviewers assessed the finance architecture and the UX/St
 Run `python scripts/package_streamlit.py` after any source or frontend build change. The output is `release/finance_architecture_streamlit.zip`; inspect `UPLOAD_MANIFEST.json` for the exact file list and hashes. Extract it into a dedicated GitHub repository, then select `streamlit_app.py` as the Streamlit entrypoint. The current project is nested under the user's home Git root rather than its own clean repository, so do not publish that parent repository. Hosting, production authentication and live vendor gates G1–G7 are still open.
 
 Final local archive SHA-256: `d53ab346fd6ddc57c27c690ddea0d92e55653ff44c57802c96dc6e0046e00b66` (29 allowlisted files, 140,968 bytes). An isolated extraction imported the Python modules and completed an S1 November reconciliation with 73 components and a 25,000 USD variance.
+
+> **Architecture V5.1 note.** This review predates V5.1. The scenarios, pages and checks it names are superseded by `docs/ARCHITECTURE_V5_1.md`.

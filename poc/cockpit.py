@@ -5,7 +5,7 @@ backend step: routing, the agent catalog, the Level 1 screen, the Level 2 workbe
 from the manifest. Nothing else in the cockpit names a module.
 
 What the cockpit owns (shared by every module):  the period contract, request routing, the plan/step shape, the selected MCP
-route (S1/S2) and the simulated SAP layers, provenance labels, the Architecture pages (MCP hosting, agent hosting, diagrams).
+scenario (S1, S2, S3) and the simulated SAP layers, provenance labels, the Architecture pages (MCP hosting, agent hosting, diagrams).
 What a module owns:  its agents and tools, its synthetic data, its Level 1 view, its ontology fragment, its SAP references.
 
 The calls are in-process and MCP-shaped (no MCP transport). No module may expose a write tool; the only permitted write is a
