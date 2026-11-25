@@ -40,3 +40,44 @@
 @media(max-width:560px){.arch-page .mcp-bird-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.arch-page .mcp-bird-tabs span{display:block;font-size:10px}.arch-page .mcp-bird-tabs strong{font-size:12px}}
 .hosting-page .mcp-route-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
 .hosting-page .mcp-route-tabs strong{white-space:normal}
+
+/* Compact pass: everything fits one screen without scrolling. */
+.arch-page.mcp-bird{grid-template-rows:auto auto minmax(0,1fr);gap:8px;padding:8px 14px;overflow:hidden}
+.arch-page .mcp-bird-header{padding:6px 14px;min-height:0}
+.arch-page .mcp-bird-header>div{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.arch-page .mcp-bird-header h2{font-size:16px;margin:0}
+.arch-page .mcp-bird-header .eyebrow{font-size:10px}
+.arch-page .mcp-bird-tabs button{padding:6px 12px}
+.arch-page .mcp-bird-tabs strong{font-size:13px}
+.arch-page .mcp-bird-tabs span{font-size:10px}
+.arch-panel.mcp-bird-panel{overflow:hidden;padding:10px 14px;gap:10px;grid-template-rows:auto auto minmax(0,1fr) auto;align-content:stretch}
+.arch-panel .mcp-bird-panel-title h3{font-size:17px}
+.arch-panel .mcp-bird-panel-title button{font-size:11px;padding:6px 10px}
+.arch-path{padding:8px 0;gap:6px;flex-wrap:nowrap}
+.arch-path b{flex:1 1 0;min-width:0;font-size:12px;padding:7px 8px}
+.arch-path>span{font-size:15px}
+.arch-grid{gap:10px;align-items:stretch;min-height:0}
+.arch-grid section{padding:9px 12px;min-height:0;overflow:hidden}
+.arch-grid h4{font-size:10px;margin:0 0 6px}
+.arch-grid h4:not(:first-child){margin-top:8px}
+.arch-grid p{font-size:12px;line-height:1.4}
+.arch-cards{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.arch-cards>div{background:#fff;border:1px solid #dce6ec;border-radius:3px;padding:6px 8px;display:grid;gap:1px;align-content:start;min-width:0}
+.arch-cards span{font-size:10px;font-weight:800;text-transform:uppercase;color:#557695}
+.arch-cards b{font-size:12px;line-height:1.3;color:#223548}
+.arch-cards small{font-size:10.5px;line-height:1.3;color:#587184;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.arch-cards .warn{background:#fff9ec;border-color:#efd9a9}.arch-cards .warn b{color:#8a5b13}
+.arch-grid.two .arch-cards{grid-template-columns:1fr}
+.arch-judgment p{padding:7px 10px;margin:0 0 6px;font-size:12px}
+.arch-judgment strong{font-size:10px}
+.arch-links{padding-top:6px;font-size:11px}
+.arch-links .text-link{font-size:11px}
+.arch-page .mcp-bird-compare-grid article{padding:8px 12px;gap:6px}
+.arch-page .mcp-bird-compare-grid dl{gap:4px 8px;grid-template-columns:78px minmax(0,1fr)}
+.arch-page .mcp-bird-compare-grid dd,.arch-page .mcp-bird-compare-grid dt{font-size:11px}
+.arch-page .mcp-bird-compare-grid h4{font-size:12px}
+@media(min-width:1001px){.arch-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,.9fr)}.arch-grid.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:900px){.arch-page.mcp-bird{overflow:auto}.arch-panel.mcp-bird-panel{overflow:visible}.arch-path{flex-wrap:wrap}.arch-path b{flex:1 1 100%}.arch-cards{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.arch-cards{grid-template-columns:1fr}}
+/* Architecture sub-nav: hints only when there is vertical room. */
+@media(max-height:900px){.decision-nav button small{display:none}.decision-nav button{padding:5px 12px}.decision-nav{margin-top:4px}}

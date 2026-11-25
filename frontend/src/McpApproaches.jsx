@@ -46,7 +46,7 @@ export default function McpApproaches({playbooks={},onQuestion,onDetailedDiagram
     ['Open decisions',...['S1','S2','S3'].map(id=>(playbooks[id]?.decisions||[]).join(' • '))],
   ];
   return <main className="mcp-comparison mcp-bird arch-page" aria-label="Complete architecture">
-    <header className="surface mcp-bird-header"><div><span className="eyebrow">COMPLETE ARCHITECTURE · AGENT → MCP → SAP, END TO END</span><h2>Choose the end-to-end route</h2></div><span className="pill warn">SYNTHETIC DESIGN · DECISIONS OPEN</span></header>
+    <header className="surface mcp-bird-header"><div><h2>Complete architecture</h2><span className="eyebrow">AGENT → MCP → SAP, END TO END</span></div><span className="pill warn">SYNTHETIC DESIGN · DECISIONS OPEN</span></header>
     <nav className="surface mcp-route-tabs mcp-bird-tabs" role="tablist" aria-label="Architecture approach details">
       {['S1','S2','S3','compare'].map(id=><button type="button" role="tab" key={id} aria-selected={section===id} className={section===id?'active':''} onClick={()=>setSection(id)}><strong>{id==='compare'?'Compare all':id}</strong><span>{id==='compare'?'Three routes side by side':APPROACHES[id].name}</span></button>)}
     </nav>
@@ -54,8 +54,8 @@ export default function McpApproaches({playbooks={},onQuestion,onDetailedDiagram
       <div className="mcp-bird-panel-title"><div><span className="eyebrow">ROUTE {route} · {item.position}</span><h3>{item.name}</h3></div><div className="mcp-bird-title-actions"><button type="button" className="diagram-action" onClick={()=>setDiagram({kind:'mcp',id:route})}>Architecture diagram ↗</button><button type="button" onClick={()=>setDetail('route')}>Handoffs and proof →</button></div></div>
       <div className="mcp-bird-path arch-path" aria-label="Selected request path">{(plan?.path||'').split(' → ').map((node,index)=><React.Fragment key={node+index}>{index>0&&<span aria-hidden="true">→</span>}<b>{node}</b></React.Fragment>)}</div>
       <div className="arch-grid">
-        <section aria-label="Route facts"><h4>How it connects</h4><dl><dt>MCP endpoint</dt><dd>{choice.mcp}</dd><dt>Agent entry</dt><dd>{choice.entry}</dd><dt>Caller identity</dt><dd>{choice.identity}</dd><dt>Open decision</dt><dd className="warn">{choice.state}</dd></dl></section>
-        <section aria-label="Route assessment"><h4>How it scores</h4><dl>{item.criteria.map(([label,assessment,why])=><React.Fragment key={label}><dt>{label}</dt><dd><b>{assessment}</b><small>{why}</small></dd></React.Fragment>)}</dl></section>
+        <section aria-label="Route facts"><h4>How it connects</h4><div className="arch-cards"><div><span>MCP endpoint</span><b>{choice.mcp}</b></div><div><span>Agent entry</span><b>{choice.entry}</b></div><div><span>Caller identity</span><b>{choice.identity}</b></div><div className="warn"><span>Open decision</span><b>{choice.state}</b></div></div></section>
+        <section aria-label="Route assessment"><h4>How it scores</h4><div className="arch-cards">{item.criteria.map(([label,assessment,why])=><div key={label} title={why}><span>{label}</span><b>{assessment}</b><small>{why}</small></div>)}</div></section>
         <section aria-label="Benefit and tradeoff" className="arch-judgment"><h4>Judgment</h4><p className="good"><strong>Benefit</strong>{item.benefits[0]}</p><p className="bad"><strong>Tradeoff</strong>{item.tradeoffs[0]}</p></section>
       </div>
       <div className="arch-links"><span>Related, separate views:</span>{onGovernance&&<button type="button" className="text-link" onClick={()=>onGovernance(route)}>MCP hosting →</button>}{onAgentHosting&&<button type="button" className="text-link" onClick={onAgentHosting}>Agent hosting →</button>}{onDetailedDiagram&&(route==='S1'||route==='S2')&&<button type="button" className="text-link" onClick={()=>onDetailedDiagram(route)}>Detailed diagram (zoom) →</button>}</div>

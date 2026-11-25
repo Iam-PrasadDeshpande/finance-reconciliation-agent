@@ -12886,10 +12886,10 @@ function lt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 		children: [
 			/* @__PURE__ */ (0, x.jsxs)("header", {
 				className: "surface mcp-bird-header",
-				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("h2", { children: "Complete architecture" }), /* @__PURE__ */ (0, x.jsx)("span", {
 					className: "eyebrow",
-					children: "COMPLETE ARCHITECTURE · AGENT → MCP → SAP, END TO END"
-				}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "Choose the end-to-end route" })] }), /* @__PURE__ */ (0, x.jsx)("span", {
+					children: "AGENT → MCP → SAP, END TO END"
+				})] }), /* @__PURE__ */ (0, x.jsx)("span", {
 					className: "pill warn",
 					children: "SYNTHETIC DESIGN · DECISIONS OPEN"
 				})]
@@ -12957,23 +12957,32 @@ function lt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 						children: [
 							/* @__PURE__ */ (0, x.jsxs)("section", {
 								"aria-label": "Route facts",
-								children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How it connects" }), /* @__PURE__ */ (0, x.jsxs)("dl", { children: [
-									/* @__PURE__ */ (0, x.jsx)("dt", { children: "MCP endpoint" }),
-									/* @__PURE__ */ (0, x.jsx)("dd", { children: m.mcp }),
-									/* @__PURE__ */ (0, x.jsx)("dt", { children: "Agent entry" }),
-									/* @__PURE__ */ (0, x.jsx)("dd", { children: m.entry }),
-									/* @__PURE__ */ (0, x.jsx)("dt", { children: "Caller identity" }),
-									/* @__PURE__ */ (0, x.jsx)("dd", { children: m.identity }),
-									/* @__PURE__ */ (0, x.jsx)("dt", { children: "Open decision" }),
-									/* @__PURE__ */ (0, x.jsx)("dd", {
-										className: "warn",
-										children: m.state
-									})
-								] })]
+								children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How it connects" }), /* @__PURE__ */ (0, x.jsxs)("div", {
+									className: "arch-cards",
+									children: [
+										/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "MCP endpoint" }), /* @__PURE__ */ (0, x.jsx)("b", { children: m.mcp })] }),
+										/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Agent entry" }), /* @__PURE__ */ (0, x.jsx)("b", { children: m.entry })] }),
+										/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Caller identity" }), /* @__PURE__ */ (0, x.jsx)("b", { children: m.identity })] }),
+										/* @__PURE__ */ (0, x.jsxs)("div", {
+											className: "warn",
+											children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Open decision" }), /* @__PURE__ */ (0, x.jsx)("b", { children: m.state })]
+										})
+									]
+								})]
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("section", {
 								"aria-label": "Route assessment",
-								children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How it scores" }), /* @__PURE__ */ (0, x.jsx)("dl", { children: f.criteria.map(([e, t, n]) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)("dt", { children: e }), /* @__PURE__ */ (0, x.jsxs)("dd", { children: [/* @__PURE__ */ (0, x.jsx)("b", { children: t }), /* @__PURE__ */ (0, x.jsx)("small", { children: n })] })] }, e)) })]
+								children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How it scores" }), /* @__PURE__ */ (0, x.jsx)("div", {
+									className: "arch-cards",
+									children: f.criteria.map(([e, t, n]) => /* @__PURE__ */ (0, x.jsxs)("div", {
+										title: n,
+										children: [
+											/* @__PURE__ */ (0, x.jsx)("span", { children: e }),
+											/* @__PURE__ */ (0, x.jsx)("b", { children: t }),
+											/* @__PURE__ */ (0, x.jsx)("small", { children: n })
+										]
+									}, e))
+								})]
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("section", {
 								"aria-label": "Benefit and tradeoff",
@@ -13704,10 +13713,10 @@ function xt({ onMcp: e, onComplete: t }) {
 		children: [
 			/* @__PURE__ */ (0, x.jsxs)("header", {
 				className: "surface mcp-bird-header",
-				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("h2", { children: "Agent hosting" }), /* @__PURE__ */ (0, x.jsx)("span", {
 					className: "eyebrow",
-					children: "AGENT HOSTING · WHERE THE CUSTOM FINANCE AGENT RUNS"
-				}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "Choose the agent platform" })] }), /* @__PURE__ */ (0, x.jsx)("span", {
+					children: "WHERE THE CUSTOM FINANCE AGENT RUNS"
+				})] }), /* @__PURE__ */ (0, x.jsx)("span", {
 					className: "pill warn",
 					children: "SHORTLIST · NO TENANT PROOF YET"
 				})]
@@ -13775,14 +13784,14 @@ function xt({ onMcp: e, onComplete: t }) {
 						className: "arch-grid two",
 						children: [/* @__PURE__ */ (0, x.jsxs)("section", {
 							"aria-label": "Platform facts",
-							children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "What runs where" }), /* @__PURE__ */ (0, x.jsxs)("dl", { children: [
-								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Agent host" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: c.host }),
-								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Model access" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: c.model }),
-								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Operators" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: c.owner })
-							] })]
+							children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "What runs where" }), /* @__PURE__ */ (0, x.jsxs)("div", {
+								className: "arch-cards",
+								children: [
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Agent host" }), /* @__PURE__ */ (0, x.jsx)("b", { children: c.host })] }),
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Model access" }), /* @__PURE__ */ (0, x.jsx)("b", { children: c.model })] }),
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Operators" }), /* @__PURE__ */ (0, x.jsx)("b", { children: c.owner })] })
+								]
+							})]
 						}), /* @__PURE__ */ (0, x.jsxs)("section", {
 							"aria-label": "Platform fit",
 							children: [

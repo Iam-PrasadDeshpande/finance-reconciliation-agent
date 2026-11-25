@@ -24,7 +24,7 @@ export default function HostingPriority({onMcp,onComplete}){
   },[popup]);
   const title=popup==='gates'?'Eligibility before ranking':popup==='layers'?'Complete operating platform':`${item.name} hosting details`;
   return <main className="mcp-comparison mcp-bird arch-page hosting-page" aria-label="Agent hosting">
-    <header className="surface mcp-bird-header"><div><span className="eyebrow">AGENT HOSTING · WHERE THE CUSTOM FINANCE AGENT RUNS</span><h2>Choose the agent platform</h2></div><span className="pill warn">SHORTLIST · NO TENANT PROOF YET</span></header>
+    <header className="surface mcp-bird-header"><div><h2>Agent hosting</h2><span className="eyebrow">WHERE THE CUSTOM FINANCE AGENT RUNS</span></div><span className="pill warn">SHORTLIST · NO TENANT PROOF YET</span></header>
     <nav className="surface mcp-route-tabs mcp-bird-tabs" role="tablist" aria-label="Agent hosting options">
       {HOSTING_OPTIONS.map(option=><button type="button" role="tab" key={option.id} aria-selected={selected===option.id} className={selected===option.id?'active':''} onClick={()=>setSelected(option.id)}><strong>{option.name}</strong><span>{option.priority}</span></button>)}
     </nav>
@@ -32,7 +32,7 @@ export default function HostingPriority({onMcp,onComplete}){
       <div className="mcp-bird-panel-title"><div><span className="eyebrow">{item.priority}</span><h3>{item.name}</h3></div><div className="mcp-bird-title-actions"><button type="button" className="diagram-action" onClick={()=>setDiagram(item.id)}>Architecture diagram ↗</button><button type="button" onClick={()=>setPopup('detail')}>Prerequisites and proof →</button></div></div>
       <div className="mcp-bird-path arch-path" aria-label="Where the agent sits"><b>User or Fiori</b><span aria-hidden="true">→</span><b>Agent runtime · {item.name}</b><span aria-hidden="true">→</span><b>Model endpoint</b><span aria-hidden="true">→</span><b>MCP route S1 · S2 · S3</b></div>
       <div className="arch-grid two">
-        <section aria-label="Platform facts"><h4>What runs where</h4><dl><dt>Agent host</dt><dd>{item.host}</dd><dt>Model access</dt><dd>{item.model}</dd><dt>Operators</dt><dd>{item.owner}</dd></dl></section>
+        <section aria-label="Platform facts"><h4>What runs where</h4><div className="arch-cards"><div><span>Agent host</span><b>{item.host}</b></div><div><span>Model access</span><b>{item.model}</b></div><div><span>Operators</span><b>{item.owner}</b></div></div></section>
         <section aria-label="Platform fit"><h4>Why assess it</h4><p>{item.fit}</p><h4>What must be proved</h4><p>{item.gates}</p><a href={item.source} target="_blank" rel="noreferrer">Official product reference ↗</a></section>
       </div>
       <div className="arch-links"><span>Also:</span><button type="button" className="text-link" onClick={()=>setPopup('gates')}>Eligibility gates</button><button type="button" className="text-link" onClick={()=>setPopup('layers')}>Operating platform layers</button>{onMcp&&<button type="button" className="text-link" onClick={onMcp}>MCP hosting →</button>}{onComplete&&<button type="button" className="text-link" onClick={onComplete}>Complete architecture →</button>}<small>Choosing a host does not choose the MCP route or the model.</small></div>
