@@ -183,25 +183,25 @@
       "sha256": "924f4c9ae85601257faf6cda7c1ea201144dce2969cbea74de58440e82c6b228",
       "bytes": 42858
     },
-    "frontend/dist/assets/index-23ZJwrTo.js": {
-      "sha256": "921de41441326d4bd97d8352df82609ce2b960d17fb2bdb8e2c5ac529ce9e40c",
-      "bytes": 559348
+    "frontend/dist/assets/index-DPMQv1_t.css": {
+      "sha256": "bff5788a4fb0b4d93ad5126c999e2c6987dd9382a73747eb3933717575d5a92b",
+      "bytes": 147700
     },
-    "frontend/dist/assets/index-dkf5rcgX.css": {
-      "sha256": "2ace6b61eea2e7dc9c24d459abae4e55aefd2ab0a73169ed287a9c870501f816",
-      "bytes": 145352
+    "frontend/dist/assets/index-DZnzTfol.js": {
+      "sha256": "e5e64c6d60f82576700e361d74d40efe98ab3c267e81df48cb1461f6806a0f5d",
+      "bytes": 559559
     },
     "frontend/dist/index.html": {
-      "sha256": "cb29b283a6c0f5a32b1bf3a620e32abc7303f7656d06f5949589a6288cf699b5",
+      "sha256": "ea455b0ab0538ddbad4634557e1327dd345f65754268e2600605a790f12d2a95",
       "bytes": 391
     },
     "frontend/dist_streamlit/finance_architecture.css": {
-      "sha256": "a878e51159775d0a38c8f1b565e132d0e14d19d904ff621766b5d14da555ba62",
-      "bytes": 145364
+      "sha256": "fafa9da0ca5db53f0f1f98ee14d9acdc91863052d8edc2cc1238e7baae2d1a11",
+      "bytes": 147712
     },
     "frontend/dist_streamlit/finance_architecture.js": {
-      "sha256": "f26901ace3313cfb6542b5c84946836cdd738cc0c44a8c1b00f40f465d015259",
-      "bytes": 740385
+      "sha256": "2a2bbe7dad630e327b1096545b1cb233e170f5c9035f29d8ff4dffdde389285e",
+      "bytes": 740831
     },
     "frontend/index.html": {
       "sha256": "79b48eb50f70682ccdd5c3c116e318a9a72f19b1ed8341f8a058b081b35cb0db",
@@ -260,16 +260,16 @@
       "bytes": 806
     },
     "frontend/src/HostingPriority.jsx": {
-      "sha256": "7ccc9714bcd9fcf73ab60a2f2c1c6ec76049cc453280e1f36d6717312aa4702d",
-      "bytes": 8654
+      "sha256": "bbfd978851809747f63c681495a1c485980bea24be374c8346b97e14a4e5cd64",
+      "bytes": 8689
     },
     "frontend/src/ImplementationEvidence.jsx": {
       "sha256": "dbbe3285f188242d0d145c88b66584e8f2b2706ebea17a13cecd77e2cadb0520",
       "bytes": 1814
     },
     "frontend/src/McpApproaches.jsx": {
-      "sha256": "e306a352bf1eb6227d45f34cb0213ef2372f87d181d7879ac2a8fe48883b7b2b",
-      "bytes": 13565
+      "sha256": "24d5adab6813cb8fa8bacd9b717ec7d23f1407255e7b239b82d61faafdf84ce7",
+      "bytes": 13621
     },
     "frontend/src/McpGovernance.jsx": {
       "sha256": "0cae63d5f8bc121c1143b1d9020f7d7f33de92962e294edfee6f47c936675ef3",
@@ -288,8 +288,8 @@
       "bytes": 4338
     },
     "frontend/src/arch-split.css": {
-      "sha256": "c75d699fc12ce3e11b3bab9a1e65ed9f56079fea199c6fb59d2fc78ff11f0e4d",
-      "bytes": 3640
+      "sha256": "a7164db1151459ff298cefc82766096ed32e5bed0bdeb784fe12202ba178dab2",
+      "bytes": 6673
     },
     "frontend/src/architecture-diagram.css": {
       "sha256": "872a92cf024964c0fe8fe321c13c81b30f17b3e8a4db8bd98a9eb615ec721449",
@@ -484,12 +484,12 @@
       "bytes": 3289
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "5b508c9ffbbf722bb93fcef86b30ae6f5a7e3461be59f768d260126d821d5a68",
-      "bytes": 720870
+      "sha256": "597e82d23faa54d3ec223d68b778241dd27df92bcc837b4e616f40a89f305331",
+      "bytes": 725196
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "d10b591dc820dcb1e452fa804cdb930c6df5195da9af552904442808325822f9",
-      "bytes": 447121
+      "sha256": "2d12a2e4b187fab77de541353c763d519665cd0f34748aff4dd44558e6d0547a",
+      "bytes": 449378
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -564,8 +564,8 @@
       "bytes": 4859
     },
     "static/finance_reconciliation_local_windows.zip": {
-      "sha256": "d10b591dc820dcb1e452fa804cdb930c6df5195da9af552904442808325822f9",
-      "bytes": 447121
+      "sha256": "2d12a2e4b187fab77de541353c763d519665cd0f34748aff4dd44558e6d0547a",
+      "bytes": 449378
     },
     "streamlit_app.py": {
       "sha256": "a16314fa7c055fd16c521f6d8ee6a38cf736d244e09ab0926ee41067e69984b5",
