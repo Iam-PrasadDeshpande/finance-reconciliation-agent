@@ -277,3 +277,33 @@ def test_current_documents_use_the_v5_1_scenario_meaning():
         if found:
             hits[name] = text[max(0, found.start() - 40):found.end() + 40]
     assert hits == {}, hits
+
+
+def test_decision_register_settles_what_the_documents_settle_and_names_the_rest():
+    ids = {d["id"]: d for d in m.DECISIONS}
+    assert set(ids) == {"s1_registry", "agentcore_mandate", "s3_registry_sync", "s2_gateway_apigee", "tenant_capabilities"}
+    for d in m.DECISIONS:
+        assert d["settled"] and d["remaining"] and d["options"] and d["proposal"] and d["proof"] and d["owner"], d["id"]
+        assert d["status"].startswith(("OPEN", "EVIDENCE READ", "CAPABILITY DOCUMENTED"))
+    # the S1 registry is still a decision: candidates are listed, one product is named only as NOT_VERIFIED, none is selected
+    s1 = m.SCENARIOS["S1"]
+    assert s1["agent_registry"] == m.UNRESOLVED and s1["registry_candidates"]
+    assert any("SAP AI Agent Hub" in c and "NOT_VERIFIED" in c for c in s1["registry_candidates"])
+    # protocol overlap claimed for S2 is computed from the documented version lists
+    shared = [v for v in m.MCP_PROTOCOL_VERSIONS["agentcore_gateway"] if v in m.MCP_PROTOCOL_VERSIONS["apigee"]]
+    assert shared == ["2026-07-28", "2025-11-25", "2025-06-18", "2025-03-26"]
+    assert all(v in ids["s2_gateway_apigee"]["settled"][0] for v in shared)
+
+
+def test_evidence_records_what_could_and_could_not_be_read():
+    by_title = {row[1]: row for row in m.EVIDENCE}
+    cf = by_title["SAP BTP Cloud Foundry runtime"]
+    assert "Python" in cf[3] and "NOT_VERIFIED" not in cf[3]
+    hub = by_title["SAP AI Agent Hub (product page)"]
+    assert "NOT_VERIFIED" in hub[3] and "403" in hub[3]
+    assert "NOT_VERIFIED" in m.EVIDENCE_STATUS
+    sync = by_title["Registry: synchronize external records"]
+    assert "HTTPS" in sync[3] and "reverts the record to draft" in sync[3]
+    policy = by_title["AgentCore Policy"]
+    assert "do not say that a target blocks calls that bypass the gateway" in policy[3]
+

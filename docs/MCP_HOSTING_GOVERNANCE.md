@@ -46,3 +46,5 @@ See the table in `docs/ARCHITECTURE_V5_1.md`. Six of seven sources were read; th
 5. Delegated user identity versus service identity, and token exchange to ABAP roles.
 6. Whether persistence (HANA Cloud) is needed at all.
 7. Cost, latency and egress, which are unmeasured.
+
+The decision register for these items, with options, proposals and proofs, is in the Decision brief page and `docs/POC_PROOF_AND_ENTITLEMENT_CHECKLIST.md`.

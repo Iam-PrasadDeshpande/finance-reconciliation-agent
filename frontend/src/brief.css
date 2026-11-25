@@ -44,3 +44,14 @@
 .close-process li small{font-size:10.5px}
 .close-process ol{gap:3px}
 @media(max-height:880px){.close-process li small{display:none}.close-process p{display:none}}
+.brief-table th small{display:block;font-weight:400;color:#587184;font-size:10.5px}
+.brief-detail-row td{padding:0 8px 8px;border-top:0}.brief-detail-row summary{cursor:pointer;font-size:11.5px;color:#0a5da7}
+.brief-detail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px}.brief-detail h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:#557695;margin:0 0 4px}
+.brief-detail ul{margin:0;padding-left:16px;font-size:12px;line-height:1.35}.brief-detail p{margin:0;font-size:12px;line-height:1.35}
+@media(max-width:900px){.brief-detail{grid-template-columns:1fr}}
+
+/* The register is longer than the old one-screen table, so the brief scrolls as a page and the register uses the full width */
+.arch-page.brief-page.mcp-bird{display:block;overflow:auto}
+.brief-page .brief-grid{height:auto}.brief-page .brief-card{overflow:visible}
+.brief-page .brief-register{grid-column:1/-1;order:3}
+.brief-page .brief-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}

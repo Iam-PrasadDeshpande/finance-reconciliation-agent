@@ -36,7 +36,7 @@ export default function RegistryView({onMcp,onAgentHosting,onDiagrams}){
       <section className="surface mg-section" data-testid="registry-facts"><h3>How registration works in {id}</h3><table className="mg-table"><tbody>{ROWS.map(([label,field])=><tr key={field}><th scope="row">{label}</th><td className={isOpen(SCENARIOS[id][field])?'mg-open':''}>{SCENARIOS[id][field]}</td></tr>)}</tbody></table></section>
       <section className="surface mg-section" data-testid="registry-notes"><h3>What to know</h3><ul>{NOTES[id].map(x=><li key={x}>{x}</li>)}</ul>
         <h3>Not yet verified</h3><ul>{SCENARIOS[id].unverified.map(x=><li key={x}>{x}</li>)}</ul>
-        {id==='S1'&&<p className="micro"><strong>{UNRESOLVED}.</strong> Select a product before this scenario can be compared fairly.</p>}</section>
+        {id==='S1'&&<><h3>Candidates · none selected</h3><ul data-testid="registry-candidates">{SCENARIOS.S1.registry_candidates.map(x=><li key={x}>{x}</li>)}</ul><p className="micro"><strong>{UNRESOLVED}.</strong> The owner decision and its proof are in the Decision brief.</p></>}</section>
     </div>}
     <section className="surface mg-section" aria-label="Registry diagrams">
       <div className="dd-compare-bar"><strong>Diagram</strong>{SHOW.map(key=><button type="button" key={key} className={diagramKey===key?'active':''} aria-pressed={diagramKey===key} onClick={()=>{setDiagramKey(key);setView(null)}}>{key==='D5'?'D5 · Hosting versus registration':'D8 · Registry lifecycle'}</button>)}</div>
