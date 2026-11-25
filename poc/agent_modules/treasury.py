@@ -70,5 +70,6 @@ MODULE = AgentModule(
     ask_template="What is our cash position for {period}?", examples=["What is our cash position for {period}?", "Propose transfers to cover shortfalls", "Forecast liquidity for the next 30 days", "Show bank fees and credit lines"],
     catalog=TA.catalog_domain, run=_run, ontology=lambda: ONTOLOGY, view=_view, actions={"decide": _decide, "proposals": lambda store, p: TA.list_proposals(store, p.get("period"))},
     tool_concepts=TOOL_CONCEPTS,
+    output={"screen_name": "Cash & treasury", "open_label": "Open in Cash & treasury", "detail_label": "Open the detailed cash & treasury view"},
     architecture={"route": "Selected MCP route S1 or S2, then the S/4HANA backend (modelled with the existing S/4HANA components; no new architecture components)", "data": "poc/treasury_data.py (synthetic, deterministic)", "hosting": "Agent runtime and MCP hosting are chosen on the Architecture pages; they apply to every module"},
 )

@@ -61,6 +61,8 @@ with `COCKPIT_SAMPLE_MODULE=1` it appears as a third module and `qa_cockpit.py` 
 | Shared UI names no module | No routing constants or module lists in the shared UI source | same file |
 | Module logic | Numbers, statuses, recommendations, approval marker | `tests/test_treasury.py`, `tests/test_period_sync.py`, `tests/test_poc.py`, `tests/test_agents.py` |
 | Browser, web | Entry routing, Level 1, period sync, Level 2, concepts into the ontology, ontology graph, per module from the manifests | `scripts/qa_cockpit.py`, `qa_treasury.py`, `qa_period_sync.py`, `qa_current_release.py` |
+| Flow and links | A request typed on the front page is shown unchanged on the agent screen; the full-output link opens the module's screen and detail; the module screen links back to the run; no legacy chat; Close & reconcile in one view | `scripts/qa_flow.py` |
+| Prompt-to-execution matrix | 12 prompts (reconciliation, treasury, refusals, a control, plus any further module's example) typed on the front page: right module, expected agents and tools done, control reasons shown; then every area, every Architecture view and home are visited and the same run must still be shown, with the banner on its own module's screen and never on another's; period change flags it stale and recovers; every specialist agent of every module must have been exercised | `scripts/qa_prompts.py` |
 | Browser, Streamlit | The same on the embedded surface, including reruns and refresh | `qa_cockpit_streamlit.py`, `qa_treasury_streamlit.py`, `qa_period_sync_streamlit.py` |
 
 ## 6. What is not plug-and-play yet
@@ -70,3 +72,12 @@ with `COCKPIT_SAMPLE_MODULE=1` it appears as a third module and `qa_cockpit.py` 
 - Audience lenses, the decision brief and the written docs are edited by hand.
 - Each module brings its own synthetic data and its own SAP references; the cockpit cannot check that they are right, only that they are present and labelled.
 - The calls are in-process. Moving a module to a real MCP server is a separate piece of work for every module.
+
+## 7. One flow, with links both ways
+
+Whatever is asked, wherever it is asked, runs the same agents. The front-screen bar, the Ask bars on Close & reconcile and Cash & treasury, the buttons on those screens, the shell menu and the Agents screen all call one path (`askAgents`); there is no separate chat. The legacy "Ask about the evidence" chat drawer was removed from the Close screen because it produced a different, older consolidated report than the agents did.
+
+- The Agents screen repeats the exact request, then shows a **Full output of this run** bar. Each module declares its output (`output` in the contract): for the reconciliation agent, "Open in Close & reconcile" and "Open the detailed reconciliation report"; for treasury, "Open in Cash & treasury" and "Open the detailed cash & treasury view".
+- Each module screen shows a **Latest agent run** banner (for the same period) with a "View agent run" link back to the Agents screen.
+- A finished plan is shown complete when you return to it; the step animation plays once.
+- Close & reconcile is one view: all twelve periods with the S/4HANA balance, Central Finance balance, variance and status; the selected period's detail; the scenario lab; and the case and approval controls in a fold. It fits a 1440 × 900 laptop without scrolling.

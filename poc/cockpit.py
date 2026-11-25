@@ -50,6 +50,7 @@ class AgentModule:
     tool_concepts: dict = field(default_factory=dict)  # tool -> {'reads': [class ids], 'produces': [class ids]}
     default: bool = False                # exactly one module answers requests that match nobody
     architecture: dict = field(default_factory=dict)  # how this module sits on the shared MCP route and data
+    output: dict = field(default_factory=dict)  # where the full output of a run lives: screen_name, open_label, detail_label (optional)
 
 
 _registry: dict[str, AgentModule] = {}
@@ -137,7 +138,7 @@ def manifests() -> list[dict]:
         out.append({"id": m.id, "name": m.name, "family_label": m.family_label, "short_name": m.short_name, "blurb": m.blurb, "icon": m.icon, "tab": m.tab,
                     "renderer": m.renderer, "default": m.default, "has_view": m.view is not None, "actions": sorted(m.actions),
                     "routing": {"words": m.routing_words, "priority": m.routing_priority}, "ask_template": m.ask_template, "examples": m.examples,
-                    "architecture": m.architecture})
+                    "architecture": m.architecture, "output": m.output})
     return out
 
 

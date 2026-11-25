@@ -98,6 +98,7 @@ def test_manifest_is_serializable_and_routing_compiles(module):
     assert module.ask_template and module.examples and module.name and module.family_label and module.short_name and module.blurb
     if module.tab:
         assert {"id", "label", "short", "icon"} <= set(module.tab)
+        assert module.output.get("screen_name") and module.output.get("open_label"), "say where the full output of a run lives"
     if module.renderer == "generic":
         assert module.view is not None, "a generic module needs a view() returning ui blocks"
 
