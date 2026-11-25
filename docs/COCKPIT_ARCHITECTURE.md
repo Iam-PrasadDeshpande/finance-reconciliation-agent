@@ -70,3 +70,12 @@ with `COCKPIT_SAMPLE_MODULE=1` it appears as a third module and `qa_cockpit.py` 
 - Audience lenses, the decision brief and the written docs are edited by hand.
 - Each module brings its own synthetic data and its own SAP references; the cockpit cannot check that they are right, only that they are present and labelled.
 - The calls are in-process. Moving a module to a real MCP server is a separate piece of work for every module.
+
+## 7. One flow, with links both ways
+
+Whatever is asked, wherever it is asked, runs the same agents. The front-screen bar, the Ask bars on Close & reconcile and Cash & treasury, the buttons on those screens, the shell menu and the Agents screen all call one path (`askAgents`); there is no separate chat. The legacy "Ask about the evidence" chat drawer was removed from the Close screen because it produced a different, older consolidated report than the agents did.
+
+- The Agents screen repeats the exact request, then shows a **Full output of this run** bar. Each module declares its output (`output` in the contract): for the reconciliation agent, "Open in Close & reconcile" and "Open the detailed reconciliation report"; for treasury, "Open in Cash & treasury" and "Open the detailed cash & treasury view".
+- Each module screen shows a **Latest agent run** banner (for the same period) with a "View agent run" link back to the Agents screen.
+- A finished plan is shown complete when you return to it; the step animation plays once.
+- Close & reconcile is one view: all twelve periods with the S/4HANA balance, Central Finance balance, variance and status; the selected period's detail; the scenario lab; and the case and approval controls in a fold. It fits a 1440 × 900 laptop without scrolling.

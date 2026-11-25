@@ -11,6 +11,7 @@ import {EffectivePeriod,RouteChip,useAskText} from './PeriodUi';
 
 const MARK={done:'✓',running:'…',pending:'·',held:'?',blocked:'✕',skipped:'–'};
 const VIEW_LABEL={treasury:'Open Cash & treasury','treasury-forecast':'Open the cash forecast','treasury-banks':'Open bank relationships',run:'Open the live architecture',report:'Open the detailed report','evidence-proof':'Open the proof dossier','decision-responsibilities':'Open responsibilities & governance',close:'Open Close & reconcile',plan:'Stay here'};
+const PLAYED=new Set(); // plans whose step animation already ran: coming back to the screen shows them complete
 const reduceMotion=()=>{try{return window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch{return false}};
 
 export function AskBar({onAsk,busy,label='Ask the agents',period=DEFAULT_PERIOD,periods,domain='reconciliation'}){
@@ -26,7 +27,7 @@ function ModuleResult({plan}){
   </section>;
 }
 
-export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenLayer,onOpenConcept,period=DEFAULT_PERIOD,periods,ontology}){
+export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenLayer,onOpenConcept,onOpenOutput,period=DEFAULT_PERIOD,periods,ontology}){
   const cockpit=useCockpit();
   const order=catalog?.order||['reconciliation'];
   const [picked,setPicked]=useState(null);
@@ -50,7 +51,8 @@ export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenL
     if(!plan||lastPlan.current===plan.plan_id)return;
     lastPlan.current=plan.plan_id;
     setSelected(null);
-    if(reduceMotion()||!steps.length){setShown(steps.length);return}
+    if(reduceMotion()||!steps.length||PLAYED.has(plan.plan_id)){PLAYED.add(plan.plan_id);setShown(steps.length);return}
+    PLAYED.add(plan.plan_id);
     setShown(0);
     let count=0;
     const timer=setInterval(()=>{count+=1;setShown(count);if(count>=steps.length)clearInterval(timer)},650);
@@ -78,9 +80,11 @@ export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenL
         <div className="aw-examples" role="group" aria-label="Example requests">{examples.map(item=><button type="button" key={item} onClick={()=>setText(item)}>{item.length>34?item.slice(0,32)+'…':item}</button>)}</div></form>
     </header>
     {plan&&<p className="aw-period"><span className={`domain-badge ${plan.domain}`} data-testid="plan-domain">Handled by <b>{cockpit.label(plan.domain)}</b></span></p>}
+    {plan?.message&&<p className="aw-period" data-testid="plan-request">Your request: <b>“{plan.message}”</b></p>}
     {plan?.effective_period&&<p className="aw-period" data-testid="plan-period">Plan period: <b>{longMonth(plan.effective_period)}</b> · {fiscalLabel(plan.effective_period)} · taken from {plan.period_source==='request'?'the request':plan.period_source==='selector'?'the period selector':'the open case'}</p>}
     {plan?.effective_period&&plan.effective_period!==period&&<div className="period-stale" role="alert" data-testid="plan-stale">This plan is for {longMonth(plan.effective_period)}. The selected period is {longMonth(period)}. <button type="button" onClick={()=>onAsk(cockpit.ask(plan.domain,period))}>Run for {longMonth(period)}</button></div>}
     {plan&&(done||steps.length===0)&&<section className="surface aw-answer" aria-label="What the agents found"><div><span className="eyebrow">WHAT THE AGENTS FOUND</span><p>{plan.answer||plan.blocked_reason||plan.note}</p></div>{plan.adaptations?.length>0&&<p className="aw-adapt"><b>The orchestrator adapted the plan:</b> {plan.adaptations.map(a=>a.added?`added ${a.added} because ${a.because}`:a.because).join('; ')}.</p>}</section>}
+    {plan&&plan.status==='done'&&(done||steps.length===0)&&(()=>{const out=cockpit.byId[plan.domain]?.output;return out?.open_label&&<section className="surface aw-output" data-testid="plan-output" aria-label="Open the full output of this run"><div><span className="eyebrow">FULL OUTPUT OF THIS RUN</span><p>The answer above is a summary. The complete output for {longMonth(plan.effective_period)} is on the {out.screen_name} screen.</p></div><div className="aw-output-actions"><button type="button" className="primary" data-testid="plan-output-screen" onClick={()=>onOpenOutput?.(plan,'screen')}>{out.open_label} →</button>{out.detail_label&&<button type="button" data-testid="plan-output-detail" onClick={()=>onOpenOutput?.(plan,'detail')}>{out.detail_label} →</button>}</div></section>})()}
     <div className="aw-body">
       <section className="aw-graph" aria-label="Orchestration graph"><div className="aw-viewer"><PanZoom diagram={diagram} uid="orch" view={view} onView={setView} onFit={setView} expanded={expanded} onExpand={setExpanded} onPick={pick}/></div></section>
       <aside className="surface aw-side" aria-label="Orchestration log and step detail">

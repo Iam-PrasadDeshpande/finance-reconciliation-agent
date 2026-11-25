@@ -88,5 +88,6 @@ MODULE = AgentModule(
     ontology=lambda: {"classes": [{"id": "sample.Figure", "label": "Sample figure", "kind": "measure", "description": "A synthetic number used only to prove the plug-in path.", "properties": ["period", "value"], "sap_term": None, "sap_status": "DEMO_ONLY", "sources": []}],
                       "relations": [{"from": "sample.Figure", "to": "FiscalPeriod", "label": "for", "kind": "scoped"}]},
     tool_concepts={"plan": {"reads": [], "produces": []}, "read_sample": {"reads": ["FiscalPeriod"], "produces": ["sample.Figure", "FlowEvent"]}},
+    output={"screen_name": "Sample agent", "open_label": "Open the Sample agent screen", "detail_label": None},
     architecture={"route": "Selected MCP route S1 or S2, then the existing S/4HANA components", "data": "computed in this file (synthetic)", "hosting": "Chosen on the Architecture pages; applies to every module"},
 )
