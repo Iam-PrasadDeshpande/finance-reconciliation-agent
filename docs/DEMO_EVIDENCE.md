@@ -50,4 +50,4 @@ The current candidate has five visible tabs: Execution simulator, Live architect
 
 ## Architecture V5.1 captures
 
-Current pages (1440 × 900 and 390 × 844) are in `docs/evidence/v5_2_*.png`: complete architecture, MCP hosting, agent hosting, registry, diagrams and the live run. Earlier captures above show the previous interface and are kept as history.
+Current pages (1440 × 900 and 390 × 844) are in `docs/evidence/v5_2_*.png`: complete architecture, MCP hosting, agent hosting, registry, selection and cost, decision brief and diagrams. Earlier captures above show the previous interface and are kept as history.
