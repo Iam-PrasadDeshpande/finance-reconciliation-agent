@@ -38,7 +38,9 @@ export const DOMAINS = MODEL.domains;
 export const RECOMMENDATION = { headline: MODEL.recommendation.headline, why: MODEL.recommendation.why, standards: MODEL.recommendation.depends, open: MODEL.recommendation.open, changes: MODEL.recommendation.changes, poc: MODEL.recommendation.poc };
 export const EVIDENCE = MODEL.evidence;
 export const EVIDENCE_NOTE = MODEL.evidenceStatus;
-export const UNRESOLVED = MODEL.unresolvedRegistry;
+export const S1_REGISTRY = MODEL.s1Registry;
+export const OWNER_DATE = MODEL.ownerDate;
+export const DECISION_SUMMARY = MODEL.decisionSummary;
 export const DECISIONS = MODEL.decisions;
 
 const LEGEND_TEXT = { invoke: 'Runtime invocation', registry: 'Registration / discovery', llm: 'LLM invocation', identity: 'Identity / token', audit: 'Audit / correlation', approval: 'Approval', deploy: 'Deployment' };

@@ -55,3 +55,7 @@
 .brief-page .brief-grid{height:auto}.brief-page .brief-card{overflow:visible}
 .brief-page .brief-register{grid-column:1/-1;order:3}
 .brief-page .brief-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.brief-counts{margin:4px 0 8px;font-size:12.5px}.brief-counts b{font-size:14px}.brief-counts .open{color:#bb0000}
+.brief-detail .brief-answers{grid-column:1/-1}.brief-state{display:inline-block;font-size:9.5px;font-weight:800;padding:1px 6px;border-radius:9px;margin-right:4px;background:#e5f3e8;color:#0d6a33}
+.brief-state.owner-confirmed{background:#eaf1fb;color:#0a4f9e}.brief-state.open{background:#fdecec;color:#bb0000}
+

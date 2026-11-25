@@ -1,7 +1,7 @@
 import React,{useMemo,useState} from 'react';
 import {PanZoom} from './DetailedDiagrams';
 import ScenarioDecisions from './ScenarioDecisions';
-import {SCENARIOS,IDS,MATRIX,BANNER,diagramSvg,diagramSpec,UNRESOLVED} from './mcpScenarios';
+import {SCENARIOS,IDS,MATRIX,BANNER,diagramSvg,diagramSpec,S1_REGISTRY} from './mcpScenarios';
 import './detailed-diagrams.css';
 import './mcp-governance.css';
 import './arch-split.css';
@@ -9,12 +9,12 @@ import './arch-split.css';
 // Agent and MCP registration: a control-plane concern, shown separately from hosting and execution.
 const ROWS=[['Agent registry','agent_registry'],['MCP registry','mcp_registry'],['Publisher and approval owner','registry_publisher_approver'],['Synchronization','registry_sync'],['Agent discovery','agent_discovery'],['MCP tool discovery','mcp_tool_discovery'],['Identity of the registry caller','identity_boundary'],['Audit of publication','monitoring_audit']];
 const NOTES={
-  S1:['No registry product is selected. The application shows this as a gap and does not substitute one.','An ordinary API catalog is not a complete agent registry: agents, MCP servers, versions, approval and revocation all need an owner.','Until a product is chosen, discovery of the agent and its MCP endpoint is a manual or domain-run process.'],
+  S1:['SAP AI Agent Hub is not available, so the owner chose an interim catalog on GitLab, the central platform.','Each agent and MCP server is one versioned record; the integration team, with the respective technical approvals, approves changes through merge requests.','It is not a complete agent registry: discovery is a repository or API lookup, and the record schema, discovery interface and revocation process still have to be built.'],
   S2:['AWS Agent Registry is a separate service from AgentCore Runtime and AgentCore Gateway. It catalogues what they host but is not on the call path.','Agent and MCP descriptors are submitted, approved by a curator, then discoverable. Use the agent-registry namespace.','Gateway tool discovery (tools/list) is separate from registry discovery of the MCP server record.'],
-  S3:['The agent runs on SAP BTP Cloud Foundry and the MCP endpoint is Apigee; only their metadata lives in AWS Agent Registry.','Synchronization connects from AWS to the endpoint URL with an outbound credential from a provider in the same account. That is control-plane traffic, never an execution hop.','If AI Foundry mandates AgentCore Gateway for every tool call, that is variant S3-B, not this baseline.'],
+  S3:['The agent runs on SAP BTP Cloud Foundry and the MCP endpoint is Apigee; only their metadata lives in AWS Agent Registry.','Synchronization connects from AWS to the endpoint URL with an outbound credential from a provider in the same account. That is control-plane traffic, never an execution hop.','AgentCore Gateway is not mandatory in S3 (owner position); S3-B applies only if that policy changes.'],
 };
 const SHOW=['D5','D8'];
-const isOpen=text=>/pending|TBD|unresolved|not defined/i.test(text);
+const isOpen=text=>/TBD|not defined|interim/i.test(text);
 
 export default function RegistryView({onMcp,onAgentHosting,onDiagrams}){
   const [section,setSection]=useState('S3'),[diagramKey,setDiagramKey]=useState('D5'),[view,setView]=useState(null),[expanded,setExpanded]=useState(false);
@@ -36,7 +36,7 @@ export default function RegistryView({onMcp,onAgentHosting,onDiagrams}){
       <section className="surface mg-section" data-testid="registry-facts"><h3>How registration works in {id}</h3><table className="mg-table"><tbody>{ROWS.map(([label,field])=><tr key={field}><th scope="row">{label}</th><td className={isOpen(SCENARIOS[id][field])?'mg-open':''}>{SCENARIOS[id][field]}</td></tr>)}</tbody></table></section>
       <section className="surface mg-section" data-testid="registry-notes"><h3>What to know</h3><ul>{NOTES[id].map(x=><li key={x}>{x}</li>)}</ul>
         <h3>Not yet verified</h3><ul>{SCENARIOS[id].unverified.map(x=><li key={x}>{x}</li>)}</ul>
-        {id==='S1'&&<><h3>Candidates · none selected</h3><ul data-testid="registry-candidates">{SCENARIOS.S1.registry_candidates.map(x=><li key={x}>{x}</li>)}</ul><p className="micro"><strong>{UNRESOLVED}.</strong> The owner decision and its proof are in the Decision brief.</p></>}</section>
+        {id==='S1'&&<><h3>Registry options · GitLab catalog selected</h3><ul data-testid="registry-options">{SCENARIOS.S1.registry_options.map(x=><li key={x}>{x}</li>)}</ul><p className="micro"><strong>{S1_REGISTRY}.</strong> The decision, the owner answers and the proof are in the Decision brief.</p></>}</section>
     </div>}
     <section className="surface mg-section" aria-label="Registry diagrams">
       <div className="dd-compare-bar"><strong>Diagram</strong>{SHOW.map(key=><button type="button" key={key} className={diagramKey===key?'active':''} aria-pressed={diagramKey===key} onClick={()=>{setDiagramKey(key);setView(null)}}>{key==='D5'?'D5 · Hosting versus registration':'D8 · Registry lifecycle'}</button>)}</div>

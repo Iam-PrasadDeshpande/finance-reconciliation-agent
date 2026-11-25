@@ -56,7 +56,7 @@ def test_route_hosting_playbooks_cover_all_three_cases():
     assert all(all(stage["configure"] and stage["dependency"] and stage["proof"] and stage["owner"] for stage in item["steps"]) for item in playbooks.values())
     assert "Apigee MCP/API" in playbooks["S3"]["path"] and "AgentCore" not in playbooks["S3"]["path"]
     assert "AgentCore Gateway" in playbooks["S2"]["path"] and "AgentCore" not in playbooks["S1"]["path"]
-    assert "Preferred candidate" in playbooks["S3"]["status"] and "unresolved" in playbooks["S1"]["status"]
+    assert "Preferred candidate" in playbooks["S3"]["status"] and "interim" in playbooks["S1"]["status"]
 
 
 @pytest.mark.parametrize("question,probe,denied_at", [

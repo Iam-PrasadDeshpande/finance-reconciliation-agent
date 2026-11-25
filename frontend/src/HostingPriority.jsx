@@ -8,7 +8,7 @@ import './arch-split.css';
 // Registration is a separate decision and lives on the Registry page.
 const OPTIONS=[
   {id:'cf',name:'SAP BTP Cloud Foundry',scenarios:['S1','S3'],diagrams:{S1:'D2',S3:'D4'},priority:'S1 and S3 · SAP owns execution',
-    why:['The agent, its MCP client and any custom MCP code run in the SAP BTP landscape, next to Integration Suite and the SAP backend.','The agent calls Apigee directly: one gateway hop and one identity mapping to prove.','Registration is independent: S1 has no registry product yet, S3 registers metadata in AWS Agent Registry without moving anything to AWS.'],
+    why:['The agent, its MCP client and any custom MCP code run in the SAP BTP landscape, next to Integration Suite and the SAP backend.','The agent calls Apigee directly: one gateway hop and one identity mapping to prove.','Registration is independent: S1 uses an interim GitLab catalog, S3 registers metadata in AWS Agent Registry without moving anything to AWS.'],
     prove:['Cloud Foundry space, entitlement and quota (the SAP documentation page could not be read, so this is NOT_VERIFIED)','Workload identity for the agent and its token to Apigee','Outbound path from Cloud Foundry to Apigee and to Portkey']},
   {id:'agentcore',name:'AWS AgentCore Runtime',scenarios:['S2'],diagrams:{S2:'D3'},priority:'S2 · AWS owns execution',
     why:['The agent and any custom MCP code run on AgentCore Runtime; AgentCore Gateway is the enterprise entry for tool calls and Apigee stays the SAP-facing gateway behind it.','AgentCore Runtime, Gateway and Agent Registry are three separate capabilities, each with its own configuration and owner.','A custom MCP on AgentCore Runtime that Apigee proxies is a cross-cloud path and is conditional.'],

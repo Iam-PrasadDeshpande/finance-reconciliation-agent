@@ -35,7 +35,7 @@ def test_s1_is_sap_centric_with_an_honest_registry():
     assert s["agent_runtime"] == "SAP BTP Cloud Foundry" and "Cloud Foundry" in s["custom_mcp_runtime"]
     assert "Apigee" in s["mcp_gateway"] and s["llm_gateway"] == "Portkey"
     assert not (s["agentcore_runtime"] or s["agentcore_gateway"] or s["aws_agent_registry"])
-    assert s["agent_registry"] == m.UNRESOLVED == s["mcp_registry"] and "pending" in m.UNRESOLVED
+    assert s["agent_registry"] == m.S1_REGISTRY == s["mcp_registry"] and "GitLab" in m.S1_REGISTRY and "not a full agent registry" in m.S1_REGISTRY
 
 
 def test_s2_keeps_agentcore_runtime_gateway_and_registry_distinct():
@@ -52,7 +52,7 @@ def test_s3_registers_in_aws_but_executes_on_sap():
     assert s["agent_registry"] == s["mcp_registry"] == "AWS Agent Registry"
     assert not s["agentcore_runtime"] and not s["agentcore_gateway"]
     assert s["status"].startswith("Preferred candidate") and "POC validation" in s["status"]
-    assert "S3-B" in s["variant_b"] and "not baseline" in s["variant_b"]
+    assert "S3-B" in s["variant_b"] and "not required" in s["variant_b"]
 
 
 def test_common_rules_for_all_scenarios():
@@ -68,7 +68,7 @@ def test_common_rules_for_all_scenarios():
 @pytest.mark.parametrize("mutate,expected", [
     (lambda s: s["S3"].update(agentcore_gateway=True), "S3"),
     (lambda s: s["S1"].update(aws_agent_registry=True), "S1"),
-    (lambda s: s["S1"].update(agent_registry="AWS Agent Registry"), "unresolved"),
+    (lambda s: s["S1"].update(agent_registry="AWS Agent Registry"), "interim GitLab catalog"),
     (lambda s: s["S2"].update(llm_gateway="Vertex AI"), "Portkey"),
     (lambda s: s["S3"].update(agent_runtime="AWS AgentCore Runtime"), "S3"),
     (lambda s: s["S3"].update(persistence="SAP HANA Cloud"), "conditional"),
@@ -95,7 +95,7 @@ def test_diagram_set_is_complete_and_consistent():
 def test_scenario_diagram_topologies():
     specs = m.diagrams()
     text = {k: " | ".join(f"{n['title']} {n['sub']} {n.get('status', '')}" for n in specs[k]["nodes"]) for k in specs}
-    assert "AgentCore" not in text["D2"] and "AWS" not in text["D2"] and "PENDING" in text["D2"]
+    assert "AgentCore" not in text["D2"] and "AWS" not in text["D2"] and "INTERIM" in text["D2"]
     assert all(token in text["D3"] for token in ("AgentCore Runtime", "AgentCore Gateway", "AWS Agent Registry", "Apigee", "Portkey"))
     kinds3 = {n["id"] for n in specs["D4"]["nodes"]}
     assert "gw" not in kinds3  # no AgentCore Gateway node in the S3 baseline
@@ -153,7 +153,7 @@ def test_comparison_covers_every_required_dimension_with_three_columns():
     assert all(len(row) == 4 for row in m.COMPARISON)
     flat = {row[0]: row for row in m.COMPARISON}
     assert flat["Agent hosting"][1:] == ("SAP BTP Cloud Foundry", "AWS AgentCore Runtime", "SAP BTP Cloud Foundry")
-    assert flat["Agent registry"][1] == m.UNRESOLVED and flat["Agent registry"][2] == flat["Agent registry"][3] == "AWS Agent Registry"
+    assert flat["Agent registry"][1] == m.S1_REGISTRY and flat["Agent registry"][2] == flat["Agent registry"][3] == "AWS Agent Registry"
     assert flat["LLM routing"][1:] == ("Portkey",) * 3
 
 
@@ -183,7 +183,7 @@ def test_every_rendered_svg_matches_its_spec(tmp_path):
 
 
 def test_no_page_or_backend_text_still_uses_the_old_scenario_meaning():
-    old = re.compile(r"S1 Apigee|S2 AgentCore|S1 · Apigee|S2 · AgentCore|Combined candidate|S1/S2 simulated|S1 and S2 are simulated|Apigee route|AgentCore route|PTP/PAP|bMicrosoftb|bEntrab|bAzureb|Joule Studio|Bedrock response", re.I)
+    old = re.compile(r"product selection pending|Domain-managed catalog|S1 Apigee|S2 AgentCore|S1 · Apigee|S2 · AgentCore|Combined candidate|S1/S2 simulated|S1 and S2 are simulated|Apigee route|AgentCore route|PTP/PAP|bMicrosoftb|bEntrab|bAzureb|Joule Studio|Bedrock response", re.I)
     files = [*SRC.glob("*.js"), *SRC.glob("*.jsx"), *(ROOT / "poc").glob("*.py"), *(ROOT / "poc" / "agent_modules").glob("*.py"), ROOT / "streamlit_app.py"]
     hits = {f.name: m.group(0) for f in files if f.name != "architecture_model.py" for m in [old.search(f.read_text(encoding="utf-8"))] if m}
     assert hits == {}, hits
@@ -214,7 +214,7 @@ def test_comparison_diagram_shows_each_scenario_chain_portkey_and_registry():
         assert (f"{sid}_gw" in ids) == sc["agentcore_gateway"]
         reg = next(n for n in spec["nodes"] if n["id"] == f"{sid}_reg")
         assert (reg["title"] == "AWS Agent Registry") == sc["aws_agent_registry"]
-        assert ("PENDING" in reg.get("status", "")) == (sc["agent_registry"] == m.UNRESOLVED)
+        assert ("INTERIM" in reg.get("status", "")) == (sc["agent_registry"] == m.S1_REGISTRY)
     runtime = [(a, b) for a, b, kind, *_ in spec["edges"] if kind == "invoke"]
     assert all("reg" not in a and "reg" not in b and "portkey" not in a and "portkey" not in b for a, b in runtime)
 
@@ -266,7 +266,7 @@ def test_treasury_reads_follow_each_scenario_gateway_chain(tmp_path):
 
 
 def test_current_documents_use_the_v5_1_scenario_meaning():
-    stale = re.compile(r"S1 Apigee|S2 AgentCore (?:route|gateway)|S1 and S2 (?:are|remain)|S3 combined|Combined candidate|Microsoft Foundry|Joule Studio|Entra|AWS runtime|seven (?:architecture|MCP) diagrams|PTP/PAP|Bedrock")
+    stale = re.compile(r"product selection pending|Domain-managed catalog|registry product unresolved|S1 Apigee|S2 AgentCore (?:route|gateway)|S1 and S2 (?:are|remain)|S3 combined|Combined candidate|Microsoft Foundry|Joule Studio|Entra|AWS runtime|seven (?:architecture|MCP) diagrams|PTP/PAP|Bedrock")
     current = ["README.md", "HANDOVER.md", "CLAUDE.md", "FIRST_TASK_FOR_CLAUDE.txt", "docs/ARCHITECTURE_MAPPING.md", "docs/POC_LIMITATIONS.md", "docs/MCP_HOSTING_GOVERNANCE.md", "docs/LOCAL_LAPTOP_GUIDE.md", "docs/COCKPIT_ARCHITECTURE.md"]
     hits = {}
     for name in current:
@@ -284,11 +284,23 @@ def test_decision_register_settles_what_the_documents_settle_and_names_the_rest(
     assert set(ids) == {"s1_registry", "agentcore_mandate", "s3_registry_sync", "s2_gateway_apigee", "tenant_capabilities"}
     for d in m.DECISIONS:
         assert d["settled"] and d["remaining"] and d["options"] and d["proposal"] and d["proof"] and d["owner"], d["id"]
-        assert d["status"].startswith(("OPEN", "EVIDENCE READ", "CAPABILITY DOCUMENTED"))
-    # the S1 registry is still a decision: candidates are listed, one product is named only as NOT_VERIFIED, none is selected
+        assert d["status"].startswith(("OPEN", "DECIDED", "OWNER"))
+        assert d["answers"] and all(state in m.ANSWER_STATES for _, _, state in d["answers"]), d["id"]
+    # the S1 registry was decided by the owner: SAP AI Agent Hub is not available, so the interim GitLab catalog is selected
     s1 = m.SCENARIOS["S1"]
-    assert s1["agent_registry"] == m.UNRESOLVED and s1["registry_candidates"]
-    assert any("SAP AI Agent Hub" in c and "NOT_VERIFIED" in c for c in s1["registry_candidates"])
+    selected = [x for x in s1["registry_options"] if "SELECTED" in x]
+    assert len(selected) == 1 and "GitLab" in selected[0]
+    assert any("SAP AI Agent Hub" in x and "not available" in x for x in s1["registry_options"])
+    assert "Integration team" in s1["registry_publisher_approver"]
+    assert all("GitLab" in m.SCENARIOS[sid]["artifact_repository"] for sid in ("S1", "S2", "S3"))
+    # what is open and what the owner confirmed
+    open_items = [q for d in m.DECISIONS for q, _, state in d["answers"] if state == "OPEN"]
+    assert sorted(open_items) == sorted(["Is the Apigee MCP endpoint reachable from AWS?", "Is the registry credential provider in the same AWS account?", "Has an end-to-end call through the gateway to Apigee been made?"])
+    assert m.decision_summary() == {"DECIDED": 4, "OWNER-CONFIRMED": 5, "OPEN": 3}
+    gate = ids["agentcore_mandate"]
+    assert gate["status"].startswith("OWNER POSITION") and "S3-B is not required" in gate["settled"][0]
+    assert "not required" in m.SCENARIOS["S3"]["variant_b"] and "AI Foundry written confirmation pending" in m.SCENARIOS["S3"]["variant_b"]
+    assert ids["tenant_capabilities"]["status"].startswith("OWNER-CONFIRMED") and "NOT INDEPENDENTLY VERIFIED" in ids["tenant_capabilities"]["status"]
     # protocol overlap claimed for S2 is computed from the documented version lists
     shared = [v for v in m.MCP_PROTOCOL_VERSIONS["agentcore_gateway"] if v in m.MCP_PROTOCOL_VERSIONS["apigee"]]
     assert shared == ["2026-07-28", "2025-11-25", "2025-06-18", "2025-03-26"]

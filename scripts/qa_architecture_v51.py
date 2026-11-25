@@ -69,7 +69,7 @@ with sync_playwright() as pw:
         s = SC[sid]
         check(f"{sid}: the overview states agent hosting '{s['agent_runtime']}' and registry '{s['agent_registry']}'", s["agent_runtime"] in text and s["agent_registry"] in text and s["llm_gateway"] in text)
         if sid == "S1":
-            check("S1 discloses that its registry product is unresolved", "product selection pending" in text.lower() and "AWS Agent Registry" not in text)
+            check("S1 shows the interim GitLab catalog and says it is not a full agent registry", "GitLab catalog" in text and "not a full agent registry" in text and "AWS Agent Registry" not in text)
             check("S1 shows no AWS AgentCore component", "AgentCore" not in text)
         if sid == "S2":
             check("S2 names AgentCore Runtime, Gateway and AWS Agent Registry separately", all(k in text for k in ("AgentCore Runtime", "AgentCore Gateway", "AWS Agent Registry")) or "AgentCore Gateway" in text)
@@ -86,7 +86,7 @@ with sync_playwright() as pw:
     rows = f.locator("[data-testid=arch-compare] tbody tr")
     check("comparison lists every model dimension", rows.count() == len(model.COMPARISON), f"{rows.count()} rows")
     text = f.locator("[data-testid=arch-compare]").inner_text()
-    check("comparison shows agent hosting per scenario from the model", "SAP BTP Cloud Foundry" in text and "AWS AgentCore Runtime" in text and model.UNRESOLVED in text)
+    check("comparison shows agent hosting per scenario from the model", "SAP BTP Cloud Foundry" in text and "AWS AgentCore Runtime" in text and model.S1_REGISTRY in text)
 
     # ---- MCP hosting for each scenario and compare
     arch("MCP hosting")
@@ -118,7 +118,7 @@ with sync_playwright() as pw:
     check("registry offers S1, S2, S3 and a comparison", tabsr.count() == 4)
     tabsr.nth(0).click(); page.wait_for_timeout(300)
     s1r = f.locator("main.registry-page").inner_text()
-    check("S1 registry is shown as unresolved with no product invented", "product selection pending" in s1r.lower() and "AWS Agent Registry" not in f.locator("[data-testid=registry-facts]").inner_text())
+    check("S1 registry is the interim GitLab catalog, not a full registry, and no AWS registry", "GitLab catalog" in s1r and "not a full agent registry" in s1r and "AWS Agent Registry" not in f.locator("[data-testid=registry-facts]").inner_text())
     tabsr.nth(2).click(); page.wait_for_timeout(300)
     s3r = f.locator("[data-testid=registry-facts]").inner_text() + f.locator("[data-testid=registry-notes]").inner_text()
     check("S3 registers in AWS Agent Registry as control plane only", "AWS Agent Registry" in s3r and "never an execution hop" in s3r)
@@ -171,14 +171,16 @@ with sync_playwright() as pw:
     arch("Decision brief")
     rows = f.locator("tr[data-testid^=decision-]")
     check("the decision brief lists the five open decisions", rows.count() == len(model.DECISIONS))
-    f.locator("summary", has_text="Settled, remaining").first.click()
+    f.locator("summary", has_text="Owner answers").first.click()
     d0 = f.locator(".brief-detail").first.inner_text()
-    check("each decision shows what is settled, what remains, options and proof", all(h in d0.upper() for h in ("SETTLED BY THE DOCUMENTS", "ONLY THE OWNER OR TENANT", "OPTIONS", "PROOF")))
-    check("the S1 registry decision names candidates and keeps SAP AI Agent Hub NOT_VERIFIED", "SAP AI Agent Hub" in d0 and "NOT_VERIFIED" in d0)
+    check("each decision shows what is settled, what remains, options and proof", all(h in d0.upper() for h in ("OWNER ANSWERS", "SETTLED BY THE DOCUMENTS", "ONLY THE OWNER OR TENANT", "OPTIONS", "PROOF")))
+    check("the S1 registry decision records that SAP AI Agent Hub is unavailable and GitLab is selected", "SAP AI Agent Hub" in d0 and "not available" in d0 and "GitLab" in d0 and "DECIDED" in d0)
+    summ = f.locator("[data-testid=decision-summary]").inner_text()
+    check("the brief counts decided, owner-confirmed and open answers", "4 decided" in summ and "5 owner-confirmed" in summ and "3 still open" in summ, summ)
     arch("Registry")
     f.get_by_role("tablist", name="Registry scenario selection").get_by_role("tab").nth(0).click(); page.wait_for_timeout(300)
-    cand = f.locator("[data-testid=registry-candidates]").inner_text()
-    check("the S1 registry page lists candidates and says none is selected", "SAP AI Agent Hub" in cand and "AWS Agent Registry" in cand and "none selected" in f.locator("main.registry-page").inner_text().lower())
+    cand = f.locator("[data-testid=registry-options]").inner_text()
+    check("the S1 registry page lists the options and shows the GitLab catalog as selected", "SAP AI Agent Hub" in cand and "AWS Agent Registry" in cand and "SELECTED" in cand and "GitLab" in cand)
 
     # ---- Live run: all three scenarios can be selected and run
     arch("Live run")

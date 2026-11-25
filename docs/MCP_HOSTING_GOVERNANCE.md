@@ -11,7 +11,7 @@ The **MCP hosting** page is generated from the canonical model `poc/architecture
 | Agent hosting and execution | SAP BTP Cloud Foundry | AWS AgentCore Runtime | SAP BTP Cloud Foundry |
 | Custom MCP code (only if required) | Cloud Foundry, behind Apigee | AgentCore Runtime, proxied by Apigee (cross-cloud) | Cloud Foundry, behind Apigee |
 | MCP gateway | Google Apigee | AgentCore Gateway in front of Apigee | Google Apigee |
-| Agent and MCP registry | Domain-managed catalog, product selection pending | AWS Agent Registry | AWS Agent Registry (control plane only) |
+| Agent and MCP registry | Interim catalog on GitLab (not a full agent registry; decided by the owner) | AWS Agent Registry | AWS Agent Registry (control plane only) |
 | Status | evaluation candidate | evaluation candidate | preferred candidate, subject to AI Foundry policy and POC validation |
 
 Common to all: Portkey is the LLM gateway; SAP Integration Suite is the SAP integration boundary; SAP Cloud Connector is conditional; persistence is conditional; the SAP backend decides business authorization. Google Apigee is the SAP-facing MCP/API gateway: Pattern A exposes an approved API as an MCP tool (no custom server), Pattern B puts a custom MCP server behind it.
@@ -37,14 +37,19 @@ See the table in `docs/ARCHITECTURE_V5_1.md`. Six of seven sources were read; th
 - **Design assumption**: our proposal, not documented behaviour.
 - **TBD · REQUIRES VALIDATION**: evidence missing. No component was invented to fill the gap.
 
-## Open items only the owner or the tenant can close
+## Owner answers of 2026-11-25 and what is still open
 
-1. Which registry product S1 uses, and who approves publication.
-2. Whether AI Foundry mandates AgentCore Gateway for every tool call (variant S3-B).
-3. Whether AWS Agent Registry can synchronize SAP-hosted endpoints in this tenant (AWS must reach the URL with an outbound credential).
-4. A real AgentCore Gateway to Apigee call (S2) to settle protocol, token exchange and target type.
-5. Delegated user identity versus service identity, and token exchange to ABAP roles.
-6. Whether persistence (HANA Cloud) is needed at all.
-7. Cost, latency and egress, which are unmeasured.
+Decided or confirmed by the owner (statements, not evidence):
 
-The decision register for these items, with options, proposals and proofs, is in the Decision brief page and `docs/POC_PROOF_AND_ENTITLEMENT_CHECKLIST.md`.
+- **S1 registry**: SAP AI Agent Hub is not available, so S1 uses an interim catalog on GitLab, the central platform. The integration team, with the respective technical approvals, approves publishing. It is not a full agent registry.
+- **GitLab** hosts source, specs, descriptors, catalog records and CI/CD for every scenario (not runtime hosting).
+- **AgentCore Gateway** is mandatory in S2 by design and not mandatory in S1 or S3, so S3-B is not required. AI Foundry's written confirmation is pending.
+- **Tenant entitlements** (Cloud Foundry, Apigee MCP, AgentCore, Agent Registry, Portkey) are owner-confirmed live; no written evidence or region and quota detail is attached.
+
+Still open (not yet checked):
+
+1. Whether AWS can reach the Apigee MCP endpoint.
+2. Whether the registry credential provider is in the same AWS account.
+3. The real end-to-end call through AgentCore Gateway to Apigee (S2).
+
+The register with options, proposals and proofs is in the Decision brief and `docs/POC_PROOF_AND_ENTITLEMENT_CHECKLIST.md`.

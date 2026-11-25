@@ -11,7 +11,7 @@ export const DECISION_ROWS=[
   ['MCP gateway / exposure','mcp_gateway','Who exposes and governs the tools'],
   ['LLM gateway','llm_gateway','Model access, independent of the rest'],
 ];
-const open=text=>/pending|TBD|unresolved/i.test(text);
+const open=text=>/pending|TBD|unresolved|interim/i.test(text);
 
 export default function ScenarioDecisions({focus=IDS,title='The independent decisions in each scenario',rows=DECISION_ROWS}){
   return <section className="surface sd-strip" data-testid="decision-strip" aria-label={title}>

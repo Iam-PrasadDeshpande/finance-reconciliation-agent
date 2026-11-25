@@ -10,7 +10,7 @@ const clamp=(value,low,high)=>Math.min(high,Math.max(low,value));
 const SHORT={D1:'Overview',D2:'S1',D3:'S2',D4:'S3',D5:'Hosting vs registry',D6:'Identity',D7:'LLM',D8:'Lifecycle',D9:'Audit',D10:'Comparison'};
 const DIAGRAMS=Object.fromEntries(DIAGRAM_KEYS.map(key=>{const spec=diagramSpec(key);return [key,{id:key,tab:`${key} · ${SHORT[key]}`,title:`${key} · ${spec.title}`,svg:diagramSvg(key),file:`architecture-${key.toLowerCase()}`,png:true,summary:spec.chain,footer:spec.footer}]}));
 const COMPARE_PAIR=['D2','D4'];
-const OPEN_ITEMS=['Registry product for S1 is unresolved: a plain API catalog is not a complete agent registry','AgentCore Gateway to Apigee protocol and token exchange (S2): unproven','Whether AI Foundry mandates AgentCore Gateway for every tool call (S3-B): policy-dependent','Principal propagation through Integration Suite and Cloud Connector: to validate','Persistence is conditional: HANA Cloud only if durable SAP-side state is required'];
+const OPEN_ITEMS=['S1 registry is an interim GitLab catalog: it is not a complete agent registry','AgentCore Gateway to Apigee (S2): the real call has not been run','AgentCore Gateway is not mandatory in S1 and S3 (owner position): AI Foundry written confirmation pending','Principal propagation through Integration Suite and Cloud Connector: to validate','Persistence is conditional: HANA Cloud only if durable SAP-side state is required'];
 
 function markup(svg,uid){return svg.replace('aria-labelledby="t d"',`aria-labelledby="${uid}-t ${uid}-d"`).replace('id="t"',`id="${uid}-t"`).replace('id="d"',`id="${uid}-d"`)}
 function svgFile(svg){return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${svg}`],{type:'image/svg+xml'})}

@@ -29,19 +29,19 @@ def step(handoff, configure, dependency, proof, owner):
 PLAYBOOKS = {
     "S1": {
         "title": "S1 · SAP-centric",
-        "status": "Evaluation candidate · registry product unresolved",
+        "status": "Evaluation candidate · interim GitLab catalog as registry",
         "path": "SAP Fiori / existing UI → Cloud Foundry agent → Apigee MCP/API → SAP Integration Suite → Cloud Connector (conditional) → SAP backend",
-        "hosting": "SAP owns agent execution on SAP BTP Cloud Foundry and any custom MCP code behind Apigee. Apigee is the SAP-facing MCP/API gateway. The registry is a domain-managed catalog and no product is selected; an ordinary API catalog is not a complete agent registry. No AWS component takes part.",
+        "hosting": "SAP owns agent execution on SAP BTP Cloud Foundry and any custom MCP code behind Apigee. Apigee is the SAP-facing MCP/API gateway. The registry is an interim catalog on GitLab, selected by the owner because SAP AI Agent Hub is not available; it is not a complete agent registry. No AWS component takes part.",
         "steps": [
             step("Finance APIs → Apigee MCP endpoint", "Expose approved read operations as MCP tools through Apigee (Pattern A). Add a custom MCP server on Cloud Foundry behind Apigee only where logic needs code (Pattern B).", "Apigee MCP enablement and OpenAPI contract", "One read tool listed and called through Apigee", "SAP Integration"),
             step("Cloud Foundry agent → Apigee", "Deploy the agent on SAP BTP Cloud Foundry with an MCP client and a workload identity; give it the Apigee MCP URL.", "Cloud Foundry space and identity provider", "Agent lists and calls one tool", "SAP BTP platform team"),
             step("Agent → Portkey → LLM", "Route every model call through Portkey; no direct provider route.", "Portkey route and approved model", "Model call visible in Portkey log", "AI platform"),
             step("Apigee → Integration Suite → SAP", "Map each tool to an approved API; add Cloud Connector only where the connectivity model needs it.", "Integration Suite API and destination", "SAP backend role check passes and a negative case is rejected", "SAP Integration + SAP Security"),
-            step("Registration", "Select the registry product for agents and MCP servers; until then record the gap openly.", "Enterprise registry decision", "Discovery without any runtime dependency", "AI Foundry or domain team"),
+            step("Registration", "Add a record for the agent and for the Apigee MCP endpoint to the GitLab catalog through a merge request; the pipeline validates the schema and publishes an index.", "GitLab project, record schema and discovery interface (to be built)", "Discovery from another client through the index, then revocation removes the record", "Integration team"),
         ],
         "decisions": [
-            "Which product is the agent and MCP registry in an SAP-centric design?",
-            "Who approves publication when no central registry is used?",
+            "Is the interim GitLab catalog enough, or will a registry product follow?",
+            "Which record schema, discovery interface and revocation process does the catalog need?",
             "Will Apigee receive delegated user identity or a scoped service identity, and how will SAP authorize it?",
             "Is persistence needed, or does an existing store suffice (HANA Cloud is conditional)?",
         ],
@@ -79,9 +79,9 @@ PLAYBOOKS = {
             step("Registration → AWS Agent Registry", "Register the SAP-hosted agent and the Apigee MCP endpoint metadata; approve before discovery. Confirm no AWS execution hop appears in any trace.", "Registry access and synchronization method", "Discovery works while execution stays SAP-hosted", "AI Foundry"),
         ],
         "decisions": [
-            "Does AI Foundry mandate AgentCore Gateway for every tool invocation (variant S3-B)?",
+            "Will AI Foundry confirm in writing that AgentCore Gateway is not mandatory for S3 (the owner states it is not)?",
             "Can AWS Agent Registry hold records for agents and MCP servers hosted outside AWS in this tenant?",
-            "Which synchronization method keeps registry metadata current, and how are stale records revoked?",
+            "Are records published from the GitLab release pipeline (AWS never calls into SAP), and how are stale records retired?",
             "Is persistence needed, or does an existing store suffice (HANA Cloud is conditional)?",
         ],
         "sources": ["aws_registry", "aws_registry_sync", "apigee_mcp", "btp_cf", "sap_identity"],

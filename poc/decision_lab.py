@@ -15,7 +15,7 @@ from .route_playbooks import QUESTION_DEPENDENCIES
 QUESTIONS = [
     {
         "id": "sap_mcp_hosting",
-        "scenario_position": {"S1": "The MCP endpoint is Apigee-managed (Pattern A) and any custom MCP runs on SAP BTP Cloud Foundry behind it. SAP owns both; the registry for the endpoint is a domain-managed catalog with no product selected.", "S2": "Apigee exposes the SAP tools behind AgentCore Gateway. A custom MCP on AgentCore Runtime would be reached through Apigee as a cross-cloud target. Gateway-to-Apigee protocol and target type are unproven.", "S3": "Same SAP-side hosting as S1 (Apigee, custom MCP on Cloud Foundry). The endpoint metadata is registered in AWS Agent Registry; registration does not move hosting."},
+        "scenario_position": {"S1": "The MCP endpoint is Apigee-managed (Pattern A) and any custom MCP runs on SAP BTP Cloud Foundry behind it. SAP owns both; the endpoint is recorded in the interim GitLab catalog.", "S2": "Apigee exposes the SAP tools behind AgentCore Gateway. A custom MCP on AgentCore Runtime would be reached through Apigee as a cross-cloud target. Gateway-to-Apigee protocol and target type are unproven.", "S3": "Same SAP-side hosting as S1 (Apigee, custom MCP on Cloud Foundry). The endpoint metadata is registered in AWS Agent Registry; registration does not move hosting."},
         "title": "Can SAP retain Apigee as its domain MCP layer?",
         "summary": "Test a domain-owned MCP target behind the agent runtime.",
         "current_position": "Existing MCP targets are technically possible; SAP ownership and Apigee hosting approval remain open.",
@@ -73,7 +73,7 @@ QUESTIONS = [
     },
     {
         "id": "foundry_registry",
-        "scenario_position": {"S1": "No registry product is selected (domain-managed catalog). Registration, approval and revocation have no owner yet.", "S2": "AWS Agent Registry catalogues the AgentCore-hosted agent and the MCP descriptor; approved records only are discoverable.", "S3": "AWS Agent Registry holds metadata for the SAP-hosted agent and the Apigee endpoint. Synchronization connects from AWS to the URL with an outbound credential; it is control plane only."},
+        "scenario_position": {"S1": "An interim catalog on GitLab (SAP AI Agent Hub is not available). The integration team approves records through merge requests; revocation removes the record. It is not a full agent registry.", "S2": "AWS Agent Registry catalogues the AgentCore-hosted agent and the MCP descriptor; approved records only are discoverable.", "S3": "AWS Agent Registry holds metadata for the SAP-hosted agent and the Apigee endpoint, published from the GitLab pipeline. Synchronization from the URL would need AWS to reach it; that is not yet checked. Control plane only."},
         "title": "What does the Foundry registry govern?",
         "summary": "Separate design-time registration from runtime tool invocation.",
         "current_position": "Registration governs lifecycle and discovery; it grants no direct SAP access by itself.",
@@ -108,7 +108,7 @@ ROUTES = {
 }
 
 CONTROL_MATRIX = [
-    {"component": "Agent and MCP registry", "owner": "AI Foundry (S2, S3) or domain team (S1, product pending)", "responsibility": "Registration, discovery, approval, version and lifecycle. Control plane only: registration is not an invocation hop and grants no SAP access."},
+    {"component": "Agent and MCP registry", "owner": "AI Foundry (S2, S3) or the integration team (S1, GitLab catalog)", "responsibility": "Registration, discovery, approval, version and lifecycle. Control plane only: registration is not an invocation hop and grants no SAP access."},
     {"component": "AgentCore Gateway (S2 only)", "owner": "AI Foundry runtime", "responsibility": "Enterprise MCP gateway: inbound authorization, outbound credential and invocation audit toward Apigee."},
     {"component": "Google Apigee MCP/API", "owner": "SAP Integration", "responsibility": "SAP-facing MCP/API gateway in every scenario: tool mapping, policy, routing and SAP-facing audit."},
     {"component": "Portkey", "owner": "AI platform", "responsibility": "LLM gateway in every scenario: model selection, credentials, fallback and monitoring. Independent of the MCP gateway."},
@@ -141,7 +141,7 @@ def build_run(question_id: str, route: str, probe: str) -> dict:
 
     add("Business intent", "Finance architect", "Typed use-case scope", question["title"], proof="Finance use-case signoff")
     registered = probe != "unregistered"
-    registry_name = {"domain": "Domain-managed catalog (product pending)", "aws": "AWS Agent Registry"}[ROUTES[route]["registry"]]
+    registry_name = {"domain": "GitLab catalog (interim)", "aws": "AWS Agent Registry"}[ROUTES[route]["registry"]]
     add(registry_name, "AI Foundry governance" if ROUTES[route]["registry"] == "aws" else "Domain team", "Owner, approval, version and tool binding",
         "Registered synthetic tool reference" if registered else "Tool not registered; runtime invocation blocked",
         status="passed" if registered else "denied", phase="design-time",
