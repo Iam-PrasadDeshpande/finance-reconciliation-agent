@@ -12,7 +12,7 @@
 .provenance b{font-size:11px;color:#5d3b05}
 .provenance.compact span{padding:2px 6px}.provenance.compact b{font-size:10px}
 .period-panel{display:grid;gap:8px;text-align:left}
-.period-panel .pp-status{padding:7px 10px;border-radius:3px;font-size:12px;border-left:3px solid #0a6ed1;background:#edf7ff}
+.period-panel .pp-status{padding:7px 10px;border-radius:3px;font-size:12px;border-left:3px solid var(--f-accent,#0a6ed1);background:#edf7ff}
 .period-panel .pp-status.ok{border-color:#107E3E;background:#f2faf4}.period-panel .pp-status.bad{border-color:#BB0000;background:#fff3f3}.period-panel .pp-status.warn{border-color:#d99a25;background:#fff8eb}
 .period-panel .pp-kpis{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .period-panel .pp-kpis div{background:#f7fafc;border:1px solid #dce6ec;border-radius:3px;padding:6px 8px;display:grid;gap:1px}
@@ -21,7 +21,7 @@
 .period-panel .pp-kpis .attn{background:#fff9ec;border-color:#efd9a9}
 .period-panel .pp-actions{display:flex;flex-wrap:wrap;gap:6px}
 .period-panel .pp-actions button{font:inherit;font-size:12px;font-weight:700;padding:7px 10px;border-radius:4px;border:1px solid #a8cce6;background:#edf7ff;color:#075793;cursor:pointer}
-.period-panel .pp-actions button.primary{background:#0a6ed1;color:#fff;border-color:#0a6ed1}
+.period-panel .pp-actions button.primary{background:var(--f-accent,#0a6ed1);color:#fff;border-color:var(--f-accent,#0a6ed1)}
 .period-nodata{padding:14px;border:1px dashed #BB0000;border-radius:4px;color:#BB0000;font-weight:800;text-align:center}
 .pp-sign{font-size:10.5px;color:#587184;line-height:1.35;margin:0}
 .close-process>summary{cursor:pointer;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#557695;padding:4px 0}
@@ -39,7 +39,7 @@
 @media(max-width:900px){.rr-guide .rr-apps{grid-template-columns:1fr}}
 .aw-period{margin:6px 0;font-size:12px;color:#34495c}.aw-period b{color:#075793}
 .period-stale{margin:6px 0;padding:8px 12px;border:1px solid #d99a25;border-left:4px solid #d99a25;background:#fff8eb;border-radius:3px;font-size:12px;font-weight:700;color:#5d3b05}
-.period-stale button{font:inherit;font-size:12px;font-weight:700;margin-left:10px;padding:4px 10px;border:1px solid #0a6ed1;background:#0a6ed1;color:#fff;border-radius:4px;cursor:pointer}
+.period-stale button{font:inherit;font-size:12px;font-weight:700;margin-left:10px;padding:4px 10px;border:1px solid var(--f-accent,#0a6ed1);background:var(--f-accent,#0a6ed1);color:#fff;border-radius:4px;cursor:pointer}
 .header-meta .period-select{flex-direction:row;align-items:center;display:flex;gap:6px}.header-meta .period-select select{min-width:0;padding:4px 6px;font-size:12px}
 .entry-ask .period-select{margin-right:8px}
 .case-extra{margin-top:10px;padding-top:8px;border-top:1px solid #e2ebf0}.case-extra p{font-size:12px;line-height:1.4;margin:4px 0}

@@ -3,7 +3,7 @@
 .cl-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:9px 14px}
 .cl-head h2{font-size:18px;margin:1px 0}.cl-head p{font-size:12px;color:#34495c;margin:1px 0 0}
 .cl-head-actions{display:grid;gap:5px;justify-items:end}.cl-buttons{display:flex;gap:6px;flex-wrap:wrap}
-.cl-buttons button{font:inherit;font-size:12px;font-weight:700;padding:6px 10px;border-radius:4px;border:1px solid #a8cce6;background:#edf7ff;color:#075793;cursor:pointer}.cl-buttons .primary{background:#0a6ed1;border-color:#0a6ed1;color:#fff}
+.cl-buttons button{font:inherit;font-size:12px;font-weight:700;padding:6px 10px;border-radius:4px;border:1px solid #a8cce6;background:#edf7ff;color:#075793;cursor:pointer}.cl-buttons .primary{background:var(--f-accent,#0a6ed1);border-color:var(--f-accent,#0a6ed1);color:#fff}
 .cl-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 .cl-kpis div{background:#fff;border:1px solid #dce6ec;border-radius:4px;padding:6px 10px;display:grid;gap:0}
 .cl-kpis span{font-size:10px;font-weight:800;text-transform:uppercase;color:#557695}.cl-kpis strong{font-size:17px}.cl-kpis small{font-size:10.5px;color:#587184}
@@ -11,12 +11,12 @@
 .cl-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:8px;align-items:start}
 .cl-left{padding:8px 10px;min-width:0}
 .cl-toolbar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}.cl-toolbar h3{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:#557695;margin:0}
-.cl-filter{display:flex;gap:4px}.cl-filter button{font:inherit;font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;border:1px solid #cfdfec;background:#fff;color:#34495c;cursor:pointer}.cl-filter button.active{background:#0a6ed1;border-color:#0a6ed1;color:#fff}
+.cl-filter{display:flex;gap:4px}.cl-filter button{font:inherit;font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;border:1px solid #cfdfec;background:#fff;color:#34495c;cursor:pointer}.cl-filter button.active{background:var(--f-accent,#0a6ed1);border-color:var(--f-accent,#0a6ed1);color:#fff}
 .cl-cols,.close-screen .worklist button{display:grid;grid-template-columns:78px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 86px;gap:8px;align-items:center}
 .cl-cols{font-size:10px;font-weight:800;text-transform:uppercase;color:#557695;padding:4px 8px;border-bottom:1px solid #dce6ec}
 .close-screen .worklist{display:grid;gap:0;max-height:none;overflow:visible}
 .close-screen .worklist button{width:100%;text-align:left;font-size:12px;padding:0 8px;height:31px;border:0;border-bottom:1px solid #eef2f5;background:#fff;cursor:pointer;border-left:3px solid transparent}
-.close-screen .worklist button:hover{background:#f2f8fc}.close-screen .worklist button.selected{background:#e8f3fd;border-left-color:#0a6ed1}
+.close-screen .worklist button:hover{background:#f2f8fc}.close-screen .worklist button.selected{background:#e8f3fd;border-left-color:var(--f-accent,#0a6ed1)}
 .close-screen .worklist .num,.cl-cols .num{text-align:right;font-variant-numeric:tabular-nums}
 .close-screen .worklist button strong{font-size:12px}.close-screen .worklist button em{font-style:normal;font-size:10px;font-weight:800;text-align:center;border-radius:3px;padding:2px 0}
 .close-screen .worklist button em.ok{color:#14532d;background:#f2faf4;border:1px solid #bfe3cc}.close-screen .worklist button em.warn{color:#8a5b13;background:#fff8e8;border:1px solid #efd9a9}
@@ -30,18 +30,18 @@
 .cl-case .detail-line{display:flex;justify-content:space-between;font-size:12px;padding:3px 0}
 .cl-case .approval-lane{margin-top:8px;display:grid;gap:4px;font-size:12px}
 /* the agent run banner on every module screen, and the output bar on the Agents screen */
-.agent-run-banner{display:flex;align-items:center;gap:12px;padding:7px 12px;border-left:4px solid #0a6ed1}
+.agent-run-banner{display:flex;align-items:center;gap:12px;padding:7px 12px;border-left:4px solid var(--f-accent,#0a6ed1)}
 .agent-run-banner .eyebrow{white-space:nowrap}.agent-run-banner .arb-text{flex:1;min-width:0;font-size:12px;color:#34495c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .agent-run-banner button,.aw-output button{font:inherit;font-size:12px;font-weight:700;padding:6px 11px;border-radius:4px;border:1px solid #a8cce6;background:#edf7ff;color:#075793;cursor:pointer;white-space:nowrap}
 .aw-output{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:10px 16px;margin:8px 0;border-left:4px solid #107E3E;background:#f2faf4}
-.aw-output p{font-size:12px;margin:2px 0 0;color:#34495c}.aw-output-actions{display:flex;gap:8px;flex-wrap:wrap}.aw-output .primary{background:#0a6ed1;border-color:#0a6ed1;color:#fff}
+.aw-output p{font-size:12px;margin:2px 0 0;color:#34495c}.aw-output-actions{display:flex;gap:8px;flex-wrap:wrap}.aw-output .primary{background:var(--f-accent,#0a6ed1);border-color:var(--f-accent,#0a6ed1);color:#fff}
 @media(max-width:1100px){.cl-grid{grid-template-columns:minmax(0,1fr)}.cl-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.cl-head{flex-wrap:wrap}.cl-head-actions{justify-items:start}.agent-run-banner{flex-wrap:wrap}.agent-run-banner .arb-text{white-space:normal}.aw-output{flex-wrap:wrap}}
 @media(max-width:560px){.cl-kpis{grid-template-columns:1fr 1fr}.cl-cols,.close-screen .worklist button{grid-template-columns:64px minmax(0,1fr) minmax(0,1fr) 76px}.cl-cols span:nth-child(3),.close-screen .worklist button span:nth-child(3){display:none}}
 .cl-head{padding:6px 14px}.cl-head .eyebrow{display:none}.cl-head h2{font-size:17px}
 .cl-kpis div{padding:4px 10px}
 .close-screen .worklist button{height:29px}
 .close-screen{gap:6px;padding:8px 16px}.cl-grid{gap:6px}
-.cl-head .agent-run-banner{box-shadow:none;border:0;border-left:4px solid #0a6ed1;background:#f2f8fd;padding:3px 8px;margin-top:3px;gap:10px;border-radius:3px}.cl-head .agent-run-banner button{padding:3px 9px;font-size:11px}
+.cl-head .agent-run-banner{box-shadow:none;border:0;border-left:4px solid var(--f-accent,#0a6ed1);background:#f2f8fd;padding:3px 8px;margin-top:3px;gap:10px;border-radius:3px}.cl-head .agent-run-banner button{padding:3px 9px;font-size:11px}
 .cl-right .action-strip{padding:6px 10px;gap:8px;align-items:center}.cl-right .action-strip p{display:none}.cl-right .action-strip strong{font-size:12px}.cl-right .action-strip button{font-size:11px;padding:5px 9px}
 .cl-right .evidence-shortcut,.cl-right [class*="evidence-short"]{padding:6px 10px}
 .cl-right .period-panel{gap:5px}.cl-right .pp-kpis div{padding:4px 7px}.cl-right .pp-status{padding:5px 9px}

@@ -118,3 +118,7 @@ The five items that were open after V5.1 were researched against current documen
 | AWS reaching SAP-hosted endpoints (S3) | Sync needs an HTTPS URL, runs on creation and on demand, reverts the record to draft and does not remove stale tools; private reachability is not documented. Proposal: publish records from the SAP release pipeline so AWS never calls into SAP. |
 | AgentCore Gateway to Apigee (S2) | Four MCP protocol versions are shared; outbound OAuth client credentials, authorization code and token exchange are supported, passthrough is not; Apigee has no SSE. End-to-end proof still pending. |
 | SAP Cloud Foundry and tenant capabilities | The Cloud Foundry runtime page was read in a browser (Python buildpack, space quotas, service plans). Entitlement per tenant stays NOT_VERIFIED. |
+
+## Themes (V5.2)
+
+`frontend/src/ThemeSwitch.jsx` and `frontend/src/themes.css` provide the six standard SAP Fiori themes for the whole application. Quartz Light is the stylesheet as written; the accent colour is a token, and the other themes re-map the rendered colours on the root element so every screen, dialog and inline diagram follows. In the hosted Streamlit page the rules are injected into the page document because the component's own stylesheet sits in a shadow root. Exports (SVG, PNG) are unaffected. The My Home audience block was removed.
