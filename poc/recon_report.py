@@ -11,6 +11,7 @@ import calendar
 from datetime import date, timedelta
 
 from .history import ACCOUNTS, PERIODS, VARIANCES
+from .sap_guidance import PROVENANCE, SIGN_CONVENTION, guide, treatment
 from .store import Denied, Store
 
 TOLERANCE = 1000
@@ -105,6 +106,41 @@ def _items_for(store: Store, period: str, variance: int):
     return built
 
 
+MATCH_STATUS = {"timing_cutoff": "TIMING_DIFFERENCE", "fx_revaluation": "AMOUNT_MISMATCH", "duplicate_posting": "DUPLICATE",
+                "mapping_conflict": "REQUIRES_REVIEW", "intercompany": "REQUIRES_REVIEW"}
+MATCH_RULE = {"timing_cutoff": "Key + amount; posting date after period cut-off", "replication_gap": "Key + amount; target document missing or different",
+              "fx_revaluation": "Key + amount within revaluation range", "mapping_conflict": "Key + account mapping", "duplicate_posting": "Key + amount seen twice",
+              "intercompany": "Partner company amount", "unexplained": "No rule matched"}
+
+
+def _match_status(item: dict) -> str:
+    if item["category"] == "replication_gap":
+        return "UNMATCHED_TARGET" if item["cfin_amount"] == 0 else "AMOUNT_MISMATCH"
+    if item["category"] == "unexplained":
+        return "UNMATCHED_SOURCE" if item["cfin_amount"] == 0 else "REQUIRES_REVIEW"
+    return MATCH_STATUS.get(item["category"], "REQUIRES_REVIEW")
+
+
+def _matching(period: str, items: list, journals: list, variance: int) -> dict:
+    """Row-level matching evidence. Differences of the rows add up to the summary variance by construction and by check."""
+    rows = []
+    for j in journals:
+        rows.append({"matching_key": f"{j['account']}|{j['journal_id']}", "source_ref": j["journal_id"], "target_ref": j["journal_id"], "amount": j["amount"],
+                     "currency": "USD", "posting_date": (j.get("timestamp_utc") or "")[:10] or None, "rule": "Exact key + amount", "difference": 0, "status": "MATCHED",
+                     "reason": None})
+    for item in items:
+        rows.append({"matching_key": f"{item['account']}|{item['document_id']}", "source_ref": item["document_id"],
+                     "target_ref": None if item["cfin_amount"] == 0 else item["document_id"], "amount": item["s4_amount"], "currency": "USD",
+                     "posting_date": item["posting_date"], "rule": MATCH_RULE.get(item["category"], "No rule matched"), "difference": item["difference"],
+                     "status": _match_status(item), "reason": item["category_label"]})
+    rows.sort(key=lambda r: r["status"] == "MATCHED")  # exceptions first, stable within each group
+    exceptions = [r for r in rows if r["status"] != "MATCHED"]
+    explained = sum(r["difference"] for r in rows)
+    return {"rows": rows, "totals": {"matched_count": len(rows) - len(exceptions), "exception_count": len(exceptions),
+            "difference_total": explained, "summary_variance": variance, "reconciles": explained == variance,
+            "scope_note": "Matched rows are the journals compared for this period. Every difference sits in an exception row; none is hidden outside the rows shown."}}
+
+
 def _materiality(amount: int) -> str:
     size = abs(amount)
     return "high" if size >= HIGH else "medium" if size >= MEDIUM else "low"
@@ -152,7 +188,7 @@ def build_report(store: Store, period: str, case: dict | None = None, events: li
             "account_name": ACCOUNT_NAMES[meta["account"]], "posting_date": row["posted"].isoformat(), "age_days": age, "aging_bucket": _bucket(age),
             "s4_amount": row["s4"], "cfin_amount": row["cfin"], "difference": diff, "materiality": _materiality(diff),
             "category": row["category"], "category_label": meta["label"], "reason_code": meta["reason"], "aif_status": row["aif"], "mapping_status": row["mapping"],
-            "status": "explained" if explained else "needs_review", "owner": meta["owner"], "recommended_action": meta["action"],
+            "status": "explained" if explained else "needs_review", "owner": meta["owner"], "recommended_action": meta["action"], "treatment": treatment(row["category"]),
             "sap_reference": f"{meta['ref']} (simulated, not invoked)",
             "ai": {"classification": meta["label"], "confidence": meta["confidence"] if not residual else 0.0,
                    "rationale": meta["rationale"] if not residual else "The stored balances changed after the seeded items were built. No item explains the remaining difference, so it needs a person to investigate.",
@@ -221,7 +257,9 @@ def build_report(store: Store, period: str, case: dict | None = None, events: li
         timeline.append({"step": label, "source": name, "freshness": overview[name]["freshness"], "balance": overview[name]["balance"], "timestamp_utc": stamps.get(name)})
     return {
         "report_id": f"RPT-{period}", "period": period, "company_code": "1000", "ledger": "0L", "currency": "USD", "as_of": f"{end.isoformat()}T18:20:00+00:00",
-        "synthetic": True, "case_id": (case or {}).get("case_id"), "scenario": (case or {}).get("scenario"), "trace_id": f"trace-{case['case_id']}" if case else None,
+        "synthetic": True, "provenance": PROVENANCE, "sign_convention": SIGN_CONVENTION, "period_label": _period_end(period).strftime("%B %Y"),
+        "fiscal": {"year": int(period[:4]), "period": int(period[5:]), "note": "Calendar fiscal year assumed (variant K4); not read from SAP."},
+        "matching": _matching(period, items, detail["journals"], variance), "manual_posting": guide(), "case_id": (case or {}).get("case_id"), "scenario": (case or {}).get("scenario"), "trace_id": f"trace-{case['case_id']}" if case else None,
         "summary": {"status": status, "status_text": status_text, "s4_total": s4_total, "cfin_total": cfin_total, "variance": variance, "explained": explained,
                     "unexplained": unexplained, "explained_pct": 100 if variance == 0 else round(100 * explained / variance), "tolerance": TOLERANCE, "open_items": len(items),
                     "high_items": sum(1 for i in items if i["materiality"] == "high"), "matched_movements": len(detail["journals"]),

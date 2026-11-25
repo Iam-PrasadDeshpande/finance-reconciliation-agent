@@ -58,7 +58,8 @@ def request_for_demo(message: str, scope: dict | None = None) -> tuple[dict | No
         months = "january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec"
         explicit = re.search(rf"\b(?:20\d{{2}}-(?:0[1-9]|1[0-2])|(?:{months})\s+20\d{{2}})\b", text)
         if explicit:
-            return None, [], f"{message[explicit.start():explicit.end()]} is outside the 12-month synthetic history. Choose December 2025 through November 2026."
+            label = message[explicit.start():explicit.end()]
+            return None, [], f"NO DATA AVAILABLE FOR {label.upper()}. {label} is outside the 12-month synthetic history. Choose December 2025 through November 2026."
     period = period or (scope or {}).get("period")
     if not period:
         return None, [], "Which synthetic month should I reconcile? Choose December 2025 through November 2026."

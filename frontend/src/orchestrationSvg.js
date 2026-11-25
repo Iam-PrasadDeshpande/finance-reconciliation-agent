@@ -29,7 +29,7 @@ export function effectiveStatus(step, index, shown) {
 
 export function orchestrationSvg({plan, catalog, shown, selectedAgent}) {
   const cards = catalog?.agents || [];
-  const specialists = cards.filter(a => a.id !== 'orchestrator');
+  const specialists = cards.filter(a => a.kind !== 'orchestrator');
   const steps = plan?.steps || [];
   const revealed = Math.min(shown, steps.length);
   const stateOf = (step, index) => (plan ? effectiveStatus(step, index, shown) : 'pending');
@@ -46,7 +46,7 @@ export function orchestrationSvg({plan, catalog, shown, selectedAgent}) {
     const called = mine.length > 0 && states.some(s => s !== 'pending');
     const worst = states.includes('blocked') ? 'blocked' : states.includes('held') ? 'held' : states.includes('running') ? 'running' : called ? 'done' : 'pending';
     const doneCount = states.filter(s => s === 'done').length;
-    nodes.push(N(`agent:${agent.id}`, 1, i, agent.name, `${agent.mcp_server} · ${agent.tools.join(', ')}`, 'domain', {
+    nodes.push(N(`agent:${agent.id}`, 1, i + (6 - specialists.length) / 2, agent.name, `${agent.mcp_server} · ${agent.tools.join(', ')}`, 'domain', {
       h: 84, zone: `agent:${agent.id}`,
       status: mine.length ? (called ? `${doneCount}/${mine.length} calls done${mine.every(({step}) => !(step.trace?.layers?.length)) ? ' · computed locally' : ''}` : 'Queued') : 'Not called',
       statusColor: called ? STATE_COLOR[worst] : '#506778',

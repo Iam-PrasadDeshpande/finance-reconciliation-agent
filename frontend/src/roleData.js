@@ -1,9 +1,9 @@
 // Audience lenses, close-process ownership, decisions and proof gates. Gates G1-G7 and the "not proven" list
 // come from docs/POC_LIMITATIONS.md; the recommendation comes from mcpScenarios.js. Nothing here is an approval.
 export const ROLES = [
-  {id: 'ea', name: 'Enterprise architect', ask: 'Is the target coherent, governable and decision-ready?', links: [['brief', 'Decision brief'], ['approaches', 'Complete architecture'], ['agenthost', 'Agent hosting']]},
-  {id: 'ia', name: 'Integration architect', ask: 'Which interfaces, identities and hops does each route need?', links: [['mcp', 'MCP hosting'], ['diagrams', 'Detailed diagrams'], ['live', 'Live run']]},
-  {id: 'fin', name: 'Finance', ask: 'Can I trust the close result, and who approves what?', links: [['business', 'Close & reconcile'], ['agents', 'Ask the agents'], ['live', 'Live run']]},
+  {id: 'ea', name: 'Enterprise architect', ask: 'Is the target coherent, governable and decision-ready?', links: [['brief', 'Decision brief'], ['ontology', 'Ontology'], ['approaches', 'Complete architecture']]},
+  {id: 'ia', name: 'Integration architect', ask: 'Which interfaces, identities and hops does each route need?', links: [['mcp', 'MCP hosting'], ['ontology', 'Ontology'], ['diagrams', 'Detailed diagrams']]},
+  {id: 'fin', name: 'Finance', ask: 'Can I trust the close result, and who approves what?', links: [['business', 'Close & reconcile'], ['treasury', 'Cash & treasury'], ['agents', 'Ask the agents']]},
   {id: 'ba', name: 'Business architect', ask: 'What changes in the process, and where are the controls?', links: [['business', 'Who does what'], ['agents', 'Agent roles'], ['brief', 'Decision brief']]},
 ];
 

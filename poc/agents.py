@@ -7,6 +7,7 @@ simulators. Plans write local case, event and proposal records only.
 from __future__ import annotations
 
 import re
+from datetime import datetime
 import time
 import uuid
 from dataclasses import dataclass
@@ -32,6 +33,8 @@ AGENT_CARDS = [
     {"id": "governance", "name": "Governance & route", "role": "Explains the MCP route, controls and open decisions, and the stored trace.", "mode": "read", "view": "decision-responsibilities", "tools": ["route_controls", "trace"], "mcp_server": "governance-mcp", "layers": ["Route playbooks", "Stored event trail"]},
     {"id": "approval", "name": "Approval gatekeeper", "role": "Drafts a proposal only. A person with the approver role decides.", "mode": "local marker draft", "view": "close", "tools": ["draft_proposal"], "mcp_server": "approval-mcp", "layers": ["Approval store (local marker)"]},
 ]
+for _card in AGENT_CARDS:
+    _card.setdefault("kind", "orchestrator" if _card["id"] == "orchestrator" else "specialist")
 CARD = {c["id"]: c for c in AGENT_CARDS}
 
 # name -> agent, class, input, output. sap.post, decide, execute and fixture changes are NOT tools.
@@ -69,6 +72,14 @@ def _step(index, agent, tool, purpose, extra=None):
     step = {"step_id": f"s{index}", "agent": agent, "tool": tool, "purpose": purpose, "rw": TOOLS[tool]["rw"], "status": "pending", "summary": "", "view": CARD[agent]["view"]}
     step.update(extra or {})
     return step
+
+
+def case_for_period(store, case_id, period):
+    """A stored case is used only when it belongs to the selected period; otherwise the selected period decides."""
+    case = store.case(case_id) if case_id else None
+    if case and period and (case.get("scope") or {}).get("period") != period:
+        return None
+    return case
 
 
 def plan_for(message: str, case: dict | None = None) -> dict:
@@ -152,7 +163,11 @@ def run_plan(ctx: Context, plan: dict, scenario: str = "S1", user_id: str = "fin
     store = ctx.store
     case = store.case(plan["case_id"]) if plan.get("case_id") else None
     state = {"case": case, "scope": case["scope"] if case else None, "result": None, "case_id": plan.get("case_id")}
-    state.update(initial or {})
+    selected = (initial or {}).get("selected_period")
+    state.update({k: v for k, v in (initial or {}).items() if k != "selected_period"})
+    state["selector"] = selected
+    plan["selected_period"] = selected
+    plan["period_source"] = "request" if mentioned_period((plan.get("message") or "").lower()) else ("selector" if selected else "case")
     plan["orchestrator"] = {"role": "tool client (MCP-style, in-process)", "rule": f"intent {plan['intent']}", "dispatches": len(plan["steps"]), "order": [s["tool"] for s in plan["steps"]]}
     if plan["intent"] == "refused_write":
         plan["status"] = "blocked"
@@ -209,6 +224,7 @@ def run_plan(ctx: Context, plan: dict, scenario: str = "S1", user_id: str = "fin
     plan["orchestrator"]["dispatches"] = len(plan["steps"])
     plan["orchestrator"]["order"] = [s["tool"] for s in plan["steps"]]
     plan["case_id"] = state["case_id"]
+    plan["effective_period"] = None if plan["status"] == "needs_input" else (state.get("period") or (state.get("parsed") or {}).get("period") or (state.get("scope") or {}).get("period"))
     plan["duration_ms"] = int((time.perf_counter() - started) * 1000)
     plan["answer"] = _answer(plan)
     store.set_state("last_plan", plan)
@@ -242,11 +258,15 @@ def _need_case(state):
 def _run_step(ctx, plan, step, state, scenario, user_id):
     store, tool = ctx.store, step["tool"]
     if tool == "resolve_scope":
-        parsed, assumed, follow_up = request_for_demo(plan["message"], state["scope"])
+        scope = state["scope"] or ({"period": state["selector"]} if state.get("selector") else None)
+        parsed, assumed, follow_up = request_for_demo(plan["message"], scope)
         if follow_up:
             _finish(step, "held", follow_up)
             return
-        if parsed["period"] not in store.available_periods() or parsed["company_code"] != "1000" or parsed["ledger"] != "0L":
+        if parsed["period"] not in store.available_periods():
+            year, month = parsed["period"].split("-")
+            raise Denied(f"NO DATA AVAILABLE FOR {datetime(int(year), int(month), 1).strftime('%B %Y').upper()}. This synthetic demo covers December 2025 through November 2026 for company code 1000, ledger 0L.")
+        if parsed["company_code"] != "1000" or parsed["ledger"] != "0L":
             raise Denied("This synthetic demo covers December 2025 through November 2026 for company code 1000, ledger 0L.")
         state["parsed"] = parsed
         extra = f" Assumed {', '.join(assumed)}." if assumed else ""
@@ -264,7 +284,9 @@ def _run_step(ctx, plan, step, state, scenario, user_id):
         amount = variance.get("amount")
         _finish(step, "done", f"{variance.get('state', 'unknown')}" + (f" · {int(amount):,} USD" if amount is not None else " · no comparable amount"))
     elif tool == "close_readiness":
-        period = state.get("period") or (state["scope"] or {}).get("period") or (state.get("parsed") or {}).get("period") or "2026-11"
+        period = state.get("period") or (state["scope"] or {}).get("period") or (state.get("parsed") or {}).get("period") or state.get("selector")
+        if not period:
+            raise Denied("No period is selected. Choose a period first.")
         events = store.events(state["case_id"]) if state["case_id"] else None
         report = build_report(store, period, state["case"], events)
         summary = report["summary"]

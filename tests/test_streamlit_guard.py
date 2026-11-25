@@ -33,3 +33,26 @@ def test_changed_poc_sources_drop_cached_modules_and_unchanged_sources_keep_them
                 del sys._finance_poc_stamp
         else:
             sys._finance_poc_stamp = saved
+
+
+def test_a_new_file_in_a_subpackage_also_drops_cached_modules(tmp_path):
+    """Plug-and-play on the hosted app: a new agent module file under poc/agent_modules must trigger the reload."""
+    guard = load_guard()
+    package = tmp_path / "poc"
+    (package / "agent_modules").mkdir(parents=True)
+    (package / "a.py").write_text("VALUE = 1\n", encoding="utf-8")
+    saved = getattr(sys, "_finance_poc_stamp", None)
+    sys.modules["poc.guard_probe"] = types.ModuleType("poc.guard_probe")
+    try:
+        assert guard(package) is True
+        sys.modules["poc.guard_probe"] = types.ModuleType("poc.guard_probe")
+        assert guard(package) is False and "poc.guard_probe" in sys.modules
+        (package / "agent_modules" / "new_agent.py").write_text("MODULE = None\n", encoding="utf-8")
+        assert guard(package) is True and "poc.guard_probe" not in sys.modules
+    finally:
+        sys.modules.pop("poc.guard_probe", None)
+        if saved is None:
+            if hasattr(sys, "_finance_poc_stamp"):
+                del sys._finance_poc_stamp
+        else:
+            sys._finance_poc_stamp = saved
