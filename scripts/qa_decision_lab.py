@@ -49,7 +49,7 @@ with sync_playwright() as playwright:
     web.get_by_role("button", name="Next handoff").click()
     assert web.locator(".lab-node.selected strong").inner_text() == "AI Foundry registry"
     web.get_by_role("button", name="Next handoff").click()
-    assert web.locator(".lab-node.selected strong").inner_text() == "Microsoft Entra ID"
+    assert web.locator(".lab-node.selected strong").inner_text() == "Enterprise identity provider"
     with web.expect_download() as info:
         web.get_by_role("button", name="Download synthetic decision packet").click()
     packet = json.loads(info.value.path().read_text(encoding="utf-8"))

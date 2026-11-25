@@ -42,7 +42,7 @@ QUESTIONS = [
         "summary": "Trace a redacted principal reference across every trust boundary.",
         "current_position": "Gateway authentication does not establish delegated SAP principal propagation or backend authorization.",
         "decision": "Approve delegated-user propagation or an explicitly scoped service-identity alternative.",
-        "owner": "Entra ID + agent platform identity + Integration + SAP Security",
+        "owner": "Enterprise IdP + agent platform identity + Integration + SAP Security",
         "next_action": "Trace a real tenant principal through every hop and prove the selected identity model in each SAP backend role check.",
         "default_route": "S3", "probes": [
             {"id": "delegated", "label": "Delegated user candidate"},
@@ -135,7 +135,7 @@ def build_run(question_id: str, route: str, probe: str) -> dict:
         status="passed" if registered else "denied", phase="design-time",
         proof="Published domain-owned hosting and onboarding policy")
     if registered:
-        add("Microsoft Entra ID", "Enterprise identity", "Caller authentication and group claim",
+        add("Enterprise identity provider", "Enterprise identity", "Caller authentication and group claim",
             "Pseudonymous caller reference issued", proof="Real tenant issuer, audience and group mapping")
         if ROUTES[route]["agent"] == "agentcore":
             add("AgentCore Runtime + Identity", "AI Foundry runtime", "Agent workload identity and scoped tool request",

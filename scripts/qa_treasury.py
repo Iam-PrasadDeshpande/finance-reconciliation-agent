@@ -156,7 +156,7 @@ with sync_playwright() as pw:
 
     # 8. Architecture views are unchanged and the treasury events are reachable in the Live run
     tab(3)
-    check("architecture area keeps its views and adds the ontology", page.get_by_role("tablist", name="Architecture views").get_by_role("tab").count() == 7)
+    check("architecture area keeps its views and adds the ontology", page.get_by_role("tablist", name="Architecture views").get_by_role("tab").count() == 8)
     check("no page errors", not errors, "; ".join(errors)[:200])
     browser.close()
 

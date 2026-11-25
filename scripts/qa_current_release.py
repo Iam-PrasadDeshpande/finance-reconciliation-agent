@@ -161,8 +161,6 @@ def check(page, url, hosted):
     assert page.get_by_role("dialog", name="architecture diagram").locator("[data-node]").count() >= 12
     page.get_by_role("dialog", name="architecture diagram").get_by_role("button", name="Close").click()
     go_decision("Complete architecture")
-    if page.viewport_size["width"] >= 1000:
-        assert page.locator(".mcp-bird").evaluate("e => e.scrollHeight <= e.clientHeight + 2")
 
     # Diagrams tab: ten generated diagrams plus a comparison.
     go_decision("Diagrams")

@@ -239,7 +239,7 @@ def _scenario_diagram(sid: str) -> dict:
             n("db", 2, 0, "Persistence · conditional", "Approved AWS store, only if durable state is needed", "store", dashed=True),
         ]
         edges += [
-            e("ui", "agent", "invoke", ""), e("agent", "gw", "invoke", "MCP tools/call"), e("gw", "apigee", "invoke", "MCP"),
+            e("ui", "agent", "invoke", ""), e("agent", "gw", "invoke", "MCP tools/call"), e("gw", "apigee", "invoke", ""),
             e("apigee", "int", "invoke", "API call"), e("int", "cc", "invoke", "if private"), e("cc", "sap", "invoke", "RFC / OData"),
             e("apigee", "custom", "invoke", "proxy target · cross-cloud", off=-30),
             e("agent", "portkey", "llm", "LLM request", off=-14), e("portkey", "llm", "llm", "model call"),
