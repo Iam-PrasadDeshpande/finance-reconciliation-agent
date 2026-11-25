@@ -238,16 +238,46 @@ def architecture_component(build_version: str):
     )
 
 
-@st.fragment(run_every="1s")
-def show_app():
+@st.cache_resource
+def static_payload(build_version: str, poc_stamp: str):
+    """Everything that cannot change while the process runs: built once, not once per second."""
+    return {"architecture": architecture_registry(), "decision_questions": question_catalog(), "route_playbooks": route_playbook_catalog(),
+            "conditions": [{"id": key, **value} for key, value in CONDITIONS.items()], "agents": cockpit.catalog(), "modules": cockpit.manifests(), "ontology": cockpit.ontology()}
+
+
+def memo(key, factory):
+    """Per-session memo for views that only change when an action ran. Bounded so it cannot grow."""
+    cache = st.session_state.setdefault("finance_memo", {})
+    if key not in cache:
+        if len(cache) > 60:
+            cache.clear()
+        cache[key] = factory()
+    return cache[key]
+
+
+def needs_polling(store) -> bool:
+    """Only a run in flight needs the one-second refresh. An idle app must not re-run, and re-send everything, every second."""
+    try:
+        if any(c["status"] in ("queued", "running") for c in store.cases()):
+            return True
+    except Exception:
+        return True
+    run_id = st.session_state.finance_decision_run_id
+    return bool(run_id and (get_decision_run(store, run_id) or {}).get("status") != "complete")
+
+
+def render_app(polling: bool):
+    time.sleep(float(os.environ.get("COCKPIT_RENDER_DELAY", "0") or 0))  # test hook: emulates a slow host CPU (default 0)
     store = session()
+    mutations = st.session_state.get("finance_mutations", 0)
+    period = st.session_state.finance_selected_period
     case_id = st.session_state.finance_case_id
     trace_id = st.session_state.finance_trace_id
     current = store.case(case_id) if case_id else None
     investigation = store.investigation(st.session_state.finance_investigation_id) if st.session_state.finance_investigation_id else None
     data = {
-        "architecture": architecture_registry(),
-        "history": {"periods": store.history_overview(), "available_periods": store.available_periods(),
+        **static_payload(BUILD_VERSION, getattr(sys, "_finance_poc_stamp", "")),
+        "history": {"periods": memo(("history", mutations), store.history_overview), "available_periods": store.available_periods(),
                     "account_count": 6, "source_count": 4, "journal_records_per_month": 12},
         "cases": store.cases()[:20],
         "proposals": store.proposals(),
@@ -256,20 +286,14 @@ def show_app():
         "active_case": current,
         "history_detail": store.history_detail(current["scope"]["period"]) if current and current.get("scope",{}).get("period") in store.available_periods() else None,
         "events": architecture_events(store.events(trace_id)) if trace_id else [],
-        "decision_questions": question_catalog(),
-        "route_playbooks": route_playbook_catalog(),
         "local_bundle": LOCAL_BUNDLE_INFO,
         "decision_run": get_decision_run(store, st.session_state.finance_decision_run_id) if st.session_state.finance_decision_run_id else None,
         "response": st.session_state.finance_response,
         "response_nonce": st.session_state.finance_response_nonce,
-        "conditions": [{"id": key, **value} for key, value in CONDITIONS.items()],
         "action_seq": st.session_state.get("finance_action_seq", -1),
-        "agents": cockpit.catalog(),
-        "modules": cockpit.manifests(),
-        "ontology": cockpit.ontology(),
-        "module_views": {m.id: cockpit.view(store, m.id, st.session_state.finance_selected_period) for m in cockpit.modules() if m.view is not None} if st.session_state.finance_selected_period else {},
+        "module_views": memo(("views", period, mutations), lambda: {m.id: cockpit.view(store, m.id, period) for m in cockpit.modules() if m.view is not None}) if period else {},
         "agent_plan": st.session_state.finance_agent_plan,
-        "period_report": build_report(store, st.session_state.finance_selected_period, current if current and current.get("scope", {}).get("period") == st.session_state.finance_selected_period else None, None) if st.session_state.finance_selected_period else None,
+        "period_report": memo(("period_report", period, mutations, (current or {}).get("case_id"), (current or {}).get("status")), lambda: build_report(store, period, current if current and current.get("scope", {}).get("period") == period else None, None)) if period else None,
         "report": build_report(store, st.session_state.finance_report_period, current if current and current.get("scope", {}).get("period") == st.session_state.finance_report_period else None, store.events(case_id) if current and current.get("scope", {}).get("period") == st.session_state.finance_report_period else None) if st.session_state.finance_report_period else None,
         "simulation": True,
     }
@@ -278,10 +302,16 @@ def show_app():
         try:
             handle_action(result.action)
         finally:  # the browser sends one action at a time and waits for this number before sending the next
+            st.session_state.finance_mutations = st.session_state.get("finance_mutations", 0) + 1
             seq = result.action.get("_seq")
             if isinstance(seq, int):
                 st.session_state.finance_action_seq = max(st.session_state.get("finance_action_seq", -1), seq)
         st.rerun()
+    if polling and not needs_polling(store):
+        st.rerun()  # the run finished: leave the polling fragment so the idle one takes over
 
 
-show_app()
+show_polling = st.fragment(run_every="1s")(render_app)
+show_idle = st.fragment(render_app)
+polling_now = needs_polling(session())
+(show_polling if polling_now else show_idle)(polling_now)
