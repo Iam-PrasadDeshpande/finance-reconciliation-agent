@@ -178,7 +178,7 @@ export default function DetailedDiagrams({view='S1',onView,onBack}){
       <nav className="dd-selector" role="tablist" aria-label="Detailed diagram selection">
         {[...keys,'compare'].map(id=><button type="button" role="tab" key={id} aria-selected={view===id} className={view===id?'active':''} onClick={()=>choose(id)}>{id==='compare'?'Compare side-by-side':DIAGRAMS[id].tab}</button>)}
       </nav>
-      <div className="dd-header-actions"><span className="pill warn">PROPOSED DESIGN · REVIEW DRAFT · NOT TENANT-VERIFIED</span><button type="button" onClick={onBack}>← Architecture pros &amp; cons</button></div>
+      <div className="dd-header-actions"><span className="pill warn">PROPOSED DESIGN · REVIEW DRAFT · NOT TENANT-VERIFIED</span><button type="button" onClick={onBack}>← Complete architecture</button></div>
     </header>
     <section className="surface dd-summary" aria-label="Diagram summary">
       <div><span className="eyebrow">{compare?'WHAT THIS VIEW SHOWS':landscape?'LANDSCAPE PATH · STATUS AND OPEN DECISION':`${single.id} · MCP GATEWAY`}</span><p>{compare?'Both detailed diagrams share one worked month-end reconciliation path. Use the synchronized viewers to inspect lane 03 (MCP gateway) and the AWS trust boundary, where they differ.':single.summary}</p></div>
@@ -192,13 +192,13 @@ export default function DetailedDiagrams({view='S1',onView,onBack}){
           {keys.map((id,index)=><PanZoom key={id} diagram={DIAGRAMS[id]} uid={`dd-${id}-cmp`} compact view={index===0?viewA:viewB} onView={next=>{if(sync)setBoth(next);else (index===0?setViewA:setViewB)(next)}} onFit={next=>{if(sync)setBoth(next);else (index===0?setViewA:setViewB)(next)}} expanded={expanded===id} onExpand={on=>setExpanded(on?id:null)}/>)}
         </div>
       </>:<PanZoom key={single.id} diagram={single} uid={`dd-${single.id}`} view={viewA} onView={setViewA} onFit={setViewA} expanded={expanded===single.id} onExpand={on=>setExpanded(on?single.id:null)}/>}
-      {landscape?<aside className="surface dd-side" aria-label="Controls and open decision"><h3>Cross-cutting controls</h3><ul>{single.data.controls.map(([name,text])=><li key={name}><strong>{name}.</strong> {text}</li>)}</ul><h3>Open decision</h3><p>{single.data.decision}</p><p className="micro">Vendor-named components are design projections, not connected services.</p><a className="text-link" href={single.data.source} target="_blank" rel="noreferrer">Vendor reference ↗</a><button type="button" className="text-link" onClick={onBack}>Back to architecture pros &amp; cons →</button></aside>:<aside className="surface dd-side" aria-label="Key differences and open validations">
+      {landscape?<aside className="surface dd-side" aria-label="Controls and open decision"><h3>Cross-cutting controls</h3><ul>{single.data.controls.map(([name,text])=><li key={name}><strong>{name}.</strong> {text}</li>)}</ul><h3>Open decision</h3><p>{single.data.decision}</p><p className="micro">Vendor-named components are design projections, not connected services.</p><a className="text-link" href={single.data.source} target="_blank" rel="noreferrer">Vendor reference ↗</a><button type="button" className="text-link" onClick={onBack}>Back to complete architecture →</button></aside>:<aside className="surface dd-side" aria-label="Key differences and open validations">
         <h3>What changes between S1 and S2</h3>
         <table><thead><tr><th scope="col">Item</th><th scope="col">S1</th><th scope="col">S2</th></tr></thead><tbody>{DIFFERENCES.map(([item,a,b])=><tr key={item}><th scope="row">{item}</th><td className={view==='S2'?'dim':''}>{a}</td><td className={view==='S1'?'dim':''}>{b}</td></tr>)}</tbody></table>
         <h3>Open validations shown in the diagram</h3>
         <ul>{OPEN_ITEMS.map(item=><li key={item}>{item}</li>)}</ul>
         <p className="micro">Vendor-named components are design projections, not connected services. S3 has no detailed L2 diagram; see the S3 landscape path.</p>
-        <button type="button" className="text-link" onClick={onBack}>Back to architecture pros &amp; cons →</button>
+        <button type="button" className="text-link" onClick={onBack}>Back to complete architecture →</button>
       </aside>}
     </div>
   </main>;

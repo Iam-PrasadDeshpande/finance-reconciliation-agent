@@ -1,4 +1,6 @@
-import React,{useState} from 'react';
+import React,{useEffect,useState} from 'react';
+import ArchitectureDiagram from './ArchitectureDiagram';
+import './arch-split.css';
 
 export const HOSTING_OPTIONS=[
   {id:'agentcore',name:'Approved enterprise agent platform',priority:'NOW · leading validation candidate',host:'AgentCore Runtime if the AWS landing zone and service are approved',model:'Approved model endpoint; normally Bedrock unless policy requires another provider',owner:'Enterprise AI + AWS platform; SAP retains tool/API and backend authorization',fit:'Reuse a managed runtime and existing operating team for a portfolio of agents.',gates:'Landing zone, Region, entitlement, workload identity, private egress, quotas, durable state, recovery and SAP authorization.',source:'https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness-vs-runtime.html'},
@@ -9,14 +11,33 @@ export const HOSTING_OPTIONS=[
 const LAYERS=[['Experience','Fiori/UI5 or approved chat is the user interface; it does not host the agent.'],['Agent runtime','Runs orchestration and tool selection; needs scaling, isolation, deployment and recovery.'],['Model access','PTP/PAP, Bedrock, SAP AI Core or Foundry model endpoint must be approved separately.'],['SAP tools','Apigee MCP remains the SAP-facing boundary unless architecture owners change it.'],['Business state','Durable checkpoints, approvals and retries need a defined store and owner.'],['Governance','Registry, versioning, evaluation, audit, secrets and incident ownership need evidence.']];
 const GATES=['Approved production service and region','Data policy and model-processing geography','SAP identity and connectivity proof','Entitlement and three-year total cost','Named operating and incident owner','Recovery, rollback and audit controls'];
 
-export default function HostingPriority(){
+export default function HostingPriority({onMcp,onComplete}){
   const [selected,setSelected]=useState('agentcore');
+  const [popup,setPopup]=useState(null);
+  const [diagram,setDiagram]=useState(null);
   const item=HOSTING_OPTIONS.find(option=>option.id===selected);
-  return <div className="hosting-view" aria-label="Agent hosting priority assessment">
-    <section className="surface hosting-intro"><span className="eyebrow">AGENT HOSTING · SEPARATE FROM SAP MCP</span><h3>Where should the SAP custom agent run?</h3><p>Current shortlist, not a platform award. Joule Studio is reported unavailable. Validate reuse of the approved enterprise agent platform first; compare a complete SAP BTP pro-code platform if SAP ownership or cost makes it preferable.</p><strong>PTP/PAP model access does not establish that PTP/PAP hosts the agent.</strong></section>
-    <div className="hosting-columns"><section className="surface hosting-options"><span className="eyebrow">HOSTING PRIORITY</span>{HOSTING_OPTIONS.map(option=><button type="button" key={option.id} className={selected===option.id?'selected':''} aria-pressed={selected===option.id} onClick={()=>setSelected(option.id)}><span>{option.priority}</span><strong>{option.name}</strong></button>)}<p>Kyma is a separate SAP option only with a demonstrated container requirement and Kubernetes operator. AgentCore Runtime plus SAP AI Core model access is an exception requiring a specific governance need.</p></section>
-      <section className="surface hosting-detail" aria-live="polite"><span className="eyebrow">{item.priority}</span><h3>{item.name}</h3><dl><dt>Agent host</dt><dd>{item.host}</dd><dt>Model access</dt><dd>{item.model}</dd><dt>Accountable operators</dt><dd>{item.owner}</dd><dt>Why assess it</dt><dd>{item.fit}</dd><dt>What must be proved</dt><dd>{item.gates}</dd></dl><a href={item.source} target="_blank" rel="noreferrer">Official product reference ↗</a></section>
-      <aside className="surface hosting-gates"><span className="eyebrow">NO TENANT PROOF YET</span><h3>Eligibility before ranking</h3><ul>{GATES.map(gate=><li key={gate}>{gate}</li>)}</ul><p>UNKNOWN remains conditional. Compare the same workflow and approved model on eligible platforms; measure cost, latency, failure recovery and final SAP authorization before selecting one.</p></aside></div>
-    <section className="surface hosting-layers"><span className="eyebrow">COMPLETE OPERATING PLATFORM</span><div>{LAYERS.map(([name,description])=><article key={name}><strong>{name}</strong><span>{description}</span></article>)}</div></section>
-  </div>;
+  useEffect(()=>{
+    if(!popup)return;
+    const close=event=>{if(event.key==='Escape')setPopup(null)};
+    window.addEventListener('keydown',close);
+    return ()=>window.removeEventListener('keydown',close);
+  },[popup]);
+  const title=popup==='gates'?'Eligibility before ranking':popup==='layers'?'Complete operating platform':`${item.name} hosting details`;
+  return <main className="mcp-comparison mcp-bird arch-page hosting-page" aria-label="Agent hosting">
+    <header className="surface mcp-bird-header"><div><span className="eyebrow">AGENT HOSTING · WHERE THE CUSTOM FINANCE AGENT RUNS</span><h2>Choose the agent platform</h2></div><span className="pill warn">SHORTLIST · NO TENANT PROOF YET</span></header>
+    <nav className="surface mcp-route-tabs mcp-bird-tabs" role="tablist" aria-label="Agent hosting options">
+      {HOSTING_OPTIONS.map(option=><button type="button" role="tab" key={option.id} aria-selected={selected===option.id} className={selected===option.id?'active':''} onClick={()=>setSelected(option.id)}><strong>{option.name}</strong><span>{option.priority}</span></button>)}
+    </nav>
+    <section className="surface mcp-bird-panel arch-panel" role="tabpanel" aria-label={`${item.name} overview`}>
+      <div className="mcp-bird-panel-title"><div><span className="eyebrow">{item.priority}</span><h3>{item.name}</h3></div><div className="mcp-bird-title-actions"><button type="button" className="diagram-action" onClick={()=>setDiagram(item.id)}>Architecture diagram ↗</button><button type="button" onClick={()=>setPopup('detail')}>Prerequisites and proof →</button></div></div>
+      <div className="mcp-bird-path arch-path" aria-label="Where the agent sits"><b>User or Fiori</b><span aria-hidden="true">→</span><b>Agent runtime · {item.name}</b><span aria-hidden="true">→</span><b>Model endpoint</b><span aria-hidden="true">→</span><b>MCP route S1 · S2 · S3</b></div>
+      <div className="arch-grid two">
+        <section aria-label="Platform facts"><h4>What runs where</h4><dl><dt>Agent host</dt><dd>{item.host}</dd><dt>Model access</dt><dd>{item.model}</dd><dt>Operators</dt><dd>{item.owner}</dd></dl></section>
+        <section aria-label="Platform fit"><h4>Why assess it</h4><p>{item.fit}</p><h4>What must be proved</h4><p>{item.gates}</p><a href={item.source} target="_blank" rel="noreferrer">Official product reference ↗</a></section>
+      </div>
+      <div className="arch-links"><span>Also:</span><button type="button" className="text-link" onClick={()=>setPopup('gates')}>Eligibility gates</button><button type="button" className="text-link" onClick={()=>setPopup('layers')}>Operating platform layers</button>{onMcp&&<button type="button" className="text-link" onClick={onMcp}>MCP hosting →</button>}{onComplete&&<button type="button" className="text-link" onClick={onComplete}>Complete architecture →</button>}<small>Choosing a host does not choose the MCP route or the model.</small></div>
+    </section>
+    {diagram&&<ArchitectureDiagram kind="hosting" id={diagram} onClose={()=>setDiagram(null)} onDetails={()=>{setSelected(diagram);setDiagram(null);setPopup('detail')}}/>}
+    {popup&&<div className="mcp-bird-modal-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget)setPopup(null)}}><section className="surface mcp-bird-modal" role="dialog" aria-modal="true" aria-label={title}><div className="mcp-bird-modal-header"><div><span className="eyebrow">AGENT HOSTING · DESIGN REVIEW ONLY</span><h3>{title}</h3></div><button type="button" onClick={()=>setPopup(null)} autoFocus>Close</button></div><div className="mcp-bird-modal-body">{popup==='gates'?<><ul>{GATES.map(gate=><li key={gate}>{gate}</li>)}</ul><p>UNKNOWN remains conditional. Compare the same workflow and approved model on eligible platforms; measure cost, latency, failure recovery and final SAP authorization before selecting one. Kyma is a separate SAP option only with a demonstrated container requirement; AgentCore Runtime with SAP AI Core model access is an exception that needs a specific governance reason.</p></>:popup==='layers'?<div className="mcp-bird-modal-owners">{LAYERS.map(([name,description])=><article key={name}><h4>{name}</h4><p>{description}</p></article>)}</div>:<><dl className="mcp-bird-host-detail"><dt>Priority</dt><dd>{item.priority}</dd><dt>Agent host</dt><dd>{item.host}</dd><dt>Model access</dt><dd>{item.model}</dd><dt>Operators</dt><dd>{item.owner}</dd><dt>Why assess</dt><dd>{item.fit}</dd><dt>Proof needed</dt><dd>{item.gates}</dd></dl><a href={item.source} target="_blank" rel="noreferrer">Official product reference ↗</a></>}</div></section></div>}
+  </main>;
 }

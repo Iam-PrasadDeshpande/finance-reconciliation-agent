@@ -56,7 +56,7 @@ def check(page, url, hosted):
     assert tabs.nth(1).get_attribute("aria-selected") == "true"
     page.get_by_role("button", name="Select Governance & route agent").click()
     page.get_by_role("button", name="Open responsibilities & governance").click()
-    assert decision_selected("Responsibilities")
+    assert decision_selected("MCP hosting")
     page.get_by_role("button", name="Dismiss agent banner").click()
     tabs.nth(1).click()
     assert page.locator(".aw-catalog").text_content().count("collect_evidence") >= 1
@@ -136,21 +136,20 @@ def check(page, url, hosted):
     page.locator(".question-card").first.wait_for()
     page.locator(".detail-return-bar button").click()
 
-    go_decision("Compare options")
+    go_decision("Complete architecture")
     route_tabs = page.get_by_role("tablist", name="Architecture approach details").get_by_role("tab")
     assert route_tabs.count() == 4
-    assert page.locator(".mcp-bird-host-grid button").count() == 4
     for index, route in enumerate(("S1", "S2", "S3")):
         route_tabs.nth(index).click()
         assert route_tabs.nth(index).get_attribute("aria-selected") == "true"
-        assert f"MCP ACCESS · {route}" in page.locator(".mcp-bird-panel").inner_text()
+        assert f"ROUTE {route}" in page.locator(".mcp-bird-panel").inner_text()
         page.locator(".diagram-action").click()
         diagram = page.get_by_role("dialog", name=f"{route} ·", exact=False)
         assert diagram.locator("[data-stage]").count() >= 6
         assert diagram.locator("[data-control]").count() == 4
         diagram.get_by_role("button", name="Close").click()
     route_tabs.nth(1).click()
-    page.get_by_role("button", name="View handoffs and proof").click()
+    page.get_by_role("button", name="Handoffs and proof").click()
     dialog = page.get_by_role("dialog", name="S2 architecture details")
     assert "MCP-server target" in dialog.inner_text()
     assert "Runtime passthrough" not in dialog.inner_text()
@@ -158,24 +157,32 @@ def check(page, url, hosted):
     page.locator(".question-card").first.click()
     page.locator(".lab-flow-panel .pill").filter(has_text="complete").wait_for(timeout=30000)
     page.locator(".detail-return-bar button").click()
-    go_decision("Compare options")
+    go_decision("Complete architecture")
     route_tabs.nth(3).click()
     assert page.locator(".mcp-bird-compare-grid article").count() == 3
     page.get_by_role("button", name="View full control matrix").click()
-    assert page.get_by_role("dialog", name="Full MCP control matrix").locator("tbody tr").count() == 15
+    assert page.get_by_role("dialog", name="Full MCP control matrix").locator("tbody tr").count() == 14
     page.get_by_role("dialog", name="Full MCP control matrix").get_by_role("button", name="Close").click()
-    page.locator(".mcp-bird-host-grid button").nth(1).click()
+    go_decision("Agent hosting")
+    host_tabs = page.get_by_role("tablist", name="Agent hosting options").get_by_role("tab")
+    assert host_tabs.count() == 4
+    host_tabs.nth(1).click()
+    page.get_by_role("button", name="Architecture diagram").click()
     hosting_diagram = page.get_by_role("dialog", name="architecture diagram")
     assert hosting_diagram.locator("[data-stage]").count() == 6
     hosting_diagram.get_by_role("button", name="View detailed prerequisites").click()
     assert "Cloud Foundry" in page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").inner_text()
     page.get_by_role("dialog", name="SAP BTP pro-code agent hosting details").get_by_role("button", name="Close").click()
+    page.get_by_role("button", name="Eligibility gates").click()
+    assert "Named operating and incident owner" in page.get_by_role("dialog", name="Eligibility before ranking").inner_text()
+    page.get_by_role("dialog", name="Eligibility before ranking").get_by_role("button", name="Close").click()
+    go_decision("Complete architecture")
     if page.viewport_size["width"] >= 1000:
         assert page.locator(".mcp-bird").evaluate("e => e.scrollHeight <= e.clientHeight")
         assert page.locator(".mcp-bird-panel").evaluate("e => e.scrollHeight <= e.clientHeight")
 
     # Detailed diagram tab: explicit S1/S2 selection, compare mode, zoom, reset and navigation back.
-    go_decision("Compare options")
+    go_decision("Complete architecture")
     route_tabs.nth(0).click()
     page.get_by_role("button", name="Detailed diagram (zoom)").click()
     assert decision_selected("Diagrams")
@@ -200,14 +207,14 @@ def check(page, url, hosted):
         assert page.locator("[data-testid^=diagram-] [data-stage]").count() in (6, 7)
         assert page.locator("[data-testid^=diagram-] [data-control]").count() == 4
         assert page.locator(".dd-viewer").count() == 1
-    page.get_by_role("button", name="← Architecture pros").first.click()
+    page.get_by_role("button", name="← Complete architecture").first.click()
     assert tabs.nth(2).get_attribute("aria-selected") == "true"
 
     # MCP hosting & governance tab: scenario selection, generated diagrams, matrices, consistency and navigation.
-    go_decision("Compare options")
+    go_decision("Complete architecture")
     route_tabs.nth(2).click()
-    page.get_by_role("button", name="MCP hosting & governance").click()
-    assert decision_selected("Responsibilities")
+    page.get_by_role("button", name="MCP hosting →").click()
+    assert decision_selected("MCP hosting")
     scenario = page.get_by_role("tablist", name="MCP scenario selection").get_by_role("tab")
     assert scenario.count() == 4
     assert scenario.nth(2).get_attribute("aria-selected") == "true"  # arrived from S3
@@ -244,7 +251,7 @@ def check(page, url, hosted):
     assert download.value.suggested_filename == "mcp-topology-s2-2x.png"
     scenario.nth(3).click()
     assert page.locator(".dd-viewer").count() == 2
-    page.get_by_role("button", name="Pros & cons →").first.click()
+    page.get_by_role("button", name="Complete architecture →").first.click()
     assert tabs.nth(2).get_attribute("aria-selected") == "true"
 
     # Live architecture: generated vector topology with the shared zoom viewer and clickable zones.

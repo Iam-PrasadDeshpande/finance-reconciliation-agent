@@ -1,0 +1,42 @@
+/* Complete architecture and Agent hosting pages: one focused screen each, details in popups. */
+.arch-page.mcp-bird{grid-template-rows:auto auto minmax(0,1fr);gap:10px;padding:10px 16px}
+.arch-page .mcp-bird-header{padding:10px 16px}
+.arch-page .mcp-bird-header h2{font-size:20px}
+.arch-page .mcp-bird-tabs button{padding:9px 14px}
+.arch-page .mcp-bird-tabs strong{font-size:14px}
+.arch-page .mcp-bird-tabs span{font-size:11px}
+.arch-panel.mcp-bird-panel{overflow:auto;padding:14px 18px;gap:14px;grid-template-rows:auto auto minmax(0,1fr) auto;align-content:start}
+.arch-panel .mcp-bird-panel-title h3{font-size:20px;margin:3px 0 0}
+.arch-panel .mcp-bird-panel-title button{font-size:12px;padding:8px 12px}
+.arch-path{gap:8px;padding:12px 0;overflow:visible;white-space:normal;flex-wrap:wrap}
+.arch-path b{flex:1 1 150px;max-width:none;overflow:visible;text-overflow:clip;font-size:13px;padding:10px 12px;text-align:center;white-space:normal}
+.arch-path>span{font-size:18px}
+.arch-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,1fr);gap:14px;min-height:0;align-items:start}
+.arch-grid.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.arch-grid section{background:#f7fafc;border:1px solid #dce6ec;border-radius:4px;padding:12px 14px;min-width:0}
+.arch-grid h4{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#557695;margin:0 0 8px}
+.arch-grid h4:not(:first-child){margin-top:12px}
+.arch-grid dl{margin:0;display:grid;gap:3px}
+.arch-grid dt{font-size:11px;font-weight:700;color:#315a78;margin-top:6px}
+.arch-grid dd{margin:0;font-size:13px;line-height:1.4;color:#223548}
+.arch-grid dd b{display:block;font-size:13px}
+.arch-grid dd small{display:block;font-size:11px;line-height:1.35;color:#587184;margin-top:1px}
+.arch-grid dd.warn{color:#8a5b13;font-weight:700}
+.arch-grid p{font-size:13px;line-height:1.45;margin:0}
+.arch-grid a{display:inline-block;margin-top:10px;font-size:12px;color:#0a5da7}
+.arch-judgment p{padding:10px 12px;margin:0 0 10px;border-left:3px solid #30914c;background:#f2faf4;border-radius:2px}
+.arch-judgment p.bad{border-left-color:#d99a25;background:#fff8eb}
+.arch-judgment strong{display:block;font-size:11px;text-transform:uppercase;color:#315a78;margin-bottom:3px}
+.arch-links{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:12px;color:#587184;border-top:1px solid #e2ebf0;padding-top:10px}
+.arch-links .text-link{font:inherit;font-size:12px;font-weight:700;color:#0a5da7;background:none;border:0;padding:2px 0;cursor:pointer}
+.arch-links small{margin-left:auto;font-size:11px}
+.arch-page .mcp-bird-compare-grid{gap:12px}
+.arch-page .mcp-bird-compare-grid article{padding:12px 14px;gap:9px}
+.arch-page .mcp-bird-compare-grid dl{grid-template-columns:90px minmax(0,1fr);gap:7px 8px;overflow:visible}
+.arch-page .mcp-bird-compare-grid dd{white-space:normal;font-size:12px}
+.arch-page .mcp-bird-compare-grid h4{font-size:14px;white-space:normal}
+.arch-page .mcp-bird-compare-grid article>span{font-size:11px;white-space:normal}
+@media(max-width:900px){.arch-page.mcp-bird{display:block}.arch-grid,.arch-grid.two{grid-template-columns:1fr}.arch-panel.mcp-bird-panel{min-height:0;overflow:visible}.arch-links small{margin-left:0;width:100%}.arch-path b{flex:1 1 100%}.arch-path>span{display:none}}
+@media(max-width:560px){.arch-page .mcp-bird-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.arch-page .mcp-bird-tabs span{display:block;font-size:10px}.arch-page .mcp-bird-tabs strong{font-size:12px}}
+.hosting-page .mcp-route-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+.hosting-page .mcp-route-tabs strong{white-space:normal}
