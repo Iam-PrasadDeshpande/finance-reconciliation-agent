@@ -61,6 +61,8 @@ with `COCKPIT_SAMPLE_MODULE=1` it appears as a third module and `qa_cockpit.py` 
 | Shared UI names no module | No routing constants or module lists in the shared UI source | same file |
 | Module logic | Numbers, statuses, recommendations, approval marker | `tests/test_treasury.py`, `tests/test_period_sync.py`, `tests/test_poc.py`, `tests/test_agents.py` |
 | Browser, web | Entry routing, Level 1, period sync, Level 2, concepts into the ontology, ontology graph, per module from the manifests | `scripts/qa_cockpit.py`, `qa_treasury.py`, `qa_period_sync.py`, `qa_current_release.py` |
+| Flow and links | A request typed on the front page is shown unchanged on the agent screen; the full-output link opens the module's screen and detail; the module screen links back to the run; no legacy chat; Close & reconcile in one view | `scripts/qa_flow.py` |
+| Prompt-to-execution matrix | 12 prompts (reconciliation, treasury, refusals, a control, plus any further module's example) typed on the front page: right module, expected agents and tools done, control reasons shown; then every area, every Architecture view and home are visited and the same run must still be shown, with the banner on its own module's screen and never on another's; period change flags it stale and recovers; every specialist agent of every module must have been exercised | `scripts/qa_prompts.py` |
 | Browser, Streamlit | The same on the embedded surface, including reruns and refresh | `qa_cockpit_streamlit.py`, `qa_treasury_streamlit.py`, `qa_period_sync_streamlit.py` |
 
 ## 6. What is not plug-and-play yet
