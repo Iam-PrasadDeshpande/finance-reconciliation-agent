@@ -1017,12 +1017,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Qe.setStrictMode(Ze, e);
 		} catch {}
 	}
-	var et = Math.clz32 ? Math.clz32 : L, tt = Math.log, nt = Math.LN2;
-	function L(e) {
-		return e >>>= 0, e === 0 ? 32 : 31 - (tt(e) / nt | 0) | 0;
+	var L = Math.clz32 ? Math.clz32 : R, et = Math.log, tt = Math.LN2;
+	function R(e) {
+		return e >>>= 0, e === 0 ? 32 : 31 - (et(e) / tt | 0) | 0;
 	}
-	var rt = 256, it = 262144, at = 4194304;
-	function ot(e) {
+	var nt = 256, z = 262144, rt = 4194304;
+	function it(e) {
 		var t = e & 42;
 		if (t !== 0) return t;
 		switch (e & -e) {
@@ -1060,27 +1060,27 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return e;
 		}
 	}
-	function st(e, t, n) {
+	function at(e, t, n) {
 		var r = e.pendingLanes;
 		if (r === 0) return 0;
 		var i = 0, a = e.suspendedLanes, o = e.pingedLanes;
 		e = e.warmLanes;
 		var s = r & 134217727;
-		return s === 0 ? (s = r & ~a, s === 0 ? o === 0 ? n || (n = r & ~e, n !== 0 && (i = ot(n))) : i = ot(o) : i = ot(s)) : (r = s & ~a, r === 0 ? (o &= s, o === 0 ? n || (n = s & ~e, n !== 0 && (i = ot(n))) : i = ot(o)) : i = ot(r)), i === 0 ? 0 : t !== 0 && t !== i && (t & a) === 0 && (a = i & -i, n = t & -t, a >= n || a === 32 && n & 4194048) ? t : i;
+		return s === 0 ? (s = r & ~a, s === 0 ? o === 0 ? n || (n = r & ~e, n !== 0 && (i = it(n))) : i = it(o) : i = it(s)) : (r = s & ~a, r === 0 ? (o &= s, o === 0 ? n || (n = s & ~e, n !== 0 && (i = it(n))) : i = it(o)) : i = it(r)), i === 0 ? 0 : t !== 0 && t !== i && (t & a) === 0 && (a = i & -i, n = t & -t, a >= n || a === 32 && n & 4194048) ? t : i;
 	}
-	function ct(e, t) {
+	function ot(e, t) {
 		return (e.pendingLanes & ~(e.suspendedLanes & ~e.pingedLanes) & t) === 0;
 	}
-	function R(e, t) {
+	function st(e, t) {
 		t & 8 && (t |= t & 32);
 		var n = e.entangledLanes;
 		if (n !== 0) for (e = e.entanglements, n &= t; 0 < n;) {
-			var r = 31 - et(n), i = 1 << r;
+			var r = 31 - L(n), i = 1 << r;
 			t |= e[r], n &= ~i;
 		}
 		return t;
 	}
-	function lt(e, t) {
+	function ct(e, t) {
 		switch (e) {
 			case 1:
 			case 2:
@@ -1116,23 +1116,23 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return -1;
 		}
 	}
-	function ut() {
-		var e = at;
-		return at <<= 1, !(at & 62914560) && (at = 4194304), e;
+	function lt() {
+		var e = rt;
+		return rt <<= 1, !(rt & 62914560) && (rt = 4194304), e;
 	}
-	function dt(e) {
+	function ut(e) {
 		for (var t = [], n = 0; 31 > n; n++) t.push(e);
 		return t;
 	}
-	function ft(e, t) {
+	function dt(e, t) {
 		e.pendingLanes |= t, t !== 268435456 && (e.suspendedLanes = 0, e.pingedLanes = 0, e.warmLanes = 0);
 	}
-	function pt(e, t, n, r, i, a) {
+	function ft(e, t, n, r, i, a) {
 		var o = e.pendingLanes;
 		e.pendingLanes = n, e.suspendedLanes = 0, e.pingedLanes = 0, e.warmLanes = 0, e.expiredLanes &= n, e.entangledLanes &= n, e.errorRecoveryDisabledLanes &= n, e.shellSuspendCounter = 0;
 		var s = e.entanglements, c = e.expirationTimes, l = e.hiddenUpdates;
 		for (n = o & ~n; 0 < n;) {
-			var u = 31 - et(n), d = 1 << u;
+			var u = 31 - L(n), d = 1 << u;
 			s[u] = 0, c[u] = -1;
 			var f = l[u];
 			if (f !== null) for (l[u] = null, u = 0; u < f.length; u++) {
@@ -1141,25 +1141,25 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			n &= ~d;
 		}
-		r !== 0 && mt(e, r, 0), a !== 0 && i === 0 && e.tag !== 0 && (e.suspendedLanes |= a & ~(o & ~t));
+		r !== 0 && pt(e, r, 0), a !== 0 && i === 0 && e.tag !== 0 && (e.suspendedLanes |= a & ~(o & ~t));
 	}
-	function mt(e, t, n) {
+	function pt(e, t, n) {
 		e.pendingLanes |= t, e.suspendedLanes &= ~t;
-		var r = 31 - et(t);
+		var r = 31 - L(t);
 		e.entangledLanes |= t, e.entanglements[r] = e.entanglements[r] | 1073741824 | n & 261930;
 	}
-	function ht(e, t) {
+	function mt(e, t) {
 		var n = e.entangledLanes |= t;
 		for (e = e.entanglements; n;) {
-			var r = 31 - et(n), i = 1 << r;
+			var r = 31 - L(n), i = 1 << r;
 			i & t | e[r] & t && (e[r] |= t), n &= ~i;
 		}
 	}
-	function gt(e, t) {
+	function ht(e, t) {
 		var n = t & -t;
-		return n = n & 42 ? 1 : _t(n), (n & (e.suspendedLanes | t)) === 0 ? n : 0;
+		return n = n & 42 ? 1 : gt(n), (n & (e.suspendedLanes | t)) === 0 ? n : 0;
 	}
-	function _t(e) {
+	function gt(e) {
 		switch (e) {
 			case 2:
 				e = 1;
@@ -1197,14 +1197,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return e;
 	}
-	function vt(e) {
+	function _t(e) {
 		return e &= -e, 2 < e ? 8 < e ? e & 134217727 ? 32 : 268435456 : 8 : 2;
 	}
-	function yt() {
+	function vt() {
 		var e = N.p;
 		return e === 0 ? (e = window.event, e === void 0 ? 32 : Ch(e.type)) : e;
 	}
-	function bt(e, t) {
+	function yt(e, t) {
 		var n = N.p;
 		try {
 			return N.p = e, t();
@@ -1212,17 +1212,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			N.p = n;
 		}
 	}
-	var xt = Math.random().toString(36).slice(2), St = "__reactFiber$" + xt, z = "__reactProps$" + xt, Ct = "__reactContainer$" + xt, wt = "__reactEvents$" + xt, Tt = "__reactListeners$" + xt, Et = "__reactHandles$" + xt, Dt = "__reactResources$" + xt, Ot = "__reactMarker$" + xt, kt = "__reactLoad$" + xt;
-	function At(e) {
-		delete e[St], delete e[z], delete e[Tt], delete e[Et];
+	var B = Math.random().toString(36).slice(2), bt = "__reactFiber$" + B, xt = "__reactProps$" + B, St = "__reactContainer$" + B, Ct = "__reactEvents$" + B, wt = "__reactListeners$" + B, Tt = "__reactHandles$" + B, Et = "__reactResources$" + B, Dt = "__reactMarker$" + B, Ot = "__reactLoad$" + B;
+	function kt(e) {
+		delete e[bt], delete e[xt], delete e[wt], delete e[Tt];
 	}
-	function jt(e) {
+	function At(e) {
 		var t;
-		if (t = e[St]) return t;
+		if (t = e[bt]) return t;
 		for (var n = e.parentNode; n;) {
-			if (t = n[Ct] || n[St]) {
+			if (t = n[St] || n[bt]) {
 				if (n = t.alternate, t.child !== null || n !== null && n.child !== null) for (e = fm(e); e !== null;) {
-					if (n = e[St]) return n;
+					if (n = e[bt]) return n;
 					e = fm(e);
 				}
 				return t;
@@ -1231,49 +1231,49 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return null;
 	}
-	function Mt(e) {
-		if (e = e[St] || e[Ct]) {
+	function jt(e) {
+		if (e = e[bt] || e[St]) {
 			var t = e.tag;
 			if (t === 5 || t === 6 || t === 13 || t === 31 || t === 26 || t === 27 || t === 3) return e;
 		}
 		return null;
 	}
-	function Nt(e) {
+	function Mt(e) {
 		var t = e.tag;
 		if (t === 5 || t === 26 || t === 27 || t === 6) return e.stateNode;
 		throw Error(i(33));
 	}
-	function Pt(e) {
-		var t = e[Dt];
-		return t ||= e[Dt] = {
+	function Nt(e) {
+		var t = e[Et];
+		return t ||= e[Et] = {
 			hoistableStyles: /* @__PURE__ */ new Map(),
 			hoistableScripts: /* @__PURE__ */ new Map()
 		}, t;
 	}
+	function Pt(e) {
+		e[Dt] = !0;
+	}
 	function Ft(e) {
-		e[Ot] = !0;
+		e[Ot] = void 0;
 	}
-	function It(e) {
-		e[kt] = void 0;
+	var It = /* @__PURE__ */ new Set(), Lt = {};
+	function Rt(e, t) {
+		zt(e, t), zt(e + "Capture", t);
 	}
-	var Lt = /* @__PURE__ */ new Set(), Rt = {};
 	function zt(e, t) {
-		Bt(e, t), Bt(e + "Capture", t);
+		for (Lt[e] = t, e = 0; e < t.length; e++) It.add(t[e]);
 	}
-	function Bt(e, t) {
-		for (Rt[e] = t, e = 0; e < t.length; e++) Lt.add(t[e]);
+	var Bt = RegExp("^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"), Vt = {}, Ht = {};
+	function Ut(e) {
+		return Le.call(Ht, e) ? !0 : Le.call(Vt, e) ? !1 : Bt.test(e) ? Ht[e] = !0 : (Vt[e] = !0, !1);
 	}
-	var Vt = RegExp("^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"), Ht = {}, Ut = {};
-	function Wt(e) {
-		return Le.call(Ut, e) ? !0 : Le.call(Ht, e) ? !1 : Vt.test(e) ? Ut[e] = !0 : (Ht[e] = !0, !1);
+	var V = !1;
+	function Wt() {
+		var e = V;
+		return V = !1, e;
 	}
-	var B = !1;
-	function Gt() {
-		var e = B;
-		return B = !1, e;
-	}
-	function Kt(e, t, n) {
-		if (Wt(t)) {
+	function Gt(e, t, n) {
+		if (Ut(t)) {
 			if (n === null) e.removeAttribute(t);
 			else {
 				switch (typeof n) {
@@ -1293,7 +1293,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 		}
 	}
-	function qt(e, t, n) {
+	function Kt(e, t, n) {
 		if (n === null) e.removeAttribute(t);
 		else {
 			switch (typeof n) {
@@ -1307,7 +1307,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			e.setAttribute(t, n);
 		}
 	}
-	function Jt(e, t, n, r) {
+	function qt(e, t, n, r) {
 		if (r === null) e.removeAttribute(n);
 		else {
 			switch (typeof r) {
@@ -1321,7 +1321,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			e.setAttributeNS(t, n, r);
 		}
 	}
-	function Yt(e) {
+	function Jt(e) {
 		switch (typeof e) {
 			case "bigint":
 			case "boolean":
@@ -1332,11 +1332,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return "";
 		}
 	}
-	function Xt(e) {
+	function Yt(e) {
 		var t = e.type;
 		return (e = e.nodeName) && e.toLowerCase() === "input" && (t === "checkbox" || t === "radio");
 	}
-	function Zt(e, t, n) {
+	function Xt(e, t, n) {
 		var r = Object.getOwnPropertyDescriptor(e.constructor.prototype, t);
 		if (!e.hasOwnProperty(t) && r !== void 0 && typeof r.get == "function" && typeof r.set == "function") {
 			var i = r.get, a = r.set;
@@ -1361,48 +1361,48 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			};
 		}
 	}
-	function Qt(e) {
+	function Zt(e) {
 		if (!e._valueTracker) {
-			var t = Xt(e) ? "checked" : "value";
-			e._valueTracker = Zt(e, t, "" + e[t]);
+			var t = Yt(e) ? "checked" : "value";
+			e._valueTracker = Xt(e, t, "" + e[t]);
 		}
 	}
-	function $t(e) {
+	function Qt(e) {
 		if (!e) return !1;
 		var t = e._valueTracker;
 		if (!t) return !0;
 		var n = t.getValue(), r = "";
-		return e && (r = Xt(e) ? e.checked ? "true" : "false" : e.value), e = r, e !== n && (t.setValue(e), !0);
+		return e && (r = Yt(e) ? e.checked ? "true" : "false" : e.value), e = r, e !== n && (t.setValue(e), !0);
 	}
-	var en = /[\n"\\]/g;
-	function tn(e) {
-		return e.replace(en, function(e) {
+	var $t = /[\n"\\]/g;
+	function en(e) {
+		return e.replace($t, function(e) {
 			return "\\" + e.charCodeAt(0).toString(16) + " ";
 		});
 	}
-	function nn(e, t, n, r, i, a, o, s) {
-		e.name = "", o != null && typeof o != "function" && typeof o != "symbol" && typeof o != "boolean" ? e.type = o : e.removeAttribute("type"), t == null ? o !== "submit" && o !== "reset" || e.removeAttribute("value") : o === "number" ? (t === 0 && e.value === "" || e.value != t) && (e.value = "" + Yt(t)) : e.value !== "" + Yt(t) && (e.value = "" + Yt(t)), t == null ? n == null ? r != null && e.removeAttribute("value") : an(e, Yt(n)) : o === "number" && e.value == t ? an(e, Yt(e.value)) : an(e, Yt(t)), i == null && a != null && (e.defaultChecked = !!a), i != null && (e.checked = i && typeof i != "function" && typeof i != "symbol"), s != null && typeof s != "function" && typeof s != "symbol" && typeof s != "boolean" ? e.name = "" + Yt(s) : e.removeAttribute("name");
+	function tn(e, t, n, r, i, a, o, s) {
+		e.name = "", o != null && typeof o != "function" && typeof o != "symbol" && typeof o != "boolean" ? e.type = o : e.removeAttribute("type"), t == null ? o !== "submit" && o !== "reset" || e.removeAttribute("value") : o === "number" ? (t === 0 && e.value === "" || e.value != t) && (e.value = "" + Jt(t)) : e.value !== "" + Jt(t) && (e.value = "" + Jt(t)), t == null ? n == null ? r != null && e.removeAttribute("value") : rn(e, Jt(n)) : o === "number" && e.value == t ? rn(e, Jt(e.value)) : rn(e, Jt(t)), i == null && a != null && (e.defaultChecked = !!a), i != null && (e.checked = i && typeof i != "function" && typeof i != "symbol"), s != null && typeof s != "function" && typeof s != "symbol" && typeof s != "boolean" ? e.name = "" + Jt(s) : e.removeAttribute("name");
 	}
-	function rn(e, t, n, r, i, a, o, s) {
+	function nn(e, t, n, r, i, a, o, s) {
 		if (a != null && typeof a != "function" && typeof a != "symbol" && typeof a != "boolean" && (e.type = a), t != null || n != null) {
 			if (!(a !== "submit" && a !== "reset" || t != null)) {
-				Qt(e);
+				Zt(e);
 				return;
 			}
-			n = n == null ? "" : "" + Yt(n), t = t == null ? n : "" + Yt(t), s || t === e.value || (e.value = t), e.defaultValue = t;
+			n = n == null ? "" : "" + Jt(n), t = t == null ? n : "" + Jt(t), s || t === e.value || (e.value = t), e.defaultValue = t;
 		}
-		r ??= i, r = typeof r != "function" && typeof r != "symbol" && !!r, e.checked = s ? e.checked : !!r, e.defaultChecked = !!r, o != null && typeof o != "function" && typeof o != "symbol" && typeof o != "boolean" && (e.name = o), Qt(e);
+		r ??= i, r = typeof r != "function" && typeof r != "symbol" && !!r, e.checked = s ? e.checked : !!r, e.defaultChecked = !!r, o != null && typeof o != "function" && typeof o != "symbol" && typeof o != "boolean" && (e.name = o), Zt(e);
 	}
-	function an(e, t) {
+	function rn(e, t) {
 		e.defaultValue !== "" + t && (e.defaultValue = "" + t);
 	}
-	function on(e, t, n, r) {
+	function an(e, t, n, r) {
 		if (e = e.options, t) {
 			t = {};
 			for (var i = 0; i < n.length; i++) t["$" + n[i]] = !0;
 			for (n = 0; n < e.length; n++) i = t.hasOwnProperty("$" + e[n].value), e[n].selected !== i && (e[n].selected = i), i && r && (e[n].defaultSelected = !0);
 		} else {
-			for (n = "" + Yt(n), t = null, i = 0; i < e.length; i++) {
+			for (n = "" + Jt(n), t = null, i = 0; i < e.length; i++) {
 				if (e[i].value === n) {
 					e[i].selected = !0, r && (e[i].defaultSelected = !0);
 					return;
@@ -1412,10 +1412,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			t !== null && (t.selected = !0);
 		}
 	}
-	function sn(e, t, n) {
-		t != null && (t = "" + Yt(t), t !== e.value && (e.value = t), n == null) ? e.defaultValue !== t && (e.defaultValue = t) : e.defaultValue = n == null ? "" : "" + Yt(n);
+	function on(e, t, n) {
+		t != null && (t = "" + Jt(t), t !== e.value && (e.value = t), n == null) ? e.defaultValue !== t && (e.defaultValue = t) : e.defaultValue = n == null ? "" : "" + Jt(n);
 	}
-	function cn(e, t, n, r) {
+	function sn(e, t, n, r) {
 		if (t == null) {
 			if (r != null) {
 				if (n != null) throw Error(i(92));
@@ -1427,9 +1427,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			n ??= "", t = n;
 		}
-		n = Yt(t), e.defaultValue = n, r = e.textContent, r === n && r !== "" && r !== null && (e.value = r), Qt(e);
+		n = Jt(t), e.defaultValue = n, r = e.textContent, r === n && r !== "" && r !== null && (e.value = r), Zt(e);
 	}
-	function ln(e, t) {
+	function cn(e, t) {
 		if (t) {
 			var n = e.firstChild;
 			if (n && n === e.lastChild && n.nodeType === 3) {
@@ -1439,19 +1439,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		e.textContent = t;
 	}
-	var un = new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));
-	function dn(e, t, n) {
+	var ln = new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));
+	function un(e, t, n) {
 		var r = t.indexOf("--") === 0;
-		n == null || typeof n == "boolean" || n === "" ? r ? e.setProperty(t, "") : t === "float" ? e.cssFloat = "" : e[t] = "" : r ? e.setProperty(t, n) : typeof n != "number" || n === 0 || un.has(t) ? t === "float" ? e.cssFloat = n : e[t] = ("" + n).trim() : e[t] = n + "px";
+		n == null || typeof n == "boolean" || n === "" ? r ? e.setProperty(t, "") : t === "float" ? e.cssFloat = "" : e[t] = "" : r ? e.setProperty(t, n) : typeof n != "number" || n === 0 || ln.has(t) ? t === "float" ? e.cssFloat = n : e[t] = ("" + n).trim() : e[t] = n + "px";
 	}
-	function fn(e, t, n) {
+	function dn(e, t, n) {
 		if (t != null && typeof t != "object") throw Error(i(62));
 		if (e = e.style, n != null) {
-			for (var r in n) !n.hasOwnProperty(r) || t != null && t.hasOwnProperty(r) || (r.indexOf("--") === 0 ? e.setProperty(r, "") : r === "float" ? e.cssFloat = "" : e[r] = "", B = !0);
-			for (var a in t) r = t[a], t.hasOwnProperty(a) && n[a] !== r && (dn(e, a, r), B = !0);
-		} else for (var o in t) t.hasOwnProperty(o) && dn(e, o, t[o]);
+			for (var r in n) !n.hasOwnProperty(r) || t != null && t.hasOwnProperty(r) || (r.indexOf("--") === 0 ? e.setProperty(r, "") : r === "float" ? e.cssFloat = "" : e[r] = "", V = !0);
+			for (var a in t) r = t[a], t.hasOwnProperty(a) && n[a] !== r && (un(e, a, r), V = !0);
+		} else for (var o in t) t.hasOwnProperty(o) && un(e, o, t[o]);
 	}
-	function pn(e) {
+	function fn(e) {
 		if (e.indexOf("-") === -1) return !1;
 		switch (e) {
 			case "annotation-xml":
@@ -1465,7 +1465,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return !0;
 		}
 	}
-	var mn = /* @__PURE__ */ new Map([
+	var pn = /* @__PURE__ */ new Map([
 		["acceptCharset", "accept-charset"],
 		["htmlFor", "for"],
 		["httpEquiv", "http-equiv"],
@@ -1545,56 +1545,56 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		["writingMode", "writing-mode"],
 		["xmlnsXlink", "xmlns:xlink"],
 		["xHeight", "x-height"]
-	]), hn = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i;
-	function gn(e) {
-		return hn.test("" + e) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : e;
+	]), mn = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i;
+	function hn(e) {
+		return mn.test("" + e) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : e;
 	}
-	function _n() {}
-	var vn = null;
-	function yn(e) {
+	function gn() {}
+	var _n = null;
+	function vn(e) {
 		return e = e.target || e.srcElement || window, e.correspondingUseElement && (e = e.correspondingUseElement), e.nodeType === 3 ? e.parentNode : e;
 	}
-	var bn = null, xn = null;
-	function Sn(e) {
-		var t = Mt(e);
+	var yn = null, bn = null;
+	function xn(e) {
+		var t = jt(e);
 		if (t && (e = t.stateNode)) {
-			var n = e[z] || null;
+			var n = e[xt] || null;
 			a: switch (e = t.stateNode, t.type) {
 				case "input":
-					if (nn(e, n.value, n.defaultValue, n.defaultValue, n.checked, n.defaultChecked, n.type, n.name), t = n.name, n.type === "radio" && t != null) {
+					if (tn(e, n.value, n.defaultValue, n.defaultValue, n.checked, n.defaultChecked, n.type, n.name), t = n.name, n.type === "radio" && t != null) {
 						for (n = e; n.parentNode;) n = n.parentNode;
-						for (n = n.querySelectorAll("input[name=\"" + tn("" + t) + "\"][type=\"radio\"]"), t = 0; t < n.length; t++) {
+						for (n = n.querySelectorAll("input[name=\"" + en("" + t) + "\"][type=\"radio\"]"), t = 0; t < n.length; t++) {
 							var r = n[t];
 							if (r !== e && r.form === e.form) {
-								var a = r[z] || null;
+								var a = r[xt] || null;
 								if (!a) throw Error(i(90));
-								nn(r, a.value, a.defaultValue, a.defaultValue, a.checked, a.defaultChecked, a.type, a.name);
+								tn(r, a.value, a.defaultValue, a.defaultValue, a.checked, a.defaultChecked, a.type, a.name);
 							}
 						}
-						for (t = 0; t < n.length; t++) r = n[t], r.form === e.form && $t(r);
+						for (t = 0; t < n.length; t++) r = n[t], r.form === e.form && Qt(r);
 					}
 					break a;
 				case "textarea":
-					sn(e, n.value, n.defaultValue);
+					on(e, n.value, n.defaultValue);
 					break a;
-				case "select": t = n.value, t != null && on(e, !!n.multiple, t, !1);
+				case "select": t = n.value, t != null && an(e, !!n.multiple, t, !1);
 			}
 		}
 	}
-	var Cn = !1;
-	function wn(e, t, n) {
-		if (Cn) return e(t, n);
-		Cn = !0;
+	var Sn = !1;
+	function Cn(e, t, n) {
+		if (Sn) return e(t, n);
+		Sn = !0;
 		try {
 			return e(t);
 		} finally {
-			if (Cn = !1, (bn !== null || xn !== null) && (zd(), bn && (t = bn, e = xn, xn = bn = null, Sn(t), e))) for (t = 0; t < e.length; t++) Sn(e[t]);
+			if (Sn = !1, (yn !== null || bn !== null) && (zd(), yn && (t = yn, e = bn, bn = yn = null, xn(t), e))) for (t = 0; t < e.length; t++) xn(e[t]);
 		}
 	}
-	function Tn(e, t) {
+	function wn(e, t) {
 		var n = e.stateNode;
 		if (n === null) return null;
-		var r = n[z] || null;
+		var r = n[xt] || null;
 		if (r === null) return null;
 		n = r[t];
 		a: switch (t) {
@@ -1617,54 +1617,54 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (n && typeof n != "function") throw Error(i(231, t, typeof n));
 		return n;
 	}
-	var En = typeof window < "u" && window.document !== void 0 && window.document.createElement !== void 0, Dn = !1;
-	if (En) try {
-		var On = {};
-		Object.defineProperty(On, "passive", { get: function() {
-			Dn = !0;
-		} }), window.addEventListener("test", On, On), window.removeEventListener("test", On, On);
+	var Tn = typeof window < "u" && window.document !== void 0 && window.document.createElement !== void 0, En = !1;
+	if (Tn) try {
+		var Dn = {};
+		Object.defineProperty(Dn, "passive", { get: function() {
+			En = !0;
+		} }), window.addEventListener("test", Dn, Dn), window.removeEventListener("test", Dn, Dn);
 	} catch {
-		Dn = !1;
+		En = !1;
 	}
-	var kn = null, An = null, jn = null;
-	function Mn() {
-		if (jn) return jn;
-		var e, t = An, n = t.length, r, i = "value" in kn ? kn.value : kn.textContent, a = i.length;
+	var On = null, kn = null, An = null;
+	function jn() {
+		if (An) return An;
+		var e, t = kn, n = t.length, r, i = "value" in On ? On.value : On.textContent, a = i.length;
 		for (e = 0; e < n && t[e] === i[e]; e++);
 		var o = n - e;
 		for (r = 1; r <= o && t[n - r] === i[a - r]; r++);
-		return jn = i.slice(e, 1 < r ? 1 - r : void 0);
+		return An = i.slice(e, 1 < r ? 1 - r : void 0);
 	}
-	function Nn(e) {
+	function Mn(e) {
 		var t = e.keyCode;
 		return "charCode" in e ? (e = e.charCode, e === 0 && t === 13 && (e = 13)) : e = t, e === 10 && (e = 13), 32 <= e || e === 13 ? e : 0;
 	}
-	function Pn() {
+	function Nn() {
 		return !0;
 	}
-	function Fn() {
+	function Pn() {
 		return !1;
 	}
-	function In(e) {
+	function Fn(e) {
 		function t(t, n, r, i, a) {
 			for (var o in this._reactName = t, this._targetInst = r, this.type = n, this.nativeEvent = i, this.target = a, this.currentTarget = null, e) e.hasOwnProperty(o) && (t = e[o], this[o] = t ? t(i) : i[o]);
-			return this.isDefaultPrevented = (i.defaultPrevented == null ? !1 === i.returnValue : i.defaultPrevented) ? Pn : Fn, this.isPropagationStopped = Fn, this;
+			return this.isDefaultPrevented = (i.defaultPrevented == null ? !1 === i.returnValue : i.defaultPrevented) ? Nn : Pn, this.isPropagationStopped = Pn, this;
 		}
 		return D(t.prototype, {
 			preventDefault: function() {
 				this.defaultPrevented = !0;
 				var e = this.nativeEvent;
-				e && (e.preventDefault ? e.preventDefault() : typeof e.returnValue != "unknown" && (e.returnValue = !1), this.isDefaultPrevented = Pn);
+				e && (e.preventDefault ? e.preventDefault() : typeof e.returnValue != "unknown" && (e.returnValue = !1), this.isDefaultPrevented = Nn);
 			},
 			stopPropagation: function() {
 				var e = this.nativeEvent;
-				e && (e.stopPropagation ? e.stopPropagation() : typeof e.cancelBubble != "unknown" && (e.cancelBubble = !0), this.isPropagationStopped = Pn);
+				e && (e.stopPropagation ? e.stopPropagation() : typeof e.cancelBubble != "unknown" && (e.cancelBubble = !0), this.isPropagationStopped = Nn);
 			},
 			persist: function() {},
-			isPersistent: Pn
+			isPersistent: Nn
 		}), t;
 	}
-	var Ln = {
+	var In = {
 		eventPhase: 0,
 		bubbles: 0,
 		cancelable: 0,
@@ -1673,10 +1673,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		},
 		defaultPrevented: 0,
 		isTrusted: 0
-	}, Rn = In(Ln), zn = D({}, Ln, {
+	}, Ln = Fn(In), Rn = D({}, In, {
 		view: 0,
 		detail: 0
-	}), Bn = In(zn), Vn, Hn, Un, Wn = D({}, zn, {
+	}), zn = Fn(Rn), Bn, Vn, Hn, Un = D({}, Rn, {
 		screenX: 0,
 		screenY: 0,
 		clientX: 0,
@@ -1687,25 +1687,25 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		shiftKey: 0,
 		altKey: 0,
 		metaKey: 0,
-		getModifierState: tr,
+		getModifierState: er,
 		button: 0,
 		buttons: 0,
 		relatedTarget: function(e) {
 			return e.relatedTarget === void 0 ? e.fromElement === e.srcElement ? e.toElement : e.fromElement : e.relatedTarget;
 		},
 		movementX: function(e) {
-			return "movementX" in e ? e.movementX : (e !== Un && (Un && e.type === "mousemove" ? (Vn = e.screenX - Un.screenX, Hn = e.screenY - Un.screenY) : Hn = Vn = 0, Un = e), Vn);
+			return "movementX" in e ? e.movementX : (e !== Hn && (Hn && e.type === "mousemove" ? (Bn = e.screenX - Hn.screenX, Vn = e.screenY - Hn.screenY) : Vn = Bn = 0, Hn = e), Bn);
 		},
 		movementY: function(e) {
-			return "movementY" in e ? e.movementY : Hn;
+			return "movementY" in e ? e.movementY : Vn;
 		}
-	}), Gn = In(Wn), Kn = In(D({}, Wn, { dataTransfer: 0 })), qn = In(D({}, zn, { relatedTarget: 0 })), Jn = In(D({}, Ln, {
+	}), Wn = Fn(Un), Gn = Fn(D({}, Un, { dataTransfer: 0 })), Kn = Fn(D({}, Rn, { relatedTarget: 0 })), qn = Fn(D({}, In, {
 		animationName: 0,
 		elapsedTime: 0,
 		pseudoElement: 0
-	})), Yn = In(D({}, Ln, { clipboardData: function(e) {
+	})), Jn = Fn(D({}, In, { clipboardData: function(e) {
 		return "clipboardData" in e ? e.clipboardData : window.clipboardData;
-	} })), Xn = In(D({}, Ln, { data: 0 })), Zn = {
+	} })), Yn = Fn(D({}, In, { data: 0 })), Xn = {
 		Esc: "Escape",
 		Spacebar: " ",
 		Left: "ArrowLeft",
@@ -1718,7 +1718,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		Apps: "ContextMenu",
 		Scroll: "ScrollLock",
 		MozPrintableKey: "Unidentified"
-	}, Qn = {
+	}, Zn = {
 		8: "Backspace",
 		9: "Tab",
 		12: "Clear",
@@ -1755,26 +1755,26 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		144: "NumLock",
 		145: "ScrollLock",
 		224: "Meta"
-	}, $n = {
+	}, Qn = {
 		Alt: "altKey",
 		Control: "ctrlKey",
 		Meta: "metaKey",
 		Shift: "shiftKey"
 	};
-	function er(e) {
+	function $n(e) {
 		var t = this.nativeEvent;
-		return t.getModifierState ? t.getModifierState(e) : (e = $n[e]) ? !!t[e] : !1;
+		return t.getModifierState ? t.getModifierState(e) : (e = Qn[e]) ? !!t[e] : !1;
 	}
-	function tr() {
-		return er;
+	function er() {
+		return $n;
 	}
-	var nr = In(D({}, zn, {
+	var H = Fn(D({}, Rn, {
 		key: function(e) {
 			if (e.key) {
-				var t = Zn[e.key] || e.key;
+				var t = Xn[e.key] || e.key;
 				if (t !== "Unidentified") return t;
 			}
-			return e.type === "keypress" ? (e = Nn(e), e === 13 ? "Enter" : String.fromCharCode(e)) : e.type === "keydown" || e.type === "keyup" ? Qn[e.keyCode] || "Unidentified" : "";
+			return e.type === "keypress" ? (e = Mn(e), e === 13 ? "Enter" : String.fromCharCode(e)) : e.type === "keydown" || e.type === "keyup" ? Zn[e.keyCode] || "Unidentified" : "";
 		},
 		code: 0,
 		location: 0,
@@ -1784,17 +1784,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		metaKey: 0,
 		repeat: 0,
 		locale: 0,
-		getModifierState: tr,
+		getModifierState: er,
 		charCode: function(e) {
-			return e.type === "keypress" ? Nn(e) : 0;
+			return e.type === "keypress" ? Mn(e) : 0;
 		},
 		keyCode: function(e) {
 			return e.type === "keydown" || e.type === "keyup" ? e.keyCode : 0;
 		},
 		which: function(e) {
-			return e.type === "keypress" ? Nn(e) : e.type === "keydown" || e.type === "keyup" ? e.keyCode : 0;
+			return e.type === "keypress" ? Mn(e) : e.type === "keydown" || e.type === "keyup" ? e.keyCode : 0;
 		}
-	})), rr = In(D({}, Wn, {
+	})), tr = Fn(D({}, Un, {
 		pointerId: 0,
 		width: 0,
 		height: 0,
@@ -1805,7 +1805,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		twist: 0,
 		pointerType: 0,
 		isPrimary: 0
-	})), ir = In(D({}, Ln, { submitter: 0 })), ar = In(D({}, zn, {
+	})), nr = Fn(D({}, In, { submitter: 0 })), rr = Fn(D({}, Rn, {
 		touches: 0,
 		targetTouches: 0,
 		changedTouches: 0,
@@ -1813,12 +1813,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		metaKey: 0,
 		ctrlKey: 0,
 		shiftKey: 0,
-		getModifierState: tr
-	})), or = In(D({}, Ln, {
+		getModifierState: er
+	})), ir = Fn(D({}, In, {
 		propertyName: 0,
 		elapsedTime: 0,
 		pseudoElement: 0
-	})), sr = In(D({}, Wn, {
+	})), ar = Fn(D({}, Un, {
 		deltaX: function(e) {
 			return "deltaX" in e ? e.deltaX : "wheelDeltaX" in e ? -e.wheelDeltaX : 0;
 		},
@@ -1827,21 +1827,21 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		},
 		deltaZ: 0,
 		deltaMode: 0
-	})), cr = In(D({}, Ln, {
+	})), or = Fn(D({}, In, {
 		newState: 0,
 		oldState: 0,
 		source: 0
-	})), lr = [
+	})), sr = [
 		9,
 		13,
 		27,
 		32
-	], ur = En && "CompositionEvent" in window, dr = null;
-	En && "documentMode" in document && (dr = document.documentMode);
-	var fr = En && "TextEvent" in window && !dr, pr = En && (!ur || dr && 8 < dr && 11 >= dr), mr = " ", hr = !1;
-	function gr(e, t) {
+	], cr = Tn && "CompositionEvent" in window, lr = null;
+	Tn && "documentMode" in document && (lr = document.documentMode);
+	var ur = Tn && "TextEvent" in window && !lr, dr = Tn && (!cr || lr && 8 < lr && 11 >= lr), fr = " ", pr = !1;
+	function mr(e, t) {
 		switch (e) {
-			case "keyup": return lr.indexOf(t.keyCode) !== -1;
+			case "keyup": return sr.indexOf(t.keyCode) !== -1;
 			case "keydown": return t.keyCode !== 229;
 			case "keypress":
 			case "mousedown":
@@ -1849,20 +1849,20 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			default: return !1;
 		}
 	}
-	function _r(e) {
+	function hr(e) {
 		return e = e.detail, typeof e == "object" && "data" in e ? e.data : null;
 	}
-	var vr = !1;
-	function yr(e, t) {
+	var gr = !1;
+	function _r(e, t) {
 		switch (e) {
-			case "compositionend": return _r(t);
-			case "keypress": return t.which === 32 ? (hr = !0, mr) : null;
-			case "textInput": return e = t.data, e === mr && hr ? null : e;
+			case "compositionend": return hr(t);
+			case "keypress": return t.which === 32 ? (pr = !0, fr) : null;
+			case "textInput": return e = t.data, e === fr && pr ? null : e;
 			default: return null;
 		}
 	}
-	function br(e, t) {
-		if (vr) return e === "compositionend" || !ur && gr(e, t) ? (e = Mn(), jn = An = kn = null, vr = !1, e) : null;
+	function vr(e, t) {
+		if (gr) return e === "compositionend" || !cr && mr(e, t) ? (e = jn(), An = kn = On = null, gr = !1, e) : null;
 		switch (e) {
 			case "paste": return null;
 			case "keypress":
@@ -1871,11 +1871,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					if (t.which) return String.fromCharCode(t.which);
 				}
 				return null;
-			case "compositionend": return pr && t.locale !== "ko" ? null : t.data;
+			case "compositionend": return dr && t.locale !== "ko" ? null : t.data;
 			default: return null;
 		}
 	}
-	var xr = {
+	var yr = {
 		color: !0,
 		date: !0,
 		datetime: !0,
@@ -1892,76 +1892,76 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		url: !0,
 		week: !0
 	};
-	function Sr(e) {
+	function br(e) {
 		var t = e && e.nodeName && e.nodeName.toLowerCase();
-		return t === "input" ? !!xr[e.type] : t === "textarea";
+		return t === "input" ? !!yr[e.type] : t === "textarea";
 	}
-	function Cr(e, t, n, r) {
-		bn ? xn ? xn.push(r) : xn = [r] : bn = r, t = Jf(t, "onChange"), 0 < t.length && (n = new Rn("onChange", "change", null, n, r), e.push({
+	function xr(e, t, n, r) {
+		yn ? bn ? bn.push(r) : bn = [r] : yn = r, t = Jf(t, "onChange"), 0 < t.length && (n = new Ln("onChange", "change", null, n, r), e.push({
 			event: n,
 			listeners: t
 		}));
 	}
-	var V = null, wr = null;
-	function Tr(e) {
+	var Sr = null, Cr = null;
+	function wr(e) {
 		Vf(e, 0);
 	}
-	function Er(e) {
-		if ($t(Nt(e))) return e;
+	function Tr(e) {
+		if (Qt(Mt(e))) return e;
 	}
-	function Dr(e, t) {
+	function Er(e, t) {
 		if (e === "change") return t;
 	}
-	var Or = !1;
-	if (En) {
-		var kr;
-		if (En) {
-			var Ar = "oninput" in document;
-			if (!Ar) {
-				var jr = document.createElement("div");
-				jr.setAttribute("oninput", "return;"), Ar = typeof jr.oninput == "function";
+	var Dr = !1;
+	if (Tn) {
+		var Or;
+		if (Tn) {
+			var kr = "oninput" in document;
+			if (!kr) {
+				var Ar = document.createElement("div");
+				Ar.setAttribute("oninput", "return;"), kr = typeof Ar.oninput == "function";
 			}
-			kr = Ar;
-		} else kr = !1;
-		Or = kr && (!document.documentMode || 9 < document.documentMode);
+			Or = kr;
+		} else Or = !1;
+		Dr = Or && (!document.documentMode || 9 < document.documentMode);
 	}
-	function Mr() {
-		V && (V.detachEvent("onpropertychange", Nr), wr = V = null);
+	function jr() {
+		Sr && (Sr.detachEvent("onpropertychange", Mr), Cr = Sr = null);
 	}
-	function Nr(e) {
-		if (e.propertyName === "value" && Er(wr)) {
+	function Mr(e) {
+		if (e.propertyName === "value" && Tr(Cr)) {
 			var t = [];
-			Cr(t, wr, e, yn(e)), wn(Tr, t);
+			xr(t, Cr, e, vn(e)), Cn(wr, t);
 		}
 	}
-	function Pr(e, t, n) {
-		e === "focusin" ? (Mr(), V = t, wr = n, V.attachEvent("onpropertychange", Nr)) : e === "focusout" && Mr();
+	function Nr(e, t, n) {
+		e === "focusin" ? (jr(), Sr = t, Cr = n, Sr.attachEvent("onpropertychange", Mr)) : e === "focusout" && jr();
 	}
-	function Fr(e) {
-		if (e === "selectionchange" || e === "keyup" || e === "keydown") return Er(wr);
+	function Pr(e) {
+		if (e === "selectionchange" || e === "keyup" || e === "keydown") return Tr(Cr);
+	}
+	function Fr(e, t) {
+		if (e === "click") return Tr(t);
 	}
 	function Ir(e, t) {
-		if (e === "click") return Er(t);
+		if (e === "input" || e === "change") return Tr(t);
 	}
 	function Lr(e, t) {
-		if (e === "input" || e === "change") return Er(t);
-	}
-	function Rr(e, t) {
 		return e === t && (e !== 0 || 1 / e == 1 / t) || e !== e && t !== t;
 	}
-	var zr = typeof Object.is == "function" ? Object.is : Rr;
-	function Br(e, t) {
-		if (zr(e, t)) return !0;
+	var Rr = typeof Object.is == "function" ? Object.is : Lr;
+	function zr(e, t) {
+		if (Rr(e, t)) return !0;
 		if (typeof e != "object" || !e || typeof t != "object" || !t) return !1;
 		var n = Object.keys(e), r = Object.keys(t);
 		if (n.length !== r.length) return !1;
 		for (r = 0; r < n.length; r++) {
 			var i = n[r];
-			if (!Le.call(t, i) || !zr(e[i], t[i])) return !1;
+			if (!Le.call(t, i) || !Rr(e[i], t[i])) return !1;
 		}
 		return !0;
 	}
-	function Vr(e) {
+	function Br(e) {
 		if (e ||= typeof document < "u" ? document : void 0, e === void 0) return null;
 		try {
 			return e.activeElement || e.body;
@@ -1969,12 +1969,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return e.body;
 		}
 	}
-	function Hr(e) {
+	function Vr(e) {
 		for (; e && e.firstChild;) e = e.firstChild;
 		return e;
 	}
-	function Ur(e, t) {
-		var n = Hr(e);
+	function Hr(e, t) {
+		var n = Vr(e);
 		e = 0;
 		for (var r; n;) {
 			if (n.nodeType === 3) {
@@ -1994,15 +1994,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				n = void 0;
 			}
-			n = Hr(n);
+			n = Vr(n);
 		}
 	}
-	function Wr(e, t) {
-		return e && t ? e === t ? !0 : e && e.nodeType === 3 ? !1 : t && t.nodeType === 3 ? Wr(e, t.parentNode) : "contains" in e ? e.contains(t) : e.compareDocumentPosition ? !!(e.compareDocumentPosition(t) & 16) : !1 : !1;
+	function Ur(e, t) {
+		return e && t ? e === t ? !0 : e && e.nodeType === 3 ? !1 : t && t.nodeType === 3 ? Ur(e, t.parentNode) : "contains" in e ? e.contains(t) : e.compareDocumentPosition ? !!(e.compareDocumentPosition(t) & 16) : !1 : !1;
 	}
-	function Gr(e) {
+	function Wr(e) {
 		e = e != null && e.ownerDocument != null && e.ownerDocument.defaultView != null ? e.ownerDocument.defaultView : window;
-		for (var t = Vr(e.document); t instanceof e.HTMLIFrameElement;) {
+		for (var t = Br(e.document); t instanceof e.HTMLIFrameElement;) {
 			try {
 				var n = typeof t.contentWindow.location.href == "string";
 			} catch {
@@ -2010,18 +2010,18 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			if (n) e = t.contentWindow;
 			else break;
-			t = Vr(e.document);
+			t = Br(e.document);
 		}
 		return t;
 	}
-	function Kr(e) {
+	function Gr(e) {
 		var t = e && e.nodeName && e.nodeName.toLowerCase();
 		return t && (t === "input" && (e.type === "text" || e.type === "search" || e.type === "tel" || e.type === "url" || e.type === "password") || t === "textarea" || e.contentEditable === "true");
 	}
-	var qr = En && "documentMode" in document && 11 >= document.documentMode, Jr = null, Yr = null, Xr = null, Zr = !1;
-	function Qr(e, t, n) {
+	var Kr = Tn && "documentMode" in document && 11 >= document.documentMode, qr = null, Jr = null, Yr = null, Xr = !1;
+	function Zr(e, t, n) {
 		var r = n.window === n ? n.document : n.nodeType === 9 ? n : n.ownerDocument;
-		Zr || Jr == null || Jr !== Vr(r) || (r = Jr, "selectionStart" in r && Kr(r) ? r = {
+		Xr || qr == null || qr !== Br(r) || (r = qr, "selectionStart" in r && Gr(r) ? r = {
 			start: r.selectionStart,
 			end: r.selectionEnd
 		} : (r = (r.ownerDocument && r.ownerDocument.defaultView || window).getSelection(), r = {
@@ -2029,46 +2029,46 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			anchorOffset: r.anchorOffset,
 			focusNode: r.focusNode,
 			focusOffset: r.focusOffset
-		}), Xr && Br(Xr, r) || (Xr = r, r = Jf(Yr, "onSelect"), 0 < r.length && (t = new Rn("onSelect", "select", null, t, n), e.push({
+		}), Yr && zr(Yr, r) || (Yr = r, r = Jf(Jr, "onSelect"), 0 < r.length && (t = new Ln("onSelect", "select", null, t, n), e.push({
 			event: t,
 			listeners: r
-		}), t.target = Jr)));
+		}), t.target = qr)));
 	}
-	function $r(e, t) {
+	function Qr(e, t) {
 		var n = {};
 		return n[e.toLowerCase()] = t.toLowerCase(), n["Webkit" + e] = "webkit" + t, n["Moz" + e] = "moz" + t, n;
 	}
-	var ei = {
-		animationend: $r("Animation", "AnimationEnd"),
-		animationiteration: $r("Animation", "AnimationIteration"),
-		animationstart: $r("Animation", "AnimationStart"),
-		transitionrun: $r("Transition", "TransitionRun"),
-		transitionstart: $r("Transition", "TransitionStart"),
-		transitioncancel: $r("Transition", "TransitionCancel"),
-		transitionend: $r("Transition", "TransitionEnd")
-	}, ti = {}, ni = {};
-	En && (ni = document.createElement("div").style, "AnimationEvent" in window || (delete ei.animationend.animation, delete ei.animationiteration.animation, delete ei.animationstart.animation), "TransitionEvent" in window || delete ei.transitionend.transition);
-	function ri(e) {
-		if (ti[e]) return ti[e];
-		if (!ei[e]) return e;
-		var t = ei[e], n;
-		for (n in t) if (t.hasOwnProperty(n) && n in ni) return ti[e] = t[n];
+	var $r = {
+		animationend: Qr("Animation", "AnimationEnd"),
+		animationiteration: Qr("Animation", "AnimationIteration"),
+		animationstart: Qr("Animation", "AnimationStart"),
+		transitionrun: Qr("Transition", "TransitionRun"),
+		transitionstart: Qr("Transition", "TransitionStart"),
+		transitioncancel: Qr("Transition", "TransitionCancel"),
+		transitionend: Qr("Transition", "TransitionEnd")
+	}, ei = {}, ti = {};
+	Tn && (ti = document.createElement("div").style, "AnimationEvent" in window || (delete $r.animationend.animation, delete $r.animationiteration.animation, delete $r.animationstart.animation), "TransitionEvent" in window || delete $r.transitionend.transition);
+	function ni(e) {
+		if (ei[e]) return ei[e];
+		if (!$r[e]) return e;
+		var t = $r[e], n;
+		for (n in t) if (t.hasOwnProperty(n) && n in ti) return ei[e] = t[n];
 		return e;
 	}
-	var ii = ri("animationend"), ai = ri("animationiteration"), oi = ri("animationstart"), si = ri("transitionrun"), ci = ri("transitionstart"), li = ri("transitioncancel"), ui = ri("transitionend"), di = /* @__PURE__ */ new Map(), fi = "abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error fullscreenChange fullscreenError gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");
-	fi.push("scrollEnd");
-	function pi(e, t) {
-		di.set(e, t), zt(t, [e]);
+	var ri = ni("animationend"), ii = ni("animationiteration"), ai = ni("animationstart"), oi = ni("transitionrun"), si = ni("transitionstart"), ci = ni("transitioncancel"), li = ni("transitionend"), ui = /* @__PURE__ */ new Map(), di = "abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error fullscreenChange fullscreenError gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");
+	di.push("scrollEnd");
+	function fi(e, t) {
+		ui.set(e, t), Rt(t, [e]);
 	}
-	var mi = 0;
-	function hi(e, t) {
+	var pi = 0;
+	function mi(e, t) {
 		if (e.name != null && e.name !== "auto") return e.name;
 		if (t.autoName !== null) return t.autoName;
 		e = bd.identifierPrefix;
-		var n = mi++;
+		var n = pi++;
 		return e = "_" + e + "t_" + n.toString(32) + "_", t.autoName = e;
 	}
-	function gi(e) {
+	function hi(e) {
 		if (e == null || typeof e == "string") return e;
 		var t = null, n = Od;
 		if (n !== null) for (var r = 0; r < n.length; r++) {
@@ -2080,10 +2080,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return t ?? e.default;
 	}
-	function _i(e, t) {
-		return e = gi(e), t = gi(t), t == null ? e === "auto" ? null : e : t === "auto" ? null : t;
+	function gi(e, t) {
+		return e = hi(e), t = hi(t), t == null ? e === "auto" ? null : e : t === "auto" ? null : t;
 	}
-	var vi = typeof reportError == "function" ? reportError : function(e) {
+	var _i = typeof reportError == "function" ? reportError : function(e) {
 		if (typeof window == "object" && typeof window.ErrorEvent == "function") {
 			var t = new window.ErrorEvent("error", {
 				bubbles: !0,
@@ -2097,62 +2097,62 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return;
 		}
 		console.error(e);
-	}, yi = [], bi = 0, xi = 0;
-	function Si() {
-		for (var e = bi, t = xi = bi = 0; t < e;) {
-			var n = yi[t];
-			yi[t++] = null;
-			var r = yi[t];
-			yi[t++] = null;
-			var i = yi[t];
-			yi[t++] = null;
-			var a = yi[t];
-			if (yi[t++] = null, r !== null && i !== null) {
+	}, vi = [], yi = 0, bi = 0;
+	function xi() {
+		for (var e = yi, t = bi = yi = 0; t < e;) {
+			var n = vi[t];
+			vi[t++] = null;
+			var r = vi[t];
+			vi[t++] = null;
+			var i = vi[t];
+			vi[t++] = null;
+			var a = vi[t];
+			if (vi[t++] = null, r !== null && i !== null) {
 				var o = r.pending;
 				o === null ? i.next = i : (i.next = o.next, o.next = i), r.pending = i;
 			}
-			a !== 0 && Ei(n, i, a);
+			a !== 0 && Ti(n, i, a);
 		}
 	}
+	function Si(e, t, n, r) {
+		vi[yi++] = e, vi[yi++] = t, vi[yi++] = n, vi[yi++] = r, bi |= r, e.lanes |= r, e = e.alternate, e !== null && (e.lanes |= r);
+	}
 	function Ci(e, t, n, r) {
-		yi[bi++] = e, yi[bi++] = t, yi[bi++] = n, yi[bi++] = r, xi |= r, e.lanes |= r, e = e.alternate, e !== null && (e.lanes |= r);
+		return Si(e, t, n, r), Ei(e);
 	}
-	function wi(e, t, n, r) {
-		return Ci(e, t, n, r), Di(e);
+	function wi(e, t) {
+		return Si(e, null, null, t), Ei(e);
 	}
-	function Ti(e, t) {
-		return Ci(e, null, null, t), Di(e);
-	}
-	function Ei(e, t, n) {
+	function Ti(e, t, n) {
 		e.lanes |= n;
 		var r = e.alternate;
 		r !== null && (r.lanes |= n);
 		for (var i = !1, a = e.return; a !== null;) a.childLanes |= n, r = a.alternate, r !== null && (r.childLanes |= n), a.tag === 22 && (e = a.stateNode, e === null || e._visibility & 1 || (i = !0)), e = a, a = a.return;
-		return e.tag === 3 ? (a = e.stateNode, i && t !== null && (i = 31 - et(n), e = a.hiddenUpdates, r = e[i], r === null ? e[i] = [t] : r.push(t), t.lane = n | 536870912), a) : null;
+		return e.tag === 3 ? (a = e.stateNode, i && t !== null && (i = 31 - L(n), e = a.hiddenUpdates, r = e[i], r === null ? e[i] = [t] : r.push(t), t.lane = n | 536870912), a) : null;
 	}
-	function Di(e) {
+	function Ei(e) {
 		if (50 < kd) throw kd = 0, Ad = null, Error(i(185));
 		for (var t = e.return; t !== null;) e = t, t = e.return;
 		return e.tag === 3 ? e.stateNode : null;
 	}
-	var Oi = {};
-	function ki(e, t, n, r) {
+	var Di = {};
+	function Oi(e, t, n, r) {
 		this.tag = e, this.key = n, this.sibling = this.child = this.return = this.stateNode = this.type = this.elementType = null, this.index = 0, this.refCleanup = this.ref = null, this.pendingProps = t, this.dependencies = this.memoizedState = this.updateQueue = this.memoizedProps = null, this.mode = r, this.subtreeFlags = this.flags = 0, this.deletions = null, this.childLanes = this.lanes = 0, this.alternate = null;
 	}
-	function Ai(e, t, n, r) {
-		return new ki(e, t, n, r);
+	function ki(e, t, n, r) {
+		return new Oi(e, t, n, r);
 	}
-	function ji(e) {
+	function Ai(e) {
 		return e = e.prototype, !(!e || !e.isReactComponent);
 	}
-	function Mi(e, t) {
+	function ji(e, t) {
 		var n = e.alternate;
-		return n === null ? (n = Ai(e.tag, t, e.key, e.mode), n.elementType = e.elementType, n.type = e.type, n.stateNode = e.stateNode, n.alternate = e, e.alternate = n) : (n.pendingProps = t, n.type = e.type, n.flags = 0, n.subtreeFlags = 0, n.deletions = null), n.flags = e.flags & 1206910976, n.childLanes = e.childLanes, n.lanes = e.lanes, n.child = e.child, n.memoizedProps = e.memoizedProps, n.memoizedState = e.memoizedState, n.updateQueue = e.updateQueue, t = e.dependencies, n.dependencies = t === null ? null : {
+		return n === null ? (n = ki(e.tag, t, e.key, e.mode), n.elementType = e.elementType, n.type = e.type, n.stateNode = e.stateNode, n.alternate = e, e.alternate = n) : (n.pendingProps = t, n.type = e.type, n.flags = 0, n.subtreeFlags = 0, n.deletions = null), n.flags = e.flags & 1206910976, n.childLanes = e.childLanes, n.lanes = e.lanes, n.child = e.child, n.memoizedProps = e.memoizedProps, n.memoizedState = e.memoizedState, n.updateQueue = e.updateQueue, t = e.dependencies, n.dependencies = t === null ? null : {
 			lanes: t.lanes,
 			firstContext: t.firstContext
 		}, n.sibling = e.sibling, n.index = e.index, n.ref = e.ref, n.refCleanup = e.refCleanup, n;
 	}
-	function Ni(e, t) {
+	function Mi(e, t) {
 		e.flags &= 1206910978;
 		var n = e.alternate;
 		return n === null ? (e.childLanes = 0, e.lanes = t, e.child = null, e.subtreeFlags = 0, e.memoizedProps = null, e.memoizedState = null, e.updateQueue = null, e.dependencies = null, e.stateNode = null) : (e.childLanes = n.childLanes, e.lanes = n.lanes, e.child = n.child, e.subtreeFlags = 0, e.deletions = null, e.memoizedProps = n.memoizedProps, e.memoizedState = n.memoizedState, e.updateQueue = n.updateQueue, e.type = n.type, t = n.dependencies, e.dependencies = t === null ? null : {
@@ -2160,21 +2160,21 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			firstContext: t.firstContext
 		}), e;
 	}
-	function Pi(e, t, n, r, a, o) {
+	function Ni(e, t, n, r, a, o) {
 		var s = 0;
-		if (r = e, typeof r == "function") ji(r) && (s = 1);
+		if (r = e, typeof r == "function") Ai(r) && (s = 1);
 		else if (typeof r == "string") s = qm(e, n, Ce.current) ? 26 : e === "html" || e === "head" || e === "body" ? 27 : 5;
 		else a: switch (r) {
-			case ue: return e = Ai(31, n, t, a), e.elementType = ue, e.lanes = o, e;
-			case ne: return Fi(n.children, a, o, t);
+			case ue: return e = ki(31, n, t, a), e.elementType = ue, e.lanes = o, e;
+			case ne: return Pi(n.children, a, o, t);
 			case re:
 				s = 8, a |= 24;
 				break;
-			case ie: return e = Ai(12, n, t, a | 2), e.elementType = ie, e.lanes = o, e;
-			case se: return e = Ai(13, n, t, a), e.elementType = se, e.lanes = o, e;
-			case ce: return e = Ai(19, n, t, a), e.elementType = ce, e.lanes = o, e;
+			case ie: return e = ki(12, n, t, a | 2), e.elementType = ie, e.lanes = o, e;
+			case se: return e = ki(13, n, t, a), e.elementType = se, e.lanes = o, e;
+			case ce: return e = ki(19, n, t, a), e.elementType = ce, e.lanes = o, e;
 			case de:
-			case pe: return e = a | 32, e = Ai(30, n, t, e), e.elementType = pe, e.lanes = o, e.stateNode = {
+			case pe: return e = a | 32, e = ki(30, n, t, e), e.elementType = pe, e.lanes = o, e.stateNode = {
 				autoName: null,
 				paired: null,
 				clones: null,
@@ -2200,34 +2200,34 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				s = 29, n = Error(i(130, e === null ? "null" : typeof e, "")), r = null;
 		}
-		return t = Ai(s, n, t, a), t.elementType = e, t.type = r, t.lanes = o, t;
+		return t = ki(s, n, t, a), t.elementType = e, t.type = r, t.lanes = o, t;
 	}
-	function Fi(e, t, n, r) {
-		return e = Ai(7, e, r, t), e.lanes = n, e;
+	function Pi(e, t, n, r) {
+		return e = ki(7, e, r, t), e.lanes = n, e;
 	}
-	function Ii(e, t, n) {
-		return e = Ai(6, e, null, t), e.lanes = n, e;
+	function Fi(e, t, n) {
+		return e = ki(6, e, null, t), e.lanes = n, e;
 	}
-	function Li(e) {
-		var t = Ai(18, null, null, 0);
+	function Ii(e) {
+		var t = ki(18, null, null, 0);
 		return t.stateNode = e, t;
 	}
-	function Ri(e, t, n) {
-		return t = Ai(4, e.children === null ? [] : e.children, e.key, t), t.lanes = n, t.stateNode = {
+	function Li(e, t, n) {
+		return t = ki(4, e.children === null ? [] : e.children, e.key, t), t.lanes = n, t.stateNode = {
 			containerInfo: e.containerInfo,
 			pendingChildren: null,
 			implementation: e.implementation
 		}, t;
 	}
-	var zi = /* @__PURE__ */ new WeakMap();
-	function Bi(e, t) {
+	var Ri = /* @__PURE__ */ new WeakMap();
+	function zi(e, t) {
 		if (typeof e == "object" && e) {
-			var n = zi.get(e);
+			var n = Ri.get(e);
 			return n === void 0 ? (t = {
 				value: e,
 				source: t,
 				stack: Ie(t)
-			}, zi.set(e, t), t) : n;
+			}, Ri.set(e, t), t) : n;
 		}
 		return {
 			value: e,
@@ -2235,39 +2235,39 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			stack: Ie(t)
 		};
 	}
-	var Vi = [], Hi = 0, Ui = null, Wi = 0, Gi = [], Ki = 0, qi = null, Ji = 1, Yi = "";
-	function Xi(e, t) {
-		Vi[Hi++] = Wi, Vi[Hi++] = Ui, Ui = e, Wi = t;
+	var Bi = [], Vi = 0, Hi = null, Ui = 0, Wi = [], Gi = 0, Ki = null, qi = 1, Ji = "";
+	function Yi(e, t) {
+		Bi[Vi++] = Ui, Bi[Vi++] = Hi, Hi = e, Ui = t;
 	}
-	function Zi(e, t, n) {
-		Gi[Ki++] = Ji, Gi[Ki++] = Yi, Gi[Ki++] = qi, qi = e;
-		var r = Ji;
-		e = Yi;
-		var i = 32 - et(r) - 1;
+	function Xi(e, t, n) {
+		Wi[Gi++] = qi, Wi[Gi++] = Ji, Wi[Gi++] = Ki, Ki = e;
+		var r = qi;
+		e = Ji;
+		var i = 32 - L(r) - 1;
 		r &= ~(1 << i), n += 1;
-		var a = 32 - et(t) + i;
+		var a = 32 - L(t) + i;
 		if (30 < a) {
 			var o = i - i % 5;
-			a = (r & (1 << o) - 1).toString(32), r >>= o, i -= o, Ji = 1 << 32 - et(t) + i | n << i | r, Yi = a + e;
-		} else Ji = 1 << a | n << i | r, Yi = e;
+			a = (r & (1 << o) - 1).toString(32), r >>= o, i -= o, qi = 1 << 32 - L(t) + i | n << i | r, Ji = a + e;
+		} else qi = 1 << a | n << i | r, Ji = e;
+	}
+	function Zi(e) {
+		e.return !== null && (Yi(e, 1), Xi(e, 1, 0));
 	}
 	function Qi(e) {
-		e.return !== null && (Xi(e, 1), Zi(e, 1, 0));
+		for (; e === Hi;) Hi = Bi[--Vi], Bi[Vi] = null, Ui = Bi[--Vi], Bi[Vi] = null;
+		for (; e === Ki;) Ki = Wi[--Gi], Wi[Gi] = null, Ji = Wi[--Gi], Wi[Gi] = null, qi = Wi[--Gi], Wi[Gi] = null;
 	}
-	function $i(e) {
-		for (; e === Ui;) Ui = Vi[--Hi], Vi[Hi] = null, Wi = Vi[--Hi], Vi[Hi] = null;
-		for (; e === qi;) qi = Gi[--Ki], Gi[Ki] = null, Yi = Gi[--Ki], Gi[Ki] = null, Ji = Gi[--Ki], Gi[Ki] = null;
+	function $i(e, t) {
+		Wi[Gi++] = qi, Wi[Gi++] = Ji, Wi[Gi++] = Ki, qi = t.id, Ji = t.overflow, Ki = e;
 	}
-	function ea(e, t) {
-		Gi[Ki++] = Ji, Gi[Ki++] = Yi, Gi[Ki++] = qi, Ji = t.id, Yi = t.overflow, qi = e;
+	var ea = null, ta = null, U = !1, na = null, ra = !1, ia = Error(i(519));
+	function aa(e) {
+		throw da(zi(Error(i(418, 1 < arguments.length && arguments[1] !== void 0 && arguments[1] ? "text" : "HTML", "")), e)), ia;
 	}
-	var ta = null, na = null, H = !1, ra = null, ia = !1, aa = Error(i(519));
 	function oa(e) {
-		throw fa(Bi(Error(i(418, 1 < arguments.length && arguments[1] !== void 0 && arguments[1] ? "text" : "HTML", "")), e)), aa;
-	}
-	function sa(e) {
 		var t = e.stateNode, n = e.type, r = e.memoizedProps;
-		switch (t[St] = e, t[z] = r, n) {
+		switch (t[bt] = e, t[xt] = r, n) {
 			case "dialog":
 				Q("cancel", t), Q("close", t);
 				break;
@@ -2292,67 +2292,67 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Q("toggle", t);
 				break;
 			case "input":
-				Q("invalid", t), rn(t, r.value, r.defaultValue, r.checked, r.defaultChecked, r.type, r.name, !0);
+				Q("invalid", t), nn(t, r.value, r.defaultValue, r.checked, r.defaultChecked, r.type, r.name, !0);
 				break;
 			case "select":
 				Q("invalid", t);
 				break;
-			case "textarea": Q("invalid", t), cn(t, r.value, r.defaultValue, r.children);
+			case "textarea": Q("invalid", t), sn(t, r.value, r.defaultValue, r.children);
 		}
-		n = r.children, typeof n != "string" && typeof n != "number" && typeof n != "bigint" || t.textContent === "" + n || !0 === r.suppressHydrationWarning || ep(t.textContent, n) ? (r.popover != null && (Q("beforetoggle", t), Q("toggle", t)), r.onScroll != null && Q("scroll", t), r.onScrollEnd != null && Q("scrollend", t), r.onClick != null && (t.onclick = _n), t = !0) : t = !1, t || oa(e, !0);
+		n = r.children, typeof n != "string" && typeof n != "number" && typeof n != "bigint" || t.textContent === "" + n || !0 === r.suppressHydrationWarning || ep(t.textContent, n) ? (r.popover != null && (Q("beforetoggle", t), Q("toggle", t)), r.onScroll != null && Q("scroll", t), r.onScrollEnd != null && Q("scrollend", t), r.onClick != null && (t.onclick = gn), t = !0) : t = !1, t || aa(e, !0);
 	}
-	function ca(e) {
-		for (ta = e.return; ta;) switch (ta.tag) {
+	function sa(e) {
+		for (ea = e.return; ea;) switch (ea.tag) {
 			case 5:
 			case 31:
 			case 13:
-				ia = !1;
+				ra = !1;
 				return;
 			case 27:
 			case 3:
-				ia = !0;
+				ra = !0;
 				return;
-			default: ta = ta.return;
+			default: ea = ea.return;
 		}
 	}
-	function la(e) {
-		if (e !== ta) return !1;
-		if (!H) return ca(e), H = !0, !1;
+	function ca(e) {
+		if (e !== ea) return !1;
+		if (!U) return sa(e), U = !0, !1;
 		var t = e.tag, n;
-		if ((n = t !== 3 && t !== 27) && ((n = t === 5) && (n = e.type, n = n === "form" || n === "button" || pp(e.type, e.memoizedProps)), n = !n), n && na && oa(e), ca(e), t === 13) {
+		if ((n = t !== 3 && t !== 27) && ((n = t === 5) && (n = e.type, n = n === "form" || n === "button" || pp(e.type, e.memoizedProps)), n = !n), n && ta && aa(e), sa(e), t === 13) {
 			if (e = e.memoizedState, e = e === null ? null : e.dehydrated, !e) throw Error(i(317));
-			na = dm(e);
+			ta = dm(e);
 		} else if (t === 31) {
 			if (e = e.memoizedState, e = e === null ? null : e.dehydrated, !e) throw Error(i(317));
-			na = dm(e);
-		} else t === 27 ? (t = na, Sp(e.type) ? (e = um, um = null, na = e) : na = t) : na = ta ? lm(e.stateNode.nextSibling) : null;
+			ta = dm(e);
+		} else t === 27 ? (t = ta, Sp(e.type) ? (e = um, um = null, ta = e) : ta = t) : ta = ea ? lm(e.stateNode.nextSibling) : null;
 		return !0;
 	}
+	function la() {
+		ta = ea = null, U = !1;
+	}
 	function ua() {
-		na = ta = null, H = !1;
+		var e = na;
+		return e !== null && (fd === null ? fd = e : fd.push.apply(fd, e), na = null), e;
 	}
-	function da() {
-		var e = ra;
-		return e !== null && (fd === null ? fd = e : fd.push.apply(fd, e), ra = null), e;
+	function da(e) {
+		na === null ? na = [e] : na.push(e);
 	}
-	function fa(e) {
-		ra === null ? ra = [e] : ra.push(e);
+	var fa = xe(null), pa = null, ma = null;
+	function ha(e, t, n) {
+		F(fa, t._currentValue), t._currentValue = n;
 	}
-	var pa = xe(null), ma = null, ha = null;
-	function ga(e, t, n) {
-		F(pa, t._currentValue), t._currentValue = n;
+	function ga(e) {
+		e._currentValue = fa.current, Se(fa);
 	}
-	function _a(e) {
-		e._currentValue = pa.current, Se(pa);
-	}
-	function va(e, t, n) {
+	function _a(e, t, n) {
 		for (; e !== null;) {
 			var r = e.alternate;
 			if ((e.childLanes & t) === t ? r !== null && (r.childLanes & t) !== t && (r.childLanes |= t) : (e.childLanes |= t, r !== null && (r.childLanes |= t)), e === n) break;
 			e = e.return;
 		}
 	}
-	function ya(e, t, n, r) {
+	function va(e, t, n, r) {
 		var a = e.child;
 		for (a !== null && (a.return = e); a !== null;) {
 			var o = a.dependencies;
@@ -2363,15 +2363,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var c = o;
 					o = a;
 					for (var l = 0; l < t.length; l++) if (c.context === t[l]) {
-						o.lanes |= n, c = o.alternate, c !== null && (c.lanes |= n), va(o.return, n, e), r || (s = null);
+						o.lanes |= n, c = o.alternate, c !== null && (c.lanes |= n), _a(o.return, n, e), r || (s = null);
 						break a;
 					}
 					o = c.next;
 				}
 			} else if (a.tag === 18) {
 				if (s = a.return, s === null) throw Error(i(341));
-				s.lanes |= n, o = s.alternate, o !== null && (o.lanes |= n), va(s, n, e), s = null;
-			} else a.tag === 13 && a.memoizedState !== null && a.memoizedState.dehydrated === null ? (a.lanes |= n, s = a.alternate, s !== null && (s.lanes |= n), va(a.return, n, e), s = a.child, s = s === null ? null : s.sibling) : s = a.child;
+				s.lanes |= n, o = s.alternate, o !== null && (o.lanes |= n), _a(s, n, e), s = null;
+			} else a.tag === 13 && a.memoizedState !== null && a.memoizedState.dehydrated === null ? (a.lanes |= n, s = a.alternate, s !== null && (s.lanes |= n), _a(a.return, n, e), s = a.child, s = s === null ? null : s.sibling) : s = a.child;
 			if (s !== null) s.return = a;
 			else for (s = a; s !== null;) {
 				if (s === e) {
@@ -2387,7 +2387,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			a = s;
 		}
 	}
-	function ba(e, t, n, r) {
+	function ya(e, t, n, r) {
 		e = null;
 		for (var a = t, o = !1; a !== null;) {
 			if (!o) {
@@ -2399,7 +2399,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				if (s === null) throw Error(i(387));
 				if (s = s.memoizedProps, s !== null) {
 					var c = a.type;
-					zr(a.pendingProps.value, s.value) || (e === null ? e = [c] : e.push(c));
+					Rr(a.pendingProps.value, s.value) || (e === null ? e = [c] : e.push(c));
 				}
 			} else if (a === Ee.current) {
 				if (s = a.alternate, s === null) throw Error(i(387));
@@ -2407,40 +2407,40 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			a = a.return;
 		}
-		return e !== null && ya(t, e, n, r), t.flags |= 262144, e !== null;
+		return e !== null && va(t, e, n, r), t.flags |= 262144, e !== null;
 	}
-	function xa(e) {
+	function ba(e) {
 		for (e = e.firstContext; e !== null;) {
-			if (!zr(e.context._currentValue, e.memoizedValue)) return !0;
+			if (!Rr(e.context._currentValue, e.memoizedValue)) return !0;
 			e = e.next;
 		}
 		return !1;
 	}
-	function Sa(e) {
-		ma = e, ha = null, e = e.dependencies, e !== null && (e.firstContext = null);
+	function xa(e) {
+		pa = e, ma = null, e = e.dependencies, e !== null && (e.firstContext = null);
 	}
-	function Ca(e) {
-		return Ta(ma, e);
+	function Sa(e) {
+		return wa(pa, e);
+	}
+	function Ca(e, t) {
+		return pa === null && xa(e), wa(e, t);
 	}
 	function wa(e, t) {
-		return ma === null && Sa(e), Ta(e, t);
-	}
-	function Ta(e, t) {
 		var n = t._currentValue;
 		if (t = {
 			context: t,
 			memoizedValue: n,
 			next: null
-		}, ha === null) {
+		}, ma === null) {
 			if (e === null) throw Error(i(308));
-			ha = t, e.dependencies = {
+			ma = t, e.dependencies = {
 				lanes: 0,
 				firstContext: t
 			}, e.flags |= 524288;
-		} else ha = ha.next = t;
+		} else ma = ma.next = t;
 		return n;
 	}
-	var Ea = typeof AbortController < "u" ? AbortController : function() {
+	var Ta = typeof AbortController < "u" ? AbortController : function() {
 		var e = [], t = this.signal = {
 			aborted: !1,
 			addEventListener: function(t, n) {
@@ -2452,7 +2452,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				return e();
 			});
 		};
-	}, Da = t.unstable_scheduleCallback, Oa = t.unstable_NormalPriority, ka = {
+	}, Ea = t.unstable_scheduleCallback, Da = t.unstable_NormalPriority, Oa = {
 		$$typeof: k,
 		Consumer: null,
 		Provider: null,
@@ -2460,19 +2460,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		_currentValue2: null,
 		_threadCount: 0
 	};
-	function Aa() {
+	function ka() {
 		return {
-			controller: new Ea(),
+			controller: new Ta(),
 			data: /* @__PURE__ */ new Map(),
 			refCount: 0
 		};
 	}
-	function ja(e) {
-		e.refCount--, e.refCount === 0 && Da(Oa, function() {
+	function Aa(e) {
+		e.refCount--, e.refCount === 0 && Ea(Da, function() {
 			e.controller.abort();
 		});
 	}
-	function Ma(e, t) {
+	function ja(e, t) {
 		if (e.pendingLanes & 4194048) {
 			var n = e.transitionTypes;
 			for (n === null && (n = e.transitionTypes = []), e = 0; e < t.length; e++) {
@@ -2481,16 +2481,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 		}
 	}
-	var Na = null;
-	function Pa(e) {
+	var Ma = null;
+	function Na(e) {
 		var t = e.transitionTypes;
 		return e.transitionTypes = null, t;
 	}
-	var Fa = null, Ia = 0, La = 0, Ra = null;
-	function za(e, t) {
-		if (Fa === null) {
-			var n = Fa = [];
-			Ia = 0, La = Pf(), Ra = {
+	var Pa = null, Fa = 0, Ia = 0, La = null;
+	function Ra(e, t) {
+		if (Pa === null) {
+			var n = Pa = [];
+			Fa = 0, Ia = Pf(), La = {
 				status: "pending",
 				value: void 0,
 				then: function(e) {
@@ -2498,17 +2498,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 			};
 		}
-		return Ia++, t.then(Ba, Ba), t;
+		return Fa++, t.then(za, za), t;
 	}
-	function Ba() {
-		if (--Ia === 0 && (Na = null, Fa !== null)) {
-			Ra !== null && (Ra.status = "fulfilled");
-			var e = Fa;
-			Fa = null, La = 0, Ra = null;
+	function za() {
+		if (--Fa === 0 && (Ma = null, Pa !== null)) {
+			La !== null && (La.status = "fulfilled");
+			var e = Pa;
+			Pa = null, Ia = 0, La = null;
 			for (var t = 0; t < e.length; t++) (0, e[t])();
 		}
 	}
-	function Va(e, t) {
+	function Ba(e, t) {
 		var n = [], r = {
 			status: "pending",
 			value: null,
@@ -2524,48 +2524,48 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			for (r.status = "rejected", r.reason = e, e = 0; e < n.length; e++) (0, n[e])(void 0);
 		}), r;
 	}
-	var Ha = M.S;
+	var Va = M.S;
 	M.S = function(e, t) {
-		if (hd = He(), typeof t == "object" && t && typeof t.then == "function" && za(e, t), Na !== null) for (var n = bf; n !== null;) Ma(n, Na), n = n.next;
+		if (hd = He(), typeof t == "object" && t && typeof t.then == "function" && Ra(e, t), Ma !== null) for (var n = bf; n !== null;) ja(n, Ma), n = n.next;
 		if (n = e.types, n !== null) {
-			for (var r = bf; r !== null;) Ma(r, n), r = r.next;
-			if (La !== 0) {
-				r = Na, r === null && (r = Na = []);
+			for (var r = bf; r !== null;) ja(r, n), r = r.next;
+			if (Ia !== 0) {
+				r = Ma, r === null && (r = Ma = []);
 				for (var i = 0; i < n.length; i++) {
 					var a = n[i];
 					r.indexOf(a) === -1 && r.push(a);
 				}
 			}
 		}
-		Ha !== null && Ha(e, t);
+		Va !== null && Va(e, t);
 	};
-	var Ua = xe(null);
-	function Wa() {
-		var e = Ua.current;
-		return e === null ? q.pooledCache : e;
+	var Ha = xe(null);
+	function Ua() {
+		var e = Ha.current;
+		return e === null ? $u.pooledCache : e;
 	}
-	function Ga(e, t) {
-		t === null ? F(Ua, Ua.current) : F(Ua, t.pool);
+	function Wa(e, t) {
+		t === null ? F(Ha, Ha.current) : F(Ha, t.pool);
 	}
-	function Ka() {
-		var e = Wa();
+	function Ga() {
+		var e = Ua();
 		return e === null ? null : {
-			parent: ka._currentValue,
+			parent: Oa._currentValue,
 			pool: e
 		};
 	}
-	var qa = Error(i(460)), Ja = Error(i(474)), Ya = Error(i(542)), Xa = { then: function() {} };
-	function Za(e) {
+	var Ka = Error(i(460)), qa = Error(i(474)), Ja = Error(i(542)), Ya = { then: function() {} };
+	function Xa(e) {
 		return e = e.status, e === "fulfilled" || e === "rejected";
 	}
-	function Qa(e, t, n) {
-		switch (n = e[n], n === void 0 ? e.push(t) : n !== t && (t.then(_n, _n), t = n), t.status) {
+	function Za(e, t, n) {
+		switch (n = e[n], n === void 0 ? e.push(t) : n !== t && (t.then(gn, gn), t = n), t.status) {
 			case "fulfilled": return t.value;
-			case "rejected": throw e = t.reason, no(e), e === void 0 && !("reason" in t) ? Error(i(600)) : e;
+			case "rejected": throw e = t.reason, to(e), e === void 0 && !("reason" in t) ? Error(i(600)) : e;
 			default:
-				if (typeof t.status == "string") t.then(_n, _n);
+				if (typeof t.status == "string") t.then(gn, gn);
 				else {
-					if (e = q, e !== null && 100 < e.shellSuspendCounter) throw Error(i(482));
+					if (e = $u, e !== null && 100 < e.shellSuspendCounter) throw Error(i(482));
 					e = t, e.status = "pending", e.then(function(e) {
 						if (t.status === "pending") {
 							var n = t;
@@ -2580,40 +2580,40 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				switch (t.status) {
 					case "fulfilled": return t.value;
-					case "rejected": throw e = t.reason, no(e), e;
+					case "rejected": throw e = t.reason, to(e), e;
 				}
-				throw eo = t, qa;
+				throw $a = t, Ka;
 		}
 	}
-	function $a(e) {
+	function Qa(e) {
 		try {
 			var t = e._init;
 			return t(e._payload);
 		} catch (e) {
-			throw typeof e == "object" && e && typeof e.then == "function" ? (eo = e, qa) : e;
+			throw typeof e == "object" && e && typeof e.then == "function" ? ($a = e, Ka) : e;
 		}
 	}
-	var eo = null;
-	function to() {
-		if (eo === null) throw Error(i(459));
-		var e = eo;
-		return eo = null, e;
+	var $a = null;
+	function eo() {
+		if ($a === null) throw Error(i(459));
+		var e = $a;
+		return $a = null, e;
 	}
-	function no(e) {
-		if (e === qa || e === Ya) throw Error(i(483));
+	function to(e) {
+		if (e === Ka || e === Ja) throw Error(i(483));
 	}
-	var ro = null, io = 0;
-	function ao(e) {
-		var t = io;
-		return io += 1, ro === null && (ro = []), Qa(ro, e, t);
+	var no = null, ro = 0;
+	function io(e) {
+		var t = ro;
+		return ro += 1, no === null && (no = []), Za(no, e, t);
 	}
-	function oo(e, t) {
+	function ao(e, t) {
 		t = t.props.ref, e.ref = t === void 0 ? null : t;
 	}
-	function so(e, t) {
+	function oo(e, t) {
 		throw t.$$typeof === O ? Error(i(525)) : (e = Object.prototype.toString.call(t), Error(i(31, e === "[object Object]" ? "object with keys {" + Object.keys(t).join(", ") + "}" : e)));
 	}
-	function co(e) {
+	function so(e) {
 		function t(t, n) {
 			if (e) {
 				var r = t.deletions;
@@ -2630,7 +2630,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return t;
 		}
 		function a(e, t) {
-			return e = Mi(e, t), e.index = 0, e.sibling = null, e;
+			return e = ji(e, t), e.index = 0, e.sibling = null, e;
 		}
 		function o(t, n, r) {
 			return t.index = r, e ? (r = t.alternate, r === null ? (t.flags |= 134217730, n) : (r = r.index, r < n ? (t.flags |= 2, n) : r)) : (t.flags |= 1048576, n);
@@ -2639,30 +2639,30 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return e && t.alternate === null && (t.flags |= 134217730), t;
 		}
 		function c(e, t, n, r) {
-			return t === null || t.tag !== 6 ? (t = Ii(n, e.mode, r), t.return = e, t) : (t = a(t, n), t.return = e, t);
+			return t === null || t.tag !== 6 ? (t = Fi(n, e.mode, r), t.return = e, t) : (t = a(t, n), t.return = e, t);
 		}
 		function l(e, t, n, r) {
 			var i = n.type;
-			return i === ne ? (e = d(e, t, n.props.children, r, n.key), oo(e, n), e) : t !== null && (t.elementType === i || typeof i == "object" && i && i.$$typeof === A && $a(i) === t.type) ? (t = a(t, n.props), oo(t, n), t.return = e, t) : (t = Pi(n.type, n.key, n.props, null, e.mode, r), oo(t, n), t.return = e, t);
+			return i === ne ? (e = d(e, t, n.props.children, r, n.key), ao(e, n), e) : t !== null && (t.elementType === i || typeof i == "object" && i && i.$$typeof === A && Qa(i) === t.type) ? (t = a(t, n.props), ao(t, n), t.return = e, t) : (t = Ni(n.type, n.key, n.props, null, e.mode, r), ao(t, n), t.return = e, t);
 		}
 		function u(e, t, n, r) {
-			return t === null || t.tag !== 4 || t.stateNode.containerInfo !== n.containerInfo || t.stateNode.implementation !== n.implementation ? (t = Ri(n, e.mode, r), t.return = e, t) : (t = a(t, n.children || []), t.return = e, t);
+			return t === null || t.tag !== 4 || t.stateNode.containerInfo !== n.containerInfo || t.stateNode.implementation !== n.implementation ? (t = Li(n, e.mode, r), t.return = e, t) : (t = a(t, n.children || []), t.return = e, t);
 		}
 		function d(e, t, n, r, i) {
-			return t === null || t.tag !== 7 ? (t = Fi(n, e.mode, r, i), t.return = e, t) : (t = a(t, n), t.return = e, t);
+			return t === null || t.tag !== 7 ? (t = Pi(n, e.mode, r, i), t.return = e, t) : (t = a(t, n), t.return = e, t);
 		}
 		function f(e, t, n) {
-			if (typeof t == "string" && t !== "" || typeof t == "number" || typeof t == "bigint") return t = Ii("" + t, e.mode, n), t.return = e, t;
+			if (typeof t == "string" && t !== "" || typeof t == "number" || typeof t == "bigint") return t = Fi("" + t, e.mode, n), t.return = e, t;
 			if (typeof t == "object" && t) {
 				switch (t.$$typeof) {
-					case ee: return n = Pi(t.type, t.key, t.props, null, e.mode, n), oo(n, t), n.return = e, n;
-					case te: return t = Ri(t, e.mode, n), t.return = e, t;
-					case A: return t = $a(t), f(e, t, n);
+					case ee: return n = Ni(t.type, t.key, t.props, null, e.mode, n), ao(n, t), n.return = e, n;
+					case te: return t = Li(t, e.mode, n), t.return = e, t;
+					case A: return t = Qa(t), f(e, t, n);
 				}
-				if (ve(t) || j(t)) return t = Fi(t, e.mode, n, null), t.return = e, t;
-				if (typeof t.then == "function") return f(e, ao(t), n);
-				if (t.$$typeof === k) return f(e, wa(e, t), n);
-				so(e, t);
+				if (ve(t) || j(t)) return t = Pi(t, e.mode, n, null), t.return = e, t;
+				if (typeof t.then == "function") return f(e, io(t), n);
+				if (t.$$typeof === k) return f(e, Ca(e, t), n);
+				oo(e, t);
 			}
 			return null;
 		}
@@ -2673,12 +2673,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				switch (n.$$typeof) {
 					case ee: return n.key === i ? l(e, t, n, r) : null;
 					case te: return n.key === i ? u(e, t, n, r) : null;
-					case A: return n = $a(n), p(e, t, n, r);
+					case A: return n = Qa(n), p(e, t, n, r);
 				}
 				if (ve(n) || j(n)) return i === null ? d(e, t, n, r, null) : null;
-				if (typeof n.then == "function") return p(e, t, ao(n), r);
-				if (n.$$typeof === k) return p(e, t, wa(e, n), r);
-				so(e, n);
+				if (typeof n.then == "function") return p(e, t, io(n), r);
+				if (n.$$typeof === k) return p(e, t, Ca(e, n), r);
+				oo(e, n);
 			}
 			return null;
 		}
@@ -2688,12 +2688,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				switch (r.$$typeof) {
 					case ee: return e = e.get(r.key === null ? n : r.key) || null, l(t, e, r, i);
 					case te: return e = e.get(r.key === null ? n : r.key) || null, u(t, e, r, i);
-					case A: return r = $a(r), m(e, t, n, r, i);
+					case A: return r = Qa(r), m(e, t, n, r, i);
 				}
 				if (ve(r) || j(r)) return e = e.get(n) || null, d(t, e, r, i, null);
-				if (typeof r.then == "function") return m(e, t, n, ao(r), i);
-				if (r.$$typeof === k) return m(e, t, n, wa(t, r), i);
-				so(t, r);
+				if (typeof r.then == "function") return m(e, t, n, io(r), i);
+				if (r.$$typeof === k) return m(e, t, n, Ca(t, r), i);
+				oo(t, r);
 			}
 			return null;
 		}
@@ -2707,15 +2707,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				e && d && _.alternate === null && t(i, d), a = o(_, a, h), u === null ? l = _ : u.sibling = _, u = _, d = g;
 			}
-			if (h === s.length) return n(i, d), H && Xi(i, h), l;
+			if (h === s.length) return n(i, d), U && Yi(i, h), l;
 			if (d === null) {
 				for (; h < s.length; h++) d = f(i, s[h], c), d !== null && (a = o(d, a, h), u === null ? l = d : u.sibling = d, u = d);
-				return H && Xi(i, h), l;
+				return U && Yi(i, h), l;
 			}
 			for (d = r(d); h < s.length; h++) g = m(d, i, h, s[h], c), g !== null && (e && (_ = g.alternate, _ !== null && d.delete(_.key === null ? h : _.key)), a = o(g, a, h), u === null ? l = g : u.sibling = g, u = g);
 			return e && d.forEach(function(e) {
 				return t(i, e);
-			}), H && Xi(i, h), l;
+			}), U && Yi(i, h), l;
 		}
 		function g(a, s, c, l) {
 			if (c == null) throw Error(i(151));
@@ -2728,15 +2728,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				e && h && y.alternate === null && t(a, h), s = o(y, s, g), d === null ? u = y : d.sibling = y, d = y, h = _;
 			}
-			if (v.done) return n(a, h), H && Xi(a, g), u;
+			if (v.done) return n(a, h), U && Yi(a, g), u;
 			if (h === null) {
 				for (; !v.done; g++, v = c.next()) v = f(a, v.value, l), v !== null && (s = o(v, s, g), d === null ? u = v : d.sibling = v, d = v);
-				return H && Xi(a, g), u;
+				return U && Yi(a, g), u;
 			}
 			for (h = r(h); !v.done; g++, v = c.next()) v = m(h, a, g, v.value, l), v !== null && (e && (_ = v.alternate, _ !== null && h.delete(_.key === null ? g : _.key)), s = o(v, s, g), d === null ? u = v : d.sibling = v, d = v);
 			return e && h.forEach(function(e) {
 				return t(a, e);
-			}), H && Xi(a, g), u;
+			}), U && Yi(a, g), u;
 		}
 		function _(e, r, o, c) {
 			if (typeof o == "object" && o && o.type === ne && o.key === null && o.props.ref === void 0 && (o = o.props.children), typeof o == "object" && o) {
@@ -2747,11 +2747,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								if (r.key === l) {
 									if (l = o.type, l === ne) {
 										if (r.tag === 7) {
-											n(e, r.sibling), c = a(r, o.props.children), oo(c, o), c.return = e, e = c;
+											n(e, r.sibling), c = a(r, o.props.children), ao(c, o), c.return = e, e = c;
 											break a;
 										}
-									} else if (r.elementType === l || typeof l == "object" && l && l.$$typeof === A && $a(l) === r.type) {
-										n(e, r.sibling), c = a(r, o.props), oo(c, o), c.return = e, e = c;
+									} else if (r.elementType === l || typeof l == "object" && l && l.$$typeof === A && Qa(l) === r.type) {
+										n(e, r.sibling), c = a(r, o.props), ao(c, o), c.return = e, e = c;
 										break a;
 									}
 									n(e, r);
@@ -2759,7 +2759,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								}
 								t(e, r), r = r.sibling;
 							}
-							o.type === ne ? (c = Fi(o.props.children, e.mode, c, o.key), oo(c, o), c.return = e, e = c) : (c = Pi(o.type, o.key, o.props, null, e.mode, c), oo(c, o), c.return = e, e = c);
+							o.type === ne ? (c = Pi(o.props.children, e.mode, c, o.key), ao(c, o), c.return = e, e = c) : (c = Ni(o.type, o.key, o.props, null, e.mode, c), ao(c, o), c.return = e, e = c);
 						}
 						return s(e);
 					case te:
@@ -2775,36 +2775,36 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								}
 								t(e, r), r = r.sibling;
 							}
-							c = Ri(o, e.mode, c), c.return = e, e = c;
+							c = Li(o, e.mode, c), c.return = e, e = c;
 						}
 						return s(e);
-					case A: return o = $a(o), _(e, r, o, c);
+					case A: return o = Qa(o), _(e, r, o, c);
 				}
 				if (ve(o)) return h(e, r, o, c);
 				if (j(o)) {
 					if (l = j(o), typeof l != "function") throw Error(i(150));
 					return o = l.call(o), g(e, r, o, c);
 				}
-				if (typeof o.then == "function") return _(e, r, ao(o), c);
-				if (o.$$typeof === k) return _(e, r, wa(e, o), c);
-				so(e, o);
+				if (typeof o.then == "function") return _(e, r, io(o), c);
+				if (o.$$typeof === k) return _(e, r, Ca(e, o), c);
+				oo(e, o);
 			}
-			return typeof o == "string" && o !== "" || typeof o == "number" || typeof o == "bigint" ? (o = "" + o, r !== null && r.tag === 6 ? (n(e, r.sibling), c = a(r, o), c.return = e, e = c) : (n(e, r), c = Ii(o, e.mode, c), c.return = e, e = c), s(e)) : n(e, r);
+			return typeof o == "string" && o !== "" || typeof o == "number" || typeof o == "bigint" ? (o = "" + o, r !== null && r.tag === 6 ? (n(e, r.sibling), c = a(r, o), c.return = e, e = c) : (n(e, r), c = Fi(o, e.mode, c), c.return = e, e = c), s(e)) : n(e, r);
 		}
 		return function(e, t, n, r) {
 			try {
-				io = 0;
+				ro = 0;
 				var i = _(e, t, n, r);
-				return ro = null, i;
+				return no = null, i;
 			} catch (t) {
-				if (t === qa || t === Ya) throw t;
-				var a = Ai(29, t, null, e.mode);
+				if (t === Ka || t === Ja) throw t;
+				var a = ki(29, t, null, e.mode);
 				return a.lanes = r, a.return = e, a;
 			}
 		};
 	}
-	var lo = co(!0), uo = co(!1), fo = !1;
-	function po(e) {
+	var co = so(!0), lo = so(!1), uo = !1;
+	function fo(e) {
 		e.updateQueue = {
 			baseState: e.memoizedState,
 			firstBaseUpdate: null,
@@ -2817,7 +2817,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			callbacks: null
 		};
 	}
-	function mo(e, t) {
+	function po(e, t) {
 		e = e.updateQueue, t.updateQueue === e && (t.updateQueue = {
 			baseState: e.baseState,
 			firstBaseUpdate: e.firstBaseUpdate,
@@ -2826,7 +2826,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			callbacks: null
 		});
 	}
-	function ho(e) {
+	function mo(e) {
 		return {
 			lane: e,
 			tag: 0,
@@ -2835,22 +2835,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			next: null
 		};
 	}
-	function go(e, t, n) {
+	function ho(e, t, n) {
 		var r = e.updateQueue;
 		if (r === null) return null;
-		if (r = r.shared, K & 2) {
+		if (r = r.shared, q & 2) {
 			var i = r.pending;
-			return i === null ? t.next = t : (t.next = i.next, i.next = t), r.pending = t, t = Di(e), Ei(e, null, n), t;
+			return i === null ? t.next = t : (t.next = i.next, i.next = t), r.pending = t, t = Ei(e), Ti(e, null, n), t;
 		}
-		return Ci(e, r, t, n), Di(e);
+		return Si(e, r, t, n), Ei(e);
 	}
-	function _o(e, t, n) {
+	function go(e, t, n) {
 		if (t = t.updateQueue, t !== null && (t = t.shared, n & 4194048)) {
 			var r = t.lanes;
-			r &= e.pendingLanes, n |= r, t.lanes = n, ht(e, n);
+			r &= e.pendingLanes, n |= r, t.lanes = n, mt(e, n);
 		}
 	}
-	function vo(e, t) {
+	function _o(e, t) {
 		var n = e.updateQueue, r = e.alternate;
 		if (r !== null && (r = r.updateQueue, n === r)) {
 			var i = null, a = null;
@@ -2876,17 +2876,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}, e.updateQueue = n;
 		} else e = n.lastBaseUpdate, e === null ? n.firstBaseUpdate = t : e.next = t, n.lastBaseUpdate = t;
 	}
-	var yo = !1;
-	function bo() {
-		if (yo) {
-			var e = Ra;
+	var vo = !1;
+	function yo() {
+		if (vo) {
+			var e = La;
 			if (e !== null) throw e;
 		}
 	}
-	function xo(e, t, n, r) {
-		yo = !1;
+	function bo(e, t, n, r) {
+		vo = !1;
 		var i = e.updateQueue;
-		fo = !1;
+		uo = !1;
 		var a = i.firstBaseUpdate, o = i.lastBaseUpdate, s = i.shared.pending;
 		if (s !== null) {
 			i.shared.pending = null;
@@ -2901,7 +2901,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			do {
 				var f = s.lane & -536870913, p = f !== s.lane;
 				if (p ? (Y & f) === f : (r & f) === f) {
-					f !== 0 && f === La && (yo = !0), u !== null && (u = u.next = {
+					f !== 0 && f === Ia && (vo = !0), u !== null && (u = u.next = {
 						lane: 0,
 						tag: s.tag,
 						payload: s.payload,
@@ -2925,7 +2925,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								if (m = h.payload, f = typeof m == "function" ? m.call(g, d, f) : m, f == null) break a;
 								d = D({}, d, f);
 								break a;
-							case 2: fo = !0;
+							case 2: uo = !0;
 						}
 					}
 					f = s.callback, f !== null && (e.flags |= 64, p && (e.flags |= 8192), p = i.callbacks, p === null ? i.callbacks = [f] : p.push(f));
@@ -2944,49 +2944,49 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			u === null && (c = d), i.baseState = c, i.firstBaseUpdate = l, i.lastBaseUpdate = u, a === null && (i.shared.lanes = 0), od |= o, e.lanes = o, e.memoizedState = d;
 		}
 	}
-	function So(e, t) {
+	function xo(e, t) {
 		if (typeof e != "function") throw Error(i(191, e));
 		e.call(t);
 	}
-	function Co(e, t) {
+	function So(e, t) {
 		var n = e.callbacks;
-		if (n !== null) for (e.callbacks = null, e = 0; e < n.length; e++) So(n[e], t);
+		if (n !== null) for (e.callbacks = null, e = 0; e < n.length; e++) xo(n[e], t);
 	}
-	var wo = xe(null), To = xe(0);
-	function Eo(e, t) {
-		e = id, F(To, e), F(wo, t), id = e | t.baseLanes;
+	var Co = xe(null), wo = xe(0);
+	function To(e, t) {
+		e = id, F(wo, e), F(Co, t), id = e | t.baseLanes;
+	}
+	function Eo() {
+		F(wo, id), F(Co, Co.current);
 	}
 	function Do() {
-		F(To, id), F(wo, wo.current);
+		id = wo.current, Se(Co), Se(wo);
 	}
-	function Oo() {
-		id = To.current, Se(wo), Se(To);
-	}
-	var ko = xe(null), Ao = null;
-	function jo(e) {
+	var Oo = xe(null), ko = null;
+	function Ao(e) {
 		var t = e.alternate;
-		F(Io, Io.current & 1), F(ko, e), Ao === null && (t === null || wo.current !== null || t.memoizedState !== null) && (Ao = e);
+		F(Fo, Fo.current & 1), F(Oo, e), ko === null && (t === null || Co.current !== null || t.memoizedState !== null) && (ko = e);
+	}
+	function jo(e) {
+		F(Fo, Fo.current), F(Oo, e), ko === null && (ko = e);
 	}
 	function Mo(e) {
-		F(Io, Io.current), F(ko, e), Ao === null && (Ao = e);
+		e.tag === 22 ? (F(Fo, Fo.current), F(Oo, e), ko === null && (ko = e)) : No();
 	}
-	function No(e) {
-		e.tag === 22 ? (F(Io, Io.current), F(ko, e), Ao === null && (Ao = e)) : Po();
+	function No() {
+		F(Fo, Fo.current), F(Oo, Oo.current);
 	}
-	function Po() {
-		F(Io, Io.current), F(ko, ko.current);
+	function Po(e) {
+		Se(Oo), ko === e && (ko = null), Se(Fo);
 	}
-	function Fo(e) {
-		Se(ko), Ao === e && (Ao = null), Se(Io);
+	var Fo = xe(0);
+	function Io(e, t) {
+		F(Oo, Oo.current), F(Fo, t);
 	}
-	var Io = xe(0);
-	function Lo(e, t) {
-		F(ko, ko.current), F(Io, t);
+	function Lo(e) {
+		Se(Fo), Se(Oo), ko === e && (ko = null);
 	}
 	function Ro(e) {
-		Se(Io), Se(ko), Ao === e && (Ao = null);
-	}
-	function zo(e) {
 		for (var t = e; t !== null;) {
 			if (t.tag === 13) {
 				var n = t.memoizedState;
@@ -3006,59 +3006,59 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return null;
 	}
-	var Bo = 0, U = null, W = null, Vo = null, Ho = !1, Uo = !1, Wo = !1, Go = 0, Ko = 0, qo = null, Jo = 0;
-	function Yo() {
+	var zo = 0, W = null, G = null, Bo = null, Vo = !1, Ho = !1, Uo = !1, Wo = 0, Go = 0, Ko = null, qo = 0;
+	function Jo() {
 		throw Error(i(321));
 	}
-	function Xo(e, t) {
+	function Yo(e, t) {
 		if (t === null) return !1;
-		for (var n = 0; n < t.length && n < e.length; n++) if (!zr(e[n], t[n])) return !1;
+		for (var n = 0; n < t.length && n < e.length; n++) if (!Rr(e[n], t[n])) return !1;
 		return !0;
 	}
-	function Zo(e, t, n, r, i, a) {
-		return Bo = a, U = t, t.memoizedState = null, t.updateQueue = null, t.lanes = 0, M.H = e === null || e.memoizedState === null ? mc : hc, Wo = !1, a = n(r, i), Wo = !1, Uo && (a = $o(t, n, r, i)), Qo(e), a;
+	function Xo(e, t, n, r, i, a) {
+		return zo = a, W = t, t.memoizedState = null, t.updateQueue = null, t.lanes = 0, M.H = e === null || e.memoizedState === null ? pc : mc, Uo = !1, a = n(r, i), Uo = !1, Ho && (a = Qo(t, n, r, i)), Zo(e), a;
 	}
-	function Qo(e) {
-		M.H = pc;
-		var t = W !== null && W.next !== null;
-		if (Bo = 0, Vo = W = U = null, Ho = !1, Ko = 0, qo = null, t) throw Error(i(300));
-		e === null || Mc || (e = e.dependencies, e !== null && xa(e) && (Mc = !0));
+	function Zo(e) {
+		M.H = fc;
+		var t = G !== null && G.next !== null;
+		if (zo = 0, Bo = G = W = null, Vo = !1, Go = 0, Ko = null, t) throw Error(i(300));
+		e === null || jc || (e = e.dependencies, e !== null && ba(e) && (jc = !0));
 	}
-	function $o(e, t, n, r) {
-		U = e;
+	function Qo(e, t, n, r) {
+		W = e;
 		var a = 0;
 		do {
-			if (Uo && (qo = null), Ko = 0, Uo = !1, 25 <= a) throw Error(i(301));
-			if (a += 1, Vo = W = null, e.updateQueue != null) {
+			if (Ho && (Ko = null), Go = 0, Ho = !1, 25 <= a) throw Error(i(301));
+			if (a += 1, Bo = G = null, e.updateQueue != null) {
 				var o = e.updateQueue;
 				o.lastEffect = null, o.events = null, o.stores = null, o.memoCache != null && (o.memoCache.index = 0);
 			}
-			M.H = gc, o = t(n, r);
-		} while (Uo);
+			M.H = hc, o = t(n, r);
+		} while (Ho);
 		return o;
 	}
-	function es() {
+	function $o() {
 		var e = M.H, t = e.useState()[0];
-		return t = typeof t.then == "function" ? ss(t) : t, e = e.useState()[0], (W === null ? null : W.memoizedState) !== e && (U.flags |= 1024), t;
+		return t = typeof t.then == "function" ? os(t) : t, e = e.useState()[0], (G === null ? null : G.memoizedState) !== e && (W.flags |= 1024), t;
 	}
-	function ts() {
-		var e = Go !== 0;
-		return Go = 0, e;
+	function es() {
+		var e = Wo !== 0;
+		return Wo = 0, e;
 	}
-	function ns(e, t, n) {
+	function ts(e, t, n) {
 		t.updateQueue = e.updateQueue, t.flags &= -2053, e.lanes &= ~n;
 	}
-	function rs(e) {
-		if (Ho) {
+	function ns(e) {
+		if (Vo) {
 			for (e = e.memoizedState; e !== null;) {
 				var t = e.queue;
 				t !== null && (t.pending = null), e = e.next;
 			}
-			Ho = !1;
+			Vo = !1;
 		}
-		Bo = 0, Vo = W = U = null, Uo = !1, Ko = Go = 0, qo = null;
+		zo = 0, Bo = G = W = null, Ho = !1, Go = Wo = 0, Ko = null;
 	}
-	function is() {
+	function rs() {
 		var e = {
 			memoizedState: null,
 			baseState: null,
@@ -3066,28 +3066,28 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			queue: null,
 			next: null
 		};
-		return Vo === null ? U.memoizedState = Vo = e : Vo = Vo.next = e, Vo;
+		return Bo === null ? W.memoizedState = Bo = e : Bo = Bo.next = e, Bo;
+	}
+	function is() {
+		if (G === null) {
+			var e = W.alternate;
+			e = e === null ? null : e.memoizedState;
+		} else e = G.next;
+		var t = Bo === null ? W.memoizedState : Bo.next;
+		if (t !== null) Bo = t, G = e;
+		else {
+			if (e === null) throw W.alternate === null ? Error(i(467)) : Error(i(310));
+			G = e, e = {
+				memoizedState: G.memoizedState,
+				baseState: G.baseState,
+				baseQueue: G.baseQueue,
+				queue: G.queue,
+				next: null
+			}, Bo === null ? W.memoizedState = Bo = e : Bo = Bo.next = e;
+		}
+		return Bo;
 	}
 	function as() {
-		if (W === null) {
-			var e = U.alternate;
-			e = e === null ? null : e.memoizedState;
-		} else e = W.next;
-		var t = Vo === null ? U.memoizedState : Vo.next;
-		if (t !== null) Vo = t, W = e;
-		else {
-			if (e === null) throw U.alternate === null ? Error(i(467)) : Error(i(310));
-			W = e, e = {
-				memoizedState: W.memoizedState,
-				baseState: W.baseState,
-				baseQueue: W.baseQueue,
-				queue: W.queue,
-				next: null
-			}, Vo === null ? U.memoizedState = Vo = e : Vo = Vo.next = e;
-		}
-		return Vo;
-	}
-	function os() {
 		return {
 			lastEffect: null,
 			events: null,
@@ -3095,22 +3095,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			memoCache: null
 		};
 	}
-	function ss(e) {
-		var t = Ko;
-		return Ko += 1, qo === null && (qo = []), e = Qa(qo, e, t), t = U, (Vo === null ? t.memoizedState : Vo.next) === null && (t = t.alternate, M.H = t === null || t.memoizedState === null ? mc : hc), e;
+	function os(e) {
+		var t = Go;
+		return Go += 1, Ko === null && (Ko = []), e = Za(Ko, e, t), t = W, (Bo === null ? t.memoizedState : Bo.next) === null && (t = t.alternate, M.H = t === null || t.memoizedState === null ? pc : mc), e;
 	}
-	function cs(e) {
+	function ss(e) {
 		if (typeof e == "object" && e) {
-			if (typeof e.then == "function") return ss(e);
+			if (typeof e.then == "function") return os(e);
 			if (e.$$typeof === me) return;
-			if (e.$$typeof === k) return Ca(e);
+			if (e.$$typeof === k) return Sa(e);
 		}
 		throw Error(i(438, String(e)));
 	}
-	function ls(e) {
-		var t = null, n = U.updateQueue;
+	function cs(e) {
+		var t = null, n = W.updateQueue;
 		if (n !== null && (t = n.memoCache), t == null) {
-			var r = U.alternate;
+			var r = W.alternate;
 			r !== null && (r = r.updateQueue, r !== null && (r = r.memoCache, r != null && (t = {
 				data: r.data.map(function(e) {
 					return e.slice();
@@ -3121,16 +3121,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (t ??= {
 			data: [],
 			index: 0
-		}, n === null && (n = os(), U.updateQueue = n), n.memoCache = t, n = t.data[t.index], n === void 0) for (n = t.data[t.index] = Array(e), r = 0; r < e; r++) n[r] = fe;
+		}, n === null && (n = as(), W.updateQueue = n), n.memoCache = t, n = t.data[t.index], n === void 0) for (n = t.data[t.index] = Array(e), r = 0; r < e; r++) n[r] = fe;
 		return t.index++, n;
 	}
-	function us(e, t) {
+	function ls(e, t) {
 		return typeof t == "function" ? t(e) : t;
 	}
-	function ds(e) {
-		return fs(as(), W, e);
+	function us(e) {
+		return ds(is(), G, e);
 	}
-	function fs(e, t, n) {
+	function ds(e, t, n) {
 		var r = e.queue;
 		if (r === null) throw Error(i(311));
 		r.lastRenderedReducer = n;
@@ -3148,7 +3148,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			var c = s = null, l = null, u = t, d = !1;
 			do {
 				var f = u.lane & -536870913;
-				if (f === u.lane ? (Bo & f) === f : (Y & f) === f) {
+				if (f === u.lane ? (zo & f) === f : (Y & f) === f) {
 					var p = u.revertLane;
 					if (p === 0) l !== null && (l = l.next = {
 						lane: 0,
@@ -3158,9 +3158,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						hasEagerState: u.hasEagerState,
 						eagerState: u.eagerState,
 						next: null
-					}), f === La && (d = !0);
-					else if ((Bo & p) === p) {
-						u = u.next, p === La && (d = !0);
+					}), f === Ia && (d = !0);
+					else if ((zo & p) === p) {
+						u = u.next, p === Ia && (d = !0);
 						continue;
 					} else f = {
 						lane: 0,
@@ -3170,8 +3170,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						hasEagerState: u.hasEagerState,
 						eagerState: u.eagerState,
 						next: null
-					}, l === null ? (c = l = f, s = o) : l = l.next = f, U.lanes |= p, od |= p;
-					f = u.action, Wo && n(o, f), o = u.hasEagerState ? u.eagerState : n(o, f);
+					}, l === null ? (c = l = f, s = o) : l = l.next = f, W.lanes |= p, od |= p;
+					f = u.action, Uo && n(o, f), o = u.hasEagerState ? u.eagerState : n(o, f);
 				} else p = {
 					lane: f,
 					revertLane: u.revertLane,
@@ -3180,16 +3180,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					hasEagerState: u.hasEagerState,
 					eagerState: u.eagerState,
 					next: null
-				}, l === null ? (c = l = p, s = o) : l = l.next = p, U.lanes |= f, od |= f;
+				}, l === null ? (c = l = p, s = o) : l = l.next = p, W.lanes |= f, od |= f;
 				u = u.next;
 			} while (u !== null && u !== t);
-			if (l === null ? s = o : l.next = c, !zr(o, e.memoizedState) && (Mc = !0, d && (n = Ra, n !== null))) throw n;
+			if (l === null ? s = o : l.next = c, !Rr(o, e.memoizedState) && (jc = !0, d && (n = La, n !== null))) throw n;
 			e.memoizedState = o, e.baseState = s, e.baseQueue = l, r.lastRenderedState = o;
 		}
 		return a === null && (r.lanes = 0), [e.memoizedState, r.dispatch];
 	}
-	function ps(e) {
-		var t = as(), n = t.queue;
+	function fs(e) {
+		var t = is(), n = t.queue;
 		if (n === null) throw Error(i(311));
 		n.lastRenderedReducer = e;
 		var r = n.dispatch, a = n.pending, o = t.memoizedState;
@@ -3199,56 +3199,56 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			do
 				o = e(o, s.action), s = s.next;
 			while (s !== a);
-			zr(o, t.memoizedState) || (Mc = !0), t.memoizedState = o, t.baseQueue === null && (t.baseState = o), n.lastRenderedState = o;
+			Rr(o, t.memoizedState) || (jc = !0), t.memoizedState = o, t.baseQueue === null && (t.baseState = o), n.lastRenderedState = o;
 		}
 		return [o, r];
 	}
-	function ms(e, t, n) {
-		var r = U, a = as(), o = H;
+	function ps(e, t, n) {
+		var r = W, a = is(), o = U;
 		if (o) {
 			if (n === void 0) throw Error(i(407));
 			n = n();
 		} else n = t();
-		var s = !zr((W || a).memoizedState, n);
-		if (s && (a.memoizedState = n, Mc = !0), a = a.queue, zs(_s.bind(null, r, a, e), [e]), e = a.getSnapshot !== t || s || Vo !== null && !!(Vo.memoizedState.tag & 1), Ps(e ? 9 : 8, { destroy: void 0 }, gs.bind(null, r, a, n, t), null), e) {
-			if (r.flags |= 2048, q === null) throw Error(i(349));
-			o || Bo & 127 || hs(r, t, n);
+		var s = !Rr((G || a).memoizedState, n);
+		if (s && (a.memoizedState = n, jc = !0), a = a.queue, Rs(gs.bind(null, r, a, e), [e]), e = a.getSnapshot !== t || s || Bo !== null && !!(Bo.memoizedState.tag & 1), Ns(e ? 9 : 8, { destroy: void 0 }, hs.bind(null, r, a, n, t), null), e) {
+			if (r.flags |= 2048, $u === null) throw Error(i(349));
+			o || zo & 127 || ms(r, t, n);
 		}
 		return n;
 	}
-	function hs(e, t, n) {
+	function ms(e, t, n) {
 		e.flags |= 16384, e = {
 			getSnapshot: t,
 			value: n
-		}, t = U.updateQueue, t === null ? (t = os(), U.updateQueue = t, t.stores = [e]) : (n = t.stores, n === null ? t.stores = [e] : n.push(e));
+		}, t = W.updateQueue, t === null ? (t = as(), W.updateQueue = t, t.stores = [e]) : (n = t.stores, n === null ? t.stores = [e] : n.push(e));
 	}
-	function gs(e, t, n, r) {
-		t.value = n, t.getSnapshot = r, vs(t) && ys(e);
+	function hs(e, t, n, r) {
+		t.value = n, t.getSnapshot = r, _s(t) && vs(e);
 	}
-	function _s(e, t, n) {
+	function gs(e, t, n) {
 		return n(function() {
-			vs(t) && ys(e);
+			_s(t) && vs(e);
 		});
 	}
-	function vs(e) {
+	function _s(e) {
 		var t = e.getSnapshot;
 		e = e.value;
 		try {
 			var n = t();
-			return !zr(e, n);
+			return !Rr(e, n);
 		} catch {
 			return !0;
 		}
 	}
-	function ys(e) {
-		var t = Ti(e, 2);
+	function vs(e) {
+		var t = wi(e, 2);
 		t !== null && Pd(t, e, 2);
 	}
-	function bs(e) {
-		var t = is();
+	function ys(e) {
+		var t = rs();
 		if (typeof e == "function") {
 			var n = e;
-			if (e = n(), Wo) {
+			if (e = n(), Uo) {
 				$e(!0);
 				try {
 					n();
@@ -3261,15 +3261,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			pending: null,
 			lanes: 0,
 			dispatch: null,
-			lastRenderedReducer: us,
+			lastRenderedReducer: ls,
 			lastRenderedState: e
 		}, t;
 	}
-	function xs(e, t, n, r) {
-		return e.baseState = n, fs(e, W, typeof r == "function" ? r : us);
+	function bs(e, t, n, r) {
+		return e.baseState = n, ds(e, G, typeof r == "function" ? r : ls);
 	}
-	function Ss(e, t, n, r, a) {
-		if (uc(e)) throw Error(i(485));
+	function xs(e, t, n, r, a) {
+		if (lc(e)) throw Error(i(485));
 		if (e = t.action, e !== null) {
 			var o = {
 				payload: a,
@@ -3284,124 +3284,124 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					o.listeners.push(e);
 				}
 			};
-			M.T === null ? o.isTransition = !1 : n(!0), r(o), n = t.pending, n === null ? (o.next = t.pending = o, Cs(t, o)) : (o.next = n.next, t.pending = n.next = o);
+			M.T === null ? o.isTransition = !1 : n(!0), r(o), n = t.pending, n === null ? (o.next = t.pending = o, Ss(t, o)) : (o.next = n.next, t.pending = n.next = o);
 		}
 	}
-	function Cs(e, t) {
+	function Ss(e, t) {
 		var n = t.action, r = t.payload, i = e.state;
 		if (t.isTransition) {
 			var a = M.T, o = {};
 			o.types = a === null ? null : a.types, M.T = o;
 			try {
 				var s = n(i, r), c = M.S;
-				c !== null && c(o, s), ws(e, t, s);
+				c !== null && c(o, s), Cs(e, t, s);
 			} catch (n) {
-				Es(e, t, n);
+				Ts(e, t, n);
 			} finally {
 				a !== null && o.types !== null && (a.types = o.types), M.T = a;
 			}
 		} else try {
-			a = n(i, r), ws(e, t, a);
+			a = n(i, r), Cs(e, t, a);
 		} catch (n) {
-			Es(e, t, n);
+			Ts(e, t, n);
 		}
 	}
-	function ws(e, t, n) {
+	function Cs(e, t, n) {
 		typeof n == "object" && n && typeof n.then == "function" ? n.then(function(n) {
-			Ts(e, t, n);
+			ws(e, t, n);
 		}, function(n) {
-			return Es(e, t, n);
-		}) : Ts(e, t, n);
+			return Ts(e, t, n);
+		}) : ws(e, t, n);
+	}
+	function ws(e, t, n) {
+		t.status = "fulfilled", t.value = n, Es(t), e.state = n, t = e.pending, t !== null && (n = t.next, n === t ? e.pending = null : (n = n.next, t.next = n, Ss(e, n)));
 	}
 	function Ts(e, t, n) {
-		t.status = "fulfilled", t.value = n, Ds(t), e.state = n, t = e.pending, t !== null && (n = t.next, n === t ? e.pending = null : (n = n.next, t.next = n, Cs(e, n)));
-	}
-	function Es(e, t, n) {
 		var r = e.pending;
 		if (e.pending = null, r !== null) {
 			r = r.next;
 			do
-				t.status = "rejected", t.reason = n, Ds(t), t = t.next;
+				t.status = "rejected", t.reason = n, Es(t), t = t.next;
 			while (t !== r);
 		}
 		e.action = null;
 	}
-	function Ds(e) {
+	function Es(e) {
 		e = e.listeners;
 		for (var t = 0; t < e.length; t++) (0, e[t])();
 	}
-	function Os(e, t) {
+	function Ds(e, t) {
 		return t;
 	}
-	function ks(e, t) {
-		if (H) {
-			var n = q.formState;
+	function Os(e, t) {
+		if (U) {
+			var n = $u.formState;
 			if (n !== null) {
 				a: {
-					var r = U;
-					if (H) {
-						if (na) {
+					var r = W;
+					if (U) {
+						if (ta) {
 							b: {
-								for (var i = na, a = ia; i.nodeType !== 8;) if (!a || (i = lm(i.nextSibling), i === null)) {
+								for (var i = ta, a = ra; i.nodeType !== 8;) if (!a || (i = lm(i.nextSibling), i === null)) {
 									i = null;
 									break b;
 								}
 								a = i.data, i = a === "F!" || a === "F" ? i : null;
 							}
 							if (i) {
-								na = lm(i.nextSibling), r = i.data === "F!";
+								ta = lm(i.nextSibling), r = i.data === "F!";
 								break a;
 							}
 						}
-						oa(r);
+						aa(r);
 					}
 					r = !1;
 				}
 				r && (t = n[0]);
 			}
 		}
-		return n = is(), n.memoizedState = n.baseState = t, r = {
+		return n = rs(), n.memoizedState = n.baseState = t, r = {
 			pending: null,
 			lanes: 0,
 			dispatch: null,
-			lastRenderedReducer: Os,
+			lastRenderedReducer: Ds,
 			lastRenderedState: t
-		}, n.queue = r, n = sc.bind(null, U, r), r.dispatch = n, r = bs(!1), a = lc.bind(null, U, !1, r.queue), r = is(), i = {
+		}, n.queue = r, n = oc.bind(null, W, r), r.dispatch = n, r = ys(!1), a = cc.bind(null, W, !1, r.queue), r = rs(), i = {
 			state: t,
 			dispatch: null,
 			action: e,
 			pending: null
-		}, r.queue = i, n = Ss.bind(null, U, i, a, n), i.dispatch = n, r.memoizedState = e, [
+		}, r.queue = i, n = xs.bind(null, W, i, a, n), i.dispatch = n, r.memoizedState = e, [
 			t,
 			n,
 			!1
 		];
 	}
-	function As(e) {
-		return js(as(), W, e);
+	function ks(e) {
+		return As(is(), G, e);
 	}
-	function js(e, t, n) {
-		if (t = fs(e, t, Os)[0], e = ds(us)[0], typeof t == "object" && t && typeof t.then == "function") try {
-			var r = ss(t);
+	function As(e, t, n) {
+		if (t = ds(e, t, Ds)[0], e = us(ls)[0], typeof t == "object" && t && typeof t.then == "function") try {
+			var r = os(t);
 		} catch (e) {
-			throw e === qa ? Ya : e;
+			throw e === Ka ? Ja : e;
 		}
 		else r = t;
-		t = as();
+		t = is();
 		var i = t.queue, a = i.dispatch;
-		return n !== t.memoizedState && (U.flags |= 2048, Ps(9, { destroy: void 0 }, Ms.bind(null, i, n), null)), [
+		return n !== t.memoizedState && (W.flags |= 2048, Ns(9, { destroy: void 0 }, js.bind(null, i, n), null)), [
 			r,
 			a,
 			e
 		];
 	}
-	function Ms(e, t) {
+	function js(e, t) {
 		e.action = t;
 	}
-	function Ns(e) {
-		var t = as(), n = W;
-		if (n !== null) return js(t, n, e);
-		as(), t = t.memoizedState, n = as();
+	function Ms(e) {
+		var t = is(), n = G;
+		if (n !== null) return As(t, n, e);
+		is(), t = t.memoizedState, n = is();
 		var r = n.queue.dispatch;
 		return n.memoizedState = e, [
 			t,
@@ -3409,60 +3409,60 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			!1
 		];
 	}
-	function Ps(e, t, n, r) {
+	function Ns(e, t, n, r) {
 		return e = {
 			tag: e,
 			create: n,
 			deps: r,
 			inst: t,
 			next: null
-		}, t = U.updateQueue, t === null && (t = os(), U.updateQueue = t), n = t.lastEffect, n === null ? t.lastEffect = e.next = e : (r = n.next, n.next = e, e.next = r, t.lastEffect = e), e;
+		}, t = W.updateQueue, t === null && (t = as(), W.updateQueue = t), n = t.lastEffect, n === null ? t.lastEffect = e.next = e : (r = n.next, n.next = e, e.next = r, t.lastEffect = e), e;
 	}
-	function Fs() {
-		return as().memoizedState;
+	function Ps() {
+		return is().memoizedState;
+	}
+	function Fs(e, t, n, r) {
+		var i = rs();
+		W.flags |= e, i.memoizedState = Ns(1 | t, { destroy: void 0 }, n, r === void 0 ? null : r);
 	}
 	function Is(e, t, n, r) {
 		var i = is();
-		U.flags |= e, i.memoizedState = Ps(1 | t, { destroy: void 0 }, n, r === void 0 ? null : r);
-	}
-	function Ls(e, t, n, r) {
-		var i = as();
 		r = r === void 0 ? null : r;
 		var a = i.memoizedState.inst;
-		W !== null && r !== null && Xo(r, W.memoizedState.deps) ? i.memoizedState = Ps(t, a, n, r) : (U.flags |= e, i.memoizedState = Ps(1 | t, a, n, r));
+		G !== null && r !== null && Yo(r, G.memoizedState.deps) ? i.memoizedState = Ns(t, a, n, r) : (W.flags |= e, i.memoizedState = Ns(1 | t, a, n, r));
+	}
+	function Ls(e, t) {
+		Fs(8390656, 8, e, t);
 	}
 	function Rs(e, t) {
-		Is(8390656, 8, e, t);
+		Is(2048, 8, e, t);
 	}
-	function zs(e, t) {
-		Ls(2048, 8, e, t);
-	}
-	function Bs(e) {
-		U.flags |= 4;
-		var t = U.updateQueue;
-		if (t === null) t = os(), U.updateQueue = t, t.events = [e];
+	function zs(e) {
+		W.flags |= 4;
+		var t = W.updateQueue;
+		if (t === null) t = as(), W.updateQueue = t, t.events = [e];
 		else {
 			var n = t.events;
 			n === null ? t.events = [e] : n.push(e);
 		}
 	}
-	function Vs(e) {
-		var t = as().memoizedState;
-		return Bs({
+	function Bs(e) {
+		var t = is().memoizedState;
+		return zs({
 			ref: t,
 			nextImpl: e
 		}), function() {
-			if (K & 2) throw Error(i(440));
+			if (q & 2) throw Error(i(440));
 			return t.impl.apply(void 0, arguments);
 		};
 	}
+	function Vs(e, t) {
+		return Is(4, 2, e, t);
+	}
 	function Hs(e, t) {
-		return Ls(4, 2, e, t);
+		return Is(4, 4, e, t);
 	}
 	function Us(e, t) {
-		return Ls(4, 4, e, t);
-	}
-	function Ws(e, t) {
 		if (typeof t == "function") {
 			e = e();
 			var n = t(e);
@@ -3474,22 +3474,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			t.current = null;
 		};
 	}
-	function Gs(e, t, n) {
-		n = n == null ? null : n.concat([e]), Ls(4, 4, Ws.bind(null, t, e), n);
+	function Ws(e, t, n) {
+		n = n == null ? null : n.concat([e]), Is(4, 4, Us.bind(null, t, e), n);
 	}
-	function Ks() {}
+	function Gs() {}
+	function Ks(e, t) {
+		var n = is();
+		t = t === void 0 ? null : t;
+		var r = n.memoizedState;
+		return t !== null && Yo(t, r[1]) ? r[0] : (n.memoizedState = [e, t], e);
+	}
 	function qs(e, t) {
-		var n = as();
+		var n = is();
 		t = t === void 0 ? null : t;
 		var r = n.memoizedState;
-		return t !== null && Xo(t, r[1]) ? r[0] : (n.memoizedState = [e, t], e);
-	}
-	function Js(e, t) {
-		var n = as();
-		t = t === void 0 ? null : t;
-		var r = n.memoizedState;
-		if (t !== null && Xo(t, r[1])) return r[0];
-		if (r = e(), Wo) {
+		if (t !== null && Yo(t, r[1])) return r[0];
+		if (r = e(), Uo) {
 			$e(!0);
 			try {
 				e();
@@ -3499,22 +3499,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return n.memoizedState = [r, t], r;
 	}
-	function Ys(e, t, n) {
-		return n === void 0 || Bo & 1073741824 && !(Y & 261930) ? e.memoizedState = t : (e.memoizedState = n, e = Md(), U.lanes |= e, od |= e, n);
+	function Js(e, t, n) {
+		return n === void 0 || zo & 1073741824 && !(Y & 261930) ? e.memoizedState = t : (e.memoizedState = n, e = Md(), W.lanes |= e, od |= e, n);
 	}
-	function Xs(e, t, n, r) {
-		return zr(n, t) ? n : wo.current === null ? !(Bo & 106) || Bo & 1073741824 && !(Y & 261930) ? (Mc = !0, e.memoizedState = n) : (e = Md(), U.lanes |= e, od |= e, t) : (e = Ys(e, n, r), zr(e, t) || (Mc = !0), e);
+	function Ys(e, t, n, r) {
+		return Rr(n, t) ? n : Co.current === null ? !(zo & 106) || zo & 1073741824 && !(Y & 261930) ? (jc = !0, e.memoizedState = n) : (e = Md(), W.lanes |= e, od |= e, t) : (e = Js(e, n, r), Rr(e, t) || (jc = !0), e);
 	}
-	function Zs(e, t, n, r, i) {
+	function Xs(e, t, n, r, i) {
 		var a = N.p;
 		N.p = a !== 0 && 8 > a ? a : 8;
 		var o = M.T, s = {};
-		s.types = o === null ? null : o.types, M.T = s, lc(e, !1, t, n);
+		s.types = o === null ? null : o.types, M.T = s, cc(e, !1, t, n);
 		try {
 			var c = i(), l = M.S;
-			l !== null && l(s, c), typeof c == "object" && c && typeof c.then == "function" ? cc(e, t, Va(c, r), jd(e)) : cc(e, t, r, jd(e));
+			l !== null && l(s, c), typeof c == "object" && c && typeof c.then == "function" ? sc(e, t, Ba(c, r), jd(e)) : sc(e, t, r, jd(e));
 		} catch (n) {
-			cc(e, t, {
+			sc(e, t, {
 				then: function() {},
 				status: "rejected",
 				reason: n
@@ -3523,15 +3523,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			N.p = a, o !== null && s.types !== null && (o.types = s.types), M.T = o;
 		}
 	}
-	function Qs() {}
-	function $s(e, t, n, r) {
+	function Zs() {}
+	function Qs(e, t, n, r) {
 		if (e.tag !== 5) throw Error(i(476));
-		var a = ec(e).queue;
-		Zs(e, a, t, ye, n === null ? Qs : function() {
-			return tc(e), n(r);
+		var a = $s(e).queue;
+		Xs(e, a, t, ye, n === null ? Zs : function() {
+			return ec(e), n(r);
 		});
 	}
-	function ec(e) {
+	function $s(e) {
 		var t = e.memoizedState;
 		if (t !== null) return t;
 		t = {
@@ -3542,7 +3542,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				pending: null,
 				lanes: 0,
 				dispatch: null,
-				lastRenderedReducer: us,
+				lastRenderedReducer: ls,
 				lastRenderedState: ye
 			},
 			next: null
@@ -3556,40 +3556,40 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				pending: null,
 				lanes: 0,
 				dispatch: null,
-				lastRenderedReducer: us,
+				lastRenderedReducer: ls,
 				lastRenderedState: n
 			},
 			next: null
 		}, e.memoizedState = t, e = e.alternate, e !== null && (e.memoizedState = t), t;
 	}
-	function tc(e) {
-		var t = ec(e);
-		t.next === null && (t = e.alternate.memoizedState), cc(e, t.next.queue, {}, jd());
+	function ec(e) {
+		var t = $s(e);
+		t.next === null && (t = e.alternate.memoizedState), sc(e, t.next.queue, {}, jd());
+	}
+	function tc() {
+		return Sa(sh);
 	}
 	function nc() {
-		return Ca(sh);
+		return is().memoizedState;
 	}
 	function rc() {
-		return as().memoizedState;
+		return is().memoizedState;
 	}
-	function ic() {
-		return as().memoizedState;
-	}
-	function ac(e) {
+	function ic(e) {
 		for (var t = e.return; t !== null;) {
 			switch (t.tag) {
 				case 24:
 				case 3:
 					var n = jd();
-					e = ho(n);
-					var r = go(t, e, n);
-					r !== null && (Pd(r, t, n), _o(r, t, n)), t = { cache: Aa() }, e.payload = t;
+					e = mo(n);
+					var r = ho(t, e, n);
+					r !== null && (Pd(r, t, n), go(r, t, n)), t = { cache: ka() }, e.payload = t;
 					return;
 			}
 			t = t.return;
 		}
 	}
-	function oc(e, t, n) {
+	function ac(e, t, n) {
 		var r = jd();
 		n = {
 			lane: r,
@@ -3599,12 +3599,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			hasEagerState: !1,
 			eagerState: null,
 			next: null
-		}, uc(e) ? dc(t, n) : (n = wi(e, t, n, r), n !== null && (Pd(n, e, r), fc(n, t, r)));
+		}, lc(e) ? uc(t, n) : (n = Ci(e, t, n, r), n !== null && (Pd(n, e, r), dc(n, t, r)));
 	}
-	function sc(e, t, n) {
-		cc(e, t, n, jd());
+	function oc(e, t, n) {
+		sc(e, t, n, jd());
 	}
-	function cc(e, t, n, r) {
+	function sc(e, t, n, r) {
 		var i = {
 			lane: r,
 			revertLane: 0,
@@ -3614,18 +3614,18 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			eagerState: null,
 			next: null
 		};
-		if (uc(e)) dc(t, i);
+		if (lc(e)) uc(t, i);
 		else {
 			var a = e.alternate;
 			if (e.lanes === 0 && (a === null || a.lanes === 0) && (a = t.lastRenderedReducer, a !== null)) try {
 				var o = t.lastRenderedState, s = a(o, n);
-				if (i.hasEagerState = !0, i.eagerState = s, zr(s, o)) return Ci(e, t, i, 0), q === null && Si(), !1;
+				if (i.hasEagerState = !0, i.eagerState = s, Rr(s, o)) return Si(e, t, i, 0), $u === null && xi(), !1;
 			} catch {}
-			if (n = wi(e, t, i, r), n !== null) return Pd(n, e, r), fc(n, t, r), !0;
+			if (n = Ci(e, t, i, r), n !== null) return Pd(n, e, r), dc(n, t, r), !0;
 		}
 		return !1;
 	}
-	function lc(e, t, n, r) {
+	function cc(e, t, n, r) {
 		if (r = {
 			lane: 2,
 			revertLane: Pf(),
@@ -3634,72 +3634,72 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			hasEagerState: !1,
 			eagerState: null,
 			next: null
-		}, uc(e)) {
+		}, lc(e)) {
 			if (t) throw Error(i(479));
-		} else t = wi(e, n, r, 2), t !== null && Pd(t, e, 2);
+		} else t = Ci(e, n, r, 2), t !== null && Pd(t, e, 2);
 	}
-	function uc(e) {
+	function lc(e) {
 		var t = e.alternate;
-		return e === U || t !== null && t === U;
+		return e === W || t !== null && t === W;
 	}
-	function dc(e, t) {
-		Uo = Ho = !0;
+	function uc(e, t) {
+		Ho = Vo = !0;
 		var n = e.pending;
 		n === null ? t.next = t : (t.next = n.next, n.next = t), e.pending = t;
 	}
-	function fc(e, t, n) {
+	function dc(e, t, n) {
 		if (n & 4194048) {
 			var r = t.lanes;
-			r &= e.pendingLanes, n |= r, t.lanes = n, ht(e, n);
+			r &= e.pendingLanes, n |= r, t.lanes = n, mt(e, n);
 		}
 	}
-	var pc = {
-		readContext: Ca,
-		use: cs,
-		useCallback: Yo,
-		useContext: Yo,
-		useEffect: Yo,
-		useImperativeHandle: Yo,
-		useLayoutEffect: Yo,
-		useInsertionEffect: Yo,
-		useMemo: Yo,
-		useReducer: Yo,
-		useRef: Yo,
-		useState: Yo,
-		useDebugValue: Yo,
-		useDeferredValue: Yo,
-		useTransition: Yo,
-		useSyncExternalStore: Yo,
-		useId: Yo,
-		useHostTransitionStatus: Yo,
-		useFormState: Yo,
-		useActionState: Yo,
-		useOptimistic: Yo,
-		useMemoCache: Yo,
-		useCacheRefresh: Yo,
-		useEffectEvent: Yo
-	}, mc = {
-		readContext: Ca,
-		use: cs,
+	var fc = {
+		readContext: Sa,
+		use: ss,
+		useCallback: Jo,
+		useContext: Jo,
+		useEffect: Jo,
+		useImperativeHandle: Jo,
+		useLayoutEffect: Jo,
+		useInsertionEffect: Jo,
+		useMemo: Jo,
+		useReducer: Jo,
+		useRef: Jo,
+		useState: Jo,
+		useDebugValue: Jo,
+		useDeferredValue: Jo,
+		useTransition: Jo,
+		useSyncExternalStore: Jo,
+		useId: Jo,
+		useHostTransitionStatus: Jo,
+		useFormState: Jo,
+		useActionState: Jo,
+		useOptimistic: Jo,
+		useMemoCache: Jo,
+		useCacheRefresh: Jo,
+		useEffectEvent: Jo
+	}, pc = {
+		readContext: Sa,
+		use: ss,
 		useCallback: function(e, t) {
-			return is().memoizedState = [e, t === void 0 ? null : t], e;
+			return rs().memoizedState = [e, t === void 0 ? null : t], e;
 		},
-		useContext: Ca,
-		useEffect: Rs,
+		useContext: Sa,
+		useEffect: Ls,
 		useImperativeHandle: function(e, t, n) {
-			n = n == null ? null : n.concat([e]), Is(4194308, 4, Ws.bind(null, t, e), n);
+			n = n == null ? null : n.concat([e]), Fs(4194308, 4, Us.bind(null, t, e), n);
 		},
 		useLayoutEffect: function(e, t) {
-			return Is(4194308, 4, e, t);
+			return Fs(4194308, 4, e, t);
 		},
 		useInsertionEffect: function(e, t) {
-			Is(4, 2, e, t);
+			Fs(4, 2, e, t);
 		},
 		useMemo: function(e, t) {
-			var n = is();
+			var n = rs();
 			t = t === void 0 ? null : t;
 			var r = e();
-			if (Wo) {
+			if (Uo) {
 				$e(!0);
 				try {
 					e();
@@ -3710,10 +3710,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return n.memoizedState = [r, t], r;
 		},
 		useReducer: function(e, t, n) {
-			var r = is();
+			var r = rs();
 			if (n !== void 0) {
 				var i = n(t);
-				if (Wo) {
+				if (Uo) {
 					$e(!0);
 					try {
 						n(t);
@@ -3728,54 +3728,54 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				dispatch: null,
 				lastRenderedReducer: e,
 				lastRenderedState: i
-			}, r.queue = e, e = e.dispatch = oc.bind(null, U, e), [r.memoizedState, e];
+			}, r.queue = e, e = e.dispatch = ac.bind(null, W, e), [r.memoizedState, e];
 		},
 		useRef: function(e) {
-			var t = is();
+			var t = rs();
 			return e = { current: e }, t.memoizedState = e;
 		},
 		useState: function(e) {
-			e = bs(e);
-			var t = e.queue, n = sc.bind(null, U, t);
+			e = ys(e);
+			var t = e.queue, n = oc.bind(null, W, t);
 			return t.dispatch = n, [e.memoizedState, n];
 		},
-		useDebugValue: Ks,
+		useDebugValue: Gs,
 		useDeferredValue: function(e, t) {
-			return Ys(is(), e, t);
+			return Js(rs(), e, t);
 		},
 		useTransition: function() {
-			var e = bs(!1);
-			return e = Zs.bind(null, U, e.queue, !0, !1), is().memoizedState = e, [!1, e];
+			var e = ys(!1);
+			return e = Xs.bind(null, W, e.queue, !0, !1), rs().memoizedState = e, [!1, e];
 		},
 		useSyncExternalStore: function(e, t, n) {
-			var r = U, a = is();
-			if (H) {
+			var r = W, a = rs();
+			if (U) {
 				if (n === void 0) throw Error(i(407));
 				n = n();
 			} else {
-				if (n = t(), q === null) throw Error(i(349));
-				Y & 127 || hs(r, t, n);
+				if (n = t(), $u === null) throw Error(i(349));
+				Y & 127 || ms(r, t, n);
 			}
 			a.memoizedState = n;
 			var o = {
 				value: n,
 				getSnapshot: t
 			};
-			return a.queue = o, Rs(_s.bind(null, r, o, e), [e]), r.flags |= 2048, Ps(9, { destroy: void 0 }, gs.bind(null, r, o, n, t), null), n;
+			return a.queue = o, Ls(gs.bind(null, r, o, e), [e]), r.flags |= 2048, Ns(9, { destroy: void 0 }, hs.bind(null, r, o, n, t), null), n;
 		},
 		useId: function() {
-			var e = is(), t = q.identifierPrefix;
-			if (H) {
-				var n = Yi, r = Ji;
-				n = (r & ~(1 << 32 - et(r) - 1)).toString(32) + n, t = "_" + t + "R_" + n, n = Go++, 0 < n && (t += "H" + n.toString(32)), t += "_";
-			} else n = Jo++, t = "_" + t + "r_" + n.toString(32) + "_";
+			var e = rs(), t = $u.identifierPrefix;
+			if (U) {
+				var n = Ji, r = qi;
+				n = (r & ~(1 << 32 - L(r) - 1)).toString(32) + n, t = "_" + t + "R_" + n, n = Wo++, 0 < n && (t += "H" + n.toString(32)), t += "_";
+			} else n = qo++, t = "_" + t + "r_" + n.toString(32) + "_";
 			return e.memoizedState = t;
 		},
-		useHostTransitionStatus: nc,
-		useFormState: ks,
-		useActionState: ks,
+		useHostTransitionStatus: tc,
+		useFormState: Os,
+		useActionState: Os,
 		useOptimistic: function(e) {
-			var t = is();
+			var t = rs();
 			t.memoizedState = t.baseState = e;
 			var n = {
 				pending: null,
@@ -3784,132 +3784,132 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				lastRenderedReducer: null,
 				lastRenderedState: null
 			};
-			return t.queue = n, t = lc.bind(null, U, !0, n), n.dispatch = t, [e, t];
+			return t.queue = n, t = cc.bind(null, W, !0, n), n.dispatch = t, [e, t];
 		},
-		useMemoCache: ls,
+		useMemoCache: cs,
 		useCacheRefresh: function() {
-			return is().memoizedState = ac.bind(null, U);
+			return rs().memoizedState = ic.bind(null, W);
 		},
 		useEffectEvent: function(e) {
-			var t = is(), n = { impl: e };
+			var t = rs(), n = { impl: e };
 			return t.memoizedState = n, function() {
-				if (K & 2) throw Error(i(440));
+				if (q & 2) throw Error(i(440));
 				return n.impl.apply(void 0, arguments);
 			};
 		}
+	}, mc = {
+		readContext: Sa,
+		use: ss,
+		useCallback: Ks,
+		useContext: Sa,
+		useEffect: Rs,
+		useImperativeHandle: Ws,
+		useInsertionEffect: Vs,
+		useLayoutEffect: Hs,
+		useMemo: qs,
+		useReducer: us,
+		useRef: Ps,
+		useState: function() {
+			return us(ls);
+		},
+		useDebugValue: Gs,
+		useDeferredValue: function(e, t) {
+			return Ys(is(), G.memoizedState, e, t);
+		},
+		useTransition: function() {
+			var e = us(ls)[0], t = is().memoizedState;
+			return [typeof e == "boolean" ? e : os(e), t];
+		},
+		useSyncExternalStore: ps,
+		useId: nc,
+		useHostTransitionStatus: tc,
+		useFormState: ks,
+		useActionState: ks,
+		useOptimistic: function(e, t) {
+			return bs(is(), G, e, t);
+		},
+		useMemoCache: cs,
+		useCacheRefresh: rc,
+		useEffectEvent: Bs
 	}, hc = {
-		readContext: Ca,
-		use: cs,
-		useCallback: qs,
-		useContext: Ca,
-		useEffect: zs,
-		useImperativeHandle: Gs,
-		useInsertionEffect: Hs,
-		useLayoutEffect: Us,
-		useMemo: Js,
-		useReducer: ds,
-		useRef: Fs,
+		readContext: Sa,
+		use: ss,
+		useCallback: Ks,
+		useContext: Sa,
+		useEffect: Rs,
+		useImperativeHandle: Ws,
+		useInsertionEffect: Vs,
+		useLayoutEffect: Hs,
+		useMemo: qs,
+		useReducer: fs,
+		useRef: Ps,
 		useState: function() {
-			return ds(us);
+			return fs(ls);
 		},
-		useDebugValue: Ks,
+		useDebugValue: Gs,
 		useDeferredValue: function(e, t) {
-			return Xs(as(), W.memoizedState, e, t);
+			var n = is();
+			return G === null ? Js(n, e, t) : Ys(n, G.memoizedState, e, t);
 		},
 		useTransition: function() {
-			var e = ds(us)[0], t = as().memoizedState;
-			return [typeof e == "boolean" ? e : ss(e), t];
+			var e = fs(ls)[0], t = is().memoizedState;
+			return [typeof e == "boolean" ? e : os(e), t];
 		},
-		useSyncExternalStore: ms,
-		useId: rc,
-		useHostTransitionStatus: nc,
-		useFormState: As,
-		useActionState: As,
+		useSyncExternalStore: ps,
+		useId: nc,
+		useHostTransitionStatus: tc,
+		useFormState: Ms,
+		useActionState: Ms,
 		useOptimistic: function(e, t) {
-			return xs(as(), W, e, t);
+			var n = is();
+			return G === null ? (n.baseState = e, [e, n.queue.dispatch]) : bs(n, G, e, t);
 		},
-		useMemoCache: ls,
-		useCacheRefresh: ic,
-		useEffectEvent: Vs
-	}, gc = {
-		readContext: Ca,
-		use: cs,
-		useCallback: qs,
-		useContext: Ca,
-		useEffect: zs,
-		useImperativeHandle: Gs,
-		useInsertionEffect: Hs,
-		useLayoutEffect: Us,
-		useMemo: Js,
-		useReducer: ps,
-		useRef: Fs,
-		useState: function() {
-			return ps(us);
-		},
-		useDebugValue: Ks,
-		useDeferredValue: function(e, t) {
-			var n = as();
-			return W === null ? Ys(n, e, t) : Xs(n, W.memoizedState, e, t);
-		},
-		useTransition: function() {
-			var e = ps(us)[0], t = as().memoizedState;
-			return [typeof e == "boolean" ? e : ss(e), t];
-		},
-		useSyncExternalStore: ms,
-		useId: rc,
-		useHostTransitionStatus: nc,
-		useFormState: Ns,
-		useActionState: Ns,
-		useOptimistic: function(e, t) {
-			var n = as();
-			return W === null ? (n.baseState = e, [e, n.queue.dispatch]) : xs(n, W, e, t);
-		},
-		useMemoCache: ls,
-		useCacheRefresh: ic,
-		useEffectEvent: Vs
+		useMemoCache: cs,
+		useCacheRefresh: rc,
+		useEffectEvent: Bs
 	};
-	function _c(e, t, n, r) {
+	function gc(e, t, n, r) {
 		t = e.memoizedState, n = n(r, t), n = n == null ? t : D({}, t, n), e.memoizedState = n, e.lanes === 0 && (e.updateQueue.baseState = n);
 	}
-	var vc = {
+	var _c = {
 		enqueueSetState: function(e, t, n) {
 			e = e._reactInternals;
-			var r = jd(), i = ho(r);
-			i.payload = t, n != null && (i.callback = n), t = go(e, i, r), t !== null && (Pd(t, e, r), _o(t, e, r));
+			var r = jd(), i = mo(r);
+			i.payload = t, n != null && (i.callback = n), t = ho(e, i, r), t !== null && (Pd(t, e, r), go(t, e, r));
 		},
 		enqueueReplaceState: function(e, t, n) {
 			e = e._reactInternals;
-			var r = jd(), i = ho(r);
-			i.tag = 1, i.payload = t, n != null && (i.callback = n), t = go(e, i, r), t !== null && (Pd(t, e, r), _o(t, e, r));
+			var r = jd(), i = mo(r);
+			i.tag = 1, i.payload = t, n != null && (i.callback = n), t = ho(e, i, r), t !== null && (Pd(t, e, r), go(t, e, r));
 		},
 		enqueueForceUpdate: function(e, t) {
 			e = e._reactInternals;
-			var n = jd(), r = ho(n);
-			r.tag = 2, t != null && (r.callback = t), t = go(e, r, n), t !== null && (Pd(t, e, n), _o(t, e, n));
+			var n = jd(), r = mo(n);
+			r.tag = 2, t != null && (r.callback = t), t = ho(e, r, n), t !== null && (Pd(t, e, n), go(t, e, n));
 		}
 	};
-	function yc(e, t, n, r, i, a, o) {
-		return e = e.stateNode, typeof e.shouldComponentUpdate == "function" ? e.shouldComponentUpdate(r, a, o) : t.prototype && t.prototype.isPureReactComponent ? !Br(n, r) || !Br(i, a) : !0;
+	function vc(e, t, n, r, i, a, o) {
+		return e = e.stateNode, typeof e.shouldComponentUpdate == "function" ? e.shouldComponentUpdate(r, a, o) : t.prototype && t.prototype.isPureReactComponent ? !zr(n, r) || !zr(i, a) : !0;
 	}
-	function bc(e, t, n, r) {
-		e = t.state, typeof t.componentWillReceiveProps == "function" && t.componentWillReceiveProps(n, r), typeof t.UNSAFE_componentWillReceiveProps == "function" && t.UNSAFE_componentWillReceiveProps(n, r), t.state !== e && vc.enqueueReplaceState(t, t.state, null);
+	function yc(e, t, n, r) {
+		e = t.state, typeof t.componentWillReceiveProps == "function" && t.componentWillReceiveProps(n, r), typeof t.UNSAFE_componentWillReceiveProps == "function" && t.UNSAFE_componentWillReceiveProps(n, r), t.state !== e && _c.enqueueReplaceState(t, t.state, null);
 	}
-	function xc(e, t) {
+	function bc(e, t) {
 		var n = t;
 		if ("ref" in t) for (var r in n = {}, t) r !== "ref" && (n[r] = t[r]);
 		if (e = e.defaultProps) for (var i in n === t && (n = D({}, n)), e) n[i] === void 0 && (n[i] = e[i]);
 		return n;
 	}
-	function Sc(e) {
-		vi(e);
+	function xc(e) {
+		_i(e);
 	}
-	function Cc(e) {
+	function Sc(e) {
 		console.error(e);
 	}
-	function wc(e) {
-		vi(e);
+	function Cc(e) {
+		_i(e);
 	}
-	function Tc(e, t) {
+	function wc(e, t) {
 		try {
 			var n = e.onUncaughtError;
 			n(t.value, { componentStack: t.stack });
@@ -3919,7 +3919,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			});
 		}
 	}
-	function Ec(e, t, n) {
+	function Tc(e, t, n) {
 		try {
 			var r = e.onCaughtError;
 			r(n.value, {
@@ -3932,39 +3932,39 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			});
 		}
 	}
-	function Dc(e, t, n) {
-		return n = ho(n), n.tag = 3, n.payload = { element: null }, n.callback = function() {
-			Tc(e, t);
+	function Ec(e, t, n) {
+		return n = mo(n), n.tag = 3, n.payload = { element: null }, n.callback = function() {
+			wc(e, t);
 		}, n;
 	}
-	function Oc(e) {
-		return e = ho(e), e.tag = 3, e;
+	function Dc(e) {
+		return e = mo(e), e.tag = 3, e;
 	}
-	function kc(e, t, n, r) {
+	function Oc(e, t, n, r) {
 		var i = n.type.getDerivedStateFromError;
 		if (typeof i == "function") {
 			var a = r.value;
 			e.payload = function() {
 				return i(a);
 			}, e.callback = function() {
-				Ec(t, n, r);
+				Tc(t, n, r);
 			};
 		}
 		var o = n.stateNode;
 		o !== null && typeof o.componentDidCatch == "function" && (e.callback = function() {
-			Ec(t, n, r), typeof i != "function" && (vd === null ? vd = /* @__PURE__ */ new Set([this]) : vd.add(this));
+			Tc(t, n, r), typeof i != "function" && (vd === null ? vd = /* @__PURE__ */ new Set([this]) : vd.add(this));
 			var e = r.stack;
 			this.componentDidCatch(r.value, { componentStack: e === null ? "" : e });
 		});
 	}
-	function Ac(e, t, n, r, a) {
+	function kc(e, t, n, r, a) {
 		if (n.flags |= 32768, typeof r == "object" && r && typeof r.then == "function") {
-			if (t = n.alternate, t !== null && ba(t, n, a, !0), n = ko.current, n !== null) {
+			if (t = n.alternate, t !== null && ya(t, n, a, !0), n = Oo.current, n !== null) {
 				switch (n.tag) {
 					case 31:
 					case 13:
-					case 19: return Ao === null ? Kd() : n.alternate === null && ad === 0 && (ad = 3), n.flags &= -257, n.flags |= 65536, n.lanes = a, r === Xa ? n.flags |= 16384 : (t = n.updateQueue, t === null ? n.updateQueue = /* @__PURE__ */ new Set([r]) : t.add(r), mf(e, r, a)), !1;
-					case 22: return n.flags |= 65536, r === Xa ? n.flags |= 16384 : (t = n.updateQueue, t === null ? (t = {
+					case 19: return ko === null ? Kd() : n.alternate === null && ad === 0 && (ad = 3), n.flags &= -257, n.flags |= 65536, n.lanes = a, r === Ya ? n.flags |= 16384 : (t = n.updateQueue, t === null ? n.updateQueue = /* @__PURE__ */ new Set([r]) : t.add(r), mf(e, r, a)), !1;
+					case 22: return n.flags |= 65536, r === Ya ? n.flags |= 16384 : (t = n.updateQueue, t === null ? (t = {
 						transitions: null,
 						markerInstances: null,
 						retryQueue: /* @__PURE__ */ new Set([r])
@@ -3974,15 +3974,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			return mf(e, r, a), Kd(), !1;
 		}
-		if (H) return t = ko.current, t === null ? (r !== aa && (t = Error(i(423), { cause: r }), fa(Bi(t, n))), e = e.current.alternate, e.flags |= 65536, a &= -a, e.lanes |= a, r = Bi(r, n), a = Dc(e.stateNode, r, a), vo(e, a), ad !== 4 && (ad = 2)) : (!(t.flags & 65536) && (t.flags |= 256), t.flags |= 65536, t.lanes = a, r !== aa && (e = Error(i(422), { cause: r }), fa(Bi(e, n)))), !1;
+		if (U) return t = Oo.current, t === null ? (r !== ia && (t = Error(i(423), { cause: r }), da(zi(t, n))), e = e.current.alternate, e.flags |= 65536, a &= -a, e.lanes |= a, r = zi(r, n), a = Ec(e.stateNode, r, a), _o(e, a), ad !== 4 && (ad = 2)) : (!(t.flags & 65536) && (t.flags |= 256), t.flags |= 65536, t.lanes = a, r !== ia && (e = Error(i(422), { cause: r }), da(zi(e, n)))), !1;
 		var o = Error(i(520), { cause: r });
-		if (o = Bi(o, n), dd === null ? dd = [o] : dd.push(o), ad !== 4 && (ad = 2), t === null) return !0;
-		r = Bi(r, n), n = t;
+		if (o = zi(o, n), dd === null ? dd = [o] : dd.push(o), ad !== 4 && (ad = 2), t === null) return !0;
+		r = zi(r, n), n = t;
 		do {
 			switch (n.tag) {
-				case 3: return n.flags |= 65536, e = a & -a, n.lanes |= e, e = Dc(n.stateNode, r, e), vo(n, e), !1;
+				case 3: return n.flags |= 65536, e = a & -a, n.lanes |= e, e = Ec(n.stateNode, r, e), _o(n, e), !1;
 				case 1:
-					if (t = n.type, o = n.stateNode, !(n.flags & 128) && (typeof t.getDerivedStateFromError == "function" || o !== null && typeof o.componentDidCatch == "function" && (vd === null || !vd.has(o)))) return n.flags |= 65536, a &= -a, n.lanes |= a, a = Oc(a), kc(a, e, n, r), vo(n, a), !1;
+					if (t = n.type, o = n.stateNode, !(n.flags & 128) && (typeof t.getDerivedStateFromError == "function" || o !== null && typeof o.componentDidCatch == "function" && (vd === null || !vd.has(o)))) return n.flags |= 65536, a &= -a, n.lanes |= a, a = Dc(a), Oc(a, e, n, r), _o(n, a), !1;
 					break;
 				case 22: if (n.memoizedState !== null) return n.flags |= 65536, !1;
 			}
@@ -3990,41 +3990,41 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		} while (n !== null);
 		return !1;
 	}
-	var jc = Error(i(461)), Mc = !1;
-	function Nc(e, t, n, r) {
-		t.child = e === null ? uo(t, null, n, r) : lo(t, e.child, n, r);
+	var Ac = Error(i(461)), jc = !1;
+	function Mc(e, t, n, r) {
+		t.child = e === null ? lo(t, null, n, r) : co(t, e.child, n, r);
 	}
-	function Pc(e, t, n, r, i) {
+	function Nc(e, t, n, r, i) {
 		n = n.render;
 		var a = t.ref;
 		if ("ref" in r) {
 			var o = {};
 			for (var s in r) s !== "ref" && (o[s] = r[s]);
 		} else o = r;
-		return Sa(t), r = Zo(e, t, n, o, a, i), s = ts(), e !== null && !Mc ? (ns(e, t, i), cl(e, t, i)) : (H && s && Qi(t), t.flags |= 1, Nc(e, t, r, i), t.child);
+		return xa(t), r = Xo(e, t, n, o, a, i), s = es(), e !== null && !jc ? (ts(e, t, i), sl(e, t, i)) : (U && s && Zi(t), t.flags |= 1, Mc(e, t, r, i), t.child);
 	}
-	function Fc(e, t, n, r, i) {
+	function Pc(e, t, n, r, i) {
 		if (e === null) {
 			var a = n.type;
-			return typeof a == "function" && !ji(a) && a.defaultProps === void 0 && n.compare === null ? (t.tag = 15, t.type = a, Ic(e, t, a, r, i)) : (e = Pi(n.type, null, r, t, t.mode, i), e.ref = t.ref, e.return = t, t.child = e);
+			return typeof a == "function" && !Ai(a) && a.defaultProps === void 0 && n.compare === null ? (t.tag = 15, t.type = a, Fc(e, t, a, r, i)) : (e = Ni(n.type, null, r, t, t.mode, i), e.ref = t.ref, e.return = t, t.child = e);
 		}
-		if (a = e.child, !ll(e, i)) {
+		if (a = e.child, !cl(e, i)) {
 			var o = a.memoizedProps;
-			if (n = n.compare, n = n === null ? Br : n, n(o, r) && e.ref === t.ref) return cl(e, t, i);
+			if (n = n.compare, n = n === null ? zr : n, n(o, r) && e.ref === t.ref) return sl(e, t, i);
 		}
-		return t.flags |= 1, e = Mi(a, r), e.ref = t.ref, e.return = t, t.child = e;
+		return t.flags |= 1, e = ji(a, r), e.ref = t.ref, e.return = t, t.child = e;
 	}
-	function Ic(e, t, n, r, i) {
+	function Fc(e, t, n, r, i) {
 		if (e !== null) {
 			var a = e.memoizedProps;
-			if (Br(a, r) && e.ref === t.ref) {
-				if (Mc = !1, t.pendingProps = r = a, ll(e, i)) e.flags & 131072 && (Mc = !0);
-				else return t.lanes = e.lanes, cl(e, t, i);
+			if (zr(a, r) && e.ref === t.ref) {
+				if (jc = !1, t.pendingProps = r = a, cl(e, i)) e.flags & 131072 && (jc = !0);
+				else return t.lanes = e.lanes, sl(e, t, i);
 			}
 		}
-		return Wc(e, t, n, r, i);
+		return Uc(e, t, n, r, i);
 	}
-	function Lc(e, t, n, r) {
+	function Ic(e, t, n, r) {
 		var i = r.children, a = e === null ? null : e.memoizedState;
 		if (e === null && t.stateNode === null && (t.stateNode = {
 			_visibility: 1,
@@ -4037,17 +4037,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					for (r = t.child = e.child, i = 0; r !== null;) i = i | r.lanes | r.childLanes, r = r.sibling;
 					r = i & ~a;
 				} else r = 0, t.child = null;
-				return zc(e, t, a, n, r);
+				return Rc(e, t, a, n, r);
 			}
 			if (n & 536870912) t.memoizedState = {
 				baseLanes: 0,
 				cachePool: null
-			}, e !== null && Ga(t, a === null ? null : a.cachePool), a === null ? Do() : Eo(t, a), No(t);
-			else return r = t.lanes = 536870912, zc(e, t, a === null ? n : a.baseLanes | n, n, r);
-		} else a === null ? (e !== null && Ga(t, null), Do(), Po()) : (Ga(t, a.cachePool), Eo(t, a), Po(), t.memoizedState = null);
-		return Nc(e, t, i, n), t.child;
+			}, e !== null && Wa(t, a === null ? null : a.cachePool), a === null ? Eo() : To(t, a), Mo(t);
+			else return r = t.lanes = 536870912, Rc(e, t, a === null ? n : a.baseLanes | n, n, r);
+		} else a === null ? (e !== null && Wa(t, null), Eo(), No()) : (Wa(t, a.cachePool), To(t, a), No(), t.memoizedState = null);
+		return Mc(e, t, i, n), t.child;
 	}
-	function Rc(e, t) {
+	function Lc(e, t) {
 		return e !== null && e.tag === 22 || t.stateNode !== null || (t.stateNode = {
 			_visibility: 1,
 			_pendingMarkers: null,
@@ -4055,68 +4055,68 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			_transitions: null
 		}), t.sibling;
 	}
-	function zc(e, t, n, r, i) {
-		var a = Wa();
+	function Rc(e, t, n, r, i) {
+		var a = Ua();
 		return a = a === null ? null : {
-			parent: ka._currentValue,
+			parent: Oa._currentValue,
 			pool: a
 		}, t.memoizedState = {
 			baseLanes: n,
 			cachePool: a
-		}, e !== null && Ga(t, null), Do(), No(t), e !== null && ba(e, t, r, !0), t.childLanes = i, null;
+		}, e !== null && Wa(t, null), Eo(), Mo(t), e !== null && ya(e, t, r, !0), t.childLanes = i, null;
 	}
-	function Bc(e, t) {
-		return t = $c({
+	function zc(e, t) {
+		return t = Qc({
 			mode: t.mode,
 			children: t.children
 		}, e.mode), t.ref = e.ref, e.child = t, t.return = e, t;
 	}
-	function Vc(e, t, n) {
-		return lo(t, e.child, null, n), e = Bc(t, t.pendingProps), e.flags |= 2, Fo(t), t.memoizedState = null, e;
+	function Bc(e, t, n) {
+		return co(t, e.child, null, n), e = zc(t, t.pendingProps), e.flags |= 2, Po(t), t.memoizedState = null, e;
 	}
-	function Hc(e, t, n) {
+	function Vc(e, t, n) {
 		var r = t.pendingProps, a = !!(t.flags & 128);
 		if (t.flags &= -129, e === null) {
-			if (H) {
-				if (r.mode === "hidden") return e = Bc(t, r), t.lanes = 536870912, e.memoizedState = {
+			if (U) {
+				if (r.mode === "hidden") return e = zc(t, r), t.lanes = 536870912, e.memoizedState = {
 					baseLanes: 0,
 					cachePool: null
-				}, Rc(null, e);
-				if (Mo(t), (e = na) ? (e = am(e, ia), e = e !== null && e.data === "&" ? e : null, e !== null && (t.memoizedState = {
+				}, Lc(null, e);
+				if (jo(t), (e = ta) ? (e = am(e, ra), e = e !== null && e.data === "&" ? e : null, e !== null && (t.memoizedState = {
 					dehydrated: e,
-					treeContext: qi === null ? null : {
-						id: Ji,
-						overflow: Yi
+					treeContext: Ki === null ? null : {
+						id: qi,
+						overflow: Ji
 					},
 					retryLane: 536870912,
 					hydrationErrors: null
-				}, n = Li(e), n.return = t, t.child = n, ta = t, na = null)) : e = null, e === null) throw oa(t);
+				}, n = Ii(e), n.return = t, t.child = n, ea = t, ta = null)) : e = null, e === null) throw aa(t);
 				return t.lanes = 536870912, null;
 			}
-			return Bc(t, r);
+			return zc(t, r);
 		}
 		var o = e.memoizedState;
 		if (o !== null) {
 			var s = o.dehydrated;
-			if (Mo(t), a) {
-				if (t.flags & 256) t.flags &= -257, t = Vc(e, t, n);
+			if (jo(t), a) {
+				if (t.flags & 256) t.flags &= -257, t = Bc(e, t, n);
 				else if (t.memoizedState !== null) t.child = e.child, t.flags |= 128, t = null;
 				else throw Error(i(558));
-			} else if (Mc || ba(e, t, n, !1), a = (n & e.childLanes) !== 0, Mc || a) {
-				if (wo.current === null) {
-					if (r = q, r !== null && (s = gt(r, n), s !== 0 && s !== o.retryLane)) throw o.retryLane = s, Ti(e, s), Pd(r, e, s), jc;
+			} else if (jc || ya(e, t, n, !1), a = (n & e.childLanes) !== 0, jc || a) {
+				if (Co.current === null) {
+					if (r = $u, r !== null && (s = ht(r, n), s !== 0 && s !== o.retryLane)) throw o.retryLane = s, wi(e, s), Pd(r, e, s), Ac;
 					Kd();
 				}
-				t = Vc(e, t, n);
-			} else e = o.treeContext, na = lm(s.nextSibling), ta = t, H = !0, ra = null, ia = !1, e !== null && ea(t, e), t = Bc(t, r), t.flags |= 134221824;
+				t = Bc(e, t, n);
+			} else e = o.treeContext, ta = lm(s.nextSibling), ea = t, U = !0, na = null, ra = !1, e !== null && $i(t, e), t = zc(t, r), t.flags |= 134221824;
 			return t;
 		}
-		return e = Mi(e.child, {
+		return e = ji(e.child, {
 			mode: r.mode,
 			children: r.children
 		}), e.ref = t.ref, t.child = e, e.return = t, e;
 	}
-	function Uc(e, t) {
+	function Hc(e, t) {
 		var n = t.ref;
 		if (n === null) e !== null && e.ref !== null && (t.flags |= 4194816);
 		else {
@@ -4124,135 +4124,135 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			(e === null || e.ref !== n) && (t.flags |= 4194816);
 		}
 	}
-	function Wc(e, t, n, r, i) {
-		return Sa(t), n = Zo(e, t, n, r, void 0, i), r = ts(), e !== null && !Mc ? (ns(e, t, i), cl(e, t, i)) : (H && r && Qi(t), t.flags |= 1, Nc(e, t, n, i), t.child);
+	function Uc(e, t, n, r, i) {
+		return xa(t), n = Xo(e, t, n, r, void 0, i), r = es(), e !== null && !jc ? (ts(e, t, i), sl(e, t, i)) : (U && r && Zi(t), t.flags |= 1, Mc(e, t, n, i), t.child);
 	}
-	function Gc(e, t, n, r, i, a) {
-		return Sa(t), t.updateQueue = null, n = $o(t, r, n, i), Qo(e), r = ts(), e !== null && !Mc ? (ns(e, t, a), cl(e, t, a)) : (H && r && Qi(t), t.flags |= 1, Nc(e, t, n, a), t.child);
+	function Wc(e, t, n, r, i, a) {
+		return xa(t), t.updateQueue = null, n = Qo(t, r, n, i), Zo(e), r = es(), e !== null && !jc ? (ts(e, t, a), sl(e, t, a)) : (U && r && Zi(t), t.flags |= 1, Mc(e, t, n, a), t.child);
 	}
-	function Kc(e, t, n, r, i) {
-		if (Sa(t), t.stateNode === null) {
-			var a = Oi, o = n.contextType;
-			typeof o == "object" && o && (a = Ca(o)), a = new n(r, a), t.memoizedState = a.state !== null && a.state !== void 0 ? a.state : null, a.updater = vc, t.stateNode = a, a._reactInternals = t, a = t.stateNode, a.props = r, a.state = t.memoizedState, a.refs = {}, po(t), o = n.contextType, a.context = typeof o == "object" && o ? Ca(o) : Oi, a.state = t.memoizedState, o = n.getDerivedStateFromProps, typeof o == "function" && (_c(t, n, o, r), a.state = t.memoizedState), typeof n.getDerivedStateFromProps == "function" || typeof a.getSnapshotBeforeUpdate == "function" || typeof a.UNSAFE_componentWillMount != "function" && typeof a.componentWillMount != "function" || (o = a.state, typeof a.componentWillMount == "function" && a.componentWillMount(), typeof a.UNSAFE_componentWillMount == "function" && a.UNSAFE_componentWillMount(), o !== a.state && vc.enqueueReplaceState(a, a.state, null), xo(t, r, a, i), bo(), a.state = t.memoizedState), typeof a.componentDidMount == "function" && (t.flags |= 4194308), r = !0;
+	function Gc(e, t, n, r, i) {
+		if (xa(t), t.stateNode === null) {
+			var a = Di, o = n.contextType;
+			typeof o == "object" && o && (a = Sa(o)), a = new n(r, a), t.memoizedState = a.state !== null && a.state !== void 0 ? a.state : null, a.updater = _c, t.stateNode = a, a._reactInternals = t, a = t.stateNode, a.props = r, a.state = t.memoizedState, a.refs = {}, fo(t), o = n.contextType, a.context = typeof o == "object" && o ? Sa(o) : Di, a.state = t.memoizedState, o = n.getDerivedStateFromProps, typeof o == "function" && (gc(t, n, o, r), a.state = t.memoizedState), typeof n.getDerivedStateFromProps == "function" || typeof a.getSnapshotBeforeUpdate == "function" || typeof a.UNSAFE_componentWillMount != "function" && typeof a.componentWillMount != "function" || (o = a.state, typeof a.componentWillMount == "function" && a.componentWillMount(), typeof a.UNSAFE_componentWillMount == "function" && a.UNSAFE_componentWillMount(), o !== a.state && _c.enqueueReplaceState(a, a.state, null), bo(t, r, a, i), yo(), a.state = t.memoizedState), typeof a.componentDidMount == "function" && (t.flags |= 4194308), r = !0;
 		} else if (e === null) {
 			a = t.stateNode;
-			var s = t.memoizedProps, c = xc(n, s);
+			var s = t.memoizedProps, c = bc(n, s);
 			a.props = c;
 			var l = a.context, u = n.contextType;
-			o = Oi, typeof u == "object" && u && (o = Ca(u));
+			o = Di, typeof u == "object" && u && (o = Sa(u));
 			var d = n.getDerivedStateFromProps;
-			u = typeof d == "function" || typeof a.getSnapshotBeforeUpdate == "function", s = t.pendingProps !== s, u || typeof a.UNSAFE_componentWillReceiveProps != "function" && typeof a.componentWillReceiveProps != "function" || (s || l !== o) && bc(t, a, r, o), fo = !1;
+			u = typeof d == "function" || typeof a.getSnapshotBeforeUpdate == "function", s = t.pendingProps !== s, u || typeof a.UNSAFE_componentWillReceiveProps != "function" && typeof a.componentWillReceiveProps != "function" || (s || l !== o) && yc(t, a, r, o), uo = !1;
 			var f = t.memoizedState;
-			a.state = f, xo(t, r, a, i), bo(), l = t.memoizedState, s || f !== l || fo ? (typeof d == "function" && (_c(t, n, d, r), l = t.memoizedState), (c = fo || yc(t, n, c, r, f, l, o)) ? (u || typeof a.UNSAFE_componentWillMount != "function" && typeof a.componentWillMount != "function" || (typeof a.componentWillMount == "function" && a.componentWillMount(), typeof a.UNSAFE_componentWillMount == "function" && a.UNSAFE_componentWillMount()), typeof a.componentDidMount == "function" && (t.flags |= 4194308)) : (typeof a.componentDidMount == "function" && (t.flags |= 4194308), t.memoizedProps = r, t.memoizedState = l), a.props = r, a.state = l, a.context = o, r = c) : (typeof a.componentDidMount == "function" && (t.flags |= 4194308), r = !1);
+			a.state = f, bo(t, r, a, i), yo(), l = t.memoizedState, s || f !== l || uo ? (typeof d == "function" && (gc(t, n, d, r), l = t.memoizedState), (c = uo || vc(t, n, c, r, f, l, o)) ? (u || typeof a.UNSAFE_componentWillMount != "function" && typeof a.componentWillMount != "function" || (typeof a.componentWillMount == "function" && a.componentWillMount(), typeof a.UNSAFE_componentWillMount == "function" && a.UNSAFE_componentWillMount()), typeof a.componentDidMount == "function" && (t.flags |= 4194308)) : (typeof a.componentDidMount == "function" && (t.flags |= 4194308), t.memoizedProps = r, t.memoizedState = l), a.props = r, a.state = l, a.context = o, r = c) : (typeof a.componentDidMount == "function" && (t.flags |= 4194308), r = !1);
 		} else {
-			a = t.stateNode, mo(e, t), o = t.memoizedProps, u = xc(n, o), a.props = u, d = t.pendingProps, f = a.context, l = n.contextType, c = Oi, typeof l == "object" && l && (c = Ca(l)), s = n.getDerivedStateFromProps, (l = typeof s == "function" || typeof a.getSnapshotBeforeUpdate == "function") || typeof a.UNSAFE_componentWillReceiveProps != "function" && typeof a.componentWillReceiveProps != "function" || (o !== d || f !== c) && bc(t, a, r, c), fo = !1, f = t.memoizedState, a.state = f, xo(t, r, a, i), bo();
+			a = t.stateNode, po(e, t), o = t.memoizedProps, u = bc(n, o), a.props = u, d = t.pendingProps, f = a.context, l = n.contextType, c = Di, typeof l == "object" && l && (c = Sa(l)), s = n.getDerivedStateFromProps, (l = typeof s == "function" || typeof a.getSnapshotBeforeUpdate == "function") || typeof a.UNSAFE_componentWillReceiveProps != "function" && typeof a.componentWillReceiveProps != "function" || (o !== d || f !== c) && yc(t, a, r, c), uo = !1, f = t.memoizedState, a.state = f, bo(t, r, a, i), yo();
 			var p = t.memoizedState;
-			o !== d || f !== p || fo || e !== null && e.dependencies !== null && xa(e.dependencies) ? (typeof s == "function" && (_c(t, n, s, r), p = t.memoizedState), (u = fo || yc(t, n, u, r, f, p, c) || e !== null && e.dependencies !== null && xa(e.dependencies)) ? (l || typeof a.UNSAFE_componentWillUpdate != "function" && typeof a.componentWillUpdate != "function" || (typeof a.componentWillUpdate == "function" && a.componentWillUpdate(r, p, c), typeof a.UNSAFE_componentWillUpdate == "function" && a.UNSAFE_componentWillUpdate(r, p, c)), typeof a.componentDidUpdate == "function" && (t.flags |= 4), typeof a.getSnapshotBeforeUpdate == "function" && (t.flags |= 1024)) : (typeof a.componentDidUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 4), typeof a.getSnapshotBeforeUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 1024), t.memoizedProps = r, t.memoizedState = p), a.props = r, a.state = p, a.context = c, r = u) : (typeof a.componentDidUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 4), typeof a.getSnapshotBeforeUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 1024), r = !1);
+			o !== d || f !== p || uo || e !== null && e.dependencies !== null && ba(e.dependencies) ? (typeof s == "function" && (gc(t, n, s, r), p = t.memoizedState), (u = uo || vc(t, n, u, r, f, p, c) || e !== null && e.dependencies !== null && ba(e.dependencies)) ? (l || typeof a.UNSAFE_componentWillUpdate != "function" && typeof a.componentWillUpdate != "function" || (typeof a.componentWillUpdate == "function" && a.componentWillUpdate(r, p, c), typeof a.UNSAFE_componentWillUpdate == "function" && a.UNSAFE_componentWillUpdate(r, p, c)), typeof a.componentDidUpdate == "function" && (t.flags |= 4), typeof a.getSnapshotBeforeUpdate == "function" && (t.flags |= 1024)) : (typeof a.componentDidUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 4), typeof a.getSnapshotBeforeUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 1024), t.memoizedProps = r, t.memoizedState = p), a.props = r, a.state = p, a.context = c, r = u) : (typeof a.componentDidUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 4), typeof a.getSnapshotBeforeUpdate != "function" || o === e.memoizedProps && f === e.memoizedState || (t.flags |= 1024), r = !1);
 		}
-		return a = r, Uc(e, t), r = !!(t.flags & 128), a || r ? (a = t.stateNode, n = r && typeof n.getDerivedStateFromError != "function" ? null : a.render(), t.flags |= 1, e !== null && r ? (t.child = lo(t, e.child, null, i), t.child = lo(t, null, n, i)) : Nc(e, t, n, i), t.memoizedState = a.state, e = t.child) : e = cl(e, t, i), e;
+		return a = r, Hc(e, t), r = !!(t.flags & 128), a || r ? (a = t.stateNode, n = r && typeof n.getDerivedStateFromError != "function" ? null : a.render(), t.flags |= 1, e !== null && r ? (t.child = co(t, e.child, null, i), t.child = co(t, null, n, i)) : Mc(e, t, n, i), t.memoizedState = a.state, e = t.child) : e = sl(e, t, i), e;
 	}
-	function qc(e, t, n, r) {
-		return ua(), t.flags |= 256, Nc(e, t, n, r), t.child;
+	function Kc(e, t, n, r) {
+		return la(), t.flags |= 256, Mc(e, t, n, r), t.child;
 	}
-	var Jc = {
+	var qc = {
 		dehydrated: null,
 		treeContext: null,
 		retryLane: 0,
 		hydrationErrors: null
 	};
-	function Yc(e) {
+	function Jc(e) {
 		return {
 			baseLanes: e,
-			cachePool: Ka()
+			cachePool: Ga()
 		};
 	}
-	function Xc(e, t, n) {
+	function Yc(e, t, n) {
 		return e = e === null ? 0 : e.childLanes & ~n, t && (e |= ld), e;
 	}
-	function Zc(e, t, n) {
+	function Xc(e, t, n) {
 		var r = t.pendingProps, i = !1, a = !!(t.flags & 128), o;
-		if ((o = a) || (o = e !== null && e.memoizedState === null ? !1 : !!(Io.current & 2)), o && (i = !0, t.flags &= -129), o = !!(t.flags & 32), t.flags &= -33, e === null) {
-			if (H) {
-				if (i ? jo(t) : Po(), (e = na) ? (e = am(e, ia), e = e !== null && e.data !== "&" ? e : null, e !== null && (t.memoizedState = {
+		if ((o = a) || (o = e !== null && e.memoizedState === null ? !1 : !!(Fo.current & 2)), o && (i = !0, t.flags &= -129), o = !!(t.flags & 32), t.flags &= -33, e === null) {
+			if (U) {
+				if (i ? Ao(t) : No(), (e = ta) ? (e = am(e, ra), e = e !== null && e.data !== "&" ? e : null, e !== null && (t.memoizedState = {
 					dehydrated: e,
-					treeContext: qi === null ? null : {
-						id: Ji,
-						overflow: Yi
+					treeContext: Ki === null ? null : {
+						id: qi,
+						overflow: Ji
 					},
 					retryLane: 536870912,
 					hydrationErrors: null
-				}, n = Li(e), n.return = t, t.child = n, ta = t, na = null)) : e = null, e === null) throw oa(t);
+				}, n = Ii(e), n.return = t, t.child = n, ea = t, ta = null)) : e = null, e === null) throw aa(t);
 				return t.lanes = sm(e) ? 32 : 536870912, null;
 			}
-			return a = r.children, r = r.fallback, i ? (Po(), i = t.mode, a = $c({
+			return a = r.children, r = r.fallback, i ? (No(), i = t.mode, a = Qc({
 				mode: "hidden",
 				children: a
-			}, i), r = Fi(r, i, n, null), a.return = t, r.return = t, a.sibling = r, t.child = a, r = t.child, r.memoizedState = Yc(n), r.childLanes = Xc(e, o, n), t.memoizedState = Jc, Rc(null, r)) : (jo(t), Qc(t, a));
+			}, i), r = Pi(r, i, n, null), a.return = t, r.return = t, a.sibling = r, t.child = a, r = t.child, r.memoizedState = Jc(n), r.childLanes = Yc(e, o, n), t.memoizedState = qc, Lc(null, r)) : (Ao(t), Zc(t, a));
 		}
 		var s = e.memoizedState;
 		if (s !== null) {
 			var c = s.dehydrated;
-			if (c !== null) return tl(e, t, a, o, r, c, s, n);
+			if (c !== null) return el(e, t, a, o, r, c, s, n);
 		}
-		return i ? (Po(), i = r.fallback, a = t.mode, s = e.child, c = s.sibling, r = Mi(s, {
+		return i ? (No(), i = r.fallback, a = t.mode, s = e.child, c = s.sibling, r = ji(s, {
 			mode: "hidden",
 			children: r.children
-		}), r.subtreeFlags = s.subtreeFlags & 1206910976, c === null ? (i = Fi(i, a, n, null), i.flags |= 2) : i = Mi(c, i), i.return = t, r.return = t, r.sibling = i, t.child = r, Rc(null, r), r = t.child, i = e.child.memoizedState, i === null ? i = Yc(n) : (a = i.cachePool, a === null ? a = Ka() : (s = ka._currentValue, a = a.parent === s ? a : {
+		}), r.subtreeFlags = s.subtreeFlags & 1206910976, c === null ? (i = Pi(i, a, n, null), i.flags |= 2) : i = ji(c, i), i.return = t, r.return = t, r.sibling = i, t.child = r, Lc(null, r), r = t.child, i = e.child.memoizedState, i === null ? i = Jc(n) : (a = i.cachePool, a === null ? a = Ga() : (s = Oa._currentValue, a = a.parent === s ? a : {
 			parent: s,
 			pool: s
 		}), i = {
 			baseLanes: i.baseLanes | n,
 			cachePool: a
-		}), r.memoizedState = i, r.childLanes = Xc(e, o, n), t.memoizedState = Jc, Rc(e.child, r)) : (jo(t), n = e.child, e = n.sibling, n = Mi(n, {
+		}), r.memoizedState = i, r.childLanes = Yc(e, o, n), t.memoizedState = qc, Lc(e.child, r)) : (Ao(t), n = e.child, e = n.sibling, n = ji(n, {
 			mode: "visible",
 			children: r.children
 		}), n.return = t, n.sibling = null, e !== null && (o = t.deletions, o === null ? (t.deletions = [e], t.flags |= 16) : o.push(e)), t.child = n, t.memoizedState = null, n);
 	}
-	function Qc(e, t) {
-		return t = $c({
+	function Zc(e, t) {
+		return t = Qc({
 			mode: "visible",
 			children: t
 		}, e.mode), t.return = e, e.child = t;
 	}
-	function $c(e, t) {
-		return e = Ai(22, e, null, t), e.lanes = 0, e;
+	function Qc(e, t) {
+		return e = ki(22, e, null, t), e.lanes = 0, e;
 	}
-	function el(e, t, n) {
-		return lo(t, e.child, null, n), e = Qc(t, t.pendingProps.children), e.flags |= 2, t.memoizedState = null, e;
+	function $c(e, t, n) {
+		return co(t, e.child, null, n), e = Zc(t, t.pendingProps.children), e.flags |= 2, t.memoizedState = null, e;
 	}
-	function tl(e, t, n, r, a, o, s, c) {
-		if (n) return t.flags & 256 ? (jo(t), t.flags &= -257, el(e, t, c)) : t.memoizedState === null ? (Po(), o = a.fallback, s = t.mode, a = $c({
+	function el(e, t, n, r, a, o, s, c) {
+		if (n) return t.flags & 256 ? (Ao(t), t.flags &= -257, $c(e, t, c)) : t.memoizedState === null ? (No(), o = a.fallback, s = t.mode, a = Qc({
 			mode: "visible",
 			children: a.children
-		}, s), o = Fi(o, s, c, null), o.flags |= 2, a.return = t, o.return = t, a.sibling = o, t.child = a, lo(t, e.child, null, c), a = t.child, a.memoizedState = Yc(c), a.childLanes = Xc(e, r, c), t.memoizedState = Jc, Rc(null, a)) : (Po(), t.child = e.child, t.flags |= 128, null);
-		if (jo(t), sm(o)) {
+		}, s), o = Pi(o, s, c, null), o.flags |= 2, a.return = t, o.return = t, a.sibling = o, t.child = a, co(t, e.child, null, c), a = t.child, a.memoizedState = Jc(c), a.childLanes = Yc(e, r, c), t.memoizedState = qc, Lc(null, a)) : (No(), t.child = e.child, t.flags |= 128, null);
+		if (Ao(t), sm(o)) {
 			if (r = o.nextSibling && o.nextSibling.dataset, r) var l = r.dgst;
-			return r = l, r !== "" && (a = Error(i(419)), a.stack = "", a.digest = r, fa({
+			return r = l, r !== "" && (a = Error(i(419)), a.stack = "", a.digest = r, da({
 				value: a,
 				source: null,
 				stack: null
-			})), el(e, t, c);
+			})), $c(e, t, c);
 		}
-		if (Mc || ba(e, t, c, !1), r = (c & e.childLanes) !== 0, Mc || r) {
-			if (wo.current !== null) return el(e, t, c);
-			if (r = q, r !== null && (a = gt(r, c), a !== 0 && a !== s.retryLane)) throw s.retryLane = a, Ti(e, a), Pd(r, e, a), jc;
-			return om(o) || Kd(), el(e, t, c);
+		if (jc || ya(e, t, c, !1), r = (c & e.childLanes) !== 0, jc || r) {
+			if (Co.current !== null) return $c(e, t, c);
+			if (r = $u, r !== null && (a = ht(r, c), a !== 0 && a !== s.retryLane)) throw s.retryLane = a, wi(e, a), Pd(r, e, a), Ac;
+			return om(o) || Kd(), $c(e, t, c);
 		}
-		return om(o) ? (t.flags |= 192, t.child = e.child, null) : (e = s.treeContext, na = lm(o.nextSibling), ta = t, H = !0, ra = null, ia = !1, e !== null && ea(t, e), t = Qc(t, a.children), t.flags |= 134221824, t);
+		return om(o) ? (t.flags |= 192, t.child = e.child, null) : (e = s.treeContext, ta = lm(o.nextSibling), ea = t, U = !0, na = null, ra = !1, e !== null && $i(t, e), t = Zc(t, a.children), t.flags |= 134221824, t);
 	}
-	function nl(e, t, n) {
+	function tl(e, t, n) {
 		e.lanes |= t;
 		var r = e.alternate;
-		r !== null && (r.lanes |= t), va(e.return, t, n);
+		r !== null && (r.lanes |= t), _a(e.return, t, n);
 	}
-	function rl(e) {
+	function nl(e) {
 		for (var t = null; e !== null;) {
 			var n = e.alternate;
-			n !== null && zo(n) === null && (t = e), e = e.sibling;
+			n !== null && Ro(n) === null && (t = e), e = e.sibling;
 		}
 		return t;
 	}
-	function il(e, t, n, r, i, a) {
+	function rl(e, t, n, r, i, a) {
 		var o = e.memoizedState;
 		o === null ? e.memoizedState = {
 			isBackwards: t,
@@ -4264,22 +4264,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			treeForkCount: a
 		} : (o.isBackwards = t, o.rendering = null, o.renderingStartTime = 0, o.last = r, o.tail = n, o.tailMode = i, o.treeForkCount = a);
 	}
-	function al(e) {
+	function il(e) {
 		var t = e.child;
 		for (e.child = null; t !== null;) {
 			var n = t.sibling;
 			t.sibling = e.child, e.child = t, t = n;
 		}
 	}
-	function ol(e, t, n) {
+	function al(e, t, n) {
 		var r = t.pendingProps, i = r.revealOrder, a = r.tail;
 		r = r.children;
-		var o = Io.current;
-		if (t.flags & 128) return Lo(t, o), null;
+		var o = Fo.current;
+		if (t.flags & 128) return Io(t, o), null;
 		var s = !!(o & 2);
-		if (s ? (o = o & 1 | 2, t.flags |= 128) : o &= 1, Lo(t, o), i === "backwards" && e !== null ? (al(e), Nc(e, t, r, n), al(e)) : Nc(e, t, r, n), r = H ? Wi : 0, !s && e !== null && e.flags & 128) a: for (e = t.child; e !== null;) {
-			if (e.tag === 13) e.memoizedState !== null && nl(e, n, t);
-			else if (e.tag === 19) nl(e, n, t);
+		if (s ? (o = o & 1 | 2, t.flags |= 128) : o &= 1, Io(t, o), i === "backwards" && e !== null ? (il(e), Mc(e, t, r, n), il(e)) : Mc(e, t, r, n), r = U ? Ui : 0, !s && e !== null && e.flags & 128) a: for (e = t.child; e !== null;) {
+			if (e.tag === 13) e.memoizedState !== null && tl(e, n, t);
+			else if (e.tag === 19) tl(e, n, t);
 			else if (e.child !== null) {
 				e.child.return = e, e = e.child;
 				continue;
@@ -4293,52 +4293,52 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		switch (i) {
 			case "backwards":
-				n = rl(t.child), n === null ? (i = t.child, t.child = null) : (i = n.sibling, n.sibling = null, al(t)), il(t, !0, i, null, a, r);
+				n = nl(t.child), n === null ? (i = t.child, t.child = null) : (i = n.sibling, n.sibling = null, il(t)), rl(t, !0, i, null, a, r);
 				break;
 			case "unstable_legacy-backwards":
 				for (n = null, i = t.child, t.child = null; i !== null;) {
-					if (e = i.alternate, e !== null && zo(e) === null) {
+					if (e = i.alternate, e !== null && Ro(e) === null) {
 						t.child = i;
 						break;
 					}
 					e = i.sibling, i.sibling = n, n = i, i = e;
 				}
-				il(t, !0, n, null, a, r);
+				rl(t, !0, n, null, a, r);
 				break;
 			case "together":
-				il(t, !1, null, null, void 0, r);
+				rl(t, !1, null, null, void 0, r);
 				break;
 			case "independent":
 				t.memoizedState = null;
 				break;
-			default: n = rl(t.child), n === null ? (i = t.child, t.child = null) : (i = n.sibling, n.sibling = null), il(t, !1, i, n, a, r);
+			default: n = nl(t.child), n === null ? (i = t.child, t.child = null) : (i = n.sibling, n.sibling = null), rl(t, !1, i, n, a, r);
 		}
 		return t.child;
 	}
-	function sl(e, t, n) {
+	function ol(e, t, n) {
 		var r = t.pendingProps;
-		return ga(t, t.type, r.value), Nc(e, t, r.children, n), t.child;
+		return ha(t, t.type, r.value), Mc(e, t, r.children, n), t.child;
 	}
-	function cl(e, t, n) {
+	function sl(e, t, n) {
 		if (e !== null && (t.dependencies = e.dependencies), od |= t.lanes, (n & t.childLanes) === 0) {
 			if (e !== null) {
-				if (ba(e, t, n, !1), (n & t.childLanes) === 0) return null;
+				if (ya(e, t, n, !1), (n & t.childLanes) === 0) return null;
 			} else return null;
 		}
 		if (e !== null && t.child !== e.child) throw Error(i(153));
 		if (t.child !== null) {
-			for (e = t.child, n = Mi(e, e.pendingProps), t.child = n, n.return = t; e.sibling !== null;) e = e.sibling, n = n.sibling = Mi(e, e.pendingProps), n.return = t;
+			for (e = t.child, n = ji(e, e.pendingProps), t.child = n, n.return = t; e.sibling !== null;) e = e.sibling, n = n.sibling = ji(e, e.pendingProps), n.return = t;
 			n.sibling = null;
 		}
 		return t.child;
 	}
-	function ll(e, t) {
-		return (e.lanes & t) !== 0 || (e = e.dependencies, !!(e !== null && xa(e)));
+	function cl(e, t) {
+		return (e.lanes & t) !== 0 || (e = e.dependencies, !!(e !== null && ba(e)));
 	}
-	function ul(e, t, n) {
+	function ll(e, t, n) {
 		switch (t.tag) {
 			case 3:
-				De(t, t.stateNode.containerInfo), ga(t, ka, e.memoizedState.cache), ua();
+				De(t, t.stateNode.containerInfo), ha(t, Oa, e.memoizedState.cache), la();
 				break;
 			case 27:
 			case 5:
@@ -4348,60 +4348,60 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				De(t, t.stateNode.containerInfo);
 				break;
 			case 10:
-				ga(t, t.type, t.memoizedProps.value);
+				ha(t, t.type, t.memoizedProps.value);
 				break;
 			case 31:
-				if (t.memoizedState !== null) return t.flags |= 128, Mo(t), null;
+				if (t.memoizedState !== null) return t.flags |= 128, jo(t), null;
 				break;
 			case 13:
 				var r = t.memoizedState;
 				if (r !== null) {
-					if (r.dehydrated !== null) return jo(t), t.flags |= 128, null;
-					r = ba(e, t, n, !1);
+					if (r.dehydrated !== null) return Ao(t), t.flags |= 128, null;
+					r = ya(e, t, n, !1);
 					var i = t.child.childLanes;
-					return r || (n & i) !== 0 ? Zc(e, t, n) : (jo(t), e = cl(e, t, n), e === null ? null : e.sibling);
+					return r || (n & i) !== 0 ? Xc(e, t, n) : (Ao(t), e = sl(e, t, n), e === null ? null : e.sibling);
 				}
-				jo(t);
+				Ao(t);
 				break;
 			case 19:
-				if (t.flags & 128) return ol(e, t, n);
-				if (i = !!(e.flags & 128), r = (n & t.childLanes) !== 0, r ||= (ba(e, t, n, !1), (n & t.childLanes) !== 0), i) {
-					if (r) return ol(e, t, n);
+				if (t.flags & 128) return al(e, t, n);
+				if (i = !!(e.flags & 128), r = (n & t.childLanes) !== 0, r ||= (ya(e, t, n, !1), (n & t.childLanes) !== 0), i) {
+					if (r) return al(e, t, n);
 					t.flags |= 128;
 				}
-				if (i = t.memoizedState, i !== null && (i.rendering = null, i.tail = null, i.lastEffect = null), Lo(t, Io.current), r) break;
+				if (i = t.memoizedState, i !== null && (i.rendering = null, i.tail = null, i.lastEffect = null), Io(t, Fo.current), r) break;
 				return null;
-			case 22: return t.lanes = 0, Lc(e, t, n, t.pendingProps);
-			case 24: ga(t, ka, e.memoizedState.cache);
+			case 22: return t.lanes = 0, Ic(e, t, n, t.pendingProps);
+			case 24: ha(t, Oa, e.memoizedState.cache);
 		}
-		return cl(e, t, n);
+		return sl(e, t, n);
 	}
-	function dl(e, t, n) {
+	function ul(e, t, n) {
 		if (e !== null) {
-			if (e.memoizedProps !== t.pendingProps) Mc = !0;
+			if (e.memoizedProps !== t.pendingProps) jc = !0;
 			else {
-				if (!ll(e, n) && !(t.flags & 128)) return Mc = !1, ul(e, t, n);
-				Mc = !!(e.flags & 131072);
+				if (!cl(e, n) && !(t.flags & 128)) return jc = !1, ll(e, t, n);
+				jc = !!(e.flags & 131072);
 			}
-		} else Mc = !1, H && t.flags & 1048576 && Zi(t, Wi, t.index);
+		} else jc = !1, U && t.flags & 1048576 && Xi(t, Ui, t.index);
 		switch (t.lanes = 0, t.tag) {
 			case 16:
 				a: {
 					var r = t.pendingProps;
-					if (e = $a(t.elementType), t.type = e, typeof e == "function") ji(e) ? (r = xc(e, r), t.tag = 1, t = Kc(null, t, e, r, n)) : (t.tag = 0, t = Wc(null, t, e, r, n));
+					if (e = Qa(t.elementType), t.type = e, typeof e == "function") Ai(e) ? (r = bc(e, r), t.tag = 1, t = Gc(null, t, e, r, n)) : (t.tag = 0, t = Uc(null, t, e, r, n));
 					else {
 						if (e != null) {
 							var a = e.$$typeof;
 							if (a === oe) {
-								t.tag = 11, t = Pc(null, t, e, r, n);
+								t.tag = 11, t = Nc(null, t, e, r, n);
 								break a;
 							}
 							if (a === le) {
-								t.tag = 14, t = Fc(null, t, e, r, n);
+								t.tag = 14, t = Pc(null, t, e, r, n);
 								break a;
 							}
 							if (a === k) {
-								t.tag = 10, t.type = e, t = sl(null, t, n);
+								t.tag = 10, t.type = e, t = ol(null, t, n);
 								break a;
 							}
 						}
@@ -4409,26 +4409,26 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					}
 				}
 				return t;
-			case 0: return Wc(e, t, t.type, t.pendingProps, n);
-			case 1: return r = t.type, a = xc(r, t.pendingProps), Kc(e, t, r, a, n);
+			case 0: return Uc(e, t, t.type, t.pendingProps, n);
+			case 1: return r = t.type, a = bc(r, t.pendingProps), Gc(e, t, r, a, n);
 			case 3:
 				a: {
 					if (De(t, t.stateNode.containerInfo), e === null) throw Error(i(387));
 					r = t.pendingProps;
 					var o = t.memoizedState;
-					a = o.element, mo(e, t), xo(t, r, null, n);
+					a = o.element, po(e, t), bo(t, r, null, n);
 					var s = t.memoizedState;
-					if (r = s.cache, ga(t, ka, r), r !== o.cache && ya(t, [ka], n, !0), bo(), r = s.element, o.isDehydrated) {
+					if (r = s.cache, ha(t, Oa, r), r !== o.cache && va(t, [Oa], n, !0), yo(), r = s.element, o.isDehydrated) {
 						if (o = {
 							element: r,
 							isDehydrated: !1,
 							cache: s.cache
 						}, t.updateQueue.baseState = o, t.memoizedState = o, t.flags & 256) {
-							t = qc(e, t, r, n);
+							t = Kc(e, t, r, n);
 							break a;
 						}
 						if (r !== a) {
-							a = Bi(Error(i(424)), t), fa(a), t = qc(e, t, r, n);
+							a = zi(Error(i(424)), t), da(a), t = Kc(e, t, r, n);
 							break a;
 						}
 						switch (e = t.stateNode.containerInfo, e.nodeType) {
@@ -4437,76 +4437,76 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								break;
 							default: e = e.nodeName === "HTML" ? e.ownerDocument.body : e;
 						}
-						for (na = lm(e.firstChild), ta = t, H = !0, ra = null, ia = !0, n = uo(t, null, r, n), t.child = n; n;) n.flags = n.flags & -3 | 134221824, n = n.sibling;
+						for (ta = lm(e.firstChild), ea = t, U = !0, na = null, ra = !0, n = lo(t, null, r, n), t.child = n; n;) n.flags = n.flags & -3 | 134221824, n = n.sibling;
 					} else {
-						if (ua(), r === a) {
-							t = cl(e, t, n);
+						if (la(), r === a) {
+							t = sl(e, t, n);
 							break a;
 						}
-						Nc(e, t, r, n);
+						Mc(e, t, r, n);
 					}
 					t = t.child;
 				}
 				return t;
-			case 26: return Uc(e, t), e === null ? (n = Nm(t.type, null, t.pendingProps, null)) ? t.memoizedState = n : H || (t.stateNode = fp(t.type, t.pendingProps, Te.current, t)) : t.memoizedState = Nm(t.type, e.memoizedProps, t.pendingProps, e.memoizedState), null;
-			case 27: return ke(t), e === null && H && (r = t.stateNode = hm(t.type, t.pendingProps, Te.current), ta = t, ia = !0, a = na, Sp(t.type) ? (um = a, na = lm(r.firstChild)) : na = a), Nc(e, t, t.pendingProps.children, n), Uc(e, t), e === null && (t.flags |= 4194304), t.child;
-			case 5: return e === null && H && ((a = r = na) && (r = rm(r, t.type, t.pendingProps, ia), r === null ? a = !1 : (t.stateNode = r, ta = t, na = lm(r.firstChild), ia = !1, a = !0)), a || oa(t)), ke(t), a = t.type, o = t.pendingProps, s = e === null ? null : e.memoizedProps, r = o.children, pp(a, o) ? r = null : s !== null && pp(a, s) && (t.flags |= 32), t.memoizedState !== null && (a = Zo(e, t, es, null, null, n), sh._currentValue = a), Uc(e, t), Nc(e, t, r, n), t.child;
-			case 6: return e === null && H && ((e = n = na) && (n = im(n, t.pendingProps, ia), n === null ? e = !1 : (t.stateNode = n, ta = t, na = null, e = !0)), e || oa(t)), null;
-			case 13: return Zc(e, t, n);
-			case 4: return De(t, t.stateNode.containerInfo), r = t.pendingProps, e === null ? t.child = lo(t, null, r, n) : Nc(e, t, r, n), t.child;
-			case 11: return Pc(e, t, t.type, t.pendingProps, n);
-			case 7: return r = t.pendingProps, Uc(e, t), Nc(e, t, r, n), t.child;
-			case 8: return Nc(e, t, t.pendingProps.children, n), t.child;
-			case 12: return Nc(e, t, t.pendingProps.children, n), t.child;
-			case 10: return sl(e, t, n);
-			case 9: return a = t.type._context, r = t.pendingProps.children, Sa(t), a = Ca(a), r = r(a), t.flags |= 1, Nc(e, t, r, n), t.child;
-			case 14: return Fc(e, t, t.type, t.pendingProps, n);
-			case 15: return Ic(e, t, t.type, t.pendingProps, n);
-			case 19: return ol(e, t, n);
-			case 31: return Hc(e, t, n);
-			case 22: return Lc(e, t, n, t.pendingProps);
-			case 24: return Sa(t), r = Ca(ka), e === null ? (a = Wa(), a === null && (a = q, o = Aa(), a.pooledCache = o, o.refCount++, o !== null && (a.pooledCacheLanes |= n), a = o), t.memoizedState = {
+			case 26: return Hc(e, t), e === null ? (n = Nm(t.type, null, t.pendingProps, null)) ? t.memoizedState = n : U || (t.stateNode = fp(t.type, t.pendingProps, Te.current, t)) : t.memoizedState = Nm(t.type, e.memoizedProps, t.pendingProps, e.memoizedState), null;
+			case 27: return ke(t), e === null && U && (r = t.stateNode = hm(t.type, t.pendingProps, Te.current), ea = t, ra = !0, a = ta, Sp(t.type) ? (um = a, ta = lm(r.firstChild)) : ta = a), Mc(e, t, t.pendingProps.children, n), Hc(e, t), e === null && (t.flags |= 4194304), t.child;
+			case 5: return e === null && U && ((a = r = ta) && (r = rm(r, t.type, t.pendingProps, ra), r === null ? a = !1 : (t.stateNode = r, ea = t, ta = lm(r.firstChild), ra = !1, a = !0)), a || aa(t)), ke(t), a = t.type, o = t.pendingProps, s = e === null ? null : e.memoizedProps, r = o.children, pp(a, o) ? r = null : s !== null && pp(a, s) && (t.flags |= 32), t.memoizedState !== null && (a = Xo(e, t, $o, null, null, n), sh._currentValue = a), Hc(e, t), Mc(e, t, r, n), t.child;
+			case 6: return e === null && U && ((e = n = ta) && (n = im(n, t.pendingProps, ra), n === null ? e = !1 : (t.stateNode = n, ea = t, ta = null, e = !0)), e || aa(t)), null;
+			case 13: return Xc(e, t, n);
+			case 4: return De(t, t.stateNode.containerInfo), r = t.pendingProps, e === null ? t.child = co(t, null, r, n) : Mc(e, t, r, n), t.child;
+			case 11: return Nc(e, t, t.type, t.pendingProps, n);
+			case 7: return r = t.pendingProps, Hc(e, t), Mc(e, t, r, n), t.child;
+			case 8: return Mc(e, t, t.pendingProps.children, n), t.child;
+			case 12: return Mc(e, t, t.pendingProps.children, n), t.child;
+			case 10: return ol(e, t, n);
+			case 9: return a = t.type._context, r = t.pendingProps.children, xa(t), a = Sa(a), r = r(a), t.flags |= 1, Mc(e, t, r, n), t.child;
+			case 14: return Pc(e, t, t.type, t.pendingProps, n);
+			case 15: return Fc(e, t, t.type, t.pendingProps, n);
+			case 19: return al(e, t, n);
+			case 31: return Vc(e, t, n);
+			case 22: return Ic(e, t, n, t.pendingProps);
+			case 24: return xa(t), r = Sa(Oa), e === null ? (a = Ua(), a === null && (a = $u, o = ka(), a.pooledCache = o, o.refCount++, o !== null && (a.pooledCacheLanes |= n), a = o), t.memoizedState = {
 				parent: r,
 				cache: a
-			}, po(t), ga(t, ka, a)) : ((e.lanes & n) !== 0 && (mo(e, t), xo(t, null, null, n), bo()), a = e.memoizedState, o = t.memoizedState, a.parent === r ? (r = o.cache, ga(t, ka, r), r !== a.cache && ya(t, [ka], n, !0)) : (a = {
+			}, fo(t), ha(t, Oa, a)) : ((e.lanes & n) !== 0 && (po(e, t), bo(t, null, null, n), yo()), a = e.memoizedState, o = t.memoizedState, a.parent === r ? (r = o.cache, ha(t, Oa, r), r !== a.cache && va(t, [Oa], n, !0)) : (a = {
 				parent: r,
 				cache: r
-			}, t.memoizedState = a, t.lanes === 0 && (t.memoizedState = t.updateQueue.baseState = a), ga(t, ka, r))), Nc(e, t, t.pendingProps.children, n), t.child;
+			}, t.memoizedState = a, t.lanes === 0 && (t.memoizedState = t.updateQueue.baseState = a), ha(t, Oa, r))), Mc(e, t, t.pendingProps.children, n), t.child;
 			case 30: return t.stateNode === null && (t.stateNode = {
 				autoName: null,
 				paired: null,
 				clones: null,
 				ref: null
-			}), r = t.pendingProps, r.name != null && r.name !== "auto" ? t.flags |= e === null ? 18882560 : 18874368 : H && Qi(t), e !== null && e.memoizedProps.name !== r.name ? t.flags |= 4194816 : Uc(e, t), Nc(e, t, r.children, n), t.child;
+			}), r = t.pendingProps, r.name != null && r.name !== "auto" ? t.flags |= e === null ? 18882560 : 18874368 : U && Zi(t), e !== null && e.memoizedProps.name !== r.name ? t.flags |= 4194816 : Hc(e, t), Mc(e, t, r.children, n), t.child;
 			case 29: throw t.pendingProps;
 		}
 		throw Error(i(156, t.tag));
 	}
-	function fl(e) {
+	function dl(e) {
 		e.flags |= 4;
 	}
-	function pl(e, t, n, r, i) {
+	function fl(e, t, n, r, i) {
 		var a;
 		if ((a = !!(e.mode & 32)) && (a = n === null ? Jm(t, r) : Jm(t, r) && (r.src !== n.src || r.srcSet !== n.srcSet)), a) {
 			if (e.flags |= 16777216, (i & 335544128) === i) {
 				if (e.stateNode.complete) e.flags |= 8192;
 				else if (Ud()) e.flags |= 8192;
-				else throw eo = Xa, Ja;
+				else throw $a = Ya, qa;
 			}
 		} else e.flags &= -16777217;
 	}
-	function ml(e, t) {
+	function pl(e, t) {
 		if (t.type !== "stylesheet" || t.state.loading & 4) e.flags &= -16777217;
 		else if (e.flags |= 16777216, !Ym(t)) {
 			if (Ud()) e.flags |= 8192;
-			else throw eo = Xa, Ja;
+			else throw $a = Ya, qa;
 		}
 	}
-	function hl(e, t) {
-		t !== null && (e.flags |= 4), e.flags & 16384 && (t = e.tag === 22 ? 536870912 : ut(), e.lanes |= t, ud |= t);
+	function ml(e, t) {
+		t !== null && (e.flags |= 4), e.flags & 16384 && (t = e.tag === 22 ? 536870912 : lt(), e.lanes |= t, ud |= t);
 	}
-	function gl(e, t) {
-		if (!H) switch (e.tailMode) {
+	function hl(e, t) {
+		if (!U) switch (e.tailMode) {
 			case "visible": break;
 			case "collapsed":
 				for (var n = e.tail, r = null; n !== null;) n.alternate !== null && (r = n), n = n.sibling;
@@ -4517,15 +4517,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				n === null ? e.tail = null : n.sibling = null;
 		}
 	}
-	function _l(e) {
+	function gl(e) {
 		var t = e.alternate !== null && e.alternate.child === e.child, n = 0, r = 0;
 		if (t) for (var i = e.child; i !== null;) n |= i.lanes | i.childLanes, r |= i.subtreeFlags & 1206910976, r |= i.flags & 1206910976, i.return = e, i = i.sibling;
 		else for (i = e.child; i !== null;) n |= i.lanes | i.childLanes, r |= i.subtreeFlags, r |= i.flags, i.return = e, i = i.sibling;
 		return e.subtreeFlags |= r, e.childLanes = n, t;
 	}
-	function vl(e, t, n) {
+	function _l(e, t, n) {
 		var r = t.pendingProps;
-		switch ($i(t), t.tag) {
+		switch (Qi(t), t.tag) {
 			case 16:
 			case 15:
 			case 0:
@@ -4534,30 +4534,30 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			case 8:
 			case 12:
 			case 9:
-			case 14: return _l(t), null;
-			case 1: return _l(t), null;
-			case 3: return n = t.stateNode, r = null, e !== null && (r = e.memoizedState.cache), t.memoizedState.cache !== r && (t.flags |= 2048), _a(ka), Oe(), n.pendingContext && (n.context = n.pendingContext, n.pendingContext = null), (e === null || e.child === null) && (la(t) ? fl(t) : e === null || e.memoizedState.isDehydrated && !(t.flags & 256) || (t.flags |= 1024, da())), _l(t), null;
+			case 14: return gl(t), null;
+			case 1: return gl(t), null;
+			case 3: return n = t.stateNode, r = null, e !== null && (r = e.memoizedState.cache), t.memoizedState.cache !== r && (t.flags |= 2048), ga(Oa), Oe(), n.pendingContext && (n.context = n.pendingContext, n.pendingContext = null), (e === null || e.child === null) && (ca(t) ? dl(t) : e === null || e.memoizedState.isDehydrated && !(t.flags & 256) || (t.flags |= 1024, ua())), gl(t), null;
 			case 26:
 				var a = t.type, o = t.memoizedState;
-				return e === null ? (fl(t), o === null ? (_l(t), pl(t, a, null, r, n)) : (_l(t), ml(t, o))) : o ? o === e.memoizedState ? (_l(t), t.flags &= -16777217) : (fl(t), _l(t), ml(t, o)) : (e = e.memoizedProps, e !== r && fl(t), _l(t), pl(t, a, e, r, n)), null;
+				return e === null ? (dl(t), o === null ? (gl(t), fl(t, a, null, r, n)) : (gl(t), pl(t, o))) : o ? o === e.memoizedState ? (gl(t), t.flags &= -16777217) : (dl(t), gl(t), pl(t, o)) : (e = e.memoizedProps, e !== r && dl(t), gl(t), fl(t, a, e, r, n)), null;
 			case 27:
-				if (Ae(t), n = Te.current, a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && fl(t);
+				if (Ae(t), n = Te.current, a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && dl(t);
 				else {
 					if (!r) {
 						if (t.stateNode === null) throw Error(i(166));
-						return _l(t), t.subtreeFlags &= -33554433, null;
+						return gl(t), t.subtreeFlags &= -33554433, null;
 					}
-					e = Ce.current, la(t) ? sa(t, e) : (e = hm(a, r, n), t.stateNode = e, fl(t));
+					e = Ce.current, ca(t) ? oa(t, e) : (e = hm(a, r, n), t.stateNode = e, dl(t));
 				}
-				return _l(t), t.subtreeFlags &= -33554433, null;
+				return gl(t), t.subtreeFlags &= -33554433, null;
 			case 5:
-				if (Ae(t), a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && fl(t);
+				if (Ae(t), a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && dl(t);
 				else {
 					if (!r) {
 						if (t.stateNode === null) throw Error(i(166));
-						return _l(t), t.subtreeFlags &= -33554433, null;
+						return gl(t), t.subtreeFlags &= -33554433, null;
 					}
-					if (o = Ce.current, la(t)) sa(t, o);
+					if (o = Ce.current, ca(t)) oa(t, o);
 					else {
 						var s = lp(Te.current);
 						switch (o) {
@@ -4583,7 +4583,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								default: o = typeof r.is == "string" ? s.createElement(a, { is: r.is }) : s.createElement(a);
 							}
 						}
-						o[St] = t, o[z] = r;
+						o[bt] = t, o[xt] = r;
 						a: for (s = t.child; s !== null;) {
 							if (s.tag === 5 || s.tag === 6) o.appendChild(s.stateNode);
 							else if (s.tag !== 4 && s.tag !== 27 && s.child !== null) {
@@ -4610,71 +4610,71 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								break a;
 							default: r = !1;
 						}
-						r && fl(t);
+						r && dl(t);
 					}
 				}
-				return _l(t), t.subtreeFlags &= -33554433, pl(t, t.type, e === null ? null : e.memoizedProps, t.pendingProps, n), null;
+				return gl(t), t.subtreeFlags &= -33554433, fl(t, t.type, e === null ? null : e.memoizedProps, t.pendingProps, n), null;
 			case 6:
-				if (e && t.stateNode != null) e.memoizedProps !== r && fl(t);
+				if (e && t.stateNode != null) e.memoizedProps !== r && dl(t);
 				else {
 					if (typeof r != "string" && t.stateNode === null) throw Error(i(166));
-					if (e = Te.current, la(t)) {
-						if (e = t.stateNode, n = t.memoizedProps, r = null, a = ta, a !== null) switch (a.tag) {
+					if (e = Te.current, ca(t)) {
+						if (e = t.stateNode, n = t.memoizedProps, r = null, a = ea, a !== null) switch (a.tag) {
 							case 27:
 							case 5: r = a.memoizedProps;
 						}
-						e[St] = t, e = !!(e.nodeValue === n || r !== null && !0 === r.suppressHydrationWarning || ep(e.nodeValue, n)), e || oa(t, !0);
-					} else e = lp(e).createTextNode(r), e[St] = t, t.stateNode = e;
+						e[bt] = t, e = !!(e.nodeValue === n || r !== null && !0 === r.suppressHydrationWarning || ep(e.nodeValue, n)), e || aa(t, !0);
+					} else e = lp(e).createTextNode(r), e[bt] = t, t.stateNode = e;
 				}
-				return _l(t), null;
+				return gl(t), null;
 			case 31:
 				if (n = t.memoizedState, e === null || e.memoizedState !== null) {
-					if (r = la(t), n !== null) {
+					if (r = ca(t), n !== null) {
 						if (e === null) {
 							if (!r) throw Error(i(318));
 							if (e = t.memoizedState, e = e === null ? null : e.dehydrated, !e) throw Error(i(557));
-							e[St] = t;
-						} else ua(), !(t.flags & 128) && (t.memoizedState = null), t.flags |= 4;
-						_l(t), e = !1;
-					} else n = da(), e !== null && e.memoizedState !== null && (e.memoizedState.hydrationErrors = n), e = !0;
-					if (!e) return t.flags & 256 ? (Fo(t), t) : (Fo(t), null);
+							e[bt] = t;
+						} else la(), !(t.flags & 128) && (t.memoizedState = null), t.flags |= 4;
+						gl(t), e = !1;
+					} else n = ua(), e !== null && e.memoizedState !== null && (e.memoizedState.hydrationErrors = n), e = !0;
+					if (!e) return t.flags & 256 ? (Po(t), t) : (Po(t), null);
 					if (t.flags & 128) throw Error(i(558));
 				}
-				return _l(t), null;
+				return gl(t), null;
 			case 13:
 				if (r = t.memoizedState, e === null || e.memoizedState !== null && e.memoizedState.dehydrated !== null) {
-					if (a = la(t), r !== null && r.dehydrated !== null) {
+					if (a = ca(t), r !== null && r.dehydrated !== null) {
 						if (e === null) {
 							if (!a) throw Error(i(318));
 							if (a = t.memoizedState, a = a === null ? null : a.dehydrated, !a) throw Error(i(317));
-							a[St] = t;
-						} else ua(), !(t.flags & 128) && (t.memoizedState = null), t.flags |= 4;
-						_l(t), a = !1;
-					} else a = da(), e !== null && e.memoizedState !== null && (e.memoizedState.hydrationErrors = a), a = !0;
-					if (!a) return t.flags & 256 ? (Fo(t), t) : (Fo(t), null);
+							a[bt] = t;
+						} else la(), !(t.flags & 128) && (t.memoizedState = null), t.flags |= 4;
+						gl(t), a = !1;
+					} else a = ua(), e !== null && e.memoizedState !== null && (e.memoizedState.hydrationErrors = a), a = !0;
+					if (!a) return t.flags & 256 ? (Po(t), t) : (Po(t), null);
 				}
-				return Fo(t), t.flags & 128 ? (t.lanes = n, t) : (n = r !== null, e = e !== null && e.memoizedState !== null, n && (r = t.child, a = null, r.alternate !== null && r.alternate.memoizedState !== null && r.alternate.memoizedState.cachePool !== null && (a = r.alternate.memoizedState.cachePool.pool), o = null, r.memoizedState !== null && r.memoizedState.cachePool !== null && (o = r.memoizedState.cachePool.pool), o !== a && (r.flags |= 2048)), n !== e && n && (t.child.flags |= 8192), hl(t, t.updateQueue), _l(t), null);
-			case 4: return Oe(), e === null && Wf(t.stateNode.containerInfo), t.flags |= 67108864, _l(t), null;
-			case 10: return _a(t.type), _l(t), null;
+				return Po(t), t.flags & 128 ? (t.lanes = n, t) : (n = r !== null, e = e !== null && e.memoizedState !== null, n && (r = t.child, a = null, r.alternate !== null && r.alternate.memoizedState !== null && r.alternate.memoizedState.cachePool !== null && (a = r.alternate.memoizedState.cachePool.pool), o = null, r.memoizedState !== null && r.memoizedState.cachePool !== null && (o = r.memoizedState.cachePool.pool), o !== a && (r.flags |= 2048)), n !== e && n && (t.child.flags |= 8192), ml(t, t.updateQueue), gl(t), null);
+			case 4: return Oe(), e === null && Wf(t.stateNode.containerInfo), t.flags |= 67108864, gl(t), null;
+			case 10: return ga(t.type), gl(t), null;
 			case 19:
-				if (Ro(t), r = t.memoizedState, r === null) return _l(t), null;
+				if (Lo(t), r = t.memoizedState, r === null) return gl(t), null;
 				if (a = !!(t.flags & 128), o = r.rendering, o === null) {
-					if (a) gl(r, !1);
+					if (a) hl(r, !1);
 					else {
 						if (ad !== 0 || e !== null && e.flags & 128) for (e = t.child; e !== null;) {
-							if (o = zo(e), o !== null) {
-								for (t.flags |= 128, gl(r, !1), e = o.updateQueue, t.updateQueue = e, hl(t, e), t.subtreeFlags = 0, e = n, n = t.child; n !== null;) Ni(n, e), n = n.sibling;
-								return Lo(t, Io.current & 1 | 2), H && Xi(t, r.treeForkCount), t.child;
+							if (o = Ro(e), o !== null) {
+								for (t.flags |= 128, hl(r, !1), e = o.updateQueue, t.updateQueue = e, ml(t, e), t.subtreeFlags = 0, e = n, n = t.child; n !== null;) Mi(n, e), n = n.sibling;
+								return Io(t, Fo.current & 1 | 2), U && Yi(t, r.treeForkCount), t.child;
 							}
 							e = e.sibling;
 						}
-						r.tail !== null && He() > gd && (t.flags |= 128, a = !0, gl(r, !1), t.lanes = 4194304);
+						r.tail !== null && He() > gd && (t.flags |= 128, a = !0, hl(r, !1), t.lanes = 4194304);
 					}
 				} else {
 					if (!a) {
-						if (e = zo(o), e !== null) {
-							if (t.flags |= 128, a = !0, e = e.updateQueue, t.updateQueue = e, hl(t, e), gl(r, !0), r.tail === null && r.tailMode !== "collapsed" && r.tailMode !== "visible" && !o.alternate && !H) return _l(t), null;
-						} else 2 * He() - r.renderingStartTime > gd && n !== 536870912 && (t.flags |= 128, a = !0, gl(r, !1), t.lanes = 4194304);
+						if (e = Ro(o), e !== null) {
+							if (t.flags |= 128, a = !0, e = e.updateQueue, t.updateQueue = e, ml(t, e), hl(r, !0), r.tail === null && r.tailMode !== "collapsed" && r.tailMode !== "visible" && !o.alternate && !U) return gl(t), null;
+						} else 2 * He() - r.renderingStartTime > gd && n !== 536870912 && (t.flags |= 128, a = !0, hl(r, !1), t.lanes = 4194304);
 					}
 					r.isBackwards ? (o.sibling = t.child, t.child = o) : (e = r.last, e === null ? t.child = o : e.sibling = o, r.last = o);
 				}
@@ -4690,50 +4690,50 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						}
 						n = !0;
 					}
-					return r.rendering = e, r.tail = e.sibling, r.renderingStartTime = He(), e.sibling = null, o = Io.current, o = a ? o & 1 | 2 : o & 1, r.tailMode === "visible" || r.tailMode === "collapsed" || !n || H ? Lo(t, o) : (n = o, F(ko, t), F(Io, n), Ao === null && (Ao = t)), H && Xi(t, r.treeForkCount), e;
+					return r.rendering = e, r.tail = e.sibling, r.renderingStartTime = He(), e.sibling = null, o = Fo.current, o = a ? o & 1 | 2 : o & 1, r.tailMode === "visible" || r.tailMode === "collapsed" || !n || U ? Io(t, o) : (n = o, F(Oo, t), F(Fo, n), ko === null && (ko = t)), U && Yi(t, r.treeForkCount), e;
 				}
-				return _l(t), null;
+				return gl(t), null;
 			case 22:
-			case 23: return Fo(t), Oo(), r = t.memoizedState !== null, e === null ? r && (t.flags |= 8192) : e.memoizedState !== null !== r && (t.flags |= 8192), r ? n & 536870912 && !(t.flags & 128) && (_l(t), t.subtreeFlags & 6 && (t.flags |= 8192)) : _l(t), n = t.updateQueue, n !== null && hl(t, n.retryQueue), n = null, e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), r = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (r = t.memoizedState.cachePool.pool), r !== n && (t.flags |= 2048), e !== null && Se(Ua), null;
-			case 24: return n = null, e !== null && (n = e.memoizedState.cache), t.memoizedState.cache !== n && (t.flags |= 2048), _a(ka), _l(t), null;
+			case 23: return Po(t), Do(), r = t.memoizedState !== null, e === null ? r && (t.flags |= 8192) : e.memoizedState !== null !== r && (t.flags |= 8192), r ? n & 536870912 && !(t.flags & 128) && (gl(t), t.subtreeFlags & 6 && (t.flags |= 8192)) : gl(t), n = t.updateQueue, n !== null && ml(t, n.retryQueue), n = null, e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), r = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (r = t.memoizedState.cachePool.pool), r !== n && (t.flags |= 2048), e !== null && Se(Ha), null;
+			case 24: return n = null, e !== null && (n = e.memoizedState.cache), t.memoizedState.cache !== n && (t.flags |= 2048), ga(Oa), gl(t), null;
 			case 25: return null;
-			case 30: return t.flags |= 33554432, _l(t), null;
+			case 30: return t.flags |= 33554432, gl(t), null;
 		}
 		throw Error(i(156, t.tag));
 	}
-	function yl(e, t) {
-		switch ($i(t), t.tag) {
+	function vl(e, t) {
+		switch (Qi(t), t.tag) {
 			case 1: return e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
-			case 3: return _a(ka), Oe(), e = t.flags, e & 65536 && !(e & 128) ? (t.flags = e & -65537 | 128, t) : null;
+			case 3: return ga(Oa), Oe(), e = t.flags, e & 65536 && !(e & 128) ? (t.flags = e & -65537 | 128, t) : null;
 			case 26:
 			case 27:
 			case 5: return Ae(t), null;
 			case 31:
 				if (t.memoizedState !== null) {
-					if (Fo(t), t.alternate === null) throw Error(i(340));
-					ua();
+					if (Po(t), t.alternate === null) throw Error(i(340));
+					la();
 				}
 				return e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
 			case 13:
-				if (Fo(t), e = t.memoizedState, e !== null && e.dehydrated !== null) {
+				if (Po(t), e = t.memoizedState, e !== null && e.dehydrated !== null) {
 					if (t.alternate === null) throw Error(i(340));
-					ua();
+					la();
 				}
 				return e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
-			case 19: return Ro(t), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, e = t.memoizedState, e !== null && (e.rendering = null, e.tail = null), t.flags |= 4, t) : null;
+			case 19: return Lo(t), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, e = t.memoizedState, e !== null && (e.rendering = null, e.tail = null), t.flags |= 4, t) : null;
 			case 4: return Oe(), null;
-			case 10: return _a(t.type), null;
+			case 10: return ga(t.type), null;
 			case 22:
-			case 23: return Fo(t), Oo(), e !== null && Se(Ua), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
-			case 24: return _a(ka), null;
+			case 23: return Po(t), Do(), e !== null && Se(Ha), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
+			case 24: return ga(Oa), null;
 			case 25: return null;
 			default: return null;
 		}
 	}
-	function bl(e, t) {
-		switch ($i(t), t.tag) {
+	function yl(e, t) {
+		switch (Qi(t), t.tag) {
 			case 3:
-				_a(ka), Oe();
+				ga(Oa), Oe();
 				break;
 			case 26:
 			case 27:
@@ -4744,25 +4744,25 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Oe();
 				break;
 			case 31:
-				t.memoizedState !== null && Fo(t);
+				t.memoizedState !== null && Po(t);
 				break;
 			case 13:
-				Fo(t);
+				Po(t);
 				break;
 			case 19:
-				Ro(t);
+				Lo(t);
 				break;
 			case 10:
-				_a(t.type);
+				ga(t.type);
 				break;
 			case 22:
 			case 23:
-				Fo(t), Oo(), e !== null && Se(Ua);
+				Po(t), Do(), e !== null && Se(Ha);
 				break;
-			case 24: _a(ka);
+			case 24: ga(Oa);
 		}
 	}
-	function xl(e, t) {
+	function bl(e, t) {
 		try {
 			var n = t.updateQueue, r = n === null ? null : n.lastEffect;
 			if (r !== null) {
@@ -4781,7 +4781,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Z(t, t.return, e);
 		}
 	}
-	function Sl(e, t, n) {
+	function xl(e, t, n) {
 		try {
 			var r = t.updateQueue, i = r === null ? null : r.lastEffect;
 			if (i !== null) {
@@ -4807,26 +4807,26 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Z(t, t.return, e);
 		}
 	}
-	function Cl(e) {
+	function Sl(e) {
 		var t = e.updateQueue;
 		if (t !== null) {
 			var n = e.stateNode;
 			try {
-				Co(t, n);
+				So(t, n);
 			} catch (t) {
 				Z(e, e.return, t);
 			}
 		}
 	}
-	function wl(e, t, n) {
-		n.props = xc(e.type, e.memoizedProps), n.state = e.memoizedState;
+	function Cl(e, t, n) {
+		n.props = bc(e.type, e.memoizedProps), n.state = e.memoizedState;
 		try {
 			n.componentWillUnmount();
 		} catch (n) {
 			Z(e, t, n);
 		}
 	}
-	function Tl(e, t) {
+	function wl(e, t) {
 		try {
 			var n = e.ref;
 			if (n !== null) {
@@ -4837,7 +4837,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						var r = e.stateNode;
 						break;
 					case 30:
-						var i = e.stateNode, a = hi(e.memoizedProps, i);
+						var i = e.stateNode, a = mi(e.memoizedProps, i);
 						(i.ref === null || i.ref.name !== a) && (i.ref = Pp(a)), r = i.ref;
 						break;
 					case 7:
@@ -4855,7 +4855,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Z(e, t, n);
 		}
 	}
-	function El(e, t) {
+	function Tl(e, t) {
 		var n = e.ref, r = e.refCleanup;
 		if (n !== null) {
 			if (typeof r == "function") try {
@@ -4873,22 +4873,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			else n.current = null;
 		}
 	}
-	function Dl(e, t) {
+	function El(e, t) {
 		if ((e.tag === 5 || e.tag === 27 || e.tag === 6) && e.alternate === null && t !== null) for (var n = 0; n < t.length; n++) em(e.stateNode, t[n]);
 	}
+	function Dl(e) {
+		for (var t = e.return; t !== null && (Al(t) && em(e.stateNode, t.stateNode), !kl(t));) t = t.return;
+	}
 	function Ol(e) {
-		for (var t = e.return; t !== null && (jl(t) && em(e.stateNode, t.stateNode), !Al(t));) t = t.return;
+		for (var t = e.return; t !== null && (Al(t) && tm(e.stateNode, t.stateNode), !kl(t));) t = t.return;
 	}
 	function kl(e) {
-		for (var t = e.return; t !== null && (jl(t) && tm(e.stateNode, t.stateNode), !Al(t));) t = t.return;
-	}
-	function Al(e) {
 		return e.tag === 5 || e.tag === 3 || e.tag === 27;
 	}
-	function jl(e) {
+	function Al(e) {
 		return e && e.tag === 7 && e.stateNode !== null;
 	}
-	function Ml(e) {
+	function jl(e) {
 		var t = e.type, n = e.memoizedProps, r = e.stateNode;
 		try {
 			a: switch (t) {
@@ -4904,21 +4904,21 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			Z(e, e.return, t);
 		}
 	}
-	function Nl(e, t, n) {
+	function Ml(e, t, n) {
 		try {
 			var r = e.stateNode;
-			ip(r, e.type, n, t), r[z] = t;
+			ip(r, e.type, n, t), r[xt] = t;
 		} catch (t) {
 			Z(e, e.return, t);
 		}
 	}
-	function Pl(e) {
+	function Nl(e) {
 		return e.tag === 5 || e.tag === 3 || e.tag === 26 || e.tag === 27 && Sp(e.type) || e.tag === 4;
 	}
-	function Fl(e) {
+	function Pl(e) {
 		a: for (;;) {
 			for (; e.sibling === null;) {
-				if (e.return === null || Pl(e.return)) return null;
+				if (e.return === null || Nl(e.return)) return null;
 				e = e.return;
 			}
 			for (e.sibling.return = e.return, e = e.sibling; e.tag !== 5 && e.tag !== 6 && e.tag !== 18;) {
@@ -4928,39 +4928,39 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (!(e.flags & 2)) return e.stateNode;
 		}
 	}
+	function Fl(e, t, n, r) {
+		var i = e.tag;
+		if (i === 5 || i === 6) i = e.stateNode, t ? (n.nodeType === 9 ? n.body : n.nodeName === "HTML" ? n.ownerDocument.body : n).insertBefore(i, t) : (t = n.nodeType === 9 ? n.body : n.nodeName === "HTML" ? n.ownerDocument.body : n, t.appendChild(i), n = n._reactRootContainer, n != null || t.onclick !== null || (t.onclick = gn)), El(e, r), V = !0;
+		else if (i !== 4 && (i === 27 && (El(e, r), r = null, Sp(e.type) && (n = e.stateNode, t = null)), e = e.child, e !== null)) for (Fl(e, t, n, r), e = e.sibling; e !== null;) Fl(e, t, n, r), e = e.sibling;
+	}
 	function Il(e, t, n, r) {
 		var i = e.tag;
-		if (i === 5 || i === 6) i = e.stateNode, t ? (n.nodeType === 9 ? n.body : n.nodeName === "HTML" ? n.ownerDocument.body : n).insertBefore(i, t) : (t = n.nodeType === 9 ? n.body : n.nodeName === "HTML" ? n.ownerDocument.body : n, t.appendChild(i), n = n._reactRootContainer, n != null || t.onclick !== null || (t.onclick = _n)), Dl(e, r), B = !0;
-		else if (i !== 4 && (i === 27 && (Dl(e, r), r = null, Sp(e.type) && (n = e.stateNode, t = null)), e = e.child, e !== null)) for (Il(e, t, n, r), e = e.sibling; e !== null;) Il(e, t, n, r), e = e.sibling;
+		if (i === 5 || i === 6) i = e.stateNode, t ? n.insertBefore(i, t) : n.appendChild(i), El(e, r), V = !0;
+		else if (i !== 4 && (i === 27 && (El(e, r), r = null, Sp(e.type) && (n = e.stateNode)), e = e.child, e !== null)) for (Il(e, t, n, r), e = e.sibling; e !== null;) Il(e, t, n, r), e = e.sibling;
 	}
-	function Ll(e, t, n, r) {
-		var i = e.tag;
-		if (i === 5 || i === 6) i = e.stateNode, t ? n.insertBefore(i, t) : n.appendChild(i), Dl(e, r), B = !0;
-		else if (i !== 4 && (i === 27 && (Dl(e, r), r = null, Sp(e.type) && (n = e.stateNode)), e = e.child, e !== null)) for (Ll(e, t, n, r), e = e.sibling; e !== null;) Ll(e, t, n, r), e = e.sibling;
-	}
-	function Rl(e) {
+	function Ll(e) {
 		var t = e.stateNode, n = e.memoizedProps;
 		try {
 			for (var r = e.type, i = t.attributes; i.length;) t.removeAttributeNode(i[0]);
-			np(t, r, n), t[St] = e, t[z] = n;
+			np(t, r, n), t[bt] = e, t[xt] = n;
 		} catch (t) {
 			Z(e, e.return, t);
 		}
 	}
-	var zl = !1, Bl = null;
-	function Vl(e) {
-		(e.tag === 30 || e.subtreeFlags & 33554432) && (zl = !0);
+	var Rl = !1, zl = null;
+	function Bl(e) {
+		(e.tag === 30 || e.subtreeFlags & 33554432) && (Rl = !0);
 	}
-	var Hl = null;
-	function Ul() {
-		var e = Hl;
-		return Hl = null, e;
+	var Vl = null;
+	function Hl() {
+		var e = Vl;
+		return Vl = null, e;
 	}
-	var Wl = 0;
+	var Ul = 0;
+	function Wl(e, t, n, r, i) {
+		return Ul = 0, Gl(e.child, t, n, r, i);
+	}
 	function Gl(e, t, n, r, i) {
-		return Wl = 0, Kl(e.child, t, n, r, i);
-	}
-	function Kl(e, t, n, r, i) {
 		for (var a = !1; e !== null;) {
 			if (e.tag === 5) {
 				var o = e.stateNode;
@@ -4968,36 +4968,36 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var s = Op(o);
 					r.push(s), s.view && (a = !0);
 				} else a || Op(o).view && (a = !0);
-				zl = !0, Tp(o, Wl === 0 ? t : t + "_" + Wl, n), Wl++;
-			} else e.tag === 22 && e.memoizedState !== null || e.tag === 30 && i || Kl(e.child, t, n, r, i) && (a = !0);
+				Rl = !0, Tp(o, Ul === 0 ? t : t + "_" + Ul, n), Ul++;
+			} else e.tag === 22 && e.memoizedState !== null || e.tag === 30 && i || Gl(e.child, t, n, r, i) && (a = !0);
 			e = e.sibling;
 		}
 		return a;
 	}
-	function ql(e, t) {
-		for (; e !== null;) e.tag === 5 ? Ep(e.stateNode, e.memoizedProps) : e.tag === 22 && e.memoizedState !== null || e.tag === 30 && t || ql(e.child, t), e = e.sibling;
+	function Kl(e, t) {
+		for (; e !== null;) e.tag === 5 ? Ep(e.stateNode, e.memoizedProps) : e.tag === 22 && e.memoizedState !== null || e.tag === 30 && t || Kl(e.child, t), e = e.sibling;
 	}
-	function Jl(e) {
+	function ql(e) {
 		if (e.subtreeFlags & 18874368) for (e = e.child; e !== null;) {
-			if ((e.tag !== 22 || e.memoizedState === null) && (Jl(e), e.tag === 30 && e.flags & 18874368 && e.stateNode.paired)) {
+			if ((e.tag !== 22 || e.memoizedState === null) && (ql(e), e.tag === 30 && e.flags & 18874368 && e.stateNode.paired)) {
 				var t = e.memoizedProps;
 				if (t.name == null || t.name === "auto") throw Error(i(544));
 				var n = t.name;
-				t = _i(t.default, t.share), t !== "none" && (Gl(e, n, t, null, !1) || ql(e.child, !1));
+				t = gi(t.default, t.share), t !== "none" && (Wl(e, n, t, null, !1) || Kl(e.child, !1));
 			}
 			e = e.sibling;
 		}
 	}
-	function Yl(e, t) {
+	function Jl(e, t) {
 		if (e.tag === 30) {
-			var n = e.stateNode, r = e.memoizedProps, i = hi(r, n), a = _i(r.default, n.paired ? r.share : r.enter);
-			a === "none" ? Jl(e) : Gl(e, i, a, null, !1) ? (Jl(e), n.paired || t || Nd(e, r.onEnter)) : ql(e.child, !1);
-		} else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) Yl(e, t), e = e.sibling;
-		else Jl(e);
+			var n = e.stateNode, r = e.memoizedProps, i = mi(r, n), a = gi(r.default, n.paired ? r.share : r.enter);
+			a === "none" ? ql(e) : Wl(e, i, a, null, !1) ? (ql(e), n.paired || t || Nd(e, r.onEnter)) : Kl(e.child, !1);
+		} else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) Jl(e, t), e = e.sibling;
+		else ql(e);
 	}
-	function Xl(e) {
-		if (Bl !== null && Bl.size !== 0) {
-			var t = Bl;
+	function Yl(e) {
+		if (zl !== null && zl.size !== 0) {
+			var t = zl;
 			if (e.subtreeFlags & 18874368) for (e = e.child; e !== null;) {
 				if (e.tag !== 22 || e.memoizedState === null) {
 					if (e.tag === 30 && e.flags & 18874368) {
@@ -5005,59 +5005,59 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						if (r != null && r !== "auto") {
 							var i = t.get(r);
 							if (i !== void 0) {
-								var a = _i(n.default, n.share);
-								if (a !== "none" && (Gl(e, r, a, null, !1) ? (a = e.stateNode, i.paired = a, a.paired = i, Nd(e, n.onShare)) : ql(e.child, !1)), t.delete(r), t.size === 0) break;
+								var a = gi(n.default, n.share);
+								if (a !== "none" && (Wl(e, r, a, null, !1) ? (a = e.stateNode, i.paired = a, a.paired = i, Nd(e, n.onShare)) : Kl(e.child, !1)), t.delete(r), t.size === 0) break;
 							}
 						}
 					}
-					Xl(e);
+					Yl(e);
 				}
 				e = e.sibling;
 			}
 		}
 	}
-	function Zl(e) {
+	function Xl(e) {
 		if (e.tag === 30) {
-			var t = e.memoizedProps, n = hi(t, e.stateNode), r = Bl === null ? void 0 : Bl.get(n), i = _i(t.default, r === void 0 ? t.exit : t.share);
-			i !== "none" && (Gl(e, n, i, null, !1) ? r === void 0 ? Nd(e, t.onExit) : (i = e.stateNode, r.paired = i, i.paired = r, Bl.delete(n), Nd(e, t.onShare)) : ql(e.child, !1)), Bl !== null && Xl(e);
-		} else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) Zl(e), e = e.sibling;
-		else Bl !== null && Xl(e);
+			var t = e.memoizedProps, n = mi(t, e.stateNode), r = zl === null ? void 0 : zl.get(n), i = gi(t.default, r === void 0 ? t.exit : t.share);
+			i !== "none" && (Wl(e, n, i, null, !1) ? r === void 0 ? Nd(e, t.onExit) : (i = e.stateNode, r.paired = i, i.paired = r, zl.delete(n), Nd(e, t.onShare)) : Kl(e.child, !1)), zl !== null && Yl(e);
+		} else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) Xl(e), e = e.sibling;
+		else zl !== null && Yl(e);
 	}
-	function Ql(e) {
+	function Zl(e) {
 		for (e = e.child; e !== null;) {
 			if (e.tag === 30) {
-				var t = e.memoizedProps, n = hi(t, e.stateNode);
-				t = _i(t.default, t.update), e.flags &= -5, t !== "none" && Gl(e, n, t, e.memoizedState = [], !1);
-			} else e.subtreeFlags & 33554432 && Ql(e);
+				var t = e.memoizedProps, n = mi(t, e.stateNode);
+				t = gi(t.default, t.update), e.flags &= -5, t !== "none" && Wl(e, n, t, e.memoizedState = [], !1);
+			} else e.subtreeFlags & 33554432 && Zl(e);
 			e = e.sibling;
 		}
 	}
-	function $l(e) {
+	function Ql(e) {
 		if (e.subtreeFlags & 18874368) for (e = e.child; e !== null;) {
 			if (e.tag !== 22 || e.memoizedState === null) {
 				if (e.tag === 30 && e.flags & 18874368) {
 					var t = e.stateNode;
-					t.paired !== null && (t.paired = null, ql(e.child, !1));
+					t.paired !== null && (t.paired = null, Kl(e.child, !1));
 				}
-				$l(e);
+				Ql(e);
 			}
 			e = e.sibling;
 		}
 	}
+	function $l(e) {
+		if (e.tag === 30) e.stateNode.paired = null, Kl(e.child, !1), Ql(e);
+		else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) $l(e), e = e.sibling;
+		else Ql(e);
+	}
 	function eu(e) {
-		if (e.tag === 30) e.stateNode.paired = null, ql(e.child, !1), $l(e);
-		else if (e.subtreeFlags & 33554432) for (e = e.child; e !== null;) eu(e), e = e.sibling;
-		else $l(e);
+		for (e = e.child; e !== null;) e.tag === 30 ? Kl(e.child, !1) : e.subtreeFlags & 33554432 && eu(e), e = e.sibling;
 	}
-	function tu(e) {
-		for (e = e.child; e !== null;) e.tag === 30 ? ql(e.child, !1) : e.subtreeFlags & 33554432 && tu(e), e = e.sibling;
-	}
-	function nu(e, t, n, r, i, a, o) {
+	function tu(e, t, n, r, i, a, o) {
 		for (var s = !1; t !== null;) {
 			if (t.tag === 5) {
 				var c = t.stateNode;
-				if (a !== null && Wl < a.length) {
-					var l = a[Wl], u = Op(c);
+				if (a !== null && Ul < a.length) {
+					var l = a[Ul], u = Op(c);
 					(l.view || u.view) && (s = !0);
 					var d;
 					if (d = !(e.flags & 4)) {
@@ -5070,30 +5070,30 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					}
 					d && (e.flags |= 4), u.abs ? u = !l.abs : (l = l.rect, u = u.rect, u = l.height !== u.height || l.width !== u.width), u && (e.flags |= 32);
 				} else e.flags |= 32;
-				e.flags & 4 && Tp(c, Wl === 0 ? n : n + "_" + Wl, i), s && e.flags & 4 || (Hl === null && (Hl = []), Hl.push(c, Wl === 0 ? r : r + "_" + Wl, t.memoizedProps)), Wl++;
-			} else (t.tag !== 22 || t.memoizedState === null) && (t.tag === 30 && o ? e.flags |= t.flags & 32 : nu(e, t.child, n, r, i, a, o) && (s = !0));
+				e.flags & 4 && Tp(c, Ul === 0 ? n : n + "_" + Ul, i), s && e.flags & 4 || (Vl === null && (Vl = []), Vl.push(c, Ul === 0 ? r : r + "_" + Ul, t.memoizedProps)), Ul++;
+			} else (t.tag !== 22 || t.memoizedState === null) && (t.tag === 30 && o ? e.flags |= t.flags & 32 : tu(e, t.child, n, r, i, a, o) && (s = !0));
 			t = t.sibling;
 		}
 		return s;
 	}
-	function ru(e, t) {
+	function nu(e, t) {
 		for (e = e.child; e !== null;) {
 			if (e.tag === 30) {
-				var n = e.memoizedProps, r = e.stateNode, i = hi(n, r), a = _i(n.default, n.update);
+				var n = e.memoizedProps, r = e.stateNode, i = mi(n, r), a = gi(n.default, n.update);
 				if (t) {
 					r = r.clones;
 					var o = r === null ? null : r.map(kp);
 				} else o = e.memoizedState, e.memoizedState = null;
 				r = e;
 				var s = e.child;
-				Wl = 0, i = nu(r, s, i, i, a, o, !1), e.flags & 4 && i && (t || Nd(e, n.onUpdate));
-			} else e.subtreeFlags & 33554432 && ru(e, t);
+				Ul = 0, i = tu(r, s, i, i, a, o, !1), e.flags & 4 && i && (t || Nd(e, n.onUpdate));
+			} else e.subtreeFlags & 33554432 && nu(e, t);
 			e = e.sibling;
 		}
 	}
-	var iu = !1, G = !1, au = !1, ou = !1, su = typeof WeakSet == "function" ? WeakSet : Set, cu = null, lu = !1, uu = !1, du = !1, fu = !1;
-	function pu(e, t, n) {
-		if (e = e.containerInfo, sp = gh, e = Gr(e), Kr(e)) {
+	var ru = !1, K = !1, iu = !1, au = !1, ou = typeof WeakSet == "function" ? WeakSet : Set, su = null, cu = !1, lu = !1, uu = !1, du = !1;
+	function fu(e, t, n) {
+		if (e = e.containerInfo, sp = gh, e = Wr(e), Gr(e)) {
 			if ("selectionStart" in e) var r = {
 				start: e.selectionStart,
 				end: e.selectionEnd
@@ -5135,28 +5135,28 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		for (cp = {
 			focusedElem: e,
 			selectionRange: r
-		}, gh = !1, n = (n & 335544064) === n, cu = t, t = n ? 9270 : 1024; cu !== null;) {
-			if (e = cu, n && (r = e.deletions, r !== null)) for (a = 0; a < r.length; a++) n && Zl(r[a]);
-			if (e.alternate === null && e.flags & 2) n && Vl(e), mu(n);
+		}, gh = !1, n = (n & 335544064) === n, su = t, t = n ? 9270 : 1024; su !== null;) {
+			if (e = su, n && (r = e.deletions, r !== null)) for (a = 0; a < r.length; a++) n && Xl(r[a]);
+			if (e.alternate === null && e.flags & 2) n && Bl(e), pu(n);
 			else {
 				if (e.tag === 22) {
 					if (r = e.alternate, e.memoizedState !== null) {
-						r !== null && r.memoizedState === null && n && Zl(r), mu(n);
+						r !== null && r.memoizedState === null && n && Xl(r), pu(n);
 						continue;
 					}
 					if (r !== null && r.memoizedState !== null) {
-						n && Vl(e), mu(n);
+						n && Bl(e), pu(n);
 						continue;
 					}
 				}
-				r = e.child, (e.subtreeFlags & t) !== 0 && r !== null ? (r.return = e, cu = r) : (n && Ql(e), mu(n));
+				r = e.child, (e.subtreeFlags & t) !== 0 && r !== null ? (r.return = e, su = r) : (n && Zl(e), pu(n));
 			}
 		}
-		Bl = null;
+		zl = null;
 	}
-	function mu(e) {
-		for (; cu !== null;) {
-			var t = cu, n = e, r = t.alternate, a = t.flags;
+	function pu(e) {
+		for (; su !== null;) {
+			var t = su, n = e, r = t.alternate, a = t.flags;
 			switch (t.tag) {
 				case 0:
 				case 11:
@@ -5166,7 +5166,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						n = void 0, a = r.memoizedProps, r = r.memoizedState;
 						var o = t.stateNode;
 						try {
-							var s = xc(t.type, a);
+							var s = bc(t.type, a);
 							n = o.getSnapshotBeforeUpdate(s, r), o.__reactInternalSnapshotBeforeUpdate = n;
 						} catch (e) {
 							Z(t, t.return, e);
@@ -5193,34 +5193,34 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				case 4:
 				case 17: break;
 				case 30:
-					n && r !== null && (n = hi(r.memoizedProps, r.stateNode), a = t.memoizedProps, a = _i(a.default, a.update), a !== "none" && Gl(r, n, a, r.memoizedState = [], !0));
+					n && r !== null && (n = mi(r.memoizedProps, r.stateNode), a = t.memoizedProps, a = gi(a.default, a.update), a !== "none" && Wl(r, n, a, r.memoizedState = [], !0));
 					break;
 				default: if (a & 1024) throw Error(i(163));
 			}
 			if (r = t.sibling, r !== null) {
-				r.return = t.return, cu = r;
+				r.return = t.return, su = r;
 				break;
 			}
-			cu = t.return;
+			su = t.return;
 		}
 	}
-	function hu(e, t, n) {
+	function mu(e, t, n) {
 		var r = n.flags;
 		switch (n.tag) {
 			case 0:
 			case 11:
 			case 15:
-				Fu(e, n), r & 4 && xl(5, n);
+				Pu(e, n), r & 4 && bl(5, n);
 				break;
 			case 1:
-				if (Fu(e, n), r & 4) {
+				if (Pu(e, n), r & 4) {
 					if (e = n.stateNode, t === null) try {
 						e.componentDidMount();
 					} catch (e) {
 						Z(n, n.return, e);
 					}
 					else {
-						var i = xc(n.type, t.memoizedProps);
+						var i = bc(n.type, t.memoizedProps);
 						t = t.memoizedState;
 						try {
 							e.componentDidUpdate(i, t, e.__reactInternalSnapshotBeforeUpdate);
@@ -5229,10 +5229,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						}
 					}
 				}
-				r & 64 && Cl(n), r & 512 && Tl(n, n.return);
+				r & 64 && Sl(n), r & 512 && wl(n, n.return);
 				break;
 			case 3:
-				if (Fu(e, n), r & 64 && (e = n.updateQueue, e !== null)) {
+				if (Pu(e, n), r & 64 && (e = n.updateQueue, e !== null)) {
 					if (t = null, n.child !== null) switch (n.child.tag) {
 						case 27:
 						case 5:
@@ -5241,43 +5241,43 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case 1: t = n.child.stateNode;
 					}
 					try {
-						Co(e, t);
+						So(e, t);
 					} catch (e) {
 						Z(n, n.return, e);
 					}
 				}
 				break;
-			case 27: t === null && r & 4 && Rl(n);
+			case 27: t === null && r & 4 && Ll(n);
 			case 26:
 			case 5:
-				Fu(e, n), t === null && r & 4 && Ml(n), r & 512 && Tl(n, n.return);
+				Pu(e, n), t === null && r & 4 && jl(n), r & 512 && wl(n, n.return);
 				break;
 			case 12:
-				Fu(e, n);
+				Pu(e, n);
 				break;
 			case 31:
-				Fu(e, n), r & 4 && wu(e, n);
+				Pu(e, n), r & 4 && Cu(e, n);
 				break;
 			case 13:
-				Fu(e, n), r & 4 && Tu(e, n), r & 64 && (e = n.memoizedState, e !== null && (e = e.dehydrated, e !== null && (n = _f.bind(null, n), cm(e, n))));
+				Pu(e, n), r & 4 && wu(e, n), r & 64 && (e = n.memoizedState, e !== null && (e = e.dehydrated, e !== null && (n = _f.bind(null, n), cm(e, n))));
 				break;
 			case 22:
-				if (r = n.memoizedState !== null || iu, !r) {
-					var a = t !== null && t.memoizedState !== null || G;
-					t = iu, i = G, iu = r, (G = a) && !i ? (r = 2, n.subtreeFlags & 8772 && (r |= 1), Lu(e, n, r)) : Fu(e, n), iu = t, G = i;
+				if (r = n.memoizedState !== null || ru, !r) {
+					var a = t !== null && t.memoizedState !== null || K;
+					t = ru, i = K, ru = r, (K = a) && !i ? (r = 2, n.subtreeFlags & 8772 && (r |= 1), Iu(e, n, r)) : Pu(e, n), ru = t, K = i;
 				}
 				break;
 			case 30:
-				Fu(e, n), r & 512 && Tl(n, n.return);
+				Pu(e, n), r & 512 && wl(n, n.return);
 				break;
-			case 7: r & 512 && Tl(n, n.return);
-			default: Fu(e, n);
+			case 7: r & 512 && wl(n, n.return);
+			default: Pu(e, n);
 		}
 	}
-	function gu(e, t) {
-		for (e = e.child; e !== null;) _u(e, t), e = e.sibling;
+	function hu(e, t) {
+		for (e = e.child; e !== null;) gu(e, t), e = e.sibling;
 	}
-	function _u(e, t) {
+	function gu(e, t) {
 		switch (e.tag) {
 			case 5:
 			case 26:
@@ -5293,11 +5293,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				} catch (t) {
 					Z(e, e.return, t);
 				}
-				vu(e, t);
+				_u(e, t);
 				break;
 			case 6:
 				try {
-					e.stateNode.nodeValue = t ? "" : e.memoizedProps, B = !0;
+					e.stateNode.nodeValue = t ? "" : e.memoizedProps, V = !0;
 				} catch (t) {
 					Z(e, e.return, t);
 				}
@@ -5312,95 +5312,95 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				break;
 			case 22:
 			case 23:
-				e.memoizedState === null && gu(e, t);
+				e.memoizedState === null && hu(e, t);
 				break;
-			default: gu(e, t);
+			default: hu(e, t);
 		}
 	}
-	function vu(e, t) {
+	function _u(e, t) {
 		if (e.subtreeFlags & 67108864) for (e = e.child; e !== null;) {
 			a: {
 				var n = e, r = t;
 				switch (n.tag) {
 					case 4:
-						_u(n, r);
+						gu(n, r);
 						break a;
 					case 22:
-						n.memoizedState === null && vu(n, r);
+						n.memoizedState === null && _u(n, r);
 						break a;
-					default: vu(n, r);
+					default: _u(n, r);
 				}
 			}
 			e = e.sibling;
 		}
 	}
-	function yu(e) {
+	function vu(e) {
 		var t = e.alternate;
-		t !== null && (e.alternate = null, yu(t)), e.child = null, e.deletions = null, e.sibling = null, e.tag === 5 && (t = e.stateNode, t !== null && At(t)), e.stateNode = null, e.return = null, e.dependencies = null, e.memoizedProps = null, e.memoizedState = null, e.pendingProps = null, e.stateNode = null, e.updateQueue = null;
+		t !== null && (e.alternate = null, vu(t)), e.child = null, e.deletions = null, e.sibling = null, e.tag === 5 && (t = e.stateNode, t !== null && kt(t)), e.stateNode = null, e.return = null, e.dependencies = null, e.memoizedProps = null, e.memoizedState = null, e.pendingProps = null, e.stateNode = null, e.updateQueue = null;
 	}
-	var bu = null, xu = !1;
+	var yu = null, bu = !1;
+	function xu(e, t, n) {
+		for (n = n.child; n !== null;) Su(e, t, n), n = n.sibling;
+	}
 	function Su(e, t, n) {
-		for (n = n.child; n !== null;) Cu(e, t, n), n = n.sibling;
-	}
-	function Cu(e, t, n) {
 		if (Qe && typeof Qe.onCommitFiberUnmount == "function") try {
 			Qe.onCommitFiberUnmount(Ze, n);
 		} catch {}
 		switch (n.tag) {
 			case 26:
-				G || El(n, t), Su(e, t, n), n.memoizedState ? n.memoizedState.count-- : n.stateNode && !G && (n = n.stateNode, n.parentNode.removeChild(n));
+				K || Tl(n, t), xu(e, t, n), n.memoizedState ? n.memoizedState.count-- : n.stateNode && !K && (n = n.stateNode, n.parentNode.removeChild(n));
 				break;
 			case 27:
-				G || El(n, t), kl(n);
-				var r = bu, i = xu;
-				Sp(n.type) && (bu = n.stateNode, xu = !1), Su(e, t, n), gm(n.stateNode, n.type, n.memoizedProps), bu = r, xu = i;
+				K || Tl(n, t), Ol(n);
+				var r = yu, i = bu;
+				Sp(n.type) && (yu = n.stateNode, bu = !1), xu(e, t, n), gm(n.stateNode, n.type, n.memoizedProps), yu = r, bu = i;
 				break;
-			case 5: G || El(n, t), kl(n);
+			case 5: K || Tl(n, t), Ol(n);
 			case 6:
-				if (n.tag === 6 && kl(n), r = bu, i = xu, bu = null, Su(e, t, n), bu = r, xu = i, bu !== null) {
-					if (xu) try {
-						(bu.nodeType === 9 ? bu.body : bu.nodeName === "HTML" ? bu.ownerDocument.body : bu).removeChild(n.stateNode), B = !0;
+				if (n.tag === 6 && Ol(n), r = yu, i = bu, yu = null, xu(e, t, n), yu = r, bu = i, yu !== null) {
+					if (bu) try {
+						(yu.nodeType === 9 ? yu.body : yu.nodeName === "HTML" ? yu.ownerDocument.body : yu).removeChild(n.stateNode), V = !0;
 					} catch (e) {
 						Z(n, t, e);
 					}
 					else try {
-						bu.removeChild(n.stateNode), B = !0;
+						yu.removeChild(n.stateNode), V = !0;
 					} catch (e) {
 						Z(n, t, e);
 					}
 				}
 				break;
 			case 18:
-				bu !== null && (xu ? (e = bu, Cp(e.nodeType === 9 ? e.body : e.nodeName === "HTML" ? e.ownerDocument.body : e, n.stateNode), Hh(e)) : Cp(bu, n.stateNode));
+				yu !== null && (bu ? (e = yu, Cp(e.nodeType === 9 ? e.body : e.nodeName === "HTML" ? e.ownerDocument.body : e, n.stateNode), Hh(e)) : Cp(yu, n.stateNode));
 				break;
 			case 4:
-				r = bu, i = xu, bu = n.stateNode.containerInfo, xu = !0, Su(e, t, n), bu = r, xu = i;
+				r = yu, i = bu, yu = n.stateNode.containerInfo, bu = !0, xu(e, t, n), yu = r, bu = i;
 				break;
 			case 0:
 			case 11:
 			case 14:
 			case 15:
-				Sl(2, n, t), G || Sl(4, n, t), Su(e, t, n);
+				xl(2, n, t), K || xl(4, n, t), xu(e, t, n);
 				break;
 			case 1:
-				G || (El(n, t), r = n.stateNode, typeof r.componentWillUnmount == "function" && wl(n, t, r)), Su(e, t, n);
+				K || (Tl(n, t), r = n.stateNode, typeof r.componentWillUnmount == "function" && Cl(n, t, r)), xu(e, t, n);
 				break;
 			case 21:
-				Su(e, t, n);
+				xu(e, t, n);
 				break;
 			case 22:
-				G = (r = G) || n.memoizedState !== null, Su(e, t, n), G = r;
+				K = (r = K) || n.memoizedState !== null, xu(e, t, n), K = r;
 				break;
 			case 30:
-				El(n, t), Su(e, t, n);
+				Tl(n, t), xu(e, t, n);
 				break;
 			case 7:
-				G || El(n, t), Su(e, t, n);
+				K || Tl(n, t), xu(e, t, n);
 				break;
-			default: Su(e, t, n);
+			default: xu(e, t, n);
 		}
 	}
-	function wu(e, t) {
+	function Cu(e, t) {
 		if (t.memoizedState === null && (e = t.alternate, e !== null && (e = e.memoizedState, e !== null))) {
 			e = e.dehydrated;
 			try {
@@ -5410,26 +5410,26 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 		}
 	}
-	function Tu(e, t) {
+	function wu(e, t) {
 		if (t.memoizedState === null && (e = t.alternate, e !== null && (e = e.memoizedState, e !== null && (e = e.dehydrated, e !== null)))) try {
 			Hh(e);
 		} catch (e) {
 			Z(t, t.return, e);
 		}
 	}
-	function Eu(e) {
+	function Tu(e) {
 		switch (e.tag) {
 			case 31:
 			case 13:
 			case 19:
 				var t = e.stateNode;
-				return t === null && (t = e.stateNode = new su()), t;
-			case 22: return e = e.stateNode, t = e._retryCache, t === null && (t = e._retryCache = new su()), t;
+				return t === null && (t = e.stateNode = new ou()), t;
+			case 22: return e = e.stateNode, t = e._retryCache, t === null && (t = e._retryCache = new ou()), t;
 			default: throw Error(i(435, e.tag));
 		}
 	}
-	function Du(e, t) {
-		var n = Eu(e);
+	function Eu(e, t) {
+		var n = Tu(e);
 		t.forEach(function(t) {
 			if (!n.has(t)) {
 				n.add(t);
@@ -5438,7 +5438,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 		});
 	}
-	function Ou(e, t, n) {
+	function Du(e, t, n) {
 		var r = t.deletions;
 		if (r !== null) for (var a = 0; a < r.length; a++) {
 			var o = r[a], s = e, c = t, l = c;
@@ -5446,27 +5446,27 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				switch (l.tag) {
 					case 27:
 						if (Sp(l.type)) {
-							bu = l.stateNode, xu = !1;
+							yu = l.stateNode, bu = !1;
 							break a;
 						}
 						break;
 					case 5:
-						bu = l.stateNode, xu = !1;
+						yu = l.stateNode, bu = !1;
 						break a;
 					case 3:
 					case 4:
-						bu = l.stateNode.containerInfo, xu = !0;
+						yu = l.stateNode.containerInfo, bu = !0;
 						break a;
 				}
 				l = l.return;
 			}
-			if (bu === null) throw Error(i(160));
-			Cu(s, c, o), bu = null, xu = !1, s = o.alternate, s !== null && (s.return = null), o.return = null;
+			if (yu === null) throw Error(i(160));
+			Su(s, c, o), yu = null, bu = !1, s = o.alternate, s !== null && (s.return = null), o.return = null;
 		}
-		if (t.subtreeFlags & 13886) for (t = t.child; t !== null;) Au(t, e, n), t = t.sibling;
+		if (t.subtreeFlags & 13886) for (t = t.child; t !== null;) ku(t, e, n), t = t.sibling;
 	}
-	var ku = null;
-	function Au(e, t, n) {
+	var Ou = null;
+	function ku(e, t, n) {
 		var r = e.alternate, a = e.flags;
 		switch (e.tag) {
 			case 0:
@@ -5477,23 +5477,23 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var s = r[o];
 					s.ref.impl = s.nextImpl;
 				}
-				Ou(t, e, n), ju(e), a & 4 && (Sl(3, e, e.return), xl(3, e), Sl(5, e, e.return));
+				Du(t, e, n), Au(e), a & 4 && (xl(3, e, e.return), bl(3, e), xl(5, e, e.return));
 				break;
 			case 1:
-				Ou(t, e, n), ju(e), a & 512 && (G || r === null || El(r, r.return)), a & 64 && iu && (e = e.updateQueue, e !== null && (t = e.callbacks, t !== null && (n = e.shared.hiddenCallbacks, e.shared.hiddenCallbacks = n === null ? t : n.concat(t))));
+				Du(t, e, n), Au(e), a & 512 && (K || r === null || Tl(r, r.return)), a & 64 && ru && (e = e.updateQueue, e !== null && (t = e.callbacks, t !== null && (n = e.shared.hiddenCallbacks, e.shared.hiddenCallbacks = n === null ? t : n.concat(t))));
 				break;
 			case 26:
-				if (o = ku, Ou(t, e, n), ju(e), a & 512 && (G || r === null || El(r, r.return)), a & 4) {
+				if (o = Ou, Du(t, e, n), Au(e), a & 512 && (K || r === null || Tl(r, r.return)), a & 4) {
 					if (a = r === null ? null : r.memoizedState, n = e.memoizedState, r === null) {
 						if (n === null) {
 							if (e.stateNode === null) {
-								if (iu) e.stateNode = fp(e.type, e.memoizedProps, t.containerInfo, e);
+								if (ru) e.stateNode = fp(e.type, e.memoizedProps, t.containerInfo, e);
 								else {
 									a: {
 										t = e.type, n = e.memoizedProps, a = o.ownerDocument || o;
 										b: switch (t) {
 											case "title":
-												r = a.getElementsByTagName("title")[0], (!r || r[Ot] || r[St] || r.namespaceURI === "http://www.w3.org/2000/svg" || r.hasAttribute("itemprop")) && (r = a.createElement(t), a.head.insertBefore(r, a.querySelector("head > title"))), np(r, t, n), r[St] = e, Ft(r), t = r;
+												r = a.getElementsByTagName("title")[0], (!r || r[Dt] || r[bt] || r.namespaceURI === "http://www.w3.org/2000/svg" || r.hasAttribute("itemprop")) && (r = a.createElement(t), a.head.insertBefore(r, a.querySelector("head > title"))), np(r, t, n), r[bt] = e, Pt(r), t = r;
 												break a;
 											case "link":
 												if (o = Gm("link", "href", a).get(t + (n.href || ""))) {
@@ -5515,82 +5515,82 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 												break;
 											default: throw Error(i(468, t));
 										}
-										r[St] = e, Ft(r), t = r;
+										r[bt] = e, Pt(r), t = r;
 									}
 									e.stateNode = t;
 								}
-							} else iu || Km(o, e.type, e.stateNode);
+							} else ru || Km(o, e.type, e.stateNode);
 						} else e.stateNode = Bm(o, n, e.memoizedProps);
-					} else a === n ? n === null && e.stateNode !== null && Nl(e, e.memoizedProps, r.memoizedProps) : (a === null ? (t = r.stateNode, t === null || G || t.parentNode.removeChild(t)) : a.count--, n === null ? iu || Km(o, e.type, e.stateNode) : Bm(o, n, e.memoizedProps));
+					} else a === n ? n === null && e.stateNode !== null && Ml(e, e.memoizedProps, r.memoizedProps) : (a === null ? (t = r.stateNode, t === null || K || t.parentNode.removeChild(t)) : a.count--, n === null ? ru || Km(o, e.type, e.stateNode) : Bm(o, n, e.memoizedProps));
 				}
 				break;
 			case 27:
-				Ou(t, e, n), ju(e), a & 512 && (G || r === null || El(r, r.return)), r !== null && a & 4 && Nl(e, e.memoizedProps, r.memoizedProps);
+				Du(t, e, n), Au(e), a & 512 && (K || r === null || Tl(r, r.return)), r !== null && a & 4 && Ml(e, e.memoizedProps, r.memoizedProps);
 				break;
 			case 5:
-				if (o = au, au = !1, Ou(t, e, n), au = o, ju(e), a & 512 && (G || r === null || El(r, r.return)), e.flags & 32) {
+				if (o = iu, iu = !1, Du(t, e, n), iu = o, Au(e), a & 512 && (K || r === null || Tl(r, r.return)), e.flags & 32) {
 					t = e.stateNode;
 					try {
-						ln(t, ""), B = !0;
+						cn(t, ""), V = !0;
 					} catch (t) {
 						Z(e, e.return, t);
 					}
 				}
-				a & 4 && e.stateNode != null && (t = e.memoizedProps, Nl(e, t, r === null ? t : r.memoizedProps)), a & 1024 && (ou = !0);
+				a & 4 && e.stateNode != null && (t = e.memoizedProps, Ml(e, t, r === null ? t : r.memoizedProps)), a & 1024 && (au = !0);
 				break;
 			case 6:
-				if (Ou(t, e, n), ju(e), a & 4) {
+				if (Du(t, e, n), Au(e), a & 4) {
 					if (e.stateNode === null) throw Error(i(162));
 					t = e.memoizedProps, n = e.stateNode;
 					try {
-						n.nodeValue = t, B = !0;
+						n.nodeValue = t, V = !0;
 					} catch (t) {
 						Z(e, e.return, t);
 					}
 				}
 				break;
 			case 3:
-				if (B = !1, Wm = null, o = ku, ku = bm(t.containerInfo), Ou(t, e, n), ku = o, ju(e), a & 4 && r !== null && r.memoizedState.isDehydrated) try {
+				if (V = !1, Wm = null, o = Ou, Ou = bm(t.containerInfo), Du(t, e, n), Ou = o, Au(e), a & 4 && r !== null && r.memoizedState.isDehydrated) try {
 					Hh(t.containerInfo);
 				} catch (t) {
 					Z(e, e.return, t);
 				}
-				ou && (ou = !1, Mu(e)), B = !1;
+				au && (au = !1, ju(e)), V = !1;
 				break;
 			case 4:
-				a = au, au = iu, r = Gt(), o = ku, ku = bm(e.stateNode.containerInfo), Ou(t, e, n), ju(e), ku = o, B && uu && (du = !0), B = r, au = a;
+				a = iu, iu = ru, r = Wt(), o = Ou, Ou = bm(e.stateNode.containerInfo), Du(t, e, n), Au(e), Ou = o, V && lu && (uu = !0), V = r, iu = a;
 				break;
 			case 12:
-				Ou(t, e, n), ju(e);
+				Du(t, e, n), Au(e);
 				break;
 			case 31:
-				Ou(t, e, n), ju(e), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Du(e, t)));
+				Du(t, e, n), Au(e), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Eu(e, t)));
 				break;
 			case 13:
-				Ou(t, e, n), ju(e), e.child.flags & 8192 && e.memoizedState !== null != (r !== null && r.memoizedState !== null) && (md = He()), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Du(e, t)));
+				Du(t, e, n), Au(e), e.child.flags & 8192 && e.memoizedState !== null != (r !== null && r.memoizedState !== null) && (md = He()), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Eu(e, t)));
 				break;
 			case 22:
 				o = e.memoizedState !== null, s = r !== null && r.memoizedState !== null;
-				var c = iu, l = G, u = au;
-				iu = c || o, au = u || o, G = l || s, Ou(t, e, n), G = l, au = u, iu = c, ju(e), a & 8192 && (t = e.stateNode, t._visibility = o ? t._visibility & -2 : t._visibility | 1, !o || r === null || s || iu || G || (t = s || G, n = iu, r = G, iu = o || iu, G = t, Iu(e, 2), iu = n, G = r), !o && au || gu(e, o)), a & 4 && (t = e.updateQueue, t !== null && (n = t.retryQueue, n !== null && (t.retryQueue = null, Du(e, n))));
+				var c = ru, l = K, u = iu;
+				ru = c || o, iu = u || o, K = l || s, Du(t, e, n), K = l, iu = u, ru = c, Au(e), a & 8192 && (t = e.stateNode, t._visibility = o ? t._visibility & -2 : t._visibility | 1, !o || r === null || s || ru || K || (t = s || K, n = ru, r = K, ru = o || ru, K = t, Fu(e, 2), ru = n, K = r), !o && iu || hu(e, o)), a & 4 && (t = e.updateQueue, t !== null && (n = t.retryQueue, n !== null && (t.retryQueue = null, Eu(e, n))));
 				break;
 			case 19:
-				Ou(t, e, n), ju(e), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Du(e, t)));
+				Du(t, e, n), Au(e), a & 4 && (t = e.updateQueue, t !== null && (e.updateQueue = null, Eu(e, t)));
 				break;
 			case 30:
-				a & 512 && (G || r === null || El(r, r.return)), a = Gt(), o = uu, s = (n & 335544064) === n, c = e.memoizedProps, uu = s && _i(c.default, c.update) !== "none", Ou(t, e, n), ju(e), s && r !== null && B && (e.flags |= 4), uu = o, B = a;
+				a & 512 && (K || r === null || Tl(r, r.return)), a = Wt(), o = lu, s = (n & 335544064) === n, c = e.memoizedProps, lu = s && gi(c.default, c.update) !== "none", Du(t, e, n), Au(e), s && r !== null && V && (e.flags |= 4), lu = o, V = a;
 				break;
 			case 21: break;
-			case 7: a & 512 && (G || r === null || El(r, r.return)), r && r.stateNode !== null && (r.stateNode._fragmentFiber = e);
-			default: Ou(t, e, n), ju(e);
+			case 7: a & 512 && (K || r === null || Tl(r, r.return)), r && r.stateNode !== null && (r.stateNode._fragmentFiber = e);
+			default: Du(t, e, n), Au(e);
 		}
 	}
-	function ju(e) {
+	function Au(e) {
 		var t = e.flags;
 		if (t & 2) {
 			try {
 				for (var n, r = e.return; r !== null;) {
-					if (Pl(r)) {
+					if (Nl(r)) {
 						n = r;
 						break;
 					}
@@ -5598,11 +5598,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				r = null;
 				for (var a = e.return; a !== null;) {
-					if (jl(a)) {
+					if (Al(a)) {
 						var o = a.stateNode;
 						r === null ? r = [o] : r.push(o);
 					}
-					if (Al(a)) break;
+					if (kl(a)) break;
 					a = a.return;
 				}
 				var s = r;
@@ -5610,16 +5610,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				switch (n.tag) {
 					case 27:
 						var c = n.stateNode;
-						Ll(e, Fl(e), c, s);
+						Il(e, Pl(e), c, s);
 						break;
 					case 5:
 						var l = n.stateNode;
-						n.flags & 32 && (ln(l, ""), n.flags &= -33), Ll(e, Fl(e), l, s);
+						n.flags & 32 && (cn(l, ""), n.flags &= -33), Il(e, Pl(e), l, s);
 						break;
 					case 3:
 					case 4:
 						var u = n.stateNode.containerInfo;
-						Il(e, Fl(e), u, s);
+						Fl(e, Pl(e), u, s);
 						break;
 					default: throw Error(i(161));
 				}
@@ -5630,23 +5630,23 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		t & 4096 && (e.flags &= -4097);
 	}
-	function Mu(e) {
+	function ju(e) {
 		if (e.subtreeFlags & 1024) for (e = e.child; e !== null;) {
 			var t = e;
-			Mu(t), t.tag === 5 && t.flags & 1024 && (t = t.stateNode, gh = !0, t.reset(), gh = !1), e = e.sibling;
+			ju(t), t.tag === 5 && t.flags & 1024 && (t = t.stateNode, gh = !0, t.reset(), gh = !1), e = e.sibling;
 		}
 	}
-	function Nu(e, t) {
-		if (t.subtreeFlags & 9270) for (t = t.child; t !== null;) Pu(t, e), t = t.sibling;
-		else ru(t, !1);
+	function Mu(e, t) {
+		if (t.subtreeFlags & 9270) for (t = t.child; t !== null;) Nu(t, e), t = t.sibling;
+		else nu(t, !1);
 	}
-	function Pu(e, t) {
+	function Nu(e, t) {
 		var n = e.alternate;
-		if (n === null) Yl(e, !1);
+		if (n === null) Jl(e, !1);
 		else switch (e.tag) {
 			case 3:
-				if (fu = lu = !1, Ul(), Nu(t, e), !lu && !du) {
-					if (e = Hl, e !== null) for (var r = 0; r < e.length; r += 3) {
+				if (du = cu = !1, Hl(), Mu(t, e), !cu && !uu) {
+					if (e = Vl, e !== null) for (var r = 0; r < e.length; r += 3) {
 						n = e[r];
 						var i = e[r + 1];
 						Ep(n, e[r + 2]), n = n.ownerDocument.documentElement, n !== null && n.animate({
@@ -5672,33 +5672,33 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						duration: 0,
 						fill: "forwards",
 						pseudoElement: "::view-transition"
-					})), fu = !0;
+					})), du = !0;
 				}
-				Hl = null;
+				Vl = null;
 				break;
 			case 5:
-				Nu(t, e);
+				Mu(t, e);
 				break;
 			case 4:
-				r = lu, lu = !1, Nu(t, e), lu && (du = !0), lu = r;
+				r = cu, cu = !1, Mu(t, e), cu && (uu = !0), cu = r;
 				break;
 			case 22:
-				e.memoizedState === null && (n.memoizedState === null ? Nu(t, e) : Yl(e, !1));
+				e.memoizedState === null && (n.memoizedState === null ? Mu(t, e) : Jl(e, !1));
 				break;
 			case 30:
-				r = lu, i = Ul(), lu = !1, Nu(t, e), lu && (e.flags |= 4);
+				r = cu, i = Hl(), cu = !1, Mu(t, e), cu && (e.flags |= 4);
 				var a = e.memoizedProps, o = e.stateNode;
-				t = hi(a, o), o = hi(n.memoizedProps, o);
-				var s = _i(a.default, a.update);
-				s === "none" ? t = !1 : (a = n.memoizedState, n.memoizedState = null, n = e.child, Wl = 0, t = nu(e, n, t, o, s, a, !0), Wl !== (a === null ? 0 : a.length) && (e.flags |= 32)), e.flags & 4 && t ? (Nd(e, e.memoizedProps.onUpdate), Hl = i) : i !== null && (i.push.apply(i, Hl), Hl = i), lu = e.flags & 32 ? !0 : r;
+				t = mi(a, o), o = mi(n.memoizedProps, o);
+				var s = gi(a.default, a.update);
+				s === "none" ? t = !1 : (a = n.memoizedState, n.memoizedState = null, n = e.child, Ul = 0, t = tu(e, n, t, o, s, a, !0), Ul !== (a === null ? 0 : a.length) && (e.flags |= 32)), e.flags & 4 && t ? (Nd(e, e.memoizedProps.onUpdate), Vl = i) : i !== null && (i.push.apply(i, Vl), Vl = i), cu = e.flags & 32 ? !0 : r;
 				break;
-			default: Nu(t, e);
+			default: Mu(t, e);
 		}
 	}
-	function Fu(e, t) {
-		if (t.subtreeFlags & 8772) for (t = t.child; t !== null;) hu(e, t.alternate, t), t = t.sibling;
+	function Pu(e, t) {
+		if (t.subtreeFlags & 8772) for (t = t.child; t !== null;) mu(e, t.alternate, t), t = t.sibling;
 	}
-	function Iu(e, t) {
+	function Fu(e, t) {
 		for (e = e.child; e !== null;) {
 			var n = e, r = t;
 			switch (n.tag) {
@@ -5706,46 +5706,46 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				case 11:
 				case 14:
 				case 15:
-					Sl(4, n, n.return), Iu(n, r);
+					xl(4, n, n.return), Fu(n, r);
 					break;
 				case 1:
-					El(n, n.return);
+					Tl(n, n.return);
 					var i = n.stateNode;
-					typeof i.componentWillUnmount == "function" && wl(n, n.return, i), Iu(n, r);
+					typeof i.componentWillUnmount == "function" && Cl(n, n.return, i), Fu(n, r);
 					break;
 				case 27: r & 2 && gm(n.stateNode, n.type, n.memoizedProps);
 				case 5:
-					El(n, n.return), n.tag !== 5 && n.tag !== 27 || kl(n), Iu(n, r);
+					Tl(n, n.return), n.tag !== 5 && n.tag !== 27 || Ol(n), Fu(n, r);
 					break;
 				case 6:
-					kl(n);
+					Ol(n);
 					break;
 				case 26:
-					El(n, n.return), i = n.stateNode, n.memoizedState !== null || i === null || G || i.parentNode.removeChild(i), Iu(n, r);
+					Tl(n, n.return), i = n.stateNode, n.memoizedState !== null || i === null || K || i.parentNode.removeChild(i), Fu(n, r);
 					break;
 				case 22:
-					n.memoizedState === null && Iu(n, r);
+					n.memoizedState === null && Fu(n, r);
 					break;
 				case 30:
-					El(n, n.return), Iu(n, r);
+					Tl(n, n.return), Fu(n, r);
 					break;
-				case 7: El(n, n.return);
-				default: Iu(n, r);
+				case 7: Tl(n, n.return);
+				default: Fu(n, r);
 			}
 			e = e.sibling;
 		}
 	}
-	function Lu(e, t, n) {
+	function Iu(e, t, n) {
 		for (n = t.subtreeFlags & 8772 ? n : n & -2, t = t.child; t !== null;) {
 			var r = t.alternate, i = e, a = t, o = a.flags, s = !!(n & 1);
 			switch (a.tag) {
 				case 0:
 				case 11:
 				case 15:
-					Lu(i, a, n), xl(4, a);
+					Iu(i, a, n), bl(4, a);
 					break;
 				case 1:
-					if (Lu(i, a, n), r = a, i = r.stateNode, typeof i.componentDidMount == "function") try {
+					if (Iu(i, a, n), r = a, i = r.stateNode, typeof i.componentDidMount == "function") try {
 						i.componentDidMount();
 					} catch (e) {
 						Z(r, r.return, e);
@@ -5754,170 +5754,170 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						var c = r.stateNode;
 						try {
 							var l = i.shared.hiddenCallbacks;
-							if (l !== null) for (i.shared.hiddenCallbacks = null, i = 0; i < l.length; i++) So(l[i], c);
+							if (l !== null) for (i.shared.hiddenCallbacks = null, i = 0; i < l.length; i++) xo(l[i], c);
 						} catch (e) {
 							Z(r, r.return, e);
 						}
 					}
-					s && o & 64 && Cl(a), Tl(a, a.return);
+					s && o & 64 && Sl(a), wl(a, a.return);
 					break;
-				case 27: n & 2 && Rl(a);
+				case 27: n & 2 && Ll(a);
 				case 5:
-					a.tag !== 5 && a.tag !== 27 || Ol(a), Lu(i, a, n), s && r === null && o & 4 && Ml(a), Tl(a, a.return);
+					a.tag !== 5 && a.tag !== 27 || Dl(a), Iu(i, a, n), s && r === null && o & 4 && jl(a), wl(a, a.return);
 					break;
 				case 6:
-					Ol(a);
+					Dl(a);
 					break;
 				case 26:
-					c = a.stateNode, a.memoizedState !== null || c === null || iu || Km(bm(c.ownerDocument), a.type, c), Lu(i, a, n), s && r === null && o & 4 && Ml(a), Tl(a, a.return);
+					c = a.stateNode, a.memoizedState !== null || c === null || ru || Km(bm(c.ownerDocument), a.type, c), Iu(i, a, n), s && r === null && o & 4 && jl(a), wl(a, a.return);
 					break;
 				case 12:
-					Lu(i, a, n);
+					Iu(i, a, n);
 					break;
 				case 31:
-					Lu(i, a, n), s && o & 4 && wu(i, a);
+					Iu(i, a, n), s && o & 4 && Cu(i, a);
 					break;
 				case 13:
-					Lu(i, a, n), s && o & 4 && Tu(i, a);
+					Iu(i, a, n), s && o & 4 && wu(i, a);
 					break;
 				case 22:
-					a.memoizedState === null && Lu(i, a, n), Tl(a, a.return);
+					a.memoizedState === null && Iu(i, a, n), wl(a, a.return);
 					break;
 				case 30:
-					Lu(i, a, n), Tl(a, a.return);
+					Iu(i, a, n), wl(a, a.return);
 					break;
-				case 7: Tl(a, a.return);
-				default: Lu(i, a, n);
+				case 7: wl(a, a.return);
+				default: Iu(i, a, n);
 			}
 			t = t.sibling;
 		}
 	}
-	function Ru(e, t) {
+	function Lu(e, t) {
 		var n = null;
-		e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), e = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (e = t.memoizedState.cachePool.pool), e !== n && (e != null && e.refCount++, n != null && ja(n));
+		e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), e = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (e = t.memoizedState.cachePool.pool), e !== n && (e != null && e.refCount++, n != null && Aa(n));
 	}
-	function zu(e, t) {
-		e = null, t.alternate !== null && (e = t.alternate.memoizedState.cache), t = t.memoizedState.cache, t !== e && (t.refCount++, e != null && ja(e));
+	function Ru(e, t) {
+		e = null, t.alternate !== null && (e = t.alternate.memoizedState.cache), t = t.memoizedState.cache, t !== e && (t.refCount++, e != null && Aa(e));
+	}
+	function zu(e, t, n, r) {
+		var i = (n & 335544064) === n;
+		if (t.subtreeFlags & (i ? 10262 : 10256)) for (t = t.child; t !== null;) Bu(e, t, n, r), t = t.sibling;
+		else i && eu(t);
 	}
 	function Bu(e, t, n, r) {
 		var i = (n & 335544064) === n;
-		if (t.subtreeFlags & (i ? 10262 : 10256)) for (t = t.child; t !== null;) Vu(e, t, n, r), t = t.sibling;
-		else i && tu(t);
-	}
-	function Vu(e, t, n, r) {
-		var i = (n & 335544064) === n;
-		i && t.alternate === null && t.return !== null && t.return.alternate !== null && eu(t);
+		i && t.alternate === null && t.return !== null && t.return.alternate !== null && $l(t);
 		var a = t.flags;
 		switch (t.tag) {
 			case 0:
 			case 11:
 			case 15:
-				Bu(e, t, n, r), a & 2048 && xl(9, t);
+				zu(e, t, n, r), a & 2048 && bl(9, t);
 				break;
 			case 1:
-				Bu(e, t, n, r);
+				zu(e, t, n, r);
 				break;
 			case 3:
-				Bu(e, t, n, r), i && fu && (e = e.containerInfo, e = e.nodeType === 9 ? e.body : e.nodeName === "HTML" ? e.ownerDocument.body : e, e.style.viewTransitionName === "root" && (e.style.viewTransitionName = ""), e = e.ownerDocument.documentElement, e !== null && e.style.viewTransitionName === "none" && (e.style.viewTransitionName = "")), a & 2048 && (a = null, t.alternate !== null && (a = t.alternate.memoizedState.cache), t = t.memoizedState.cache, t !== a && (t.refCount++, a != null && ja(a)));
+				zu(e, t, n, r), i && du && (e = e.containerInfo, e = e.nodeType === 9 ? e.body : e.nodeName === "HTML" ? e.ownerDocument.body : e, e.style.viewTransitionName === "root" && (e.style.viewTransitionName = ""), e = e.ownerDocument.documentElement, e !== null && e.style.viewTransitionName === "none" && (e.style.viewTransitionName = "")), a & 2048 && (a = null, t.alternate !== null && (a = t.alternate.memoizedState.cache), t = t.memoizedState.cache, t !== a && (t.refCount++, a != null && Aa(a)));
 				break;
 			case 12:
 				if (a & 2048) {
-					Bu(e, t, n, r), a = t.stateNode;
+					zu(e, t, n, r), a = t.stateNode;
 					try {
 						var o = t.memoizedProps, s = o.id, c = o.onPostCommit;
 						typeof c == "function" && c(s, t.alternate === null ? "mount" : "update", a.passiveEffectDuration, -0);
 					} catch (e) {
 						Z(t, t.return, e);
 					}
-				} else Bu(e, t, n, r);
+				} else zu(e, t, n, r);
 				break;
 			case 31:
-				Bu(e, t, n, r);
+				zu(e, t, n, r);
 				break;
 			case 13:
-				Bu(e, t, n, r);
+				zu(e, t, n, r);
 				break;
 			case 23: break;
 			case 22:
-				o = t.stateNode, s = t.alternate, t.memoizedState === null ? (i && s !== null && s.memoizedState !== null && eu(t), o._visibility & 2 ? Bu(e, t, n, r) : (o._visibility |= 2, Hu(e, t, n, r, !!(t.subtreeFlags & 10256) || !1))) : (i && s !== null && s.memoizedState === null && eu(s), o._visibility & 2 ? Bu(e, t, n, r) : Uu(e, t)), a & 2048 && Ru(s, t);
+				o = t.stateNode, s = t.alternate, t.memoizedState === null ? (i && s !== null && s.memoizedState !== null && $l(t), o._visibility & 2 ? zu(e, t, n, r) : (o._visibility |= 2, Vu(e, t, n, r, !!(t.subtreeFlags & 10256) || !1))) : (i && s !== null && s.memoizedState === null && $l(s), o._visibility & 2 ? zu(e, t, n, r) : Hu(e, t)), a & 2048 && Lu(s, t);
 				break;
 			case 24:
-				Bu(e, t, n, r), a & 2048 && zu(t.alternate, t);
+				zu(e, t, n, r), a & 2048 && Ru(t.alternate, t);
 				break;
 			case 30:
-				i && (a = t.alternate, a !== null && (ql(a.child, !0), ql(t.child, !0))), Bu(e, t, n, r);
+				i && (a = t.alternate, a !== null && (Kl(a.child, !0), Kl(t.child, !0))), zu(e, t, n, r);
 				break;
-			default: Bu(e, t, n, r);
+			default: zu(e, t, n, r);
 		}
 	}
-	function Hu(e, t, n, r, i) {
+	function Vu(e, t, n, r, i) {
 		for (i &&= !!(t.subtreeFlags & 10256) || !1, t = t.child; t !== null;) {
 			var a = e, o = t, s = n, c = r, l = o.flags;
 			switch (o.tag) {
 				case 0:
 				case 11:
 				case 15:
-					Hu(a, o, s, c, i), xl(8, o);
+					Vu(a, o, s, c, i), bl(8, o);
 					break;
 				case 23: break;
 				case 22:
 					var u = o.stateNode;
-					o.memoizedState === null ? (u._visibility |= 2, Hu(a, o, s, c, i)) : u._visibility & 2 ? Hu(a, o, s, c, i) : Uu(a, o), i && l & 2048 && Ru(o.alternate, o);
+					o.memoizedState === null ? (u._visibility |= 2, Vu(a, o, s, c, i)) : u._visibility & 2 ? Vu(a, o, s, c, i) : Hu(a, o), i && l & 2048 && Lu(o.alternate, o);
 					break;
 				case 24:
-					Hu(a, o, s, c, i), i && l & 2048 && zu(o.alternate, o);
+					Vu(a, o, s, c, i), i && l & 2048 && Ru(o.alternate, o);
 					break;
-				default: Hu(a, o, s, c, i);
+				default: Vu(a, o, s, c, i);
 			}
 			t = t.sibling;
 		}
 	}
-	function Uu(e, t) {
+	function Hu(e, t) {
 		if (t.subtreeFlags & 10256) for (t = t.child; t !== null;) {
 			var n = e, r = t, i = r.flags;
 			switch (r.tag) {
 				case 22:
-					Uu(n, r), i & 2048 && Ru(r.alternate, r);
+					Hu(n, r), i & 2048 && Lu(r.alternate, r);
 					break;
 				case 24:
-					Uu(n, r), i & 2048 && zu(r.alternate, r);
+					Hu(n, r), i & 2048 && Ru(r.alternate, r);
 					break;
-				default: Uu(n, r);
+				default: Hu(n, r);
 			}
 			t = t.sibling;
 		}
 	}
-	var Wu = 8192;
-	function Gu(e, t, n) {
-		if (e.subtreeFlags & Wu) for (e = e.child; e !== null;) Ku(e, t, n), e = e.sibling;
+	var Uu = 8192;
+	function Wu(e, t, n) {
+		if (e.subtreeFlags & Uu) for (e = e.child; e !== null;) Gu(e, t, n), e = e.sibling;
 	}
-	function Ku(e, t, n) {
+	function Gu(e, t, n) {
 		switch (e.tag) {
 			case 26:
-				Gu(e, t, n), e.flags & Wu && (e.memoizedState === null ? (e = e.stateNode, (t & 335544128) === t && Zm(n, e)) : Qm(n, ku, e.memoizedState, e.memoizedProps));
+				Wu(e, t, n), e.flags & Uu && (e.memoizedState === null ? (e = e.stateNode, (t & 335544128) === t && Zm(n, e)) : Qm(n, Ou, e.memoizedState, e.memoizedProps));
 				break;
 			case 5:
-				Gu(e, t, n), e.flags & Wu && (e = e.stateNode, (t & 335544128) === t && Zm(n, e));
+				Wu(e, t, n), e.flags & Uu && (e = e.stateNode, (t & 335544128) === t && Zm(n, e));
 				break;
 			case 3:
 			case 4:
-				var r = ku;
-				ku = bm(e.stateNode.containerInfo), Gu(e, t, n), ku = r;
+				var r = Ou;
+				Ou = bm(e.stateNode.containerInfo), Wu(e, t, n), Ou = r;
 				break;
 			case 22:
-				e.memoizedState === null && (r = e.alternate, r !== null && r.memoizedState !== null ? (r = Wu, Wu = 16777216, Gu(e, t, n), Wu = r) : Gu(e, t, n));
+				e.memoizedState === null && (r = e.alternate, r !== null && r.memoizedState !== null ? (r = Uu, Uu = 16777216, Wu(e, t, n), Uu = r) : Wu(e, t, n));
 				break;
 			case 30:
-				if ((e.flags & Wu) !== 0 && (r = e.memoizedProps.name, r != null && r !== "auto")) {
+				if ((e.flags & Uu) !== 0 && (r = e.memoizedProps.name, r != null && r !== "auto")) {
 					var i = e.stateNode;
-					i.paired = null, Bl === null && (Bl = /* @__PURE__ */ new Map()), Bl.set(r, i);
+					i.paired = null, zl === null && (zl = /* @__PURE__ */ new Map()), zl.set(r, i);
 				}
-				Gu(e, t, n);
+				Wu(e, t, n);
 				break;
-			default: Gu(e, t, n);
+			default: Wu(e, t, n);
 		}
 	}
-	function qu(e) {
+	function Ku(e) {
 		var t = e.alternate;
 		if (t !== null && (e = t.child, e !== null)) {
 			t.child = null;
@@ -5926,69 +5926,69 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			while (e !== null);
 		}
 	}
-	function Ju(e) {
+	function qu(e) {
 		var t = e.deletions;
 		if (e.flags & 16) {
 			if (t !== null) for (var n = 0; n < t.length; n++) {
 				var r = t[n];
-				cu = r, Zu(r, e);
+				su = r, Xu(r, e);
 			}
-			qu(e);
+			Ku(e);
 		}
-		if (e.subtreeFlags & 10256) for (e = e.child; e !== null;) Yu(e), e = e.sibling;
+		if (e.subtreeFlags & 10256) for (e = e.child; e !== null;) Ju(e), e = e.sibling;
 	}
-	function Yu(e) {
+	function Ju(e) {
 		switch (e.tag) {
 			case 0:
 			case 11:
 			case 15:
-				Ju(e), e.flags & 2048 && Sl(9, e, e.return);
+				qu(e), e.flags & 2048 && xl(9, e, e.return);
 				break;
 			case 3:
-				Ju(e);
+				qu(e);
 				break;
 			case 12:
-				Ju(e);
+				qu(e);
 				break;
 			case 22:
 				var t = e.stateNode;
-				e.memoizedState !== null && t._visibility & 2 && (e.return === null || e.return.tag !== 13) ? (t._visibility &= -3, Xu(e)) : Ju(e);
+				e.memoizedState !== null && t._visibility & 2 && (e.return === null || e.return.tag !== 13) ? (t._visibility &= -3, Yu(e)) : qu(e);
 				break;
-			default: Ju(e);
+			default: qu(e);
 		}
 	}
-	function Xu(e) {
+	function Yu(e) {
 		var t = e.deletions;
 		if (e.flags & 16) {
 			if (t !== null) for (var n = 0; n < t.length; n++) {
 				var r = t[n];
-				cu = r, Zu(r, e);
+				su = r, Xu(r, e);
 			}
-			qu(e);
+			Ku(e);
 		}
 		for (e = e.child; e !== null;) {
 			switch (t = e, t.tag) {
 				case 0:
 				case 11:
 				case 15:
-					Sl(8, t, t.return), Xu(t);
+					xl(8, t, t.return), Yu(t);
 					break;
 				case 22:
-					n = t.stateNode, n._visibility & 2 && (n._visibility &= -3, Xu(t));
+					n = t.stateNode, n._visibility & 2 && (n._visibility &= -3, Yu(t));
 					break;
-				default: Xu(t);
+				default: Yu(t);
 			}
 			e = e.sibling;
 		}
 	}
-	function Zu(e, t) {
-		for (; cu !== null;) {
-			var n = cu;
+	function Xu(e, t) {
+		for (; su !== null;) {
+			var n = su;
 			switch (n.tag) {
 				case 0:
 				case 11:
 				case 15:
-					Sl(8, n, t);
+					xl(8, n, t);
 					break;
 				case 23:
 				case 22:
@@ -5997,57 +5997,57 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						r != null && r.refCount++;
 					}
 					break;
-				case 24: ja(n.memoizedState.cache);
+				case 24: Aa(n.memoizedState.cache);
 			}
-			if (r = n.child, r !== null) r.return = n, cu = r;
-			else a: for (n = e; cu !== null;) {
-				r = cu;
+			if (r = n.child, r !== null) r.return = n, su = r;
+			else a: for (n = e; su !== null;) {
+				r = su;
 				var i = r.sibling, a = r.return;
-				if (yu(r), r === n) {
-					cu = null;
+				if (vu(r), r === n) {
+					su = null;
 					break a;
 				}
 				if (i !== null) {
-					i.return = a, cu = i;
+					i.return = a, su = i;
 					break a;
 				}
-				cu = a;
+				su = a;
 			}
 		}
 	}
-	var Qu = {
+	var Zu = {
 		getCacheForType: function(e) {
-			var t = Ca(ka), n = t.data.get(e);
+			var t = Sa(Oa), n = t.data.get(e);
 			return n === void 0 && (n = e(), t.data.set(e, n)), n;
 		},
 		cacheSignal: function() {
-			return Ca(ka).controller.signal;
+			return Sa(Oa).controller.signal;
 		}
-	}, $u = typeof WeakMap == "function" ? WeakMap : Map, K = 0, q = null, J = null, Y = 0, X = 0, ed = null, td = !1, nd = !1, rd = !1, id = 0, ad = 0, od = 0, sd = 0, cd = 0, ld = 0, ud = 0, dd = null, fd = null, pd = !1, md = 0, hd = 0, gd = Infinity, _d = null, vd = null, yd = 0, bd = null, xd = null, Sd = 0, Cd = 0, wd = null, Td = null, Ed = null, Dd = null, Od = null, kd = 0, Ad = null;
+	}, Qu = typeof WeakMap == "function" ? WeakMap : Map, q = 0, $u = null, J = null, Y = 0, X = 0, ed = null, td = !1, nd = !1, rd = !1, id = 0, ad = 0, od = 0, sd = 0, cd = 0, ld = 0, ud = 0, dd = null, fd = null, pd = !1, md = 0, hd = 0, gd = Infinity, _d = null, vd = null, yd = 0, bd = null, xd = null, Sd = 0, Cd = 0, wd = null, Td = null, Ed = null, Dd = null, Od = null, kd = 0, Ad = null;
 	function jd() {
-		return K & 2 && Y !== 0 ? Y & -Y : M.T === null ? yt() : Pf();
+		return q & 2 && Y !== 0 ? Y & -Y : M.T === null ? vt() : Pf();
 	}
 	function Md() {
 		if (ld === 0) {
-			if (!(Y & 536870912) || H) {
-				var e = it;
-				it <<= 1, !(it & 3932160) && (it = 262144), ld = e;
+			if (!(Y & 536870912) || U) {
+				var e = z;
+				z <<= 1, !(z & 3932160) && (z = 262144), ld = e;
 			} else ld = 536870912;
 		}
-		return e = ko.current, e !== null && (e.flags |= 32), ld;
+		return e = Oo.current, e !== null && (e.flags |= 32), ld;
 	}
 	function Nd(e, t) {
 		if (t != null) {
 			var n = e.stateNode, r = n.ref;
-			r === null && (r = n.ref = Pp(hi(e.memoizedProps, n))), Dd === null && (Dd = []), Dd.push(t.bind(null, r));
+			r === null && (r = n.ref = Pp(mi(e.memoizedProps, n))), Dd === null && (Dd = []), Dd.push(t.bind(null, r));
 		}
 	}
 	function Pd(e, t, n) {
-		(e === q && (X === 2 || X === 9) || e.cancelPendingCommit !== null) && (Vd(e, 0), Rd(e, Y, ld, !1)), ft(e, n), K & 2 && e === q || (e === q && (!(K & 2) && (sd |= n), ad === 4 && Rd(e, Y, ld, !1)), Ef(e));
+		(e === $u && (X === 2 || X === 9) || e.cancelPendingCommit !== null) && (Vd(e, 0), Rd(e, Y, ld, !1)), dt(e, n), q & 2 && e === $u || (e === $u && (!(q & 2) && (sd |= n), ad === 4 && Rd(e, Y, ld, !1)), Ef(e));
 	}
 	function Fd(e, t, n) {
-		if (K & 6) throw Error(i(327));
-		var r = !n && !(t & 127) && (t & e.expiredLanes) === 0 || ct(e, t), a = r ? Yd(e, t) : qd(e, t, !0), o = r;
+		if (q & 6) throw Error(i(327));
+		var r = !n && !(t & 127) && (t & e.expiredLanes) === 0 || ot(e, t), a = r ? Yd(e, t) : qd(e, t, !0), o = r;
 		do {
 			if (a === 0) {
 				nd && !r && Rd(e, t, 0, !1);
@@ -6096,7 +6096,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						default: throw Error(i(329));
 					}
 					if ((t & 62914560) === t && (a = md + 300 - He(), 10 < a)) {
-						if (Rd(r, t, ld, !td), st(r, 0, !0) !== 0) break a;
+						if (Rd(r, t, ld, !td), at(r, 0, !0) !== 0) break a;
 						Sd = t, r.timeoutHandle = gp(Id.bind(null, r, n, fd, _d, pd, t, ld, sd, ud, td, o, "Throttled", -0, 0), a);
 						break a;
 					}
@@ -6118,8 +6118,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			suspenseyImages: [],
 			waitingForImages: !0,
 			waitingForViewTransition: !1,
-			unsuspend: _n
-		}, Bl = null, Ku(t, a, d), h && (m = d, h = e.containerInfo, h = (h.nodeType === 9 ? h : h.ownerDocument).__reactViewTransition, h != null && (m.count++, m.waitingForViewTransition = !0, m = nh.bind(m), h.finished.then(m, m))), m = (a & 62914560) === a ? md - He() : (a & 4194048) === a ? hd - He() : 0, m = eh(d, m), m !== null) ? (Sd = a, e.cancelPendingCommit = m(nf.bind(null, e, t, a, n, r, i, o, s, c, l, u, d, null, f, p)), Rd(e, a, o, !l)) : nf(e, t, a, n, r, i, o, s, c, l, u, d);
+			unsuspend: gn
+		}, zl = null, Gu(t, a, d), h && (m = d, h = e.containerInfo, h = (h.nodeType === 9 ? h : h.ownerDocument).__reactViewTransition, h != null && (m.count++, m.waitingForViewTransition = !0, m = nh.bind(m), h.finished.then(m, m))), m = (a & 62914560) === a ? md - He() : (a & 4194048) === a ? hd - He() : 0, m = eh(d, m), m !== null) ? (Sd = a, e.cancelPendingCommit = m(nf.bind(null, e, t, a, n, r, i, o, s, c, l, u, d, null, f, p)), Rd(e, a, o, !l)) : nf(e, t, a, n, r, i, o, s, c, l, u, d);
 	}
 	function Ld(e) {
 		for (var t = e;;) {
@@ -6128,7 +6128,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				var i = n[r], a = i.getSnapshot;
 				i = i.value;
 				try {
-					if (!zr(a(), i)) return !1;
+					if (!Rr(a(), i)) return !1;
 				} catch {
 					return !1;
 				}
@@ -6146,51 +6146,51 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return !0;
 	}
 	function Rd(e, t, n, r) {
-		t = R(e, t), t &= ~cd, t &= ~sd, e.suspendedLanes |= t, e.pingedLanes &= ~t, r && (e.warmLanes |= t), r = e.expirationTimes;
+		t = st(e, t), t &= ~cd, t &= ~sd, e.suspendedLanes |= t, e.pingedLanes &= ~t, r && (e.warmLanes |= t), r = e.expirationTimes;
 		for (var i = t; 0 < i;) {
-			var a = 31 - et(i), o = 1 << a;
+			var a = 31 - L(i), o = 1 << a;
 			r[a] = -1, i &= ~o;
 		}
-		n !== 0 && mt(e, n, t);
+		n !== 0 && pt(e, n, t);
 	}
 	function zd() {
-		return K & 6 ? !0 : (Df(0, !1), !1);
+		return q & 6 ? !0 : (Df(0, !1), !1);
 	}
 	function Bd() {
 		if (J !== null) {
 			if (X === 0) var e = J.return;
-			else e = J, ha = ma = null, rs(e), ro = null, io = 0, e = J;
-			for (; e !== null;) bl(e.alternate, e), e = e.return;
+			else e = J, ma = pa = null, ns(e), no = null, ro = 0, e = J;
+			for (; e !== null;) yl(e.alternate, e), e = e.return;
 			J = null;
 		}
 	}
 	function Vd(e, t) {
 		var n = e.timeoutHandle;
-		return n !== -1 && (e.timeoutHandle = -1, _p(n)), n = e.cancelPendingCommit, n !== null && (e.cancelPendingCommit = null, n()), Sd = 0, Bd(), q = e, J = n = Mi(e.current, null), Y = t, X = 0, ed = null, td = !1, nd = ct(e, t), rd = !1, ud = ld = cd = sd = od = ad = 0, fd = dd = null, pd = !1, id = R(e, t), Si(), n;
+		return n !== -1 && (e.timeoutHandle = -1, _p(n)), n = e.cancelPendingCommit, n !== null && (e.cancelPendingCommit = null, n()), Sd = 0, Bd(), $u = e, J = n = ji(e.current, null), Y = t, X = 0, ed = null, td = !1, nd = ot(e, t), rd = !1, ud = ld = cd = sd = od = ad = 0, fd = dd = null, pd = !1, id = st(e, t), xi(), n;
 	}
 	function Hd(e, t) {
-		U = null, M.H = pc, t === qa || t === Ya ? (t = to(), X = 3) : t === Ja ? (t = to(), X = 4) : X = t === jc ? 8 : typeof t == "object" && t && typeof t.then == "function" ? 6 : 1, ed = t, J === null && (ad = 1, Tc(e, Bi(t, e.current)));
+		W = null, M.H = fc, t === Ka || t === Ja ? (t = eo(), X = 3) : t === qa ? (t = eo(), X = 4) : X = t === Ac ? 8 : typeof t == "object" && t && typeof t.then == "function" ? 6 : 1, ed = t, J === null && (ad = 1, wc(e, zi(t, e.current)));
 	}
 	function Ud() {
-		var e = ko.current;
-		return e === null ? !0 : (Y & 4194048) === Y ? Ao === null : (Y & 62914560) === Y || Y & 536870912 ? e === Ao : !1;
+		var e = Oo.current;
+		return e === null ? !0 : (Y & 4194048) === Y ? ko === null : (Y & 62914560) === Y || Y & 536870912 ? e === ko : !1;
 	}
 	function Wd() {
 		var e = M.H;
-		return M.H = pc, e === null ? pc : e;
+		return M.H = fc, e === null ? fc : e;
 	}
 	function Gd() {
 		var e = M.A;
-		return M.A = Qu, e;
+		return M.A = Zu, e;
 	}
 	function Kd() {
-		ad = 4, td || (Y & 4194048) !== Y && ko.current !== null || (nd = !0), !(od & 134217727) && !(sd & 134217727) || q === null || Rd(q, Y, ld, !1);
+		ad = 4, td || (Y & 4194048) !== Y && Oo.current !== null || (nd = !0), !(od & 134217727) && !(sd & 134217727) || $u === null || Rd($u, Y, ld, !1);
 	}
 	function qd(e, t, n) {
-		var r = K;
-		K |= 2;
+		var r = q;
+		q |= 2;
 		var i = Wd(), a = Gd();
-		(q !== e || Y !== t) && (_d = null, Vd(e, t)), t = !1;
+		($u !== e || Y !== t) && (_d = null, Vd(e, t)), t = !1;
 		var o = ad;
 		a: do
 			try {
@@ -6204,7 +6204,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case 2:
 						case 9:
 						case 6:
-							ko.current === null && (t = !0);
+							Oo.current === null && (t = !0);
 							var l = X;
 							if (X = 0, ed = null, $d(e, s, c, l), n && nd) {
 								o = 0;
@@ -6220,16 +6220,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Hd(e, t);
 			}
 		while (1);
-		return t && e.shellSuspendCounter++, ha = ma = null, K = r, M.H = i, M.A = a, J === null && (q = null, Y = 0, Si()), o;
+		return t && e.shellSuspendCounter++, ma = pa = null, q = r, M.H = i, M.A = a, J === null && ($u = null, Y = 0, xi()), o;
 	}
 	function Jd() {
 		for (; J !== null;) Zd(J);
 	}
 	function Yd(e, t) {
-		var n = K;
-		K |= 2;
+		var n = q;
+		q |= 2;
 		var r = Wd(), a = Gd();
-		q !== e || Y !== t ? (_d = null, gd = He() + 500, Vd(e, t)) : nd = ct(e, t);
+		$u !== e || Y !== t ? (_d = null, gd = He() + 500, Vd(e, t)) : nd = ot(e, t);
 		a: do
 			try {
 				if (X !== 0 && J !== null) {
@@ -6241,12 +6241,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 							break;
 						case 2:
 						case 9:
-							if (Za(o)) {
+							if (Xa(o)) {
 								X = 0, ed = null, Qd(t);
 								break;
 							}
 							t = function() {
-								X !== 2 && X !== 9 || q !== e || (X = 7), Ef(e);
+								X !== 2 && X !== 9 || $u !== e || (X = 7), Ef(e);
 							}, o.then(t, t);
 							break a;
 						case 3:
@@ -6256,7 +6256,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 							X = 5;
 							break a;
 						case 7:
-							Za(o) ? (X = 0, ed = null, Qd(t)) : (X = 0, ed = null, $d(e, t, o, 7));
+							Xa(o) ? (X = 0, ed = null, Qd(t)) : (X = 0, ed = null, $d(e, t, o, 7));
 							break;
 						case 5:
 							var s = null;
@@ -6293,13 +6293,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Hd(e, t);
 			}
 		while (1);
-		return ha = ma = null, M.H = r, M.A = a, K = n, J === null ? (q = null, Y = 0, Si(), ad) : 0;
+		return ma = pa = null, M.H = r, M.A = a, q = n, J === null ? ($u = null, Y = 0, xi(), ad) : 0;
 	}
 	function Xd() {
 		for (; J !== null && !Be();) Zd(J);
 	}
 	function Zd(e) {
-		var t = dl(e.alternate, e, id);
+		var t = ul(e.alternate, e, id);
 		e.memoizedProps = e.pendingProps, t === null ? ef(e) : J = t;
 	}
 	function Qd(e) {
@@ -6307,33 +6307,33 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		switch (t.tag) {
 			case 15:
 			case 0:
-				t = Gc(n, t, t.pendingProps, t.type, void 0, Y);
+				t = Wc(n, t, t.pendingProps, t.type, void 0, Y);
 				break;
 			case 11:
-				t = Gc(n, t, t.pendingProps, t.type.render, t.ref, Y);
+				t = Wc(n, t, t.pendingProps, t.type.render, t.ref, Y);
 				break;
 			case 5:
-				rs(t);
+				ns(t);
 				var r = t;
-				r === ta && (H ? (ca(r), r.tag === 5 && r.stateNode != null && (na = r.stateNode)) : (ca(r), H = !0));
-			default: bl(n, t), t = J = Ni(t, id), t = dl(n, t, id);
+				r === ea && (U ? (sa(r), r.tag === 5 && r.stateNode != null && (ta = r.stateNode)) : (sa(r), U = !0));
+			default: yl(n, t), t = J = Mi(t, id), t = ul(n, t, id);
 		}
 		e.memoizedProps = e.pendingProps, t === null ? ef(e) : J = t;
 	}
 	function $d(e, t, n, r) {
-		ha = ma = null, rs(t), ro = null, io = 0;
+		ma = pa = null, ns(t), no = null, ro = 0;
 		var i = t.return;
 		try {
-			if (Ac(e, i, t, n, Y)) {
-				ad = 1, Tc(e, Bi(n, e.current)), J = null;
+			if (kc(e, i, t, n, Y)) {
+				ad = 1, wc(e, zi(n, e.current)), J = null;
 				return;
 			}
 		} catch (t) {
 			if (i !== null) throw J = i, t;
-			ad = 1, Tc(e, Bi(n, e.current)), J = null;
+			ad = 1, wc(e, zi(n, e.current)), J = null;
 			return;
 		}
-		t.flags & 32768 ? (H || r === 1 ? e = !0 : nd || Y & 536870912 ? e = !1 : (td = e = !0, (r === 2 || r === 9 || r === 3 || r === 6) && (r = ko.current, r !== null && r.tag === 13 && (r.flags |= 16384))), tf(t, e)) : ef(t);
+		t.flags & 32768 ? (U || r === 1 ? e = !0 : nd || Y & 536870912 ? e = !1 : (td = e = !0, (r === 2 || r === 9 || r === 3 || r === 6) && (r = Oo.current, r !== null && r.tag === 13 && (r.flags |= 16384))), tf(t, e)) : ef(t);
 	}
 	function ef(e) {
 		var t = e;
@@ -6343,7 +6343,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				return;
 			}
 			e = t.return;
-			var n = vl(t.alternate, t, id);
+			var n = _l(t.alternate, t, id);
 			if (n !== null) {
 				J = n;
 				return;
@@ -6358,7 +6358,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function tf(e, t) {
 		do {
-			var n = yl(e.alternate, e);
+			var n = vl(e.alternate, e);
 			if (n !== null) {
 				n.flags &= 32767, J = n;
 				return;
@@ -6376,25 +6376,25 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		do
 			df();
 		while (yd !== 0);
-		if (K & 6) throw Error(i(327));
+		if (q & 6) throw Error(i(327));
 		if (t !== null) {
 			if (t === e.current) throw Error(i(177));
-			e === q && (J = q = null, Y = 0), xd = t, bd = e, Sd = n, wd = a, Td = r, rf(e, t, n, s, c, l, f);
+			e === $u && (J = $u = null, Y = 0), xd = t, bd = e, Sd = n, wd = a, Td = r, rf(e, t, n, s, c, l, f);
 		}
 	}
 	function rf(e, t, n, r, i, a, o) {
 		var s = t.lanes | t.childLanes;
-		if (Cd = s, s |= xi, pt(e, n, s, r, i, a), Dd = null, (n & 335544064) === n ? (Od = Pa(e), r = 10262) : (Od = null, r = 10256), (t.subtreeFlags & r) !== 0 || (t.flags & r) !== 0 ? (e.callbackNode = null, e.callbackPriority = 0, yf(Ke, function() {
+		if (Cd = s, s |= bi, ft(e, n, s, r, i, a), Dd = null, (n & 335544064) === n ? (Od = Na(e), r = 10262) : (Od = null, r = 10256), (t.subtreeFlags & r) !== 0 || (t.flags & r) !== 0 ? (e.callbackNode = null, e.callbackPriority = 0, yf(Ke, function() {
 			return ff(), null;
-		})) : (e.callbackNode = null, e.callbackPriority = 0), zl = !1, r = !!(t.flags & 13878), t.subtreeFlags & 13878 || r) {
-			r = M.T, M.T = null, i = N.p, N.p = 2, a = K, K |= 4;
+		})) : (e.callbackNode = null, e.callbackPriority = 0), Rl = !1, r = !!(t.flags & 13878), t.subtreeFlags & 13878 || r) {
+			r = M.T, M.T = null, i = N.p, N.p = 2, a = q, q |= 4;
 			try {
-				pu(e, t, n);
+				fu(e, t, n);
 			} finally {
-				K = a, N.p = i, M.T = r;
+				q = a, N.p = i, M.T = r;
 			}
 		}
-		yd = 1, zl ? Ed = Mp(o, e.containerInfo, Od, sf, cf, of, lf, ff, af, null, null) : (sf(), cf(), lf());
+		yd = 1, Rl ? Ed = Mp(o, e.containerInfo, Od, sf, cf, of, lf, ff, af, null, null) : (sf(), cf(), lf());
 	}
 	function af(e) {
 		if (yd !== 0) {
@@ -6403,7 +6403,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function of() {
-		yd === 3 && (yd = 0, Pu(xd, bd), yd = 4);
+		yd === 3 && (yd = 0, Nu(xd, bd), yd = 4);
 	}
 	function sf() {
 		if (yd === 1) {
@@ -6413,13 +6413,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				r = M.T, M.T = null;
 				var i = N.p;
 				N.p = 2;
-				var a = K;
-				K |= 4;
+				var a = q;
+				q |= 4;
 				try {
-					uu = du = !1, Au(t, e, n), n = cp;
-					var o = Gr(e.containerInfo), s = n.focusedElem, c = n.selectionRange;
-					if (o !== s && s && s.ownerDocument && Wr(s.ownerDocument.documentElement, s)) {
-						if (c !== null && Kr(s)) {
+					lu = uu = !1, ku(t, e, n), n = cp;
+					var o = Wr(e.containerInfo), s = n.focusedElem, c = n.selectionRange;
+					if (o !== s && s && s.ownerDocument && Ur(s.ownerDocument.documentElement, s)) {
+						if (c !== null && Gr(s)) {
 							var l = c.start, u = c.end;
 							if (u === void 0 && (u = l), "selectionStart" in s) s.selectionStart = l, s.selectionEnd = Math.min(u, s.value.length);
 							else {
@@ -6427,7 +6427,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								if (f.getSelection) {
 									var p = f.getSelection(), m = s.textContent.length, h = Math.min(c.start, m), g = c.end === void 0 ? h : Math.min(c.end, m);
 									!p.extend && h > g && (o = g, g = h, h = o);
-									var _ = Ur(s, h), v = Ur(s, g);
+									var _ = Hr(s, h), v = Hr(s, g);
 									if (_ && v && (p.rangeCount !== 1 || p.anchorNode !== _.node || p.anchorOffset !== _.offset || p.focusNode !== v.node || p.focusOffset !== v.offset)) {
 										var y = d.createRange();
 										y.setStart(_.node, _.offset), p.removeAllRanges(), h > g ? (p.addRange(y), p.extend(v.node, v.offset)) : (y.setEnd(v.node, v.offset), p.addRange(y));
@@ -6447,7 +6447,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					}
 					gh = !!sp, cp = sp = null;
 				} finally {
-					K = a, N.p = i, M.T = r;
+					q = a, N.p = i, M.T = r;
 				}
 			}
 			e.current = t, yd = 2;
@@ -6461,12 +6461,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				n = M.T, M.T = null;
 				var r = N.p;
 				N.p = 2;
-				var i = K;
-				K |= 4;
+				var i = q;
+				q |= 4;
 				try {
-					hu(e, t.alternate, t);
+					mu(e, t.alternate, t);
 				} finally {
-					K = i, N.p = r, M.T = n;
+					q = i, N.p = r, M.T = n;
 				}
 			}
 			yd = 3;
@@ -6478,7 +6478,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			var e = Ed;
 			Ed = null, Ve();
 			var t = bd, n = xd, r = Sd, i = Td, a = (r & 335544064) === r ? 10262 : 10256;
-			if ((n.subtreeFlags & a) !== 0 || (n.flags & a) !== 0 ? yd = 5 : (yd = 0, xd = bd = null, uf(t, t.pendingLanes)), a = t.pendingLanes, a === 0 && (vd = null), vt(r), n = n.stateNode, Qe && typeof Qe.onCommitFiberRoot == "function") try {
+			if ((n.subtreeFlags & a) !== 0 || (n.flags & a) !== 0 ? yd = 5 : (yd = 0, xd = bd = null, uf(t, t.pendingLanes)), a = t.pendingLanes, a === 0 && (vd = null), _t(r), n = n.stateNode, Qe && typeof Qe.onCommitFiberRoot == "function") try {
 				Qe.onCommitFiberRoot(Ze, n, void 0, (n.current.flags & 128) == 128);
 			} catch {}
 			if (i !== null) {
@@ -6497,7 +6497,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function uf(e, t) {
-		(e.pooledCacheLanes &= t) === 0 && (t = e.pooledCache, t != null && (e.pooledCache = null, ja(t)));
+		(e.pooledCacheLanes &= t) === 0 && (t = e.pooledCache, t != null && (e.pooledCache = null, Aa(t)));
 	}
 	function df() {
 		return Ed !== null && (Ed.skipTransition(), Ed = null), sf(), cf(), lf(), ff();
@@ -6506,13 +6506,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (yd !== 5) return !1;
 		var e = bd, t = Cd;
 		Cd = 0;
-		var n = vt(Sd), r = M.T, a = N.p;
+		var n = _t(Sd), r = M.T, a = N.p;
 		try {
 			N.p = 32 > n ? 32 : n, M.T = null, n = wd, wd = null;
 			var o = bd, s = Sd;
-			if (yd = 0, xd = bd = null, Sd = 0, K & 6) throw Error(i(331));
-			var c = K;
-			if (K |= 4, Yu(o.current), Vu(o, o.current, s, n), K = c, Df(0, !1), Qe && typeof Qe.onPostCommitFiberRoot == "function") try {
+			if (yd = 0, xd = bd = null, Sd = 0, q & 6) throw Error(i(331));
+			var c = q;
+			if (q |= 4, Ju(o.current), Bu(o, o.current, s, n), q = c, Df(0, !1), Qe && typeof Qe.onPostCommitFiberRoot == "function") try {
 				Qe.onPostCommitFiberRoot(Ze, o);
 			} catch {}
 			return !0;
@@ -6521,7 +6521,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function pf(e, t, n) {
-		t = Bi(n, t), t = Dc(e.stateNode, t, 2), e = go(e, t, 2), e !== null && (ft(e, 2), Ef(e));
+		t = zi(n, t), t = Ec(e.stateNode, t, 2), e = ho(e, t, 2), e !== null && (dt(e, 2), Ef(e));
 	}
 	function Z(e, t, n) {
 		if (e.tag === 3) pf(e, e, n);
@@ -6533,7 +6533,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (t.tag === 1) {
 				var r = t.stateNode;
 				if (typeof t.type.getDerivedStateFromError == "function" || typeof r.componentDidCatch == "function" && (vd === null || !vd.has(r))) {
-					e = Bi(n, e), n = Oc(2), r = go(t, n, 2), r !== null && (kc(n, r, t, e), ft(r, 2), Ef(r));
+					e = zi(n, e), n = Dc(2), r = ho(t, n, 2), r !== null && (Oc(n, r, t, e), dt(r, 2), Ef(r));
 					break;
 				}
 			}
@@ -6543,7 +6543,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function mf(e, t, n) {
 		var r = e.pingCache;
 		if (r === null) {
-			r = e.pingCache = new $u();
+			r = e.pingCache = new Qu();
 			var i = /* @__PURE__ */ new Set();
 			r.set(t, i);
 		} else i = r.get(t), i === void 0 && (i = /* @__PURE__ */ new Set(), r.set(t, i));
@@ -6551,10 +6551,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function hf(e, t, n) {
 		var r = e.pingCache;
-		r !== null && r.delete(t), e.pingedLanes |= e.suspendedLanes & n, e.warmLanes &= ~n, q === e && (Y & n) === n && (ad === 4 || ad === 3 && (Y & 62914560) === Y && 300 > He() - md ? K & 2 ? cd |= n : Vd(e, 0) : cd |= n, ud === Y && (ud = 0)), Ef(e);
+		r !== null && r.delete(t), e.pingedLanes |= e.suspendedLanes & n, e.warmLanes &= ~n, $u === e && (Y & n) === n && (ad === 4 || ad === 3 && (Y & 62914560) === Y && 300 > He() - md ? q & 2 ? cd |= n : Vd(e, 0) : cd |= n, ud === Y && (ud = 0)), Ef(e);
 	}
 	function gf(e, t) {
-		t === 0 && (t = ut()), e = Ti(e, t), e !== null && (ft(e, t), Ef(e));
+		t === 0 && (t = lt()), e = wi(e, t), e !== null && (dt(e, t), Ef(e));
 	}
 	function _f(e) {
 		var t = e.memoizedState, n = 0;
@@ -6596,10 +6596,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 							if (i === 0) var a = 0;
 							else {
 								var o = r.suspendedLanes, s = r.pingedLanes;
-								a = (1 << 31 - et(42 | e) + 1) - 1, a &= i & ~(o & ~s), a = a & 201326741 ? a & 201326741 | 1 : a ? a | 2 : 0;
+								a = (1 << 31 - L(42 | e) + 1) - 1, a &= i & ~(o & ~s), a = a & 201326741 ? a & 201326741 | 1 : a ? a | 2 : 0;
 							}
 							a !== 0 && (n = !0, Mf(r, a));
-						} else a = Y, a = st(r, r === q ? a : 0, r.cancelPendingCommit !== null || r.timeoutHandle !== -1), !(a & 3) || ct(r, a) || (n = !0, Mf(r, a));
+						} else a = Y, a = at(r, r === $u ? a : 0, r.cancelPendingCommit !== null || r.timeoutHandle !== -1), !(a & 3) || ot(r, a) || (n = !0, Mf(r, a));
 					}
 					r = r.next;
 				}
@@ -6622,13 +6622,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function Af(e, t) {
 		for (var n = e.suspendedLanes, r = e.pingedLanes, i = e.expirationTimes, a = e.pendingLanes & -62914561; 0 < a;) {
-			var o = 31 - et(a), s = 1 << o, c = i[o];
-			c === -1 ? ((s & n) === 0 || (s & r) !== 0) && (i[o] = lt(s, t)) : c <= t && (e.expiredLanes |= s), a &= ~s;
+			var o = 31 - L(a), s = 1 << o, c = i[o];
+			c === -1 ? ((s & n) === 0 || (s & r) !== 0) && (i[o] = ct(s, t)) : c <= t && (e.expiredLanes |= s), a &= ~s;
 		}
-		if (t = q, n = Y, n = st(e, e === t ? n : 0, e.cancelPendingCommit !== null || e.timeoutHandle !== -1), r = e.callbackNode, n === 0 || e === t && (X === 2 || X === 9) || e.cancelPendingCommit !== null) return r !== null && r !== null && ze(r), e.callbackNode = null, e.callbackPriority = 0;
-		if (!(n & 3) || ct(e, n)) {
+		if (t = $u, n = Y, n = at(e, e === t ? n : 0, e.cancelPendingCommit !== null || e.timeoutHandle !== -1), r = e.callbackNode, n === 0 || e === t && (X === 2 || X === 9) || e.cancelPendingCommit !== null) return r !== null && r !== null && ze(r), e.callbackNode = null, e.callbackPriority = 0;
+		if (!(n & 3) || ot(e, n)) {
 			if (t = n & -n, t === e.callbackPriority) return t;
-			switch (r !== null && ze(r), vt(n)) {
+			switch (r !== null && ze(r), _t(n)) {
 				case 2:
 				case 8:
 					n = Ge;
@@ -6650,7 +6650,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		var n = e.callbackNode;
 		if (df() && e.callbackNode !== n) return null;
 		var r = Y;
-		return r = st(e, e === q ? r : 0, e.cancelPendingCommit !== null || e.timeoutHandle !== -1), r === 0 ? null : (Fd(e, r, t), Af(e, He()), e.callbackNode != null && e.callbackNode === n ? jf.bind(null, e) : null);
+		return r = at(e, e === $u ? r : 0, e.cancelPendingCommit !== null || e.timeoutHandle !== -1), r === 0 ? null : (Fd(e, r, t), Af(e, He()), e.callbackNode != null && e.callbackNode === n ? jf.bind(null, e) : null);
 	}
 	function Mf(e, t) {
 		if (df()) return null;
@@ -6658,24 +6658,24 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function Nf() {
 		bp(function() {
-			K & 6 ? Re(We, Of) : kf();
+			q & 6 ? Re(We, Of) : kf();
 		});
 	}
 	function Pf() {
 		if (Tf === 0) {
-			var e = La;
-			e === 0 && (e = rt, rt <<= 1, !(rt & 261888) && (rt = 256)), Tf = e;
+			var e = Ia;
+			e === 0 && (e = nt, nt <<= 1, !(nt & 261888) && (nt = 256)), Tf = e;
 		}
 		return Tf;
 	}
 	function Ff(e) {
-		return e == null || typeof e == "symbol" || typeof e == "boolean" ? null : typeof e == "function" ? e : gn(e);
+		return e == null || typeof e == "symbol" || typeof e == "boolean" ? null : typeof e == "function" ? e : hn(e);
 	}
 	function If(e, t, n, r, i) {
 		if (t === "submit" && n && n.stateNode === i) {
-			var a = Ff((i[z] || null).action), o = r.submitter;
-			o && (t = (t = o[z] || null) ? Ff(t.formAction) : o.getAttribute("formAction"), t !== null && (a = t, o = null));
-			var s = new Rn("action", "action", null, r, i);
+			var a = Ff((i[xt] || null).action), o = r.submitter;
+			o && (t = (t = o[xt] || null) ? Ff(t.formAction) : o.getAttribute("formAction"), t !== null && (a = t, o = null));
+			var s = new Ln("action", "action", null, r, i);
 			e.push({
 				event: s,
 				listeners: [{
@@ -6684,14 +6684,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						if (r.defaultPrevented) {
 							if (Tf !== 0) {
 								var e = new FormData(i, o);
-								$s(n, {
+								Qs(n, {
 									pending: !0,
 									data: e,
 									method: i.method,
 									action: a
 								}, null, e);
 							}
-						} else typeof a == "function" && (s.preventDefault(), e = new FormData(i, o), $s(n, {
+						} else typeof a == "function" && (s.preventDefault(), e = new FormData(i, o), Qs(n, {
 							pending: !0,
 							data: e,
 							method: i.method,
@@ -6703,16 +6703,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			});
 		}
 	}
-	for (var Lf = 0; Lf < fi.length; Lf++) {
-		var Rf = fi[Lf];
-		pi(Rf.toLowerCase(), "on" + (Rf[0].toUpperCase() + Rf.slice(1)));
+	for (var Lf = 0; Lf < di.length; Lf++) {
+		var Rf = di[Lf];
+		fi(Rf.toLowerCase(), "on" + (Rf[0].toUpperCase() + Rf.slice(1)));
 	}
-	pi(ii, "onAnimationEnd"), pi(ai, "onAnimationIteration"), pi(oi, "onAnimationStart"), pi("dblclick", "onDoubleClick"), pi("focusin", "onFocus"), pi("focusout", "onBlur"), pi(si, "onTransitionRun"), pi(ci, "onTransitionStart"), pi(li, "onTransitionCancel"), pi(ui, "onTransitionEnd"), Bt("onMouseEnter", ["mouseout", "mouseover"]), Bt("onMouseLeave", ["mouseout", "mouseover"]), Bt("onPointerEnter", ["pointerout", "pointerover"]), Bt("onPointerLeave", ["pointerout", "pointerover"]), zt("onChange", "change click focusin focusout input keydown keyup selectionchange".split(" ")), zt("onSelect", "focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange".split(" ")), zt("onBeforeInput", [
+	fi(ri, "onAnimationEnd"), fi(ii, "onAnimationIteration"), fi(ai, "onAnimationStart"), fi("dblclick", "onDoubleClick"), fi("focusin", "onFocus"), fi("focusout", "onBlur"), fi(oi, "onTransitionRun"), fi(si, "onTransitionStart"), fi(ci, "onTransitionCancel"), fi(li, "onTransitionEnd"), zt("onMouseEnter", ["mouseout", "mouseover"]), zt("onMouseLeave", ["mouseout", "mouseover"]), zt("onPointerEnter", ["pointerout", "pointerover"]), zt("onPointerLeave", ["pointerout", "pointerover"]), Rt("onChange", "change click focusin focusout input keydown keyup selectionchange".split(" ")), Rt("onSelect", "focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange".split(" ")), Rt("onBeforeInput", [
 		"compositionend",
 		"keypress",
 		"textInput",
 		"paste"
-	]), zt("onCompositionEnd", "compositionend focusout keydown keypress keyup mousedown".split(" ")), zt("onCompositionStart", "compositionstart focusout keydown keypress keyup mousedown".split(" ")), zt("onCompositionUpdate", "compositionupdate focusout keydown keypress keyup mousedown".split(" "));
+	]), Rt("onCompositionEnd", "compositionend focusout keydown keypress keyup mousedown".split(" ")), Rt("onCompositionStart", "compositionstart focusout keydown keypress keyup mousedown".split(" ")), Rt("onCompositionUpdate", "compositionupdate focusout keydown keypress keyup mousedown".split(" "));
 	var zf = "abort canplay canplaythrough durationchange emptied encrypted ended error loadeddata loadedmetadata loadstart pause play playing progress ratechange resize seeked seeking stalled suspend timeupdate volumechange waiting".split(" "), Bf = new Set("beforetoggle cancel close invalid load scroll scrollend toggle".split(" ").concat(zf));
 	function Vf(e, t) {
 		t = !!(t & 4);
@@ -6728,7 +6728,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					try {
 						a(i);
 					} catch (e) {
-						vi(e);
+						_i(e);
 					}
 					i.currentTarget = null, a = c;
 				}
@@ -6738,7 +6738,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					try {
 						a(i);
 					} catch (e) {
-						vi(e);
+						_i(e);
 					}
 					i.currentTarget = null, a = c;
 				}
@@ -6746,8 +6746,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function Q(e, t) {
-		var n = t[wt];
-		n === void 0 && (n = t[wt] = /* @__PURE__ */ new Set());
+		var n = t[Ct];
+		n === void 0 && (n = t[Ct] = /* @__PURE__ */ new Set());
 		var r = e + "__bubble";
 		n.has(r) || (Gf(t, e, 2, !1), n.add(r));
 	}
@@ -6758,7 +6758,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	var Uf = "_reactListening" + Math.random().toString(36).slice(2);
 	function Wf(e) {
 		if (!e[Uf]) {
-			e[Uf] = !0, Lt.forEach(function(t) {
+			e[Uf] = !0, It.forEach(function(t) {
 				t !== "selectionchange" && (Bf.has(t) || Hf(t, !1, e), Hf(t, !0, e));
 			});
 			var t = e.nodeType === 9 ? e : e.ownerDocument;
@@ -6775,7 +6775,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				break;
 			default: i = yh;
 		}
-		n = i.bind(null, t, n, e), i = void 0, !Dn || t !== "touchstart" && t !== "touchmove" && t !== "wheel" || (i = !0), r ? i === void 0 ? e.addEventListener(t, n, !0) : e.addEventListener(t, n, {
+		n = i.bind(null, t, n, e), i = void 0, !En || t !== "touchstart" && t !== "touchmove" && t !== "wheel" || (i = !0), r ? i === void 0 ? e.addEventListener(t, n, !0) : e.addEventListener(t, n, {
 			capture: !0,
 			passive: i
 		}) : i === void 0 ? e.addEventListener(t, n, !1) : e.addEventListener(t, n, { passive: i });
@@ -6794,7 +6794,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					s = s.return;
 				}
 				for (; c !== null;) {
-					if (s = jt(c), s === null) return;
+					if (s = At(c), s === null) return;
 					if (l = s.tag, l === 5 || l === 6 || l === 26 || l === 27) {
 						r = a = s;
 						continue a;
@@ -6804,27 +6804,27 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			r = r.return;
 		}
-		wn(function() {
-			var r = a, i = yn(n), s = [];
+		Cn(function() {
+			var r = a, i = vn(n), s = [];
 			a: {
-				var c = di.get(e);
+				var c = ui.get(e);
 				if (c !== void 0) {
-					var l = Rn, u = e;
+					var l = Ln, u = e;
 					switch (e) {
-						case "keypress": if (Nn(n) === 0) break a;
+						case "keypress": if (Mn(n) === 0) break a;
 						case "keydown":
 						case "keyup":
-							l = nr;
+							l = H;
 							break;
 						case "focusin":
-							u = "focus", l = qn;
+							u = "focus", l = Kn;
 							break;
 						case "focusout":
-							u = "blur", l = qn;
+							u = "blur", l = Kn;
 							break;
 						case "beforeblur":
 						case "afterblur":
-							l = qn;
+							l = Kn;
 							break;
 						case "click": if (n.button === 2) break a;
 						case "auxclick":
@@ -6835,7 +6835,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case "mouseout":
 						case "mouseover":
 						case "contextmenu":
-							l = Gn;
+							l = Wn;
 							break;
 						case "drag":
 						case "dragend":
@@ -6845,33 +6845,33 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case "dragover":
 						case "dragstart":
 						case "drop":
-							l = Kn;
+							l = Gn;
 							break;
 						case "touchcancel":
 						case "touchend":
 						case "touchmove":
 						case "touchstart":
-							l = ar;
+							l = rr;
 							break;
+						case ri:
 						case ii:
 						case ai:
-						case oi:
-							l = Jn;
+							l = qn;
 							break;
-						case ui:
-							l = or;
+						case li:
+							l = ir;
 							break;
 						case "scroll":
 						case "scrollend":
-							l = Bn;
+							l = zn;
 							break;
 						case "wheel":
-							l = sr;
+							l = ar;
 							break;
 						case "copy":
 						case "cut":
 						case "paste":
-							l = Yn;
+							l = Jn;
 							break;
 						case "gotpointercapture":
 						case "lostpointercapture":
@@ -6881,19 +6881,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						case "pointerout":
 						case "pointerover":
 						case "pointerup":
-							l = rr;
+							l = tr;
 							break;
 						case "submit":
-							l = ir;
+							l = nr;
 							break;
 						case "toggle":
-						case "beforetoggle": l = cr;
+						case "beforetoggle": l = or;
 					}
 					var d = !!(t & 4), f = !d && (e === "scroll" || e === "scrollend"), p = d ? c === null ? null : c + "Capture" : c;
 					d = [];
 					for (var m = r, h; m !== null;) {
 						var g = m;
-						if (h = g.stateNode, g = g.tag, g !== 5 && g !== 26 && g !== 27 || h === null || p === null || (g = Tn(m, p), g != null && d.push(qf(m, g, h))), f) break;
+						if (h = g.stateNode, g = g.tag, g !== 5 && g !== 26 && g !== 27 || h === null || p === null || (g = wn(m, p), g != null && d.push(qf(m, g, h))), f) break;
 						m = m.return;
 					}
 					0 < d.length && (c = new l(c, u, null, n, i), s.push({
@@ -6904,45 +6904,45 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}
 			if (!(t & 7)) {
 				a: {
-					if (l = e === "mouseover" || e === "pointerover", c = e === "mouseout" || e === "pointerout", l && n !== vn && (u = n.relatedTarget || n.fromElement) && (jt(u) || u[Ct])) break a;
-					(c || l) && (u = i.window === i ? i : (l = i.ownerDocument) ? l.defaultView || l.parentWindow : window, c ? (l = n.relatedTarget || n.toElement, c = r, l = l ? jt(l) : null, l !== null && (f = o(l), d = l.tag, l !== f || d !== 5 && d !== 27 && d !== 6) && (l = null)) : (c = null, l = r), c !== l && (d = Gn, g = "onMouseLeave", p = "onMouseEnter", m = "mouse", (e === "pointerout" || e === "pointerover") && (d = rr, g = "onPointerLeave", p = "onPointerEnter", m = "pointer"), f = c == null ? u : Nt(c), h = l == null ? u : Nt(l), u = new d(g, m + "leave", c, n, i), u.target = f, u.relatedTarget = h, g = null, jt(i) === r && (d = new d(p, m + "enter", l, n, i), d.target = h, d.relatedTarget = f, g = d), f = g, d = c && l ? E(c, l, Yf) : null, c !== null && Xf(s, u, c, d, !1), l !== null && f !== null && Xf(s, f, l, d, !0)));
+					if (l = e === "mouseover" || e === "pointerover", c = e === "mouseout" || e === "pointerout", l && n !== _n && (u = n.relatedTarget || n.fromElement) && (At(u) || u[St])) break a;
+					(c || l) && (u = i.window === i ? i : (l = i.ownerDocument) ? l.defaultView || l.parentWindow : window, c ? (l = n.relatedTarget || n.toElement, c = r, l = l ? At(l) : null, l !== null && (f = o(l), d = l.tag, l !== f || d !== 5 && d !== 27 && d !== 6) && (l = null)) : (c = null, l = r), c !== l && (d = Wn, g = "onMouseLeave", p = "onMouseEnter", m = "mouse", (e === "pointerout" || e === "pointerover") && (d = tr, g = "onPointerLeave", p = "onPointerEnter", m = "pointer"), f = c == null ? u : Mt(c), h = l == null ? u : Mt(l), u = new d(g, m + "leave", c, n, i), u.target = f, u.relatedTarget = h, g = null, At(i) === r && (d = new d(p, m + "enter", l, n, i), d.target = h, d.relatedTarget = f, g = d), f = g, d = c && l ? E(c, l, Yf) : null, c !== null && Xf(s, u, c, d, !1), l !== null && f !== null && Xf(s, f, l, d, !0)));
 				}
 				a: {
-					if (c = r ? Nt(r) : window, l = c.nodeName && c.nodeName.toLowerCase(), l === "select" || l === "input" && c.type === "file") var _ = Dr;
-					else if (Sr(c)) {
-						if (Or) _ = Lr;
+					if (c = r ? Mt(r) : window, l = c.nodeName && c.nodeName.toLowerCase(), l === "select" || l === "input" && c.type === "file") var _ = Er;
+					else if (br(c)) {
+						if (Dr) _ = Ir;
 						else {
-							_ = Fr;
-							var v = Pr;
+							_ = Pr;
+							var v = Nr;
 						}
-					} else l = c.nodeName, !l || l.toLowerCase() !== "input" || c.type !== "checkbox" && c.type !== "radio" ? r && pn(r.elementType) && (_ = Dr) : _ = Ir;
+					} else l = c.nodeName, !l || l.toLowerCase() !== "input" || c.type !== "checkbox" && c.type !== "radio" ? r && fn(r.elementType) && (_ = Er) : _ = Fr;
 					if (_ &&= _(e, r)) {
-						Cr(s, _, n, i);
+						xr(s, _, n, i);
 						break a;
 					}
 					v && v(e, c, r);
 				}
-				switch (v = r ? Nt(r) : window, e) {
+				switch (v = r ? Mt(r) : window, e) {
 					case "focusin":
-						(Sr(v) || v.contentEditable === "true") && (Jr = v, Yr = r, Xr = null);
+						(br(v) || v.contentEditable === "true") && (qr = v, Jr = r, Yr = null);
 						break;
 					case "focusout":
-						Xr = Yr = Jr = null;
+						Yr = Jr = qr = null;
 						break;
 					case "mousedown":
-						Zr = !0;
+						Xr = !0;
 						break;
 					case "contextmenu":
 					case "mouseup":
 					case "dragend":
-						Zr = !1, Qr(s, n, i);
+						Xr = !1, Zr(s, n, i);
 						break;
-					case "selectionchange": if (qr) break;
+					case "selectionchange": if (Kr) break;
 					case "keydown":
-					case "keyup": Qr(s, n, i);
+					case "keyup": Zr(s, n, i);
 				}
 				var y;
-				if (ur) b: {
+				if (cr) b: {
 					switch (e) {
 						case "compositionstart":
 							var b = "onCompositionStart";
@@ -6956,11 +6956,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					}
 					b = void 0;
 				}
-				else vr ? gr(e, n) && (b = "onCompositionEnd") : e === "keydown" && n.keyCode === 229 && (b = "onCompositionStart");
-				b && (pr && n.locale !== "ko" && (vr || b !== "onCompositionStart" ? b === "onCompositionEnd" && vr && (y = Mn()) : (kn = i, An = "value" in kn ? kn.value : kn.textContent, vr = !0)), v = Jf(r, b), 0 < v.length && (b = new Xn(b, e, null, n, i), s.push({
+				else gr ? mr(e, n) && (b = "onCompositionEnd") : e === "keydown" && n.keyCode === 229 && (b = "onCompositionStart");
+				b && (dr && n.locale !== "ko" && (gr || b !== "onCompositionStart" ? b === "onCompositionEnd" && gr && (y = jn()) : (On = i, kn = "value" in On ? On.value : On.textContent, gr = !0)), v = Jf(r, b), 0 < v.length && (b = new Yn(b, e, null, n, i), s.push({
 					event: b,
 					listeners: v
-				}), y ? b.data = y : (y = _r(n), y !== null && (b.data = y)))), (y = fr ? yr(e, n) : br(e, n)) && (b = Jf(r, "onBeforeInput"), 0 < b.length && (v = new Xn("onBeforeInput", "beforeinput", null, n, i), s.push({
+				}), y ? b.data = y : (y = hr(n), y !== null && (b.data = y)))), (y = ur ? _r(e, n) : vr(e, n)) && (b = Jf(r, "onBeforeInput"), 0 < b.length && (v = new Yn("onBeforeInput", "beforeinput", null, n, i), s.push({
 					event: v,
 					listeners: b
 				}), v.data = y)), If(s, e, r, n, i);
@@ -6978,7 +6978,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function Jf(e, t) {
 		for (var n = t + "Capture", r = []; e !== null;) {
 			var i = e, a = i.stateNode;
-			if (i = i.tag, i !== 5 && i !== 26 && i !== 27 || a === null || (i = Tn(e, n), i != null && r.unshift(qf(e, i, a)), i = Tn(e, t), i != null && r.push(qf(e, i, a))), e.tag === 3) return r;
+			if (i = i.tag, i !== 5 && i !== 26 && i !== 27 || a === null || (i = wn(e, n), i != null && r.unshift(qf(e, i, a)), i = wn(e, t), i != null && r.push(qf(e, i, a))), e.tag === 3) return r;
 			e = e.return;
 		}
 		return [];
@@ -6994,7 +6994,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		for (var a = t._reactName, o = []; n !== null && n !== r;) {
 			var s = n, c = s.alternate, l = s.stateNode;
 			if (s = s.tag, c !== null && c === r) break;
-			s !== 5 && s !== 26 && s !== 27 || l === null || (c = l, i ? (l = Tn(n, a), l != null && o.unshift(qf(n, l, c))) : i || (l = Tn(n, a), l != null && o.push(qf(n, l, c)))), n = n.return;
+			s !== 5 && s !== 26 && s !== 27 || l === null || (c = l, i ? (l = wn(n, a), l != null && o.unshift(qf(n, l, c))) : i || (l = wn(n, a), l != null && o.push(qf(n, l, c)))), n = n.return;
 		}
 		o.length !== 0 && e.push({
 			event: t,
@@ -7011,28 +7011,28 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function $(e, t, n, r, a, o) {
 		switch (n) {
 			case "children":
-				if (typeof r == "string") t === "body" || t === "textarea" && r === "" || ln(e, r);
-				else if (typeof r == "number" || typeof r == "bigint") t !== "body" && ln(e, "" + r);
+				if (typeof r == "string") t === "body" || t === "textarea" && r === "" || cn(e, r);
+				else if (typeof r == "number" || typeof r == "bigint") t !== "body" && cn(e, "" + r);
 				else return;
 				break;
 			case "className":
-				qt(e, "class", r);
+				Kt(e, "class", r);
 				break;
 			case "tabIndex":
-				qt(e, "tabindex", r);
+				Kt(e, "tabindex", r);
 				break;
 			case "dir":
 			case "role":
 			case "viewBox":
 			case "width":
 			case "height":
-				qt(e, n, r);
+				Kt(e, n, r);
 				break;
 			case "style":
-				fn(e, r, o);
+				dn(e, r, o);
 				return;
 			case "data": if (t !== "object") {
-				qt(e, "data", r);
+				Kt(e, "data", r);
 				break;
 			}
 			case "src":
@@ -7041,7 +7041,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					e.removeAttribute(n);
 					break;
 				}
-				r = gn(r), e.setAttribute(n, r);
+				r = hn(r), e.setAttribute(n, r);
 				break;
 			case "action":
 			case "formAction":
@@ -7053,10 +7053,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					e.removeAttribute(n);
 					break;
 				}
-				r = gn(r), e.setAttribute(n, r);
+				r = hn(r), e.setAttribute(n, r);
 				break;
 			case "onClick":
-				r != null && (e.onclick = _n);
+				r != null && (e.onclick = gn);
 				return;
 			case "onScroll":
 				r != null && Q("scroll", e);
@@ -7091,7 +7091,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					e.removeAttribute("xlink:href");
 					break;
 				}
-				n = gn(r), e.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", n);
+				n = hn(r), e.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", n);
 				break;
 			case "contentEditable":
 			case "spellCheck":
@@ -7144,49 +7144,49 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				r == null || typeof r == "function" || typeof r == "symbol" || isNaN(r) ? e.removeAttribute(n) : e.setAttribute(n, r);
 				break;
 			case "popover":
-				Q("beforetoggle", e), Q("toggle", e), Kt(e, "popover", r);
+				Q("beforetoggle", e), Q("toggle", e), Gt(e, "popover", r);
 				break;
 			case "xlinkActuate":
-				Jt(e, "http://www.w3.org/1999/xlink", "xlink:actuate", r);
+				qt(e, "http://www.w3.org/1999/xlink", "xlink:actuate", r);
 				break;
 			case "xlinkArcrole":
-				Jt(e, "http://www.w3.org/1999/xlink", "xlink:arcrole", r);
+				qt(e, "http://www.w3.org/1999/xlink", "xlink:arcrole", r);
 				break;
 			case "xlinkRole":
-				Jt(e, "http://www.w3.org/1999/xlink", "xlink:role", r);
+				qt(e, "http://www.w3.org/1999/xlink", "xlink:role", r);
 				break;
 			case "xlinkShow":
-				Jt(e, "http://www.w3.org/1999/xlink", "xlink:show", r);
+				qt(e, "http://www.w3.org/1999/xlink", "xlink:show", r);
 				break;
 			case "xlinkTitle":
-				Jt(e, "http://www.w3.org/1999/xlink", "xlink:title", r);
+				qt(e, "http://www.w3.org/1999/xlink", "xlink:title", r);
 				break;
 			case "xlinkType":
-				Jt(e, "http://www.w3.org/1999/xlink", "xlink:type", r);
+				qt(e, "http://www.w3.org/1999/xlink", "xlink:type", r);
 				break;
 			case "xmlBase":
-				Jt(e, "http://www.w3.org/XML/1998/namespace", "xml:base", r);
+				qt(e, "http://www.w3.org/XML/1998/namespace", "xml:base", r);
 				break;
 			case "xmlLang":
-				Jt(e, "http://www.w3.org/XML/1998/namespace", "xml:lang", r);
+				qt(e, "http://www.w3.org/XML/1998/namespace", "xml:lang", r);
 				break;
 			case "xmlSpace":
-				Jt(e, "http://www.w3.org/XML/1998/namespace", "xml:space", r);
+				qt(e, "http://www.w3.org/XML/1998/namespace", "xml:space", r);
 				break;
 			case "is":
-				Kt(e, "is", r);
+				Gt(e, "is", r);
 				break;
 			case "innerText":
 			case "textContent": return;
-			default: if (!(2 < n.length) || n[0] !== "o" && n[0] !== "O" || n[1] !== "n" && n[1] !== "N") n = mn.get(n) || n, Kt(e, n, r);
+			default: if (!(2 < n.length) || n[0] !== "o" && n[0] !== "O" || n[1] !== "n" && n[1] !== "N") n = pn.get(n) || n, Gt(e, n, r);
 			else return;
 		}
-		B = !0;
+		V = !0;
 	}
 	function tp(e, t, n, r, a, o) {
 		switch (n) {
 			case "style":
-				fn(e, r, o);
+				dn(e, r, o);
 				return;
 			case "dangerouslySetInnerHTML":
 				if (r != null) {
@@ -7198,8 +7198,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				break;
 			case "children":
-				if (typeof r == "string") ln(e, r);
-				else if (typeof r == "number" || typeof r == "bigint") ln(e, "" + r);
+				if (typeof r == "string") cn(e, r);
+				else if (typeof r == "number" || typeof r == "bigint") cn(e, "" + r);
 				else return;
 				break;
 			case "onScroll":
@@ -7209,7 +7209,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				r != null && Q("scrollend", e);
 				return;
 			case "onClick":
-				r != null && (e.onclick = _n);
+				r != null && (e.onclick = gn);
 				return;
 			case "suppressContentEditableWarning":
 			case "suppressHydrationWarning":
@@ -7218,16 +7218,16 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			case "innerText":
 			case "textContent": return;
 			default:
-				if (!Rt.hasOwnProperty(n)) a: {
-					if (n[0] === "o" && n[1] === "n" && (a = n.endsWith("Capture"), o = n.slice(2, a ? n.length - 7 : void 0), t = e[z] || null, t = t == null ? null : t[n], typeof t == "function" && e.removeEventListener(o, t, a), typeof r == "function")) {
+				if (!Lt.hasOwnProperty(n)) a: {
+					if (n[0] === "o" && n[1] === "n" && (a = n.endsWith("Capture"), o = n.slice(2, a ? n.length - 7 : void 0), t = e[xt] || null, t = t == null ? null : t[n], typeof t == "function" && e.removeEventListener(o, t, a), typeof r == "function")) {
 						typeof t != "function" && t !== null && (n in e ? e[n] = null : e.hasAttribute(n) && e.removeAttribute(n)), e.addEventListener(o, r, a);
 						break a;
 					}
-					B = !0, n in e ? e[n] = r : !0 === r ? e.setAttribute(n, "") : Kt(e, n, r);
+					V = !0, n in e ? e[n] = r : !0 === r ? e.setAttribute(n, "") : Gt(e, n, r);
 				}
 				return;
 		}
-		B = !0;
+		V = !0;
 	}
 	function np(e, t, n) {
 		switch (t) {
@@ -7289,7 +7289,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						default: $(e, t, r, d, n, null);
 					}
 				}
-				rn(e, o, c, l, u, s, a, !1);
+				nn(e, o, c, l, u, s, a, !1);
 				return;
 			case "select":
 				for (a in Q("invalid", e), r = s = o = null, n) if (n.hasOwnProperty(a) && (c = n[a], c != null)) switch (a) {
@@ -7302,7 +7302,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					case "multiple": r = c;
 					default: $(e, t, a, c, n, null);
 				}
-				t = o, n = s, e.multiple = !!r, t == null ? n != null && on(e, !!r, n, !0) : on(e, !!r, t, !1);
+				t = o, n = s, e.multiple = !!r, t == null ? n != null && an(e, !!r, n, !0) : an(e, !!r, t, !1);
 				return;
 			case "textarea":
 				for (s in Q("invalid", e), o = a = r = null, n) if (n.hasOwnProperty(s) && (c = n[s], c != null)) switch (s) {
@@ -7320,7 +7320,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						break;
 					default: $(e, t, s, c, n, null);
 				}
-				cn(e, r, a, o);
+				sn(e, r, a, o);
 				return;
 			case "option":
 				for (l in n) if (n.hasOwnProperty(l) && (r = n[l], r != null)) switch (l) {
@@ -7367,7 +7367,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					default: $(e, t, u, r, n, null);
 				}
 				return;
-			default: if (pn(t)) {
+			default: if (fn(t)) {
 				for (d in n) n.hasOwnProperty(d) && (r = n[d], r !== void 0 && tp(e, t, d, r, n, void 0));
 				return;
 			}
@@ -7400,22 +7400,22 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var m = r[p];
 					if (f = n[p], r.hasOwnProperty(p) && (m != null || f != null)) switch (p) {
 						case "type":
-							m !== f && (B = !0), o = m;
+							m !== f && (V = !0), o = m;
 							break;
 						case "name":
-							m !== f && (B = !0), a = m;
+							m !== f && (V = !0), a = m;
 							break;
 						case "checked":
-							m !== f && (B = !0), u = m;
+							m !== f && (V = !0), u = m;
 							break;
 						case "defaultChecked":
-							m !== f && (B = !0), d = m;
+							m !== f && (V = !0), d = m;
 							break;
 						case "value":
-							m !== f && (B = !0), s = m;
+							m !== f && (V = !0), s = m;
 							break;
 						case "defaultValue":
-							m !== f && (B = !0), c = m;
+							m !== f && (V = !0), c = m;
 							break;
 						case "children":
 						case "dangerouslySetInnerHTML":
@@ -7424,7 +7424,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						default: m !== f && $(e, t, p, m, r, f);
 					}
 				}
-				nn(e, s, c, l, u, d, o, a);
+				tn(e, s, c, l, u, d, o, a);
 				return;
 			case "select":
 				for (o in m = s = c = p = null, n) if (l = n[o], n.hasOwnProperty(o) && l != null) switch (o) {
@@ -7434,15 +7434,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				for (a in r) if (o = r[a], l = n[a], r.hasOwnProperty(a) && (o != null || l != null)) switch (a) {
 					case "value":
-						o !== l && (B = !0), p = o;
+						o !== l && (V = !0), p = o;
 						break;
 					case "defaultValue":
-						o !== l && (B = !0), c = o;
+						o !== l && (V = !0), c = o;
 						break;
-					case "multiple": o !== l && (B = !0), s = o;
+					case "multiple": o !== l && (V = !0), s = o;
 					default: o !== l && $(e, t, a, o, r, l);
 				}
-				t = c, n = s, r = m, p == null ? !!r != !!n && (t == null ? on(e, !!n, n ? [] : "", !1) : on(e, !!n, t, !0)) : on(e, !!n, p, !1);
+				t = c, n = s, r = m, p == null ? !!r != !!n && (t == null ? an(e, !!n, n ? [] : "", !1) : an(e, !!n, t, !0)) : an(e, !!n, p, !1);
 				return;
 			case "textarea":
 				for (c in m = p = null, n) if (a = n[c], n.hasOwnProperty(c) && a != null && !r.hasOwnProperty(c)) switch (c) {
@@ -7452,10 +7452,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				for (s in r) if (a = r[s], o = n[s], r.hasOwnProperty(s) && (a != null || o != null)) switch (s) {
 					case "value":
-						a !== o && (B = !0), p = a;
+						a !== o && (V = !0), p = a;
 						break;
 					case "defaultValue":
-						a !== o && (B = !0), m = a;
+						a !== o && (V = !0), m = a;
 						break;
 					case "children": break;
 					case "dangerouslySetInnerHTML":
@@ -7463,7 +7463,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						break;
 					default: a !== o && $(e, t, s, a, r, o);
 				}
-				sn(e, p, m);
+				on(e, p, m);
 				return;
 			case "option":
 				for (var h in n) if (p = n[h], n.hasOwnProperty(h) && p != null && !r.hasOwnProperty(h)) switch (h) {
@@ -7474,7 +7474,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				for (l in r) if (p = r[l], m = n[l], r.hasOwnProperty(l) && p !== m && (p != null || m != null)) switch (l) {
 					case "selected":
-						p !== m && (B = !0), e.selected = p && typeof p != "function" && typeof p != "symbol";
+						p !== m && (V = !0), e.selected = p && typeof p != "function" && typeof p != "symbol";
 						break;
 					default: $(e, t, l, p, r, m);
 				}
@@ -7503,7 +7503,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					default: $(e, t, u, p, r, m);
 				}
 				return;
-			default: if (pn(t)) {
+			default: if (fn(t)) {
 				for (var _ in n) p = n[_], n.hasOwnProperty(_) && p !== void 0 && !r.hasOwnProperty(_) && tp(e, t, _, void 0, r, p);
 				for (d in r) p = r[d], m = n[d], !r.hasOwnProperty(d) || p === m || p === void 0 && m === void 0 || tp(e, t, d, p, r, m);
 				return;
@@ -7562,7 +7562,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return e === 1 && t === "foreignObject" ? 0 : e;
 	}
 	function fp(e, t, n, r) {
-		return n = lp(n).createElement(e), n[St] = r, n[z] = t, np(n, e, t), Ft(n), n;
+		return n = lp(n).createElement(e), n[bt] = r, n[xt] = t, np(n, e, t), Pt(n), n;
 	}
 	function pp(e, t) {
 		return e === "textarea" || e === "noscript" || typeof t.children == "string" || typeof t.children == "number" || typeof t.children == "bigint" || typeof t.dangerouslySetInnerHTML == "object" && t.dangerouslySetInnerHTML !== null && t.dangerouslySetInnerHTML.__html != null;
@@ -7600,7 +7600,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					n = e.ownerDocument.head, _m(n);
 					for (var a = n.firstChild; a;) {
 						var o = a.nextSibling, s = a.nodeName;
-						a[Ot] || s === "SCRIPT" || s === "STYLE" || s === "LINK" && a.rel.toLowerCase() === "stylesheet" || n.removeChild(a), a = o;
+						a[Dt] || s === "SCRIPT" || s === "STYLE" || s === "LINK" && a.rel.toLowerCase() === "stylesheet" || n.removeChild(a), a = o;
 					}
 				} else n === "body" && _m(e.ownerDocument.body);
 			}
@@ -7931,7 +7931,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return s = r && a && o & Node.DOCUMENT_POSITION_FOLLOWING && s & Node.DOCUMENT_POSITION_PRECEDING, t = r && t === e || a && i === e || c || s ? Node.DOCUMENT_POSITION_CONTAINED_BY : !r && t === e || !a && i === e ? Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC : o, t & Node.DOCUMENT_POSITION_DISCONNECTED || t & Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC || Xp(t, this._fragmentFiber, n[0], n[n.length - 1], e) ? t : Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
 	};
 	function Xp(e, t, n, r, i) {
-		var a = jt(i);
+		var a = At(i);
 		if (e & Node.DOCUMENT_POSITION_CONTAINED_BY) {
 			if (n = !!a) a: {
 				for (; a !== null;) {
@@ -8028,7 +8028,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				case "HTML":
 				case "HEAD":
 				case "BODY":
-					nm(n), At(n);
+					nm(n), kt(n);
 					continue;
 				case "SCRIPT":
 				case "STYLE": continue;
@@ -8047,7 +8047,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var a = i.name == null ? null : "" + i.name;
 					if (i.type === "hidden" && e.getAttribute("name") === a) return e;
 				} else return e;
-			} else if (!e[Ot]) switch (t) {
+			} else if (!e[Dt]) switch (t) {
 				case "meta":
 					if (!e.hasAttribute("itemprop")) break;
 					return e;
@@ -8171,11 +8171,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			var i = n[r];
 			n.hasOwnProperty(r) && i != null && $(e, t, r, null, rp, i);
 		}
-		n.dangerouslySetInnerHTML != null && (e.textContent = ""), e.onclick === _n && (e.onclick = null), At(e);
+		n.dangerouslySetInnerHTML != null && (e.textContent = ""), e.onclick === gn && (e.onclick = null), kt(e);
 	}
 	function _m(e) {
 		for (var t = e.attributes; t.length;) e.removeAttributeNode(t[0]);
-		At(e);
+		kt(e);
 	}
 	var vm = /* @__PURE__ */ new Map(), ym = /* @__PURE__ */ new Set();
 	function bm(e) {
@@ -8202,19 +8202,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return e || t;
 	}
 	function Cm(e) {
-		var t = Mt(e);
-		t !== null && t.tag === 5 && t.type === "form" ? tc(t) : xm.r(e);
+		var t = jt(e);
+		t !== null && t.tag === 5 && t.type === "form" ? ec(t) : xm.r(e);
 	}
 	var wm = typeof document > "u" ? null : document;
 	function Tm(e, t, n) {
 		var r = wm;
 		if (r && typeof t == "string" && t) {
-			var i = tn(t);
+			var i = en(t);
 			i = "link[rel=\"" + e + "\"][href=\"" + i + "\"]", typeof n == "string" && (i += "[crossorigin=\"" + n + "\"]"), ym.has(i) || (ym.add(i), e = {
 				rel: e,
 				crossOrigin: n,
 				href: t
-			}, r.querySelector(i) === null && (t = r.createElement("link"), np(t, "link", e), Ft(t), r.head.appendChild(t)));
+			}, r.querySelector(i) === null && (t = r.createElement("link"), np(t, "link", e), Pt(t), r.head.appendChild(t)));
 		}
 	}
 	function Em(e) {
@@ -8227,8 +8227,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		xm.L(e, t, n);
 		var r = wm;
 		if (r && e && t) {
-			var i = "link[rel=\"preload\"][as=\"" + tn(t) + "\"]";
-			t === "image" && n && n.imageSrcSet ? (i += "[imagesrcset=\"" + tn(n.imageSrcSet) + "\"]", typeof n.imageSizes == "string" && (i += "[imagesizes=\"" + tn(n.imageSizes) + "\"]")) : i += "[href=\"" + tn(e) + "\"]";
+			var i = "link[rel=\"preload\"][as=\"" + en(t) + "\"]";
+			t === "image" && n && n.imageSrcSet ? (i += "[imagesrcset=\"" + en(n.imageSrcSet) + "\"]", typeof n.imageSizes == "string" && (i += "[imagesizes=\"" + en(n.imageSizes) + "\"]")) : i += "[href=\"" + en(e) + "\"]";
 			var a = i;
 			switch (t) {
 				case "style":
@@ -8242,9 +8242,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				as: t
 			}, n), vm.set(a, e), r.querySelector(i) !== null || t === "style" && r.querySelector(Fm(a)) || t === "script" && r.querySelector(zm(a))))) {
 				var o = r.createElement("link");
-				np(o, "link", e), t === "style" && (o[kt] = !0, o.onload = o.onerror = function() {
-					It(o);
-				}), Ft(o), r.head.appendChild(o);
+				np(o, "link", e), t === "style" && (o[Ot] = !0, o.onload = o.onerror = function() {
+					Ft(o);
+				}), Pt(o), r.head.appendChild(o);
 			}
 		}
 	}
@@ -8252,7 +8252,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		xm.m(e, t);
 		var n = wm;
 		if (n && e) {
-			var r = t && typeof t.as == "string" ? t.as : "script", i = "link[rel=\"modulepreload\"][as=\"" + tn(r) + "\"][href=\"" + tn(e) + "\"]", a = i;
+			var r = t && typeof t.as == "string" ? t.as : "script", i = "link[rel=\"modulepreload\"][as=\"" + en(r) + "\"][href=\"" + en(e) + "\"]", a = i;
 			switch (r) {
 				case "audioworklet":
 				case "paintworklet":
@@ -8273,7 +8273,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					case "worker":
 					case "script": if (n.querySelector(zm(a))) return;
 				}
-				r = n.createElement("link"), np(r, "link", e), Ft(r), n.head.appendChild(r);
+				r = n.createElement("link"), np(r, "link", e), Pt(r), n.head.appendChild(r);
 			}
 		}
 	}
@@ -8281,7 +8281,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		xm.S(e, t, n);
 		var r = wm;
 		if (r && e) {
-			var i = Pt(r).hoistableStyles, a = Pm(e);
+			var i = Nt(r).hoistableStyles, a = Pm(e);
 			t ||= "default";
 			var o = i.get(a);
 			if (!o) {
@@ -8297,7 +8297,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						"data-precedence": t
 					}, n), (n = vm.get(a)) && Hm(e, n);
 					var c = o = r.createElement("link");
-					Ft(c), np(c, "link", e), c._p = new Promise(function(e, t) {
+					Pt(c), np(c, "link", e), c._p = new Promise(function(e, t) {
 						c.onload = e, c.onerror = t;
 					}), c.addEventListener("load", function() {
 						s.loading |= 1;
@@ -8318,11 +8318,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		xm.X(e, t);
 		var n = wm;
 		if (n && e) {
-			var r = Pt(n).hoistableScripts, i = Rm(e), a = r.get(i);
+			var r = Nt(n).hoistableScripts, i = Rm(e), a = r.get(i);
 			a || (a = n.querySelector(zm(i)), a || (e = D({
 				src: e,
 				async: !0
-			}, t), (t = vm.get(i)) && Um(e, t), a = n.createElement("script"), Ft(a), np(a, "link", e), n.head.appendChild(a)), a = {
+			}, t), (t = vm.get(i)) && Um(e, t), a = n.createElement("script"), Pt(a), np(a, "link", e), n.head.appendChild(a)), a = {
 				type: "script",
 				instance: a,
 				count: 1,
@@ -8334,12 +8334,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		xm.M(e, t);
 		var n = wm;
 		if (n && e) {
-			var r = Pt(n).hoistableScripts, i = Rm(e), a = r.get(i);
+			var r = Nt(n).hoistableScripts, i = Rm(e), a = r.get(i);
 			a || (a = n.querySelector(zm(i)), a || (e = D({
 				src: e,
 				async: !0,
 				type: "module"
-			}, t), (t = vm.get(i)) && Um(e, t), a = n.createElement("script"), Ft(a), np(a, "link", e), n.head.appendChild(a)), a = {
+			}, t), (t = vm.get(i)) && Um(e, t), a = n.createElement("script"), Pt(a), np(a, "link", e), n.head.appendChild(a)), a = {
 				type: "script",
 				instance: a,
 				count: 1,
@@ -8353,7 +8353,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		switch (e) {
 			case "meta":
 			case "title": return null;
-			case "style": return typeof n.precedence == "string" && typeof n.href == "string" ? (n = Pm(n.href), t = Pt(a).hoistableStyles, r = t.get(n), r || (r = {
+			case "style": return typeof n.precedence == "string" && typeof n.href == "string" ? (n = Pm(n.href), t = Nt(a).hoistableStyles, r = t.get(n), r || (r = {
 				type: "style",
 				instance: null,
 				count: 0,
@@ -8367,7 +8367,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			case "link":
 				if (n.rel === "stylesheet" && typeof n.href == "string" && typeof n.precedence == "string") {
 					e = Pm(n.href);
-					var o = Pt(a).hoistableStyles, s = o.get(e);
+					var o = Nt(a).hoistableStyles, s = o.get(e);
 					if (s || (a = a.ownerDocument || a, s = {
 						type: "stylesheet",
 						instance: null,
@@ -8390,7 +8390,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				if (t && r !== null) throw Error(i(529, ""));
 				return null;
-			case "script": return t = n.async, n = n.src, typeof n == "string" && t && typeof t != "function" && typeof t != "symbol" ? (n = Rm(n), t = Pt(a).hoistableScripts, r = t.get(n), r || (r = {
+			case "script": return t = n.async, n = n.src, typeof n == "string" && t && typeof t != "function" && typeof t != "symbol" ? (n = Rm(n), t = Nt(a).hoistableScripts, r = t.get(n), r || (r = {
 				type: "script",
 				instance: null,
 				count: 0,
@@ -8405,7 +8405,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function Pm(e) {
-		return "href=\"" + tn(e) + "\"";
+		return "href=\"" + en(e) + "\"";
 	}
 	function Fm(e) {
 		return "link[rel=\"stylesheet\"][" + e + "]";
@@ -8418,11 +8418,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function Lm(e, t, n, r) {
 		if (t = e.querySelector("link[rel=\"preload\"][as=\"style\"][" + t + "]")) {
-			if (!0 !== t[kt]) {
+			if (!0 !== t[Ot]) {
 				r.loading = 1;
 				return;
 			}
-		} else t = e.createElement("link"), t[kt] = !0, t.onload = t.onerror = It.bind(null, t), np(t, "link", n), Ft(t), e.head.appendChild(t);
+		} else t = e.createElement("link"), t[Ot] = !0, t.onload = t.onerror = Ft.bind(null, t), np(t, "link", n), Pt(t), e.head.appendChild(t);
 		r.preload = t, t.addEventListener("load", function() {
 			return r.loading |= 1;
 		}), t.addEventListener("error", function() {
@@ -8430,7 +8430,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		});
 	}
 	function Rm(e) {
-		return "[src=\"" + tn(e) + "\"]";
+		return "[src=\"" + en(e) + "\"]";
 	}
 	function zm(e) {
 		return "script[async]" + e;
@@ -8438,25 +8438,25 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function Bm(e, t, n) {
 		if (t.count++, t.instance === null) switch (t.type) {
 			case "style":
-				var r = e.querySelector("style[data-href~=\"" + tn(n.href) + "\"]");
-				if (r) return t.instance = r, Ft(r), r;
+				var r = e.querySelector("style[data-href~=\"" + en(n.href) + "\"]");
+				if (r) return t.instance = r, Pt(r), r;
 				var a = D({}, n, {
 					"data-href": n.href,
 					"data-precedence": n.precedence,
 					href: null,
 					precedence: null
 				});
-				return r = (e.ownerDocument || e).createElement("style"), Ft(r), np(r, "style", a), Vm(r, n.precedence, e), t.instance = r;
+				return r = (e.ownerDocument || e).createElement("style"), Pt(r), np(r, "style", a), Vm(r, n.precedence, e), t.instance = r;
 			case "stylesheet":
 				a = Pm(n.href);
 				var o = e.querySelector(Fm(a));
-				if (o) return t.state.loading |= 4, t.instance = o, Ft(o), o;
-				r = Im(n), (a = vm.get(a)) && Hm(r, a), o = (e.ownerDocument || e).createElement("link"), Ft(o);
+				if (o) return t.state.loading |= 4, t.instance = o, Pt(o), o;
+				r = Im(n), (a = vm.get(a)) && Hm(r, a), o = (e.ownerDocument || e).createElement("link"), Pt(o);
 				var s = o;
 				return s._p = new Promise(function(e, t) {
 					s.onload = e, s.onerror = t;
 				}), np(o, "link", r), t.state.loading |= 4, Vm(o, n.precedence, e), t.instance = o;
-			case "script": return o = Rm(n.src), (a = e.querySelector(zm(o))) ? (t.instance = a, Ft(a), a) : (r = n, (a = vm.get(o)) && (r = D({}, n), Um(r, a)), e = e.ownerDocument || e, a = e.createElement("script"), Ft(a), np(a, "link", r), e.head.appendChild(a), t.instance = a);
+			case "script": return o = Rm(n.src), (a = e.querySelector(zm(o))) ? (t.instance = a, Pt(a), a) : (r = n, (a = vm.get(o)) && (r = D({}, n), Um(r, a)), e = e.ownerDocument || e, a = e.createElement("script"), Pt(a), np(a, "link", r), e.head.appendChild(a), t.instance = a);
 			case "void": return null;
 			default: throw Error(i(443, t.type));
 		}
@@ -8486,7 +8486,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (r.has(e)) return r;
 		for (r.set(e, null), n = n.getElementsByTagName(e), i = 0; i < n.length; i++) {
 			var a = n[i];
-			if (!(a[Ot] || a[St] || e === "link" && a.getAttribute("rel") === "stylesheet") && a.namespaceURI !== "http://www.w3.org/2000/svg") {
+			if (!(a[Dt] || a[bt] || e === "link" && a.getAttribute("rel") === "stylesheet") && a.namespaceURI !== "http://www.w3.org/2000/svg") {
 				var o = a.getAttribute(t) || "";
 				o = e + o;
 				var s = r.get(o);
@@ -8533,10 +8533,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (n.instance === null) {
 				var i = Pm(r.href), a = t.querySelector(Fm(i));
 				if (a) {
-					t = a._p, typeof t == "object" && t && typeof t.then == "function" && (e.count++, e = nh.bind(e), t.then(e, e)), n.state.loading |= 4, n.instance = a, Ft(a);
+					t = a._p, typeof t == "object" && t && typeof t.then == "function" && (e.count++, e = nh.bind(e), t.then(e, e)), n.state.loading |= 4, n.instance = a, Pt(a);
 					return;
 				}
-				a = t.ownerDocument || t, r = Im(r), (i = vm.get(i)) && Hm(r, i), a = a.createElement("link"), Ft(a);
+				a = t.ownerDocument || t, r = Im(r), (i = vm.get(i)) && Hm(r, i), a = a.createElement("link"), Pt(a);
 				var o = a;
 				o._p = new Promise(function(e, t) {
 					o.onload = e, o.onerror = t;
@@ -8609,20 +8609,20 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		_threadCount: 0
 	};
 	function ch(e, t, n, r, i, a, o, s, c) {
-		this.tag = 1, this.containerInfo = e, this.pingCache = this.current = this.pendingChildren = null, this.timeoutHandle = -1, this.callbackNode = this.next = this.pendingContext = this.context = this.cancelPendingCommit = null, this.callbackPriority = 0, this.expirationTimes = dt(-1), this.entangledLanes = this.shellSuspendCounter = this.errorRecoveryDisabledLanes = this.expiredLanes = this.warmLanes = this.pingedLanes = this.suspendedLanes = this.pendingLanes = 0, this.entanglements = dt(0), this.hiddenUpdates = dt(null), this.identifierPrefix = r, this.onUncaughtError = i, this.onCaughtError = a, this.onRecoverableError = o, this.pooledCache = null, this.pooledCacheLanes = 0, this.formState = c, this.transitionTypes = null, this.incompleteTransitions = /* @__PURE__ */ new Map();
+		this.tag = 1, this.containerInfo = e, this.pingCache = this.current = this.pendingChildren = null, this.timeoutHandle = -1, this.callbackNode = this.next = this.pendingContext = this.context = this.cancelPendingCommit = null, this.callbackPriority = 0, this.expirationTimes = ut(-1), this.entangledLanes = this.shellSuspendCounter = this.errorRecoveryDisabledLanes = this.expiredLanes = this.warmLanes = this.pingedLanes = this.suspendedLanes = this.pendingLanes = 0, this.entanglements = ut(0), this.hiddenUpdates = ut(null), this.identifierPrefix = r, this.onUncaughtError = i, this.onCaughtError = a, this.onRecoverableError = o, this.pooledCache = null, this.pooledCacheLanes = 0, this.formState = c, this.transitionTypes = null, this.incompleteTransitions = /* @__PURE__ */ new Map();
 	}
 	function lh(e, t, n, r, i, a, o, s, c, l, u, d) {
-		return e = new ch(e, t, n, o, c, l, u, d, s), t = 1, !0 === a && (t |= 24), a = Ai(3, null, null, t), e.current = a, a.stateNode = e, t = Aa(), t.refCount++, e.pooledCache = t, t.refCount++, a.memoizedState = {
+		return e = new ch(e, t, n, o, c, l, u, d, s), t = 1, !0 === a && (t |= 24), a = ki(3, null, null, t), e.current = a, a.stateNode = e, t = ka(), t.refCount++, e.pooledCache = t, t.refCount++, a.memoizedState = {
 			element: r,
 			isDehydrated: n,
 			cache: t
-		}, po(a), e;
+		}, fo(a), e;
 	}
 	function uh(e) {
-		return e ? (e = Oi, e) : Oi;
+		return e ? (e = Di, e) : Di;
 	}
 	function dh(e, t, n, r, i, a) {
-		i = uh(i), r.context === null ? r.context = i : r.pendingContext = i, r = ho(t), r.payload = { element: n }, a = a === void 0 ? null : a, a !== null && (r.callback = a), n = go(e, r, t), n !== null && (Pd(n, e, t), _o(n, e, t));
+		i = uh(i), r.context === null ? r.context = i : r.pendingContext = i, r = mo(t), r.payload = { element: n }, a = a === void 0 ? null : a, a !== null && (r.callback = a), n = ho(e, r, t), n !== null && (Pd(n, e, t), go(n, e, t));
 	}
 	function fh(e, t) {
 		if (e = e.memoizedState, e !== null && e.dehydrated !== null) {
@@ -8635,15 +8635,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	function mh(e) {
 		if (e.tag === 13 || e.tag === 31) {
-			var t = Ti(e, 67108864);
+			var t = wi(e, 67108864);
 			t !== null && Pd(t, e, 67108864), ph(e, 67108864);
 		}
 	}
 	function hh(e) {
 		if (e.tag === 13 || e.tag === 31) {
 			var t = jd();
-			t = _t(t);
-			var n = Ti(e, t);
+			t = gt(t);
+			var n = wi(e, t);
 			n !== null && Pd(n, e, t), ph(e, t);
 		}
 	}
@@ -8675,23 +8675,23 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			else if (Ph(i, e, t, n, r)) r.stopPropagation();
 			else if (Mh(e, r), t & 4 && -1 < jh.indexOf(e)) {
 				for (; i !== null;) {
-					var a = Mt(i);
+					var a = jt(i);
 					if (a !== null) switch (a.tag) {
 						case 3:
 							if (a = a.stateNode, a.current.memoizedState.isDehydrated) {
-								var o = ot(a.pendingLanes);
+								var o = it(a.pendingLanes);
 								if (o !== 0) {
 									var s = a;
 									for (s.pendingLanes |= 2, s.entangledLanes |= 2; o;) {
-										var c = 1 << 31 - et(o);
+										var c = 1 << 31 - L(o);
 										s.entanglements[1] |= c, o &= ~c;
 									}
-									Ef(a), !(K & 6) && (gd = He() + 500, Df(0, !1));
+									Ef(a), !(q & 6) && (gd = He() + 500, Df(0, !1));
 								}
 							}
 							break;
 						case 31:
-						case 13: s = Ti(a, 2), s !== null && Pd(s, a, 2), zd(), ph(a, 2);
+						case 13: s = wi(a, 2), s !== null && Pd(s, a, 2), zd(), ph(a, 2);
 					}
 					if (a = bh(r), a === null && Kf(e, t, r, xh, n), a === i) break;
 					i = a;
@@ -8701,11 +8701,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function bh(e) {
-		return e = yn(e), Sh(e);
+		return e = vn(e), Sh(e);
 	}
 	var xh = null;
 	function Sh(e) {
-		if (xh = null, e = jt(e), e !== null) {
+		if (xh = null, e = At(e), e !== null) {
 			var t = o(e);
 			if (t === null) e = null;
 			else {
@@ -8839,7 +8839,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			eventSystemFlags: r,
 			nativeEvent: a,
 			targetContainers: [i]
-		}, t !== null && (t = Mt(t), t !== null && mh(t)), e) : (e.eventSystemFlags |= r, t = e.targetContainers, i !== null && t.indexOf(i) === -1 && t.push(i), e);
+		}, t !== null && (t = jt(t), t !== null && mh(t)), e) : (e.eventSystemFlags |= r, t = e.targetContainers, i !== null && t.indexOf(i) === -1 && t.push(i), e);
 	}
 	function Ph(e, t, n, r, i) {
 		switch (t) {
@@ -8854,20 +8854,20 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return !1;
 	}
 	function Fh(e) {
-		var t = jt(e.target);
+		var t = At(e.target);
 		if (t !== null) {
 			var n = o(t);
 			if (n !== null) {
 				if (t = n.tag, t === 13) {
 					if (t = s(n), t !== null) {
-						e.blockedOn = t, bt(e.priority, function() {
+						e.blockedOn = t, yt(e.priority, function() {
 							hh(n);
 						});
 						return;
 					}
 				} else if (t === 31) {
 					if (t = c(n), t !== null) {
-						e.blockedOn = t, bt(e.priority, function() {
+						e.blockedOn = t, yt(e.priority, function() {
 							hh(n);
 						});
 						return;
@@ -8887,8 +8887,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (n === null) {
 				n = e.nativeEvent;
 				var r = new n.constructor(n.type, n);
-				vn = r, n.target.dispatchEvent(r), vn = null;
-			} else return t = Mt(n), t !== null && mh(t), e.blockedOn = n, !1;
+				_n = r, n.target.dispatchEvent(r), _n = null;
+			} else return t = jt(n), t !== null && mh(t), e.blockedOn = n, !1;
 			t.shift();
 		}
 		return !0;
@@ -8912,8 +8912,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					if (Sh(r || n) === null) continue;
 					break;
 				}
-				var a = Mt(n);
-				a !== null && (e.splice(t, 3), t -= 3, $s(a, {
+				var a = jt(n);
+				a !== null && (e.splice(t, 3), t -= 3, Qs(a, {
 					pending: !0,
 					data: i,
 					method: n.method,
@@ -8933,12 +8933,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		for (; 0 < Ah.length && (n = Ah[0], n.blockedOn === null);) Fh(n), n.blockedOn === null && Ah.shift();
 		if (n = (e.ownerDocument || e).$$reactFormReplay, n != null) for (r = 0; r < n.length; r += 3) {
-			var i = n[r], a = n[r + 1], o = i[z] || null;
+			var i = n[r], a = n[r + 1], o = i[xt] || null;
 			if (typeof a == "function") o || Vh(n);
 			else if (o) {
 				var s = null;
 				if (a && a.hasAttribute("formAction")) {
-					if (i = a, o = a[z] || null) s = o.formAction;
+					if (i = a, o = a[xt] || null) s = o.formAction;
 					else if (Sh(i) !== null) continue;
 				} else s = o.action;
 				typeof s == "function" ? n[r + 1] = s : (n.splice(r, 3), r -= 3), Vh(n);
@@ -8990,7 +8990,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (e !== null) {
 			this._internalRoot = null;
 			var t = e.containerInfo;
-			dh(e.current, 2, null, e, null, null), zd(), t[Ct] = null;
+			dh(e.current, 2, null, e, null, null), zd(), t[St] = null;
 		}
 	};
 	function Gh(e) {
@@ -8998,7 +8998,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	Gh.prototype.unstable_scheduleHydration = function(e) {
 		if (e) {
-			var t = yt();
+			var t = vt();
 			e = {
 				blockedOn: null,
 				target: e,
@@ -9030,8 +9030,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	e.createRoot = function(e, t) {
 		if (!a(e)) throw Error(i(299));
-		var n = !1, r = "", o = Sc, s = Cc, c = wc;
-		return t != null && (!0 === t.unstable_strictMode && (n = !0), t.identifierPrefix !== void 0 && (r = t.identifierPrefix), t.onUncaughtError !== void 0 && (o = t.onUncaughtError), t.onCaughtError !== void 0 && (s = t.onCaughtError), t.onRecoverableError !== void 0 && (c = t.onRecoverableError)), t = lh(e, 1, !1, null, null, n, r, null, o, s, c, Uh), e[Ct] = t.current, Wf(e), new Wh(t);
+		var n = !1, r = "", o = xc, s = Sc, c = Cc;
+		return t != null && (!0 === t.unstable_strictMode && (n = !0), t.identifierPrefix !== void 0 && (r = t.identifierPrefix), t.onUncaughtError !== void 0 && (o = t.onUncaughtError), t.onCaughtError !== void 0 && (s = t.onCaughtError), t.onRecoverableError !== void 0 && (c = t.onRecoverableError)), t = lh(e, 1, !1, null, null, n, r, null, o, s, c, Uh), e[St] = t.current, Wf(e), new Wh(t);
 	};
 })), g = /* @__PURE__ */ o(((e, t) => {
 	function n() {
@@ -12130,1374 +12130,596 @@ function $e({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 		]
 	});
 }
-// src/diagrams/s1.svg?raw
-var et = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S1 · Google Apigee MCP</title><desc id=\"d\">Detailed L2 architecture diagram S1 · Google Apigee MCP</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#E8F1FB\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E0\" stroke=\"none\"/><text x=\"1010.12\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">S1  ·  Google Apigee MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Google Apigee · external to AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#5B3F8C\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Apigee mode TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0C8F76\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#6B6B6B\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#0C8F76\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#5B3F8C\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">S1 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", tt = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S2 · AgentCore Gateway MCP</title><desc id=\"d\">Detailed L2 architecture diagram S2 · AgentCore Gateway MCP</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#E8F1FB\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E0\" stroke=\"none\"/><text x=\"999.93\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">S2  ·  AgentCore Gateway MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"132.56\" y=\"172.59\" width=\"446.51\" height=\"315.53\" rx=\"7.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"475.12\" y=\"162.71\" width=\"71.51\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"480.63\" y=\"171.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">AWS trust boundary</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AgentCore Gateway · inside AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#5B3F8C\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Target type TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0C8F76\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#6B6B6B\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#0C8F76\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#5B3F8C\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">S2 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", nt = {
-	label: "Finance user",
-	owner: "Experience",
-	detail: "Fiori-style reconciliation request",
-	out: "business intent",
-	type: "ux"
-}, L = {
-	label: "SAP Integration Suite",
-	owner: "SAP Integration",
-	detail: "Approved API and iFlow mapping",
-	out: "backend read",
-	type: "sap"
-}, rt = {
-	label: "Cloud Connector",
-	owner: "SAP connectivity",
-	detail: "Controlled route to SAP landscape",
-	out: "authorized call",
-	type: "sap"
-}, it = {
-	label: "SAP finance backend",
-	owner: "SAP Security + FI",
-	detail: "S/4HANA and Central Finance role checks",
-	out: "finance evidence",
-	type: "sap"
-}, at = {
-	S1: {
-		title: "S1 · Direct SAP Apigee MCP",
-		status: "SAP domain baseline · direct access open",
-		stages: [
-			nt,
-			{
-				label: "External finance agent",
-				owner: "Approved agent runtime",
-				detail: "AgentCore Runtime in demo; other host needs approval",
-				out: "MCP tool call",
-				type: "agent"
-			},
-			{
-				label: "SAP Apigee MCP",
-				owner: "SAP domain",
-				detail: "Finance tools, policy and credential check",
-				out: "typed SAP request",
-				type: "gateway"
-			},
-			L,
-			rt,
-			it
+var L = {
+	version: "5.1",
+	banner: "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
+	ids: [
+		"S1",
+		"S2",
+		"S3"
+	],
+	scenarios: /* @__PURE__ */ JSON.parse("{\"S1\":{\"id\":\"S1\",\"name\":\"S1 · SAP-centric\",\"short\":\"SAP-centric\",\"status\":\"Evaluation candidate\",\"objective\":\"SAP owns agent execution and the domain's MCP capability. Apigee is the SAP-facing MCP/API gateway. Registration is domain-managed; no AWS component takes part.\",\"agent_runtime\":\"SAP BTP Cloud Foundry\",\"agent_hosting_owner\":\"SAP BTP platform team\",\"agent_execution_endpoint\":\"Cloud Foundry application route (agent API)\",\"ui_hosting\":\"SAP Fiori launchpad or the existing application UI\",\"mcp_client\":\"Inside the agent process on Cloud Foundry\",\"mcp_endpoint_type\":\"Apigee-managed MCP endpoint (Pattern A); custom MCP server behind Apigee only where logic is needed (Pattern B)\",\"mcp_gateway\":\"Google Apigee (SAP-facing MCP/API gateway and policy layer)\",\"custom_mcp_runtime\":\"SAP BTP Cloud Foundry, only if required\",\"custom_mcp_hosting_owner\":\"SAP BTP platform team\",\"mcp_tool_execution_location\":\"Pattern A: API operation behind Apigee. Pattern B: the custom MCP service on Cloud Foundry\",\"agent_registry\":\"Domain-managed catalog · product selection pending\",\"mcp_registry\":\"Domain-managed catalog · product selection pending\",\"registry_publisher_approver\":\"Domain team publishes; approval owner TBD · REQUIRES VALIDATION\",\"registry_sync\":\"Not defined. No product is selected, so no synchronization mechanism exists\",\"agent_discovery\":\"Domain-managed catalog lookup (mechanism TBD · REQUIRES VALIDATION)\",\"mcp_tool_discovery\":\"Apigee MCP tools/list at the endpoint; catalog lookup TBD · REQUIRES VALIDATION\",\"agentcore_runtime\":false,\"agentcore_gateway\":false,\"aws_agent_registry\":false,\"llm_gateway\":\"Portkey\",\"llm_boundary\":\"Cloud Foundry agent → Portkey → approved LLM provider. No direct provider route\",\"integration_suite\":\"SAP Integration Suite (API Management / Cloud Integration)\",\"cloud_connector\":\"SAP Cloud Connector, where the system connectivity model needs it (conditional)\",\"backend_authorization\":\"Target SAP backend roles of the mapped user or service identity\",\"identity_boundary\":\"Enterprise IdP or SAP Cloud Identity Services (IAS, candidate); token exchange and user mapping subject to validation\",\"persistence\":\"Conditional: SAP HANA Cloud or an existing approved store, only if durable state is required\",\"monitoring_audit\":\"SAP BTP logs for the agent; Apigee analytics; Integration Suite monitoring; SAP change documents\",\"artifact_repository\":\"Organization Git; Cloud Foundry application artifacts; Apigee proxy bundles and OpenAPI specs\",\"trust_boundaries\":[\"SAP BTP\",\"Google Apigee\",\"SAP landscape\",\"Portkey / LLM provider\"],\"assumptions\":[\"Apigee MCP is enabled for the organization and fronts approved Integration Suite APIs\",\"An enterprise IdP can issue tokens to the Cloud Foundry agent\"],\"unverified\":[\"Registry product for agents and MCP\",\"Apigee-to-Integration Suite identity mapping\",\"Principal propagation to the SAP backend\"],\"policy_dependencies\":[\"Whether the enterprise requires central registration of agents and MCP servers\",\"Who owns domain MCP interfaces\"],\"hosting_note\":\"Registry is Domain-managed — product selection pending. Do not read it as an SAP-native Agent Registry.\"},\"S2\":{\"id\":\"S2\",\"name\":\"S2 · AWS AgentCore-centric\",\"short\":\"AgentCore-centric\",\"status\":\"Evaluation candidate\",\"objective\":\"AWS owns agent execution, any custom MCP code hosting, the runtime gateway and enterprise registration. Apigee remains the SAP-facing MCP/API gateway behind AgentCore Gateway.\",\"agent_runtime\":\"AWS AgentCore Runtime\",\"agent_hosting_owner\":\"AWS cloud platform team\",\"agent_execution_endpoint\":\"AgentCore Runtime agent invocation endpoint\",\"ui_hosting\":\"Existing application UI or SAP Fiori acting as an agent client\",\"mcp_client\":\"Inside the agent process on AgentCore Runtime\",\"mcp_endpoint_type\":\"AgentCore Gateway MCP endpoint toward the agent; Apigee-managed MCP endpoint (Pattern A) toward SAP; custom MCP on AgentCore Runtime only if required (Pattern B)\",\"mcp_gateway\":\"AWS AgentCore Gateway (enterprise MCP gateway) and Google Apigee (SAP-facing MCP/API gateway)\",\"custom_mcp_runtime\":\"AWS AgentCore Runtime, if required\",\"custom_mcp_hosting_owner\":\"AWS cloud platform team\",\"mcp_tool_execution_location\":\"Pattern A: API operation behind Apigee. Pattern B: custom MCP on AgentCore Runtime, reached through Apigee as a cross-cloud target (conditional)\",\"agent_registry\":\"AWS Agent Registry\",\"mcp_registry\":\"AWS Agent Registry\",\"registry_publisher_approver\":\"AI Foundry publishes; approval owner TBD · REQUIRES VALIDATION\",\"registry_sync\":\"Registry records created from agent and MCP descriptors; external sources via registry synchronization where supported\",\"agent_discovery\":\"AWS Agent Registry search, approved records only\",\"mcp_tool_discovery\":\"AgentCore Gateway tools/list; MCP descriptor in AWS Agent Registry\",\"agentcore_runtime\":true,\"agentcore_gateway\":true,\"aws_agent_registry\":true,\"llm_gateway\":\"Portkey\",\"llm_boundary\":\"AgentCore Runtime agent → Portkey → approved LLM provider. No direct provider route\",\"integration_suite\":\"SAP Integration Suite (API Management / Cloud Integration)\",\"cloud_connector\":\"SAP Cloud Connector, where the system connectivity model needs it (conditional)\",\"backend_authorization\":\"Target SAP backend roles of the mapped user or service identity\",\"identity_boundary\":\"Enterprise IdP and AgentCore Identity toward the gateway; Apigee and Integration Suite identities beyond; token exchange and user mapping subject to validation\",\"persistence\":\"Conditional: approved AWS persistence, only if durable state is required\",\"monitoring_audit\":\"AgentCore Runtime and Gateway observability; Apigee analytics; Integration Suite monitoring; SAP change documents\",\"artifact_repository\":\"Organization Git; container registry for the runtime image; gateway target definitions; Apigee bundles and specs\",\"trust_boundaries\":[\"AWS\",\"Google Apigee\",\"SAP landscape\",\"Portkey / LLM provider\"],\"assumptions\":[\"AgentCore Gateway can register Apigee's MCP endpoint as a target\",\"An AWS-hosted custom MCP can be proxied by Apigee (conditional)\"],\"unverified\":[\"AgentCore Gateway to Apigee protocol and token exchange; target classification of an external MCP server (MCP or HTTP target) is unclear in the documentation\",\"Two policy points on one call (gateway then Apigee)\",\"AWS Agent Registry availability and region\"],\"policy_dependencies\":[\"Whether AI Foundry requires AgentCore for all agent hosting\",\"Ownership of duplicated gateway policy\"],\"hosting_note\":\"AgentCore Runtime, AgentCore Gateway and AWS Agent Registry are three distinct capabilities.\"},\"S3\":{\"id\":\"S3\",\"name\":\"S3 · SAP-hosted hybrid\",\"short\":\"SAP-hosted hybrid\",\"status\":\"Preferred candidate — subject to AI Foundry policy and POC validation\",\"objective\":\"SAP retains execution ownership while AI Foundry manages central discovery and registration. Hosting on SAP BTP, registration in AWS Agent Registry, no AWS execution hop.\",\"agent_runtime\":\"SAP BTP Cloud Foundry\",\"agent_hosting_owner\":\"SAP BTP platform team\",\"agent_execution_endpoint\":\"Cloud Foundry application route (agent API)\",\"ui_hosting\":\"SAP Fiori launchpad or the existing application UI\",\"mcp_client\":\"Inside the agent process on Cloud Foundry\",\"mcp_endpoint_type\":\"Apigee-managed MCP endpoint (Pattern A); custom MCP server behind Apigee only where logic is needed (Pattern B)\",\"mcp_gateway\":\"Google Apigee (SAP-facing MCP/API gateway and policy layer)\",\"custom_mcp_runtime\":\"SAP BTP Cloud Foundry, if required\",\"custom_mcp_hosting_owner\":\"SAP BTP platform team\",\"mcp_tool_execution_location\":\"Pattern A: API operation behind Apigee. Pattern B: the custom MCP service on Cloud Foundry\",\"agent_registry\":\"AWS Agent Registry\",\"mcp_registry\":\"AWS Agent Registry\",\"registry_publisher_approver\":\"AI Foundry approves; domain team publishes SAP-hosted agent and Apigee MCP endpoint metadata\",\"registry_sync\":\"Registry records for SAP-hosted agent and Apigee MCP endpoint, created or synchronized from external sources where supported (control plane only)\",\"agent_discovery\":\"AWS Agent Registry search, approved records only\",\"mcp_tool_discovery\":\"Apigee MCP tools/list at the endpoint; endpoint metadata in AWS Agent Registry\",\"agentcore_runtime\":false,\"agentcore_gateway\":false,\"aws_agent_registry\":true,\"llm_gateway\":\"Portkey\",\"llm_boundary\":\"Cloud Foundry agent → Portkey → approved LLM provider. No direct provider route\",\"integration_suite\":\"SAP Integration Suite (API Management / Cloud Integration)\",\"cloud_connector\":\"SAP Cloud Connector, where the system connectivity model needs it (conditional)\",\"backend_authorization\":\"Target SAP backend roles of the mapped user or service identity\",\"identity_boundary\":\"Enterprise IdP or SAP Cloud Identity Services (IAS, candidate); registry access is a separate control-plane identity; token exchange and user mapping subject to validation\",\"persistence\":\"Conditional: SAP HANA Cloud or an existing approved store, only if durable state is required\",\"monitoring_audit\":\"SAP BTP logs for the agent; Apigee analytics; Integration Suite monitoring; SAP change documents; registry audit for publication events\",\"artifact_repository\":\"Organization Git; Cloud Foundry application artifacts; Apigee bundles and specs; registry record definitions\",\"trust_boundaries\":[\"SAP BTP\",\"Google Apigee\",\"SAP landscape\",\"AWS (control plane only)\",\"Portkey / LLM provider\"],\"assumptions\":[\"AWS Agent Registry can hold records for agents and MCP servers that run outside AWS (record sync connects from AWS to the endpoint URL with outbound credentials)\",\"Registration does not require AWS to host or invoke anything\"],\"unverified\":[\"Registry synchronization from the external sources in this tenant: AWS must be able to reach the Apigee or Cloud Foundry URL with an outbound credential from a provider in the same account\",\"AI Foundry stance on tool calls that bypass AgentCore Gateway\",\"Cross-cloud administration of registry records\"],\"policy_dependencies\":[\"AI Foundry policy on whether AgentCore Gateway is mandatory for all tool invocations (see S3-B)\"],\"hosting_note\":\"AWS Agent Registry handles registration, discovery and governance metadata. It is never an execution hop.\",\"variant_b\":\"S3-B (policy-dependent, not baseline): if AI Foundry mandates AgentCore Gateway for every tool invocation, AgentCore Gateway sits between the agent and Apigee. It is documented as an option, not a fourth primary scenario.\"}}"),
+	comparison: [
+		[
+			"Agent hosting",
+			"SAP BTP Cloud Foundry",
+			"AWS AgentCore Runtime",
+			"SAP BTP Cloud Foundry"
 		],
-		returnFlow: "SAP evidence and correlation ID → Apigee tool response → agent reconciliation → business report",
-		controls: [
-			["Agent host", "Separate runtime approval; Apigee is not the agent host."],
-			["Identity", "Prove caller or scoped service identity through SAP roles."],
-			["Catalog", "SAP owns tool contract; enterprise registry onboarding is open."],
-			["Model + audit", "Approved model endpoint and case-level trace correlation."]
+		[
+			"Agent execution",
+			"Cloud Foundry application",
+			"AgentCore Runtime agent",
+			"Cloud Foundry application"
 		],
-		decision: "Direct agent access policy, runtime ownership and SAP principal proof remain open.",
-		source: "https://architecture.learning.sap.com/docs/golden-path/ai-golden-path/build-and-deliver/build-ai-agents"
+		[
+			"MCP gateway",
+			"Google Apigee",
+			"AgentCore Gateway (enterprise) in front of Google Apigee (SAP-facing)",
+			"Google Apigee"
+		],
+		[
+			"Managed MCP endpoint versus custom server",
+			"Pattern A is the default: an approved API exposed as an MCP tool through Apigee, no custom server. Pattern B only where logic needs code",
+			"Same two patterns behind Apigee; AgentCore Gateway fronts both",
+			"Same as S1"
+		],
+		[
+			"Custom MCP server hosting",
+			"SAP BTP Cloud Foundry, only if required",
+			"AWS AgentCore Runtime, if required (proxied by Apigee: cross-cloud, conditional)",
+			"SAP BTP Cloud Foundry, if required"
+		],
+		[
+			"MCP tool execution",
+			"Behind Apigee: API operation, or the Cloud Foundry service",
+			"Behind Apigee: API operation, or the AgentCore-hosted service through a cross-cloud target",
+			"Behind Apigee: API operation, or the Cloud Foundry service"
+		],
+		[
+			"Agent registry",
+			"Domain-managed catalog · product selection pending",
+			"AWS Agent Registry",
+			"AWS Agent Registry"
+		],
+		[
+			"MCP registry",
+			"Domain-managed catalog · product selection pending",
+			"AWS Agent Registry",
+			"AWS Agent Registry"
+		],
+		[
+			"LLM routing",
+			"Portkey",
+			"Portkey",
+			"Portkey"
+		],
+		[
+			"Persistence",
+			"Conditional: SAP HANA Cloud or an existing approved store",
+			"Conditional: approved AWS persistence",
+			"Conditional: SAP HANA Cloud or an existing approved store"
+		],
+		[
+			"Identity propagation",
+			"Enterprise IdP or IAS to agent, Apigee, Integration Suite; mapping to validate",
+			"Adds AgentCore Identity and a second gateway hop; mapping to validate",
+			"As S1 plus a separate control-plane identity to the registry"
+		],
+		[
+			"SAP connectivity",
+			"Apigee → SAP Integration Suite → Cloud Connector where applicable → SAP backend",
+			"Same after Apigee",
+			"Same as S1"
+		],
+		[
+			"Business authorization",
+			"SAP backend, always",
+			"SAP backend, always",
+			"SAP backend, always"
+		],
+		[
+			"Operational responsibility",
+			"SAP BTP team runs the agent and any custom MCP; the integration team runs Apigee",
+			"AWS team runs agent, gateway and any custom MCP; the integration team runs Apigee",
+			"As S1; AI Foundry runs the registry"
+		],
+		[
+			"Monitoring and audit",
+			"BTP logs, Apigee analytics, Integration Suite monitoring; correlation id to propagate",
+			"AgentCore observability plus the same SAP-side sources; two gateway logs to correlate",
+			"As S1 plus registry publication audit"
+		],
+		[
+			"Scalability",
+			"Cloud Foundry application scaling; limited by BTP quota",
+			"AgentCore managed runtime scaling",
+			"As S1"
+		],
+		[
+			"Network complexity",
+			"Cloud Foundry → Apigee (cross-cloud) → Integration Suite",
+			"AWS → Apigee (cross-cloud) → Integration Suite; Pattern B adds Apigee → AWS",
+			"As S1; registry traffic is separate control-plane traffic"
+		],
+		[
+			"Cost drivers",
+			"BTP runtime, Apigee, Integration Suite, Portkey",
+			"AgentCore Runtime and Gateway, Agent Registry, Apigee, Integration Suite, Portkey",
+			"BTP runtime, Agent Registry, Apigee, Integration Suite, Portkey"
+		],
+		[
+			"Vendor and platform dependencies",
+			"SAP BTP, Google Apigee",
+			"AWS, Google Apigee",
+			"SAP BTP, AWS (registry only), Google Apigee"
+		],
+		[
+			"Enterprise governance alignment",
+			"Registry unresolved: governance for discovery is a gap",
+			"Aligned with AWS-centric AI Foundry governance",
+			"Central registration under AI Foundry with SAP execution ownership"
+		],
+		[
+			"Deployment prerequisites",
+			"Cloud Foundry space, Apigee MCP enablement, Integration Suite APIs, IdP, Portkey route",
+			"AgentCore access in region, Gateway target for Apigee, registry, Apigee MCP, IdP, Portkey route",
+			"As S1 plus Agent Registry access and record synchronization method"
+		],
+		[
+			"Open architecture decisions",
+			"Which registry product; who approves publication",
+			"Gateway-to-Apigee token exchange; duplicate policy ownership",
+			"Whether AgentCore Gateway is mandated (S3-B); registry synchronization method"
+		]
+	],
+	connCols: [
+		"Source",
+		"Destination",
+		"Plane",
+		"Protocol",
+		"Authentication",
+		"Verification"
+	],
+	connections: {
+		S1: [
+			[
+				"SAP Fiori / existing UI",
+				"Cloud Foundry agent (MCP client)",
+				"Runtime",
+				"HTTPS",
+				"User sign-in; delegated token to validate",
+				"Design assumption"
+			],
+			[
+				"Cloud Foundry agent (MCP client)",
+				"Apigee MCP endpoint",
+				"Runtime",
+				"MCP over Streamable HTTP",
+				"OAuth 2.1 / OIDC bearer or API key per product",
+				"Vendor-documented · tenant NOT_VERIFIED"
+			],
+			[
+				"Apigee MCP/API",
+				"SAP Integration Suite",
+				"Runtime",
+				"HTTPS REST or OData",
+				"OAuth client or certificate; mapping to validate",
+				"Design assumption"
+			],
+			[
+				"SAP Integration Suite",
+				"SAP Cloud Connector (conditional)",
+				"Runtime",
+				"HTTPS tunnel",
+				"Cloud Connector subaccount trust",
+				"Applicable only for private connectivity"
+			],
+			[
+				"SAP Cloud Connector or Integration Suite",
+				"SAP backend (S/4HANA · Central Finance)",
+				"Runtime",
+				"RFC / OData",
+				"Principal propagation or technical user; SAP roles decide",
+				"Design assumption"
+			],
+			[
+				"Cloud Foundry agent (MCP client)",
+				"Portkey",
+				"LLM",
+				"HTTPS",
+				"Portkey credential; provider keys held in Portkey",
+				"Design assumption"
+			],
+			[
+				"Portkey",
+				"Approved LLM provider",
+				"LLM",
+				"HTTPS",
+				"Provider credential held in Portkey",
+				"Design assumption"
+			],
+			[
+				"Cloud Foundry agent (MCP client)",
+				"Domain-managed catalog · product selection pending",
+				"Registration / discovery (not invocation)",
+				"Registry API",
+				"Registry identity",
+				"TBD · REQUIRES VALIDATION"
+			],
+			[
+				"Apigee MCP endpoint",
+				"Custom MCP server on Cloud Foundry (Pattern B)",
+				"Runtime (conditional)",
+				"HTTPS proxy target",
+				"Target credential held by Apigee",
+				"Only where custom logic is required"
+			]
+		],
+		S2: [
+			[
+				"SAP Fiori / existing UI",
+				"AgentCore Runtime agent (MCP client)",
+				"Runtime",
+				"HTTPS",
+				"User sign-in; delegated token to validate",
+				"Design assumption"
+			],
+			[
+				"AgentCore Runtime agent (MCP client)",
+				"AgentCore Gateway",
+				"Runtime",
+				"MCP over Streamable HTTP",
+				"JWT bearer validated by the gateway authorizer, or IAM",
+				"Vendor-documented · tenant NOT_VERIFIED"
+			],
+			[
+				"AgentCore Gateway",
+				"Apigee MCP endpoint",
+				"Runtime",
+				"MCP over Streamable HTTP; protocol compatibility unproven",
+				"Outbound OAuth or API key via AgentCore Identity; token exchange to validate",
+				"TBD · REQUIRES VALIDATION"
+			],
+			[
+				"Apigee MCP/API",
+				"SAP Integration Suite",
+				"Runtime",
+				"HTTPS REST or OData",
+				"OAuth client or certificate; mapping to validate",
+				"Design assumption"
+			],
+			[
+				"SAP Integration Suite",
+				"SAP Cloud Connector (conditional)",
+				"Runtime",
+				"HTTPS tunnel",
+				"Cloud Connector subaccount trust",
+				"Applicable only for private connectivity"
+			],
+			[
+				"SAP Cloud Connector or Integration Suite",
+				"SAP backend (S/4HANA · Central Finance)",
+				"Runtime",
+				"RFC / OData",
+				"Principal propagation or technical user; SAP roles decide",
+				"Design assumption"
+			],
+			[
+				"AgentCore Runtime agent (MCP client)",
+				"Portkey",
+				"LLM",
+				"HTTPS",
+				"Portkey credential; provider keys held in Portkey",
+				"Design assumption"
+			],
+			[
+				"Portkey",
+				"Approved LLM provider",
+				"LLM",
+				"HTTPS",
+				"Provider credential held in Portkey",
+				"Design assumption"
+			],
+			[
+				"AgentCore Runtime agent (MCP client)",
+				"AWS Agent Registry",
+				"Registration / discovery (not invocation)",
+				"Registry API",
+				"Registry identity",
+				"Vendor-documented · tenant NOT_VERIFIED"
+			],
+			[
+				"Apigee MCP endpoint",
+				"Custom MCP on AgentCore Runtime (Pattern B)",
+				"Runtime (conditional, cross-cloud)",
+				"HTTPS proxy target",
+				"Target credential held by Apigee",
+				"Only where custom logic is required; extra network hop"
+			]
+		],
+		S3: [
+			[
+				"SAP Fiori / existing UI",
+				"Cloud Foundry agent (MCP client)",
+				"Runtime",
+				"HTTPS",
+				"User sign-in; delegated token to validate",
+				"Design assumption"
+			],
+			[
+				"Cloud Foundry agent (MCP client)",
+				"Apigee MCP endpoint",
+				"Runtime",
+				"MCP over Streamable HTTP",
+				"OAuth 2.1 / OIDC bearer or API key per product",
+				"Vendor-documented · tenant NOT_VERIFIED"
+			],
+			[
+				"Apigee MCP/API",
+				"SAP Integration Suite",
+				"Runtime",
+				"HTTPS REST or OData",
+				"OAuth client or certificate; mapping to validate",
+				"Design assumption"
+			],
+			[
+				"SAP Integration Suite",
+				"SAP Cloud Connector (conditional)",
+				"Runtime",
+				"HTTPS tunnel",
+				"Cloud Connector subaccount trust",
+				"Applicable only for private connectivity"
+			],
+			[
+				"SAP Cloud Connector or Integration Suite",
+				"SAP backend (S/4HANA · Central Finance)",
+				"Runtime",
+				"RFC / OData",
+				"Principal propagation or technical user; SAP roles decide",
+				"Design assumption"
+			],
+			[
+				"Cloud Foundry agent (MCP client)",
+				"Portkey",
+				"LLM",
+				"HTTPS",
+				"Portkey credential; provider keys held in Portkey",
+				"Design assumption"
+			],
+			[
+				"Portkey",
+				"Approved LLM provider",
+				"LLM",
+				"HTTPS",
+				"Provider credential held in Portkey",
+				"Design assumption"
+			],
+			[
+				"Cloud Foundry agent (MCP client)",
+				"AWS Agent Registry",
+				"Registration / discovery (not invocation)",
+				"Registry API",
+				"Registry identity",
+				"Vendor-documented · tenant NOT_VERIFIED"
+			],
+			[
+				"Apigee MCP endpoint metadata",
+				"AWS Agent Registry",
+				"Registration (not invocation)",
+				"Registry API or synchronization where supported",
+				"Registry identity, separate from runtime identity",
+				"TBD · REQUIRES VALIDATION"
+			],
+			[
+				"Apigee MCP endpoint",
+				"Custom MCP server on Cloud Foundry (Pattern B)",
+				"Runtime (conditional)",
+				"HTTPS proxy target",
+				"Target credential held by Apigee",
+				"Only where custom logic is required"
+			]
+		]
 	},
-	S2: {
-		title: "S2 · AgentCore-hosted SAP finance MCP",
-		status: "AWS hosting alternative · approval open",
-		stages: [
-			nt,
-			{
-				label: "External finance agent",
-				owner: "AgentCore Runtime",
-				detail: "Custom orchestration and approved model client",
-				out: "MCP tool call",
-				type: "agent"
-			},
-			{
-				label: "AgentCore Gateway",
-				owner: "AI Foundry",
-				detail: "Inbound auth and MCP tool aggregation",
-				out: "MCP-server target",
-				type: "gateway"
-			},
-			{
-				label: "SAP finance MCP adapter",
-				owner: "AgentCore Runtime + SAP contract",
-				detail: "Hosted tool facade; SAP owns semantics",
-				out: "typed finance API",
-				type: "gateway"
-			},
-			L,
-			rt,
-			it
-		],
-		returnFlow: "SAP evidence → hosted MCP adapter → Gateway → agent reconciliation → business report",
-		controls: [
-			["Target mode", "MCP-server target; Runtime passthrough is a different non-MCP design."],
-			["Identity", "Gateway inbound and outbound identity; final SAP role check."],
-			["Catalog", "Listing mode and target synchronization need ownership."],
-			["Model + audit", "PTP/PAP contract and AWS-to-SAP trace correlation."]
-		],
-		decision: "AWS hosting, gateway target mode, outbound credential and SAP API ownership need approval.",
-		source: "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html"
+	diagrams: /* @__PURE__ */ JSON.parse("{\"D1\":{\"id\":\"D1\",\"scenario\":null,\"title\":\"Enterprise architecture overview\",\"chain\":\"Control plane · runtime plane · evidence plane, common to S1, S2 and S3\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Identity providers\",\"sub\":\"Enterprise IdP, SAP Cloud Identity (candidate); trust boundaries\",\"kind\":\"identity\"},{\"id\":\"reg\",\"row\":0,\"col\":2,\"title\":\"Agent and MCP registries\",\"sub\":\"Control plane: catalog, discovery, approval\",\"kind\":\"registry\"},{\"id\":\"ent\",\"row\":0,\"col\":4,\"title\":\"AI Foundry governance\",\"sub\":\"Approval and publication authority\",\"kind\":\"decision\"},{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / existing UI\",\"sub\":\"Finance user entry\",\"kind\":\"ui\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent execution platform\",\"sub\":\"Runtime plane · hosts agent and MCP client\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":2,\"title\":\"MCP gateway / API layer\",\"sub\":\"Google Apigee; AgentCore Gateway in S2 only\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":3,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":4,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP Finance backend\",\"sub\":\"S/4HANA · Central Finance\",\"kind\":\"backend\"},{\"id\":\"portkey\",\"row\":2,\"col\":0,\"title\":\"Portkey\",\"sub\":\"LLM gateway\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":2,\"col\":1,\"title\":\"Approved LLM provider\",\"sub\":\"Only through Portkey\",\"kind\":\"llm\"},{\"id\":\"custom\",\"row\":2,\"col\":2,\"title\":\"Custom MCP runtime\",\"sub\":\"Only where logic needs code; platform per scenario\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"obs\",\"row\":3,\"col\":3,\"title\":\"Observability and audit\",\"sub\":\"Evidence plane: logs, traces, change documents\",\"kind\":\"store\",\"span\":3}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"gw\",\"invoke\",\"MCP tools/call\"],[\"gw\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"gw\",\"custom\",\"invoke\",\"proxy target (if needed)\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"tokens\"],[\"agent\",\"reg\",\"registry\",\"register / discover\",{\"off\":14}],[\"ent\",\"reg\",\"approval\",\"approve\"],[\"cc\",\"obs\",\"audit\",\"evidence\"],[\"sap\",\"obs\",\"audit\",\"evidence\"]],\"bounds\":[[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"]],\"lanes\":[[0,\"CONTROL PLANE\"],[1,\"RUNTIME PLANE\"],[2,\"LLM · OPTIONAL\"],[3,\"EVIDENCE PLANE\"]],\"legend\":[\"invoke\",\"registry\",\"llm\",\"identity\",\"audit\",\"approval\"],\"footer\":\"No registry is a runtime hop. Per-scenario placement of the agent platform and gateway is in D2 to D4.\"},\"D2\":{\"id\":\"D2\",\"scenario\":\"S1\",\"title\":\"S1 · SAP-centric · topology\",\"chain\":\"UI → Cloud Foundry agent → Apigee MCP/API → Integration Suite → Cloud Connector (conditional) → SAP backend\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / existing UI\",\"sub\":\"Finance user entry; application unchanged\",\"kind\":\"ui\"},{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Enterprise identity\",\"sub\":\"IdP or SAP Cloud Identity (IAS, candidate); mapping to validate\",\"kind\":\"identity\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent · SAP BTP Cloud Foundry\",\"sub\":\"Agent execution and MCP client\",\"kind\":\"agent\"},{\"id\":\"apigee\",\"row\":1,\"col\":2,\"title\":\"Google Apigee MCP/API\",\"sub\":\"SAP-facing gateway; managed MCP endpoint (Pattern A)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":3,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":4,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional, private connectivity only\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"S/4HANA · Central Finance; business authorization\",\"kind\":\"backend\"},{\"id\":\"custom\",\"row\":2,\"col\":3,\"title\":\"Custom MCP · SAP BTP Cloud Foundry\",\"sub\":\"Pattern B, only if required; behind Apigee\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"portkey\",\"row\":0,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway: model selection, credentials, fallback\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":0,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Reached only through Portkey\",\"kind\":\"llm\"},{\"id\":\"db\",\"row\":2,\"col\":0,\"title\":\"Persistence · conditional\",\"sub\":\"SAP HANA Cloud or existing approved store, only if needed\",\"kind\":\"store\",\"dashed\":true},{\"id\":\"reg_agent\",\"row\":3,\"col\":1,\"title\":\"Agent registry\",\"sub\":\"Domain-managed catalog\",\"kind\":\"registry\",\"dashed\":true,\"status\":\"PRODUCT SELECTION PENDING\",\"statusColor\":\"#B3261E\"},{\"id\":\"reg_mcp\",\"row\":3,\"col\":2,\"title\":\"MCP registry\",\"sub\":\"Domain-managed catalog\",\"kind\":\"registry\",\"dashed\":true,\"status\":\"PRODUCT SELECTION PENDING\",\"statusColor\":\"#B3261E\"}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"apigee\",\"invoke\",\"MCP tools/call\"],[\"apigee\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"apigee\",\"custom\",\"invoke\",\"proxy target\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"workload / user token\"],[\"agent\",\"db\",\"invoke\",\"state if required\",{\"off\":20}],[\"agent\",\"reg_agent\",\"registry\",\"register / discover\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"apigee\",\"reg_mcp\",\"registry\",\"register / discover\",{\"off\":-20,\"labelAt\":\"mid\"}]],\"bounds\":[[\"SAP BTP\",[\"agent\"],\"sap\"],[\"Google Apigee\",[\"apigee\"],\"google\"],[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"]],\"lanes\":[[0,\"IDENTITY · LLM\"],[1,\"RUNTIME PATH\"],[2,\"OPTIONAL\"],[3,\"CONTROL PLANE\"]],\"legend\":[\"invoke\",\"llm\",\"identity\",\"registry\"],\"footer\":\"No AWS AgentCore component takes part. The registry is not selected yet: a plain API catalog is not a complete agent registry.\"},\"D3\":{\"id\":\"D3\",\"scenario\":\"S2\",\"title\":\"S2 · AWS AgentCore-centric · topology\",\"chain\":\"UI → AgentCore Runtime agent → AgentCore Gateway → Apigee MCP/API → Integration Suite → Cloud Connector (conditional) → SAP backend\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":7,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / existing UI\",\"sub\":\"Finance user entry; application unchanged\",\"kind\":\"ui\"},{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Enterprise identity\",\"sub\":\"IdP or SAP Cloud Identity (IAS, candidate); mapping to validate\",\"kind\":\"identity\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent · AWS AgentCore Runtime\",\"sub\":\"Agent execution and MCP client\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":2,\"title\":\"AWS AgentCore Gateway\",\"sub\":\"Enterprise MCP gateway; routes and authorizes\",\"kind\":\"gateway\"},{\"id\":\"apigee\",\"row\":1,\"col\":3,\"title\":\"Google Apigee MCP/API\",\"sub\":\"SAP-facing gateway; managed MCP endpoint (Pattern A)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":4,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":5,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional, private connectivity only\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":6,\"title\":\"SAP backend\",\"sub\":\"S/4HANA · Central Finance; business authorization\",\"kind\":\"backend\"},{\"id\":\"custom\",\"row\":2,\"col\":3,\"title\":\"Custom MCP · AgentCore Runtime\",\"sub\":\"Pattern B, conditional; via Apigee, cross-cloud\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"reg_agent\",\"row\":3,\"col\":1,\"title\":\"Agent registry · AWS Agent Registry\",\"sub\":\"Agent descriptor; discovery and approval\",\"kind\":\"registry\"},{\"id\":\"reg_mcp\",\"row\":3,\"col\":2,\"title\":\"MCP registry · AWS Agent Registry\",\"sub\":\"MCP descriptor; discovery and approval\",\"kind\":\"registry\"},{\"id\":\"portkey\",\"row\":0,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway: model selection, credentials, fallback\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":0,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Reached only through Portkey\",\"kind\":\"llm\"},{\"id\":\"db\",\"row\":2,\"col\":0,\"title\":\"Persistence · conditional\",\"sub\":\"Approved AWS store, only if durable state is needed\",\"kind\":\"store\",\"dashed\":true}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"gw\",\"invoke\",\"MCP tools/call\"],[\"gw\",\"apigee\",\"invoke\",\"MCP\"],[\"apigee\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"apigee\",\"custom\",\"invoke\",\"proxy target · cross-cloud\",{\"off\":-30}],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"workload / user token\"],[\"agent\",\"reg_agent\",\"registry\",\"agent descriptor\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"gw\",\"reg_mcp\",\"registry\",\"MCP descriptor\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"agent\",\"db\",\"invoke\",\"state if required\",{\"off\":20}]],\"bounds\":[[\"AWS\",[\"agent\",\"gw\"],\"aws\"],[\"Google Apigee\",[\"apigee\"],\"google\"],[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"]],\"lanes\":[[0,\"IDENTITY · LLM\"],[1,\"RUNTIME PATH\"],[2,\"OPTIONAL\"],[3,\"CONTROL PLANE\"]],\"legend\":[\"invoke\",\"llm\",\"identity\",\"registry\"],\"footer\":\"Registration/discovery goes to AWS Agent Registry and is separate from the runtime path. AgentCore Runtime, Gateway and Registry are three capabilities. Apigee stays mandatory.\"},\"D4\":{\"id\":\"D4\",\"scenario\":\"S3\",\"title\":\"S3 · SAP-hosted hybrid · topology\",\"chain\":\"UI → Cloud Foundry agent → Apigee MCP/API → Integration Suite → Cloud Connector (conditional) → SAP backend\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / existing UI\",\"sub\":\"Finance user entry; application unchanged\",\"kind\":\"ui\"},{\"id\":\"idp\",\"row\":0,\"col\":0,\"title\":\"Enterprise identity\",\"sub\":\"IdP or SAP Cloud Identity (IAS, candidate); mapping to validate\",\"kind\":\"identity\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent · SAP BTP Cloud Foundry\",\"sub\":\"Agent execution and MCP client\",\"kind\":\"agent\"},{\"id\":\"apigee\",\"row\":1,\"col\":2,\"title\":\"Google Apigee MCP/API\",\"sub\":\"SAP-facing gateway; managed MCP endpoint (Pattern A)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":3,\"title\":\"SAP Integration Suite\",\"sub\":\"SAP integration boundary\",\"kind\":\"integration\"},{\"id\":\"cc\",\"row\":1,\"col\":4,\"title\":\"SAP Cloud Connector\",\"sub\":\"Conditional, private connectivity only\",\"kind\":\"integration\",\"dashed\":true},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"S/4HANA · Central Finance; business authorization\",\"kind\":\"backend\"},{\"id\":\"custom\",\"row\":2,\"col\":3,\"title\":\"Custom MCP · SAP BTP Cloud Foundry\",\"sub\":\"Pattern B, only if required; behind Apigee\",\"kind\":\"domain\",\"dashed\":true},{\"id\":\"portkey\",\"row\":0,\"col\":1,\"title\":\"Portkey\",\"sub\":\"LLM gateway: model selection, credentials, fallback\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":0,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Reached only through Portkey\",\"kind\":\"llm\"},{\"id\":\"db\",\"row\":2,\"col\":0,\"title\":\"Persistence · conditional\",\"sub\":\"SAP HANA Cloud or existing approved store, only if needed\",\"kind\":\"store\",\"dashed\":true},{\"id\":\"reg_agent\",\"row\":3,\"col\":1,\"title\":\"Agent registry · AWS Agent Registry\",\"sub\":\"SAP-hosted agent metadata\",\"kind\":\"registry\"},{\"id\":\"reg_mcp\",\"row\":3,\"col\":2,\"title\":\"MCP registry · AWS Agent Registry\",\"sub\":\"Apigee MCP endpoint metadata\",\"kind\":\"registry\"},{\"id\":\"s3b\",\"row\":4,\"col\":0,\"title\":\"S3-B variant · not baseline\",\"sub\":\"Only if AI Foundry mandates AgentCore Gateway for all tool calls: it would sit between agent and Apigee. Policy-dependent option.\",\"kind\":\"decision\",\"span\":4,\"h\":70,\"dashed\":true}],\"edges\":[[\"ui\",\"agent\",\"invoke\",\"\"],[\"agent\",\"apigee\",\"invoke\",\"MCP tools/call\"],[\"apigee\",\"int\",\"invoke\",\"API call\"],[\"int\",\"cc\",\"invoke\",\"if private\"],[\"cc\",\"sap\",\"invoke\",\"RFC / OData\"],[\"apigee\",\"custom\",\"invoke\",\"proxy target\"],[\"agent\",\"portkey\",\"llm\",\"LLM request\",{\"off\":-14}],[\"portkey\",\"llm\",\"llm\",\"model call\"],[\"idp\",\"agent\",\"identity\",\"workload / user token\"],[\"agent\",\"db\",\"invoke\",\"state if required\",{\"off\":20}],[\"agent\",\"reg_agent\",\"registry\",\"agent metadata\",{\"off\":-20,\"labelAt\":\"mid\"}],[\"apigee\",\"reg_mcp\",\"registry\",\"endpoint metadata\",{\"off\":-20,\"labelAt\":\"mid\"}]],\"bounds\":[[\"SAP BTP\",[\"agent\"],\"sap\"],[\"Google Apigee\",[\"apigee\"],\"google\"],[\"SAP landscape\",[\"int\",\"cc\",\"sap\"],\"sap\"],[\"AWS control plane only\",[\"reg_agent\",\"reg_mcp\"],\"aws\"]],\"lanes\":[[0,\"IDENTITY · LLM\"],[1,\"RUNTIME PATH\"],[2,\"OPTIONAL\"],[3,\"CONTROL PLANE\"]],\"legend\":[\"invoke\",\"llm\",\"identity\",\"registry\"],\"footer\":\"AWS Agent Registry registers and governs. It is not an execution hop: no AgentCore Runtime, and no AgentCore Gateway in the baseline.\"},\"D5\":{\"id\":\"D5\",\"scenario\":null,\"title\":\"MCP hosting versus registration\",\"chain\":\"Four independent decisions, plus the MCP gateway as a separate shared responsibility\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":4,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"l0\",\"row\":0,\"col\":0,\"title\":\"Agent hosting and execution\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c0_1\",\"row\":0,\"col\":1,\"title\":\"SAP BTP Cloud Foundry\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"agent\"},{\"id\":\"c0_2\",\"row\":0,\"col\":2,\"title\":\"AWS AgentCore Runtime\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"agent\"},{\"id\":\"c0_3\",\"row\":0,\"col\":3,\"title\":\"SAP BTP Cloud Foundry\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"agent\"},{\"id\":\"l1\",\"row\":1,\"col\":0,\"title\":\"Agent registration and discovery\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c1_1\",\"row\":1,\"col\":1,\"title\":\"Domain-managed catalog · product selection pending\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"registry\",\"dashed\":true,\"status\":\"PRODUCT PENDING\",\"statusColor\":\"#B3261E\"},{\"id\":\"c1_2\",\"row\":1,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"registry\"},{\"id\":\"c1_3\",\"row\":1,\"col\":3,\"title\":\"AWS Agent Registry\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"registry\"},{\"id\":\"l2\",\"row\":2,\"col\":0,\"title\":\"MCP implementation hosting and execution\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c2_1\",\"row\":2,\"col\":1,\"title\":\"Cloud Foundry, only if custom code is needed\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"domain\"},{\"id\":\"c2_2\",\"row\":2,\"col\":2,\"title\":\"AgentCore Runtime, only if custom code is needed\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"domain\"},{\"id\":\"c2_3\",\"row\":2,\"col\":3,\"title\":\"Cloud Foundry, only if custom code is needed\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"domain\"},{\"id\":\"l3\",\"row\":3,\"col\":0,\"title\":\"MCP registration and discovery\",\"sub\":\"Independent decision\",\"kind\":\"decision\"},{\"id\":\"c3_1\",\"row\":3,\"col\":1,\"title\":\"Domain-managed catalog · product selection pending\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"registry\",\"dashed\":true,\"status\":\"PRODUCT PENDING\",\"statusColor\":\"#B3261E\"},{\"id\":\"c3_2\",\"row\":3,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"registry\"},{\"id\":\"c3_3\",\"row\":3,\"col\":3,\"title\":\"AWS Agent Registry\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"registry\"},{\"id\":\"l4\",\"row\":4,\"col\":0,\"title\":\"MCP gateway / exposure (shared responsibility)\",\"sub\":\"Shared across scenarios\",\"kind\":\"gateway\"},{\"id\":\"c4_1\",\"row\":4,\"col\":1,\"title\":\"Google Apigee\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"gateway\"},{\"id\":\"c4_2\",\"row\":4,\"col\":2,\"title\":\"AgentCore Gateway + Google Apigee\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"gateway\"},{\"id\":\"c4_3\",\"row\":4,\"col\":3,\"title\":\"Google Apigee\",\"sub\":\"S3 · SAP-hosted hybrid\",\"kind\":\"gateway\"}],\"edges\":[[\"c0_1\",\"c1_1\",\"registry\",\"metadata only\",{\"off\":0}],[\"c2_1\",\"c3_1\",\"registry\",\"metadata only\"],[\"c0_2\",\"c1_2\",\"registry\",\"metadata\",{\"off\":0}],[\"c2_2\",\"c3_2\",\"registry\",\"metadata only\"],[\"c0_3\",\"c1_3\",\"registry\",\"metadata only\",{\"off\":0}],[\"c2_3\",\"c3_3\",\"registry\",\"metadata only\"]],\"bounds\":[],\"lanes\":[],\"legend\":[\"registry\"],\"footer\":\"Using AWS Agent Registry (S3) does not require AWS agent hosting: the agent still runs on SAP BTP Cloud Foundry. The dashed arrow carries metadata only.\"},\"D6\":{\"id\":\"D6\",\"scenario\":null,\"title\":\"Identity, authorization and principal propagation\",\"chain\":\"Six identities, five boundaries; SAP decides business authorization\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":96,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"idp\",\"row\":0,\"col\":1,\"title\":\"SAP Cloud Identity Services (IAS) · candidate trust component\",\"sub\":\"Evaluate as trust component; Global User ID as identity-correlation attribute where supported\",\"kind\":\"identity\",\"span\":3},{\"id\":\"user\",\"row\":1,\"col\":0,\"title\":\"Business user\",\"sub\":\"Authenticates at the IdP\",\"kind\":\"ui\"},{\"id\":\"agent\",\"row\":1,\"col\":1,\"title\":\"Agent workload identity\",\"sub\":\"Identity of the agent runtime\",\"kind\":\"agent\"},{\"id\":\"mcp\",\"row\":1,\"col\":2,\"title\":\"MCP client identity\",\"sub\":\"Token the client presents to the gateway\",\"kind\":\"agent\"},{\"id\":\"gw\",\"row\":1,\"col\":3,\"title\":\"Gateway identity\",\"sub\":\"Apigee (and AgentCore Gateway in S2)\",\"kind\":\"gateway\"},{\"id\":\"int\",\"row\":1,\"col\":4,\"title\":\"Integration Suite identity\",\"sub\":\"Service identity toward SAP\",\"kind\":\"integration\"},{\"id\":\"sap\",\"row\":1,\"col\":5,\"title\":\"SAP backend identity\",\"sub\":\"Mapped user or technical user executes\",\"kind\":\"backend\"},{\"id\":\"notenough\",\"row\":2,\"col\":0,\"title\":\"Not sufficient on its own\",\"sub\":\"A Global User ID or an ordinary HTTP header is not principal propagation\",\"kind\":\"decision\",\"span\":2,\"h\":80},{\"id\":\"tx\",\"row\":2,\"col\":2,\"title\":\"Token exchange / user mapping\",\"sub\":\"Subject to validation at every boundary: PENDING, not proven\",\"kind\":\"decision\",\"span\":2,\"h\":80,\"dashed\":true},{\"id\":\"neg\",\"row\":2,\"col\":4,\"title\":\"Negative case\",\"sub\":\"Agent may discover and call the tool; SAP rejects an operation the mapped user lacks authority for\",\"kind\":\"decision\",\"span\":2,\"h\":80},{\"id\":\"auth\",\"row\":3,\"col\":0,\"title\":\"SAP backend is the business authority\",\"sub\":\"Registry visibility, gateway access and tool discovery never grant business authorization. Business approval is a separate step.\",\"kind\":\"backend\",\"span\":6,\"h\":70}],\"edges\":[[\"user\",\"agent\",\"identity\",\"delegated user token\"],[\"agent\",\"mcp\",\"identity\",\"client credential\"],[\"mcp\",\"gw\",\"identity\",\"bearer · validated\"],[\"gw\",\"int\",\"identity\",\"OAuth / cert · mapping\"],[\"int\",\"sap\",\"identity\",\"principal propagation\"],[\"idp\",\"agent\",\"identity\",\"issues tokens\",{\"off\":-20}],[\"idp\",\"gw\",\"identity\",\"validates\",{\"off\":-10}]],\"bounds\":[],\"lanes\":[[1,\"IDENTITIES\"],[2,\"VALIDATION\"]],\"legend\":[\"identity\"],\"footer\":\"Authentication and authorization are separate at each boundary. Token exchange and user mapping are design assumptions until validated.\"},\"D7\":{\"id\":\"D7\",\"scenario\":null,\"title\":\"LLM execution architecture\",\"chain\":\"Agent runtime → Portkey → approved LLM provider (common to S1, S2, S3)\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":5,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"agent\",\"row\":1,\"col\":0,\"title\":\"Agent runtime\",\"sub\":\"S1, S3: SAP BTP Cloud Foundry. S2: AgentCore Runtime\",\"kind\":\"agent\"},{\"id\":\"portkey\",\"row\":1,\"col\":1,\"title\":\"Portkey LLM gateway\",\"sub\":\"Single route to models in all scenarios\",\"kind\":\"llm\"},{\"id\":\"llm\",\"row\":1,\"col\":2,\"title\":\"Approved LLM provider\",\"sub\":\"Selected model\",\"kind\":\"llm\"},{\"id\":\"sep\",\"row\":1,\"col\":4,\"title\":\"MCP gateway and registries\",\"sub\":\"Separate planes: no path to Portkey\",\"kind\":\"gateway\",\"dashed\":true},{\"id\":\"m1\",\"row\":2,\"col\":0,\"title\":\"Model selection\",\"sub\":\"Which approved model serves the request\",\"kind\":\"control\"},{\"id\":\"m2\",\"row\":2,\"col\":1,\"title\":\"Credential management\",\"sub\":\"Provider keys held in Portkey, not in the agent\",\"kind\":\"control\"},{\"id\":\"m3\",\"row\":2,\"col\":2,\"title\":\"Timeout and fallback\",\"sub\":\"Policy for slow or failed calls\",\"kind\":\"control\"},{\"id\":\"m4\",\"row\":2,\"col\":3,\"title\":\"Monitoring\",\"sub\":\"Usage, latency and cost per request\",\"kind\":\"control\"},{\"id\":\"nobypass\",\"row\":3,\"col\":0,\"title\":\"No direct provider route\",\"sub\":\"A call that bypasses Portkey is not permitted in any scenario\",\"kind\":\"decision\",\"span\":5,\"h\":70}],\"edges\":[[\"agent\",\"portkey\",\"llm\",\"LLM request\"],[\"portkey\",\"llm\",\"llm\",\"model call\"]],\"bounds\":[],\"lanes\":[[1,\"LLM PATH\"],[2,\"AT PORTKEY\"]],\"legend\":[\"llm\"],\"footer\":\"Portkey is independent of the MCP gateway and the registry. Model-provider routes that skip Portkey are not drawn because they are not allowed.\"},\"D8\":{\"id\":\"D8\",\"scenario\":null,\"title\":\"Registry lifecycle and synchronization\",\"chain\":\"Developed → artifact → validation → approval → publication → discovery → invocation → monitoring → update or retirement\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":5,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"t0\",\"row\":1,\"col\":0,\"title\":\"Capability developed\",\"sub\":\"Agent or MCP code and descriptor\",\"kind\":\"artifact\"},{\"id\":\"t1\",\"row\":1,\"col\":1,\"title\":\"Versioned artifact\",\"sub\":\"Git tag, image or spec version\",\"kind\":\"artifact\"},{\"id\":\"t2\",\"row\":1,\"col\":2,\"title\":\"Domain validation\",\"sub\":\"Domain owner checks scope\",\"kind\":\"artifact\"},{\"id\":\"t3\",\"row\":1,\"col\":3,\"title\":\"Approval\",\"sub\":\"AI Foundry or domain owner\",\"kind\":\"registry\"},{\"id\":\"t4\",\"row\":1,\"col\":4,\"title\":\"Registry publication\",\"sub\":\"Registry record created\",\"kind\":\"registry\"},{\"id\":\"b0\",\"row\":2,\"col\":4,\"title\":\"Discovery\",\"sub\":\"Approved records only\",\"kind\":\"registry\"},{\"id\":\"b1\",\"row\":2,\"col\":3,\"title\":\"Invocation under runtime authorization\",\"sub\":\"Not proven by registration alone\",\"kind\":\"agent\"},{\"id\":\"b2\",\"row\":2,\"col\":2,\"title\":\"Monitoring\",\"sub\":\"Runtime and registry telemetry\",\"kind\":\"registry\"},{\"id\":\"b3\",\"row\":2,\"col\":1,\"title\":\"Version update or retirement\",\"sub\":\"New version or retire record\",\"kind\":\"registry\"},{\"id\":\"b4\",\"row\":2,\"col\":0,\"title\":\"Revocation and stale-metadata handling\",\"sub\":\"Expired or revoked records must disappear\",\"kind\":\"registry\"},{\"id\":\"ext\",\"row\":3,\"col\":0,\"title\":\"External sources (S3)\",\"sub\":\"SAP-hosted agent and Apigee MCP endpoint metadata\",\"kind\":\"domain\",\"span\":1},{\"id\":\"areg\",\"row\":3,\"col\":2,\"title\":\"AWS Agent Registry\",\"sub\":\"Synchronizes approved metadata from external sources where supported\",\"kind\":\"registry\",\"span\":1},{\"id\":\"warn\",\"row\":4,\"col\":0,\"title\":\"Publication is not proof\",\"sub\":\"Not proof of endpoint reachability, runtime authorization or SAP execution. Stale or revoked metadata is detected by periodic re-validation.\",\"kind\":\"decision\",\"span\":5,\"h\":70}],\"edges\":[[\"t0\",\"t1\",\"invoke\",\"\"],[\"t1\",\"t2\",\"invoke\",\"\"],[\"t2\",\"t3\",\"invoke\",\"\"],[\"t3\",\"t4\",\"invoke\",\"\"],[\"t4\",\"b0\",\"registry\",\"publish → discover\"],[\"b0\",\"b1\",\"invoke\",\"\"],[\"b1\",\"b2\",\"invoke\",\"\"],[\"b2\",\"b3\",\"invoke\",\"\"],[\"b3\",\"b4\",\"invoke\",\"\"],[\"ext\",\"areg\",\"registry\",\"sync approved metadata\"]],\"bounds\":[],\"lanes\":[[1,\"PUBLISH\"],[2,\"USE · RETIRE\"],[3,\"\"]],\"legend\":[\"invoke\",\"registry\"],\"footer\":\"Lifecycle arrows show order of steps, not runtime traffic. Discovery returns metadata; invocation is a separate authorized call.\"},\"D9\":{\"id\":\"D9\",\"scenario\":null,\"title\":\"Observability and audit\",\"chain\":\"Agent request → LLM → MCP tool → gateway → Integration Suite → SAP backend, joined by a correlation id\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"s0\",\"row\":1,\"col\":0,\"title\":\"Agent request\",\"sub\":\"Session and business correlation id created\",\"kind\":\"agent\"},{\"id\":\"s1\",\"row\":1,\"col\":1,\"title\":\"LLM request\",\"sub\":\"Portkey log with request id\",\"kind\":\"llm\"},{\"id\":\"s2\",\"row\":1,\"col\":2,\"title\":\"MCP tool invocation\",\"sub\":\"Client call and tool name\",\"kind\":\"agent\"},{\"id\":\"s3\",\"row\":1,\"col\":3,\"title\":\"Gateway decision\",\"sub\":\"Apigee (and AgentCore Gateway in S2) allow or deny\",\"kind\":\"gateway\"},{\"id\":\"s4\",\"row\":1,\"col\":4,\"title\":\"Integration Suite execution\",\"sub\":\"Message processing log\",\"kind\":\"integration\"},{\"id\":\"s5\",\"row\":1,\"col\":5,\"title\":\"SAP backend operation\",\"sub\":\"Application log and change documents\",\"kind\":\"backend\"},{\"id\":\"err\",\"row\":2,\"col\":0,\"title\":\"Error / exception outcome\",\"sub\":\"Recorded with the same business correlation id\",\"kind\":\"decision\",\"span\":2,\"h\":80},{\"id\":\"model\",\"row\":2,\"col\":2,\"title\":\"Common correlation model\",\"sub\":\"Business id + session id + per-system request ids. Products do not share one trace id automatically\",\"kind\":\"store\",\"span\":4,\"h\":80},{\"id\":\"join\",\"row\":3,\"col\":0,\"title\":\"Evidence join\",\"sub\":\"Records are joined across systems by the business correlation id in an evidence store\",\"kind\":\"store\",\"span\":3,\"h\":70},{\"id\":\"resp\",\"row\":3,\"col\":3,\"title\":\"Audit responsibility\",\"sub\":\"Agent platform: agent and LLM. Gateway team: gateway. Integration team: Suite. SAP: backend\",\"kind\":\"control\",\"span\":3,\"h\":70}],\"edges\":[[\"s0\",\"s1\",\"audit\",\"correlate\"],[\"s1\",\"s2\",\"audit\",\"correlate\"],[\"s2\",\"s3\",\"audit\",\"correlate\"],[\"s3\",\"s4\",\"audit\",\"correlate\"],[\"s4\",\"s5\",\"audit\",\"correlate\"]],\"bounds\":[],\"lanes\":[[1,\"EVIDENCE\"],[2,\"OUTCOME\"],[3,\"JOIN\"]],\"legend\":[\"audit\"],\"footer\":\"The correlation id must be propagated by design and tested; it is not assumed to be carried by every product.\"},\"D10\":{\"id\":\"D10\",\"scenario\":null,\"title\":\"Three-scenario comparison\",\"chain\":\"Same labels and ownership boundaries in every scenario; the registry is never in the path\",\"banner\":\"PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE\",\"cols\":6,\"nh\":100,\"ys\":[118,258,398,528,668],\"height\":840,\"nodes\":[{\"id\":\"S1_ui\",\"row\":0,\"col\":0,\"title\":\"SAP Fiori / UI\",\"sub\":\"S1 · SAP-centric\",\"kind\":\"ui\"},{\"id\":\"S1_agent\",\"row\":0,\"col\":1,\"title\":\"Cloud Foundry agent\",\"sub\":\"SAP BTP. Registry: Domain-managed catalog · product selection pending\",\"kind\":\"agent\"},{\"id\":\"S1_apigee\",\"row\":0,\"col\":3,\"title\":\"Apigee MCP/API\",\"sub\":\"SAP-facing gateway\",\"kind\":\"gateway\"},{\"id\":\"S1_int\",\"row\":0,\"col\":4,\"title\":\"Integration Suite\",\"sub\":\"SAP integration\",\"kind\":\"integration\"},{\"id\":\"S1_sap\",\"row\":0,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"Authorizes\",\"kind\":\"backend\"},{\"id\":\"S2_ui\",\"row\":1,\"col\":0,\"title\":\"SAP Fiori / UI\",\"sub\":\"S2 · AWS AgentCore-centric\",\"kind\":\"ui\"},{\"id\":\"S2_agent\",\"row\":1,\"col\":1,\"title\":\"AgentCore Runtime agent\",\"sub\":\"AWS. Registry: AWS Agent Registry\",\"kind\":\"agent\"},{\"id\":\"S2_gw\",\"row\":1,\"col\":2,\"title\":\"AgentCore Gateway\",\"sub\":\"Enterprise gateway\",\"kind\":\"gateway\"},{\"id\":\"S2_apigee\",\"row\":1,\"col\":3,\"title\":\"Apigee MCP/API\",\"sub\":\"SAP-facing gateway\",\"kind\":\"gateway\"},{\"id\":\"S2_int\",\"row\":1,\"col\":4,\"title\":\"Integration Suite\",\"sub\":\"SAP integration\",\"kind\":\"integration\"},{\"id\":\"S2_sap\",\"row\":1,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"Authorizes\",\"kind\":\"backend\"},{\"id\":\"S3_ui\",\"row\":2,\"col\":0,\"title\":\"SAP Fiori / UI\",\"sub\":\"S3 · SAP-hosted hybrid · preferred candidate\",\"kind\":\"ui\"},{\"id\":\"S3_agent\",\"row\":2,\"col\":1,\"title\":\"Cloud Foundry agent\",\"sub\":\"SAP BTP. Registry: AWS Agent Registry (metadata only)\",\"kind\":\"agent\"},{\"id\":\"S3_apigee\",\"row\":2,\"col\":3,\"title\":\"Apigee MCP/API\",\"sub\":\"SAP-facing gateway\",\"kind\":\"gateway\"},{\"id\":\"S3_int\",\"row\":2,\"col\":4,\"title\":\"Integration Suite\",\"sub\":\"SAP integration\",\"kind\":\"integration\"},{\"id\":\"S3_sap\",\"row\":2,\"col\":5,\"title\":\"SAP backend\",\"sub\":\"Authorizes\",\"kind\":\"backend\"}],\"edges\":[[\"S1_ui\",\"S1_agent\",\"invoke\",\"\"],[\"S1_agent\",\"S1_apigee\",\"invoke\",\"\"],[\"S1_apigee\",\"S1_int\",\"invoke\",\"\"],[\"S1_int\",\"S1_sap\",\"invoke\",\"\"],[\"S2_ui\",\"S2_agent\",\"invoke\",\"\"],[\"S2_agent\",\"S2_gw\",\"invoke\",\"\"],[\"S2_gw\",\"S2_apigee\",\"invoke\",\"\"],[\"S2_apigee\",\"S2_int\",\"invoke\",\"\"],[\"S2_int\",\"S2_sap\",\"invoke\",\"\"],[\"S3_ui\",\"S3_agent\",\"invoke\",\"\"],[\"S3_agent\",\"S3_apigee\",\"invoke\",\"\"],[\"S3_apigee\",\"S3_int\",\"invoke\",\"\"],[\"S3_int\",\"S3_sap\",\"invoke\",\"\"]],\"bounds\":[],\"lanes\":[[0,\"S1\"],[1,\"S2\"],[2,\"S3 · PREFERRED CANDIDATE\"]],\"legend\":[\"invoke\"],\"footer\":\"Portkey is the LLM gateway in all three. The SAP backend decides authorization in all three. S3-B (AgentCore Gateway mandated) is a separate option, not drawn.\"}}"),
+	diagramNames: {
+		D1: "Enterprise overview",
+		D2: "S1 SAP-centric",
+		D3: "S2 AWS AgentCore-centric",
+		D4: "S3 SAP-hosted hybrid",
+		D5: "MCP hosting versus registration",
+		D6: "Identity and authorization",
+		D7: "LLM execution",
+		D8: "Registry lifecycle",
+		D9: "Observability and audit",
+		D10: "Three-scenario comparison"
 	},
-	S3: {
-		title: "S3 · AgentCore Gateway to SAP Apigee MCP",
-		status: "Federated candidate · not approved",
-		stages: [
-			nt,
-			{
-				label: "External finance agent",
-				owner: "Approved runtime",
-				detail: "AgentCore Runtime in demo; external host to assess",
-				out: "MCP tool call",
-				type: "agent"
-			},
-			{
-				label: "AgentCore Gateway",
-				owner: "AI Foundry",
-				detail: "Agent-facing auth and target catalog",
-				out: "authorized target call",
-				type: "gateway"
-			},
-			{
-				label: "SAP Apigee MCP",
-				owner: "SAP domain",
-				detail: "SAP-facing tools, policy and routing",
-				out: "typed SAP request",
-				type: "gateway"
-			},
-			L,
-			rt,
-			it
+	recommendation: {
+		headline: "S3 is the preferred candidate for POC validation, subject to AI Foundry policy. It is not approved and not production-ready.",
+		why: [
+			"SAP keeps execution ownership: the agent and any custom MCP code run on SAP BTP Cloud Foundry, and Apigee stays the SAP-facing gateway.",
+			"AI Foundry still gets central discovery and registration through AWS Agent Registry, which is control plane only and adds no execution hop.",
+			"It needs one gateway hop and one identity mapping to prove, not two as in S2."
 		],
-		returnFlow: "SAP evidence → Apigee MCP → AgentCore Gateway → agent reconciliation → business report",
-		controls: [
-			["Gateway target", "External Apigee MCP URL, protocol, egress and listing mode."],
-			["Identity", "Prove user or service identity across both gateways and SAP."],
-			["Control split", "Agree policy precedence, credentials and catalog synchronization."],
-			["Audit", "Correlate Gateway, Apigee, iFlow and backend events."]
+		depends: [
+			"AI Foundry policy on whether AgentCore Gateway is mandatory for all tool invocations (S3-B)",
+			"AWS Agent Registry accepts records for agents and MCP servers hosted outside AWS",
+			"Approved synchronization method for registry records"
 		],
-		decision: "Federated hosting policy, cross-gateway controls and end-to-end principal propagation are unapproved.",
-		source: "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html"
-	}
-}, ot = {
-	agentcore: {
-		title: "AgentCore Runtime · agent hosting",
-		status: "Leading validation candidate · conditional",
-		stages: [
-			nt,
-			{
-				label: "Custom finance agent",
-				owner: "AgentCore Runtime",
-				detail: "Orchestration, tool choice and recovery",
-				out: "approved tool call",
-				type: "agent"
-			},
-			{
-				label: "Selected MCP route",
-				owner: "S1, S2 or S3 decision",
-				detail: "Gateway and domain tool path still to approve",
-				out: "SAP finance tool",
-				type: "gateway"
-			},
-			L,
-			rt,
-			it
+		open: [
+			"Registry product for S1 (unresolved)",
+			"Delegated user versus service identity",
+			"Principal propagation through Integration Suite and Cloud Connector",
+			"Whether HANA Cloud is needed at all: persistence is conditional"
 		],
-		returnFlow: "SAP evidence → selected MCP route → AgentCore agent → finance result",
-		controls: [
-			["Model access", "Bedrock or approved PTP/PAP endpoint; separate contract."],
-			["Identity", "AgentCore workload identity, tool credential and SAP principal strategy."],
-			["Operations", "Region, quotas, private egress, durable state and recovery."],
-			["Governance", "Registry, tool versioning, evaluation, audit and on-call owner."]
+		changes: [
+			"If AI Foundry mandates AgentCore Gateway for every tool call, evaluate S3-B or S2.",
+			"If the enterprise requires AWS hosting for all agents, choose S2.",
+			"If no central registry is required, S1 is simplest but its registry stays unresolved."
 		],
-		decision: "Landing zone, entitlement and SAP identity path must pass tenant proof.",
-		source: "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness-vs-runtime.html"
+		poc: [
+			"Run one read tool through the S3 path with a service identity and record the call, token and SAP user.",
+			"Repeat with user delegation and mark each result PASS, HOLD or NOT_VERIFIED.",
+			"Register the SAP-hosted agent and the Apigee endpoint in AWS Agent Registry and confirm discovery without any AWS execution hop."
+		]
 	},
-	btp: {
-		title: "SAP BTP pro-code · agent hosting",
-		status: "SAP-owned alternative · conditional",
-		stages: [
-			nt,
-			{
-				label: "Python finance agent",
-				owner: "BTP Cloud Foundry",
-				detail: "Kyma only for justified container need",
-				out: "approved tool call",
-				type: "agent"
-			},
-			{
-				label: "Selected MCP route",
-				owner: "SAP domain + AI Foundry",
-				detail: "Apigee direct or federated path to decide",
-				out: "SAP finance tool",
-				type: "gateway"
-			},
-			L,
-			rt,
-			it
+	evidence: [
+		[
+			"Google Apigee",
+			"Apigee MCP overview",
+			"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-overview",
+			"Existing Apigee APIs can be exposed as MCP tools through MCP endpoints with no local or remote MCP server to install or manage. OpenAPI 3.0.x only; a limit of 1000 MCP tools per organization; capacity limits in some regions; stateless protocol 2026-07-28 and stateful versions 2025-11-25 down to 2024-11-05.",
+			"Pattern A needs no custom MCP server, within the tool and region limits.",
+			"Tenant enablement, region capacity and hybrid version"
 		],
-		returnFlow: "SAP evidence → MCP tool → BTP agent → finance result",
-		controls: [
-			["Model access", "SAP AI Core generative AI hub if entitled and approved."],
-			["Identity", "BTP workload/destination identity and final SAP authorization."],
-			["Operations", "Quota, state, checkpoints, CI/CD, monitoring and support owner."],
-			["Governance", "Agent registration and tool lifecycle under enterprise policy."]
+		[
+			"Google Apigee",
+			"Manage MCP tool access",
+			"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/manage-mcp-tool-access",
+			"Access is controlled with API products and developer apps; ParsePayload (JSON-RPC 2.0) plus API-key or OAuth verification; tools outside the client's product are removed from tools/list. The page also says traffic can be proxied to your own MCP server.",
+			"Apigee is the policy layer for tool access, and Pattern B (custom server behind Apigee) is documented.",
+			"API product design and the custom-server proxy pattern in this tenant"
 		],
-		decision: "BTP and AI Core entitlement, operating team and approved gateway route remain open.",
-		source: "https://architecture.learning.sap.com/docs/golden-path/ai-golden-path/build-and-deliver/build-ai-agents"
-	},
-	microsoft: {
-		title: "Microsoft Foundry · agent hosting",
-		status: "Enterprise-standard check · conditional",
-		stages: [
-			nt,
-			{
-				label: "Hosted finance agent",
-				owner: "Microsoft Foundry",
-				detail: "Custom agent container and Entra agent identity",
-				out: "approved tool call",
-				type: "agent"
-			},
-			{
-				label: "Selected MCP route",
-				owner: "Enterprise AI + SAP",
-				detail: "Apigee or Gateway interop to prove",
-				out: "SAP finance tool",
-				type: "gateway"
-			},
-			L,
-			rt,
-			it
+		[
+			"AWS AgentCore",
+			"Gateway core concepts",
+			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-core-concepts.html",
+			"Gateway is a secure entry point for agentic traffic with MCP, HTTP and inference target categories and inbound OAuth (JWT), IAM, authenticate-only or none. The page lists MCP servers under MCP targets and external MCP servers under HTTP targets, so target classification needs confirming.",
+			"Makes the S2 gateway hop plausible; Apigee as a gateway target is unproven.",
+			"Which target type fits the Apigee MCP endpoint; token exchange"
 		],
-		returnFlow: "SAP evidence → selected MCP route → Foundry agent → finance result",
-		controls: [
-			["Model access", "Foundry model catalog subject to enterprise policy."],
-			["Identity", "Entra agent identity, outbound tool credential and SAP role."],
-			["Operations", "Approved Azure region, network, image, state and support."],
-			["Governance", "Confirm actual enterprise platform; registry name is not hosting."]
+		[
+			"AWS AgentCore",
+			"Agent Registry",
+			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry.html",
+			"A managed discovery service: a catalog for organizing, curating and discovering resources. Record types AGENT, MCP, SKILL, CUSTOM and WEB_BOT; publishers submit, curators approve. Runtime and Gateway are listed as related services, so it is separate from both. The older bedrock-agentcore preview namespace was announced for discontinuation on 2026-10-30.",
+			"Registry is a separate capability from Runtime and Gateway and does not require AWS hosting. Use the agent-registry namespace.",
+			"Availability and region in the tenant; curator and approval roles"
 		],
-		decision: "Azure project, service availability, network route and commercial approval remain open.",
-		source: "https://learn.microsoft.com/azure/foundry/agents/concepts/hosted-agents"
-	},
-	joule: {
-		title: "Joule Studio · agent hosting",
-		status: "Later candidate · tenant eligibility unresolved",
-		stages: [
-			{
-				label: "Finance user",
-				owner: "Fiori / Joule UX",
-				detail: "Approved SAP experience",
-				out: "business intent",
-				type: "ux"
-			},
-			{
-				label: "Managed finance agent",
-				owner: "Joule Studio if enabled",
-				detail: "SAP-managed design and runtime",
-				out: "approved tool action",
-				type: "agent"
-			},
-			{
-				label: "SAP tool binding",
-				owner: "SAP platform + Integration",
-				detail: "MCP or native tool route must be selected",
-				out: "finance API",
-				type: "gateway"
-			},
-			L,
-			rt,
-			it
+		[
+			"AWS AgentCore",
+			"Registry: synchronize external records",
+			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-sync-records.html",
+			"The registry can synchronize record metadata from external sources by connecting to the provided URL with outbound credentials: MCP servers and A2A agent cards (credentials: none, OAuth through an AgentCore Identity provider, or IAM SigV4). The credential provider must be in the same account.",
+			"Supports S3 registration of SAP-hosted metadata, but AWS must be able to reach the endpoint URL: that is a network and credential dependency, not an execution hop.",
+			"Reachability of Apigee or Cloud Foundry URLs from AWS; credential provider"
 		],
-		returnFlow: "SAP evidence → approved tool binding → Joule agent → finance result",
-		controls: [
-			["Eligibility", "Tenant, SKU, provisioning and commercial access are unresolved."],
-			["Model access", "SAP-managed model path subject to service terms."],
-			["Identity", "Prove delegated or approved service principal at SAP backend."],
-			["Operations", "Approval, audit, state, recovery and support ownership."]
+		[
+			"AWS AgentCore",
+			"Registry: supported record types",
+			"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-supported-record-types.html",
+			"AGENT records use a2aAgentCard, mcpServer or custom descriptors; MCP records use mcpServer or custom; exactly one primary descriptor per record. Agents that do not follow A2A can use mcpServer or custom.",
+			"A SAP-hosted agent can be registered with a custom or mcpServer descriptor.",
+			"Descriptor fit for our agents"
 		],
-		decision: "Joule Studio is reported unavailable; no executable tenant path is assumed.",
-		source: "https://architecture.learning.sap.com/docs/golden-path/ai-golden-path/build-and-deliver/build-ai-agents"
-	}
-}, st = "2026-11-24", ct = "TBD — REQUIRES VALIDATION", R = {
-	S1: {
-		id: "S1",
-		label: "S1 · Google Apigee MCP",
-		short: "Apigee only",
-		chain: "Agent runtime (MCP client) → Apigee MCP endpoint → SAP-facing domain capability → SAP Integration Suite → SAP backend",
-		summary: "One MCP gateway, Google Apigee, exposes the SAP Finance domain tools. The baseline is the Apigee-managed pattern: an MCP proxy derives its tools from OpenAPI operations that front SAP Integration Suite APIs. Apigee does not run arbitrary Python MCP-server code; a coded domain MCP server would live on a separate runtime that Apigee proxies.",
-		baseline: "Baseline: Apigee-managed, API-backed MCP exposure. Alternative: separately hosted domain MCP server governed through Apigee (runtime TBD)."
-	},
-	S2: {
-		id: "S2",
-		label: "S2 · AWS AgentCore MCP",
-		short: "AgentCore only",
-		chain: "Agent runtime (MCP client) → AgentCore Gateway → Finance domain MCP server / gateway target → SAP Integration Suite → SAP backend",
-		summary: "One MCP gateway, AgentCore Gateway, fronts the Finance domain MCP capability. The gateway routes and authorizes; it does not execute custom tool code. A coded Finance MCP server runs on AgentCore Runtime (container, MCP protocol), or the gateway generates tools from supported API or function targets. AWS Agent Registry is a separate discovery layer.",
-		baseline: "Baseline: custom Finance MCP server on AgentCore Runtime registered as a gateway MCP-server target. Alternative: gateway-generated tools from an OpenAPI or function target."
-	},
-	S3: {
-		id: "S3",
-		label: "S3 · AgentCore Gateway + Google Apigee",
-		short: "Hybrid",
-		chain: "Agent runtime (MCP client) → AgentCore Gateway → Apigee MCP endpoint → SAP-facing domain capability → SAP Integration Suite → SAP backend",
-		summary: "Two gateways in series. AgentCore Gateway is the enterprise agent entry on the AWS side; Apigee remains the SAP-domain MCP endpoint, so Finance-specific logic stays on the SAP-facing side. The AgentCore-to-Apigee hop is a gateway MCP-server target whose protocol and token-exchange behaviour is documented separately by each vendor and unproven together.",
-		baseline: "Baseline: Apigee owns the SAP-domain MCP interface; AgentCore Gateway holds a reference. Cross-gateway protocol, identity exchange and registry sync are open dependencies."
-	}
-}, lt = [
-	"S1",
-	"S2",
-	"S3"
-], ut = [
+		[
+			"SAP",
+			"SAP BTP Cloud Foundry runtime",
+			"https://help.sap.com/docs/cf-runtime/cloud-foundry-runtime/what-is-sap-btp-cloud-foundry-runtime",
+			"NOT_VERIFIED: the page returned no readable body when fetched (script-rendered), so no capability statement is recorded here.",
+			"Cloud Foundry as the S1 and S3 agent host rests on the owner's brief and general knowledge, not on this page.",
+			"Read the page in a browser; confirm entitlement and quota"
+		]
+	],
+	evidenceStatus: "Pages read through a web fetch on 2026-11-25: six of seven returned content, summarized above; the SAP Cloud Foundry page returned no body and is NOT_VERIFIED. Vendor documentation describes product capability only. It does not show that a feature is configured, licensed or available in this organization's tenant or region.",
+	domains: [
+		{
+			name: "Finance Read MCP",
+			mode: "READ",
+			tools: "Reconciliation balances, ledger and period data, journal and document status, reconciliation exceptions",
+			control: "Read-only backend operations. No write tool is registered. This is the only capability the application uses."
+		},
+		{
+			name: "Finance Posting MCP",
+			mode: "WRITE · APPROVAL-GATED · NOT ACTIVE",
+			tools: "Future: propose and post a reconciliation adjustment through a governed approval",
+			control: "A separately governed capability. It is not active in this application and posting is never automatic."
+		},
+		{
+			name: "Analytical / Data MCP",
+			mode: "READ · FUTURE",
+			tools: "Authorized Databricks or BDC-backed context",
+			control: "Entitlement and scope: TBD · REQUIRES VALIDATION"
+		}
+	],
+	unresolvedRegistry: "Domain-managed catalog · product selection pending"
+}, et = "2026-11-25", tt = "TBD · REQUIRES VALIDATION", R = L.ids, nt = L.banner, z = Object.fromEntries(L.ids.map((e) => {
+	let t = L.scenarios[e], n = L.diagrams[{
+		S1: "D2",
+		S2: "D3",
+		S3: "D4"
+	}[e]];
+	return [e, {
+		...t,
+		label: t.name,
+		chain: n.chain,
+		summary: t.objective,
+		baseline: t.hosting_note
+	}];
+}));
+L.version, L.diagramNames;
+var rt = Object.keys(L.diagrams), it = [
 	["MCP client", "Agent-side component that discovers and invokes MCP tools."],
 	["MCP server", "Protocol endpoint exposing tools and resources over MCP."],
-	["Domain MCP server", "Business-domain MCP implementation, e.g. SAP Finance read or posting."],
-	["MCP gateway", "Governed entry point that routes, authorizes and may aggregate MCP capabilities. It is not necessarily where tool logic runs."],
-	["MCP registry", "Catalog and discovery of MCP servers and tool metadata. Never an invocation hop."],
-	["Artifact repository", "Versioned source, specifications and configuration (Git, container registry)."],
-	["Runtime", "Platform that executes domain logic or MCP-server software."],
-	["Backend integration", "API, integration flow or adapter reaching enterprise applications (SAP Integration Suite)."],
-	["Agent runtime", "Compute and orchestration platform running the agent. Independent of MCP hosting."],
-	["Model runtime", "LLM inference provider. Independent of MCP hosting."]
-], dt = [
-	[
-		"Agent development environment",
-		`Enterprise-approved pro-code (Python) agent environment. ${ct}`,
-		`Same as S1. ${ct}`,
-		`Same as S1. ${ct}`
-	],
-	[
-		"Agent hosting runtime",
-		"Independent of the MCP choice. Demo assumption: AgentCore Runtime. Apigee does not require a Google-hosted agent.",
-		"Independent of the MCP choice. AgentCore Runtime is a natural but not mandatory host; choosing AgentCore Gateway does not force it.",
-		"Independent of the MCP choice. Demo assumption: AgentCore Runtime; enterprise Agent Platform or SAP BTP possible."
-	],
-	[
-		"MCP client location",
-		"Inside the agent process on the agent runtime.",
-		"Inside the agent process on the agent runtime.",
-		"Inside the agent process on the agent runtime; the gateway also acts as a client toward Apigee."
-	],
-	[
-		"MCP gateway",
-		"Google Apigee: MCP proxy (Discovery Proxy template) with OAuth and API-product policies.",
-		"AgentCore Gateway: inbound authorizer and outbound credential provider; routes to targets.",
-		"Two gateways in series: AgentCore Gateway (agent entry), then Apigee (SAP-domain endpoint)."
-	],
-	[
-		"Finance domain MCP server creation",
-		"Baseline: tools derived from OpenAPI 3.0.x operations by the SAP integration/API team. A coded server only in the external-server alternative.",
-		"Baseline: coded Finance MCP server by finance engineering. Alternative: gateway-generated tools from an OpenAPI or function target.",
-		"Created on the Apigee side as in S1. AgentCore does not recreate it."
-	],
-	[
-		"Finance domain MCP server hosting",
-		"Apigee-managed proxy runtime. Not a general Python compute platform. A coded server needs a separate runtime behind Apigee (TBD).",
-		"AgentCore Runtime container (MCP protocol, ARM64, port 8000) or none when the gateway generates tools.",
-		"Apigee-managed runtime, as S1."
-	],
-	[
-		"MCP server runtime endpoint",
-		"Apigee MCP endpoint at <apigee-host>/<mcp-basepath> (conceptual placeholder, not a tenant address).",
-		"Gateway MCP URL <gateway-id>.gateway…/mcp; Runtime target at /invocations (conceptual placeholders).",
-		"AgentCore Gateway URL for agents; Apigee endpoint URL held as a gateway target (placeholders)."
-	],
-	[
-		"MCP tool definitions",
-		"Derived from OpenAPI operations; exposed set limited by API products.",
-		"tools/list from the coded server, or from the target schema when gateway-generated.",
-		"Tools originate in Apigee; surfaced through the gateway. Name prefixing and collisions: TO VALIDATE."
-	],
-	[
-		"MCP registry and discovery",
-		"Apigee API hub imports MCP proxies and parses specs into tools; syncs to Google Agent Registry (enabled by default; maturity TO VALIDATE).",
-		"AWS Agent Registry (agent-registry namespace) is a separate discovery and approval layer. Only approved records are discoverable.",
-		"API hub is the proposed SAP-domain source of truth. AWS Agent Registry would hold a reference. No automatic cross-platform sync is documented."
-	],
-	[
-		"Enterprise registry / approval authority",
-		`Enterprise AI Foundry publication approval. ${ct}`,
-		`Enterprise AI Foundry, or the AWS Agent Registry curator role. ${ct}`,
-		`Enterprise AI Foundry as the single approver across both catalogs. ${ct}`
-	],
-	[
-		"Source-code repository",
-		`Organization Git repository for specs, tool definitions, policies and tests. ${ct}`,
-		`Organization Git repository for server source, target schemas and infrastructure code. ${ct}`,
-		`Organization Git repository covering both sides. ${ct}`
-	],
-	[
-		"MCP specifications and versioned artifacts",
-		"OpenAPI spec versions, Apigee proxy bundles, API products, test collections.",
-		"MCP server source, target schemas, gateway and target definitions as code.",
-		"Union of S1 and S2 artifacts, plus a written cross-gateway interface contract."
-	],
-	[
-		"Container / package artifact storage",
-		"Not needed for the baseline. Needed only if an external coded server is chosen (TBD).",
-		"Container registry (Amazon ECR) for the Runtime image.",
-		"Not needed on the AWS side unless an AWS-hosted adapter is added."
-	],
-	[
-		"Gateway-target configuration",
-		"Proxy target endpoint resolves to the SAP-facing Integration Suite API.",
-		"Gateway target of type MCP server (or OpenAPI/function) with a credential provider configuration.",
-		"AgentCore target of type MCP server pointing at the Apigee endpoint. Compatibility must be proven."
-	],
-	[
-		"Authentication and token management",
-		"Inbound: OAuth 2.1 / OIDC bearer or API key per API product. Outbound to Integration Suite: TBD.",
-		"Inbound: JWT authorizer or IAM. Outbound to MCP targets: OAuth (client credentials, authorization code, token exchange), API key or gateway role; AgentCore Identity holds providers.",
-		"Two token hops. Agent-to-AgentCore-to-Apigee token exchange and user-context carry-over are unproven."
-	],
-	[
-		"SAP integration layer",
-		"SAP Integration Suite (API and iFlow). An Integration Suite MCP Server artifact is a separate option, not assumed.",
-		"Same as S1.",
-		"Same as S1."
-	],
-	[
-		"Backend authorization boundary",
-		"ABAP roles of the mapped user or service identity. Principal propagation not proven in the tenant.",
-		"Same as S1.",
-		"Same as S1; the extra hop adds one more identity-mapping point."
-	],
-	[
-		"Logging, monitoring and audit evidence",
-		"Apigee analytics and logging, Integration Suite monitoring, SAP change documents.",
-		"AgentCore Gateway and Runtime observability, Integration Suite monitoring, SAP change documents.",
-		`Two gateway logs. Correlation across them needs a propagated trace id. ${ct}`
-	],
-	[
-		"Deployment ownership",
-		"SAP integration / API platform team deploys proxies and products.",
-		"Finance engineering and cloud platform team deploy the container and gateway targets.",
-		"Split ownership between both teams plus an interface-contract owner."
-	],
-	[
-		"Cost and operational responsibility",
-		"Apigee licensing and operations plus Integration Suite. Unmeasured.",
-		"AgentCore Runtime, Gateway and Registry consumption plus ECR. Unmeasured.",
-		"Both stacks plus cross-cloud traffic and latency. Unmeasured."
-	],
-	[
-		"Release prerequisites and outstanding decisions",
-		"Apigee MCP enabled for the organization (optional switch on hybrid), OpenAPI 3.0.x, direct-access policy, API hub and registry scope.",
-		"Region availability, Agent Registry status and namespace, choice of coded server or generated tools.",
-		"Gateway-to-Apigee protocol and auth proof, ownership of double policy, registry synchronization method."
-	]
-], ft = [
-	"Source",
-	"Destination",
-	"Endpoint type",
-	"Protocol",
-	"MCP role",
-	"Endpoint owner",
-	"Hosting location",
-	"Authentication",
-	"Identity context",
-	"Network boundary",
-	"Read / write",
-	"Registry reference",
-	"Verification"
-], pt = "Vendor-documented · tenant NOT_VERIFIED", mt = "Design assumption", ht = ct, gt = "Read tools default; write tools only via the separate posting domain", _t = {
-	S1: [
-		[
-			"Agent MCP client",
-			"Apigee MCP endpoint",
-			"MCP endpoint",
-			"MCP over Streamable HTTP (JSON-RPC 2.0)",
-			"client → server",
-			"SAP integration / API platform team",
-			"Apigee (Google-managed)",
-			"OAuth 2.1 / OIDC bearer, or API key per API product",
-			"Agent identity; end-user delegation TO VALIDATE",
-			"Agent runtime network → Apigee ingress; private path TBD",
-			gt,
-			"API hub entry",
-			pt
-		],
-		[
-			"Apigee MCP proxy",
-			"SAP-facing domain API",
-			"API proxy target",
-			"HTTPS, OpenAPI operation",
-			"tool call mapped to API call",
-			"SAP integration / API platform team",
-			"Apigee",
-			"Target credentials held by Apigee: TBD",
-			"Mapped technical or user identity: TBD",
-			"Apigee → Integration Suite",
-			gt,
-			"OpenAPI spec in API hub",
-			ht
-		],
-		[
-			"SAP-facing domain API",
-			"SAP Integration Suite",
-			"API / iFlow",
-			"HTTPS REST or OData",
-			"backend integration",
-			"SAP integration team",
-			"SAP Integration Suite",
-			"OAuth client or certificate",
-			"Technical user or propagated principal",
-			"Customer / SAP BTP boundary",
-			gt,
-			"None (not a registry object)",
-			mt
-		],
-		[
-			"SAP Integration Suite",
-			"SAP S/4HANA · Central Finance · BW/4HANA",
-			"Backend interface",
-			"RFC / OData via Cloud Connector, or direct",
-			"backend integration",
-			"SAP basis and finance",
-			"Customer SAP landscape",
-			"Principal propagation or technical user",
-			"ABAP roles of the mapped user",
-			"Cloud Connector or private link: needs proof",
-			"Read-only in the demo; posting needs a separate approval path",
-			"None",
-			ht
-		],
-		[
-			"Apigee API hub",
-			"Google Agent Registry",
-			"Registry sync (not invocation)",
-			"Metadata sync",
-			"catalog → catalog",
-			"Google Cloud platform team",
-			"Google Cloud",
-			"Google IAM",
-			"Platform service identity",
-			"Google Cloud internal",
-			"Metadata only",
-			"Registry sync (default on)",
-			"Vendor-documented · maturity TO VALIDATE"
-		],
-		[
-			"Agent runtime",
-			"API hub / Agent Registry",
-			"Discovery lookup (not invocation)",
-			"Registry API or registry MCP endpoint",
-			"client → catalog",
-			"Enterprise AI Foundry (TBD)",
-			"Google Cloud",
-			"Google IAM or OAuth",
-			"Agent identity",
-			"Agent runtime → Google APIs",
-			"Metadata only",
-			"API hub / Agent Registry",
-			ht
-		],
-		[
-			"Git and CI/CD",
-			"Apigee organization",
-			"Deployment (not invocation)",
-			"Apigee management API",
-			"artifact publication",
-			"SAP integration team",
-			"Organization CI/CD",
-			"Pipeline service account",
-			"Deployment identity",
-			"CI/CD → Apigee management plane",
-			"Not applicable",
-			"Spec registered in API hub",
-			mt
-		]
-	],
-	S2: [
-		[
-			"Agent MCP client",
-			"AgentCore Gateway",
-			"MCP endpoint",
-			"MCP over Streamable HTTP",
-			"client → server",
-			"Cloud platform team",
-			"AWS (gateway)",
-			"JWT bearer validated by the gateway authorizer, or IAM",
-			"Agent identity; end-user delegation TO VALIDATE",
-			"Agent runtime → AWS gateway endpoint",
-			gt,
-			"Registry record (optional)",
-			pt
-		],
-		[
-			"AgentCore Gateway",
-			"Finance domain MCP server (AgentCore Runtime)",
-			"Gateway MCP-server target",
-			"MCP over Streamable HTTP to the Runtime /invocations URL",
-			"client → server",
-			"Finance engineering",
-			"AgentCore Runtime (container)",
-			"Outbound OAuth, API key or gateway role from an AgentCore Identity credential provider",
-			"Gateway service identity or exchanged token: TBD",
-			"Inside the AWS account",
-			gt,
-			"Registry record",
-			pt
-		],
-		[
-			"AgentCore Gateway",
-			"Gateway-generated tools (alternative)",
-			"OpenAPI / function target",
-			"HTTPS, target schema",
-			"tool call mapped to API call",
-			"Finance engineering",
-			"AgentCore Gateway",
-			"Credential provider per target",
-			"TBD",
-			"AWS → target API",
-			gt,
-			"Registry record",
-			"Alternative; " + pt.toLowerCase()
-		],
-		[
-			"Finance domain MCP server",
-			"SAP Integration Suite",
-			"API / iFlow",
-			"HTTPS REST or OData",
-			"backend integration",
-			"SAP integration team",
-			"SAP Integration Suite",
-			"OAuth client or certificate",
-			"Technical user or propagated principal",
-			"AWS → SAP BTP; private route needs proof",
-			gt,
-			"None",
-			ht
-		],
-		[
-			"SAP Integration Suite",
-			"SAP S/4HANA · Central Finance · BW/4HANA",
-			"Backend interface",
-			"RFC / OData via Cloud Connector, or direct",
-			"backend integration",
-			"SAP basis and finance",
-			"Customer SAP landscape",
-			"Principal propagation or technical user",
-			"ABAP roles of the mapped user",
-			"Cloud Connector or private link: needs proof",
-			"Read-only in the demo; posting needs a separate approval path",
-			"None",
-			ht
-		],
-		[
-			"Agent runtime",
-			"AWS Agent Registry",
-			"Discovery lookup (not invocation)",
-			"Registry MCP endpoint or API",
-			"client → catalog",
-			"Enterprise AI Foundry or registry curator",
-			"AWS",
-			"Bearer token or IAM",
-			"Agent identity",
-			"Agent runtime → AWS",
-			"Metadata only; approved records only",
-			"agent-registry namespace",
-			pt
-		],
-		[
-			"Git and CI/CD",
-			"AgentCore Runtime, container registry and gateway targets",
-			"Deployment (not invocation)",
-			"AWS control-plane API",
-			"artifact publication",
-			"Cloud platform team",
-			"Organization CI/CD",
-			"Pipeline role",
-			"Deployment identity",
-			"CI/CD → AWS control plane",
-			"Not applicable",
-			"Record submitted for approval",
-			mt
-		]
-	],
-	S3: [
-		[
-			"Agent MCP client",
-			"AgentCore Gateway",
-			"MCP endpoint",
-			"MCP over Streamable HTTP",
-			"client → server",
-			"Cloud platform team",
-			"AWS (gateway)",
-			"JWT bearer validated by the gateway authorizer, or IAM",
-			"Agent identity; end-user delegation TO VALIDATE",
-			"Agent runtime → AWS gateway endpoint",
-			gt,
-			"AWS Agent Registry reference",
-			pt
-		],
-		[
-			"AgentCore Gateway",
-			"Apigee MCP endpoint",
-			"Gateway MCP-server target (cross-cloud)",
-			"MCP over Streamable HTTP; version compatibility unproven",
-			"client → server",
-			"SAP integration / API platform team",
-			"Apigee (Google-managed)",
-			"Outbound OAuth (client credentials, authorization code or token exchange) or API key; Apigee must accept it",
-			"Token exchange and user-context carry-over: unproven",
-			"AWS → Google ingress; egress and latency unmeasured",
-			gt,
-			"API hub entry; AWS record is a manual reference",
-			ht
-		],
-		[
-			"Apigee MCP proxy",
-			"SAP-facing domain API",
-			"API proxy target",
-			"HTTPS, OpenAPI operation",
-			"tool call mapped to API call",
-			"SAP integration / API platform team",
-			"Apigee",
-			"Target credentials held by Apigee: TBD",
-			"Mapped technical or user identity: TBD",
-			"Apigee → Integration Suite",
-			gt,
-			"OpenAPI spec in API hub",
-			ht
-		],
-		[
-			"SAP-facing domain API",
-			"SAP Integration Suite",
-			"API / iFlow",
-			"HTTPS REST or OData",
-			"backend integration",
-			"SAP integration team",
-			"SAP Integration Suite",
-			"OAuth client or certificate",
-			"Technical user or propagated principal",
-			"Customer / SAP BTP boundary",
-			gt,
-			"None",
-			mt
-		],
-		[
-			"SAP Integration Suite",
-			"SAP S/4HANA · Central Finance · BW/4HANA",
-			"Backend interface",
-			"RFC / OData via Cloud Connector, or direct",
-			"backend integration",
-			"SAP basis and finance",
-			"Customer SAP landscape",
-			"Principal propagation or technical user",
-			"ABAP roles of the mapped user",
-			"Cloud Connector or private link: needs proof",
-			"Read-only in the demo; posting needs a separate approval path",
-			"None",
-			ht
-		],
-		[
-			"Apigee API hub",
-			"AWS Agent Registry",
-			"Registry publication (not invocation)",
-			"Manual registration or custom synchronization",
-			"catalog → catalog",
-			"Enterprise AI Foundry (TBD)",
-			"Across clouds",
-			"Both platforms' IAM",
-			"Platform identity",
-			"Cross-cloud",
-			"Metadata only",
-			"No automatic sync documented; implementation dependency",
-			ht
-		],
-		[
-			"Git and CI/CD",
-			"Apigee organization and AWS gateway target",
-			"Deployment (not invocation)",
-			"Apigee management API and AWS control-plane API",
-			"artifact publication",
-			"Both platform teams",
-			"Organization CI/CD",
-			"Pipeline identities",
-			"Deployment identity",
-			"CI/CD → both control planes",
-			"Not applicable",
-			"Specs in API hub; reference record in AWS",
-			mt
-		]
-	]
-}, vt = [
-	{
-		name: "Finance Read MCP",
-		mode: "READ",
-		tools: "Reconciliation balances · ledger and period data · approved journal and document status · reconciliation exceptions · approved analytics",
-		control: "Own scope and role. Read-only backend operations. No write tool is registered in this domain."
-	},
-	{
-		name: "Finance Posting MCP",
-		mode: "WRITE · APPROVAL-GATED",
-		tools: "Propose reconciliation adjustment · invoke governed approval · validate posting authorization · post via approved SAP business API · read posting confirmation and audit evidence",
-		control: "Separate authorization from read. A proposal does not post. Posting needs a business approval, an agent and gateway allowance, an SAP user authorization, idempotency and a posting-period check. The demo never posts."
-	},
-	{
-		name: "Analytical / Data MCP",
-		mode: "READ · FUTURE",
-		tools: "Authorized Databricks or BDC-backed context · governed snapshots and support data",
-		control: "Data owner and freshness stated per source. Entitlement and scope: TO VALIDATE."
-	}
-], yt = [
-	[
-		"MCP development effort",
-		"Low if tools derive from OpenAPI; higher for a coded server",
-		"Medium: coded server plus container and target setup",
-		"Highest: both stacks plus an interface contract"
-	],
-	[
-		"MCP hosting flexibility",
-		"Limited to proxy exposure unless an external server is added",
-		"High: Runtime hosts arbitrary server code",
-		"High on both sides"
-	],
-	[
-		"Registry maturity",
-		"API hub plus Agent Registry sync; maturity TO VALIDATE",
-		"AWS Agent Registry (preview status on release; TO VALIDATE)",
-		"Two catalogs and no documented sync"
-	],
-	[
-		"Enterprise discovery",
-		"Strong for SAP domain; cross-cloud agents need the Google catalog",
-		"Strong for AWS-resident agents",
-		"Weak without a custom synchronization"
-	],
-	[
-		"Identity propagation",
-		"One gateway hop to prove",
-		"One gateway hop to prove",
-		"Two hops to prove; highest risk"
-	],
-	[
-		"SAP connectivity",
-		"Via Integration Suite",
-		"Via Integration Suite",
-		"Via Integration Suite"
-	],
-	[
-		"Security policy ownership",
-		"SAP-facing team",
-		"Cloud platform team",
-		"Split; double enforcement needs justification"
-	],
-	[
-		"Operational complexity",
-		"Lowest of the three",
-		"Medium",
-		"Highest"
-	],
-	[
-		"Cross-cloud traffic",
-		"Agent to Google if the agent runs elsewhere",
-		"None when the agent runs on AWS",
-		"Always cross-cloud"
-	],
-	[
-		"Vendor lock-in",
-		"Apigee for the domain interface",
-		"AgentCore for gateway and server",
-		"Both"
-	],
-	[
-		"Cost drivers",
-		"Apigee licensing",
-		"AgentCore consumption",
-		"Both plus egress"
-	],
-	[
-		"Observability",
-		"Apigee analytics",
-		"AWS-native tracing",
-		"Needs a propagated trace id"
-	],
-	[
-		"Maintainability",
-		"Spec-driven; one owner",
-		"Code-driven; one owner",
-		"Two owners and a contract"
-	],
-	[
-		"Portability",
-		"MCP is open; proxy policy is Apigee-specific",
-		"MCP server code is portable; gateway config is AWS-specific",
-		"Server code stays portable; two configs"
-	],
-	[
-		"Future BDC alignment",
-		"Open: depends on the BDC MCP surface",
-		"Open",
-		"Open"
-	]
-], bt = {
-	headline: "ARCHITECTURE_RECOMMENDED (proposal for owner decision, not approval): use S1 as the proof-of-concept baseline for the SAP Finance domain interface.",
-	why: [
-		"It keeps the Finance domain contract on the SAP-facing side (API hub plus Integration Suite), so an agent hosted on AWS or elsewhere consumes it as a remote MCP endpoint without moving Finance logic into AWS.",
-		"It has one gateway hop and one identity mapping to prove, against two for S3.",
-		"Documented Apigee capability fits the read-heavy baseline: OpenAPI-derived tools, API-product tool filtering, OAuth 2.1 / OIDC."
-	],
-	standards: [
-		"An enterprise rule on who owns domain MCP interfaces",
-		"An approved agent platform that can reach Apigee",
-		"An API hub and Agent Registry publication process"
-	],
-	open: [
-		"Delegated user versus service identity for reads and posting",
-		"Principal propagation through Integration Suite and Cloud Connector",
-		"Registry source of truth and approval authority",
-		"Whether Apigee MCP and Agent Registry integration are available in the tenant and region"
-	],
-	changes: [
-		"If enterprise standards already host domain MCP servers on AgentCore, choose S2.",
-		"S3 is justified only by a named control that one gateway cannot meet, for example a mandatory AWS-side tool-access policy for all agents plus SAP-owned domain policy. Without that, S3 duplicates policy.",
-		"A failed Apigee-to-Integration-Suite identity test would reopen all three."
-	],
-	poc: [
-		"Stand up one read tool through the S1 path with a service identity and record the call, token and SAP user in evidence.",
-		"Repeat with user delegation; mark the result PASS, HOLD or NOT_VERIFIED.",
-		"Run a single AgentCore Gateway to Apigee call to settle the S3 protocol and token questions before any S3 commitment."
-	]
-}, xt = [
-	[
-		"Google Apigee",
-		"Apigee MCP overview",
-		"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-overview",
-		"MCP proxies expose existing APIs as MCP tools derived from OpenAPI; OAuth 2.1 and OIDC are supported; a proxy may also front your own MCP server.",
-		"Apigee exposes and governs MCP endpoints; it is not an arbitrary Python server runtime. Domain tools come from OpenAPI or an external server.",
-		"Tenant enablement, region, licensing, hybrid enablement"
-	],
-	[
-		"Google Apigee",
-		"Quickstart: MCP Discovery Proxy",
-		"https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-quickstart",
-		"OpenAPI 3.0.0 to 3.0.3; JSON-RPC 2.0 payloads; no SSE streams on GET.",
-		"Spec version and transport limits apply to the baseline.",
-		"Spec compatibility of the Finance APIs"
-	],
-	[
-		"Google Apigee",
-		"Register MCP APIs in API hub",
-		"https://docs.cloud.google.com/apigee/docs/apihub/register-mcp-apis",
-		"API hub imports Apigee MCP proxies and parses specs into tools.",
-		"API hub is the natural SAP-domain MCP catalog in S1 and S3.",
-		"API hub licensing and project setup"
-	],
-	[
-		"Google Apigee",
-		"Agent Registry integration",
-		"https://docs.cloud.google.com/apigee/docs/apihub/manage-agent-registry-integration",
-		"API hub syncs MCP tools and server metadata to Agent Registry; sync is on by default; manually styled MCP APIs are not synced.",
-		"Google-side discovery needs no custom sync, but maturity and release status must be checked.",
-		"Preview or GA status in the tenant"
-	],
-	[
-		"AWS AgentCore",
-		"Gateway outbound authorization",
-		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-outbound-auth.html",
-		"For MCP-server targets: no authorization, gateway role, OAuth (client credentials, authorization code, token exchange) and API key; caller IAM and passthrough are not offered.",
-		"S3 outbound auth to Apigee must use one of these; caller identity cannot be passed through.",
-		"Whether Apigee accepts the chosen method and carries user context"
-	],
-	[
-		"AWS AgentCore",
-		"Runtime MCP servers",
-		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-mcp.html",
-		"Runtime hosts MCP servers (Streamable HTTP) when the protocol is set to MCP; containers use port 8000 on ARM64.",
-		"A coded Finance MCP server in S2 runs on Runtime, not in the Gateway.",
-		"Account, region, image pipeline"
-	],
-	[
-		"AWS AgentCore",
-		"AWS Agent Registry",
-		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry.html",
-		"Registry is a discovery and approval catalog; only approved records are discoverable; newer namespace is agent-registry.",
-		"Registry is a separate layer, not an invocation hop; do not use the older namespace as the target.",
-		"Release status and the current namespace in the account"
-	],
-	[
-		"AWS AgentCore",
-		"Gateway MCP-server targets",
-		"https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html",
-		"A gateway can register an external MCP server as a target.",
-		"Makes the S3 hop possible in principle; interoperability with Apigee is unproven.",
-		"MCP version match and tool discovery against Apigee"
-	],
-	[
-		"SAP",
-		"Integration Suite: MCP Server",
-		"https://help.sap.com/docs/integration-suite/isuite-integrations-and-apis/model-context-protocol-mcp",
-		"Integration Suite can expose MCP servers from an API, an HTTP endpoint with OpenAPI, or RFC; servers run on Integration Cell.",
-		"This is a fourth, SAP-managed option. It is not assumed in S1 to S3, which use Integration Suite only as the API and integration layer.",
-		"Entitlement, edition and Integration Cell availability"
-	],
-	[
-		"SAP",
-		"Reference architecture for agentic SAP access",
-		"https://architecture.learning.sap.com/docs/ref-arch/76ec36",
-		"SAP reference architecture for agents and MCP access.",
-		"Used as context only.",
-		"Fit to our landscape"
-	],
-	[
-		"SAP Community",
-		"Principal propagation for MCP servers",
-		"https://community.sap.com/t5/technology-blog-posts-by-sap/principal-propagation-for-mcp-servers-sap-integration-suite-to-sap-s-4hana/ba-p/14488137",
-		"Describes propagation through Integration Suite and Cloud Connector; a client-credentials token carries no user.",
-		"Secondary source. End-to-end propagation must be proven in our tenant.",
-		"Token exchange, mapping and ABAP authorization"
-	]
-], St = `Sources were read on ${st}. Vendor documents describe product capability only. They are not evidence of our tenant's entitlement, activation or approval.`, z = (e, t, n, r, i, a) => ({
-	id: e,
-	row: t,
-	col: n,
-	title: r,
-	sub: i,
-	kind: a
-}), Ct = {
-	idp: z("idp", 0, 0, "Enterprise identity provider", "OAuth 2.1 / OIDC · user and agent identity", "identity"),
-	ent: z("ent", 3, 0, "Enterprise AI Foundry", "Publication and approval authority · TBD", "registry"),
-	repo: z("repo", 4, 0, "Git repository", "Source, specs, tool definitions, tests", "artifact")
-}, wt = {
-	S1: {
-		cols: 5,
-		nodes: [
-			Ct.idp,
-			Ct.ent,
-			Ct.repo,
-			z("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
-			z("gw", 1, 1, "Apigee MCP endpoint", "MCP gateway · OAuth and API-product policy", "gateway"),
-			z("dom", 1, 2, "SAP Finance domain tools", "Read domain and separate posting domain · derived from OpenAPI", "domain"),
-			z("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
-			z("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
-			z("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
-			z("hub", 3, 2, "Apigee API hub", "SAP-domain MCP catalog (proposed)", "registry"),
-			z("reg", 3, 3, "Google Agent Registry", "Synced from API hub · maturity TO VALIDATE", "registry"),
-			z("cicd", 4, 1, "CI/CD → Apigee deploy", "Proxies, products, policies", "artifact"),
-			z("spec", 4, 2, "OpenAPI and tool specs", "Versioned in Git, registered in API hub", "artifact")
-		],
-		edges: [
-			[
-				"agent",
-				"gw",
-				"invoke",
-				"MCP tools/call"
-			],
-			[
-				"gw",
-				"dom",
-				"invoke",
-				"proxy flow"
-			],
-			[
-				"dom",
-				"int",
-				"invoke",
-				"HTTPS API"
-			],
-			[
-				"int",
-				"sap",
-				"invoke",
-				"RFC / OData"
-			],
-			[
-				"dom",
-				"data",
-				"invoke",
-				"analytics read"
-			],
-			[
-				"idp",
-				"agent",
-				"identity",
-				"agent / user token"
-			],
-			[
-				"idp",
-				"gw",
-				"identity",
-				"token validation"
-			],
-			[
-				"agent",
-				"hub",
-				"registry",
-				"discover"
-			],
-			[
-				"hub",
-				"reg",
-				"registry",
-				"sync"
-			],
-			[
-				"ent",
-				"hub",
-				"approval",
-				"approve publication"
-			],
-			[
-				"repo",
-				"cicd",
-				"deploy",
-				"commit"
-			],
-			[
-				"cicd",
-				"gw",
-				"deploy",
-				"deploy proxy"
-			],
-			[
-				"spec",
-				"hub",
-				"deploy",
-				"register spec"
-			]
-		],
-		bounds: [[
-			"Google Apigee (external to AWS)",
-			["gw", "dom"],
-			"google"
-		], [
-			"SAP landscape",
-			["int", "sap"],
-			"sap"
-		]]
-	},
-	S2: {
-		cols: 5,
-		nodes: [
-			Ct.idp,
-			Ct.ent,
-			Ct.repo,
-			z("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
-			z("gw", 1, 1, "AgentCore Gateway", "MCP gateway · inbound auth, outbound credentials · no custom tool code", "gateway"),
-			z("dom", 1, 2, "Finance domain MCP server", "Coded server on AgentCore Runtime, or gateway-generated tools", "domain"),
-			z("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
-			z("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
-			z("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
-			z("aid", 0, 1, "AgentCore Identity", "Credential providers for outbound auth", "identity"),
-			z("reg", 3, 2, "AWS Agent Registry", "Discovery and approval · agent-registry namespace", "registry"),
-			z("cicd", 4, 1, "CI/CD → AWS deploy", "Runtime image, gateway targets", "artifact"),
-			z("ecr", 4, 2, "Container registry (ECR)", "Runtime image for the MCP server", "artifact")
-		],
-		edges: [
-			[
-				"agent",
-				"gw",
-				"invoke",
-				"MCP tools/call"
-			],
-			[
-				"gw",
-				"dom",
-				"invoke",
-				"MCP target"
-			],
-			[
-				"dom",
-				"int",
-				"invoke",
-				"HTTPS API"
-			],
-			[
-				"int",
-				"sap",
-				"invoke",
-				"RFC / OData"
-			],
-			[
-				"dom",
-				"data",
-				"invoke",
-				"analytics read"
-			],
-			[
-				"idp",
-				"agent",
-				"identity",
-				"agent / user token"
-			],
-			[
-				"idp",
-				"gw",
-				"identity",
-				"JWT validation"
-			],
-			[
-				"aid",
-				"gw",
-				"identity",
-				"outbound credentials"
-			],
-			[
-				"agent",
-				"reg",
-				"registry",
-				"discover"
-			],
-			[
-				"ent",
-				"reg",
-				"approval",
-				"approve records"
-			],
-			[
-				"repo",
-				"cicd",
-				"deploy",
-				"commit"
-			],
-			[
-				"cicd",
-				"ecr",
-				"deploy",
-				"push image"
-			],
-			[
-				"cicd",
-				"gw",
-				"deploy",
-				"target config"
-			]
-		],
-		bounds: [[
-			"AWS trust boundary",
-			[
-				"agent",
-				"gw",
-				"dom"
-			],
-			"aws"
-		], [
-			"SAP landscape",
-			["int", "sap"],
-			"sap"
-		]]
-	},
-	S3: {
-		cols: 6,
-		nodes: [
-			Ct.idp,
-			Ct.ent,
-			Ct.repo,
-			z("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
-			z("gw", 1, 1, "AgentCore Gateway", "First gateway · agent entry on AWS", "gateway"),
-			z("gw2", 1, 2, "Apigee MCP endpoint", "Second gateway · SAP-domain policy", "gateway"),
-			z("dom", 1, 3, "SAP Finance domain tools", "Owned on the SAP-facing side · from OpenAPI", "domain"),
-			z("int", 1, 4, "SAP Integration Suite", "API and iFlow layer", "integration"),
-			z("sap", 1, 5, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
-			z("data", 2, 4, "Analytical MCP · Databricks / BDC", "Future state · TO VALIDATE", "data"),
-			z("aid", 0, 1, "AgentCore Identity", "Outbound token handling", "identity"),
-			z("areg", 3, 1, "AWS Agent Registry", "Reference record · manual or custom sync", "registry"),
-			z("hub", 3, 3, "Apigee API hub", "SAP-domain source of truth (proposed)", "registry"),
-			z("cicd", 4, 2, "CI/CD → both platforms", "Apigee bundle and AWS target", "artifact"),
-			z("spec", 4, 3, "Specs and interface contract", "OpenAPI plus cross-gateway contract", "artifact")
-		],
-		edges: [
-			[
-				"agent",
-				"gw",
-				"invoke",
-				"MCP tools/call"
-			],
-			[
-				"gw",
-				"gw2",
-				"invoke",
-				"MCP target · unproven"
-			],
-			[
-				"gw2",
-				"dom",
-				"invoke",
-				"proxy flow"
-			],
-			[
-				"dom",
-				"int",
-				"invoke",
-				"HTTPS API"
-			],
-			[
-				"int",
-				"sap",
-				"invoke",
-				"RFC / OData"
-			],
-			[
-				"dom",
-				"data",
-				"invoke",
-				"analytics read"
-			],
-			[
-				"idp",
-				"agent",
-				"identity",
-				"agent / user token"
-			],
-			[
-				"aid",
-				"gw",
-				"identity",
-				"token exchange?"
-			],
-			[
-				"idp",
-				"gw2",
-				"identity",
-				"token validation"
-			],
-			[
-				"agent",
-				"areg",
-				"registry",
-				"discover"
-			],
-			[
-				"hub",
-				"areg",
-				"registry",
-				"manual reference"
-			],
-			[
-				"ent",
-				"areg",
-				"approval",
-				"approve"
-			],
-			[
-				"repo",
-				"cicd",
-				"deploy",
-				"commit"
-			],
-			[
-				"cicd",
-				"gw2",
-				"deploy",
-				"deploy proxy"
-			],
-			[
-				"spec",
-				"hub",
-				"deploy",
-				"register spec"
-			]
-		],
-		bounds: [
-			[
-				"AWS",
-				["agent", "gw"],
-				"aws"
-			],
-			[
-				"Google Apigee",
-				["gw2", "dom"],
-				"google"
-			],
-			[
-				"SAP landscape",
-				["int", "sap"],
-				"sap"
-			]
-		]
-	}
-}, Tt = {
+	["Managed MCP endpoint (Pattern A)", "An approved API exposed as an MCP tool by Apigee. No separate custom MCP application server is required."],
+	["Custom MCP server (Pattern B)", "Independently deployed MCP business logic on the hosting platform of the scenario, exposed or proxied by Apigee."],
+	["MCP gateway", "Governed entry point that routes, authorizes and applies policy. It is not necessarily where tool logic runs."],
+	["Registry", "Catalog and discovery of agents and MCP servers. Control plane only; never an invocation hop and not proof of reachability or authorization."],
+	["AgentCore Runtime / Gateway / Registry", "Three distinct AWS capabilities: where an agent runs, the gateway that routes tool calls, and the catalog."],
+	["Portkey", "LLM gateway for every scenario. Independent of the MCP gateway and the registry."],
+	["Integration Suite", "SAP integration boundary between the gateway and the SAP backend."],
+	["Cloud Connector", "Private connectivity to the SAP landscape; applies only where the connectivity model needs it."]
+], at = L.comparison, ot = L.connCols, st = L.connections, ct = L.domains, lt = {
+	headline: L.recommendation.headline,
+	why: L.recommendation.why,
+	standards: L.recommendation.depends,
+	open: L.recommendation.open,
+	changes: L.recommendation.changes,
+	poc: L.recommendation.poc
+}, ut = L.evidence, dt = L.evidenceStatus;
+L.unresolvedRegistry;
+var ft = {
+	invoke: "Runtime invocation",
+	registry: "Registration / discovery",
+	llm: "LLM invocation",
+	identity: "Identity / token",
+	audit: "Audit / correlation",
+	approval: "Approval",
+	deploy: "Deployment"
+}, pt = [
+	"invoke",
+	"registry",
+	"llm",
+	"identity",
+	"audit"
+].map((e) => [e, ft[e]]);
+function mt(e) {
+	return L.diagrams[e];
+}
+function ht(e) {
+	let t = L.diagrams[e];
+	return xt({
+		...t,
+		title: t.title,
+		captions: (t.lanes || []).map(([e, n]) => [(t.ys || [
+			118,
+			258,
+			398,
+			528,
+			668
+		])[e] - 26, n]),
+		legend: t.legend.map((e) => [e, ft[e]]),
+		height: t.height
+	});
+}
+function gt(e) {
+	return ht({
+		S1: "D2",
+		S2: "D3",
+		S3: "D4"
+	}[e]);
+}
+var _t = {
 	control: "#FFFFFF",
 	decision: "#FFF8EE",
 	agent: "#E8F1FB",
@@ -13508,8 +12730,11 @@ var et = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" rol
 	data: "#EEF2F5",
 	registry: "#E5F5F2",
 	artifact: "#F3F3F3",
-	identity: "#FFF7DA"
-}, Et = {
+	identity: "#FFF7DA",
+	ui: "#EEF4FA",
+	llm: "#F4EAFA",
+	store: "#EEF2F5"
+}, vt = {
 	invoke: {
 		c: "#0A4F9E",
 		w: 2.6,
@@ -13539,43 +12764,28 @@ var et = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" rol
 		c: "#0C8F76",
 		w: 2.2,
 		d: "7 4"
+	},
+	llm: {
+		c: "#7B3FA0",
+		w: 2.6,
+		d: ""
+	},
+	audit: {
+		c: "#5A6B7B",
+		w: 1.8,
+		d: "1.5 4"
 	}
-}, Dt = [
-	["invoke", "Runtime invocation"],
-	["registry", "Registry / discovery"],
-	["deploy", "Deployment / artifacts"],
-	["identity", "Identity / authentication"],
-	["approval", "Approval-gated operation"]
-], Ot = {
+}, yt = {
 	google: "#C26A00",
 	aws: "#0A4F9E",
 	sap: "#5B3F8C"
-}, kt = (e) => String(e).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-function At(e, t) {
+}, B = (e) => String(e).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function bt(e, t) {
 	let n = [], r = "";
 	for (let i of String(e).split(" ")) (r + " " + i).trim().length > t && r ? (n.push(r), r = i) : r = (r + " " + i).trim();
 	return r && n.push(r), n;
 }
-var jt = [
-	[104, "IDENTITY AND SECURITY"],
-	[224, "RUNTIME INVOCATION PATH"],
-	[392, "DATA / ANALYTICS BRANCH"],
-	[514, "REGISTRY AND DISCOVERY (NOT AN INVOCATION HOP)"],
-	[654, "ARTIFACT REPOSITORY AND DEPLOYMENT"]
-], Mt = "Proposed design for review. Vendor names are design projections, not connected services. Placeholders are not tenant addresses. Registry and deployment arrows are not invocation traffic.";
-function Nt(e) {
-	let t = wt[e], n = R[e];
-	return Pt({
-		...t,
-		title: `${n.label} · MCP topology`,
-		chain: n.chain,
-		banner: "PROPOSED DESIGN · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
-		captions: jt,
-		legend: Dt,
-		footer: Mt
-	});
-}
-function Pt(e) {
+function xt(e) {
 	let t = e.height || 840, n = e.nh || 92, r = (1140 - (e.cols - 1) * 30) / e.cols, i = e.ys || [
 		118,
 		258,
@@ -13595,18 +12805,18 @@ function Pt(e) {
 	}
 	let o = [];
 	for (let [t, n, r] of e.bounds) {
-		let e = n.map((e) => a[e]), i = Math.min(...e.map((e) => e.x)) - 10, s = Math.min(...e.map((e) => e.y)) - 24, c = Math.max(...e.map((e) => e.x + e.w)) + 10, l = Math.max(...e.map((e) => e.y + e.h)) + 10;
-		o.push(`<rect x="${i}" y="${s}" width="${c - i}" height="${l - s}" rx="8" fill="none" stroke="${Ot[r]}" stroke-width="2" stroke-dasharray="14 5"/>`), o.push(`<text x="${i + 8}" y="${s + 15}" font-size="12" font-weight="700" fill="${Ot[r]}">${kt(t)}</text>`);
+		let e = n.map((e) => a[e]), i = Math.min(...e.map((e) => e.x)) - 10, s = Math.min(...e.map((e) => e.y)) - 24, c = Math.max(...e.map((e) => e.x + e.w)) + 10, l = Math.max(...e.map((e) => e.y + e.h)) + 5;
+		o.push(`<rect x="${i}" y="${s}" width="${c - i}" height="${l - s}" rx="8" fill="none" stroke="${yt[r]}" stroke-width="2" stroke-dasharray="14 5"/>`), o.push(`<text x="${i + 8}" y="${s + 15}" font-size="12" font-weight="700" fill="${yt[r]}">${B(t)}</text>`);
 	}
 	let s = (e, t, n = "end") => o.push(`<text x="${n === "end" ? 1170 : 30}" y="${e}" font-size="11.5" font-weight="700" fill="#506778" text-anchor="${n}">${t}</text>`);
 	for (let [t, n, r] of e.captions) s(t, n, r);
 	let c = [], l = [], u = {};
 	for (let [t, n, r, i, s = {}] of e.edges) {
 		let e = r === "identity" ? u[t] = (u[t] ?? -1) + 1 : 0, d = a[t], f = a[n], p = s.active ? {
-			...Et[r],
+			...vt[r],
 			c: "#E9730C",
-			w: Et[r].w + 1
-		} : Et[r], m = {
+			w: vt[r].w + 1
+		} : vt[r], m = {
 			x: d.x + d.w / 2,
 			y: d.y + d.h / 2
 		}, h = {
@@ -13633,194 +12843,63 @@ function Pt(e) {
 	o.push(...l);
 	for (let t of e.nodes) {
 		let e = a[t.id], n = `${t.stage ? " data-stage=\"1\"" : ""}${t.kind === "control" ? " data-control=\"1\"" : ""}`;
-		o.push(`<rect data-node="${t.id}"${n} x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="${Tt[t.kind]}" stroke="${t.stroke || "#506778"}" stroke-width="${t.strokeWidth || 1.4}"${t.dashed ? " stroke-dasharray=\"7 4\"" : ""}${t.cls ? ` class="${t.cls}"` : ""}/>`);
-		let r = At(t.title, Math.floor(e.w / 7.1)).slice(0, 2);
-		r.forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + n * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${kt(t)}</text>`)), At(t.sub, Math.floor((e.w - 8) / 5.7)).slice(0, Math.max(2, Math.floor((e.h - 20 - r.length * 15 - 8) / 12.5) - +!!t.status)).forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + r.length * 15 + n * 12.5}" font-size="10.5" fill="#34495C">${kt(t)}</text>`)), t.status && o.push(`<text x="${e.x + 8}" y="${e.y + e.h - 9}" font-size="10.5" font-weight="700" fill="${t.statusColor || "#34495C"}">${kt(t.status)}</text>`), t.zone && o.push(`<rect data-zone="${kt(t.zone)}" x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="transparent"/>`);
+		o.push(`<rect data-node="${t.id}"${n} x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="${_t[t.kind]}" stroke="${t.stroke || "#506778"}" stroke-width="${t.strokeWidth || 1.4}"${t.dashed ? " stroke-dasharray=\"7 4\"" : ""}${t.cls ? ` class="${t.cls}"` : ""}/>`);
+		let r = bt(t.title, Math.floor(e.w / 7.1)).slice(0, 2);
+		r.forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + n * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${B(t)}</text>`)), bt(t.sub, Math.floor((e.w - 8) / 5.7)).slice(0, Math.max(2, Math.floor((e.h - 20 - r.length * 15 - 8) / 12.5) - +!!t.status)).forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + r.length * 15 + n * 12.5}" font-size="10.5" fill="#34495C">${B(t)}</text>`)), t.status && o.push(`<text x="${e.x + 8}" y="${e.y + e.h - 9}" font-size="10.5" font-weight="700" fill="${t.statusColor || "#34495C"}">${B(t.status)}</text>`), t.zone && o.push(`<rect data-zone="${B(t.zone)}" x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="transparent"/>`);
 	}
 	for (let [e, t, n, r] of c) {
 		let i = n.length * 5.6 + 10;
-		o.push(`<rect x="${e - i / 2}" y="${t - 11}" width="${i}" height="15" rx="3" fill="#F1F4F7" opacity="0.94"/><text x="${e}" y="${t}" font-size="10.5" font-weight="600" fill="${r}" text-anchor="middle">${kt(n)}</text>`);
+		o.push(`<rect x="${e - i / 2}" y="${t - 11}" width="${i}" height="15" rx="3" fill="#F1F4F7" opacity="0.94"/><text x="${e}" y="${t}" font-size="10.5" font-weight="600" fill="${r}" text-anchor="middle">${B(n)}</text>`);
 	}
 	let d = 30;
 	o.push(`<rect x="22" y="${t - 54}" width="1156" height="40" rx="6" fill="#FFFFFF" stroke="#D9E1E7"/>`), o.push(`<text x="30" y="${t - 36}" font-size="11" font-weight="700" fill="#506778">LEGEND</text>`);
 	for (let [n, r] of e.legend) {
-		let e = Et[n];
-		o.push(`<line x1="${d + 60}" y1="${t - 40}" x2="${d + 90}" y2="${t - 40}" stroke="${e.c}" stroke-width="${e.w}"${e.d ? ` stroke-dasharray="${e.d}"` : ""}/><text x="${d + 96}" y="${t - 36}" font-size="11" fill="#1D2D3E">${kt(r)}</text>`), d += 96 + r.length * 5.4 + 8;
+		let e = vt[n];
+		o.push(`<line x1="${d + 60}" y1="${t - 40}" x2="${d + 90}" y2="${t - 40}" stroke="${e.c}" stroke-width="${e.w}"${e.d ? ` stroke-dasharray="${e.d}"` : ""}/><text x="${d + 96}" y="${t - 36}" font-size="11" fill="#1D2D3E">${B(r)}</text>`), d += 96 + r.length * 5.4 + 8;
 	}
-	o.push(`<text x="30" y="${t - 20}" font-size="10.5" fill="#506778">${kt(e.footer)}</text>`);
+	o.push(`<text x="30" y="${t - 20}" font-size="10.5" fill="#506778">${B(e.footer)}</text>`);
 	let f = e.title;
-	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${t}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${kt(f)}</title><desc id="d">${kt(e.chain)}</desc><rect width="1200" height="${t}" fill="#F1F4F7"/><text x="30" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${kt(f)}</text><text x="30" y="62" font-size="12" fill="#34495C">${kt(e.chain.length > 150 ? e.chain.slice(0, 147) + "…" : e.chain)}</text><text x="30" y="82" font-size="11" fill="#B3261E" font-weight="700">${kt(e.banner)}</text>${o.join("")}</svg>\n`;
-}
-// src/landscapeDiagrams.js
-var Ft = [...[
-	"S1",
-	"S2",
-	"S3"
-].map((e) => ({
-	key: `mcp-${e}`,
-	kind: "mcp",
-	id: e,
-	tab: at[e].title.split(" · ")[0] + " path",
-	title: at[e].title
-})), ...[
-	["agentcore", "AgentCore"],
-	["btp", "SAP BTP"],
-	["microsoft", "Foundry"],
-	["joule", "Joule"]
-].map(([e, t]) => ({
-	key: `host-${e}`,
-	kind: "hosting",
-	id: e,
-	tab: `Host · ${t}`,
-	title: ot[e].title
-}))], It = (e, t, n, r, i, a, o = {}) => ({
-	id: e,
-	row: t,
-	col: n,
-	title: r,
-	sub: i,
-	kind: a,
-	...o
-}), Lt = [
-	["invoke", "Request / tool call"],
-	["return", "Evidence / response"],
-	["identity", "Identity / authentication"]
-], Rt = [
-	[104, "IDENTITY AND SECURITY"],
-	[224, "REQUEST AND TOOL-CALL PATH"],
-	[514, "CROSS-CUTTING CONTROLS · design dependencies, not proved connections"],
-	[654, "OPEN DECISION"]
-];
-function zt(e) {
-	return e.type === "ux" ? "agent" : e.type === "agent" ? "domain" : e.type === "gateway" ? "gateway" : /backend/i.test(e.label) ? "backend" : "integration";
-}
-function Bt(e, t) {
-	let n = (e === "mcp" ? at : ot)[t], r = n.stages.length, i = n.stages.map((e, t) => It(`s${t}`, 1, t, e.label, `${e.owner}. ${e.detail}`, zt(e), {
-		h: 124,
-		stage: !0
-	}));
-	i.push(It("idp", 0, 0, "Identity and access", "Caller or service identity is proved at every hop. The SAP backend role check is the final authorization.", "identity"));
-	let a = r / 4;
-	n.controls.forEach(([e, t], n) => i.push(It(`c${n}`, 3, n * a, e, t, "control", {
-		span: a,
-		h: 108
-	}))), i.push(It("decision", 4, 0, "Open decision", n.decision, "decision", {
-		span: r,
-		h: 70
-	}));
-	let o = n.stages.slice(1).map((e, t) => [
-		`s${t}`,
-		`s${t + 1}`,
-		"invoke",
-		n.stages[t].out
-	]);
-	o.push([
-		`s${r - 1}`,
-		"s0",
-		"return",
-		n.returnFlow
-	]);
-	let s = n.stages.findIndex((e) => e.type === "gateway");
-	return o.push([
-		"idp",
-		"s1",
-		"identity",
-		"agent identity"
-	]), s > 1 && o.push([
-		"idp",
-		`s${s}`,
-		"identity",
-		"tool credential"
-	]), Pt({
-		cols: r,
-		nodes: i,
-		edges: o,
-		bounds: [[
-			"SAP landscape",
-			n.stages.map((e, t) => e.type === "sap" && t > 0 ? `s${t}` : null).filter(Boolean),
-			"sap"
-		]],
-		captions: Rt,
-		legend: Lt,
-		title: n.title,
-		chain: n.stages.map((e) => e.label).join(" → "),
-		banner: n.status.toUpperCase(),
-		footer: "Proposed design for review. Vendor names are design projections, not connected services. Nothing here is an approved tenant architecture."
-	});
+	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${t}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${B(f)}</title><desc id="d">${B(e.chain)}</desc><rect width="1200" height="${t}" fill="#F1F4F7"/><text x="30" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${B(f)}</text><text x="30" y="62" font-size="12" fill="#34495C">${B(e.chain.length > 150 ? e.chain.slice(0, 147) + "…" : e.chain)}</text><text x="30" y="82" font-size="11" fill="#B3261E" font-weight="700">${B(e.banner)}</text>${o.join("")}</svg>\n`;
 }
 // src/DetailedDiagrams.jsx
-var Vt = 1200, Ht = 840, Ut = 12, Wt = [2, 4], B = (e, t, n) => Math.min(n, Math.max(t, e)), Gt = {
-	S1: {
-		id: "S1",
-		tab: "S1 · Google Apigee MCP",
-		title: "S1 · Google Apigee MCP",
-		svg: et,
-		gateway: "Google Apigee MCP, external to AWS",
-		summary: "The custom agent runs on Amazon Bedrock AgentCore Runtime and reaches the finance-owned domain MCP tools, SAP BAIP and the SAP backends through one MCP gateway: Google Apigee, outside the AWS boundary. Apigee applies inbound authorization and outbound target credentials; read paths return results over the same mediated path."
-	},
-	S2: {
-		id: "S2",
-		tab: "S2 · AgentCore Gateway MCP",
-		title: "S2 · AgentCore Gateway MCP",
-		svg: tt,
-		gateway: "AgentCore Gateway MCP, inside AWS",
-		summary: "The same agent and downstream path, but the single MCP gateway is AgentCore Gateway inside the AWS trust boundary. Inbound authorization and outbound target credentials are applied by the gateway before the finance-owned domain MCP tools, SAP BAIP and the SAP backends."
-	}
-}, Kt = Object.fromEntries(Ft.map((e) => {
-	let t = (e.kind === "mcp" ? at : ot)[e.id];
-	return [e.key, {
-		id: e.key,
-		tab: e.tab,
-		title: e.title,
-		svg: Bt(e.kind, e.id),
-		file: `landscape-${e.key}`,
+var St = 1200, Ct = 840, wt = 12, Tt = [2, 4], Et = (e, t, n) => Math.min(n, Math.max(t, e)), Dt = {
+	D1: "Overview",
+	D2: "S1",
+	D3: "S2",
+	D4: "S3",
+	D5: "Hosting vs registry",
+	D6: "Identity",
+	D7: "LLM",
+	D8: "Lifecycle",
+	D9: "Audit",
+	D10: "Comparison"
+}, Ot = Object.fromEntries(rt.map((e) => {
+	let t = mt(e);
+	return [e, {
+		id: e,
+		tab: `${e} · ${Dt[e]}`,
+		title: `${e} · ${t.title}`,
+		svg: ht(e),
+		file: `architecture-${e.toLowerCase()}`,
 		png: !0,
-		landscape: !0,
-		data: t,
-		summary: `${t.status}. ${t.decision}`
+		summary: t.chain,
+		footer: t.footer
 	}];
-})), qt = "Only MCP gateway placement and its inbound / outbound auth controls change. Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.", Jt = [
-	[
-		"Lane 03 MCP gateway",
-		"Google Apigee · external to AWS",
-		"AgentCore Gateway · inside AWS"
-	],
-	[
-		"Trust boundary",
-		"Gateway sits outside the AWS boundary",
-		"AWS trust boundary encloses lanes 02 and 03"
-	],
-	[
-		"MCP entry detail",
-		"Apigee mode TBD",
-		"Target type TBD"
-	],
-	[
-		"Colour coding",
-		"Gateway lane in orange (external)",
-		"Gateway lane in blue (AWS)"
-	],
-	[
-		"Common to both",
-		"ONE selected gateway · no Portkey MCP",
-		"ONE selected gateway · no Portkey MCP"
-	]
-], Yt = [
-	"Delegation versus service identity: TO VALIDATE",
-	"Integration Suite / iFlow identity propagation: TBD",
-	"Mapped principal and ABAP roles at each SAP backend: TO VALIDATE",
-	"Operation allowlist and outbound target credential or exchange: TBD",
-	"Direct API versus iFlow / Cloud Connector route per backend; private route needs proof",
-	"SAP Business Data Cloud and Databricks entitlement and scope: TO VALIDATE (future state)"
+})), kt = ["D2", "D4"], At = [
+	"Registry product for S1 is unresolved: a plain API catalog is not a complete agent registry",
+	"AgentCore Gateway to Apigee protocol and token exchange (S2): unproven",
+	"Whether AI Foundry mandates AgentCore Gateway for every tool call (S3-B): policy-dependent",
+	"Principal propagation through Integration Suite and Cloud Connector: to validate",
+	"Persistence is conditional: HANA Cloud only if durable SAP-side state is required"
 ];
-function Xt(e, t) {
+function jt(e, t) {
 	return e.replace("aria-labelledby=\"t d\"", `aria-labelledby="${t}-t ${t}-d"`).replace("id=\"t\"", `id="${t}-t"`).replace("id=\"d\"", `id="${t}-d"`);
 }
-function Zt(e) {
+function Mt(e) {
 	return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${e}`], { type: "image/svg+xml" });
 }
-function Qt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onExpand: o, compact: s, onPick: c }) {
-	let l = e.w || Vt, u = e.h || Ht, d = (0, _.useRef)(null), f = (0, _.useRef)(null), p = (0, _.useRef)(null), m = (0, _.useRef)(n), h = (0, _.useRef)({
+function Nt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onExpand: o, compact: s, onPick: c }) {
+	let l = e.w || St, u = e.h || Ct, d = (0, _.useRef)(null), f = (0, _.useRef)(null), p = (0, _.useRef)(null), m = (0, _.useRef)(n), h = (0, _.useRef)({
 		s: .5,
 		x: 0,
 		y: 0
@@ -13828,7 +12907,7 @@ function Qt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 	m.current = n;
 	let b = (0, _.useRef)(r), x = (0, _.useRef)(i);
 	b.current = r, x.current = i;
-	let S = (0, _.useMemo)(() => Xt(e.svg, t), [e, t]), C = (0, _.useCallback)(() => {
+	let S = (0, _.useMemo)(() => jt(e.svg, t), [e, t]), C = (0, _.useCallback)(() => {
 		let e = f.current?.getBoundingClientRect();
 		if (!e || !e.width || !e.height) return null;
 		let t = Math.min((e.width - 16) / l, (e.height - 16) / u);
@@ -13862,7 +12941,7 @@ function Qt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 	let T = (0, _.useCallback)((e, t, n) => {
 		let r = m.current;
 		if (!r) return;
-		let i = Math.max(.05, h.current.s * .5), a = B(r.s * e, i, Ut), o = a / r.s;
+		let i = Math.max(.05, h.current.s * .5), a = Et(r.s * e, i, wt), o = a / r.s;
 		g.current = !1, b.current({
 			s: a,
 			x: t - (t - r.x) * o,
@@ -13966,13 +13045,13 @@ function Qt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 			} catch {}
 		}
 	}, ae = () => {
-		let t = URL.createObjectURL(Zt(e.svg));
+		let t = URL.createObjectURL(Mt(e.svg));
 		window.open(t, "_blank", "noopener"), setTimeout(() => URL.revokeObjectURL(t), 6e4);
 	}, oe = () => {
-		let t = URL.createObjectURL(Zt(e.svg)), n = document.createElement("a");
+		let t = URL.createObjectURL(Mt(e.svg)), n = document.createElement("a");
 		n.href = t, n.download = `${e.file || `finance-architecture-${e.id.toLowerCase()}`}.svg`, document.body.appendChild(n), n.click(), n.remove(), setTimeout(() => URL.revokeObjectURL(t), 1e3);
 	}, se = (t) => {
-		let n = URL.createObjectURL(Zt(e.svg)), r = new Image();
+		let n = URL.createObjectURL(Mt(e.svg)), r = new Image();
 		r.onload = () => {
 			let i = document.createElement("canvas");
 			i.width = l * t, i.height = u * t, i.getContext("2d").drawImage(r, 0, 0, i.width, i.height), URL.revokeObjectURL(n), i.toBlob((n) => {
@@ -14051,7 +13130,7 @@ function Qt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 						title: "Download the vector SVG",
 						children: "SVG ⤓"
 					}),
-					e.png && Wt.map((t) => /* @__PURE__ */ (0, k.jsxs)("button", {
+					e.png && Tt.map((t) => /* @__PURE__ */ (0, k.jsxs)("button", {
 						type: "button",
 						onClick: () => se(t),
 						"aria-label": `Download ${e.id} as ${t}x PNG`,
@@ -14097,15 +13176,19 @@ function Qt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 		})]
 	});
 }
-function $t({ view: e = "S1", onView: t, onBack: n }) {
-	let [r, i] = (0, _.useState)(null), [a, o] = (0, _.useState)(null), [s, c] = (0, _.useState)(!0), [l, u] = (0, _.useState)(null), d = e === "compare", f = (e) => {
+function Pt({ view: e = "D1", onView: t, onBack: n }) {
+	let [r, i] = (0, _.useState)(null), [a, o] = (0, _.useState)(null), [s, c] = (0, _.useState)(!0), [l, u] = (0, _.useState)(null), [d, f] = (0, _.useState)(kt), p = e === "compare", m = Ot[e] ? e : "D1", h = (e) => {
 		u(null), t(e);
-	}, p = !!Kt[e], m = Kt[e] || Gt[d ? "S1" : e] || Gt.S1, h = (0, _.useCallback)((e) => {
+	}, g = Ot[m], v = (0, _.useCallback)((e) => {
 		i(e), o(e);
-	}, []), g = ["S1", "S2"];
+	}, []), y = [
+		"D2",
+		"D3",
+		"D4"
+	];
 	return /* @__PURE__ */ (0, k.jsxs)("main", {
 		className: "detailed-diagrams",
-		"aria-label": "Detailed architecture diagrams",
+		"aria-label": "Architecture diagrams",
 		children: [
 			/* @__PURE__ */ (0, k.jsxs)("header", {
 				className: "surface dd-header",
@@ -14114,27 +13197,27 @@ function $t({ view: e = "S1", onView: t, onBack: n }) {
 						className: "dd-title",
 						children: [/* @__PURE__ */ (0, k.jsx)("span", {
 							className: "eyebrow",
-							children: p ? "ARCHITECTURE DIAGRAMS · LANDSCAPE PATH (GENERATED VECTOR)" : "ARCHITECTURE DIAGRAMS · DETAILED L2 VIEW (VECTOR)"
-						}), /* @__PURE__ */ (0, k.jsx)("h2", { children: d ? "S1 and S2 side by side" : m.title })]
+							children: "ARCHITECTURE DIAGRAMS · V5.1 · GENERATED FROM ONE MODEL (VECTOR)"
+						}), /* @__PURE__ */ (0, k.jsx)("h2", { children: p ? "Scenario topologies side by side" : g.title })]
 					}),
 					/* @__PURE__ */ (0, k.jsx)("nav", {
 						className: "dd-selector",
 						role: "tablist",
 						"aria-label": "Detailed diagram selection",
-						children: [...g, "compare"].map((t) => /* @__PURE__ */ (0, k.jsx)("button", {
+						children: [...rt, "compare"].map((t) => /* @__PURE__ */ (0, k.jsx)("button", {
 							type: "button",
 							role: "tab",
 							"aria-selected": e === t,
 							className: e === t ? "active" : "",
-							onClick: () => f(t),
-							children: t === "compare" ? "Compare side-by-side" : Gt[t].tab
+							onClick: () => h(t),
+							children: t === "compare" ? "Compare side-by-side" : Ot[t].tab
 						}, t))
 					}),
 					/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: "dd-header-actions",
 						children: [/* @__PURE__ */ (0, k.jsx)("span", {
 							className: "pill warn",
-							children: "PROPOSED DESIGN · REVIEW DRAFT · NOT TENANT-VERIFIED"
+							children: "PROPOSED DESIGN · NOT APPROVED · NOT TENANT-VERIFIED"
 						}), /* @__PURE__ */ (0, k.jsx)("button", {
 							type: "button",
 							onClick: n,
@@ -14148,135 +13231,80 @@ function $t({ view: e = "S1", onView: t, onBack: n }) {
 				"aria-label": "Diagram summary",
 				children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
 					className: "eyebrow",
-					children: d ? "WHAT THIS VIEW SHOWS" : p ? "LANDSCAPE PATH · STATUS AND OPEN DECISION" : `${m.id} · MCP GATEWAY`
-				}), /* @__PURE__ */ (0, k.jsx)("p", { children: d ? "Both detailed diagrams share one worked month-end reconciliation path. Use the synchronized viewers to inspect lane 03 (MCP gateway) and the AWS trust boundary, where they differ." : m.summary })] }), /* @__PURE__ */ (0, k.jsxs)("div", {
+					children: p ? "WHAT THIS VIEW SHOWS" : g.id
+				}), /* @__PURE__ */ (0, k.jsx)("p", { children: p ? "Two scenario topologies from the same model. Pick the scenarios below; zoom and pan can be synchronized." : g.summary })] }), /* @__PURE__ */ (0, k.jsxs)("div", {
 					className: "dd-invariant",
 					children: [/* @__PURE__ */ (0, k.jsx)("span", {
 						className: "eyebrow",
-						children: "SCENARIO INVARIANT"
-					}), /* @__PURE__ */ (0, k.jsx)("p", { children: qt })]
-				})]
-			}),
-			/* @__PURE__ */ (0, k.jsxs)("section", {
-				className: "surface dd-landscape-bar",
-				"aria-label": "Landscape diagrams",
-				children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
-					className: "eyebrow",
-					children: "LANDSCAPE PATHS"
-				}), /* @__PURE__ */ (0, k.jsx)("strong", { children: "MCP route and agent-hosting diagrams" })] }), /* @__PURE__ */ (0, k.jsx)("nav", {
-					className: "dd-selector",
-					role: "tablist",
-					"aria-label": "Landscape diagram selection",
-					children: Ft.map((t) => /* @__PURE__ */ (0, k.jsx)("button", {
-						type: "button",
-						role: "tab",
-						"aria-selected": e === t.key,
-						className: e === t.key ? "active" : "",
-						onClick: () => f(t.key),
-						children: t.tab
-					}, t.key))
+						children: "COMMON TO S1, S2 AND S3"
+					}), /* @__PURE__ */ (0, k.jsx)("p", { children: "Portkey is the LLM gateway. Google Apigee is the SAP-facing MCP/API gateway. SAP Integration Suite is the SAP integration boundary. The SAP backend decides business authorization. A registry is a catalog, never an invocation hop." })]
 				})]
 			}),
 			/* @__PURE__ */ (0, k.jsxs)("div", {
-				className: `dd-body ${d ? "is-compare" : ""}`,
-				children: [d ? /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsxs)("div", {
+				className: `dd-body ${p ? "is-compare" : ""}`,
+				children: [p ? /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsxs)("div", {
 					className: "dd-compare-bar surface",
 					children: [/* @__PURE__ */ (0, k.jsxs)("label", { children: [/* @__PURE__ */ (0, k.jsx)("input", {
 						type: "checkbox",
 						checked: s,
 						onChange: (e) => c(e.target.checked)
-					}), " Synchronize zoom and pan"] }), /* @__PURE__ */ (0, k.jsx)("span", { children: "Zoom into lane 03 and the AWS trust boundary to see where the two options differ." })]
+					}), " Synchronize zoom and pan"] }), d.map((e, t) => /* @__PURE__ */ (0, k.jsxs)("label", { children: [
+						t ? "with" : "Compare",
+						" ",
+						/* @__PURE__ */ (0, k.jsx)("select", {
+							value: e,
+							onChange: (e) => f((n) => n.map((n, r) => r === t ? e.target.value : n)),
+							children: y.map((e) => /* @__PURE__ */ (0, k.jsx)("option", {
+								value: e,
+								children: Ot[e].tab
+							}, e))
+						})
+					] }, t))]
 				}), /* @__PURE__ */ (0, k.jsx)("div", {
 					className: "dd-compare-grid",
-					children: g.map((e, t) => /* @__PURE__ */ (0, k.jsx)(Qt, {
-						diagram: Gt[e],
-						uid: `dd-${e}-cmp`,
+					children: d.map((e, t) => /* @__PURE__ */ (0, k.jsx)(Nt, {
+						diagram: Ot[e],
+						uid: `dd-${e}-cmp-${t}`,
 						compact: !0,
 						view: t === 0 ? r : a,
 						onView: (e) => {
-							s ? h(e) : (t === 0 ? i : o)(e);
+							s ? v(e) : (t === 0 ? i : o)(e);
 						},
 						onFit: (e) => {
-							s ? h(e) : (t === 0 ? i : o)(e);
+							s ? v(e) : (t === 0 ? i : o)(e);
 						},
-						expanded: l === e,
-						onExpand: (t) => u(t ? e : null)
-					}, e))
-				})] }) : /* @__PURE__ */ (0, k.jsx)(Qt, {
-					diagram: m,
-					uid: `dd-${m.id}`,
+						expanded: l === t,
+						onExpand: (e) => u(e ? t : null)
+					}, `${e}-${t}`))
+				})] }) : /* @__PURE__ */ (0, k.jsx)(Nt, {
+					diagram: g,
+					uid: `dd-${g.id}`,
 					view: r,
 					onView: i,
 					onFit: i,
-					expanded: l === m.id,
-					onExpand: (e) => u(e ? m.id : null)
-				}, m.id), p ? /* @__PURE__ */ (0, k.jsxs)("aside", {
+					expanded: l === g.id,
+					onExpand: (e) => u(e ? g.id : null)
+				}, g.id), /* @__PURE__ */ (0, k.jsxs)("aside", {
 					className: "surface dd-side",
-					"aria-label": "Controls and open decision",
+					"aria-label": "Open validations",
 					children: [
-						/* @__PURE__ */ (0, k.jsx)("h3", { children: "Cross-cutting controls" }),
-						/* @__PURE__ */ (0, k.jsx)("ul", { children: m.data.controls.map(([e, t]) => /* @__PURE__ */ (0, k.jsxs)("li", { children: [
-							/* @__PURE__ */ (0, k.jsxs)("strong", { children: [e, "."] }),
+						/* @__PURE__ */ (0, k.jsx)("h3", { children: "Scenarios in this model" }),
+						/* @__PURE__ */ (0, k.jsx)("ul", { children: [
+							"S1",
+							"S2",
+							"S3"
+						].map((e) => /* @__PURE__ */ (0, k.jsxs)("li", { children: [
+							/* @__PURE__ */ (0, k.jsx)("strong", { children: e }),
 							" ",
-							t
+							z[e].agent_runtime,
+							" · registry: ",
+							z[e].agent_registry
 						] }, e)) }),
-						/* @__PURE__ */ (0, k.jsx)("h3", { children: "Open decision" }),
-						/* @__PURE__ */ (0, k.jsx)("p", { children: m.data.decision }),
-						/* @__PURE__ */ (0, k.jsx)("p", {
+						/* @__PURE__ */ (0, k.jsx)("h3", { children: "Open validations" }),
+						/* @__PURE__ */ (0, k.jsx)("ul", { children: At.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) }),
+						/* @__PURE__ */ (0, k.jsxs)("p", {
 							className: "micro",
-							children: "Vendor-named components are design projections, not connected services."
-						}),
-						/* @__PURE__ */ (0, k.jsx)("a", {
-							className: "text-link",
-							href: m.data.source,
-							target: "_blank",
-							rel: "noreferrer",
-							children: "Vendor reference ↗"
-						}),
-						/* @__PURE__ */ (0, k.jsx)("button", {
-							type: "button",
-							className: "text-link",
-							onClick: n,
-							children: "Back to complete architecture →"
-						})
-					]
-				}) : /* @__PURE__ */ (0, k.jsxs)("aside", {
-					className: "surface dd-side",
-					"aria-label": "Key differences and open validations",
-					children: [
-						/* @__PURE__ */ (0, k.jsx)("h3", { children: "What changes between S1 and S2" }),
-						/* @__PURE__ */ (0, k.jsxs)("table", { children: [/* @__PURE__ */ (0, k.jsx)("thead", { children: /* @__PURE__ */ (0, k.jsxs)("tr", { children: [
-							/* @__PURE__ */ (0, k.jsx)("th", {
-								scope: "col",
-								children: "Item"
-							}),
-							/* @__PURE__ */ (0, k.jsx)("th", {
-								scope: "col",
-								children: "S1"
-							}),
-							/* @__PURE__ */ (0, k.jsx)("th", {
-								scope: "col",
-								children: "S2"
-							})
-						] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: Jt.map(([t, n, r]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [
-							/* @__PURE__ */ (0, k.jsx)("th", {
-								scope: "row",
-								children: t
-							}),
-							/* @__PURE__ */ (0, k.jsx)("td", {
-								className: e === "S2" ? "dim" : "",
-								children: n
-							}),
-							/* @__PURE__ */ (0, k.jsx)("td", {
-								className: e === "S1" ? "dim" : "",
-								children: r
-							})
-						] }, t)) })] }),
-						/* @__PURE__ */ (0, k.jsx)("h3", { children: "Open validations shown in the diagram" }),
-						/* @__PURE__ */ (0, k.jsx)("ul", { children: Yt.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) }),
-						/* @__PURE__ */ (0, k.jsx)("p", {
-							className: "micro",
-							children: "Vendor-named components are design projections, not connected services. S3 has no detailed L2 diagram; see the S3 landscape path."
+							children: [nt, ". Vendor-named components are design projections, not connected services."]
 						}),
 						/* @__PURE__ */ (0, k.jsx)("button", {
 							type: "button",
@@ -14291,280 +13319,94 @@ function $t({ view: e = "S1", onView: t, onBack: n }) {
 	});
 }
 // src/ArchitectureDiagram.jsx
-function en({ kind: e, id: t, onClose: n, onDetails: r }) {
-	let i = (e === "mcp" ? at : ot)[t], [a, o] = (0, _.useState)(null), [s, c] = (0, _.useState)(!1), l = (0, _.useMemo)(() => i ? {
-		id: `${e}-${t}`,
-		title: i.title,
-		svg: Bt(e, t),
-		file: `landscape-${e}-${t}`,
+function Ft({ diagramKey: e, onClose: t, onDetails: n }) {
+	let r = mt(e), [i, a] = (0, _.useState)(null), [o, s] = (0, _.useState)(!1), c = (0, _.useMemo)(() => r ? {
+		id: `modal-${e}`,
+		title: r.title,
+		svg: ht(e),
+		file: `architecture-${e.toLowerCase()}`,
 		png: !0
-	} : null, [
-		i,
-		e,
-		t
-	]);
+	} : null, [r, e]);
 	return (0, _.useEffect)(() => {
 		let e = (e) => {
-			e.key === "Escape" && n();
+			e.key === "Escape" && t();
 		};
 		return window.addEventListener("keydown", e), () => window.removeEventListener("keydown", e);
-	}, [n]), i ? /* @__PURE__ */ (0, k.jsx)("div", {
+	}, [t]), r ? /* @__PURE__ */ (0, k.jsx)("div", {
 		className: "arch-diagram-backdrop",
 		onMouseDown: (e) => {
-			e.target === e.currentTarget && n();
+			e.target === e.currentTarget && t();
 		},
 		children: /* @__PURE__ */ (0, k.jsxs)("section", {
 			className: "surface arch-diagram-modal",
 			role: "dialog",
 			"aria-modal": "true",
-			"aria-label": `${i.title} architecture diagram`,
+			"aria-label": `${r.title} architecture diagram`,
 			children: [
 				/* @__PURE__ */ (0, k.jsxs)("header", {
 					className: "arch-diagram-header",
 					children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsxs)("span", {
 						className: "eyebrow",
-						children: ["ARCHITECTURE DIAGRAM · ", e === "mcp" ? "MCP HOSTING PATH" : "AGENT HOSTING PATH"]
-					}), /* @__PURE__ */ (0, k.jsx)("h2", { children: i.title })] }), /* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
+						children: ["ARCHITECTURE DIAGRAM · ", e]
+					}), /* @__PURE__ */ (0, k.jsx)("h2", { children: r.title })] }), /* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
 						className: "pill warn",
-						children: i.status
+						children: "PROPOSED · NOT APPROVED"
 					}), /* @__PURE__ */ (0, k.jsx)("button", {
 						type: "button",
-						onClick: n,
+						onClick: t,
 						autoFocus: !0,
 						children: "Close"
 					})] })]
 				}),
 				/* @__PURE__ */ (0, k.jsx)("div", {
 					className: "arch-diagram-viewer",
-					children: /* @__PURE__ */ (0, k.jsx)(Qt, {
-						diagram: l,
-						uid: `arch-${e}-${t}`,
-						view: a,
-						onView: o,
-						onFit: o,
-						expanded: s,
-						onExpand: c
+					children: /* @__PURE__ */ (0, k.jsx)(Nt, {
+						diagram: c,
+						uid: `arch-${e}`,
+						view: i,
+						onView: a,
+						onFit: a,
+						expanded: o,
+						onExpand: s
 					})
 				}),
 				/* @__PURE__ */ (0, k.jsxs)("footer", {
 					className: "arch-diagram-footer",
 					children: [/* @__PURE__ */ (0, k.jsxs)("p", { children: [
-						/* @__PURE__ */ (0, k.jsx)("strong", { children: "Open decision:" }),
+						/* @__PURE__ */ (0, k.jsx)("strong", { children: "Note:" }),
 						" ",
-						i.decision
-					] }), /* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("a", {
-						href: i.source,
-						target: "_blank",
-						rel: "noreferrer",
-						children: "Vendor reference ↗"
-					}), r && /* @__PURE__ */ (0, k.jsx)("button", {
+						r.footer,
+						" ",
+						nt,
+						"."
+					] }), /* @__PURE__ */ (0, k.jsx)("div", { children: n && /* @__PURE__ */ (0, k.jsx)("button", {
 						type: "button",
-						onClick: r,
-						children: "View detailed prerequisites →"
-					})] })]
+						onClick: n,
+						children: "View details →"
+					}) })]
 				})
 			]
 		})
 	}) : null;
 }
 // src/McpApproaches.jsx
-var tn = {
-	S1: {
-		name: "SAP Apigee MCP · direct agent access",
-		position: "SAP domain baseline · direct access policy open",
-		host: "Demo: AgentCore Runtime hosts the finance agent. Without AWS, host the Python agent on approved SAP BTP Cloud Foundry, Kyma, or another enterprise runtime; the agent is the MCP client. Apigee hosts the MCP endpoint, not the agent. PTP/PAP model access is a separate dependency unless it also provides an approved agent runtime.",
-		benefits: ["Fewest gateway boundaries if direct Apigee access is permitted.", "SAP Integration keeps its selected Apigee domain capability."],
-		tradeoffs: ["Every external agent needs approved onboarding and tool policy at Apigee.", "The agent host, model endpoint and SAP principal path still need owners."],
-		criteria: [
-			[
-				"Simplicity",
-				"Favorable",
-				"One gateway; the custom agent still requires its own runtime."
-			],
-			[
-				"Cost efficiency",
-				"Potentially favorable",
-				"Depends on existing Apigee entitlement, chosen agent runtime and call volume; no measured TCO."
-			],
-			[
-				"Maintainability",
-				"Favorable if SAP owns the facade",
-				"Keep a versioned tool contract and a single SAP-facing policy owner."
-			],
-			[
-				"Future flexibility",
-				"Conditional",
-				"Multiple agents can use the domain endpoint if onboarding, discovery and access policy scale."
-			]
-		],
-		agentcore: "AgentCore Gateway is absent. In the demo, AgentCore Runtime hosts the agent and calls Apigee directly. An AWS-free implementation substitutes an approved agent runtime and must configure its MCP client identity, egress and model access.",
-		sap: "SAP Integration publishes versioned finance APIs as Apigee MCP tools and maps each tool to Integration Suite and the authorized SAP backend."
-	},
-	S2: {
-		name: "AgentCore-hosted SAP finance MCP",
-		position: "AWS hosting alternative · approval open",
-		host: "Host the custom finance agent and SAP finance MCP adapter as separately governed AgentCore Runtime workloads. The agent calls AgentCore Gateway, which calls the adapter. Model access through PTP/PAP remains a separately approved contract.",
-		benefits: ["AI Foundry can own agent runtime and central gateway access.", "SAP can retain the finance tool/API contract while AWS hosts the adapter."],
-		tradeoffs: ["SAP MCP operations move from the selected Apigee direction into AWS.", "Catalog synchronization, outbound identity and SAP API ownership need agreement."],
-		criteria: [
-			[
-				"Simplicity",
-				"Moderate",
-				"Agent workload, Gateway and a separate MCP adapter must be operated."
-			],
-			[
-				"Cost efficiency",
-				"Unproven",
-				"Runtime, Gateway, networking and SAP API costs need a 12-month estimate."
-			],
-			[
-				"Maintainability",
-				"Shared ownership",
-				"AI Foundry operates AWS workloads; SAP owns tool semantics and backend authorization."
-			],
-			[
-				"Future flexibility",
-				"Conditional",
-				"The selected MCP-server target can feed the central catalog if schemas and synchronization are governed."
-			]
-		],
-		agentcore: "AI Foundry would host the finance MCP adapter on AgentCore Runtime and register it with Gateway. Use an MCP-protocol Gateway with the adapter registered as an MCP-server target; configure inbound agent authorization, outbound credentials, listing mode, catalog synchronization and bypass controls.",
-		sap: "SAP Integration owns the finance tool/API contract, Integration Suite mapping, connectivity and SAP backend role enforcement; it returns typed finance evidence and correlation IDs."
-	},
-	S3: {
-		name: "AgentCore Gateway → SAP Apigee MCP",
-		position: "Federated candidate · not approved",
-		host: "The agent still needs a runtime. The demo uses AgentCore Runtime; an approved external runtime could be assessed separately. AgentCore Gateway is a tool access layer, not the host of the custom agent. PTP/PAP model access remains independent.",
-		benefits: ["SAP keeps its Apigee domain MCP endpoint while Foundry governs agent-facing tool access.", "A central tool catalog is possible if the Gateway MCP target is synchronized."],
-		tradeoffs: ["Two gateway owners must coordinate credentials, policies, versioning and incidents.", "Added latency and total cost are plausible but must be measured."],
-		criteria: [
-			[
-				"Simplicity",
-				"Least favorable",
-				"Two gateways and cross-cloud handoffs need one agreed control map."
-			],
-			[
-				"Cost efficiency",
-				"Likely highest incremental, unproven",
-				"Retains Apigee and adds Gateway usage and cross-cloud operations; contract and volume decide actual cost."
-			],
-			[
-				"Maintainability",
-				"Conditional",
-				"Requires catalog sync, clear deny precedence, shared trace IDs and incident ownership."
-			],
-			[
-				"Future flexibility",
-				"Potentially strongest",
-				"Fits federated domain ownership if central onboarding is mandatory and the interop proof passes."
-			]
-		],
-		agentcore: "Register the externally reachable Apigee HTTPS MCP URL as an MCP-server target. Configure supported protocol, inbound agent authorization, outbound OAuth or approved token exchange, listing mode, egress and catalog synchronization.",
-		sap: "Publish and secure Apigee tools; map them to Integration Suite and backend APIs. Validate principal or scoped service identity, finance role and company/ledger authorization at the final SAP target."
-	}
-}, nn = [
-	[
-		"MCP host",
-		"SAP Apigee",
-		"SAP finance MCP adapter on AgentCore Runtime",
-		"SAP Apigee behind AgentCore Gateway"
-	],
-	[
-		"Agent entry",
-		"Apigee directly",
-		"AgentCore Gateway",
-		"AgentCore Gateway"
-	],
-	[
-		"Tool catalog",
-		"SAP-owned discovery",
-		"MCP-server target aggregation + synchronization",
-		"SAP version + Gateway discovery/sync"
-	],
-	[
-		"Caller identity",
-		"Agent host → Apigee → SAP",
-		"AgentCore agent → Gateway → adapter → SAP",
-		"Agent host → Gateway → Apigee → SAP"
-	],
-	[
-		"SAP authorization",
-		"Backend role and finance scope",
-		"Backend role and finance scope",
-		"Backend role and finance scope"
-	],
-	[
-		"12-month TCO",
-		"Unmeasured",
-		"Unmeasured",
-		"Unmeasured"
-	],
-	[
-		"Approval state",
-		"Direct-access policy open",
-		"AWS hosting and target mode open",
-		"Combined path open"
-	]
-], rn = [
-	{
-		id: "S1",
-		mcp: "SAP Apigee",
-		entry: "Direct to Apigee",
-		identity: "Agent host → Apigee → SAP",
-		state: "Direct-access policy open"
-	},
-	{
-		id: "S2",
-		mcp: "SAP MCP adapter on AgentCore Runtime",
-		entry: "AgentCore Gateway",
-		identity: "Agent → Gateway → adapter → SAP",
-		state: "AWS hosting approval open"
-	},
-	{
-		id: "S3",
-		mcp: "SAP Apigee behind AgentCore Gateway",
-		entry: "AgentCore Gateway",
-		identity: "Agent → Gateway → Apigee → SAP",
-		state: "Combined path approval open"
-	}
+var It = {
+	S1: "D2",
+	S2: "D3",
+	S3: "D4"
+}, Lt = [
+	["Agent hosting and execution", "agent_runtime"],
+	["MCP gateway", "mcp_gateway"],
+	["Custom MCP runtime (if required)", "custom_mcp_runtime"],
+	["Agent registry", "agent_registry"],
+	["MCP registry", "mcp_registry"],
+	["LLM gateway", "llm_gateway"],
+	["SAP integration", "integration_suite"],
+	["Business authorization", "backend_authorization"],
+	["Persistence", "persistence"]
 ];
-function an({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernance: r, onAgentHosting: i }) {
-	let [a, o] = (0, _.useState)("S1"), [s, c] = (0, _.useState)(null), [l, u] = (0, _.useState)(null), d = a === "compare" ? null : a, f = d ? tn[d] : null, p = d ? e[d] : null, m = d ? rn.find((e) => e.id === d) : null;
-	(0, _.useEffect)(() => {
-		if (!s) return;
-		let e = (e) => {
-			e.key === "Escape" && c(null);
-		};
-		return window.addEventListener("keydown", e), () => window.removeEventListener("keydown", e);
-	}, [s]);
-	let h = [
-		...nn,
-		...[
-			"Simplicity",
-			"Cost efficiency",
-			"Maintainability",
-			"Future flexibility"
-		].map((e, t) => [e, ...[
-			"S1",
-			"S2",
-			"S3"
-		].map((e) => `${tn[e].criteria[t][1]} — ${tn[e].criteria[t][2]}`)]),
-		["Benefits", ...[
-			"S1",
-			"S2",
-			"S3"
-		].map((e) => tn[e].benefits.join(" • "))],
-		["Tradeoffs", ...[
-			"S1",
-			"S2",
-			"S3"
-		].map((e) => tn[e].tradeoffs.join(" • "))],
-		["Open decisions", ...[
-			"S1",
-			"S2",
-			"S3"
-		].map((t) => (e[t]?.decisions || []).join(" • "))]
-	];
+function Rt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernance: r, onAgentHosting: i }) {
+	let [a, o] = (0, _.useState)("S3"), [s, c] = (0, _.useState)(null), l = a === "compare" ? null : a, u = l ? z[l] : null, d = l ? e[l] : null;
 	return /* @__PURE__ */ (0, k.jsxs)("main", {
 		className: "mcp-comparison mcp-bird arch-page",
 		"aria-label": "Complete architecture",
@@ -14573,115 +13415,91 @@ function an({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 				className: "surface mcp-bird-header",
 				children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("h2", { children: "Complete architecture" }), /* @__PURE__ */ (0, k.jsx)("span", {
 					className: "eyebrow",
-					children: "AGENT → MCP → SAP, END TO END"
+					children: "AGENT → MCP → SAP, END TO END · THREE SCENARIOS UNDER EVALUATION"
 				})] }), /* @__PURE__ */ (0, k.jsx)("span", {
 					className: "pill warn",
-					children: "SYNTHETIC DESIGN · DECISIONS OPEN"
+					children: nt.split(" · ")[0]
 				})]
 			}),
 			/* @__PURE__ */ (0, k.jsx)("nav", {
 				className: "surface mcp-route-tabs mcp-bird-tabs",
 				role: "tablist",
 				"aria-label": "Architecture approach details",
-				children: [
-					"S1",
-					"S2",
-					"S3",
-					"compare"
-				].map((e) => /* @__PURE__ */ (0, k.jsxs)("button", {
+				children: [...R, "compare"].map((e) => /* @__PURE__ */ (0, k.jsxs)("button", {
 					type: "button",
 					role: "tab",
 					"aria-selected": a === e,
 					className: a === e ? "active" : "",
 					onClick: () => o(e),
-					children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: e === "compare" ? "Compare all" : e }), /* @__PURE__ */ (0, k.jsx)("span", { children: e === "compare" ? "Three routes side by side" : tn[e].name })]
+					children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: e === "compare" ? "Compare all" : e }), /* @__PURE__ */ (0, k.jsx)("span", { children: e === "compare" ? "Three scenarios side by side" : z[e].short })]
 				}, e))
 			}),
-			d ? /* @__PURE__ */ (0, k.jsxs)("section", {
+			l ? /* @__PURE__ */ (0, k.jsxs)("section", {
 				className: "surface mcp-bird-panel arch-panel",
 				role: "tabpanel",
-				"aria-label": `${d} architecture overview`,
+				"aria-label": `${l} architecture overview`,
 				children: [
 					/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: "mcp-bird-panel-title",
 						children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsxs)("span", {
 							className: "eyebrow",
 							children: [
-								"ROUTE ",
-								d,
+								l,
 								" · ",
-								f.position
+								u.status.toUpperCase()
 							]
-						}), /* @__PURE__ */ (0, k.jsx)("h3", { children: f.name })] }), /* @__PURE__ */ (0, k.jsxs)("div", {
+						}), /* @__PURE__ */ (0, k.jsx)("h3", { children: u.name })] }), /* @__PURE__ */ (0, k.jsx)("div", {
 							className: "mcp-bird-title-actions",
-							children: [/* @__PURE__ */ (0, k.jsx)("button", {
+							children: /* @__PURE__ */ (0, k.jsx)("button", {
 								type: "button",
 								className: "diagram-action",
-								onClick: () => u({
-									kind: "mcp",
-									id: d
-								}),
+								onClick: () => c(It[l]),
 								children: "Architecture diagram ↗"
-							}), /* @__PURE__ */ (0, k.jsx)("button", {
-								type: "button",
-								onClick: () => c("route"),
-								children: "Handoffs and proof →"
-							})]
+							})
 						})]
 					}),
 					/* @__PURE__ */ (0, k.jsx)("div", {
 						className: "mcp-bird-path arch-path",
 						"aria-label": "Selected request path",
-						children: (p?.path || "").split(" → ").map((e, t) => /* @__PURE__ */ (0, k.jsxs)(_.Fragment, { children: [t > 0 && /* @__PURE__ */ (0, k.jsx)("span", {
+						children: u.chain.split(" → ").map((e, t) => /* @__PURE__ */ (0, k.jsxs)(_.Fragment, { children: [t > 0 && /* @__PURE__ */ (0, k.jsx)("span", {
 							"aria-hidden": "true",
 							children: "→"
 						}), /* @__PURE__ */ (0, k.jsx)("b", { children: e })] }, e + t))
 					}),
+					/* @__PURE__ */ (0, k.jsx)("p", { children: u.objective }),
 					/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: "arch-grid",
 						children: [
 							/* @__PURE__ */ (0, k.jsxs)("section", {
 								"aria-label": "Route facts",
-								children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "How it connects" }), /* @__PURE__ */ (0, k.jsxs)("div", {
+								children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "Who owns what" }), /* @__PURE__ */ (0, k.jsx)("div", {
 									className: "arch-cards",
-									children: [
-										/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "MCP endpoint" }), /* @__PURE__ */ (0, k.jsx)("b", { children: m.mcp })] }),
-										/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Agent entry" }), /* @__PURE__ */ (0, k.jsx)("b", { children: m.entry })] }),
-										/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Caller identity" }), /* @__PURE__ */ (0, k.jsx)("b", { children: m.identity })] }),
-										/* @__PURE__ */ (0, k.jsxs)("div", {
-											className: "warn",
-											children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Open decision" }), /* @__PURE__ */ (0, k.jsx)("b", { children: m.state })]
-										})
-									]
+									children: Lt.map(([e, t]) => /* @__PURE__ */ (0, k.jsxs)("div", {
+										className: /pending|TBD/i.test(u[t]) ? "warn" : "",
+										children: [/* @__PURE__ */ (0, k.jsx)("span", { children: e }), /* @__PURE__ */ (0, k.jsx)("b", { children: u[t] })]
+									}, t))
 								})]
 							}),
 							/* @__PURE__ */ (0, k.jsxs)("section", {
-								"aria-label": "Route assessment",
-								children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "How it scores" }), /* @__PURE__ */ (0, k.jsx)("div", {
-									className: "arch-cards",
-									children: f.criteria.map(([e, t, n]) => /* @__PURE__ */ (0, k.jsxs)("div", {
-										title: n,
-										children: [
-											/* @__PURE__ */ (0, k.jsx)("span", { children: e }),
-											/* @__PURE__ */ (0, k.jsx)("b", { children: t }),
-											/* @__PURE__ */ (0, k.jsx)("small", { children: n })
-										]
-									}, e))
-								})]
+								"aria-label": "Open dependencies",
+								children: [
+									/* @__PURE__ */ (0, k.jsx)("h4", { children: "Not yet verified" }),
+									/* @__PURE__ */ (0, k.jsx)("ul", { children: u.unverified.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) }),
+									/* @__PURE__ */ (0, k.jsx)("h4", { children: "Enterprise-policy dependencies" }),
+									/* @__PURE__ */ (0, k.jsx)("ul", { children: u.policy_dependencies.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })
+								]
 							}),
 							/* @__PURE__ */ (0, k.jsxs)("section", {
-								"aria-label": "Benefit and tradeoff",
+								"aria-label": "Assumptions",
 								className: "arch-judgment",
 								children: [
-									/* @__PURE__ */ (0, k.jsx)("h4", { children: "Judgment" }),
-									/* @__PURE__ */ (0, k.jsxs)("p", {
-										className: "good",
-										children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: "Benefit" }), f.benefits[0]]
-									}),
-									/* @__PURE__ */ (0, k.jsxs)("p", {
+									/* @__PURE__ */ (0, k.jsx)("h4", { children: "Assumptions" }),
+									/* @__PURE__ */ (0, k.jsx)("ul", { children: u.assumptions.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) }),
+									u.variant_b && /* @__PURE__ */ (0, k.jsxs)("p", {
 										className: "bad",
-										children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: "Tradeoff" }), f.tradeoffs[0]]
-									})
+										children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: "S3-B" }), u.variant_b]
+									}),
+									d?.decisions?.length > 0 && /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "Open decisions" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: d.decisions.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] })
 								]
 							})
 						]
@@ -14693,7 +13511,7 @@ function an({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 							r && /* @__PURE__ */ (0, k.jsx)("button", {
 								type: "button",
 								className: "text-link",
-								onClick: () => r(d),
+								onClick: () => r(l),
 								children: "MCP hosting →"
 							}),
 							i && /* @__PURE__ */ (0, k.jsx)("button", {
@@ -14702,11 +13520,17 @@ function an({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 								onClick: i,
 								children: "Agent hosting →"
 							}),
-							n && (d === "S1" || d === "S2") && /* @__PURE__ */ (0, k.jsx)("button", {
+							n && /* @__PURE__ */ (0, k.jsx)("button", {
 								type: "button",
 								className: "text-link",
-								onClick: () => n(d),
-								children: "Detailed diagram (zoom) →"
+								onClick: () => n(l),
+								children: "All diagrams →"
+							}),
+							t && /* @__PURE__ */ (0, k.jsx)("button", {
+								type: "button",
+								className: "text-link",
+								onClick: t,
+								children: "Architecture questions →"
 							})
 						]
 					})
@@ -14715,180 +13539,77 @@ function an({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 				className: "surface mcp-bird-panel mcp-bird-compare arch-panel",
 				role: "tabpanel",
 				"aria-label": "Route comparison overview",
-				children: [/* @__PURE__ */ (0, k.jsxs)("div", {
+				children: [/* @__PURE__ */ (0, k.jsx)("div", {
 					className: "mcp-bird-panel-title",
-					children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
+					children: /* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
 						className: "eyebrow",
 						children: "COMPLETE ARCHITECTURE · SIDE BY SIDE"
-					}), /* @__PURE__ */ (0, k.jsx)("h3", { children: "Three routes, one decision view" })] }), /* @__PURE__ */ (0, k.jsxs)("div", {
-						className: "mcp-bird-title-actions",
-						children: [n && /* @__PURE__ */ (0, k.jsx)("button", {
-							type: "button",
-							onClick: () => n("compare"),
-							children: "Compare S1 and S2 detailed diagrams →"
-						}), /* @__PURE__ */ (0, k.jsx)("button", {
-							type: "button",
-							onClick: () => c("compare"),
-							children: "View full control matrix →"
-						})]
-					})]
+					}), /* @__PURE__ */ (0, k.jsx)("h3", { children: "Three scenarios, one decision view" })] })
 				}), /* @__PURE__ */ (0, k.jsx)("div", {
-					className: "mcp-bird-compare-grid",
-					children: rn.map((e) => {
-						let t = tn[e.id];
-						return /* @__PURE__ */ (0, k.jsxs)("article", { children: [
-							/* @__PURE__ */ (0, k.jsxs)("h4", { children: [
-								e.id,
-								" · ",
-								t.name
-							] }),
-							/* @__PURE__ */ (0, k.jsxs)("dl", { children: [
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "MCP" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: e.mcp }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Entry" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: e.entry }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Identity" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: e.identity }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Simplicity" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: t.criteria[0][1] }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Cost" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: t.criteria[1][1] }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Maintenance" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: t.criteria[2][1] }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Flexibility" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: t.criteria[3][1] })
-							] }),
-							/* @__PURE__ */ (0, k.jsx)("span", { children: e.state })
-						] }, e.id);
+					className: "mg-scroll",
+					children: /* @__PURE__ */ (0, k.jsxs)("table", {
+						className: "mg-table",
+						"data-testid": "arch-compare",
+						children: [/* @__PURE__ */ (0, k.jsx)("thead", { children: /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
+							scope: "col",
+							children: "Dimension"
+						}), R.map((e) => /* @__PURE__ */ (0, k.jsx)("th", {
+							scope: "col",
+							children: z[e].name
+						}, e))] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: at.map(([e, ...t]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
+							scope: "row",
+							children: e
+						}), t.map((e, t) => /* @__PURE__ */ (0, k.jsx)("td", { children: e }, R[t]))] }, e)) })]
 					})
 				})]
 			}),
-			l && /* @__PURE__ */ (0, k.jsx)(en, {
-				kind: l.kind,
-				id: l.id,
-				onClose: () => u(null),
+			s && /* @__PURE__ */ (0, k.jsx)(Ft, {
+				diagramKey: s,
+				onClose: () => c(null),
 				onDetails: () => {
-					c("route"), u(null);
+					let e = Object.keys(It).find((e) => It[e] === s);
+					c(null), e && n && n(e);
 				}
-			}),
-			s && /* @__PURE__ */ (0, k.jsx)("div", {
-				className: "mcp-bird-modal-backdrop",
-				onMouseDown: (e) => {
-					e.target === e.currentTarget && c(null);
-				},
-				children: /* @__PURE__ */ (0, k.jsxs)("section", {
-					className: "surface mcp-bird-modal",
-					role: "dialog",
-					"aria-modal": "true",
-					"aria-label": s === "compare" ? "Full MCP control matrix" : `${d} architecture details`,
-					children: [/* @__PURE__ */ (0, k.jsxs)("div", {
-						className: "mcp-bird-modal-header",
-						children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
-							className: "eyebrow",
-							children: "ARCHITECTURE DETAIL · DESIGN REVIEW ONLY"
-						}), /* @__PURE__ */ (0, k.jsx)("h3", { children: s === "compare" ? "Full MCP control matrix" : `${d} · handoffs, owners and proof` })] }), /* @__PURE__ */ (0, k.jsx)("button", {
-							type: "button",
-							onClick: () => c(null),
-							autoFocus: !0,
-							children: "Close"
-						})]
-					}), /* @__PURE__ */ (0, k.jsx)("div", {
-						className: "mcp-bird-modal-body",
-						children: s === "compare" ? /* @__PURE__ */ (0, k.jsxs)("table", {
-							className: "mcp-bird-full-table",
-							children: [/* @__PURE__ */ (0, k.jsx)("thead", { children: /* @__PURE__ */ (0, k.jsxs)("tr", { children: [
-								/* @__PURE__ */ (0, k.jsx)("th", { children: "Control" }),
-								/* @__PURE__ */ (0, k.jsx)("th", { children: "S1 · Direct Apigee" }),
-								/* @__PURE__ */ (0, k.jsx)("th", { children: "S2 · AgentCore" }),
-								/* @__PURE__ */ (0, k.jsx)("th", { children: "S3 · Federated" })
-							] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: h.map((e) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
-								scope: "row",
-								children: e[0]
-							}), e.slice(1).map((e, t) => /* @__PURE__ */ (0, k.jsx)("td", { children: e }, t))] }, e[0])) })]
-						}) : /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [
-							/* @__PURE__ */ (0, k.jsxs)("div", {
-								className: "mcp-bird-modal-owners",
-								children: [/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "AgentCore / AI Foundry" }), /* @__PURE__ */ (0, k.jsx)("p", { children: f.agentcore })] }), /* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "SAP / Apigee / Integration" }), /* @__PURE__ */ (0, k.jsx)("p", { children: f.sap })] })]
-							}),
-							/* @__PURE__ */ (0, k.jsx)("div", {
-								className: "mcp-bird-modal-steps",
-								children: p?.steps?.map((e, t) => /* @__PURE__ */ (0, k.jsxs)("article", { children: [
-									/* @__PURE__ */ (0, k.jsxs)("h4", { children: [
-										t + 1,
-										". ",
-										e.handoff
-									] }),
-									/* @__PURE__ */ (0, k.jsxs)("p", { children: [
-										/* @__PURE__ */ (0, k.jsx)("strong", { children: "Owner:" }),
-										" ",
-										e.owner
-									] }),
-									/* @__PURE__ */ (0, k.jsxs)("p", { children: [
-										/* @__PURE__ */ (0, k.jsx)("strong", { children: "Configure:" }),
-										" ",
-										e.configure
-									] }),
-									/* @__PURE__ */ (0, k.jsxs)("p", { children: [
-										/* @__PURE__ */ (0, k.jsx)("strong", { children: "Depends on:" }),
-										" ",
-										e.dependency
-									] }),
-									/* @__PURE__ */ (0, k.jsxs)("p", { children: [
-										/* @__PURE__ */ (0, k.jsx)("strong", { children: "Proof:" }),
-										" ",
-										e.proof
-									] })
-								] }, e.handoff))
-							}),
-							/* @__PURE__ */ (0, k.jsx)("h4", { children: "Open decisions" }),
-							/* @__PURE__ */ (0, k.jsx)("ul", { children: p?.decisions?.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) }),
-							/* @__PURE__ */ (0, k.jsx)("button", {
-								type: "button",
-								className: "mcp-question-link",
-								onClick: () => {
-									c(null), t();
-								},
-								children: "Run related architecture questions →"
-							})
-						] })
-					})]
-				})
 			})
 		]
 	});
 }
 // src/McpGovernance.jsx
-var on = [
-	"MCP registry and discovery",
-	"Enterprise registry / approval authority",
-	"Source-code repository",
-	"MCP specifications and versioned artifacts",
-	"Container / package artifact storage",
-	"Gateway-target configuration",
-	"Deployment ownership"
-], sn = [
-	["mg-responsibility", "Responsibility matrix"],
+var zt = [
+	"Agent registry",
+	"MCP registry",
+	"Enterprise governance alignment",
+	"Deployment prerequisites",
+	"Open architecture decisions"
+], Bt = [
+	["mg-responsibility", "Comparison matrix"],
 	["mg-connections", "Endpoint connectivity"],
-	["mg-registry", "Registry and artifacts"],
+	["mg-registry", "Registry and ownership"],
 	["mg-domain", "Finance domain design"],
-	["mg-decision", "Decision matrix"],
 	["mg-recommendation", "Recommendation"],
-	["mg-evidence", "Evidence"]
-];
-function cn(e) {
+	["mg-evidence", "Source evidence"]
+], Vt = {
+	"mg-responsibility": "Hosting, registration, gateway, identity, cost and governance side by side",
+	"mg-registry": "Registration is separate from hosting and execution",
+	"mg-domain": "Read, posting and analytical tools with separate authorizations",
+	"mg-recommendation": "Preferred candidate and proof plan",
+	"mg-evidence": "Official sources and what they do not prove",
+	"mg-connections": "Every connection, with its plane and verification status"
+};
+function Ht(e) {
 	return {
 		id: e,
-		title: R[e].label,
-		svg: Nt(e),
+		title: z[e].label,
+		svg: gt(e),
 		file: `mcp-topology-${e.toLowerCase()}`,
 		png: !0
 	};
 }
-var ln = (e) => /TBD|TO VALIDATE|unproven|NOT_VERIFIED|REQUIRES VALIDATION|needs proof|must be proven|unmeasured/i.test(e), un = ({ text: e }) => /* @__PURE__ */ (0, k.jsx)("td", {
-	className: ln(e) ? "mg-open" : "",
+var Ut = (e) => /TBD|TO VALIDATE|unproven|NOT_VERIFIED|REQUIRES VALIDATION|needs proof|must be proven|unmeasured|pending|unresolved/i.test(e), V = ({ text: e }) => /* @__PURE__ */ (0, k.jsx)("td", {
+	className: Ut(e) ? "mg-open" : "",
 	children: e
 });
-function dn({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, children: o }) {
+function Wt({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, children: o }) {
 	return /* @__PURE__ */ (0, k.jsxs)("details", {
 		id: e,
 		className: "surface mg-section mg-fold",
@@ -14901,23 +13622,13 @@ function dn({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, childre
 		})] }), o]
 	});
 }
-var fn = {
-	"mg-responsibility": "21 rows: who creates, hosts, registers and calls the Finance MCP",
-	"mg-registry": "Catalog, source and artifact owners",
-	"mg-domain": "Read, posting and analytical tools with separate authorizations",
-	"mg-hosting": "Which agent platforms work with which route",
-	"mg-decision": "15 dimensions compared across S1, S2 and S3",
-	"mg-recommendation": "Proposal, what would change it, and the proof plan",
-	"mg-evidence": "Vendor sources read on the access date",
-	"mg-connections": "Every connection, with invocation separated from registry and deployment"
-};
-function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onDetailed: i }) {
+function Gt({ view: e = "S3", onView: t, onApproaches: n, onAgentHosting: r, onDetailed: i }) {
 	let a = (0, _.useRef)(null), [o, s] = (0, _.useState)({ "mg-recommendation": !0 }), c = (e, t) => s((n) => n[e] === t ? n : {
 		...n,
 		[e]: t
-	}), [l, u] = (0, _.useState)(null), [d, f] = (0, _.useState)(null), [p, m] = (0, _.useState)(!0), [h, g] = (0, _.useState)(null), [v, y] = (0, _.useState)("S3"), b = e === "compare", x = b ? "S1" : e, S = R[x], C = (0, _.useMemo)(() => Object.fromEntries(lt.map((e) => [e, cn(e)])), []), w = (0, _.useCallback)((e) => {
+	}), [l, u] = (0, _.useState)(null), [d, f] = (0, _.useState)(null), [p, m] = (0, _.useState)(!0), [h, g] = (0, _.useState)(null), [v, y] = (0, _.useState)("S3"), b = e === "compare", x = b ? "S1" : e, S = z[x] || z.S3, C = (0, _.useMemo)(() => Object.fromEntries(R.map((e) => [e, Ht(e)])), []), w = (0, _.useCallback)((e) => {
 		u(e), f(e);
-	}, []), T = v === x ? lt.find((e) => e !== x) : v, E = (n) => {
+	}, []), T = v === x ? R.find((e) => e !== x) : v, E = (n) => {
 		n !== e && (g(null), t(n));
 	}, D = (e) => {
 		s((t) => ({
@@ -14927,7 +13638,7 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 			behavior: "smooth",
 			block: "start"
 		}));
-	}, O = b ? ["S1", T] : [x];
+	}, O = b ? ["S1", T] : [x], ee = at.filter((e) => zt.includes(e[0]));
 	return /* @__PURE__ */ (0, k.jsxs)("main", {
 		ref: a,
 		className: "detailed-diagrams mcp-governance",
@@ -14940,27 +13651,27 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 						className: "dd-title",
 						children: [/* @__PURE__ */ (0, k.jsx)("span", {
 							className: "eyebrow",
-							children: "MCP HOSTING · WHO CREATES, HOSTS, REGISTERS AND CALLS THE FINANCE MCP"
+							children: "MCP HOSTING · WHO HOSTS, REGISTERS, EXPOSES AND CALLS THE FINANCE MCP"
 						}), /* @__PURE__ */ (0, k.jsx)("h2", { children: b ? "Compare MCP topologies" : S.label })]
 					}),
 					/* @__PURE__ */ (0, k.jsx)("nav", {
 						className: "dd-selector",
 						role: "tablist",
 						"aria-label": "MCP scenario selection",
-						children: [...lt, "compare"].map((t) => /* @__PURE__ */ (0, k.jsx)("button", {
+						children: [...R, "compare"].map((t) => /* @__PURE__ */ (0, k.jsx)("button", {
 							type: "button",
 							role: "tab",
 							"aria-selected": e === t,
 							className: e === t ? "active" : "",
 							onClick: () => E(t),
-							children: t === "compare" ? "Compare side-by-side" : R[t].label
+							children: t === "compare" ? "Compare side-by-side" : z[t].label
 						}, t))
 					}),
 					/* @__PURE__ */ (0, k.jsx)("div", {
 						className: "dd-header-actions",
 						children: /* @__PURE__ */ (0, k.jsx)("span", {
 							className: "pill warn",
-							children: "PROPOSED DESIGN · NOT APPROVED · NOT TENANT-VERIFIED"
+							children: nt.split(" · ").slice(0, 2).join(" · ")
 						})
 					})
 				]
@@ -14971,26 +13682,26 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 				children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [
 					/* @__PURE__ */ (0, k.jsx)("span", {
 						className: "eyebrow",
-						children: b ? "WHAT THIS VIEW SHOWS" : `${x} · ${S.short.toUpperCase()}`
+						children: b ? "WHAT THIS VIEW SHOWS" : `${x} · ${S.short.toUpperCase()} · ${S.status.toUpperCase()}`
 					}),
 					/* @__PURE__ */ (0, k.jsx)("p", { children: b ? "Two scenarios side by side. Pick the second one below. The matrices further down always show all three." : S.summary }),
 					!b && /* @__PURE__ */ (0, k.jsx)("p", {
-						className: "mg-baseline",
+						className: "micro",
 						children: S.baseline
 					})
 				] }), /* @__PURE__ */ (0, k.jsxs)("div", {
 					className: "dd-invariant",
 					children: [/* @__PURE__ */ (0, k.jsx)("span", {
 						className: "eyebrow",
-						children: "MCP ONLY · AGENT HOSTING IS ITS OWN PAGE"
-					}), /* @__PURE__ */ (0, k.jsx)("p", { children: "A registry is a catalog, never an invocation hop. A gateway routes and authorizes; it does not necessarily run the domain tools. Where the agent itself runs is decided separately." })]
+						children: "FOUR INDEPENDENT DECISIONS"
+					}), /* @__PURE__ */ (0, k.jsx)("p", { children: "Agent hosting, MCP implementation hosting, agent registration and MCP registration are separate. Using AWS Agent Registry does not require AWS agent hosting. Apigee is the SAP-facing MCP/API gateway in every scenario. A registry is a catalog, never an invocation hop." })]
 				})]
 			}),
 			/* @__PURE__ */ (0, k.jsxs)("nav", {
 				className: "mg-anchors",
 				"aria-label": "Sections on this page",
 				children: [
-					sn.map(([e, t]) => /* @__PURE__ */ (0, k.jsx)("button", {
+					Bt.map(([e, t]) => /* @__PURE__ */ (0, k.jsx)("button", {
 						type: "button",
 						onClick: () => D(e),
 						children: t
@@ -15005,10 +13716,10 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 						onClick: r,
 						children: "Agent hosting →"
 					}),
-					/* @__PURE__ */ (0, k.jsx)("button", {
+					i && /* @__PURE__ */ (0, k.jsx)("button", {
 						type: "button",
-						onClick: () => i(x === "S3" || b ? "S1" : x),
-						children: "Detailed reference diagrams →"
+						onClick: () => i("D5"),
+						children: "Hosting versus registration diagram →"
 					})
 				]
 			}),
@@ -15021,10 +13732,9 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 				}), " Synchronize zoom and pan"] }), /* @__PURE__ */ (0, k.jsxs)("label", { children: ["Compare S1 with ", /* @__PURE__ */ (0, k.jsx)("select", {
 					value: T,
 					onChange: (e) => y(e.target.value),
-					"aria-label": "Second scenario",
-					children: lt.filter((e) => e !== "S1").map((e) => /* @__PURE__ */ (0, k.jsx)("option", {
+					children: R.filter((e) => e !== "S1").map((e) => /* @__PURE__ */ (0, k.jsx)("option", {
 						value: e,
-						children: R[e].label
+						children: z[e].label
 					}, e))
 				})] })]
 			}),
@@ -15033,7 +13743,7 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 				children: O.map((e, t) => /* @__PURE__ */ (0, k.jsx)("div", {
 					className: "mg-viewer",
 					"data-scenario": e,
-					children: /* @__PURE__ */ (0, k.jsx)(Qt, {
+					children: /* @__PURE__ */ (0, k.jsx)(Nt, {
 						diagram: C[e],
 						uid: `mg-${e}-${b ? "c" : "s"}`,
 						compact: b,
@@ -15049,19 +13759,23 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 					})
 				}, e))
 			}),
-			/* @__PURE__ */ (0, k.jsxs)(dn, {
+			/* @__PURE__ */ (0, k.jsxs)(Wt, {
 				id: "mg-responsibility",
 				testid: "mg-matrix",
-				title: /* @__PURE__ */ (0, k.jsx)(k.Fragment, { children: "Responsibility matrix · 21 rows" }),
-				hint: fn["mg-responsibility"],
+				title: /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [
+					"Comparison matrix · ",
+					at.length,
+					" rows"
+				] }),
+				hint: Vt["mg-responsibility"],
 				open: !!o["mg-responsibility"],
 				onToggle: c,
 				children: [/* @__PURE__ */ (0, k.jsxs)("p", {
 					className: "micro",
 					children: [
 						"Selected scenario highlighted. “",
-						ct,
-						"” and other open items are tinted. Every cell comes from one scenario configuration."
+						tt,
+						"” marks proof that does not exist yet."
 					]
 				}), /* @__PURE__ */ (0, k.jsx)("div", {
 					className: "mg-scroll",
@@ -15069,12 +13783,12 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 						className: "mg-table",
 						children: [/* @__PURE__ */ (0, k.jsx)("thead", { children: /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
 							scope: "col",
-							children: "Responsibility"
-						}), lt.map((e) => /* @__PURE__ */ (0, k.jsx)("th", {
+							children: "Dimension"
+						}), R.map((e) => /* @__PURE__ */ (0, k.jsx)("th", {
 							scope: "col",
 							className: O.includes(e) ? "sel" : "",
-							children: R[e].label
-						}, e))] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: dt.map(([e, ...t], n) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsxs)("th", {
+							children: z[e].label
+						}, e))] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: at.map(([e, ...t], n) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsxs)("th", {
 							scope: "row",
 							children: [
 								n + 1,
@@ -15082,50 +13796,47 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 								e
 							]
 						}), t.map((e, t) => /* @__PURE__ */ (0, k.jsx)("td", {
-							className: `${O.includes(lt[t]) ? "sel" : ""} ${ln(e) ? "mg-open" : ""}`,
+							className: `${O.includes(R[t]) ? "sel" : ""} ${Ut(e) ? "mg-open" : ""}`,
 							children: e
-						}, lt[t]))] }, e)) })]
+						}, R[t]))] }, e)) })]
 					})
 				})]
 			}),
-			O.map((e) => /* @__PURE__ */ (0, k.jsxs)(dn, {
+			O.map((e) => /* @__PURE__ */ (0, k.jsx)(Wt, {
 				id: e === O[0] ? "mg-connections" : `mg-connections-${e}`,
 				testid: `mg-connections-${e}`,
-				title: /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: ["Endpoint connectivity · ", R[e].label] }),
-				hint: fn["mg-connections"],
+				title: /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: ["Endpoint connectivity · ", z[e].label] }),
+				hint: Vt["mg-connections"],
 				open: !!o[e === O[0] ? "mg-connections" : `mg-connections-${e}`],
 				onToggle: c,
-				children: [/* @__PURE__ */ (0, k.jsx)("p", {
-					className: "micro",
-					children: "Invocation traffic is listed separately from registry lookups and artifact deployment. Endpoint addresses are conceptual placeholders."
-				}), /* @__PURE__ */ (0, k.jsx)("div", {
+				children: /* @__PURE__ */ (0, k.jsx)("div", {
 					className: "mg-scroll",
 					children: /* @__PURE__ */ (0, k.jsxs)("table", {
 						className: "mg-table wide",
-						children: [/* @__PURE__ */ (0, k.jsx)("thead", { children: /* @__PURE__ */ (0, k.jsx)("tr", { children: ft.map((e) => /* @__PURE__ */ (0, k.jsx)("th", {
+						children: [/* @__PURE__ */ (0, k.jsx)("thead", { children: /* @__PURE__ */ (0, k.jsx)("tr", { children: ot.map((e) => /* @__PURE__ */ (0, k.jsx)("th", {
 							scope: "col",
 							children: e
-						}, e)) }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: _t[e].map((e, t) => /* @__PURE__ */ (0, k.jsx)("tr", {
+						}, e)) }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: st[e].map((e, t) => /* @__PURE__ */ (0, k.jsx)("tr", {
 							className: /not invocation/i.test(e[2]) ? "mg-aside" : "",
 							children: e.map((e, t) => t === 0 ? /* @__PURE__ */ (0, k.jsx)("th", {
 								scope: "row",
 								children: e
-							}, t) : /* @__PURE__ */ (0, k.jsx)(un, { text: e }, t))
+							}, t) : /* @__PURE__ */ (0, k.jsx)(V, { text: e }, t))
 						}, t)) })]
 					})
-				})]
+				})
 			}, e)),
-			/* @__PURE__ */ (0, k.jsxs)(dn, {
+			/* @__PURE__ */ (0, k.jsxs)(Wt, {
 				id: "mg-registry",
 				testid: "mg-registry",
-				title: /* @__PURE__ */ (0, k.jsx)(k.Fragment, { children: "Registry and artifact ownership" }),
-				hint: fn["mg-registry"],
+				title: /* @__PURE__ */ (0, k.jsx)(k.Fragment, { children: "Registry and ownership" }),
+				hint: Vt["mg-registry"],
 				open: !!o["mg-registry"],
 				onToggle: c,
 				children: [
 					/* @__PURE__ */ (0, k.jsx)("p", {
 						className: "micro",
-						children: "Registries catalog; repositories hold source and specifications; runtimes execute. These rows are the same cells as the responsibility matrix."
+						children: "Registries catalog and govern; they are not runtime hops and registration is not proof of reachability or authorization."
 					}),
 					/* @__PURE__ */ (0, k.jsx)("div", {
 						className: "mg-scroll",
@@ -15134,40 +13845,52 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 							children: [/* @__PURE__ */ (0, k.jsx)("thead", { children: /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
 								scope: "col",
 								children: "Item"
-							}), lt.map((e) => /* @__PURE__ */ (0, k.jsx)("th", {
+							}), R.map((e) => /* @__PURE__ */ (0, k.jsx)("th", {
 								scope: "col",
 								className: O.includes(e) ? "sel" : "",
-								children: R[e].label
-							}, e))] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: dt.filter((e) => on.includes(e[0])).map(([e, ...t]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
+								children: z[e].label
+							}, e))] }) }), /* @__PURE__ */ (0, k.jsxs)("tbody", { children: [ee.map(([e, ...t]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
 								scope: "row",
 								children: e
 							}), t.map((e, t) => /* @__PURE__ */ (0, k.jsx)("td", {
-								className: `${O.includes(lt[t]) ? "sel" : ""} ${ln(e) ? "mg-open" : ""}`,
+								className: `${O.includes(R[t]) ? "sel" : ""} ${Ut(e) ? "mg-open" : ""}`,
 								children: e
-							}, lt[t]))] }, e)) })]
+							}, R[t]))] }, e)), [
+								["Registry publisher and approval owner", "registry_publisher_approver"],
+								["Registry synchronization", "registry_sync"],
+								["Agent discovery", "agent_discovery"],
+								["MCP tool discovery", "mcp_tool_discovery"],
+								["Artifact repository", "artifact_repository"]
+							].map(([e, t]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
+								scope: "row",
+								children: e
+							}), R.map((e) => /* @__PURE__ */ (0, k.jsx)("td", {
+								className: `${O.includes(e) ? "sel" : ""} ${Ut(z[e][t]) ? "mg-open" : ""}`,
+								children: z[e][t]
+							}, e))] }, t))] })]
 						})
 					}),
 					/* @__PURE__ */ (0, k.jsx)("p", {
 						className: "micro",
-						children: "Proposed hybrid source of truth: Apigee API hub for the SAP domain; AWS Agent Registry holds a reference; Enterprise AI Foundry owns publication approval. No automatic cross-platform synchronization is assumed."
+						children: "S1 states its registry as unresolved: no product is selected, so none is shown. S3 registers SAP-hosted metadata in AWS Agent Registry without any AWS execution hop."
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, k.jsxs)(dn, {
+			/* @__PURE__ */ (0, k.jsxs)(Wt, {
 				id: "mg-domain",
 				testid: "mg-domain",
 				title: /* @__PURE__ */ (0, k.jsx)(k.Fragment, { children: "Finance domain MCP design" }),
-				hint: fn["mg-domain"],
+				hint: Vt["mg-domain"],
 				open: !!o["mg-domain"],
 				onToggle: c,
 				children: [
 					/* @__PURE__ */ (0, k.jsx)("p", {
 						className: "micro",
-						children: "Read and write use separate authorizations. No generic write-capable tool may bypass SAP validation, approval, idempotency, posting-period control or audit. This demo never posts to SAP."
+						children: "Read and write use separate authorizations. This application is read and tally only; no posting capability is active."
 					}),
 					/* @__PURE__ */ (0, k.jsx)("div", {
 						className: "mg-cards",
-						children: vt.map((e) => /* @__PURE__ */ (0, k.jsxs)("article", { children: [
+						children: ct.map((e) => /* @__PURE__ */ (0, k.jsxs)("article", { children: [
 							/* @__PURE__ */ (0, k.jsx)("span", {
 								className: `pill ${e.mode.startsWith("WRITE") ? "warn" : "quiet"}`,
 								children: e.mode
@@ -15181,76 +13904,32 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 							] })
 						] }, e.name))
 					}),
-					/* @__PURE__ */ (0, k.jsxs)("p", {
-						className: "micro",
-						children: [
-							"Five authorizations stay distinct: business approval, agent authorization, gateway authorization, SAP backend user authorization and the actual SAP posting result. Service identity is simpler to prove; end-user delegation needs proven token exchange, Cloud Connector, identity mapping and ABAP roles (",
-							ct,
-							")."
-						]
-					})
-				]
-			}),
-			/* @__PURE__ */ (0, k.jsxs)(dn, {
-				id: "mg-decision",
-				testid: "mg-decision",
-				title: /* @__PURE__ */ (0, k.jsx)(k.Fragment, { children: "Decision matrix" }),
-				hint: fn["mg-decision"],
-				open: !!o["mg-decision"],
-				onToggle: c,
-				children: [
 					/* @__PURE__ */ (0, k.jsx)("p", {
 						className: "micro",
-						children: "Qualitative assessment. These are architectural judgments, not verified product claims or an approval."
-					}),
-					/* @__PURE__ */ (0, k.jsx)("div", {
-						className: "mg-scroll",
-						children: /* @__PURE__ */ (0, k.jsxs)("table", {
-							className: "mg-table",
-							children: [/* @__PURE__ */ (0, k.jsx)("thead", { children: /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
-								scope: "col",
-								children: "Dimension"
-							}), lt.map((e) => /* @__PURE__ */ (0, k.jsx)("th", {
-								scope: "col",
-								className: O.includes(e) ? "sel" : "",
-								children: R[e].label
-							}, e))] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: yt.map(([e, ...t]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [/* @__PURE__ */ (0, k.jsx)("th", {
-								scope: "row",
-								children: e
-							}), t.map((e, t) => /* @__PURE__ */ (0, k.jsx)("td", {
-								className: O.includes(lt[t]) ? "sel" : "",
-								children: e
-							}, lt[t]))] }, e)) })]
-						})
-					}),
-					/* @__PURE__ */ (0, k.jsx)("button", {
-						type: "button",
-						className: "text-link",
-						onClick: n,
-						children: "Compare with the complete architecture view →"
+						children: "Five authorizations stay distinct: business approval, agent authorization, gateway authorization, SAP backend user authorization and the actual SAP result. The SAP backend remains the business authority."
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, k.jsxs)(dn, {
+			/* @__PURE__ */ (0, k.jsxs)(Wt, {
 				id: "mg-recommendation",
 				testid: "mg-recommendation",
 				title: /* @__PURE__ */ (0, k.jsx)(k.Fragment, { children: "Recommendation and proof plan" }),
-				hint: fn["mg-recommendation"],
+				hint: Vt["mg-recommendation"],
 				open: !!o["mg-recommendation"],
 				onToggle: c,
 				children: [
 					/* @__PURE__ */ (0, k.jsx)("p", {
 						className: "mg-reco",
-						children: /* @__PURE__ */ (0, k.jsx)("strong", { children: bt.headline })
+						children: /* @__PURE__ */ (0, k.jsx)("strong", { children: lt.headline })
 					}),
 					/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: "mg-cards",
 						children: [
-							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "Why" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: bt.why.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "Depends on" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: bt.standards.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "Open decisions" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: bt.open.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "What would change it" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: bt.changes.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "How a POC proves it" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: bt.poc.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] })
+							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "Why" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: lt.why.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "Depends on" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: lt.standards.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "Open decisions" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: lt.open.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "What would change it" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: lt.changes.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "Proof of concept" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: lt.poc.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] })
 						]
 					}),
 					/* @__PURE__ */ (0, k.jsx)("p", {
@@ -15259,16 +13938,16 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, k.jsxs)(dn, {
+			/* @__PURE__ */ (0, k.jsxs)(Wt, {
 				id: "mg-evidence",
 				testid: "mg-evidence",
-				title: /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: ["Source evidence · accessed ", st] }),
-				hint: fn["mg-evidence"],
+				title: /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: ["Source evidence · listed ", et] }),
+				hint: Vt["mg-evidence"],
 				open: !!o["mg-evidence"],
 				onToggle: c,
 				children: [/* @__PURE__ */ (0, k.jsx)("p", {
 					className: "micro",
-					children: St
+					children: dt
 				}), /* @__PURE__ */ (0, k.jsx)("div", {
 					className: "mg-scroll",
 					children: /* @__PURE__ */ (0, k.jsxs)("table", {
@@ -15282,23 +13961,20 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 						].map((e) => /* @__PURE__ */ (0, k.jsx)("th", {
 							scope: "col",
 							children: e
-						}, e)) }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: xt.map(([e, t, n, r, i, a]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [
+						}, e)) }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: ut.map(([e, t, n, r, i, a]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [
 							/* @__PURE__ */ (0, k.jsx)("th", {
 								scope: "row",
 								children: e
 							}),
-							/* @__PURE__ */ (0, k.jsx)("td", { children: /* @__PURE__ */ (0, k.jsx)("a", {
+							/* @__PURE__ */ (0, k.jsx)("td", { children: /* @__PURE__ */ (0, k.jsxs)("a", {
 								href: n,
 								target: "_blank",
-								rel: "noopener noreferrer",
-								children: t
+								rel: "noreferrer",
+								children: [t, " ↗"]
 							}) }),
 							/* @__PURE__ */ (0, k.jsx)("td", { children: r }),
 							/* @__PURE__ */ (0, k.jsx)("td", { children: i }),
-							/* @__PURE__ */ (0, k.jsx)("td", {
-								className: "mg-open",
-								children: a
-							})
+							/* @__PURE__ */ (0, k.jsx)(V, { text: a })
 						] }, n)) })]
 					})
 				})]
@@ -15306,14 +13982,14 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 			/* @__PURE__ */ (0, k.jsxs)("section", {
 				className: "surface mg-section",
 				"aria-label": "Glossary",
-				children: [/* @__PURE__ */ (0, k.jsxs)("details", { children: [/* @__PURE__ */ (0, k.jsx)("summary", { children: /* @__PURE__ */ (0, k.jsx)("strong", { children: "Glossary · MCP terms used on this page" }) }), /* @__PURE__ */ (0, k.jsx)("dl", {
+				children: [/* @__PURE__ */ (0, k.jsxs)("details", { children: [/* @__PURE__ */ (0, k.jsx)("summary", { children: /* @__PURE__ */ (0, k.jsx)("strong", { children: "Glossary · terms used on this page" }) }), /* @__PURE__ */ (0, k.jsx)("dl", {
 					className: "mg-glossary",
-					children: ut.map(([e, t]) => /* @__PURE__ */ (0, k.jsxs)(_.Fragment, { children: [/* @__PURE__ */ (0, k.jsx)("dt", { children: e }), /* @__PURE__ */ (0, k.jsx)("dd", { children: t })] }, e))
+					children: it.map(([e, t]) => /* @__PURE__ */ (0, k.jsxs)(_.Fragment, { children: [/* @__PURE__ */ (0, k.jsx)("dt", { children: e }), /* @__PURE__ */ (0, k.jsx)("dd", { children: t })] }, e))
 				})] }), /* @__PURE__ */ (0, k.jsxs)("p", {
 					className: "micro",
 					children: [
 						"Legend: ",
-						Dt.map(([, e]) => e).join(" · "),
+						pt.map(([, e]) => e).join(" · "),
 						"."
 					]
 				})]
@@ -15322,76 +13998,24 @@ function pn({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onD
 	});
 }
 // src/HostingPriority.jsx
-var mn = [
-	{
-		id: "agentcore",
-		name: "Approved enterprise agent platform",
-		priority: "NOW · leading validation candidate",
-		host: "AgentCore Runtime if the AWS landing zone and service are approved",
-		model: "Approved model endpoint; normally Bedrock unless policy requires another provider",
-		owner: "Enterprise AI + AWS platform; SAP retains tool/API and backend authorization",
-		fit: "Reuse a managed runtime and existing operating team for a portfolio of agents.",
-		gates: "Landing zone, Region, entitlement, workload identity, private egress, quotas, durable state, recovery and SAP authorization.",
-		source: "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness-vs-runtime.html"
+var Kt = [{
+	id: "cf",
+	name: "SAP BTP Cloud Foundry",
+	scenarios: ["S1", "S3"],
+	diagrams: {
+		S1: "D2",
+		S3: "D4"
 	},
-	{
-		id: "btp",
-		name: "SAP BTP pro-code agent",
-		priority: "CONDITIONAL · SAP-owned alternative",
-		host: "Python application on BTP Cloud Foundry; Kyma only when a container topology is needed",
-		model: "SAP AI Core generative AI hub if approved and entitled",
-		owner: "SAP BTP application team + SAP AI Core + SAP Integration",
-		fit: "Keeps an SAP-owned agent portfolio close to existing BTP identity and integration services.",
-		gates: "Cloud Foundry quota, AI Core/hub entitlement, agent framework, checkpoints, approvals, monitoring, CI/CD and funded on-call owner.",
-		source: "https://architecture.learning.sap.com/docs/golden-path/ai-golden-path/build-and-deliver/build-ai-agents"
-	},
-	{
-		id: "microsoft",
-		name: "Microsoft Foundry hosted agent",
-		priority: "CONDITIONAL · enterprise standard check",
-		host: "Foundry hosted agent service only if an approved Azure project and region exist",
-		model: "Foundry model catalog under enterprise policy",
-		owner: "Enterprise AI + Azure platform; SAP retains Apigee and backend controls",
-		fit: "Compare when the enterprise already operates Microsoft Foundry for agents.",
-		gates: "Confirm this is the actual enterprise platform; an internal AI Foundry registry alone proves no Azure hosting. Verify service availability, network, identity and commercial terms.",
-		source: "https://learn.microsoft.com/azure/foundry/agents/concepts/hosted-agents"
-	},
-	{
-		id: "joule",
-		name: "Managed Joule Studio",
-		priority: "LATER · eligibility unresolved",
-		host: "SAP-managed agent runtime if the tenant and commercial path are eligible",
-		model: "SAP-managed model access subject to the applicable service contract",
-		owner: "SAP platform + business process owner",
-		fit: "Strategic SAP-managed path for eligible scenarios, not an executable near-term assumption.",
-		gates: "The user reports Joule Studio unavailable. Obtain an exact SKU, provisioning, tenant and integration applicability decision without changing the current setup.",
-		source: "https://help.sap.com/docs/joule-studio/joule-studio/sap-managed-provisioning-for-joule-studio?ai=true&version=CLOUD"
-	}
-], hn = [
-	["Experience", "Fiori/UI5 or approved chat is the user interface; it does not host the agent."],
-	["Agent runtime", "Runs orchestration and tool selection; needs scaling, isolation, deployment and recovery."],
-	["Model access", "PTP/PAP, Bedrock, SAP AI Core or Foundry model endpoint must be approved separately."],
-	["SAP tools", "Apigee MCP remains the SAP-facing boundary unless architecture owners change it."],
-	["Business state", "Durable checkpoints, approvals and retries need a defined store and owner."],
-	["Governance", "Registry, versioning, evaluation, audit, secrets and incident ownership need evidence."]
-], gn = [
-	"Approved production service and region",
-	"Data policy and model-processing geography",
-	"SAP identity and connectivity proof",
-	"Entitlement and three-year total cost",
-	"Named operating and incident owner",
-	"Recovery, rollback and audit controls"
-];
-function _n({ onMcp: e, onComplete: t }) {
-	let [n, r] = (0, _.useState)("agentcore"), [i, a] = (0, _.useState)(null), [o, s] = (0, _.useState)(null), c = mn.find((e) => e.id === n);
-	(0, _.useEffect)(() => {
-		if (!i) return;
-		let e = (e) => {
-			e.key === "Escape" && a(null);
-		};
-		return window.addEventListener("keydown", e), () => window.removeEventListener("keydown", e);
-	}, [i]);
-	let l = i === "gates" ? "Eligibility before ranking" : i === "layers" ? "Complete operating platform" : `${c.name} hosting details`;
+	priority: "S1 and S3 · SAP owns execution"
+}, {
+	id: "agentcore",
+	name: "AWS AgentCore Runtime",
+	scenarios: ["S2"],
+	diagrams: { S2: "D3" },
+	priority: "S2 · AWS owns execution"
+}];
+function qt({ onMcp: e, onComplete: t }) {
+	let [n, r] = (0, _.useState)("cf"), [i, a] = (0, _.useState)(null), o = Kt.find((e) => e.id === n), s = z[o.scenarios[0]];
 	return /* @__PURE__ */ (0, k.jsxs)("main", {
 		className: "mcp-comparison mcp-bird arch-page hosting-page",
 		"aria-label": "Agent hosting",
@@ -15400,17 +14024,17 @@ function _n({ onMcp: e, onComplete: t }) {
 				className: "surface mcp-bird-header",
 				children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("h2", { children: "Agent hosting" }), /* @__PURE__ */ (0, k.jsx)("span", {
 					className: "eyebrow",
-					children: "WHERE THE CUSTOM FINANCE AGENT RUNS"
+					children: "WHERE THE FINANCE AGENT RUNS AND EXECUTES"
 				})] }), /* @__PURE__ */ (0, k.jsx)("span", {
 					className: "pill warn",
-					children: "SHORTLIST · NO TENANT PROOF YET"
+					children: nt.split(" · ")[0]
 				})]
 			}),
 			/* @__PURE__ */ (0, k.jsx)("nav", {
 				className: "surface mcp-route-tabs mcp-bird-tabs",
 				role: "tablist",
 				"aria-label": "Agent hosting options",
-				children: mn.map((e) => /* @__PURE__ */ (0, k.jsxs)("button", {
+				children: Kt.map((e) => /* @__PURE__ */ (0, k.jsxs)("button", {
 					type: "button",
 					role: "tab",
 					"aria-selected": n === e.id,
@@ -15422,47 +14046,43 @@ function _n({ onMcp: e, onComplete: t }) {
 			/* @__PURE__ */ (0, k.jsxs)("section", {
 				className: "surface mcp-bird-panel arch-panel",
 				role: "tabpanel",
-				"aria-label": `${c.name} overview`,
+				"aria-label": `${o.name} overview`,
 				children: [
 					/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: "mcp-bird-panel-title",
 						children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
 							className: "eyebrow",
-							children: c.priority
-						}), /* @__PURE__ */ (0, k.jsx)("h3", { children: c.name })] }), /* @__PURE__ */ (0, k.jsxs)("div", {
+							children: o.priority
+						}), /* @__PURE__ */ (0, k.jsx)("h3", { children: o.name })] }), /* @__PURE__ */ (0, k.jsx)("div", {
 							className: "mcp-bird-title-actions",
-							children: [/* @__PURE__ */ (0, k.jsx)("button", {
+							children: o.scenarios.map((e) => /* @__PURE__ */ (0, k.jsxs)("button", {
 								type: "button",
 								className: "diagram-action",
-								onClick: () => s(c.id),
-								children: "Architecture diagram ↗"
-							}), /* @__PURE__ */ (0, k.jsx)("button", {
-								type: "button",
-								onClick: () => a("detail"),
-								children: "Prerequisites and proof →"
-							})]
+								onClick: () => a(o.diagrams[e]),
+								children: [e, " diagram ↗"]
+							}, e))
 						})]
 					}),
 					/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: "mcp-bird-path arch-path",
 						"aria-label": "Where the agent sits",
 						children: [
-							/* @__PURE__ */ (0, k.jsx)("b", { children: "User or Fiori" }),
+							/* @__PURE__ */ (0, k.jsx)("b", { children: "SAP Fiori / existing UI" }),
 							/* @__PURE__ */ (0, k.jsx)("span", {
 								"aria-hidden": "true",
 								children: "→"
 							}),
-							/* @__PURE__ */ (0, k.jsxs)("b", { children: ["Agent runtime · ", c.name] }),
+							/* @__PURE__ */ (0, k.jsxs)("b", { children: ["Agent · ", o.name] }),
 							/* @__PURE__ */ (0, k.jsx)("span", {
 								"aria-hidden": "true",
 								children: "→"
 							}),
-							/* @__PURE__ */ (0, k.jsx)("b", { children: "Model endpoint" }),
+							/* @__PURE__ */ (0, k.jsx)("b", { children: "Portkey → approved LLM" }),
 							/* @__PURE__ */ (0, k.jsx)("span", {
 								"aria-hidden": "true",
 								children: "→"
 							}),
-							/* @__PURE__ */ (0, k.jsx)("b", { children: "MCP route S1 · S2 · S3" })
+							/* @__PURE__ */ (0, k.jsx)("b", { children: "MCP gateway (Apigee)" })
 						]
 					}),
 					/* @__PURE__ */ (0, k.jsxs)("div", {
@@ -15472,24 +14092,23 @@ function _n({ onMcp: e, onComplete: t }) {
 							children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "What runs where" }), /* @__PURE__ */ (0, k.jsxs)("div", {
 								className: "arch-cards",
 								children: [
-									/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Agent host" }), /* @__PURE__ */ (0, k.jsx)("b", { children: c.host })] }),
-									/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Model access" }), /* @__PURE__ */ (0, k.jsx)("b", { children: c.model })] }),
-									/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Operators" }), /* @__PURE__ */ (0, k.jsx)("b", { children: c.owner })] })
+									/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Agent hosting and execution" }), /* @__PURE__ */ (0, k.jsx)("b", { children: s.agent_runtime })] }),
+									/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Operated by" }), /* @__PURE__ */ (0, k.jsx)("b", { children: s.agent_hosting_owner })] }),
+									/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Custom MCP code, only if required" }), /* @__PURE__ */ (0, k.jsx)("b", { children: s.custom_mcp_runtime })] }),
+									/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "LLM" }), /* @__PURE__ */ (0, k.jsx)("b", { children: "Portkey → approved LLM provider" })] })
 								]
 							})]
 						}), /* @__PURE__ */ (0, k.jsxs)("section", {
-							"aria-label": "Platform fit",
+							"aria-label": "Scenarios that use it",
 							children: [
-								/* @__PURE__ */ (0, k.jsx)("h4", { children: "Why assess it" }),
-								/* @__PURE__ */ (0, k.jsx)("p", { children: c.fit }),
-								/* @__PURE__ */ (0, k.jsx)("h4", { children: "What must be proved" }),
-								/* @__PURE__ */ (0, k.jsx)("p", { children: c.gates }),
-								/* @__PURE__ */ (0, k.jsx)("a", {
-									href: c.source,
-									target: "_blank",
-									rel: "noreferrer",
-									children: "Official product reference ↗"
-								})
+								/* @__PURE__ */ (0, k.jsx)("h4", { children: "Used by" }),
+								o.scenarios.map((e) => /* @__PURE__ */ (0, k.jsxs)("p", { children: [
+									/* @__PURE__ */ (0, k.jsxs)("strong", { children: [z[e].name, "."] }),
+									" ",
+									z[e].objective
+								] }, e)),
+								/* @__PURE__ */ (0, k.jsx)("h4", { children: "Not decided here" }),
+								/* @__PURE__ */ (0, k.jsx)("p", { children: "Registration and discovery are separate: using AWS Agent Registry (S3) does not move the agent to AWS. See MCP hosting." })
 							]
 						})]
 					}),
@@ -15497,99 +14116,31 @@ function _n({ onMcp: e, onComplete: t }) {
 						className: "arch-links",
 						children: [
 							/* @__PURE__ */ (0, k.jsx)("span", { children: "Also:" }),
-							/* @__PURE__ */ (0, k.jsx)("button", {
-								type: "button",
-								className: "text-link",
-								onClick: () => a("gates"),
-								children: "Eligibility gates"
-							}),
-							/* @__PURE__ */ (0, k.jsx)("button", {
-								type: "button",
-								className: "text-link",
-								onClick: () => a("layers"),
-								children: "Operating platform layers"
-							}),
 							e && /* @__PURE__ */ (0, k.jsx)("button", {
 								type: "button",
 								className: "text-link",
 								onClick: e,
-								children: "MCP hosting →"
+								children: "MCP hosting and registration →"
 							}),
 							t && /* @__PURE__ */ (0, k.jsx)("button", {
 								type: "button",
 								className: "text-link",
 								onClick: t,
 								children: "Complete architecture →"
-							}),
-							/* @__PURE__ */ (0, k.jsx)("small", { children: "Choosing a host does not choose the MCP route or the model." })
+							})
 						]
 					})
 				]
 			}),
-			o && /* @__PURE__ */ (0, k.jsx)(en, {
-				kind: "hosting",
-				id: o,
-				onClose: () => s(null),
-				onDetails: () => {
-					r(o), s(null), a("detail");
-				}
-			}),
-			i && /* @__PURE__ */ (0, k.jsx)("div", {
-				className: "mcp-bird-modal-backdrop",
-				onMouseDown: (e) => {
-					e.target === e.currentTarget && a(null);
-				},
-				children: /* @__PURE__ */ (0, k.jsxs)("section", {
-					className: "surface mcp-bird-modal",
-					role: "dialog",
-					"aria-modal": "true",
-					"aria-label": l,
-					children: [/* @__PURE__ */ (0, k.jsxs)("div", {
-						className: "mcp-bird-modal-header",
-						children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
-							className: "eyebrow",
-							children: "AGENT HOSTING · DESIGN REVIEW ONLY"
-						}), /* @__PURE__ */ (0, k.jsx)("h3", { children: l })] }), /* @__PURE__ */ (0, k.jsx)("button", {
-							type: "button",
-							onClick: () => a(null),
-							autoFocus: !0,
-							children: "Close"
-						})]
-					}), /* @__PURE__ */ (0, k.jsx)("div", {
-						className: "mcp-bird-modal-body",
-						children: i === "gates" ? /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsx)("ul", { children: gn.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) }), /* @__PURE__ */ (0, k.jsx)("p", { children: "UNKNOWN remains conditional. Compare the same workflow and approved model on eligible platforms; measure cost, latency, failure recovery and final SAP authorization before selecting one. Kyma is a separate SAP option only with a demonstrated container requirement; AgentCore Runtime with SAP AI Core model access is an exception that needs a specific governance reason." })] }) : i === "layers" ? /* @__PURE__ */ (0, k.jsx)("div", {
-							className: "mcp-bird-modal-owners",
-							children: hn.map(([e, t]) => /* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: e }), /* @__PURE__ */ (0, k.jsx)("p", { children: t })] }, e))
-						}) : /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsxs)("dl", {
-							className: "mcp-bird-host-detail",
-							children: [
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Priority" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: c.priority }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Agent host" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: c.host }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Model access" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: c.model }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Operators" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: c.owner }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Why assess" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: c.fit }),
-								/* @__PURE__ */ (0, k.jsx)("dt", { children: "Proof needed" }),
-								/* @__PURE__ */ (0, k.jsx)("dd", { children: c.gates })
-							]
-						}), /* @__PURE__ */ (0, k.jsx)("a", {
-							href: c.source,
-							target: "_blank",
-							rel: "noreferrer",
-							children: "Official product reference ↗"
-						})] })
-					})]
-				})
+			i && /* @__PURE__ */ (0, k.jsx)(Ft, {
+				diagramKey: i,
+				onClose: () => a(null)
 			})
 		]
 	});
 }
 // src/roleData.js
-var vn = [
+var Jt = [
 	{
 		id: "ea",
 		name: "Enterprise architect",
@@ -15630,7 +14181,7 @@ var vn = [
 			["brief", "Decision brief"]
 		]
 	}
-], yn = [
+], Yt = [
 	[
 		"Collect source balances",
 		"System",
@@ -15661,20 +14212,20 @@ var vn = [
 		"Outside this demo",
 		"Human-approved path; only a nonproduction marker is simulated"
 	]
-], bn = [
+], Xt = [
 	"Maker and approver are separate roles",
 	"Approval is bound to the proposal hash and case version",
 	"Every step is stored as an event you can inspect",
 	"No agent tool can post to SAP"
-], xn = [
+], Zt = [
 	[
-		"Route for the SAP finance interface",
-		"S1 as the proof-of-concept baseline",
-		"Enterprise architecture + SAP integration"
+		"Scenario to validate first",
+		"S3 (SAP-hosted hybrid) as the preferred candidate for the POC, subject to AI Foundry policy",
+		"Enterprise architecture + AI Foundry + SAP integration"
 	],
 	[
 		"Agent runtime host",
-		"Validate the approved enterprise platform first; SAP BTP is the conditional alternative",
+		"SAP BTP Cloud Foundry in S1 and S3; AWS AgentCore Runtime in S2. Registration is decided separately",
 		"Enterprise AI + platform team"
 	],
 	[
@@ -15683,9 +14234,19 @@ var vn = [
 		"Security + SAP Basis"
 	],
 	[
-		"Registry source of truth",
-		"API hub for the SAP domain; agent registry holds a reference",
+		"Registry",
+		"AWS Agent Registry in S2 and S3; S1 registry product is unresolved (domain-managed catalog)",
 		"Enterprise AI Foundry"
+	],
+	[
+		"Is AgentCore Gateway mandatory for every tool call?",
+		"Not in the S3 baseline; if mandated, evaluate S3-B or S2",
+		"AI Foundry + Security"
+	],
+	[
+		"Is persistence needed?",
+		"Conditional: HANA Cloud only if durable SAP-side state is required",
+		"SAP BTP + finance engineering"
 	],
 	[
 		"Model access (PTP/PAP)",
@@ -15702,7 +14263,7 @@ var vn = [
 		"Unmeasured; needs an estimate per route",
 		"Finance + procurement"
 	]
-], Sn = [
+], Qt = [
 	[
 		"G1",
 		"Scenario, owners, licensing, cost and network topology",
@@ -15738,21 +14299,21 @@ var vn = [
 		"Cross-system trace correlation, retention and incident ownership",
 		"OPEN"
 	]
-], Cn = [
+], $t = [
 	"The workflow shape: ask, plan, specialist calls, evidence, proposal, approval",
 	"What each agent may and may not do, shown as read-only tools and refusals",
 	"Where each route puts the gateway, the identity hop and the owner"
-], wn = [
-	"Any live SAP, AWS, Google or Databricks connection",
+], en = [
+	"Any live SAP, AWS, Apigee, Portkey or Databricks connection",
 	"A real MCP transport (calls are in-process and MCP-shaped)",
 	"Identity propagation, performance, availability or cost"
-], Tn = {
-	change: ["What would change the recommendation", bt.changes],
-	poc: ["How a proof of concept settles it", bt.poc],
-	depends: ["What the recommendation depends on", bt.standards],
+], tn = {
+	change: ["What would change the recommendation", lt.changes],
+	poc: ["How a proof of concept settles it", lt.poc],
+	depends: ["What the recommendation depends on", lt.standards],
 	limits: ["What this demo proves, and what it does not", null]
 };
-function En({ onComplete: e, onMcp: t, onAgentHosting: n }) {
+function nn({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 	let [r, i] = (0, _.useState)(null);
 	(0, _.useEffect)(() => {
 		if (!r) return;
@@ -15761,7 +14322,7 @@ function En({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 		};
 		return window.addEventListener("keydown", e), () => window.removeEventListener("keydown", e);
 	}, [r]);
-	let a = bt.headline.replace(/^ARCHITECTURE_RECOMMENDED \(proposal for owner decision, not approval\): /, "");
+	let a = lt.headline.replace(/^ARCHITECTURE_RECOMMENDED \(proposal for owner decision, not approval\): /, "");
 	return /* @__PURE__ */ (0, k.jsxs)("main", {
 		className: "mcp-comparison mcp-bird arch-page brief-page",
 		"aria-label": "Decision brief",
@@ -15788,7 +14349,7 @@ function En({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 								children: "PROPOSED BASELINE"
 							}),
 							/* @__PURE__ */ (0, k.jsx)("h3", { children: a.charAt(0).toUpperCase() + a.slice(1) }),
-							/* @__PURE__ */ (0, k.jsx)("ul", { children: bt.why.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) }),
+							/* @__PURE__ */ (0, k.jsx)("ul", { children: lt.why.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) }),
 							/* @__PURE__ */ (0, k.jsxs)("div", {
 								className: "brief-links",
 								children: [
@@ -15841,7 +14402,7 @@ function En({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 						"aria-label": "Decisions needed",
 						children: [/* @__PURE__ */ (0, k.jsxs)("span", {
 							className: "eyebrow",
-							children: ["DECISIONS NEEDED · ", xn.length]
+							children: ["DECISIONS NEEDED · ", Zt.length]
 						}), /* @__PURE__ */ (0, k.jsxs)("table", {
 							className: "brief-table",
 							children: [/* @__PURE__ */ (0, k.jsx)("thead", { children: /* @__PURE__ */ (0, k.jsxs)("tr", { children: [
@@ -15861,7 +14422,7 @@ function En({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 									scope: "col",
 									children: "Status"
 								})
-							] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: xn.map(([e, t, n]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [
+							] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: Zt.map(([e, t, n]) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [
 								/* @__PURE__ */ (0, k.jsx)("th", {
 									scope: "row",
 									children: e
@@ -15883,7 +14444,7 @@ function En({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 							children: "PROOF GATES · NONE PASSED"
 						}), /* @__PURE__ */ (0, k.jsx)("ul", {
 							className: "brief-gates",
-							children: Sn.map(([e, t, n]) => /* @__PURE__ */ (0, k.jsxs)("li", { children: [
+							children: Qt.map(([e, t, n]) => /* @__PURE__ */ (0, k.jsxs)("li", { children: [
 								/* @__PURE__ */ (0, k.jsx)("b", { children: e }),
 								/* @__PURE__ */ (0, k.jsx)("span", { children: t }),
 								/* @__PURE__ */ (0, k.jsx)("em", {
@@ -15904,13 +14465,13 @@ function En({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 					className: "surface mcp-bird-modal",
 					role: "dialog",
 					"aria-modal": "true",
-					"aria-label": Tn[r][0],
+					"aria-label": tn[r][0],
 					children: [/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: "mcp-bird-modal-header",
 						children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", {
 							className: "eyebrow",
 							children: "DECISION BRIEF · DESIGN REVIEW ONLY"
-						}), /* @__PURE__ */ (0, k.jsx)("h3", { children: Tn[r][0] })] }), /* @__PURE__ */ (0, k.jsx)("button", {
+						}), /* @__PURE__ */ (0, k.jsx)("h3", { children: tn[r][0] })] }), /* @__PURE__ */ (0, k.jsx)("button", {
 							type: "button",
 							onClick: () => i(null),
 							autoFocus: !0,
@@ -15920,8 +14481,8 @@ function En({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 						className: "mcp-bird-modal-body",
 						children: r === "limits" ? /* @__PURE__ */ (0, k.jsxs)("div", {
 							className: "mcp-bird-modal-owners",
-							children: [/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "This demo shows" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: Cn.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }), /* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "This demo does not prove" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: wn.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] })]
-						}) : /* @__PURE__ */ (0, k.jsx)("ul", { children: Tn[r][1].map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })
+							children: [/* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "This demo shows" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: $t.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] }), /* @__PURE__ */ (0, k.jsxs)("article", { children: [/* @__PURE__ */ (0, k.jsx)("h4", { children: "This demo does not prove" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: en.map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })] })]
+						}) : /* @__PURE__ */ (0, k.jsx)("ul", { children: tn[r][1].map((e) => /* @__PURE__ */ (0, k.jsx)("li", { children: e }, e)) })
 					})]
 				})
 			})
@@ -15929,11 +14490,11 @@ function En({ onComplete: e, onMcp: t, onAgentHosting: n }) {
 	});
 }
 // src/ReconciliationReport.jsx
-var Dn = (e) => new Intl.NumberFormat("en-US", {
+var rn = (e) => new Intl.NumberFormat("en-US", {
 	style: "currency",
 	currency: "USD",
 	maximumFractionDigits: 0
-}).format(Number(e || 0)), On = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${Dn(Math.abs(Number(e || 0)))}`, kn = [
+}).format(Number(e || 0)), an = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${rn(Math.abs(Number(e || 0)))}`, on = [
 	["summary", "Summary"],
 	["accounts", "Accounts"],
 	["matching", "Matching details"],
@@ -15943,25 +14504,25 @@ var Dn = (e) => new Intl.NumberFormat("en-US", {
 	["posting", "SAP posting guide"],
 	["ai", "AI review"],
 	["audit", "Audit trail"]
-], An = {
+], sn = {
 	BALANCED: "Balanced",
 	WITHIN_TOLERANCE: "Within tolerance",
 	EXPLAINED: "Explained · approval needed",
 	EXCEPTION: "Exception · investigate",
 	HOLD: "On hold · sources stale"
-}, jn = {
+}, cn = {
 	BALANCED: "ok",
 	WITHIN_TOLERANCE: "ok",
 	EXPLAINED: "info",
 	EXCEPTION: "bad",
 	HOLD: "warn"
 };
-function Mn(e, t, n) {
+function ln(e, t, n) {
 	let r = URL.createObjectURL(new Blob([n], { type: t })), i = document.createElement("a");
 	i.href = r, i.download = e, document.body.appendChild(i), i.click(), i.remove(), setTimeout(() => URL.revokeObjectURL(r), 1e3);
 }
-var Nn = (e) => `"${String(e ?? "").replace(/"/g, "\"\"")}"`;
-function Pn(e) {
+var un = (e) => `"${String(e ?? "").replace(/"/g, "\"\"")}"`;
+function dn(e) {
 	let t = [
 		"item_id",
 		"document_id",
@@ -15981,9 +14542,9 @@ function Pn(e) {
 		"recommended_action",
 		"ai_confidence"
 	];
-	return [t.join(","), ...e.items.map((e) => t.map((t) => Nn(t === "ai_confidence" ? e.ai.confidence : e[t])).join(","))].join("\r\n");
+	return [t.join(","), ...e.items.map((e) => t.map((t) => un(t === "ai_confidence" ? e.ai.confidence : e[t])).join(","))].join("\r\n");
 }
-function Fn({ bridge: e }) {
+function fn({ bridge: e }) {
 	let t = e[0].value, n = e[e.length - 1].value, r = Math.min(t, n) * .985, i = Math.max(t, n) * 1.005, a = 640 / e.length, o = (e) => 24 + 142 * (1 - (e - r) / Math.max(1, i - r)), s = t;
 	return /* @__PURE__ */ (0, k.jsx)("svg", {
 		className: "rr-bridge",
@@ -16010,7 +14571,7 @@ function Fn({ bridge: e }) {
 					fontSize: "11",
 					fontWeight: "700",
 					fill: "#1d2d3e",
-					children: e.kind === "total" ? Dn(e.value) : On(e.value)
+					children: e.kind === "total" ? rn(e.value) : an(e.value)
 				}),
 				/* @__PURE__ */ (0, k.jsx)("text", {
 					x: n + i / 2,
@@ -16024,46 +14585,46 @@ function Fn({ bridge: e }) {
 		})
 	});
 }
-function In({ status: e }) {
+function pn({ status: e }) {
 	return /* @__PURE__ */ (0, k.jsx)("span", {
 		className: `rr-chip ${String(e).toLowerCase().replace("_", "-")}`,
 		children: String(e).replace("_", " ")
 	});
 }
-function Ln({ report: e }) {
+function mn({ report: e }) {
 	let t = e.summary;
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "rr-pane",
 		children: [
 			/* @__PURE__ */ (0, k.jsxs)("div", {
-				className: `rr-banner ${jn[t.status]}`,
-				children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: An[t.status] }), /* @__PURE__ */ (0, k.jsx)("span", { children: t.status_text })]
+				className: `rr-banner ${cn[t.status]}`,
+				children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: sn[t.status] }), /* @__PURE__ */ (0, k.jsx)("span", { children: t.status_text })]
 			}),
 			/* @__PURE__ */ (0, k.jsxs)("div", {
 				className: "rr-kpis",
 				children: [
-					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "S/4HANA balance" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: Dn(t.s4_total) })] }),
-					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Central Finance balance" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: Dn(t.cfin_total) })] }),
+					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "S/4HANA balance" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: rn(t.s4_total) })] }),
+					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Central Finance balance" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: rn(t.cfin_total) })] }),
 					/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: t.variance ? "attn" : "",
 						children: [
 							/* @__PURE__ */ (0, k.jsx)("span", { children: "Variance" }),
-							/* @__PURE__ */ (0, k.jsx)("strong", { children: On(t.variance) }),
-							/* @__PURE__ */ (0, k.jsxs)("small", { children: ["Tolerance ", Dn(t.tolerance)] })
+							/* @__PURE__ */ (0, k.jsx)("strong", { children: an(t.variance) }),
+							/* @__PURE__ */ (0, k.jsxs)("small", { children: ["Tolerance ", rn(t.tolerance)] })
 						]
 					}),
 					/* @__PURE__ */ (0, k.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, k.jsx)("span", { children: "Explained" }),
 						/* @__PURE__ */ (0, k.jsxs)("strong", { children: [t.explained_pct, "%"] }),
 						/* @__PURE__ */ (0, k.jsxs)("small", { children: [
-							Dn(t.explained),
+							rn(t.explained),
 							" of ",
-							Dn(t.variance)
+							rn(t.variance)
 						] })
 					] }),
 					/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: t.unexplained ? "attn" : "",
-						children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Unexplained" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: Dn(t.unexplained) })]
+						children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Unexplained" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: rn(t.unexplained) })]
 					}),
 					/* @__PURE__ */ (0, k.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, k.jsx)("span", { children: "Open items" }),
@@ -16085,7 +14646,7 @@ function Ln({ report: e }) {
 						className: "rr-note",
 						children: "From the S/4HANA balance to the Central Finance balance, by reason."
 					}),
-					e.bridge.length > 2 ? /* @__PURE__ */ (0, k.jsx)(Fn, { bridge: e.bridge }) : /* @__PURE__ */ (0, k.jsx)("p", {
+					e.bridge.length > 2 ? /* @__PURE__ */ (0, k.jsx)(fn, { bridge: e.bridge }) : /* @__PURE__ */ (0, k.jsx)("p", {
 						className: "rr-empty",
 						children: "No reconciling items. The two balances agree."
 					})
@@ -16094,7 +14655,7 @@ function Ln({ report: e }) {
 					children: e.timeline.map((e) => /* @__PURE__ */ (0, k.jsxs)("li", {
 						className: e.freshness === "current" ? "ok" : "warn",
 						children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: e.step }), /* @__PURE__ */ (0, k.jsxs)("span", { children: [
-							Dn(e.balance),
+							rn(e.balance),
 							" · ",
 							e.freshness,
 							" · ",
@@ -16124,7 +14685,7 @@ function Ln({ report: e }) {
 					/* @__PURE__ */ (0, k.jsx)("td", { children: e.due }),
 					/* @__PURE__ */ (0, k.jsx)("td", {
 						className: "num",
-						children: On(e.amount)
+						children: an(e.amount)
 					})
 				] }, e.item_id)) })]
 			}) : /* @__PURE__ */ (0, k.jsx)("p", {
@@ -16146,7 +14707,7 @@ function Ln({ report: e }) {
 		]
 	});
 }
-function Rn({ report: e }) {
+function hn({ report: e }) {
 	let t = Math.max(1, ...e.accounts.map((e) => Math.abs(e.difference)));
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "rr-pane",
@@ -16178,11 +14739,11 @@ function Rn({ report: e }) {
 						/* @__PURE__ */ (0, k.jsx)("td", { children: e.name }),
 						/* @__PURE__ */ (0, k.jsx)("td", {
 							className: "num",
-							children: Dn(e.s4_balance)
+							children: rn(e.s4_balance)
 						}),
 						/* @__PURE__ */ (0, k.jsx)("td", {
 							className: "num",
-							children: Dn(e.cfin_balance)
+							children: rn(e.cfin_balance)
 						}),
 						/* @__PURE__ */ (0, k.jsxs)("td", {
 							className: "num",
@@ -16190,11 +14751,11 @@ function Rn({ report: e }) {
 								className: "rr-bar",
 								style: { width: `${Math.abs(e.difference) / t * 60}px` },
 								"aria-hidden": "true"
-							}), On(e.difference)]
+							}), an(e.difference)]
 						}),
 						/* @__PURE__ */ (0, k.jsx)("td", { children: e.open_items }),
 						/* @__PURE__ */ (0, k.jsxs)("td", { children: [
-							/* @__PURE__ */ (0, k.jsx)(In, { status: e.status === "variance" ? "EXCEPTION" : (e.status, "PASS") }),
+							/* @__PURE__ */ (0, k.jsx)(pn, { status: e.status === "variance" ? "EXCEPTION" : (e.status, "PASS") }),
 							" ",
 							e.status.replace("_", " ")
 						] })
@@ -16207,15 +14768,15 @@ function Rn({ report: e }) {
 					}),
 					/* @__PURE__ */ (0, k.jsx)("td", {
 						className: "num",
-						children: Dn(e.summary.s4_total)
+						children: rn(e.summary.s4_total)
 					}),
 					/* @__PURE__ */ (0, k.jsx)("td", {
 						className: "num",
-						children: Dn(e.summary.cfin_total)
+						children: rn(e.summary.cfin_total)
 					}),
 					/* @__PURE__ */ (0, k.jsx)("td", {
 						className: "num",
-						children: On(e.summary.variance)
+						children: an(e.summary.variance)
 					}),
 					/* @__PURE__ */ (0, k.jsx)("td", { children: e.summary.open_items }),
 					/* @__PURE__ */ (0, k.jsx)("td", {})
@@ -16227,7 +14788,7 @@ function Rn({ report: e }) {
 		})]
 	});
 }
-var zn = [
+var gn = [
 	["all", "All rows"],
 	["exceptions", "Exceptions only"],
 	["MATCHED", "Matched"],
@@ -16238,7 +14799,7 @@ var zn = [
 	["DUPLICATE", "Duplicate"],
 	["REQUIRES_REVIEW", "Requires review"]
 ];
-function Bn({ report: e }) {
+function _n({ report: e }) {
 	let [t, n] = (0, _.useState)("all"), r = e.matching, i = r.totals, a = r.rows.filter((e) => t === "all" || (t === "exceptions" ? e.status !== "MATCHED" : e.status === t));
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "rr-pane",
@@ -16248,8 +14809,8 @@ function Bn({ report: e }) {
 				children: [
 					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Matched" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: i.matched_count })] }),
 					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Exceptions" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: i.exception_count })] }),
-					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Sum of row differences" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: On(i.difference_total) })] }),
-					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Summary variance" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: On(i.summary_variance) })] }),
+					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Sum of row differences" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: an(i.difference_total) })] }),
+					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Summary variance" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: an(i.summary_variance) })] }),
 					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Check" }), /* @__PURE__ */ (0, k.jsx)("strong", {
 						className: i.reconciles ? "rr-match-ok" : "rr-match-bad",
 						"data-testid": "match-check",
@@ -16263,7 +14824,7 @@ function Bn({ report: e }) {
 					value: t,
 					onChange: (e) => n(e.target.value),
 					"aria-label": "Matching status filter",
-					children: zn.map(([e, t]) => /* @__PURE__ */ (0, k.jsx)("option", {
+					children: gn.map(([e, t]) => /* @__PURE__ */ (0, k.jsx)("option", {
 						value: e,
 						children: t
 					}, e))
@@ -16299,14 +14860,14 @@ function Bn({ report: e }) {
 							/* @__PURE__ */ (0, k.jsx)("td", { children: e.target_ref || "none" }),
 							/* @__PURE__ */ (0, k.jsx)("td", {
 								className: "num",
-								children: Dn(e.amount)
+								children: rn(e.amount)
 							}),
 							/* @__PURE__ */ (0, k.jsx)("td", { children: e.currency }),
 							/* @__PURE__ */ (0, k.jsx)("td", { children: e.posting_date || "n/a" }),
 							/* @__PURE__ */ (0, k.jsx)("td", { children: e.rule }),
 							/* @__PURE__ */ (0, k.jsx)("td", {
 								className: "num",
-								children: On(e.difference)
+								children: an(e.difference)
 							}),
 							/* @__PURE__ */ (0, k.jsx)("td", { children: e.status }),
 							/* @__PURE__ */ (0, k.jsx)("td", { children: e.reason || "none" })
@@ -16322,11 +14883,11 @@ function Bn({ report: e }) {
 						}),
 						/* @__PURE__ */ (0, k.jsx)("td", {
 							className: "num",
-							children: On(i.difference_total)
+							children: an(i.difference_total)
 						}),
 						/* @__PURE__ */ (0, k.jsxs)("td", {
 							colSpan: "2",
-							children: ["Summary variance ", On(i.summary_variance)]
+							children: ["Summary variance ", an(i.summary_variance)]
 						})
 					] }) })
 				]
@@ -16342,17 +14903,17 @@ function Bn({ report: e }) {
 		]
 	});
 }
-var Vn = [
+var vn = [
 	["Post General Journal Entries (F0718), SAP Help", "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/7340a09096454b7abf4379f926a21567/950f8054747b053de10000000a441470.html?version=2023.latest"],
 	["Manage Journal Entries, SAP Help", "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/d2d78154f9a7033de10000000a441470.html?version=2023.latest"],
 	["Verify General Journal Entries – For Requester, SAP Help", "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/6b33e9e760b840098d4c66f49121dc98.html"],
 	["SAP Fiori Apps Reference Library", "https://fioriappslibrary.hana.ondemand.com/"]
-], Hn = {
+], yn = {
 	no: "No journal entry",
 	conditional: "Conditional",
 	after_investigation: "Only after investigation"
 };
-function Un({ report: e }) {
+function bn({ report: e }) {
 	let t = e.manual_posting;
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "rr-pane rr-guide",
@@ -16379,9 +14940,9 @@ function Un({ report: e }) {
 					/* @__PURE__ */ (0, k.jsx)("td", { children: e.category_label }),
 					/* @__PURE__ */ (0, k.jsx)("td", {
 						className: "num",
-						children: On(e.difference)
+						children: an(e.difference)
 					}),
-					/* @__PURE__ */ (0, k.jsx)("td", { children: Hn[e.treatment.manual_journal_entry] }),
+					/* @__PURE__ */ (0, k.jsx)("td", { children: yn[e.treatment.manual_journal_entry] }),
 					/* @__PURE__ */ (0, k.jsx)("td", { children: e.treatment.route })
 				] }, e.item_id)) })]
 			}) : /* @__PURE__ */ (0, k.jsx)("p", {
@@ -16425,7 +14986,7 @@ function Un({ report: e }) {
 			}),
 			/* @__PURE__ */ (0, k.jsx)("p", {
 				className: "rr-note",
-				children: Vn.map(([e, t], n) => /* @__PURE__ */ (0, k.jsxs)(_.Fragment, { children: [n > 0 && " · ", /* @__PURE__ */ (0, k.jsxs)("a", {
+				children: vn.map(([e, t], n) => /* @__PURE__ */ (0, k.jsxs)(_.Fragment, { children: [n > 0 && " · ", /* @__PURE__ */ (0, k.jsxs)("a", {
 					href: t,
 					target: "_blank",
 					rel: "noreferrer",
@@ -16435,7 +14996,7 @@ function Un({ report: e }) {
 		]
 	});
 }
-function Wn({ report: e }) {
+function xn({ report: e }) {
 	let [t, n] = (0, _.useState)("all"), [r, i] = (0, _.useState)("all"), [a, o] = (0, _.useState)(null), s = e.items.filter((e) => (t === "all" || e.status === t) && (r === "all" || e.materiality === r));
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "rr-pane",
@@ -16542,15 +15103,15 @@ function Wn({ report: e }) {
 						] }),
 						/* @__PURE__ */ (0, k.jsx)("td", {
 							className: "num",
-							children: Dn(e.s4_amount)
+							children: rn(e.s4_amount)
 						}),
 						/* @__PURE__ */ (0, k.jsx)("td", {
 							className: "num",
-							children: Dn(e.cfin_amount)
+							children: rn(e.cfin_amount)
 						}),
 						/* @__PURE__ */ (0, k.jsx)("td", {
 							className: "num",
-							children: /* @__PURE__ */ (0, k.jsx)("strong", { children: On(e.difference) })
+							children: /* @__PURE__ */ (0, k.jsx)("strong", { children: an(e.difference) })
 						}),
 						/* @__PURE__ */ (0, k.jsxs)("td", { children: [
 							e.reason_code,
@@ -16558,7 +15119,7 @@ function Wn({ report: e }) {
 							e.category_label
 						] }),
 						/* @__PURE__ */ (0, k.jsxs)("td", { children: [
-							/* @__PURE__ */ (0, k.jsx)(In, { status: e.status === "explained" ? "PASS" : "HOLD" }),
+							/* @__PURE__ */ (0, k.jsx)(pn, { status: e.status === "explained" ? "PASS" : "HOLD" }),
 							" ",
 							e.status.replace("_", " "),
 							" · ",
@@ -16626,7 +15187,7 @@ function Wn({ report: e }) {
 						/* @__PURE__ */ (0, k.jsx)("td", { children: e.description }),
 						/* @__PURE__ */ (0, k.jsx)("td", {
 							className: "num",
-							children: Dn(e.amount)
+							children: rn(e.amount)
 						})
 					] }, e.journal_id)) })]
 				})]
@@ -16634,7 +15195,7 @@ function Wn({ report: e }) {
 		]
 	});
 }
-function Gn({ report: e }) {
+function Sn({ report: e }) {
 	let t = Math.max(1, ...e.aging.map((e) => Math.abs(e.amount)));
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "rr-pane",
@@ -16656,7 +15217,7 @@ function Gn({ report: e }) {
 						" item",
 						e.count === 1 ? "" : "s",
 						" · ",
-						On(e.amount)
+						an(e.amount)
 					] })
 				] }, e.bucket))
 			}),
@@ -16667,7 +15228,7 @@ function Gn({ report: e }) {
 		]
 	});
 }
-function Kn({ report: e }) {
+function Cn({ report: e }) {
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "rr-pane",
 		children: [/* @__PURE__ */ (0, k.jsx)("p", {
@@ -16683,13 +15244,13 @@ function Kn({ report: e }) {
 			] }) }), /* @__PURE__ */ (0, k.jsx)("tbody", { children: e.controls.map((e) => /* @__PURE__ */ (0, k.jsxs)("tr", { children: [
 				/* @__PURE__ */ (0, k.jsx)("td", { children: e.id }),
 				/* @__PURE__ */ (0, k.jsx)("td", { children: e.name }),
-				/* @__PURE__ */ (0, k.jsx)("td", { children: /* @__PURE__ */ (0, k.jsx)(In, { status: e.status }) }),
+				/* @__PURE__ */ (0, k.jsx)("td", { children: /* @__PURE__ */ (0, k.jsx)(pn, { status: e.status }) }),
 				/* @__PURE__ */ (0, k.jsx)("td", { children: e.detail })
 			] }, e.id)) })]
 		})]
 	});
 }
-function qn({ report: e }) {
+function wn({ report: e }) {
 	let t = e.ai_review;
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "rr-pane",
@@ -16737,7 +15298,7 @@ function qn({ report: e }) {
 		]
 	});
 }
-function Jn({ report: e }) {
+function Tn({ report: e }) {
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "rr-pane",
 		children: [
@@ -16766,10 +15327,10 @@ function Jn({ report: e }) {
 					/* @__PURE__ */ (0, k.jsx)("td", { children: t.source }),
 					/* @__PURE__ */ (0, k.jsx)("td", {
 						className: "num",
-						children: Dn(t.balance)
+						children: rn(t.balance)
 					}),
 					/* @__PURE__ */ (0, k.jsxs)("td", { children: [
-						/* @__PURE__ */ (0, k.jsx)(In, { status: t.freshness === "current" ? "PASS" : "HOLD" }),
+						/* @__PURE__ */ (0, k.jsx)(pn, { status: t.freshness === "current" ? "PASS" : "HOLD" }),
 						" ",
 						t.freshness
 					] }),
@@ -16814,7 +15375,7 @@ function Jn({ report: e }) {
 		]
 	});
 }
-function Yn({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
+function En({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 	let a = (0, _.useRef)(null), [o, s] = (0, _.useState)("summary"), [c, l] = (0, _.useState)(!1);
 	(0, _.useEffect)(() => {
 		let e = a.current;
@@ -16837,15 +15398,15 @@ function Yn({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 		};
 	}, [c]);
 	let u = (0, _.useMemo)(() => e ? {
-		summary: /* @__PURE__ */ (0, k.jsx)(Ln, { report: e }),
-		accounts: /* @__PURE__ */ (0, k.jsx)(Rn, { report: e }),
-		matching: /* @__PURE__ */ (0, k.jsx)(Bn, { report: e }),
-		posting: /* @__PURE__ */ (0, k.jsx)(Un, { report: e }),
-		items: /* @__PURE__ */ (0, k.jsx)(Wn, { report: e }),
-		aging: /* @__PURE__ */ (0, k.jsx)(Gn, { report: e }),
-		controls: /* @__PURE__ */ (0, k.jsx)(Kn, { report: e }),
-		ai: /* @__PURE__ */ (0, k.jsx)(qn, { report: e }),
-		audit: /* @__PURE__ */ (0, k.jsx)(Jn, { report: e })
+		summary: /* @__PURE__ */ (0, k.jsx)(mn, { report: e }),
+		accounts: /* @__PURE__ */ (0, k.jsx)(hn, { report: e }),
+		matching: /* @__PURE__ */ (0, k.jsx)(_n, { report: e }),
+		posting: /* @__PURE__ */ (0, k.jsx)(bn, { report: e }),
+		items: /* @__PURE__ */ (0, k.jsx)(xn, { report: e }),
+		aging: /* @__PURE__ */ (0, k.jsx)(Sn, { report: e }),
+		controls: /* @__PURE__ */ (0, k.jsx)(Cn, { report: e }),
+		ai: /* @__PURE__ */ (0, k.jsx)(wn, { report: e }),
+		audit: /* @__PURE__ */ (0, k.jsx)(Tn, { report: e })
 	}[o] : null, [e, o]);
 	return /* @__PURE__ */ (0, k.jsxs)("dialog", {
 		ref: a,
@@ -16877,19 +15438,19 @@ function Yn({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 						id: "rr-period"
 					}),
 					e && /* @__PURE__ */ (0, k.jsx)("span", {
-						className: `rr-chip ${jn[e.summary.status]}`,
-						children: An[e.summary.status]
+						className: `rr-chip ${cn[e.summary.status]}`,
+						children: sn[e.summary.status]
 					}),
 					/* @__PURE__ */ (0, k.jsx)("button", {
 						type: "button",
 						disabled: !e,
-						onClick: () => Mn(`${e.report_id}-items.csv`, "text/csv", Pn(e)),
+						onClick: () => ln(`${e.report_id}-items.csv`, "text/csv", dn(e)),
 						children: "Items CSV ⤓"
 					}),
 					/* @__PURE__ */ (0, k.jsx)("button", {
 						type: "button",
 						disabled: !e,
-						onClick: () => Mn(`${e.report_id}.json`, "application/json", JSON.stringify(e, null, 2)),
+						onClick: () => ln(`${e.report_id}.json`, "application/json", JSON.stringify(e, null, 2)),
 						children: "Report JSON ⤓"
 					}),
 					/* @__PURE__ */ (0, k.jsx)("button", {
@@ -16908,26 +15469,26 @@ function Yn({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 			})]
 		}), e && c ? /* @__PURE__ */ (0, k.jsx)("div", {
 			className: "rr-body rr-print-all",
-			children: kn.map(([t, n]) => /* @__PURE__ */ (0, k.jsxs)("section", { children: [/* @__PURE__ */ (0, k.jsx)("h2", { children: n }), {
-				summary: /* @__PURE__ */ (0, k.jsx)(Ln, { report: e }),
-				accounts: /* @__PURE__ */ (0, k.jsx)(Rn, { report: e }),
-				matching: /* @__PURE__ */ (0, k.jsx)(Bn, { report: e }),
-				posting: /* @__PURE__ */ (0, k.jsx)(Un, { report: e }),
-				items: /* @__PURE__ */ (0, k.jsx)(Wn, { report: e }),
-				aging: /* @__PURE__ */ (0, k.jsx)(Gn, { report: e }),
-				controls: /* @__PURE__ */ (0, k.jsx)(Kn, { report: e }),
-				ai: /* @__PURE__ */ (0, k.jsx)(qn, { report: e }),
-				audit: /* @__PURE__ */ (0, k.jsx)(Jn, { report: e })
+			children: on.map(([t, n]) => /* @__PURE__ */ (0, k.jsxs)("section", { children: [/* @__PURE__ */ (0, k.jsx)("h2", { children: n }), {
+				summary: /* @__PURE__ */ (0, k.jsx)(mn, { report: e }),
+				accounts: /* @__PURE__ */ (0, k.jsx)(hn, { report: e }),
+				matching: /* @__PURE__ */ (0, k.jsx)(_n, { report: e }),
+				posting: /* @__PURE__ */ (0, k.jsx)(bn, { report: e }),
+				items: /* @__PURE__ */ (0, k.jsx)(xn, { report: e }),
+				aging: /* @__PURE__ */ (0, k.jsx)(Sn, { report: e }),
+				controls: /* @__PURE__ */ (0, k.jsx)(Cn, { report: e }),
+				ai: /* @__PURE__ */ (0, k.jsx)(wn, { report: e }),
+				audit: /* @__PURE__ */ (0, k.jsx)(Tn, { report: e })
 			}[t]] }, t))
 		}) : e ? /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsx)("div", {
 			className: "rr-tabs",
 			role: "tablist",
 			"aria-label": "Report sections",
 			onKeyDown: (e) => {
-				let t = kn.findIndex(([e]) => e === o);
-				e.key === "ArrowRight" && (s(kn[(t + 1) % kn.length][0]), e.preventDefault()), e.key === "ArrowLeft" && (s(kn[(t + kn.length - 1) % kn.length][0]), e.preventDefault());
+				let t = on.findIndex(([e]) => e === o);
+				e.key === "ArrowRight" && (s(on[(t + 1) % on.length][0]), e.preventDefault()), e.key === "ArrowLeft" && (s(on[(t + on.length - 1) % on.length][0]), e.preventDefault());
 			},
-			children: kn.map(([t, n]) => /* @__PURE__ */ (0, k.jsxs)("button", {
+			children: on.map(([t, n]) => /* @__PURE__ */ (0, k.jsxs)("button", {
 				type: "button",
 				role: "tab",
 				"aria-selected": o === t,
@@ -16951,10 +15512,10 @@ function Yn({ report: e, period: t, periods: n, onPeriod: r, onClose: i }) {
 	});
 }
 // src/orchestrationSvg.js
-var Xn = {
+var Dn = {
 	w: 1200,
 	h: 660
-}, Zn = (e, t, n, r, i, a, o = {}) => ({
+}, On = (e, t, n, r, i, a, o = {}) => ({
 	id: e,
 	row: t,
 	col: n,
@@ -16962,12 +15523,12 @@ var Xn = {
 	sub: i,
 	kind: a,
 	...o
-}), Qn = [
+}), kn = [
 	["invoke", "MCP-style tools/call (in-process)"],
 	["registry", "Reaches application layer"],
 	["identity", "Needs input"],
 	["approval", "Blocked by a control"]
-], $n = {
+], An = {
 	"Selected gateway": [
 		"Selected MCP gateway",
 		"gateway",
@@ -17028,18 +15589,18 @@ var Xn = {
 		"registry",
 		"Design time"
 	]
-}, er = {
+}, jn = {
 	done: "#107E3E",
 	running: "#E9730C",
 	held: "#E9730C",
 	blocked: "#BB0000",
 	pending: void 0
 };
-function tr(e, t, n) {
+function Mn(e, t, n) {
 	return t < n ? e.status : t === n ? "running" : "pending";
 }
-function nr({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
-	let i = (t?.agents || []).filter((e) => e.kind !== "orchestrator"), a = e?.steps || [], o = Math.min(n, a.length), s = (t, r) => e ? tr(t, r, n) : "pending", c = {};
+function Nn({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
+	let i = (t?.agents || []).filter((e) => e.kind !== "orchestrator"), a = e?.steps || [], o = Math.min(n, a.length), s = (t, r) => e ? Mn(t, r, n) : "pending", c = {};
 	a.forEach((e, t) => {
 		(c[e.agent] ||= []).push({
 			step: e,
@@ -17047,7 +15608,7 @@ function nr({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 		});
 	});
 	let l = [], u = e ? o >= a.length ? "All steps dispatched" : `Dispatching step ${o + 1} of ${a.length}` : "Waiting for a request";
-	l.push(Zn("orch", 0, 1.5, "Orchestrator · tool client", e ? `${e.orchestrator?.rule || ""}. ${u}. It plans and calls tools; it never touches SAP.` : "Ask a question to start. It plans and calls tools; it never touches SAP.", "agent", {
+	l.push(On("orch", 0, 1.5, "Orchestrator · tool client", e ? `${e.orchestrator?.rule || ""}. ${u}. It plans and calls tools; it never touches SAP.` : "Ask a question to start. It plans and calls tools; it never touches SAP.", "agent", {
 		span: 3,
 		h: 84,
 		zone: "agent:orchestrator",
@@ -17057,12 +15618,12 @@ function nr({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 		strokeWidth: 2.4
 	})), i.forEach((e, t) => {
 		let n = c[e.id] || [], a = n.map(({ step: e, index: t }) => s(e, t)), o = n.length > 0 && a.some((e) => e !== "pending"), u = a.includes("blocked") ? "blocked" : a.includes("held") ? "held" : a.includes("running") ? "running" : o ? "done" : "pending", d = a.filter((e) => e === "done").length;
-		l.push(Zn(`agent:${e.id}`, 1, t + (6 - i.length) / 2, e.name, `${e.mcp_server} · ${e.tools.join(", ")}`, "domain", {
+		l.push(On(`agent:${e.id}`, 1, t + (6 - i.length) / 2, e.name, `${e.mcp_server} · ${e.tools.join(", ")}`, "domain", {
 			h: 84,
 			zone: `agent:${e.id}`,
 			status: n.length ? o ? `${d}/${n.length} calls done${n.every(({ step: e }) => !e.trace?.layers?.length) ? " · computed locally" : ""}` : "Queued" : "Not called",
-			statusColor: o ? er[u] : "#506778",
-			stroke: r === e.id ? "#0A6ED1" : o ? er[u] : "#B8C7D3",
+			statusColor: o ? jn[u] : "#506778",
+			stroke: r === e.id ? "#0A6ED1" : o ? jn[u] : "#B8C7D3",
 			strokeWidth: r === e.id ? 3.2 : o ? 2.2 : 1.2,
 			dashed: !o && n.length === 0
 		}));
@@ -17079,12 +15640,12 @@ function nr({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 			]);
 		});
 	}), d.forEach((e, t) => {
-		let n = $n[e] || [
+		let n = An[e] || [
 			e,
 			"control",
 			""
 		];
-		l.push(Zn(`layer:${e}`, t < 6 ? 2 : 3, t % 6, n[0], n[2], n[1], {
+		l.push(On(`layer:${e}`, t < 6 ? 2 : 3, t % 6, n[0], n[2], n[1], {
 			h: 84,
 			status: "Reached",
 			statusColor: "#0D6A33",
@@ -17104,7 +15665,7 @@ function nr({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 			i,
 			{ active: n.includes("running") }
 		]);
-	}), h.push(...m), Pt({
+	}), h.push(...m), xt({
 		cols: 6,
 		ys: [
 			96,
@@ -17113,11 +15674,11 @@ function nr({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 			508
 		],
 		nh: 84,
-		height: Xn.h,
+		height: Dn.h,
 		nodes: l,
 		edges: h,
 		bounds: [],
-		legend: Qn,
+		legend: kn,
 		captions: [[
 			88,
 			"ORCHESTRATOR · TOOL CLIENT",
@@ -17134,14 +15695,14 @@ function nr({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 	});
 }
 // src/AgentWorkbench.jsx
-var rr = {
+var Pn = {
 	done: "✓",
 	running: "…",
 	pending: "·",
 	held: "?",
 	blocked: "✕",
 	skipped: "–"
-}, ir = {
+}, Fn = {
 	treasury: "Open Cash & treasury",
 	"treasury-forecast": "Open the cash forecast",
 	"treasury-banks": "Open bank relationships",
@@ -17151,14 +15712,14 @@ var rr = {
 	"decision-responsibilities": "Open responsibilities & governance",
 	close: "Open Close & reconcile",
 	plan: "Stay here"
-}, ar = /* @__PURE__ */ new Set(), or = () => {
+}, In = /* @__PURE__ */ new Set(), Ln = () => {
 	try {
 		return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	} catch {
 		return !1;
 	}
 };
-function sr({ onAsk: e, busy: t, label: n = "Ask the agents", period: r = y, periods: i, domain: a = "reconciliation" }) {
+function Rn({ onAsk: e, busy: t, label: n = "Ask the agents", period: r = y, periods: i, domain: a = "reconciliation" }) {
 	let [o, s] = be(r, a);
 	return /* @__PURE__ */ (0, k.jsxs)("form", {
 		className: "surface agent-ask-bar",
@@ -17198,7 +15759,7 @@ function sr({ onAsk: e, busy: t, label: n = "Ask the agents", period: r = y, per
 		]
 	});
 }
-function cr({ plan: e }) {
+function zn({ plan: e }) {
 	return /* @__PURE__ */ (0, k.jsxs)("section", {
 		className: "surface aw-result tr-result",
 		"aria-label": "Result",
@@ -17245,7 +15806,7 @@ function cr({ plan: e }) {
 		]
 	});
 }
-function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConcept: a, onOpenOutput: o, period: s = y, periods: c, ontology: l }) {
+function Bn({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConcept: a, onOpenOutput: o, period: s = y, periods: c, ontology: l }) {
 	let u = ie(), d = e?.order || ["reconciliation"], [f, p] = (0, _.useState)(null), m = f || e?.default || d[0], h = p;
 	(0, _.useEffect)(() => {
 		t?.domain && p(t.domain);
@@ -17253,17 +15814,17 @@ function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 	let g = e?.domains?.[m] || e, v = t && (t.domain || e?.default) === m ? t : null, b = g?.agents || [], x = (e) => b.find((t) => t.id === e)?.kind === "orchestrator", S = (b.find((e) => e.kind === "orchestrator") || {}).id || "orchestrator", [w, E] = be(s, m), D = u.examples(m, s), O = (e) => ((l?.classes || []).find((t) => t.id === e) || {}).label || String(e).split(".").pop(), [ee, te] = (0, _.useState)(0), [ne, re] = (0, _.useState)(null), [ae, oe] = (0, _.useState)(null), [se, ce] = (0, _.useState)(!1), le = (0, _.useRef)(null), A = v?.steps || [];
 	(0, _.useEffect)(() => {
 		if (!v || le.current === v.plan_id) return;
-		if (le.current = v.plan_id, re(null), or() || !A.length || ar.has(v.plan_id)) {
-			ar.add(v.plan_id), te(A.length);
+		if (le.current = v.plan_id, re(null), Ln() || !A.length || In.has(v.plan_id)) {
+			In.add(v.plan_id), te(A.length);
 			return;
 		}
-		ar.add(v.plan_id), te(0);
+		In.add(v.plan_id), te(0);
 		let e = 0, t = setInterval(() => {
 			e += 1, te(e), e >= A.length && clearInterval(t);
 		}, 650);
 		return () => clearInterval(t);
 	}, [v?.plan_id]);
-	let ue = ne?.agent || null, de = (0, _.useMemo)(() => nr({
+	let ue = ne?.agent || null, de = (0, _.useMemo)(() => Nn({
 		plan: v,
 		catalog: g,
 		shown: ee,
@@ -17277,8 +15838,8 @@ function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 		id: "orchestration",
 		title: "Orchestration",
 		svg: de,
-		w: Xn.w,
-		h: Xn.h,
+		w: Dn.w,
+		h: Dn.h,
 		file: "orchestration",
 		png: !0
 	}), [de]), pe = Object.fromEntries(b.map((e) => [e.id, e])), me = (e) => {
@@ -17468,7 +16029,7 @@ function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 					"aria-label": "Orchestration graph",
 					children: /* @__PURE__ */ (0, k.jsx)("div", {
 						className: "aw-viewer",
-						children: /* @__PURE__ */ (0, k.jsx)(Qt, {
+						children: /* @__PURE__ */ (0, k.jsx)(Nt, {
 							diagram: fe,
 							uid: "orch",
 							view: ae,
@@ -17519,7 +16080,7 @@ function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 										]
 									})
 								}), A.map((e, t) => {
-									let n = tr(e, t, ee);
+									let n = Mn(e, t, ee);
 									return n === "pending" && t > ee ? null : /* @__PURE__ */ (0, k.jsx)("li", {
 										className: `${n} ${ne?.step_id === e.step_id ? "sel" : ""}`,
 										children: /* @__PURE__ */ (0, k.jsxs)("button", {
@@ -17532,7 +16093,7 @@ function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 												/* @__PURE__ */ (0, k.jsx)("span", {
 													className: "aw-mark",
 													"aria-hidden": "true",
-													children: rr[n]
+													children: Pn[n]
 												}),
 												/* @__PURE__ */ (0, k.jsxs)("b", { children: [
 													"#",
@@ -17652,7 +16213,7 @@ function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 										type: "button",
 										className: "aw-open",
 										onClick: () => i(ge, j),
-										children: [ge.view_label || ir[j.view || ge.view] || "Open layer", " →"]
+										children: [ge.view_label || Fn[j.view || ge.view] || "Open layer", " →"]
 									})
 								] }) : /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [
 									/* @__PURE__ */ (0, k.jsxs)("dl", { children: [
@@ -17671,7 +16232,7 @@ function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 										type: "button",
 										className: "aw-open",
 										onClick: () => i(ge),
-										children: [ge.view_label || ir[ge.view] || "Open layer", " →"]
+										children: [ge.view_label || Fn[ge.view] || "Open layer", " →"]
 									})
 								] })
 							]
@@ -17679,7 +16240,7 @@ function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 					]
 				})]
 			}),
-			v?.result_blocks?.length > 0 && (_e || A.length === 0) && /* @__PURE__ */ (0, k.jsx)(cr, { plan: v }),
+			v?.result_blocks?.length > 0 && (_e || A.length === 0) && /* @__PURE__ */ (0, k.jsx)(zn, { plan: v }),
 			/* @__PURE__ */ (0, k.jsxs)("section", {
 				className: "surface aw-roster",
 				"aria-label": "Agent roster",
@@ -17758,7 +16319,7 @@ function lr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 	});
 }
 // src/Entry.jsx
-function ur({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onOpenArchitecture: i, onOpenTreasury: a, onAsk: o, onGo: s, period: c = y, periods: l, onPeriod: u }) {
+function Vn({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onOpenArchitecture: i, onOpenTreasury: a, onAsk: o, onGo: s, period: c = y, periods: l, onPeriod: u }) {
 	let d = ie(), [f, p] = be(c, d.def?.id), m = d.modules.flatMap((e) => d.examples(e.id, c).slice(0, 2));
 	return /* @__PURE__ */ (0, k.jsxs)("main", {
 		className: "entry",
@@ -17904,7 +16465,7 @@ function ur({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onO
 			s && /* @__PURE__ */ (0, k.jsxs)("section", {
 				className: "entry-roles",
 				"aria-label": "Start from your audience",
-				children: [/* @__PURE__ */ (0, k.jsx)("h3", { children: "Presenting this? Start from your audience" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: vn.map((e) => /* @__PURE__ */ (0, k.jsxs)("li", { children: [
+				children: [/* @__PURE__ */ (0, k.jsx)("h3", { children: "Presenting this? Start from your audience" }), /* @__PURE__ */ (0, k.jsx)("ul", { children: Jt.map((e) => /* @__PURE__ */ (0, k.jsxs)("li", { children: [
 					/* @__PURE__ */ (0, k.jsx)("strong", { children: e.name }),
 					/* @__PURE__ */ (0, k.jsx)("small", { children: e.ask }),
 					/* @__PURE__ */ (0, k.jsx)("div", {
@@ -17937,10 +16498,10 @@ function ur({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onO
 	});
 }
 // src/liveArchitecture.js
-var dr = {
+var Hn = {
 	w: 1200,
 	h: 520
-}, fr = (e, t, n, r, i, a, o = {}) => ({
+}, Un = (e, t, n, r, i, a, o = {}) => ({
 	id: e,
 	row: t,
 	col: n,
@@ -17948,14 +16509,14 @@ var dr = {
 	sub: i,
 	kind: a,
 	...o
-}), pr = [
+}), Wn = [
 	["invoke", "Tool call"],
 	["return", "Evidence"],
 	["registry", "Reference"],
 	["deploy", "Registration"],
 	["identity", "Identity"],
 	["approval", "Approval"]
-], mr = [[
+], Gn = [[
 	92,
 	"DESIGN TIME AND IDENTITY",
 	"end"
@@ -17963,7 +16524,7 @@ var dr = {
 	322,
 	"RESULT, EVIDENCE AND APPROVAL",
 	"start"
-]], hr = {
+]], Kn = {
 	"Business entry": "agent",
 	"AWS runtime": "domain",
 	"Selected gateway": "gateway",
@@ -17976,7 +16537,7 @@ var dr = {
 	"AI Foundry design time": "registry",
 	"AWS controls": "identity",
 	"Write approval": "decision"
-}, gr = {
+}, qn = {
 	"AI Foundry design time": [0, 0],
 	"AWS controls": [0, 1],
 	"Business entry": [1, 0],
@@ -17990,15 +16551,15 @@ var dr = {
 	"Write approval": [2, 0],
 	"Model branch": [2, 2]
 };
-function _r({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning: i, reportReady: a, zoneShort: o }) {
+function Jn({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning: i, reportReady: a, zoneShort: o }) {
 	let s = e?.components || [], c = Object.fromEntries(s.map((e) => [e.component_id, e.zone])), l = (e) => s.filter((t) => t.zone === e).length, u = {};
 	for (let e of t) {
 		let t = c[e.direction === "response" ? e.source_component_id : e.target_component_id];
 		t && (u[t] = (u[t] || 0) + 1);
 	}
-	let d = t.at(-1), f = d ? c[d.direction === "response" ? d.source_component_id : d.target_component_id] : null, p = i && f, m = Object.keys(gr).map((e) => {
-		let [t, i] = gr[e], a = p && f === e, s = !!u[e], c = a ? "Processing now" : s ? `${u[e]} events` : e === "Future BDC" ? "Future / simulated" : e === "Write approval" ? "Separate branch" : "Waiting", d = e === "Selected gateway" ? `${n} · ${n === "S1" ? "Apigee, external boundary" : "AgentCore, AWS boundary"}` : `${e} · ${l(e)} components`;
-		return fr(e, t, i, o[e] || e, d, hr[e], {
+	let d = t.at(-1), f = d ? c[d.direction === "response" ? d.source_component_id : d.target_component_id] : null, p = i && f, m = Object.keys(qn).map((e) => {
+		let [t, i] = qn[e], a = p && f === e, s = !!u[e], c = a ? "Processing now" : s ? `${u[e]} events` : e === "Future BDC" ? "Future / simulated" : e === "Write approval" ? "Separate branch" : "Waiting", d = e === "Selected gateway" ? `${n} · ${n === "S1" ? "Apigee, external boundary" : "AgentCore, AWS boundary"}` : `${e} · ${l(e)} components`;
+		return Un(e, t, i, o[e] || e, d, Kn[e], {
 			zone: e,
 			status: c,
 			statusColor: a ? "#B45309" : s ? "#0D6A33" : "#506778",
@@ -18008,7 +16569,7 @@ function _r({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			cls: a ? "node-current" : ""
 		});
 	});
-	m.push(fr("__report", 2, 1, "Business report", a ? "Analysis and evidence are ready" : "Run the architecture to generate the result", "control", {
+	m.push(Un("__report", 2, 1, "Business report", a ? "Analysis and evidence are ready" : "Run the architecture to generate the result", "control", {
 		zone: "__report",
 		status: a ? "Complete · open report" : "Awaiting run",
 		statusColor: a ? "#0D6A33" : "#506778",
@@ -18105,7 +16666,7 @@ function _r({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			"separate write branch"
 		]
 	];
-	return Pt({
+	return xt({
 		cols: 6,
 		ys: [
 			100,
@@ -18113,7 +16674,7 @@ function _r({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			334
 		],
 		nh: 80,
-		height: dr.h,
+		height: Hn.h,
 		nodes: m,
 		edges: g,
 		bounds: [[
@@ -18121,16 +16682,16 @@ function _r({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			["SAP BAIP", "SAP backends"],
 			"sap"
 		]],
-		captions: mr,
-		legend: pr,
-		title: `Live architecture · ${n === "S1" ? "S1 Google Apigee MCP" : "S2 AgentCore Gateway MCP"}`,
+		captions: Gn,
+		legend: Wn,
+		title: `Live run (simulator) · ${n === "S1" ? "Apigee gateway path (S1, S3)" : "AgentCore Gateway path (S2)"}`,
 		chain: "Finance request → external agent → selected gateway → domain tools → SAP integration → SAP backend",
 		banner: p ? "RUN IN PROGRESS · SIMULATED" : "SIMULATED · NO TENANT CONNECTED",
-		footer: "Orange outline: processing now. Green outline: visited. Blue outline: selected zone. Select a zone to inspect its components below. Vendor names are simulations."
+		footer: "Simulator scope: it replays gateway behaviour and draws the agent in the AWS runtime zone for both paths. It is not the V5.1 topology: see Diagrams D2 to D4. Orange: processing now. Green: visited. Blue: selected zone."
 	});
 }
 // src/AgentJourney.jsx
-var vr = [
+var Yn = [
 	{
 		label: "Finance intent",
 		operation: "submit_request",
@@ -18167,8 +16728,8 @@ var vr = [
 		description: "Deterministic check completed"
 	}
 ];
-function yr({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: r }) {
-	let i = vr.map((t) => {
+function Xn({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: r }) {
+	let i = Yn.map((t) => {
 		let n = e.filter((e) => e.operation === t.operation), r = n.findLast((e) => e.direction === t.doneDirection && e.status !== "denied"), i = n.findLast((e) => e.status === "denied");
 		return {
 			...t,
@@ -18207,7 +16768,7 @@ function yr({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: 
 	});
 }
 // src/App.jsx
-var br = {
+var Zn = {
 	"Business entry": "Finance request",
 	"AI Foundry design time": "Agent registration",
 	"AWS runtime": "External finance agent",
@@ -18220,7 +16781,7 @@ var br = {
 	"Future BDC": "BDC reference",
 	"Model branch": "AI advisory",
 	"Write approval": "Approval"
-}, xr = [
+}, Qn = [
 	["FI", "Variance operands, freshness, posting controls"],
 	["SAP", "Backend roles and approved APIs"],
 	["Central Finance", "Replication mapping and cutoff"],
@@ -18233,7 +16794,7 @@ var br = {
 	["Portkey / AI", "Redaction, guardrails and advisory text"],
 	["Node.js / Python", "Typed UI contracts and deterministic engine"],
 	["UX", "Task clarity, accessibility and trace readability"]
-], Sr = (e) => {
+], $n = (e) => {
 	if (!e) return "Select month";
 	let [t, n] = e.split("-").map(Number);
 	return new Date(Date.UTC(t, n - 1, 1)).toLocaleString("en-US", {
@@ -18241,12 +16802,12 @@ var br = {
 		year: "numeric",
 		timeZone: "UTC"
 	});
-}, Cr = (e) => e == null ? "—" : new Intl.NumberFormat("en-US", {
+}, er = (e) => e == null ? "—" : new Intl.NumberFormat("en-US", {
 	style: "currency",
 	currency: "USD",
 	maximumFractionDigits: 0
 }).format(Number(e));
-async function V(e, t = "GET", n) {
+async function H(e, t = "GET", n) {
 	let r = await fetch(e, {
 		method: t,
 		headers: { "Content-Type": "application/json" },
@@ -18260,7 +16821,7 @@ async function V(e, t = "GET", n) {
 	if (!r.ok) throw Error(i.detail || r.statusText);
 	return i;
 }
-function wr(e, t) {
+function tr(e, t) {
 	if (e.error) return [];
 	let n = e.case_id || t?.case_id || null, r = e.trace_case_id || n, i = !!(e.result || t?.result), a = [];
 	return i && (a.push({
@@ -18284,7 +16845,7 @@ function wr(e, t) {
 		target: "business"
 	}), a;
 }
-function Tr({ menuModules: e = [], open: t, onToggle: n, onNavigate: r }) {
+function nr({ menuModules: e = [], open: t, onToggle: n, onNavigate: r }) {
 	return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "shell-menu-wrap",
 		children: [/* @__PURE__ */ (0, k.jsxs)("button", {
@@ -18349,8 +16910,8 @@ function Tr({ menuModules: e = [], open: t, onToggle: n, onNavigate: r }) {
 		})]
 	});
 }
-var Er = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${Cr(Math.abs(Number(e || 0)))}`;
-function Dr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun: a }) {
+var rr = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${er(Math.abs(Number(e || 0)))}`;
+function ir({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun: a }) {
 	if (t === "none") return /* @__PURE__ */ (0, k.jsxs)("div", {
 		className: "period-nodata",
 		role: "alert",
@@ -18408,13 +16969,13 @@ function Dr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 							/* @__PURE__ */ (0, k.jsx)("span", { children: "Variance" }),
 							/* @__PURE__ */ (0, k.jsx)("strong", {
 								"data-testid": "level1-variance",
-								children: Er(o.variance)
+								children: rr(o.variance)
 							}),
 							/* @__PURE__ */ (0, k.jsx)("small", { children: "S/4HANA − Central Finance · positive means S/4HANA is higher" })
 						]
 					}),
-					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Source balance (S/4HANA)" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: Cr(o.s4_total) })] }),
-					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Target balance (Central Finance)" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: Cr(o.cfin_total) })] }),
+					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Source balance (S/4HANA)" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: er(o.s4_total) })] }),
+					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Target balance (Central Finance)" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: er(o.cfin_total) })] }),
 					/* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("span", { children: "Matched items" }), /* @__PURE__ */ (0, k.jsx)("strong", { children: s.matched_count })] }),
 					/* @__PURE__ */ (0, k.jsxs)("div", {
 						className: s.exception_count ? "attn" : "",
@@ -18425,7 +16986,7 @@ function Dr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 								" · ",
 								s.exception_count
 							] }),
-							/* @__PURE__ */ (0, k.jsxs)("small", { children: ["Unexplained ", Cr(o.unexplained)] })
+							/* @__PURE__ */ (0, k.jsxs)("small", { children: ["Unexplained ", er(o.unexplained)] })
 						]
 					})
 				]
@@ -18443,7 +17004,7 @@ function Dr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 				className: "close-process",
 				children: [
 					/* @__PURE__ */ (0, k.jsx)("summary", { children: "Who does what in the close" }),
-					/* @__PURE__ */ (0, k.jsx)("ol", { children: yn.map(([e, t, n]) => /* @__PURE__ */ (0, k.jsxs)("li", { children: [
+					/* @__PURE__ */ (0, k.jsx)("ol", { children: Yt.map(([e, t, n]) => /* @__PURE__ */ (0, k.jsxs)("li", { children: [
 						/* @__PURE__ */ (0, k.jsx)("b", { children: e }),
 						/* @__PURE__ */ (0, k.jsx)("em", { children: t }),
 						/* @__PURE__ */ (0, k.jsx)("small", { children: n })
@@ -18451,7 +17012,7 @@ function Dr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 					/* @__PURE__ */ (0, k.jsxs)("p", { children: [
 						/* @__PURE__ */ (0, k.jsx)("strong", { children: "Controls:" }),
 						" ",
-						bn.join(" · "),
+						Xt.join(" · "),
 						"."
 					] })
 				]
@@ -18459,7 +17020,7 @@ function Dr({ summary: e, state: t, period: n, onOpenDetail: r, onAsk: i, onRun:
 		]
 	});
 }
-var Or = [
+var ar = [
 	"architecture",
 	"approaches",
 	"mcp",
@@ -18468,7 +17029,7 @@ var Or = [
 	"ontology",
 	"diagrams"
 ];
-function kr({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r, period: i, summary: a, summaryState: o, onAskPeriod: s }) {
+function or({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r, period: i, summary: a, summaryState: o, onAskPeriod: s }) {
 	return e?.scope?.period === i && e?.variance, /* @__PURE__ */ (0, k.jsxs)("section", {
 		className: "surface business-result",
 		children: [/* @__PURE__ */ (0, k.jsxs)("div", {
@@ -18480,12 +17041,12 @@ function kr({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r, pe
 				className: "pill quiet",
 				"data-testid": "level1-period",
 				children: [
-					Sr(i),
+					$n(i),
 					" · ",
 					T(i)
 				]
 			})]
-		}), /* @__PURE__ */ (0, k.jsx)(Dr, {
+		}), /* @__PURE__ */ (0, k.jsx)(ir, {
 			summary: a,
 			state: o,
 			period: i,
@@ -18495,7 +17056,7 @@ function kr({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r, pe
 		})]
 	});
 }
-function Ar({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
+function sr({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 	let r = (0, _.useRef)(null), i = e?.result, a = i?.variance;
 	return (0, _.useEffect)(() => {
 		let e = r.current;
@@ -18519,7 +17080,7 @@ function Ar({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 						id: "business-report-title",
 						children: "Business analysis report"
 					}),
-					/* @__PURE__ */ (0, k.jsx)("p", { children: i ? `${Sr(i.scope?.period)} · ${i.scenario} · ${i.case_id}` : "No completed case selected" })
+					/* @__PURE__ */ (0, k.jsx)("p", { children: i ? `${$n(i.scope?.period)} · ${i.scenario} · ${i.case_id}` : "No completed case selected" })
 				] }), /* @__PURE__ */ (0, k.jsx)("button", {
 					type: "button",
 					onClick: t,
@@ -18535,7 +17096,7 @@ function Ar({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 						children: [
 							/* @__PURE__ */ (0, k.jsxs)("div", { children: [
 								/* @__PURE__ */ (0, k.jsx)("span", { children: "Variance" }),
-								/* @__PURE__ */ (0, k.jsx)("strong", { children: a.amount === null ? "Not comparable" : Cr(a.amount) }),
+								/* @__PURE__ */ (0, k.jsx)("strong", { children: a.amount === null ? "Not comparable" : er(a.amount) }),
 								/* @__PURE__ */ (0, k.jsx)("small", { children: "S/4HANA − Central Finance" })
 							] }),
 							/* @__PURE__ */ (0, k.jsxs)("div", { children: [
@@ -18545,7 +17106,7 @@ function Ar({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 							] }),
 							/* @__PURE__ */ (0, k.jsxs)("div", { children: [
 								/* @__PURE__ */ (0, k.jsx)("span", { children: "Period" }),
-								/* @__PURE__ */ (0, k.jsx)("strong", { children: Sr(i.scope?.period) }),
+								/* @__PURE__ */ (0, k.jsx)("strong", { children: $n(i.scope?.period) }),
 								/* @__PURE__ */ (0, k.jsxs)("small", { children: [i.scenario, " synthetic route"] })
 							] })
 						]
@@ -18585,15 +17146,15 @@ function Ar({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 		]
 	});
 }
-function jr({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, liveRunning: a, reportReady: o, onOpenReport: s }) {
-	let [c, l] = (0, _.useState)(null), [u, d] = (0, _.useState)(!1), f = (0, _.useMemo)(() => _r({
+function cr({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, liveRunning: a, reportReady: o, onOpenReport: s }) {
+	let [c, l] = (0, _.useState)(null), [u, d] = (0, _.useState)(!1), f = (0, _.useMemo)(() => Jn({
 		registry: e,
 		events: t,
 		scenario: n,
 		selectedZone: r,
 		liveRunning: a,
 		reportReady: o,
-		zoneShort: br
+		zoneShort: Zn
 	}), [
 		e,
 		t,
@@ -18605,15 +17166,15 @@ function jr({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, l
 		id: "live",
 		title: `Live architecture · ${n}`,
 		svg: f,
-		w: dr.w,
-		h: dr.h,
+		w: Hn.w,
+		h: Hn.h,
 		file: "live-architecture",
 		png: !0
 	}), [f, n]);
 	return /* @__PURE__ */ (0, k.jsx)("div", {
 		className: "route-viewer",
 		"aria-label": "Live architecture topology",
-		children: /* @__PURE__ */ (0, k.jsx)(Qt, {
+		children: /* @__PURE__ */ (0, k.jsx)(Nt, {
 			diagram: p,
 			uid: "live-arch",
 			view: c,
@@ -18625,7 +17186,7 @@ function jr({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, l
 		})
 	});
 }
-function Mr({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
+function lr({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
 	let o = (e?.components || []).filter((e) => e.zone === t), s = (0, _.useMemo)(() => {
 		let e = {};
 		for (let t of n) {
@@ -18721,12 +17282,12 @@ function Mr({ registry: e, zone: t, events: n, selectedComponent: r, onComponent
 		})]
 	});
 }
-function Nr({ bridge: e }) {
+function ur({ bridge: e }) {
 	let t = !!e, [n, r] = (0, _.useState)(e?.data || null), i = (0, _.useMemo)(() => te((t ? e?.data?.modules : n?.modules) || []), [
 		t,
 		e?.data?.modules,
 		n?.modules
-	]), [a, o] = (0, _.useState)("business"), [s, c] = (0, _.useState)("S1"), [l, u] = (0, _.useState)("S1"), [d, f] = (0, _.useState)(e?.data?.conditions || []), [p, m] = (0, _.useState)(e?.data?.agents || null), [h, g] = (0, _.useState)(e?.data?.agent_plan || null), [v, y] = (0, _.useState)(!1), [b, x] = (0, _.useState)(null), [w, T] = (0, _.useState)(() => {
+	]), [a, o] = (0, _.useState)("business"), [s, c] = (0, _.useState)("D1"), [l, u] = (0, _.useState)("S1"), [d, f] = (0, _.useState)(e?.data?.conditions || []), [p, m] = (0, _.useState)(e?.data?.agents || null), [h, g] = (0, _.useState)(e?.data?.agent_plan || null), [v, y] = (0, _.useState)(!1), [b, x] = (0, _.useState)(null), [w, T] = (0, _.useState)(() => {
 		try {
 			return localStorage.getItem("finance.showTech") === "1";
 		} catch {
@@ -18740,17 +17301,17 @@ function Nr({ bridge: e }) {
 	}, []), [Te, Ee] = (0, _.useState)(60), [De, ke] = (0, _.useState)(""), [Ae, je] = (0, _.useState)("Reconcile the selected synthetic period"), [Me, Ne] = (0, _.useState)([{
 		role: "assistant",
 		text: "Ask about a reconciliation, the source evidence, an architecture component, or a control. Each answer has an inspectable synthetic flow."
-	}]), [I, Pe] = (0, _.useState)(null), [Fe, Le] = (0, _.useState)(null), [Re, Ve] = (0, _.useState)([]), [He, Ue] = (0, _.useState)(!1), [We, Ge] = (0, _.useState)("Business entry"), [Ke, qe] = (0, _.useState)(null), [Je, Xe] = (0, _.useState)(null), [Ze, Qe] = (0, _.useState)(null), [et, tt] = (0, _.useState)(!1), [nt, L] = (0, _.useState)(""), [rt, it] = (0, _.useState)([]), [at, ot] = (0, _.useState)([]), [st, ct] = (0, _.useState)(null), [R, lt] = (0, _.useState)(e?.data?.investigation || null), [ut, dt] = (0, _.useState)([]), [ft, pt] = (0, _.useState)(!1), [mt, ht] = (0, _.useState)("maker"), [gt, _t] = (0, _.useState)(!1), [vt, yt] = (0, _.useState)(e?.data?.decision_run || null), [bt, xt] = (0, _.useState)(!1), St = (0, _.useRef)(!1), z = (0, _.useRef)(null), Ct = (0, _.useRef)(null), wt = (0, _.useRef)(null), Tt = (0, _.useRef)(null), Et = n?.architecture, Dt = n?.history, [Ot, kt] = (0, _.useState)(null);
+	}]), [I, Pe] = (0, _.useState)(null), [Fe, Le] = (0, _.useState)(null), [Re, Ve] = (0, _.useState)([]), [He, Ue] = (0, _.useState)(!1), [We, Ge] = (0, _.useState)("Business entry"), [Ke, qe] = (0, _.useState)(null), [Je, Xe] = (0, _.useState)(null), [Ze, Qe] = (0, _.useState)(null), [L, et] = (0, _.useState)(!1), [tt, R] = (0, _.useState)(""), [nt, z] = (0, _.useState)([]), [rt, it] = (0, _.useState)([]), [at, ot] = (0, _.useState)(null), [st, ct] = (0, _.useState)(e?.data?.investigation || null), [lt, ut] = (0, _.useState)([]), [dt, ft] = (0, _.useState)(!1), [pt, mt] = (0, _.useState)("maker"), [ht, gt] = (0, _.useState)(!1), [_t, vt] = (0, _.useState)(e?.data?.decision_run || null), [yt, B] = (0, _.useState)(!1), bt = (0, _.useRef)(!1), xt = (0, _.useRef)(null), St = (0, _.useRef)(null), Ct = (0, _.useRef)(null), wt = (0, _.useRef)(null), Tt = n?.architecture, Et = n?.history, [Dt, Ot] = (0, _.useState)(null);
 	(0, _.useEffect)(() => {
 		if (t) return;
 		let e = !1;
-		return kt(null), V(`/api/reports/${P}`).then((t) => {
-			e || kt({
+		return Ot(null), H(`/api/reports/${P}`).then((t) => {
+			e || Ot({
 				period: P,
 				report: t
 			});
 		}).catch((t) => {
-			e || kt({
+			e || Ot({
 				period: P,
 				error: t.message
 			});
@@ -18760,7 +17321,7 @@ function Nr({ bridge: e }) {
 	}, [
 		t,
 		P,
-		Dt,
+		Et,
 		I?.case_id,
 		I?.status
 	]), (0, _.useEffect)(() => {
@@ -18769,14 +17330,14 @@ function Nr({ bridge: e }) {
 			period: P
 		});
 	}, [t, P]);
-	let At = t ? e?.data?.period_report?.period === P ? e.data.period_report : null : Ot?.period === P && Ot.report || null, [jt, Mt] = (0, _.useState)(null), [Nt, Pt] = (0, _.useState)(0), [Ft, It] = (0, _.useState)({}), Lt = i.tabs.find((e) => e.tab.id === a && e.renderer !== "builtin:reconciliation") || null, Rt = Lt?.has_view ? Lt.id : jt ? "treasury" : null;
+	let kt = t ? e?.data?.period_report?.period === P ? e.data.period_report : null : Dt?.period === P && Dt.report || null, [At, jt] = (0, _.useState)(null), [Mt, Nt] = (0, _.useState)(0), [Ft, It] = (0, _.useState)({}), Lt = i.tabs.find((e) => e.tab.id === a && e.renderer !== "builtin:reconciliation") || null, zt = Lt?.has_view ? Lt.id : At ? "treasury" : null;
 	(0, _.useEffect)(() => {
-		if (t || !Rt) return;
+		if (t || !zt) return;
 		let e = !1;
-		return V(`/api/cockpit/${Rt}/view/${P}`).then((t) => {
+		return H(`/api/cockpit/${zt}/view/${P}`).then((t) => {
 			e || It((e) => ({
 				...e,
-				[Rt]: {
+				[zt]: {
 					period: P,
 					view: t
 				}
@@ -18784,7 +17345,7 @@ function Nr({ bridge: e }) {
 		}).catch((t) => {
 			e || It((e) => ({
 				...e,
-				[Rt]: {
+				[zt]: {
 					period: P,
 					error: t.message
 				}
@@ -18795,16 +17356,16 @@ function Nr({ bridge: e }) {
 	}, [
 		t,
 		P,
-		Rt,
-		Nt
+		zt,
+		Mt
 	]);
-	let zt = (n) => t ? e?.data?.module_views?.[n]?.period === P ? e.data.module_views[n] : null : Ft[n]?.period === P && Ft[n].view || null, Bt = (e) => zt(e) ? "ok" : Dt?.available_periods && !Dt.available_periods.includes(P) || !t && Ft[e]?.period === P && Ft[e].error ? "none" : "loading", Vt = zt("treasury");
-	async function Ht(n, r) {
-		if (mt !== "approver") {
-			L("Switch to the finance approver role first.");
+	let Bt = (n) => t ? e?.data?.module_views?.[n]?.period === P ? e.data.module_views[n] : null : Ft[n]?.period === P && Ft[n].view || null, Vt = (e) => Bt(e) ? "ok" : Et?.available_periods && !Et.available_periods.includes(P) || !t && Ft[e]?.period === P && Ft[e].error ? "none" : "loading", Ht = Bt("treasury");
+	async function Ut(n, r) {
+		if (pt !== "approver") {
+			R("Switch to the finance approver role first.");
 			return;
 		}
-		L("");
+		R("");
 		let i = {
 			proposal_id: n.proposal_id,
 			approved: r,
@@ -18815,26 +17376,26 @@ function Nr({ bridge: e }) {
 			module: "treasury",
 			name: "decide",
 			payload: i,
-			role: mt
+			role: pt
 		});
 		else try {
-			await V("/api/cockpit/treasury/action/decide", "POST", {
+			await H("/api/cockpit/treasury/action/decide", "POST", {
 				...i,
 				approver_id: "finance.approver"
-			}), Pt((e) => e + 1);
+			}), Nt((e) => e + 1);
 		} catch (e) {
-			L(e.message);
+			R(e.message);
 		}
 	}
-	let [Ut, Wt] = (0, _.useState)(e?.data?.ontology || null), [B, Gt] = (0, _.useState)(null);
+	let [V, Wt] = (0, _.useState)(e?.data?.ontology || null), [Kt, Jt] = (0, _.useState)(null);
 	(0, _.useEffect)(() => {
-		t ? e?.data?.ontology && Wt(e.data.ontology) : Ut || V("/api/cockpit/ontology").then(Wt).catch(() => {});
+		t ? e?.data?.ontology && Wt(e.data.ontology) : V || H("/api/cockpit/ontology").then(Wt).catch(() => {});
 	}, [t, e?.data?.ontology]);
-	let Kt = Object.values(p?.domains || {}).flatMap((e) => e.references || []);
-	function qt(e) {
-		Gt(e), o("ontology");
+	let Yt = Object.values(p?.domains || {}).flatMap((e) => e.references || []);
+	function Xt(e) {
+		Jt(e), o("ontology");
 	}
-	let Jt = (e) => {
+	let Zt = (e) => {
 		let t = h;
 		if (!t || t.domain !== e || t.status !== "done" || !t.effective_period || t.effective_period !== P) return null;
 		let n = String(t.answer || "");
@@ -18858,25 +17419,25 @@ function Nr({ bridge: e }) {
 			]
 		});
 	};
-	function Yt(e, t) {
+	function Qt(e, t) {
 		let n = i.byId[e.domain];
 		if (!n) return;
 		let r = e.effective_period;
-		r && r !== P && we(r), t === "detail" && n.renderer === "builtin:reconciliation" ? (o("business"), ln(r || P)) : t === "detail" && n.renderer === "treasury" ? (o("treasury"), Mt("position")) : n.tab && o(n.tab.id);
+		r && r !== P && we(r), t === "detail" && n.renderer === "builtin:reconciliation" ? (o("business"), dn(r || P)) : t === "detail" && n.renderer === "treasury" ? (o("treasury"), jt("position")) : n.tab && o(n.tab.id);
 	}
-	let Xt = Dt?.available_periods, Zt = At ? "ok" : Xt && !Xt.includes(P) || !t && Ot?.period === P && Ot.error ? "none" : "loading", Qt = at.find((e) => e.case_id === I?.case_id);
+	let $t = Et?.available_periods, en = kt ? "ok" : $t && !$t.includes(P) || !t && Dt?.period === P && Dt.error ? "none" : "loading", tn = rt.find((e) => e.case_id === I?.case_id);
 	(0, _.useEffect)(() => {
-		(a === "business" || a === "agents" || Or.includes(a) || i.tabs.some((e) => e.tab.id === a)) && (ce.current = a);
+		(a === "business" || a === "agents" || ar.includes(a) || i.tabs.some((e) => e.tab.id === a)) && (ce.current = a);
 	}, [a]), (0, _.useEffect)(() => {
 		let e = I?.scope?.period;
-		!t && e && V(`/api/history/${e}`).then(ct).catch(() => ct(null));
+		!t && e && H(`/api/history/${e}`).then(ot).catch(() => ot(null));
 	}, [t, I?.scope?.period]);
-	let en = Ze === null ? Re : Re.slice(0, Ze + 1), tn = Je || en.at(-1), nn = tn ? tn.direction === "response" ? tn.source_component_id : tn.target_component_id : null, rn = Et?.components?.find((e) => e.component_id === nn)?.zone;
+	let rn = Ze === null ? Re : Re.slice(0, Ze + 1), an = Je || rn.at(-1), on = an ? an.direction === "response" ? an.source_component_id : an.target_component_id : null, sn = Tt?.components?.find((e) => e.component_id === on)?.zone;
 	(0, _.useEffect)(() => {
-		if (!t) return Promise.all([V("/api/bootstrap"), V("/api/proposals")]).then(([e, t]) => {
-			r(e), it(e.cases || []), ot(t);
-		}).catch((e) => L(e.message)), () => {
-			z.current?.close();
+		if (!t) return Promise.all([H("/api/bootstrap"), H("/api/proposals")]).then(([e, t]) => {
+			r(e), z(e.cases || []), it(t);
+		}).catch((e) => R(e.message)), () => {
+			xt.current?.close();
 		};
 	}, [t]), (0, _.useEffect)(() => {
 		if (!t) return;
@@ -18884,20 +17445,20 @@ function Nr({ bridge: e }) {
 		r((e) => ({
 			...e,
 			...n
-		})), it(n.cases || []), ot(n.proposals || []), ct(n.history_detail || null), lt(n.investigation || null), dt(n.investigation_events || []), yt(n.decision_run || null), n.decision_run?.status === "complete" && xt(!1), n.active_case && (Pe(n.active_case), Le(n.active_case.case_id), be(n.active_case.scenario)), n.events && Ve(n.events), Ue(n.active_case?.status === "queued" || n.active_case?.status === "running"), n.response && n.response_nonce !== Tt.current && (Tt.current = n.response_nonce, St.current = !1, _t(!1), pt(!1), Ne((e) => [...e, {
+		})), z(n.cases || []), it(n.proposals || []), ot(n.history_detail || null), ct(n.investigation || null), ut(n.investigation_events || []), vt(n.decision_run || null), n.decision_run?.status === "complete" && B(!1), n.active_case && (Pe(n.active_case), Le(n.active_case.case_id), be(n.active_case.scenario)), n.events && Ve(n.events), Ue(n.active_case?.status === "queued" || n.active_case?.status === "running"), n.response && n.response_nonce !== wt.current && (wt.current = n.response_nonce, bt.current = !1, gt(!1), ft(!1), Ne((e) => [...e, {
 			role: "assistant",
 			text: n.response.answer || n.response.error || "The synthetic operation completed.",
 			limited: n.response.status === "limited",
-			actions: wr(n.response, n.active_case || I)
-		}]), n.response.error && L(n.response.error));
+			actions: tr(n.response, n.active_case || I)
+		}]), n.response.error && R(n.response.error));
 	}, [t, e?.data]), (0, _.useEffect)(() => {
-		if (t || !R?.investigation_id || !["running", "reconciling"].includes(R.status)) return;
+		if (t || !st?.investigation_id || !["running", "reconciling"].includes(st.status)) return;
 		let e = !1, n = setInterval(async () => {
 			try {
-				let [t, n] = await Promise.all([V(`/api/investigations/${R.investigation_id}`), V(`/api/architecture/events?case_id=${encodeURIComponent(R.case_id)}`)]);
-				e || (lt(t), dt(n), Le(t.case_id), Ve(n));
+				let [t, n] = await Promise.all([H(`/api/investigations/${st.investigation_id}`), H(`/api/architecture/events?case_id=${encodeURIComponent(st.case_id)}`)]);
+				e || (ct(t), ut(n), Le(t.case_id), Ve(n));
 			} catch (t) {
-				e || L(t.message);
+				e || R(t.message);
 			}
 		}, 350);
 		return () => {
@@ -18905,23 +17466,23 @@ function Nr({ bridge: e }) {
 		};
 	}, [
 		t,
-		R?.investigation_id,
-		R?.status
+		st?.investigation_id,
+		st?.status
 	]), (0, _.useEffect)(() => {
-		!t && a === "evidence" && R?.case_id && V(`/api/architecture/events?case_id=${encodeURIComponent(R.case_id)}`).then(dt).catch((e) => L(e.message));
+		!t && a === "evidence" && st?.case_id && H(`/api/architecture/events?case_id=${encodeURIComponent(st.case_id)}`).then(ut).catch((e) => R(e.message));
 	}, [
 		t,
 		a,
-		R?.case_id,
-		R?.status
+		st?.case_id,
+		st?.status
 	]), (0, _.useEffect)(() => {
-		if (t || !vt?.run_id || vt.status === "complete") return;
+		if (t || !_t?.run_id || _t.status === "complete") return;
 		let e = !1, n = setInterval(async () => {
 			try {
-				let t = await V(`/api/architecture/questions/runs/${encodeURIComponent(vt.run_id)}`);
-				e || (yt(t), t.status === "complete" && xt(!1));
+				let t = await H(`/api/architecture/questions/runs/${encodeURIComponent(_t.run_id)}`);
+				e || (vt(t), t.status === "complete" && B(!1));
 			} catch (t) {
-				e || (L(t.message), xt(!1));
+				e || (R(t.message), B(!1));
 			}
 		}, 350);
 		return () => {
@@ -18929,17 +17490,17 @@ function Nr({ bridge: e }) {
 		};
 	}, [
 		t,
-		vt?.run_id,
-		vt?.status
+		_t?.run_id,
+		_t?.status
 	]), (0, _.useEffect)(() => {
-		if (!et || !Re.length) return;
+		if (!L || !Re.length) return;
 		let e = setInterval(() => Qe((e) => {
 			let t = (e ?? -1) + 1;
-			return t >= Re.length ? (tt(!1), Re.length - 1) : t;
+			return t >= Re.length ? (et(!1), Re.length - 1) : t;
 		}), 140);
 		return () => clearInterval(e);
-	}, [et, Re.length]), (0, _.useEffect)(() => {
-		wt.current && (wt.current.scrollTop = wt.current.scrollHeight);
+	}, [L, Re.length]), (0, _.useEffect)(() => {
+		Ct.current && (Ct.current.scrollTop = Ct.current.scrollHeight);
 	}, [Me]), (0, _.useEffect)(() => {
 		if (!le) return;
 		let e = (e) => {
@@ -18957,11 +17518,11 @@ function Nr({ bridge: e }) {
 			document.removeEventListener("pointerdown", e), window.removeEventListener("keydown", t);
 		};
 	}, [ue]), (0, _.useEffect)(() => {
-		rn && Ze === null && Ge(rn);
-	}, [rn, Ze]), (0, _.useEffect)(() => {
+		sn && Ze === null && Ge(sn);
+	}, [sn, Ze]), (0, _.useEffect)(() => {
 		fe && I?.case_id === fe && (pe(null), M(!0));
 	}, [fe, I?.case_id]);
-	async function on(n) {
+	async function cn(n) {
 		if (t) {
 			e.action({
 				type: "load_case",
@@ -18970,34 +17531,34 @@ function Nr({ bridge: e }) {
 			return;
 		}
 		let r = F.current, [i, a, o] = await Promise.all([
-			V(`/api/cases/${encodeURIComponent(n)}`),
-			V(`/api/architecture/events?case_id=${encodeURIComponent(n)}`),
-			V(`/api/investigations?case_id=${encodeURIComponent(n)}`)
+			H(`/api/cases/${encodeURIComponent(n)}`),
+			H(`/api/architecture/events?case_id=${encodeURIComponent(n)}`),
+			H(`/api/investigations?case_id=${encodeURIComponent(n)}`)
 		]);
-		Pe(i), lt(o[0] || null), Le(n), be(i.scenario), r === F.current && i.scope?.period && i.scope.period !== P && we(i.scope.period), Ve(a), Qe(null), Xe(null);
+		Pe(i), ct(o[0] || null), Le(n), be(i.scenario), r === F.current && i.scope?.period && i.scope.period !== P && we(i.scope.period), Ve(a), Qe(null), Xe(null);
 	}
-	function sn(e) {
-		z.current?.close();
+	function ln(e) {
+		xt.current?.close();
 		let t = new EventSource(`/api/architecture/runs/${encodeURIComponent(e)}/stream`);
-		z.current = t, t.addEventListener("flow", (e) => {
+		xt.current = t, t.addEventListener("flow", (e) => {
 			let t = JSON.parse(e.data);
 			Ve((e) => e.some((e) => e.seq === t.seq) ? e : [...e, t]);
 		}), t.addEventListener("complete", async () => {
-			t.close(), z.current = null, Ue(!1);
+			t.close(), xt.current = null, Ue(!1);
 			try {
-				await on(e);
-				let t = await V("/api/cases");
-				it(t.slice(0, 20));
+				await cn(e);
+				let t = await H("/api/cases");
+				z(t.slice(0, 20));
 			} catch (e) {
-				L(e.message);
+				R(e.message);
 			}
 		}), t.onerror = () => {
-			L("Live connection interrupted. Stored events can be reloaded from the case list.");
+			R("Live connection interrupted. Stored events can be reloaded from the case list.");
 		};
 	}
-	async function cn() {
-		L(""), lt(null), o("architecture"), Ve([]), Qe(null), Xe(null), Ue(!0);
-		let n = Ae.trim() === "Reconcile the selected synthetic period" || !Ae.trim() ? `Reconcile ${Sr(P)}` : Ae.trim();
+	async function un() {
+		R(""), ct(null), o("architecture"), Ve([]), Qe(null), Xe(null), Ue(!0);
+		let n = Ae.trim() === "Reconcile the selected synthetic period" || !Ae.trim() ? `Reconcile ${$n(P)}` : Ae.trim();
 		if (t) e.action({
 			type: "run",
 			message: n,
@@ -19006,14 +17567,14 @@ function Nr({ bridge: e }) {
 			pace: Te
 		});
 		else try {
-			let e = await V("/api/runs", "POST", {
+			let e = await H("/api/runs", "POST", {
 				message: n,
 				scenario: ye,
 				user_id: "finance.user",
 				demo_pace_ms: Te
 			});
 			if (e.follow_up) {
-				Ue(!1), L(e.follow_up);
+				Ue(!1), R(e.follow_up);
 				return;
 			}
 			Le(e.case_id), Pe({
@@ -19021,47 +17582,47 @@ function Nr({ bridge: e }) {
 				scenario: e.scenario,
 				scope: e.scope,
 				status: "running"
-			}), sn(e.case_id);
+			}), ln(e.case_id);
 		} catch (e) {
-			Ue(!1), L(e.message);
+			Ue(!1), R(e.message);
 		}
 	}
-	async function ln(n) {
+	async function dn(n) {
 		if (we(n), ne(n), ae(null), t) e.action({
 			type: "report",
 			period: n
 		});
 		else try {
 			let e = I?.scope?.period === n ? `?case_id=${encodeURIComponent(I.case_id)}` : "";
-			ae(await V(`/api/reports/${n}${e}`));
+			ae(await H(`/api/reports/${n}${e}`));
 		} catch (e) {
-			L(e.message), ne(null);
+			R(e.message), ne(null);
 		}
 	}
 	(0, _.useEffect)(() => {
-		t ? f(e.data?.conditions || []) : V("/api/conditions").then(f).catch(() => {});
+		t ? f(e.data?.conditions || []) : H("/api/conditions").then(f).catch(() => {});
 	}, [t, e?.data?.conditions]);
-	async function un(n, i) {
-		if (L(""), t) e.action({
+	async function fn(n, i) {
+		if (R(""), t) e.action({
 			type: "condition",
 			period: n,
 			condition: i
 		});
 		else try {
-			await V("/api/conditions", "POST", {
+			await H("/api/conditions", "POST", {
 				period: n,
 				condition: i
 			});
-			let e = await V("/api/history");
+			let e = await H("/api/history");
 			r((t) => ({
 				...t,
 				history: e
-			})), D && ln(D);
+			})), D && dn(D);
 		} catch (e) {
-			L(e.message);
+			R(e.message);
 		}
 	}
-	function dn() {
+	function pn() {
 		ne(null), ae(null), t && e.action({
 			type: "report",
 			period: null
@@ -19078,19 +17639,19 @@ function Nr({ bridge: e }) {
 			localStorage.setItem("finance.showTech", w ? "1" : "0");
 		} catch {}
 	}, [w]), (0, _.useEffect)(() => {
-		Or.includes(a) && (E.current = a);
+		ar.includes(a) && (E.current = a);
 	}, [a]), (0, _.useEffect)(() => {
 		if (t) {
 			let t = e.data || {};
 			t.agents && m(t.agents), t.agent_plan && t.agent_plan.plan_id !== h?.plan_id && (g(t.agent_plan), y(!1), t.agent_plan.period_source === "request" && t.agent_plan.effective_period && we(t.agent_plan.effective_period));
-		} else V("/api/agent/catalog").then(m).catch(() => {});
+		} else H("/api/agent/catalog").then(m).catch(() => {});
 	}, [
 		t,
 		e?.data?.agents,
 		e?.data?.agent_plan
 	]);
-	async function fn(n) {
-		L(""), se("app"), o("agents"), y(!0);
+	async function mn(n) {
+		R(""), se("app"), o("agents"), y(!0);
 		let i = ++Ce.current;
 		if (t) e.action({
 			type: "agent_plan",
@@ -19100,7 +17661,7 @@ function Nr({ bridge: e }) {
 			period: P
 		});
 		else try {
-			let e = await V("/api/agent/plan", "POST", {
+			let e = await H("/api/agent/plan", "POST", {
 				message: n,
 				scenario: ye,
 				user_id: "finance.user",
@@ -19109,21 +17670,21 @@ function Nr({ bridge: e }) {
 				demo_pace_ms: 0
 			});
 			if (i !== Ce.current) return;
-			if (e.period_source === "request" && e.effective_period && e.effective_period !== P && we(e.effective_period), g(e), Pt((e) => e + 1), e.trace_case_id && !e.case_id && (Le(e.trace_case_id), Ve(await V(`/api/architecture/events?case_id=${encodeURIComponent(e.trace_case_id)}`)), Qe(null)), e.case_id) {
-				await on(e.case_id);
-				let t = await V("/api/history");
+			if (e.period_source === "request" && e.effective_period && e.effective_period !== P && we(e.effective_period), g(e), Nt((e) => e + 1), e.trace_case_id && !e.case_id && (Le(e.trace_case_id), Ve(await H(`/api/architecture/events?case_id=${encodeURIComponent(e.trace_case_id)}`)), Qe(null)), e.case_id) {
+				await cn(e.case_id);
+				let t = await H("/api/history");
 				r((e) => ({
 					...e,
 					history: t
-				})), it((await V("/api/cases")).slice(0, 20));
+				})), z((await H("/api/cases")).slice(0, 20));
 			}
 		} catch (e) {
-			L(e.message);
+			R(e.message);
 		} finally {
 			y(!1);
 		}
 	}
-	function mn(e, t) {
+	function hn(e, t) {
 		if (!e?.id) return;
 		x({
 			id: e.id,
@@ -19131,41 +17692,41 @@ function Nr({ bridge: e }) {
 			role: e.role,
 			tools: e.tools || []
 		});
-		let n = t?.view || e.view, r = t?.ref?.period || I?.scope?.period || Dt?.available_periods?.at(-1);
+		let n = t?.view || e.view, r = t?.ref?.period || I?.scope?.period || Et?.available_periods?.at(-1);
 		if (n === "run") o("architecture");
-		else if (n === "report") ln(r);
+		else if (n === "report") dn(r);
 		else if (n === "evidence-proof") Sn("proof");
 		else if (n === "decision-responsibilities") o("mcp");
 		else if (typeof n == "string" && n.startsWith("module:")) {
 			let [, e, t] = n.split(":"), r = i.byId[e];
-			r?.tab && o(r.tab.id), e === "treasury" && t && Mt(t);
+			r?.tab && o(r.tab.id), e === "treasury" && t && jt(t);
 		} else o("business");
 	}
-	function hn(e) {
+	function gn(e) {
 		let t = [
 			...i.tabs.map((e) => e.tab.id),
 			"agents",
 			"architecture"
-		], n = t.findIndex((e) => e === "architecture" ? Or.includes(a) : a === e), r = null;
+		], n = t.findIndex((e) => e === "architecture" ? ar.includes(a) : a === e), r = null;
 		if (e.key === "ArrowRight" && (r = (n + 1) % t.length), e.key === "ArrowLeft" && (r = (n + t.length - 1) % t.length), r === null) return;
 		e.preventDefault();
 		let s = t[r], c = e.currentTarget;
 		o(s === "architecture" ? E.current : s), requestAnimationFrame(() => c.querySelectorAll("[role=tab]")[r]?.focus());
 	}
-	async function gn() {
-		if (mt !== "approver") L("Switch to the synthetic finance approver lane first.");
+	async function _n() {
+		if (pt !== "approver") R("Switch to the synthetic finance approver lane first.");
 		else if (t) e.action({
 			type: "approve",
 			case_id: I?.case_id,
-			role: mt
+			role: pt
 		});
 		else try {
-			let e = (await V("/api/proposals")).find((e) => e.case_id === I?.case_id && e.status === "awaiting_approval");
+			let e = (await H("/api/proposals")).find((e) => e.case_id === I?.case_id && e.status === "awaiting_approval");
 			if (!e) {
-				L("No pending synthetic proposal for this case.");
+				R("No pending synthetic proposal for this case.");
 				return;
 			}
-			let t = await V("/api/decisions", "POST", {
+			let t = await H("/api/decisions", "POST", {
 				proposal_id: e.proposal_id,
 				approver_id: "finance.approver",
 				approved: !0,
@@ -19175,76 +17736,76 @@ function Nr({ bridge: e }) {
 			Ne((e) => [...e, {
 				role: "assistant",
 				text: `Approval result: ${t.status}. Synthetic variance marker ${t.document_number || "not created"}.`
-			}]), Ve(await V(`/api/architecture/events?case_id=${encodeURIComponent(I.case_id)}`)), ot(await V("/api/proposals"));
+			}]), Ve(await H(`/api/architecture/events?case_id=${encodeURIComponent(I.case_id)}`)), it(await H("/api/proposals"));
 		} catch (e) {
-			L(e.message);
+			R(e.message);
 		}
 	}
 	async function vn(n) {
 		if (I?.case_id) {
-			if (L(""), pt(!0), t) e.action({
+			if (R(""), ft(!0), t) e.action({
 				type: "investigate",
 				case_id: I.case_id,
 				fault_profile: n
 			});
 			else try {
-				let e = await V("/api/investigations", "POST", {
+				let e = await H("/api/investigations", "POST", {
 					case_id: I.case_id,
 					fault_profile: n
 				});
-				lt(e), Le(e.case_id), Qe(null), Ve(await V(`/api/architecture/events?case_id=${encodeURIComponent(e.case_id)}`));
+				ct(e), Le(e.case_id), Qe(null), Ve(await H(`/api/architecture/events?case_id=${encodeURIComponent(e.case_id)}`));
 			} catch (e) {
-				L(e.message);
+				R(e.message);
 			} finally {
-				pt(!1);
+				ft(!1);
 			}
 		}
 	}
 	async function yn(n) {
-		if (L(""), pt(!0), t) e.action({
+		if (R(""), ft(!0), t) e.action({
 			type: "reprocess",
 			investigation_id: n,
 			operator_id: "finance.operator"
 		});
 		else try {
-			let e = await V(`/api/investigations/${n}/reprocess`, "POST", { operator_id: "finance.operator" });
-			e.after?.case_id && await on(e.after.case_id), lt(e);
-			let t = await V("/api/history");
+			let e = await H(`/api/investigations/${n}/reprocess`, "POST", { operator_id: "finance.operator" });
+			e.after?.case_id && await cn(e.after.case_id), ct(e);
+			let t = await H("/api/history");
 			r((e) => ({
 				...e,
 				history: t
-			})), it((await V("/api/cases")).slice(0, 20)), Ne((t) => [...t, {
+			})), z((await H("/api/cases")).slice(0, 20)), Ne((t) => [...t, {
 				role: "assistant",
 				text: e.reason
 			}]);
 		} catch (e) {
-			L(e.message);
+			R(e.message);
 		} finally {
-			pt(!1);
+			ft(!1);
 		}
 	}
 	async function bn(n) {
 		t ? (e.action({
 			type: "load_case",
 			case_id: n
-		}), o("architecture")) : (Le(n), Ve(await V(`/api/architecture/events?case_id=${encodeURIComponent(n)}`)), Qe(null), o("architecture"));
+		}), o("architecture")) : (Le(n), Ve(await H(`/api/architecture/events?case_id=${encodeURIComponent(n)}`)), Qe(null), o("architecture"));
 	}
 	async function xn(n, r, i) {
-		if (o("questions"), L(""), xt(!0), yt(null), t) e.action({
+		if (o("questions"), R(""), B(!0), vt(null), t) e.action({
 			type: "decision_run",
 			question_id: n,
 			route: r,
 			probe: i
 		});
 		else try {
-			let e = await V("/api/architecture/questions/runs", "POST", {
+			let e = await H("/api/architecture/questions/runs", "POST", {
 				question_id: n,
 				route: r,
 				probe: i
 			});
-			yt(e);
+			vt(e);
 		} catch (e) {
-			L(e.message), xt(!1);
+			R(e.message), B(!1);
 		}
 	}
 	function Sn(e = "proof", t = {}) {
@@ -19271,7 +17832,7 @@ function Nr({ bridge: e }) {
 				className: "shell-header launchpad-header",
 				children: [/* @__PURE__ */ (0, k.jsxs)("div", {
 					className: "brand",
-					children: [/* @__PURE__ */ (0, k.jsx)(Tr, {
+					children: [/* @__PURE__ */ (0, k.jsx)(nr, {
 						menuModules: i.modules,
 						open: ue,
 						onToggle: () => de((e) => !e),
@@ -19288,11 +17849,11 @@ function Nr({ bridge: e }) {
 					})
 				})]
 			}),
-			/* @__PURE__ */ (0, k.jsx)(ur, {
+			/* @__PURE__ */ (0, k.jsx)(Vn, {
 				period: P,
-				periods: Dt?.available_periods,
+				periods: Et?.available_periods,
 				onPeriod: we,
-				periodCount: Dt?.available_periods?.length || 12,
+				periodCount: Et?.available_periods?.length || 12,
 				localBundle: n?.local_bundle,
 				onOpenApp: () => {
 					o("business"), se("app");
@@ -19306,7 +17867,7 @@ function Nr({ bridge: e }) {
 				onOpenTreasury: () => {
 					o("treasury"), se("app");
 				},
-				onAsk: fn,
+				onAsk: mn,
 				onGo: (e) => {
 					o(e === "live" ? "architecture" : e), se("app");
 				}
@@ -19328,7 +17889,7 @@ function Nr({ bridge: e }) {
 							"aria-label": "Back to Finance Launchpad",
 							children: "⌂"
 						}),
-						/* @__PURE__ */ (0, k.jsx)(Tr, {
+						/* @__PURE__ */ (0, k.jsx)(nr, {
 							menuModules: i.modules,
 							open: ue,
 							onToggle: () => de((e) => !e),
@@ -19354,7 +17915,7 @@ function Nr({ bridge: e }) {
 						/* @__PURE__ */ (0, k.jsx)("span", { className: "header-separator" }),
 						/* @__PURE__ */ (0, k.jsx)(N, {
 							period: P,
-							periods: Dt?.available_periods,
+							periods: Et?.available_periods,
 							onPeriod: we,
 							id: "global-period"
 						}),
@@ -19375,7 +17936,7 @@ function Nr({ bridge: e }) {
 				style: { gridTemplateColumns: `repeat(${i.tabs.length + 2},minmax(0,1fr))` },
 				role: "tablist",
 				"aria-label": "Application sections",
-				onKeyDown: hn,
+				onKeyDown: gn,
 				children: [
 					...i.tabs.map((e) => [
 						e.tab.id,
@@ -19396,7 +17957,7 @@ function Nr({ bridge: e }) {
 						"Design"
 					]
 				].map(([e, t, n, r]) => {
-					let i = e === "architecture" ? Or.includes(a) : a === e;
+					let i = e === "architecture" ? ar.includes(a) : a === e;
 					return /* @__PURE__ */ (0, k.jsxs)("button", {
 						type: "button",
 						role: "tab",
@@ -19444,21 +18005,21 @@ function Nr({ bridge: e }) {
 					}[ce.current]]
 				})]
 			}),
-			nt && /* @__PURE__ */ (0, k.jsxs)("div", {
+			tt && /* @__PURE__ */ (0, k.jsxs)("div", {
 				className: "error-banner",
 				role: "alert",
 				children: [
 					/* @__PURE__ */ (0, k.jsx)("strong", { children: "Needs attention" }),
-					/* @__PURE__ */ (0, k.jsx)("span", { children: nt }),
+					/* @__PURE__ */ (0, k.jsx)("span", { children: tt }),
 					/* @__PURE__ */ (0, k.jsx)("button", {
 						type: "button",
-						onClick: () => L(""),
+						onClick: () => R(""),
 						"aria-label": "Dismiss error",
 						children: "×"
 					})
 				]
 			}),
-			Or.includes(a) && /* @__PURE__ */ (0, k.jsx)("div", {
+			ar.includes(a) && /* @__PURE__ */ (0, k.jsx)("div", {
 				className: "surface decision-nav",
 				role: "tablist",
 				"aria-label": "Architecture views",
@@ -19471,7 +18032,7 @@ function Nr({ bridge: e }) {
 					[
 						"approaches",
 						"Complete architecture",
-						"S1 · S2 · S3 end to end"
+						"Three scenarios end to end"
 					],
 					[
 						"mcp",
@@ -19496,7 +18057,7 @@ function Nr({ bridge: e }) {
 					[
 						"diagrams",
 						"Diagrams",
-						"Detailed and landscape, zoom and export"
+						"Ten generated diagrams, zoom and export"
 					]
 				].map(([e, t, n]) => /* @__PURE__ */ (0, k.jsxs)("button", {
 					type: "button",
@@ -19532,90 +18093,90 @@ function Nr({ bridge: e }) {
 					})
 				]
 			}),
-			jt && /* @__PURE__ */ (0, k.jsx)(Ie, {
-				data: Vt,
+			At && /* @__PURE__ */ (0, k.jsx)(Ie, {
+				data: Ht,
 				period: P,
-				periods: Dt?.available_periods,
+				periods: Et?.available_periods,
 				onPeriod: we,
-				role: mt,
-				onDecision: Ht,
-				onAsk: fn,
+				role: pt,
+				onDecision: Ut,
+				onAsk: mn,
 				refs: p?.domains?.treasury?.references,
-				initial: jt,
-				onClose: () => Mt(null)
+				initial: At,
+				onClose: () => jt(null)
 			}),
-			D && /* @__PURE__ */ (0, k.jsx)(Yn, {
+			D && /* @__PURE__ */ (0, k.jsx)(En, {
 				report: ie,
 				period: D,
-				periods: Dt?.available_periods,
-				onPeriod: ln,
-				onClose: dn
+				periods: Et?.available_periods,
+				onPeriod: dn,
+				onClose: pn
 			}),
 			Lt ? /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [
-				/* @__PURE__ */ (0, k.jsx)(sr, {
-					onAsk: fn,
+				/* @__PURE__ */ (0, k.jsx)(Rn, {
+					onAsk: mn,
 					busy: v,
 					period: P,
-					periods: Dt?.available_periods,
+					periods: Et?.available_periods,
 					domain: Lt.id,
 					label: `Ask the ${Lt.short_name} agents`
 				}),
-				Jt(Lt.id),
+				Zt(Lt.id),
 				Lt.renderer === "treasury" ? /* @__PURE__ */ (0, k.jsx)(Oe, {
 					period: P,
-					periods: Dt?.available_periods,
-					data: Vt,
-					state: Bt("treasury"),
-					role: mt,
-					onRole: ht,
-					onOpenDetail: Mt,
-					onDecision: Ht,
-					onAsk: fn
+					periods: Et?.available_periods,
+					data: Ht,
+					state: Vt("treasury"),
+					role: pt,
+					onRole: mt,
+					onOpenDetail: jt,
+					onDecision: Ut,
+					onAsk: mn
 				}) : /* @__PURE__ */ (0, k.jsx)(Se, {
 					module: Lt,
 					period: P,
-					view: zt(Lt.id),
-					state: Bt(Lt.id),
-					onAsk: fn
+					view: Bt(Lt.id),
+					state: Vt(Lt.id),
+					onAsk: mn
 				})
-			] }) : a === "business" ? /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsx)(sr, {
-				onAsk: fn,
+			] }) : a === "business" ? /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsx)(Rn, {
+				onAsk: mn,
 				busy: v,
 				period: P,
-				periods: Dt?.available_periods,
+				periods: Et?.available_periods,
 				domain: "reconciliation"
 			}), /* @__PURE__ */ (0, k.jsx)(ze, {
 				period: P,
 				onPeriod: we,
-				onOpenReport: ln,
-				onAsk: () => fn(i.ask("reconciliation", P)),
-				banner: Jt("reconciliation"),
+				onOpenReport: dn,
+				onAsk: () => mn(i.ask("reconciliation", P)),
+				banner: Zt("reconciliation"),
 				conditions: d,
-				onCondition: un,
-				history: Dt,
-				cases: rt,
+				onCondition: fn,
+				history: Et,
+				cases: nt,
 				currentCase: I,
-				proposal: Qt,
-				role: mt,
-				onRole: ht,
-				approve: gn,
+				proposal: tn,
+				role: pt,
+				onRole: mt,
+				approve: _n,
 				onOpenEvidence: () => Sn("finance"),
-				summary: At,
-				periodPanel: /* @__PURE__ */ (0, k.jsx)(kr, {
+				summary: kt,
+				periodPanel: /* @__PURE__ */ (0, k.jsx)(or, {
 					result: I?.result,
 					period: P,
-					summary: At,
-					summaryState: Zt,
-					onAskPeriod: () => fn(i.ask("reconciliation", P)),
-					onOpenDetail: () => ln(P),
+					summary: kt,
+					summaryState: en,
+					onAskPeriod: () => mn(i.ask("reconciliation", P)),
+					onOpenDetail: () => dn(P),
 					onOpenEvidence: () => Sn("finance"),
-					onRunCurrent: () => fn(i.ask("reconciliation", P))
+					onRunCurrent: () => mn(i.ask("reconciliation", P))
 				}),
-				extrasRight: R ? /* @__PURE__ */ (0, k.jsx)(Be, {
-					investigation: R,
+				extrasRight: st ? /* @__PURE__ */ (0, k.jsx)(Be, {
+					investigation: st,
 					onOpen: () => Sn("proof")
 				}) : null,
-				extrasLeft: /* @__PURE__ */ (0, k.jsx)(k.Fragment, { children: I?.result?.variance?.amount !== null && I?.result?.variance?.amount !== void 0 && Number(I.result.variance.amount) !== 0 && R?.case_id !== I.case_id && /* @__PURE__ */ (0, k.jsxs)("section", {
+				extrasLeft: /* @__PURE__ */ (0, k.jsx)(k.Fragment, { children: I?.result?.variance?.amount !== null && I?.result?.variance?.amount !== void 0 && Number(I.result.variance.amount) !== 0 && st?.case_id !== I.case_id && /* @__PURE__ */ (0, k.jsxs)("section", {
 					className: "surface action-strip",
 					children: [/* @__PURE__ */ (0, k.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, k.jsx)("span", {
@@ -19626,21 +18187,21 @@ function Nr({ bridge: e }) {
 						/* @__PURE__ */ (0, k.jsx)("p", { children: "A comparable nonzero variance may create a local marker proposal." })
 					] }), /* @__PURE__ */ (0, k.jsx)("button", {
 						type: "button",
-						onClick: () => fn("Propose an adjustment"),
+						onClick: () => mn("Propose an adjustment"),
 						children: "Ask the agents to propose a variance marker"
 					})]
 				}) })
-			})] }) : a === "agents" ? /* @__PURE__ */ (0, k.jsx)(lr, {
+			})] }) : a === "agents" ? /* @__PURE__ */ (0, k.jsx)(Bn, {
 				catalog: p,
 				plan: h,
 				busy: v,
-				onAsk: fn,
-				onOpenLayer: mn,
-				onOpenConcept: qt,
-				onOpenOutput: Yt,
-				ontology: Ut,
+				onAsk: mn,
+				onOpenLayer: hn,
+				onOpenConcept: Xt,
+				onOpenOutput: Qt,
+				ontology: V,
 				period: P,
-				periods: Dt?.available_periods
+				periods: Et?.available_periods
 			}) : a === "architecture" ? /* @__PURE__ */ (0, k.jsxs)("main", {
 				className: "architecture-layout",
 				children: [
@@ -19670,9 +18231,9 @@ function Nr({ bridge: e }) {
 								/* @__PURE__ */ (0, k.jsxs)("label", { children: ["Period", /* @__PURE__ */ (0, k.jsx)("select", {
 									value: P,
 									onChange: (e) => we(e.target.value),
-									children: (Dt?.available_periods || ["2026-11"]).map((e) => /* @__PURE__ */ (0, k.jsx)("option", {
+									children: (Et?.available_periods || ["2026-11"]).map((e) => /* @__PURE__ */ (0, k.jsx)("option", {
 										value: e,
-										children: Sr(e)
+										children: $n(e)
 									}, e))
 								})] }),
 								/* @__PURE__ */ (0, k.jsxs)("label", { children: ["Route", /* @__PURE__ */ (0, k.jsxs)("select", {
@@ -19708,7 +18269,7 @@ function Nr({ bridge: e }) {
 								/* @__PURE__ */ (0, k.jsx)("button", {
 									type: "button",
 									className: "primary",
-									onClick: cn,
+									onClick: un,
 									disabled: He,
 									children: He ? "Running…" : "Run architecture"
 								})
@@ -19733,21 +18294,21 @@ function Nr({ bridge: e }) {
 										/* @__PURE__ */ (0, k.jsx)("button", {
 											type: "button",
 											onClick: () => {
-												Qe(-1), Xe(null), tt(!0);
+												Qe(-1), Xe(null), et(!0);
 											},
 											disabled: !Re.length,
 											children: "Replay"
 										}),
 										/* @__PURE__ */ (0, k.jsx)("button", {
 											type: "button",
-											onClick: () => tt(!1),
-											disabled: !et,
+											onClick: () => et(!1),
+											disabled: !L,
 											children: "Pause"
 										}),
 										/* @__PURE__ */ (0, k.jsx)("button", {
 											type: "button",
 											onClick: () => {
-												tt(!1), Qe(null), Xe(null);
+												et(!1), Qe(null), Xe(null);
 											},
 											disabled: Ze === null,
 											children: "Live"
@@ -19755,15 +18316,15 @@ function Nr({ bridge: e }) {
 									]
 								})]
 							}),
-							/* @__PURE__ */ (0, k.jsx)(jr, {
-								registry: Et,
-								events: en,
+							/* @__PURE__ */ (0, k.jsx)(cr, {
+								registry: Tt,
+								events: rn,
 								scenario: ye,
 								selectedZone: We,
 								onZone: (e) => {
 									Ge(e), qe(null);
 								},
-								viewportRef: Ct,
+								viewportRef: St,
 								liveRunning: He,
 								reportReady: !!I?.result?.variance,
 								onOpenReport: () => M(!0)
@@ -19773,8 +18334,8 @@ function Nr({ bridge: e }) {
 								children: [
 									/* @__PURE__ */ (0, k.jsx)("span", { className: `status-dot ${He ? "pulsing" : ""}` }),
 									" ",
-									/* @__PURE__ */ (0, k.jsx)("strong", { children: tn ? `${tn.status === "denied" ? "Control denied" : "Handoff recorded"} · ${br[rn || We] || rn || We}` : "Awaiting a business question" }),
-									/* @__PURE__ */ (0, k.jsx)("span", { children: br[rn] || "Select a route zone" }),
+									/* @__PURE__ */ (0, k.jsx)("strong", { children: an ? `${an.status === "denied" ? "Control denied" : "Handoff recorded"} · ${Zn[sn || We] || sn || We}` : "Awaiting a business question" }),
+									/* @__PURE__ */ (0, k.jsx)("span", { children: Zn[sn] || "Select a route zone" }),
 									/* @__PURE__ */ (0, k.jsxs)("span", {
 										className: "tech",
 										children: [Re.length, " stored events"]
@@ -19783,10 +18344,10 @@ function Nr({ bridge: e }) {
 							})
 						]
 					}),
-					/* @__PURE__ */ (0, k.jsx)(yr, {
-						events: en,
+					/* @__PURE__ */ (0, k.jsx)(Xn, {
+						events: rn,
 						running: He,
-						selectedZone: br[We] || We,
+						selectedZone: Zn[We] || We,
 						onOpenEvidence: () => Sn("components")
 					}),
 					/* @__PURE__ */ (0, k.jsxs)("section", {
@@ -19796,17 +18357,17 @@ function Nr({ bridge: e }) {
 							children: "STORED CASES"
 						}), /* @__PURE__ */ (0, k.jsx)("h2", { children: "Replay an earlier run" })] }), /* @__PURE__ */ (0, k.jsxs)("div", {
 							className: "case-buttons",
-							children: [rt.slice(0, 8).map((e) => /* @__PURE__ */ (0, k.jsxs)("button", {
+							children: [nt.slice(0, 8).map((e) => /* @__PURE__ */ (0, k.jsxs)("button", {
 								type: "button",
-								onClick: () => on(e.case_id),
+								onClick: () => cn(e.case_id),
 								children: [
-									Sr(e.scope?.period),
+									$n(e.scope?.period),
 									" · ",
 									e.scenario,
 									" · ",
 									e.status
 								]
-							}, e.case_id)), !rt.length && /* @__PURE__ */ (0, k.jsx)("span", {
+							}, e.case_id)), !nt.length && /* @__PURE__ */ (0, k.jsx)("span", {
 								className: "micro",
 								children: "No completed case yet."
 							})]
@@ -19817,62 +18378,70 @@ function Nr({ bridge: e }) {
 				questions: n?.decision_questions || [],
 				routePlaybooks: n?.route_playbooks || {},
 				focus: me,
-				run: vt,
+				run: _t,
 				onRun: xn,
-				busy: bt,
+				busy: yt,
 				onOpenEvidence: (e) => Sn("questions", { stepSeq: e })
 			}) : a === "ontology" ? /* @__PURE__ */ (0, k.jsx)(he, {
-				ontology: Ut,
-				references: Kt,
-				focus: B,
+				ontology: V,
+				references: Yt,
+				focus: Kt,
 				onOpenTab: (e) => o(e)
-			}) : a === "brief" ? /* @__PURE__ */ (0, k.jsx)(En, {
+			}) : a === "brief" ? /* @__PURE__ */ (0, k.jsx)(nn, {
 				onComplete: () => o("approaches"),
 				onMcp: () => o("mcp"),
 				onAgentHosting: () => o("agenthost")
-			}) : a === "agenthost" ? /* @__PURE__ */ (0, k.jsx)(_n, {
+			}) : a === "agenthost" ? /* @__PURE__ */ (0, k.jsx)(qt, {
 				onMcp: () => o("mcp"),
 				onComplete: () => o("approaches")
-			}) : a === "mcp" ? /* @__PURE__ */ (0, k.jsx)(pn, {
+			}) : a === "mcp" ? /* @__PURE__ */ (0, k.jsx)(Gt, {
 				view: l,
 				onView: u,
 				onApproaches: () => o("approaches"),
 				onAgentHosting: () => o("agenthost"),
 				onDetailed: (e) => {
-					c(e), o("diagrams");
+					c({
+						S1: "D2",
+						S2: "D3",
+						S3: "D4"
+					}[e] || e), o("diagrams");
 				}
-			}) : a === "diagrams" ? /* @__PURE__ */ (0, k.jsx)($t, {
+			}) : a === "diagrams" ? /* @__PURE__ */ (0, k.jsx)(Pt, {
 				view: s,
 				onView: c,
 				onBack: () => o("approaches")
-			}) : a === "approaches" ? /* @__PURE__ */ (0, k.jsx)(an, {
+			}) : a === "approaches" ? /* @__PURE__ */ (0, k.jsx)(Rt, {
 				playbooks: n?.route_playbooks || {},
 				onQuestion: () => o("questions"),
 				onDetailedDiagram: (e) => {
-					c(e), o("diagrams");
+					c({
+						S1: "D2",
+						S2: "D3",
+						S3: "D4"
+					}[e] || e), o("diagrams");
 				},
 				onGovernance: (e) => {
 					u(e), o("mcp");
 				},
 				onAgentHosting: () => o("agenthost")
 			}) : /* @__PURE__ */ (0, k.jsx)(Ye, {
-				investigation: R,
+				investigation: st,
 				currentCase: I,
-				history: Dt,
-				busy: ft,
+				history: Et,
+				busy: dt,
 				onStart: vn,
 				onResolve: yn,
 				onTrace: bn,
-				historyDetail: st,
-				events: R?.case_id === I?.case_id && ut.length ? ut : Re,
+				historyDetail: at,
+				events: st?.case_id === I?.case_id && lt.length ? lt : Re,
 				caseEvents: Re,
-				decisionRun: vt,
+				decisionRun: _t,
 				decisionQuestions: n?.decision_questions || [],
 				focus: ge,
-				componentDetails: /* @__PURE__ */ (0, k.jsx)(Mr, {
-					registry: Et,
+				componentDetails: /* @__PURE__ */ (0, k.jsx)(lr, {
+					registry: Tt,
 					zone: We,
-					events: en,
+					events: rn,
 					selectedComponent: Ke,
 					onComponent: qe,
 					scenario: ye
@@ -19889,7 +18458,7 @@ function Nr({ bridge: e }) {
 						}),
 						/* @__PURE__ */ (0, k.jsx)("div", {
 							className: "review-list",
-							children: xr.map(([e, t]) => /* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: e }), /* @__PURE__ */ (0, k.jsx)("span", { children: t })] }, e))
+							children: Qn.map(([e, t]) => /* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)("strong", { children: e }), /* @__PURE__ */ (0, k.jsx)("span", { children: t })] }, e))
 						}),
 						/* @__PURE__ */ (0, k.jsx)("p", {
 							className: "micro",
@@ -19899,7 +18468,7 @@ function Nr({ bridge: e }) {
 				})
 			}),
 			wn,
-			ve && /* @__PURE__ */ (0, k.jsx)(Ar, {
+			ve && /* @__PURE__ */ (0, k.jsx)(sr, {
 				caseRecord: I,
 				onClose: () => M(!1),
 				onOpenEvidence: () => Sn("finance")
@@ -19908,37 +18477,37 @@ function Nr({ bridge: e }) {
 	}));
 }
 // src/streamlit.jsx
-var Pr = /* @__PURE__ */ new WeakMap(), Fr = [], Ir = null, Lr = null, Rr = 0;
-function zr() {
-	if (Ir || !Fr.length || !Lr) return;
-	Ir = Fr.shift();
-	let e = Ir;
-	Lr("action", {
+var dr = /* @__PURE__ */ new WeakMap(), fr = [], pr = null, mr = null, hr = 0;
+function gr() {
+	if (pr || !fr.length || !mr) return;
+	pr = fr.shift();
+	let e = pr;
+	mr("action", {
 		...e.payload,
 		_seq: e.seq
 	}), e.timer = setTimeout(() => {
-		Ir === e && (Ir = null, zr());
+		pr === e && (pr = null, gr());
 	}, 12e3);
 }
-function Br(e) {
-	e?.type === "select_period" && (Fr = Fr.filter((e) => e.payload.type !== "select_period")), Fr.push({
+function _r(e) {
+	e?.type === "select_period" && (fr = fr.filter((e) => e.payload.type !== "select_period")), fr.push({
 		payload: e,
-		seq: ++Rr
-	}), zr();
+		seq: ++hr
+	}), gr();
 }
-function Vr(e) {
-	Ir && typeof e == "number" && e >= Ir.seq && (clearTimeout(Ir.timer), Ir = null, zr());
+function vr(e) {
+	pr && typeof e == "number" && e >= pr.seq && (clearTimeout(pr.timer), pr = null, gr());
 }
-function Hr(e) {
+function yr(e) {
 	let { parentElement: t, data: n, setTriggerValue: r } = e, i = t.querySelector(".finance-root");
 	if (!i) throw Error("Missing finance component mount");
-	let a = Pr.get(t);
-	return a || (a = (0, v.createRoot)(i), Pr.set(t, a)), Lr = r, Vr(n?.action_seq), a.render(/* @__PURE__ */ (0, k.jsx)(Nr, { bridge: {
+	let a = dr.get(t);
+	return a || (a = (0, v.createRoot)(i), dr.set(t, a)), mr = r, vr(n?.action_seq), a.render(/* @__PURE__ */ (0, k.jsx)(ur, { bridge: {
 		data: n || {},
-		action: Br
+		action: _r
 	} })), () => {
-		let e = Pr.get(t);
-		e && (e.unmount(), Pr.delete(t));
+		let e = dr.get(t);
+		e && (e.unmount(), dr.delete(t));
 	};
 }
-export { Hr as default };
+export { yr as default };

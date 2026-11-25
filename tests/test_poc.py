@@ -38,10 +38,13 @@ def test_architecture_decision_catalog_and_combined_route_are_open():
     assert all(len(item["dependencies"]) >= 3 for item in catalog)
     run = build_run("sap_mcp_hosting", "S3", "onboarded")
     names = [step["component"] for step in run["steps"]]
-    assert names.index("AgentCore Gateway") < names.index("SAP Apigee MCP") < names.index("SAP Integration Suite") < names.index("SAP backend role")
+    assert "AgentCore Gateway" not in names and "AgentCore Runtime + Identity" not in names  # S3 baseline: no AWS execution hop
+    assert names.index("AWS Agent Registry") < names.index("SAP BTP Cloud Foundry agent") < names.index("SAP Apigee MCP") < names.index("SAP Integration Suite") < names.index("SAP backend role")
+    s2 = [step["component"] for step in build_run("sap_mcp_hosting", "S2", "onboarded")["steps"]]
+    assert s2.index("AgentCore Gateway") < s2.index("SAP Apigee MCP") < s2.index("SAP Integration Suite")
     assert run["steps"][1]["phase"] == "design-time"
     assert run["steps"][2]["input"] == "Can SAP retain Apigee as its domain MCP layer?"
-    assert run["route_status"] == "Unapproved candidate"
+    assert run["route_status"].startswith("Preferred candidate")
     assert run["decision_status"].startswith("OPEN")
     assert all("1000" not in str(step) and "ghp_" not in str(step) for step in run["steps"])
 
@@ -51,16 +54,17 @@ def test_route_hosting_playbooks_cover_all_three_cases():
     assert set(playbooks) == {"S1", "S2", "S3"}
     assert all(len(item["steps"]) >= 5 and item["decisions"] and item["sources"] for item in playbooks.values())
     assert all(all(stage["configure"] and stage["dependency"] and stage["proof"] and stage["owner"] for stage in item["steps"]) for item in playbooks.values())
-    assert "AgentCore Gateway → SAP Apigee MCP endpoint" in playbooks["S3"]["path"]
-    assert "Unapproved" in playbooks["S3"]["status"]
+    assert "Apigee MCP/API" in playbooks["S3"]["path"] and "AgentCore" not in playbooks["S3"]["path"]
+    assert "AgentCore Gateway" in playbooks["S2"]["path"] and "AgentCore" not in playbooks["S1"]["path"]
+    assert "Preferred candidate" in playbooks["S3"]["status"] and "unresolved" in playbooks["S1"]["status"]
 
 
 @pytest.mark.parametrize("question,probe,denied_at", [
-    ("sap_mcp_hosting", "missing_target", "AgentCore Gateway"),
+    ("sap_mcp_hosting", "missing_target", "SAP Apigee MCP"),
     ("sap_identity", "missing_principal", "SAP backend role"),
     ("read_vs_post", "post_no_approval", "Finance approval boundary"),
-    ("foundry_registry", "unregistered", "AI Foundry registry"),
-    ("external_agent", "unapproved_partner", "AgentCore Gateway"),
+    ("foundry_registry", "unregistered", "AWS Agent Registry"),
+    ("external_agent", "unapproved_partner", "SAP Apigee MCP"),
 ])
 def test_decision_probes_fail_at_the_intended_boundary(question,probe,denied_at):
     run = build_run(question,"S3",probe)
