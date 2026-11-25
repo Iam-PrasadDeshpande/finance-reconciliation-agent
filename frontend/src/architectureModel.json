@@ -1,5 +1,5 @@
 {
- "version": "5.1",
+ "version": "5.2",
  "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
  "ids": [
   "S1",
@@ -9,155 +9,41 @@
  "scenarios": {
   "S1": {
    "id": "S1",
-   "name": "S1 · SAP-centric",
-   "short": "SAP-centric",
-   "status": "Evaluation candidate",
-   "objective": "SAP owns agent execution and the domain's MCP capability. Apigee is the SAP-facing MCP/API gateway. Registration is domain-managed; no AWS component takes part.",
-   "agent_runtime": "SAP BTP Cloud Foundry",
-   "agent_hosting_owner": "SAP BTP platform team",
-   "agent_execution_endpoint": "Cloud Foundry application route (agent API)",
-   "ui_hosting": "SAP Fiori launchpad or the existing application UI",
-   "mcp_client": "Inside the agent process on Cloud Foundry",
-   "mcp_endpoint_type": "Apigee-managed MCP endpoint (Pattern A); custom MCP server behind Apigee only where logic is needed (Pattern B)",
-   "mcp_gateway": "Google Apigee (SAP-facing MCP/API gateway and policy layer)",
-   "custom_mcp_runtime": "SAP BTP Cloud Foundry, only if required",
-   "custom_mcp_hosting_owner": "SAP BTP platform team",
-   "mcp_tool_execution_location": "Pattern A: API operation behind Apigee. Pattern B: the custom MCP service on Cloud Foundry",
-   "agent_registry": "Domain-managed catalog · product selection pending",
-   "mcp_registry": "Domain-managed catalog · product selection pending",
-   "registry_publisher_approver": "Domain team publishes; approval owner TBD · REQUIRES VALIDATION",
-   "registry_sync": "Not defined. No product is selected, so no synchronization mechanism exists",
-   "agent_discovery": "Domain-managed catalog lookup (mechanism TBD · REQUIRES VALIDATION)",
-   "mcp_tool_discovery": "Apigee MCP tools/list at the endpoint; catalog lookup TBD · REQUIRES VALIDATION",
-   "agentcore_runtime": false,
-   "agentcore_gateway": false,
-   "aws_agent_registry": false,
-   "llm_gateway": "Portkey",
-   "llm_boundary": "Cloud Foundry agent → Portkey → approved LLM provider. No direct provider route",
-   "integration_suite": "SAP Integration Suite (API Management / Cloud Integration)",
-   "cloud_connector": "SAP Cloud Connector, where the system connectivity model needs it (conditional)",
-   "backend_authorization": "Target SAP backend roles of the mapped user or service identity",
-   "identity_boundary": "Enterprise IdP or SAP Cloud Identity Services (IAS, candidate); token exchange and user mapping subject to validation",
-   "persistence": "Conditional: SAP HANA Cloud or an existing approved store, only if durable state is required",
-   "monitoring_audit": "SAP BTP logs for the agent; Apigee analytics; Integration Suite monitoring; SAP change documents",
-   "artifact_repository": "Organization Git; Cloud Foundry application artifacts; Apigee proxy bundles and OpenAPI specs",
-   "trust_boundaries": [
-    "SAP BTP",
-    "Google Apigee",
-    "SAP landscape",
-    "Portkey / LLM provider"
-   ],
-   "assumptions": [
-    "Apigee MCP is enabled for the organization and fronts approved Integration Suite APIs",
-    "An enterprise IdP can issue tokens to the Cloud Foundry agent"
-   ],
-   "unverified": [
-    "Registry product for agents and MCP: candidates are identified (see the decision register) but none is selected or verified for this tenant",
-    "Apigee-to-Integration Suite identity mapping",
-    "Principal propagation to the SAP backend",
-    "SAP BTP Cloud Foundry entitlement and quota in this tenant (the runtime itself is documented)"
-   ],
-   "registry_candidates": [
-    "SAP AI Agent Hub: reported as a vendor-agnostic registry of agents, LLMs and MCP servers; the SAP product page could not be read (HTTP 403), so availability and entitlement are NOT_VERIFIED",
-    "SAP Integration Suite MCP Gateway with its developer hub: documented for governed exposure and discovery of MCP tools, not a registry of agents",
-    "AWS Agent Registry: documented and usable for SAP-hosted agents, but choosing it turns this scenario into S3",
-    "Interim domain-run catalog (versioned records in Git with an approval step): no product, but gives approval and revocation an owner"
-   ],
-   "policy_dependencies": [
-    "Whether the enterprise requires central registration of agents and MCP servers",
-    "Who owns domain MCP interfaces"
-   ],
-   "hosting_note": "Registry is Domain-managed — product selection pending. Do not read it as an SAP-native Agent Registry."
-  },
-  "S2": {
-   "id": "S2",
-   "name": "S2 · AWS AgentCore-centric",
-   "short": "AgentCore-centric",
-   "status": "Evaluation candidate",
-   "objective": "AWS owns agent execution, any custom MCP code hosting, the runtime gateway and enterprise registration. Apigee remains the SAP-facing MCP/API gateway behind AgentCore Gateway.",
-   "agent_runtime": "AWS AgentCore Runtime",
-   "agent_hosting_owner": "AWS cloud platform team",
-   "agent_execution_endpoint": "AgentCore Runtime agent invocation endpoint",
-   "ui_hosting": "Existing application UI or SAP Fiori acting as an agent client",
-   "mcp_client": "Inside the agent process on AgentCore Runtime",
-   "mcp_endpoint_type": "AgentCore Gateway MCP endpoint toward the agent; Apigee-managed MCP endpoint (Pattern A) toward SAP; custom MCP on AgentCore Runtime only if required (Pattern B)",
-   "mcp_gateway": "AWS AgentCore Gateway (enterprise MCP gateway) and Google Apigee (SAP-facing MCP/API gateway)",
-   "custom_mcp_runtime": "AWS AgentCore Runtime, if required",
-   "custom_mcp_hosting_owner": "AWS cloud platform team",
-   "mcp_tool_execution_location": "Pattern A: API operation behind Apigee. Pattern B: custom MCP on AgentCore Runtime, reached through Apigee as a cross-cloud target (conditional)",
-   "agent_registry": "AWS Agent Registry",
-   "mcp_registry": "AWS Agent Registry",
-   "registry_publisher_approver": "AI Foundry publishes; approval owner TBD · REQUIRES VALIDATION",
-   "registry_sync": "Registry records created from agent and MCP descriptors; external sources via registry synchronization where supported",
-   "agent_discovery": "AWS Agent Registry search, approved records only",
-   "mcp_tool_discovery": "AgentCore Gateway tools/list; MCP descriptor in AWS Agent Registry",
-   "agentcore_runtime": true,
-   "agentcore_gateway": true,
-   "aws_agent_registry": true,
-   "llm_gateway": "Portkey",
-   "llm_boundary": "AgentCore Runtime agent → Portkey → approved LLM provider. No direct provider route",
-   "integration_suite": "SAP Integration Suite (API Management / Cloud Integration)",
-   "cloud_connector": "SAP Cloud Connector, where the system connectivity model needs it (conditional)",
-   "backend_authorization": "Target SAP backend roles of the mapped user or service identity",
-   "identity_boundary": "Enterprise IdP and AgentCore Identity toward the gateway; Apigee and Integration Suite identities beyond; token exchange and user mapping subject to validation",
-   "persistence": "Conditional: approved AWS persistence, only if durable state is required",
-   "monitoring_audit": "AgentCore Runtime and Gateway observability; Apigee analytics; Integration Suite monitoring; SAP change documents",
-   "artifact_repository": "Organization Git; container registry for the runtime image; gateway target definitions; Apigee bundles and specs",
-   "trust_boundaries": [
-    "AWS",
-    "Google Apigee",
-    "SAP landscape",
-    "Portkey / LLM provider"
-   ],
-   "assumptions": [
-    "AgentCore Gateway can register Apigee's MCP endpoint as a target",
-    "An AWS-hosted custom MCP can be proxied by Apigee (conditional)"
-   ],
-   "unverified": [
-    "AgentCore Gateway to Apigee: documentation shows overlapping MCP protocol versions (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26) and supported outbound OAuth and token exchange, but no end-to-end call has been made; whether an external MCP server is an MCP or an HTTP target is ambiguous; Apigee MCP does not support SSE streams",
-    "Two policy points on one call (gateway then Apigee)",
-    "AWS Agent Registry availability and region"
-   ],
-   "policy_dependencies": [
-    "Whether AI Foundry requires AgentCore for all agent hosting",
-    "Ownership of duplicated gateway policy"
-   ],
-   "hosting_note": "AgentCore Runtime, AgentCore Gateway and AWS Agent Registry are three distinct capabilities."
-  },
-  "S3": {
-   "id": "S3",
-   "name": "S3 · SAP-hosted hybrid",
+   "name": "S1 · SAP-hosted hybrid",
    "short": "SAP-hosted hybrid",
-   "status": "Preferred candidate — subject to AI Foundry policy and POC validation",
-   "objective": "SAP retains execution ownership while AI Foundry manages central discovery and registration. Hosting on SAP BTP, registration in AWS Agent Registry, no AWS execution hop.",
+   "status": "SAP-hosted alternative",
+   "classification": "SAP-hosted alternative for workloads where SAP coupling or verified platform economics justify this placement.",
+   "objective": "SAP BTP Cloud Foundry hosts and executes the agent. Apigee exposes the SAP MCP capability. AWS Agent Registry holds registration and discovery metadata only; no AgentCore component runs anything.",
    "agent_runtime": "SAP BTP Cloud Foundry",
    "agent_hosting_owner": "SAP BTP platform team",
    "agent_execution_endpoint": "Cloud Foundry application route (agent API)",
    "ui_hosting": "SAP Fiori launchpad or the existing application UI",
    "mcp_client": "Inside the agent process on Cloud Foundry",
-   "mcp_endpoint_type": "Apigee-managed MCP endpoint (Pattern A); custom MCP server behind Apigee only where logic is needed (Pattern B)",
-   "mcp_gateway": "Google Apigee (SAP-facing MCP/API gateway and policy layer)",
+   "mcp_endpoint_type": "Apigee-managed MCP endpoint (Pattern A); custom MCP server on Cloud Foundry behind Apigee only where logic needs code (Pattern B)",
+   "mcp_gateway": "Google Apigee (SAP-facing MCP/API gateway and runtime gateway)",
    "custom_mcp_runtime": "SAP BTP Cloud Foundry, if required",
    "custom_mcp_hosting_owner": "SAP BTP platform team",
    "mcp_tool_execution_location": "Pattern A: API operation behind Apigee. Pattern B: the custom MCP service on Cloud Foundry",
    "agent_registry": "AWS Agent Registry",
    "mcp_registry": "AWS Agent Registry",
-   "registry_publisher_approver": "AI Foundry approves; domain team publishes SAP-hosted agent and Apigee MCP endpoint metadata",
-   "registry_sync": "Registry records for SAP-hosted agent and Apigee MCP endpoint, created or synchronized from external sources where supported (control plane only)",
+   "registry_publisher_approver": "Integration team with the respective technical approvals; records published from the GitLab pipeline; AWS Agent Registry curator approves",
+   "registry_sync": "Records are published to AWS Agent Registry from the GitLab release pipeline through the registry API; synchronization from the endpoint URL only if Security approves AWS reaching it",
    "agent_discovery": "AWS Agent Registry search, approved records only",
    "mcp_tool_discovery": "Apigee MCP tools/list at the endpoint; endpoint metadata in AWS Agent Registry",
+   "apigee_role": "Required: the SAP-facing MCP endpoint and runtime gateway",
    "agentcore_runtime": false,
    "agentcore_gateway": false,
    "aws_agent_registry": true,
+   "aws_account": "Not used for execution. Registry records live in the central AI Foundry governance account",
    "llm_gateway": "Portkey",
    "llm_boundary": "Cloud Foundry agent → Portkey → approved LLM provider. No direct provider route",
    "integration_suite": "SAP Integration Suite (API Management / Cloud Integration)",
    "cloud_connector": "SAP Cloud Connector, where the system connectivity model needs it (conditional)",
    "backend_authorization": "Target SAP backend roles of the mapped user or service identity",
-   "identity_boundary": "Enterprise IdP or SAP Cloud Identity Services (IAS, candidate); registry access is a separate control-plane identity; token exchange and user mapping subject to validation",
-   "persistence": "Conditional: SAP HANA Cloud or an existing approved store, only if durable state is required",
-   "monitoring_audit": "SAP BTP logs for the agent; Apigee analytics; Integration Suite monitoring; SAP change documents; registry audit for publication events",
-   "artifact_repository": "Organization Git; Cloud Foundry application artifacts; Apigee bundles and specs; registry record definitions",
+   "identity_boundary": "Corporate IdP or SAP Cloud Identity Services (IAS, candidate) → Cloud Foundry agent → Apigee → Integration Suite; token exchange and user mapping subject to validation",
+   "persistence": "Conditional: existing approved service, or SAP HANA Cloud where justified",
+   "monitoring_audit": "SAP BTP logs for the agent; Apigee analytics; Integration Suite monitoring; SAP change documents; registry publication audit",
+   "artifact_repository": "GitLab (central platform): source, specs, descriptors, CI/CD pipelines and artifacts; Cloud Foundry application artifacts; Apigee bundles",
    "trust_boundaries": [
     "SAP BTP",
     "Google Apigee",
@@ -166,67 +52,255 @@
     "Portkey / LLM provider"
    ],
    "assumptions": [
-    "AWS Agent Registry can hold records for agents and MCP servers that run outside AWS (record sync connects from AWS to the endpoint URL with outbound credentials)",
-    "Registration does not require AWS to host or invoke anything"
+    "Direct Apigee invocation from Cloud Foundry is approved by SAP Integration and Security",
+    "AWS Agent Registry can hold records for agents and MCP servers that run outside AWS"
    ],
    "unverified": [
-    "Registry synchronization from the external sources in this tenant: the URL must be HTTPS and AWS must reach it with an outbound credential from a provider in the same account; private-network reachability is not documented; sync runs on creation and on demand only and reverts the record to draft",
-    "AI Foundry stance on tool calls that bypass AgentCore Gateway",
-    "Cross-cloud administration of registry records"
+    "Actual Cloud Foundry consumption and contractual charges for frequent agent workloads",
+    "Scaling and capacity of Cloud Foundry for the workload",
+    "Supportability of custom orchestration on Cloud Foundry",
+    "Cross-cloud registry publication and synchronization",
+    "Enterprise approval of direct Apigee invocation"
    ],
    "policy_dependencies": [
-    "AI Foundry policy on whether AgentCore Gateway is mandatory for all tool invocations (see S3-B)"
+    "Enterprise permits centrally registered but SAP-hosted agents",
+    "SAP Integration approves direct Apigee invocation"
    ],
-   "hosting_note": "AWS Agent Registry handles registration, discovery and governance metadata. It is never an execution hop.",
-   "variant_b": "S3-B (policy-dependent, not baseline): if AI Foundry mandates AgentCore Gateway for every tool invocation, AgentCore Gateway sits between the agent and Apigee. AgentCore Policy (Cedar, enforce mode, default deny) enforces rules at the gateway, but the documentation does not say that a target refuses calls that bypass it, so the mandate also needs Apigee to accept only gateway-issued credentials. It is an option, not a fourth primary scenario."
+   "hosting_note": "SAP BTP executes; AWS Agent Registry only registers. Choosing the registry does not move the agent to AWS.",
+   "advantages": [
+    "SAP-domain application and process ownership",
+    "Closer alignment with SAP integration and BTP services",
+    "Reuse of existing BTP operating practices"
+   ],
+   "considerations": [
+    "Cloud Foundry consumption and contractual charges",
+    "Scaling and capacity for frequent agent workloads",
+    "Supportability of custom orchestration",
+    "Cross-cloud registry publication",
+    "Approval of direct Apigee invocation"
+   ]
+  },
+  "S2": {
+   "id": "S2",
+   "name": "S2 · AWS AgentCore-native",
+   "short": "AgentCore-native",
+   "status": "AWS-native alternative",
+   "classification": "AWS-native alternative, particularly suitable where AgentCore meets the technical and governance requirements without an additional Apigee gateway.",
+   "objective": "AWS owns agent execution, any custom MCP execution and the runtime gateway: AgentCore Runtime hosts the agent and eligible MCP servers, AgentCore Gateway mediates the tools, AWS Agent Registry registers them. Apigee is optional, only where SAP Integration and Security require it.",
+   "agent_runtime": "AWS AgentCore Runtime",
+   "agent_hosting_owner": "AWS cloud platform team (SAP-agent account)",
+   "agent_execution_endpoint": "AgentCore Runtime agent invocation endpoint",
+   "ui_hosting": "Existing application UI or SAP Fiori acting as an agent client",
+   "mcp_client": "Inside the agent process on AgentCore Runtime",
+   "mcp_endpoint_type": "AgentCore Gateway MCP endpoint to the agent; an AgentCore Runtime MCP server target, or an approved API/OpenAPI target that avoids a custom server",
+   "mcp_gateway": "AWS AgentCore Gateway (runtime gateway); Google Apigee only where SAP Integration policy requires it",
+   "custom_mcp_runtime": "AWS AgentCore Runtime, when required",
+   "custom_mcp_hosting_owner": "AWS cloud platform team",
+   "mcp_tool_execution_location": "A custom MCP server on AgentCore Runtime, or an API operation behind an approved Gateway API target; the target must be validated before use",
+   "agent_registry": "AWS Agent Registry",
+   "mcp_registry": "AWS Agent Registry",
+   "registry_publisher_approver": "Integration team with the respective technical approvals publishes; AWS Agent Registry curator (AI Foundry) approves",
+   "registry_sync": "Registry records created from agent and MCP descriptors by the GitLab pipeline; external sources via registry synchronization where supported",
+   "agent_discovery": "AWS Agent Registry search, approved records only",
+   "mcp_tool_discovery": "AgentCore Gateway tools/list (tool names prefixed with the target name); MCP descriptor in AWS Agent Registry",
+   "apigee_role": "Optional: inserted into the approved downstream route only where SAP Integration and Security require it; never bypassed silently",
+   "agentcore_runtime": true,
+   "agentcore_gateway": true,
+   "aws_agent_registry": true,
+   "aws_account": "Dedicated SAP-agent AWS account (proposed, not provisioned); central registry in the AI Foundry governance account",
+   "llm_gateway": "Portkey",
+   "llm_boundary": "AgentCore Runtime agent → Portkey → approved LLM provider. No direct provider route",
+   "integration_suite": "SAP Integration Suite (API Management / Cloud Integration)",
+   "cloud_connector": "SAP Cloud Connector, where the system connectivity model needs it (conditional)",
+   "backend_authorization": "Target SAP backend roles of the mapped user or service identity",
+   "identity_boundary": "Corporate IdP → AgentCore Runtime / AgentCore Identity → AgentCore Gateway → Integration Suite (or Apigee where inserted); token exchange and user mapping subject to validation",
+   "persistence": "Conditional: approved AWS persistence service",
+   "monitoring_audit": "AgentCore Runtime and Gateway observability; Integration Suite monitoring; SAP change documents; registry publication audit",
+   "artifact_repository": "GitLab (central platform): source, specs, descriptors, CI/CD pipelines and artifacts; the AgentCore runtime image, gateway target definitions and registry record definitions are deployed from GitLab",
+   "trust_boundaries": [
+    "AWS (SAP-agent account)",
+    "AWS (AI Foundry governance account)",
+    "SAP landscape",
+    "Portkey / LLM provider"
+   ],
+   "assumptions": [
+    "An approved API/OpenAPI target or a custom MCP on AgentCore Runtime can reach the SAP Integration Suite API",
+    "SAP Integration and Security accept the route without Apigee, or approve Apigee as an exception"
+   ],
+   "unverified": [
+    "AgentCore Runtime, Gateway and Registry entitlements, quota and region in the dedicated account",
+    "API/OpenAPI target schema, authentication and connectivity to Integration Suite",
+    "SAP API policy exceptions if Apigee is omitted",
+    "Cross-platform user identity",
+    "Custom MCP lifecycle ownership"
+   ],
+   "policy_dependencies": [
+    "SAP Integration policy on whether Apigee is mandatory for the SAP API route",
+    "AWS account approval and service availability"
+   ],
+   "hosting_note": "AgentCore Runtime hosts, AgentCore Gateway mediates, AWS Agent Registry registers: three distinct capabilities. Apigee is optional, not assumed.",
+   "advantages": [
+    "Centralized AWS runtime and tool-management capabilities",
+    "Less dependence on SAP BTP for general-purpose agent compute",
+    "Potentially simpler runtime architecture for AWS-native MCP capabilities",
+    "Consistent AgentCore operational tooling"
+   ],
+   "considerations": [
+    "AgentCore Runtime and Gateway costs",
+    "Custom MCP lifecycle management",
+    "SAP API gateway policy exceptions if Apigee is omitted",
+    "Cross-platform user identity",
+    "AWS account permissions and service availability",
+    "Responsibility for SAP-specific API policies"
+   ]
+  },
+  "S3": {
+   "id": "S3",
+   "name": "S3 · AWS AgentCore + Apigee hybrid",
+   "short": "AgentCore + Apigee",
+   "status": "Preferred candidate for a comparative POC · conditional",
+   "classification": "Preferred strategic investment candidate to evaluate first, conditional on account approval, identity validation, gateway interoperability, enterprise policy and measured comparative cost. Not production-approved.",
+   "objective": "AWS AgentCore Runtime executes the agent, AgentCore Gateway is the enterprise runtime gateway, and Google Apigee stays the SAP-facing MCP/API gateway in front of SAP Integration Suite. AWS Agent Registry registers agents and MCP endpoints on a separate control-plane path. A dedicated SAP-agent AWS account is proposed.",
+   "agent_runtime": "AWS AgentCore Runtime",
+   "agent_hosting_owner": "AWS cloud platform team (SAP-agent account)",
+   "agent_execution_endpoint": "AgentCore Runtime agent invocation endpoint",
+   "ui_hosting": "SAP Fiori or an enterprise application client",
+   "mcp_client": "Inside the agent process on AgentCore Runtime (framework executing in the runtime)",
+   "mcp_endpoint_type": "AgentCore Gateway MCP endpoint to the agent; Apigee-managed MCP endpoint (Pattern A) to SAP; custom MCP behind Apigee only where Apigee-managed MCP is insufficient (Pattern B)",
+   "mcp_gateway": "AWS AgentCore Gateway (enterprise runtime gateway) in front of Google Apigee (SAP-facing MCP/API gateway)",
+   "custom_mcp_runtime": "Conditional: an approved runtime, preferably AgentCore Runtime for AWS-owned code, exposed through Apigee",
+   "custom_mcp_hosting_owner": "AWS cloud platform team",
+   "mcp_tool_execution_location": "Pattern A: API operation behind Apigee. Pattern B: the custom MCP service on its approved runtime, reached through Apigee",
+   "agent_registry": "AWS Agent Registry",
+   "mcp_registry": "AWS Agent Registry",
+   "registry_publisher_approver": "Integration team with the respective technical approvals publishes from GitLab; AWS Agent Registry curator (AI Foundry) approves",
+   "registry_sync": "AgentCore agent record and Apigee MCP endpoint metadata are published to AWS Agent Registry as a control-plane path; gateway target configuration is a separate runtime responsibility",
+   "agent_discovery": "AWS Agent Registry search, approved records only",
+   "mcp_tool_discovery": "AgentCore Gateway tools/list toward the agent; Apigee tools/list behind it; the registry record is metadata only",
+   "apigee_role": "Required: the SAP-facing MCP endpoint behind AgentCore Gateway",
+   "agentcore_runtime": true,
+   "agentcore_gateway": true,
+   "aws_agent_registry": true,
+   "aws_account": "Dedicated SAP-agent AWS account (proposed, not provisioned) with separate environments; the central registry may live in the AI Foundry governance account",
+   "llm_gateway": "Portkey",
+   "llm_boundary": "AgentCore Runtime → Portkey → approved enterprise LLM. No direct provider route",
+   "integration_suite": "SAP Integration Suite (API Management / Cloud Integration)",
+   "cloud_connector": "SAP Cloud Connector, only for the applicable private-connectivity route (conditional)",
+   "backend_authorization": "Target SAP backend roles of the mapped user or service identity",
+   "identity_boundary": "Corporate IdP → AgentCore Runtime / AgentCore Identity → AgentCore Gateway → Apigee → Integration Suite → SAP backend; two token hops to validate",
+   "persistence": "Conditional: approved AWS persistence service",
+   "monitoring_audit": "AgentCore Runtime and Gateway observability; Apigee analytics; Integration Suite monitoring; SAP change documents; one correlation id joined across all of them",
+   "artifact_repository": "GitLab (central platform): source, specs, descriptors, CI/CD pipelines and artifacts; the AgentCore runtime image, gateway targets, Apigee bundles and registry record definitions are deployed from GitLab",
+   "trust_boundaries": [
+    "AWS (SAP-agent account)",
+    "AWS (AI Foundry governance account)",
+    "Google Apigee",
+    "SAP landscape",
+    "Portkey / LLM provider"
+   ],
+   "assumptions": [
+    "AgentCore Gateway can register the Apigee MCP endpoint as a target and exchange tokens",
+    "Apigee remains part of the approved SAP integration design",
+    "The dedicated AWS account is approved with the AgentCore services"
+   ],
+   "unverified": [
+    "AgentCore Gateway to Apigee: MCP protocol versions overlap (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26) and outbound OAuth and token exchange are documented, but no end-to-end call has been made",
+    "Whether the Apigee endpoint is reachable from AWS (not yet checked)",
+    "Whether the registry credential provider is in the same AWS account (not yet checked)",
+    "Whether an external MCP server is an MCP or an HTTP target for the gateway; Apigee MCP does not support SSE streams",
+    "Non-duplicative responsibilities of the two gateways, quota ownership and tool naming",
+    "Dedicated account approval, quotas and region",
+    "Comparative cost against S1 and S2"
+   ],
+   "policy_dependencies": [
+    "AI Foundry and SAP Integration approve the gateway ownership boundaries",
+    "Dedicated SAP-agent AWS account approved",
+    "Enterprise approval of the additional gateway hop and its cost"
+   ],
+   "hosting_note": "AgentCore Gateway fronts Apigee: two gateways in series with separate responsibilities. AWS Agent Registry is never an execution hop.",
+   "advantages": [
+    "AWS-managed agent execution",
+    "SAP-specific MCP/API governance retained through Apigee",
+    "Central agent and MCP registration",
+    "Potential separation of compute cost from SAP BTP",
+    "Reusable for multiple SAP systems",
+    "Consistent Portkey LLM governance"
+   ],
+   "considerations": [
+    "Two runtime gateways need non-duplicative responsibilities",
+    "AgentCore-to-Apigee authentication and token exchange",
+    "An additional network hop and gateway charges",
+    "MCP protocol and tool schema compatibility",
+    "Possible duplicated tool catalogs and policy controls",
+    "Multi-cloud incident management and audit correlation",
+    "Separate AWS account approval and operational ownership"
+   ]
   }
  },
  "comparison": [
   [
+   "Classification",
+   "SAP-hosted alternative",
+   "AWS-native alternative",
+   "Preferred candidate for a comparative POC · conditional"
+  ],
+  [
    "Agent hosting",
    "SAP BTP Cloud Foundry",
    "AWS AgentCore Runtime",
-   "SAP BTP Cloud Foundry"
+   "AWS AgentCore Runtime"
   ],
   [
    "Agent execution",
    "Cloud Foundry application",
    "AgentCore Runtime agent",
-   "Cloud Foundry application"
+   "AgentCore Runtime agent"
   ],
   [
-   "MCP gateway",
+   "AWS account",
+   "Not used for execution; registry in the central governance account",
+   "Dedicated SAP-agent account (proposed)",
+   "Dedicated SAP-agent account (proposed)"
+  ],
+  [
+   "Runtime gateway",
    "Google Apigee",
-   "AgentCore Gateway (enterprise) in front of Google Apigee (SAP-facing)",
-   "Google Apigee"
+   "AWS AgentCore Gateway",
+   "AWS AgentCore Gateway in front of Google Apigee"
+  ],
+  [
+   "Apigee",
+   "Required: SAP-facing MCP endpoint",
+   "Optional, only where SAP Integration and Security require it",
+   "Required: SAP-facing MCP endpoint"
   ],
   [
    "Managed MCP endpoint versus custom server",
-   "Pattern A is the default: an approved API exposed as an MCP tool through Apigee, no custom server. Pattern B only where logic needs code",
-   "Same two patterns behind Apigee; AgentCore Gateway fronts both",
-   "Same as S1"
+   "Pattern A (Apigee-managed) by default; Pattern B only where logic needs code",
+   "API/OpenAPI Gateway target avoids a custom server; a custom MCP on AgentCore Runtime where needed",
+   "Pattern A by default; Pattern B only where Apigee-managed MCP is insufficient"
   ],
   [
    "Custom MCP server hosting",
-   "SAP BTP Cloud Foundry, only if required",
-   "AWS AgentCore Runtime, if required (proxied by Apigee: cross-cloud, conditional)",
-   "SAP BTP Cloud Foundry, if required"
+   "SAP BTP Cloud Foundry, if required",
+   "AWS AgentCore Runtime, when required",
+   "Conditional; AgentCore Runtime preferred for AWS-owned code, exposed through Apigee"
   ],
   [
    "MCP tool execution",
    "Behind Apigee: API operation, or the Cloud Foundry service",
-   "Behind Apigee: API operation, or the AgentCore-hosted service through a cross-cloud target",
-   "Behind Apigee: API operation, or the Cloud Foundry service"
+   "Behind the Gateway: AgentCore-hosted MCP or an API target",
+   "Behind Apigee: API operation, or the custom MCP service"
   ],
   [
    "Agent registry",
-   "Domain-managed catalog · product selection pending",
+   "AWS Agent Registry",
    "AWS Agent Registry",
    "AWS Agent Registry"
   ],
   [
    "MCP registry",
-   "Domain-managed catalog · product selection pending",
+   "AWS Agent Registry",
    "AWS Agent Registry",
    "AWS Agent Registry"
   ],
@@ -238,21 +312,21 @@
   ],
   [
    "Persistence",
-   "Conditional: SAP HANA Cloud or an existing approved store",
-   "Conditional: approved AWS persistence",
-   "Conditional: SAP HANA Cloud or an existing approved store"
+   "Conditional: existing approved service, or SAP HANA Cloud where justified",
+   "Conditional: approved AWS service",
+   "Conditional: approved AWS service"
   ],
   [
    "Identity propagation",
-   "Enterprise IdP or IAS to agent, Apigee, Integration Suite; mapping to validate",
-   "Adds AgentCore Identity and a second gateway hop; mapping to validate",
-   "As S1 plus a separate control-plane identity to the registry"
+   "IdP or IAS to the agent, Apigee, Integration Suite; mapping to validate",
+   "IdP to AgentCore Identity and Gateway, then Integration Suite; mapping to validate",
+   "IdP to AgentCore Identity, Gateway, Apigee and Integration Suite; two token hops to validate"
   ],
   [
    "SAP connectivity",
-   "Apigee → SAP Integration Suite → Cloud Connector where applicable → SAP backend",
-   "Same after Apigee",
-   "Same as S1"
+   "Apigee → Integration Suite → Cloud Connector where applicable → SAP backend",
+   "Gateway (or Apigee if inserted) → Integration Suite → Cloud Connector where applicable → SAP backend",
+   "Gateway → Apigee → Integration Suite → Cloud Connector where applicable → SAP backend"
   ],
   [
    "Business authorization",
@@ -262,57 +336,57 @@
   ],
   [
    "Operational responsibility",
-   "SAP BTP team runs the agent and any custom MCP; the integration team runs Apigee",
-   "AWS team runs agent, gateway and any custom MCP; the integration team runs Apigee",
-   "As S1; AI Foundry runs the registry"
+   "SAP BTP team runs the agent; integration team runs Apigee",
+   "AWS team runs agent, gateway and MCP; Apigee team only if inserted",
+   "AWS team runs agent and gateway; integration team runs Apigee; two teams share incidents"
   ],
   [
    "Monitoring and audit",
-   "BTP logs, Apigee analytics, Integration Suite monitoring; correlation id to propagate",
-   "AgentCore observability plus the same SAP-side sources; two gateway logs to correlate",
-   "As S1 plus registry publication audit"
+   "BTP logs, Apigee analytics, Integration Suite monitoring",
+   "AgentCore observability plus SAP-side sources",
+   "AgentCore, Apigee and SAP-side sources joined by a correlation id"
   ],
   [
    "Scalability",
-   "Cloud Foundry application scaling; limited by BTP quota",
+   "Cloud Foundry application scaling within BTP quota",
    "AgentCore managed runtime scaling",
-   "As S1"
+   "AgentCore managed runtime scaling; Apigee capacity limits apply"
   ],
   [
    "Network complexity",
-   "Cloud Foundry → Apigee (cross-cloud) → Integration Suite",
-   "AWS → Apigee (cross-cloud) → Integration Suite; Pattern B adds Apigee → AWS",
-   "As S1; registry traffic is separate control-plane traffic"
+   "Cloud Foundry → Apigee → Integration Suite",
+   "AWS → Integration Suite (or via Apigee)",
+   "AWS → Apigee (cross-cloud) → Integration Suite; extra gateway hop"
   ],
   [
    "Cost drivers",
-   "BTP runtime, Apigee, Integration Suite, Portkey",
-   "AgentCore Runtime and Gateway, Agent Registry, Apigee, Integration Suite, Portkey",
-   "BTP runtime, Agent Registry, Apigee, Integration Suite, Portkey"
+   "BTP runtime and credits, Apigee, Integration Suite, Portkey",
+   "AgentCore Runtime and Gateway, Agent Registry, Integration Suite, Portkey",
+   "AgentCore Runtime and Gateway, Apigee, Agent Registry, Integration Suite, Portkey, cross-cloud transfer"
   ],
   [
    "Vendor and platform dependencies",
-   "SAP BTP, Google Apigee",
-   "AWS, Google Apigee",
-   "SAP BTP, AWS (registry only), Google Apigee"
+   "SAP BTP, Google Apigee, AWS (registry only)",
+   "AWS, SAP",
+   "AWS, Google Apigee, SAP"
   ],
   [
    "Enterprise governance alignment",
-   "Registry unresolved: governance for discovery is a gap",
+   "Central registration with SAP execution ownership",
    "Aligned with AWS-centric AI Foundry governance",
-   "Central registration under AI Foundry with SAP execution ownership"
+   "Central registration plus SAP-facing MCP governance"
   ],
   [
    "Deployment prerequisites",
-   "Cloud Foundry space, Apigee MCP enablement, Integration Suite APIs, IdP, Portkey route",
-   "AgentCore access in region, Gateway target for Apigee, registry, Apigee MCP, IdP, Portkey route",
-   "As S1 plus Agent Registry access and record synchronization method"
+   "Cloud Foundry space and quota, Apigee MCP, GitLab pipeline, registry access",
+   "Dedicated AWS account, AgentCore services, GitLab pipeline, registry access",
+   "As S2 plus Apigee MCP and a gateway-to-Apigee target"
   ],
   [
    "Open architecture decisions",
-   "Which registry product; who approves publication",
-   "Gateway-to-Apigee token exchange; duplicate policy ownership",
-   "Whether AgentCore Gateway is mandated (S3-B); registry synchronization method"
+   "Approval of direct Apigee invocation; Cloud Foundry economics",
+   "Whether Apigee is mandated; API target validity",
+   "Account approval, interoperability, identity, comparative cost, gateway ownership"
   ]
  ],
  "connCols": [
@@ -342,7 +416,15 @@
     "Vendor-documented · tenant NOT_VERIFIED"
    ],
    [
-    "Apigee MCP/API",
+    "Apigee MCP endpoint",
+    "Custom MCP on Cloud Foundry (Pattern B)",
+    "Runtime (conditional)",
+    "HTTPS proxy target",
+    "Target credential held by Apigee",
+    "Only where custom logic is required"
+   ],
+   [
+    "Apigee MCP endpoint",
     "SAP Integration Suite",
     "Runtime",
     "HTTPS REST or OData",
@@ -382,20 +464,20 @@
     "Design assumption"
    ],
    [
-    "Cloud Foundry agent (MCP client)",
-    "Domain-managed catalog · product selection pending",
-    "Registration / discovery (not invocation)",
-    "Registry API",
-    "Registry identity",
-    "TBD · REQUIRES VALIDATION"
+    "GitLab CI/CD",
+    "Deployment targets",
+    "Deployment (not invocation)",
+    "Pipeline",
+    "Pipeline service identity",
+    "Design assumption"
    ],
    [
-    "Apigee MCP endpoint",
-    "Custom MCP server on Cloud Foundry (Pattern B)",
-    "Runtime (conditional)",
-    "HTTPS proxy target",
-    "Target credential held by Apigee",
-    "Only where custom logic is required"
+    "Cloud Foundry agent (MCP client)",
+    "AWS Agent Registry",
+    "Registration (not invocation)",
+    "Registry API",
+    "Registry identity, separate from runtime identity",
+    "Vendor-documented · tenant NOT_VERIFIED"
    ]
   ],
   "S2": [
@@ -417,14 +499,30 @@
    ],
    [
     "AgentCore Gateway",
-    "Apigee MCP endpoint",
-    "Runtime",
-    "MCP over Streamable HTTP; protocol compatibility unproven",
-    "Outbound OAuth or API key via AgentCore Identity; token exchange to validate",
-    "TBD · REQUIRES VALIDATION"
+    "Custom MCP on AgentCore Runtime",
+    "Runtime (conditional)",
+    "MCP over Streamable HTTP",
+    "Outbound OAuth or gateway role",
+    "Only where a custom MCP is required"
    ],
    [
-    "Apigee MCP/API",
+    "AgentCore Gateway",
+    "API / OpenAPI target (alternative)",
+    "Runtime (alternative)",
+    "HTTPS, target schema",
+    "Credential provider per target",
+    "Schema, authentication and connectivity must be checked first"
+   ],
+   [
+    "AgentCore Gateway",
+    "Apigee MCP endpoint (optional)",
+    "Runtime (conditional)",
+    "MCP over Streamable HTTP",
+    "Outbound OAuth or token exchange",
+    "Only where SAP Integration policy requires Apigee"
+   ],
+   [
+    "AgentCore Gateway",
     "SAP Integration Suite",
     "Runtime",
     "HTTPS REST or OData",
@@ -464,41 +562,65 @@
     "Design assumption"
    ],
    [
-    "AgentCore Runtime agent (MCP client)",
-    "AWS Agent Registry",
-    "Registration / discovery (not invocation)",
-    "Registry API",
-    "Registry identity",
-    "Vendor-documented · tenant NOT_VERIFIED"
+    "GitLab CI/CD",
+    "Deployment targets",
+    "Deployment (not invocation)",
+    "Pipeline",
+    "Pipeline service identity",
+    "Design assumption"
    ],
    [
-    "Apigee MCP endpoint",
-    "Custom MCP on AgentCore Runtime (Pattern B)",
-    "Runtime (conditional, cross-cloud)",
-    "HTTPS proxy target",
-    "Target credential held by Apigee",
-    "Only where custom logic is required; extra network hop"
+    "AgentCore Runtime agent (MCP client)",
+    "AWS Agent Registry",
+    "Registration (not invocation)",
+    "Registry API",
+    "Registry identity, separate from runtime identity",
+    "Vendor-documented · tenant NOT_VERIFIED"
    ]
   ],
   "S3": [
    [
     "SAP Fiori / existing UI",
-    "Cloud Foundry agent (MCP client)",
+    "AgentCore Runtime agent (MCP client)",
     "Runtime",
     "HTTPS",
     "User sign-in; delegated token to validate",
     "Design assumption"
    ],
    [
-    "Cloud Foundry agent (MCP client)",
-    "Apigee MCP endpoint",
+    "AgentCore Runtime agent (MCP client)",
+    "AgentCore Gateway",
     "Runtime",
     "MCP over Streamable HTTP",
-    "OAuth 2.1 / OIDC bearer or API key per product",
+    "JWT bearer validated by the gateway authorizer, or IAM",
     "Vendor-documented · tenant NOT_VERIFIED"
    ],
    [
-    "Apigee MCP/API",
+    "AgentCore Gateway",
+    "Apigee MCP endpoint",
+    "Runtime",
+    "MCP over Streamable HTTP; four shared protocol versions",
+    "Outbound OAuth client credentials or token exchange; passthrough is not supported",
+    "TBD · REQUIRES VALIDATION"
+   ],
+   [
+    "Apigee MCP endpoint",
+    "Custom MCP service (Pattern B, conditional)",
+    "Runtime (conditional)",
+    "HTTPS proxy target",
+    "Target credential held by Apigee",
+    "Only where Apigee-managed MCP is insufficient"
+   ],
+   [
+    "Apigee MCP endpoint metadata",
+    "AWS Agent Registry",
+    "Registration (not invocation)",
+    "Registry API",
+    "Registry identity, separate from runtime identity",
+    "TBD · REQUIRES VALIDATION"
+   ],
+   [
+    "Apigee MCP endpoint",
     "SAP Integration Suite",
     "Runtime",
     "HTTPS REST or OData",
@@ -522,7 +644,7 @@
     "Design assumption"
    ],
    [
-    "Cloud Foundry agent (MCP client)",
+    "AgentCore Runtime agent (MCP client)",
     "Portkey",
     "LLM",
     "HTTPS",
@@ -538,28 +660,20 @@
     "Design assumption"
    ],
    [
-    "Cloud Foundry agent (MCP client)",
-    "AWS Agent Registry",
-    "Registration / discovery (not invocation)",
-    "Registry API",
-    "Registry identity",
-    "Vendor-documented · tenant NOT_VERIFIED"
+    "GitLab CI/CD",
+    "Deployment targets",
+    "Deployment (not invocation)",
+    "Pipeline",
+    "Pipeline service identity",
+    "Design assumption"
    ],
    [
-    "Apigee MCP endpoint metadata",
+    "AgentCore Runtime agent (MCP client)",
     "AWS Agent Registry",
     "Registration (not invocation)",
-    "Registry API or synchronization where supported",
+    "Registry API",
     "Registry identity, separate from runtime identity",
-    "TBD · REQUIRES VALIDATION"
-   ],
-   [
-    "Apigee MCP endpoint",
-    "Custom MCP server on Cloud Foundry (Pattern B)",
-    "Runtime (conditional)",
-    "HTTPS proxy target",
-    "Target credential held by Apigee",
-    "Only where custom logic is required"
+    "Vendor-documented · tenant NOT_VERIFIED"
    ]
   ]
  },
@@ -567,8 +681,8 @@
   "D1": {
    "id": "D1",
    "scenario": null,
-   "title": "Enterprise architecture overview",
-   "chain": "Control plane · runtime plane · evidence plane, common to S1, S2 and S3",
+   "title": "Enterprise AI reference architecture",
+   "chain": "Control plane · runtime plane · evidence plane, common to S1, S2 and S3 (S3 is the preferred candidate to evaluate first)",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 6,
    "nh": 100,
@@ -586,15 +700,15 @@
      "row": 0,
      "col": 0,
      "title": "Identity providers",
-     "sub": "Enterprise IdP, SAP Cloud Identity (candidate); trust boundaries",
+     "sub": "Corporate IdP, SAP Cloud Identity (candidate); trust boundaries",
      "kind": "identity"
     },
     {
      "id": "reg",
      "row": 0,
      "col": 2,
-     "title": "Agent and MCP registries",
-     "sub": "Control plane: catalog, discovery, approval",
+     "title": "AWS Agent Registry",
+     "sub": "Control plane: agent and MCP catalog, discovery, approval",
      "kind": "registry"
     },
     {
@@ -602,14 +716,14 @@
      "row": 0,
      "col": 4,
      "title": "AI Foundry governance",
-     "sub": "Approval and publication authority",
+     "sub": "Registry ownership and approval authority",
      "kind": "decision"
     },
     {
      "id": "ui",
      "row": 1,
      "col": 0,
-     "title": "SAP Fiori / existing UI",
+     "title": "SAP Fiori / app client",
      "sub": "Finance user entry",
      "kind": "ui"
     },
@@ -617,16 +731,16 @@
      "id": "agent",
      "row": 1,
      "col": 1,
-     "title": "Agent execution platform",
-     "sub": "Runtime plane · hosts agent and MCP client",
+     "title": "AI execution platform",
+     "sub": "AWS AgentCore Runtime (S2, S3) or SAP BTP Cloud Foundry (S1)",
      "kind": "agent"
     },
     {
      "id": "gw",
      "row": 1,
      "col": 2,
-     "title": "MCP gateway / API layer",
-     "sub": "Google Apigee; AgentCore Gateway in S2 only",
+     "title": "Runtime gateways",
+     "sub": "AgentCore Gateway (S2, S3); Apigee (S1, S3; S2 optional)",
      "kind": "gateway"
     },
     {
@@ -678,6 +792,15 @@
      "sub": "Only where logic needs code; platform per scenario",
      "kind": "domain",
      "dashed": true
+    },
+    {
+     "id": "gitlab",
+     "row": 3,
+     "col": 0,
+     "title": "GitLab (central platform)",
+     "sub": "Source, specs, descriptors, CI/CD and artifacts for every scenario",
+     "kind": "artifact",
+     "span": 3
     },
     {
      "id": "obs",
@@ -801,7 +924,7 @@
     ],
     [
      3,
-     "EVIDENCE PLANE"
+     "PLATFORM · EVIDENCE"
     ]
    ],
    "legend": [
@@ -812,13 +935,13 @@
     "audit",
     "approval"
    ],
-   "footer": "No registry is a runtime hop. Per-scenario placement of the agent platform and gateway is in D2 to D4."
+   "footer": "No registry is a runtime hop. Per-scenario placement of the agent platform and gateways is in D2 to D4."
   },
   "D2": {
    "id": "D2",
    "scenario": "S1",
-   "title": "S1 · SAP-centric · topology",
-   "chain": "UI → Cloud Foundry agent → Apigee MCP/API → Integration Suite → Cloud Connector (conditional) → SAP backend",
+   "title": "S1 · SAP-hosted hybrid · topology",
+   "chain": "UI → Cloud Foundry agent → Apigee MCP → Integration Suite → Cloud Connector (conditional) → SAP backend (registry is control plane only)",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 6,
    "nh": 100,
@@ -835,7 +958,7 @@
      "id": "ui",
      "row": 1,
      "col": 0,
-     "title": "SAP Fiori / existing UI",
+     "title": "SAP Fiori / app client",
      "sub": "Finance user entry; application unchanged",
      "kind": "ui"
     },
@@ -844,8 +967,32 @@
      "row": 0,
      "col": 0,
      "title": "Enterprise identity",
-     "sub": "IdP or SAP Cloud Identity (IAS, candidate); mapping to validate",
+     "sub": "Corporate IdP or SAP Cloud Identity (IAS, candidate); mapping to validate",
      "kind": "identity"
+    },
+    {
+     "id": "portkey",
+     "row": 0,
+     "col": 1,
+     "title": "Portkey",
+     "sub": "LLM gateway: model selection, credentials, fallback",
+     "kind": "llm"
+    },
+    {
+     "id": "llm",
+     "row": 0,
+     "col": 2,
+     "title": "Approved LLM provider",
+     "sub": "Reached only through Portkey",
+     "kind": "llm"
+    },
+    {
+     "id": "gitlab",
+     "row": 2,
+     "col": 0,
+     "title": "GitLab CI/CD",
+     "sub": "Source, specs and pipelines; deploys the runtime and publishes records",
+     "kind": "artifact"
     },
     {
      "id": "agent",
@@ -892,585 +1039,17 @@
      "id": "custom",
      "row": 2,
      "col": 3,
-     "title": "Custom MCP · SAP BTP Cloud Foundry",
+     "title": "Custom MCP · Cloud Foundry",
      "sub": "Pattern B, only if required; behind Apigee",
      "kind": "domain",
      "dashed": true
     },
     {
-     "id": "portkey",
-     "row": 0,
-     "col": 1,
-     "title": "Portkey",
-     "sub": "LLM gateway: model selection, credentials, fallback",
-     "kind": "llm"
-    },
-    {
-     "id": "llm",
-     "row": 0,
-     "col": 2,
-     "title": "Approved LLM provider",
-     "sub": "Reached only through Portkey",
-     "kind": "llm"
-    },
-    {
      "id": "db",
      "row": 2,
-     "col": 0,
-     "title": "Persistence · conditional",
-     "sub": "SAP HANA Cloud or existing approved store, only if needed",
-     "kind": "store",
-     "dashed": true
-    },
-    {
-     "id": "reg_agent",
-     "row": 3,
-     "col": 1,
-     "title": "Agent registry",
-     "sub": "Domain-managed catalog",
-     "kind": "registry",
-     "dashed": true,
-     "status": "PRODUCT SELECTION PENDING",
-     "statusColor": "#B3261E"
-    },
-    {
-     "id": "reg_mcp",
-     "row": 3,
-     "col": 2,
-     "title": "MCP registry",
-     "sub": "Domain-managed catalog",
-     "kind": "registry",
-     "dashed": true,
-     "status": "PRODUCT SELECTION PENDING",
-     "statusColor": "#B3261E"
-    }
-   ],
-   "edges": [
-    [
-     "ui",
-     "agent",
-     "invoke",
-     ""
-    ],
-    [
-     "agent",
-     "apigee",
-     "invoke",
-     "MCP tools/call"
-    ],
-    [
-     "apigee",
-     "int",
-     "invoke",
-     "API call"
-    ],
-    [
-     "int",
-     "cc",
-     "invoke",
-     "if private"
-    ],
-    [
-     "cc",
-     "sap",
-     "invoke",
-     "RFC / OData"
-    ],
-    [
-     "apigee",
-     "custom",
-     "invoke",
-     "proxy target"
-    ],
-    [
-     "agent",
-     "portkey",
-     "llm",
-     "LLM request",
-     {
-      "off": -14
-     }
-    ],
-    [
-     "portkey",
-     "llm",
-     "llm",
-     "model call"
-    ],
-    [
-     "idp",
-     "agent",
-     "identity",
-     "workload / user token"
-    ],
-    [
-     "agent",
-     "db",
-     "invoke",
-     "state if required",
-     {
-      "off": 20
-     }
-    ],
-    [
-     "agent",
-     "reg_agent",
-     "registry",
-     "register / discover",
-     {
-      "off": -20,
-      "labelAt": "mid"
-     }
-    ],
-    [
-     "apigee",
-     "reg_mcp",
-     "registry",
-     "register / discover",
-     {
-      "off": -20,
-      "labelAt": "mid"
-     }
-    ]
-   ],
-   "bounds": [
-    [
-     "SAP BTP",
-     [
-      "agent"
-     ],
-     "sap"
-    ],
-    [
-     "Google Apigee",
-     [
-      "apigee"
-     ],
-     "google"
-    ],
-    [
-     "SAP landscape",
-     [
-      "int",
-      "cc",
-      "sap"
-     ],
-     "sap"
-    ]
-   ],
-   "lanes": [
-    [
-     0,
-     "IDENTITY · LLM"
-    ],
-    [
-     1,
-     "RUNTIME PATH"
-    ],
-    [
-     2,
-     "OPTIONAL"
-    ],
-    [
-     3,
-     "CONTROL PLANE"
-    ]
-   ],
-   "legend": [
-    "invoke",
-    "llm",
-    "identity",
-    "registry"
-   ],
-   "footer": "No AWS AgentCore component takes part. The registry is not selected yet: a plain API catalog is not a complete agent registry."
-  },
-  "D3": {
-   "id": "D3",
-   "scenario": "S2",
-   "title": "S2 · AWS AgentCore-centric · topology",
-   "chain": "UI → AgentCore Runtime agent → AgentCore Gateway → Apigee MCP/API → Integration Suite → Cloud Connector (conditional) → SAP backend",
-   "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
-   "cols": 7,
-   "nh": 100,
-   "ys": [
-    118,
-    258,
-    398,
-    528,
-    668
-   ],
-   "height": 840,
-   "nodes": [
-    {
-     "id": "ui",
-     "row": 1,
-     "col": 0,
-     "title": "SAP Fiori / existing UI",
-     "sub": "Finance user entry; application unchanged",
-     "kind": "ui"
-    },
-    {
-     "id": "idp",
-     "row": 0,
-     "col": 0,
-     "title": "Enterprise identity",
-     "sub": "IdP or SAP Cloud Identity (IAS, candidate); mapping to validate",
-     "kind": "identity"
-    },
-    {
-     "id": "agent",
-     "row": 1,
-     "col": 1,
-     "title": "Agent · AWS AgentCore Runtime",
-     "sub": "Agent execution and MCP client",
-     "kind": "agent"
-    },
-    {
-     "id": "gw",
-     "row": 1,
-     "col": 2,
-     "title": "AWS AgentCore Gateway",
-     "sub": "Enterprise MCP gateway; routes and authorizes",
-     "kind": "gateway"
-    },
-    {
-     "id": "apigee",
-     "row": 1,
-     "col": 3,
-     "title": "Google Apigee MCP/API",
-     "sub": "SAP-facing gateway; managed MCP endpoint (Pattern A)",
-     "kind": "gateway"
-    },
-    {
-     "id": "int",
-     "row": 1,
-     "col": 4,
-     "title": "SAP Integration Suite",
-     "sub": "SAP integration boundary",
-     "kind": "integration"
-    },
-    {
-     "id": "cc",
-     "row": 1,
      "col": 5,
-     "title": "SAP Cloud Connector",
-     "sub": "Conditional, private connectivity only",
-     "kind": "integration",
-     "dashed": true
-    },
-    {
-     "id": "sap",
-     "row": 1,
-     "col": 6,
-     "title": "SAP backend",
-     "sub": "S/4HANA · Central Finance; business authorization",
-     "kind": "backend"
-    },
-    {
-     "id": "custom",
-     "row": 2,
-     "col": 3,
-     "title": "Custom MCP · AgentCore Runtime",
-     "sub": "Pattern B, conditional; via Apigee, cross-cloud",
-     "kind": "domain",
-     "dashed": true
-    },
-    {
-     "id": "reg_agent",
-     "row": 3,
-     "col": 1,
-     "title": "Agent registry · AWS Agent Registry",
-     "sub": "Agent descriptor; discovery and approval",
-     "kind": "registry"
-    },
-    {
-     "id": "reg_mcp",
-     "row": 3,
-     "col": 2,
-     "title": "MCP registry · AWS Agent Registry",
-     "sub": "MCP descriptor; discovery and approval",
-     "kind": "registry"
-    },
-    {
-     "id": "portkey",
-     "row": 0,
-     "col": 1,
-     "title": "Portkey",
-     "sub": "LLM gateway: model selection, credentials, fallback",
-     "kind": "llm"
-    },
-    {
-     "id": "llm",
-     "row": 0,
-     "col": 2,
-     "title": "Approved LLM provider",
-     "sub": "Reached only through Portkey",
-     "kind": "llm"
-    },
-    {
-     "id": "db",
-     "row": 2,
-     "col": 0,
      "title": "Persistence · conditional",
-     "sub": "Approved AWS store, only if durable state is needed",
-     "kind": "store",
-     "dashed": true
-    }
-   ],
-   "edges": [
-    [
-     "ui",
-     "agent",
-     "invoke",
-     ""
-    ],
-    [
-     "agent",
-     "gw",
-     "invoke",
-     "MCP tools/call"
-    ],
-    [
-     "gw",
-     "apigee",
-     "invoke",
-     ""
-    ],
-    [
-     "apigee",
-     "int",
-     "invoke",
-     "API call"
-    ],
-    [
-     "int",
-     "cc",
-     "invoke",
-     "if private"
-    ],
-    [
-     "cc",
-     "sap",
-     "invoke",
-     "RFC / OData"
-    ],
-    [
-     "apigee",
-     "custom",
-     "invoke",
-     "proxy target · cross-cloud",
-     {
-      "off": -30
-     }
-    ],
-    [
-     "agent",
-     "portkey",
-     "llm",
-     "LLM request",
-     {
-      "off": -14
-     }
-    ],
-    [
-     "portkey",
-     "llm",
-     "llm",
-     "model call"
-    ],
-    [
-     "idp",
-     "agent",
-     "identity",
-     "workload / user token"
-    ],
-    [
-     "agent",
-     "reg_agent",
-     "registry",
-     "agent descriptor",
-     {
-      "off": -20,
-      "labelAt": "mid"
-     }
-    ],
-    [
-     "gw",
-     "reg_mcp",
-     "registry",
-     "MCP descriptor",
-     {
-      "off": -20,
-      "labelAt": "mid"
-     }
-    ],
-    [
-     "agent",
-     "db",
-     "invoke",
-     "state if required",
-     {
-      "off": 20
-     }
-    ]
-   ],
-   "bounds": [
-    [
-     "AWS",
-     [
-      "agent",
-      "gw"
-     ],
-     "aws"
-    ],
-    [
-     "Google Apigee",
-     [
-      "apigee"
-     ],
-     "google"
-    ],
-    [
-     "SAP landscape",
-     [
-      "int",
-      "cc",
-      "sap"
-     ],
-     "sap"
-    ]
-   ],
-   "lanes": [
-    [
-     0,
-     "IDENTITY · LLM"
-    ],
-    [
-     1,
-     "RUNTIME PATH"
-    ],
-    [
-     2,
-     "OPTIONAL"
-    ],
-    [
-     3,
-     "CONTROL PLANE"
-    ]
-   ],
-   "legend": [
-    "invoke",
-    "llm",
-    "identity",
-    "registry"
-   ],
-   "footer": "Registration/discovery goes to AWS Agent Registry and is separate from the runtime path. AgentCore Runtime, Gateway and Registry are three capabilities. Apigee stays mandatory."
-  },
-  "D4": {
-   "id": "D4",
-   "scenario": "S3",
-   "title": "S3 · SAP-hosted hybrid · topology",
-   "chain": "UI → Cloud Foundry agent → Apigee MCP/API → Integration Suite → Cloud Connector (conditional) → SAP backend",
-   "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
-   "cols": 6,
-   "nh": 100,
-   "ys": [
-    118,
-    258,
-    398,
-    528,
-    668
-   ],
-   "height": 840,
-   "nodes": [
-    {
-     "id": "ui",
-     "row": 1,
-     "col": 0,
-     "title": "SAP Fiori / existing UI",
-     "sub": "Finance user entry; application unchanged",
-     "kind": "ui"
-    },
-    {
-     "id": "idp",
-     "row": 0,
-     "col": 0,
-     "title": "Enterprise identity",
-     "sub": "IdP or SAP Cloud Identity (IAS, candidate); mapping to validate",
-     "kind": "identity"
-    },
-    {
-     "id": "agent",
-     "row": 1,
-     "col": 1,
-     "title": "Agent · SAP BTP Cloud Foundry",
-     "sub": "Agent execution and MCP client",
-     "kind": "agent"
-    },
-    {
-     "id": "apigee",
-     "row": 1,
-     "col": 2,
-     "title": "Google Apigee MCP/API",
-     "sub": "SAP-facing gateway; managed MCP endpoint (Pattern A)",
-     "kind": "gateway"
-    },
-    {
-     "id": "int",
-     "row": 1,
-     "col": 3,
-     "title": "SAP Integration Suite",
-     "sub": "SAP integration boundary",
-     "kind": "integration"
-    },
-    {
-     "id": "cc",
-     "row": 1,
-     "col": 4,
-     "title": "SAP Cloud Connector",
-     "sub": "Conditional, private connectivity only",
-     "kind": "integration",
-     "dashed": true
-    },
-    {
-     "id": "sap",
-     "row": 1,
-     "col": 5,
-     "title": "SAP backend",
-     "sub": "S/4HANA · Central Finance; business authorization",
-     "kind": "backend"
-    },
-    {
-     "id": "custom",
-     "row": 2,
-     "col": 3,
-     "title": "Custom MCP · SAP BTP Cloud Foundry",
-     "sub": "Pattern B, only if required; behind Apigee",
-     "kind": "domain",
-     "dashed": true
-    },
-    {
-     "id": "portkey",
-     "row": 0,
-     "col": 1,
-     "title": "Portkey",
-     "sub": "LLM gateway: model selection, credentials, fallback",
-     "kind": "llm"
-    },
-    {
-     "id": "llm",
-     "row": 0,
-     "col": 2,
-     "title": "Approved LLM provider",
-     "sub": "Reached only through Portkey",
-     "kind": "llm"
-    },
-    {
-     "id": "db",
-     "row": 2,
-     "col": 0,
-     "title": "Persistence · conditional",
-     "sub": "SAP HANA Cloud or existing approved store, only if needed",
+     "sub": "Existing approved service or HANA Cloud where justified",
      "kind": "store",
      "dashed": true
     },
@@ -1489,17 +1068,6 @@
      "title": "MCP registry · AWS Agent Registry",
      "sub": "Apigee MCP endpoint metadata",
      "kind": "registry"
-    },
-    {
-     "id": "s3b",
-     "row": 4,
-     "col": 0,
-     "title": "S3-B variant · not baseline",
-     "sub": "Only if AI Foundry mandates AgentCore Gateway for all tool calls: it would sit between agent and Apigee. Policy-dependent option.",
-     "kind": "decision",
-     "span": 4,
-     "h": 70,
-     "dashed": true
     }
    ],
    "edges": [
@@ -1508,6 +1076,55 @@
      "agent",
      "invoke",
      ""
+    ],
+    [
+     "agent",
+     "portkey",
+     "llm",
+     "LLM request",
+     {
+      "off": -14
+     }
+    ],
+    [
+     "portkey",
+     "llm",
+     "llm",
+     "model call"
+    ],
+    [
+     "idp",
+     "agent",
+     "identity",
+     "workload / user token"
+    ],
+    [
+     "gitlab",
+     "agent",
+     "deploy",
+     "deploy",
+     {
+      "off": 0
+     }
+    ],
+    [
+     "agent",
+     "reg_agent",
+     "registry",
+     "agent record",
+     {
+      "off": -20,
+      "labelAt": "mid"
+     }
+    ],
+    [
+     "gitlab",
+     "reg_agent",
+     "deploy",
+     "publish records",
+     {
+      "off": 0
+     }
     ],
     [
      "agent",
@@ -1540,44 +1157,10 @@
      "proxy target"
     ],
     [
-     "agent",
-     "portkey",
-     "llm",
-     "LLM request",
-     {
-      "off": -14
-     }
-    ],
-    [
-     "portkey",
-     "llm",
-     "llm",
-     "model call"
-    ],
-    [
-     "idp",
-     "agent",
-     "identity",
-     "workload / user token"
-    ],
-    [
-     "agent",
-     "db",
-     "invoke",
-     "state if required",
-     {
-      "off": 20
-     }
-    ],
-    [
-     "agent",
-     "reg_agent",
-     "registry",
-     "agent metadata",
-     {
-      "off": -20,
-      "labelAt": "mid"
-     }
+     "gitlab",
+     "custom",
+     "deploy",
+     ""
     ],
     [
      "apigee",
@@ -1634,7 +1217,7 @@
     ],
     [
      2,
-     "OPTIONAL"
+     "OPTIONAL · DEPLOY"
     ],
     [
      3,
@@ -1645,15 +1228,646 @@
     "invoke",
     "llm",
     "identity",
-    "registry"
+    "registry",
+    "deploy"
    ],
-   "footer": "AWS Agent Registry registers and governs. It is not an execution hop: no AgentCore Runtime, and no AgentCore Gateway in the baseline."
+   "footer": "SAP BTP executes; AWS Agent Registry registers metadata only. No AgentCore component runs anything in S1."
+  },
+  "D3": {
+   "id": "D3",
+   "scenario": "S2",
+   "title": "S2 · AWS AgentCore-native · topology",
+   "chain": "UI → AgentCore agent → AgentCore Gateway → MCP or API target → Integration Suite → Cloud Connector → SAP backend",
+   "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
+   "cols": 7,
+   "nh": 100,
+   "ys": [
+    118,
+    258,
+    398,
+    528,
+    668
+   ],
+   "height": 840,
+   "nodes": [
+    {
+     "id": "ui",
+     "row": 1,
+     "col": 0,
+     "title": "SAP Fiori / app client",
+     "sub": "Finance user entry; application unchanged",
+     "kind": "ui"
+    },
+    {
+     "id": "idp",
+     "row": 0,
+     "col": 0,
+     "title": "Enterprise identity",
+     "sub": "Corporate IdP or SAP Cloud Identity (IAS, candidate); mapping to validate",
+     "kind": "identity"
+    },
+    {
+     "id": "portkey",
+     "row": 0,
+     "col": 1,
+     "title": "Portkey",
+     "sub": "LLM gateway: model selection, credentials, fallback",
+     "kind": "llm"
+    },
+    {
+     "id": "llm",
+     "row": 0,
+     "col": 2,
+     "title": "Approved LLM provider",
+     "sub": "Reached only through Portkey",
+     "kind": "llm"
+    },
+    {
+     "id": "gitlab",
+     "row": 2,
+     "col": 0,
+     "title": "GitLab CI/CD",
+     "sub": "Source, specs and pipelines; deploys the runtime and publishes records",
+     "kind": "artifact"
+    },
+    {
+     "id": "agent",
+     "row": 1,
+     "col": 1,
+     "title": "Agent · AWS AgentCore Runtime",
+     "sub": "Agent execution and MCP client",
+     "kind": "agent"
+    },
+    {
+     "id": "gw",
+     "row": 1,
+     "col": 2,
+     "title": "AWS AgentCore Gateway",
+     "sub": "Enterprise runtime gateway; routes and authorizes",
+     "kind": "gateway"
+    },
+    {
+     "id": "custom",
+     "row": 2,
+     "col": 3,
+     "title": "Custom MCP · AgentCore Runtime",
+     "sub": "Conditional: MCP server target on AgentCore Runtime",
+     "kind": "domain",
+     "dashed": true
+    },
+    {
+     "id": "apigee",
+     "row": 2,
+     "col": 4,
+     "title": "Google Apigee",
+     "sub": "Optional: only where SAP Integration policy requires it",
+     "kind": "gateway",
+     "dashed": true
+    },
+    {
+     "id": "int",
+     "row": 1,
+     "col": 4,
+     "title": "SAP Integration Suite",
+     "sub": "SAP integration boundary",
+     "kind": "integration"
+    },
+    {
+     "id": "cc",
+     "row": 1,
+     "col": 5,
+     "title": "SAP Cloud Connector",
+     "sub": "Conditional, private connectivity only",
+     "kind": "integration",
+     "dashed": true
+    },
+    {
+     "id": "sap",
+     "row": 1,
+     "col": 6,
+     "title": "SAP backend",
+     "sub": "S/4HANA · Central Finance; business authorization",
+     "kind": "backend"
+    },
+    {
+     "id": "reg_agent",
+     "row": 3,
+     "col": 1,
+     "title": "Agent registry · AWS Agent Registry",
+     "sub": "Agent descriptor; discovery and approval",
+     "kind": "registry"
+    },
+    {
+     "id": "reg_mcp",
+     "row": 3,
+     "col": 2,
+     "title": "MCP registry · AWS Agent Registry",
+     "sub": "MCP descriptor; discovery and approval",
+     "kind": "registry"
+    },
+    {
+     "id": "db",
+     "row": 2,
+     "col": 5,
+     "title": "Persistence · conditional",
+     "sub": "Approved AWS store, only if durable state is needed",
+     "kind": "store",
+     "dashed": true
+    }
+   ],
+   "edges": [
+    [
+     "ui",
+     "agent",
+     "invoke",
+     ""
+    ],
+    [
+     "agent",
+     "portkey",
+     "llm",
+     "LLM request",
+     {
+      "off": -14
+     }
+    ],
+    [
+     "portkey",
+     "llm",
+     "llm",
+     "model call"
+    ],
+    [
+     "idp",
+     "agent",
+     "identity",
+     "workload / user token"
+    ],
+    [
+     "gitlab",
+     "agent",
+     "deploy",
+     "deploy",
+     {
+      "off": 0
+     }
+    ],
+    [
+     "agent",
+     "reg_agent",
+     "registry",
+     "agent record",
+     {
+      "off": -20,
+      "labelAt": "mid"
+     }
+    ],
+    [
+     "gitlab",
+     "reg_agent",
+     "deploy",
+     "publish records",
+     {
+      "off": 0
+     }
+    ],
+    [
+     "agent",
+     "gw",
+     "invoke",
+     "MCP tools/call"
+    ],
+    [
+     "gw",
+     "custom",
+     "invoke",
+     "MCP target",
+     {
+      "my": 372,
+      "off": -20
+     }
+    ],
+    [
+     "custom",
+     "int",
+     "invoke",
+     "",
+     {
+      "my": 372,
+      "off": 20
+     }
+    ],
+    [
+     "gw",
+     "int",
+     "invoke",
+     "API target (alt.)",
+     {
+      "off": 26
+     }
+    ],
+    [
+     "gw",
+     "apigee",
+     "invoke",
+     "if required",
+     {
+      "my": 384,
+      "off": 12
+     }
+    ],
+    [
+     "apigee",
+     "int",
+     "invoke",
+     ""
+    ],
+    [
+     "gitlab",
+     "custom",
+     "deploy",
+     ""
+    ],
+    [
+     "int",
+     "cc",
+     "invoke",
+     "if private"
+    ],
+    [
+     "cc",
+     "sap",
+     "invoke",
+     "RFC / OData"
+    ],
+    [
+     "gw",
+     "reg_mcp",
+     "registry",
+     "MCP descriptor",
+     {
+      "off": -20,
+      "labelAt": "mid"
+     }
+    ]
+   ],
+   "bounds": [
+    [
+     "AWS SAP-agent account (proposed)",
+     [
+      "agent",
+      "gw"
+     ],
+     "aws"
+    ],
+    [
+     "SAP landscape",
+     [
+      "int",
+      "cc",
+      "sap"
+     ],
+     "sap"
+    ]
+   ],
+   "lanes": [
+    [
+     0,
+     "IDENTITY · LLM"
+    ],
+    [
+     1,
+     "RUNTIME PATH"
+    ],
+    [
+     2,
+     "OPTIONAL · DEPLOY"
+    ],
+    [
+     3,
+     "CONTROL PLANE"
+    ]
+   ],
+   "legend": [
+    "invoke",
+    "llm",
+    "identity",
+    "registry",
+    "deploy"
+   ],
+   "footer": "Apigee is optional and inserted into the approved route only where required. A Gateway API target avoids a custom MCP server once its schema, authentication and connectivity are checked."
+  },
+  "D4": {
+   "id": "D4",
+   "scenario": "S3",
+   "title": "S3 · AWS AgentCore + Apigee hybrid · topology",
+   "chain": "UI → AgentCore Runtime agent → AgentCore Gateway → Apigee MCP → Integration Suite → Cloud Connector (conditional) → SAP backend",
+   "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
+   "cols": 7,
+   "nh": 100,
+   "ys": [
+    118,
+    258,
+    398,
+    528,
+    668
+   ],
+   "height": 840,
+   "nodes": [
+    {
+     "id": "ui",
+     "row": 1,
+     "col": 0,
+     "title": "SAP Fiori / app client",
+     "sub": "Finance user entry; application unchanged",
+     "kind": "ui"
+    },
+    {
+     "id": "idp",
+     "row": 0,
+     "col": 0,
+     "title": "Enterprise identity",
+     "sub": "Corporate IdP or SAP Cloud Identity (IAS, candidate); mapping to validate",
+     "kind": "identity"
+    },
+    {
+     "id": "portkey",
+     "row": 0,
+     "col": 1,
+     "title": "Portkey",
+     "sub": "LLM gateway: model selection, credentials, fallback",
+     "kind": "llm"
+    },
+    {
+     "id": "llm",
+     "row": 0,
+     "col": 2,
+     "title": "Approved LLM provider",
+     "sub": "Reached only through Portkey",
+     "kind": "llm"
+    },
+    {
+     "id": "gitlab",
+     "row": 2,
+     "col": 0,
+     "title": "GitLab CI/CD",
+     "sub": "Source, specs and pipelines; deploys the runtime and publishes records",
+     "kind": "artifact"
+    },
+    {
+     "id": "agent",
+     "row": 1,
+     "col": 1,
+     "title": "Agent · AWS AgentCore Runtime",
+     "sub": "Agent execution and MCP client",
+     "kind": "agent"
+    },
+    {
+     "id": "gw",
+     "row": 1,
+     "col": 2,
+     "title": "AWS AgentCore Gateway",
+     "sub": "Enterprise runtime gateway; routes and authorizes",
+     "kind": "gateway"
+    },
+    {
+     "id": "apigee",
+     "row": 1,
+     "col": 3,
+     "title": "Google Apigee MCP/API",
+     "sub": "SAP-facing gateway; managed MCP endpoint (Pattern A)",
+     "kind": "gateway"
+    },
+    {
+     "id": "custom",
+     "row": 2,
+     "col": 3,
+     "title": "Custom MCP service",
+     "sub": "Pattern B, conditional; AgentCore Runtime preferred; behind Apigee",
+     "kind": "domain",
+     "dashed": true
+    },
+    {
+     "id": "int",
+     "row": 1,
+     "col": 4,
+     "title": "SAP Integration Suite",
+     "sub": "SAP integration boundary",
+     "kind": "integration"
+    },
+    {
+     "id": "cc",
+     "row": 1,
+     "col": 5,
+     "title": "SAP Cloud Connector",
+     "sub": "Conditional, private connectivity only",
+     "kind": "integration",
+     "dashed": true
+    },
+    {
+     "id": "sap",
+     "row": 1,
+     "col": 6,
+     "title": "SAP backend",
+     "sub": "S/4HANA · Central Finance; business authorization",
+     "kind": "backend"
+    },
+    {
+     "id": "reg_agent",
+     "row": 3,
+     "col": 1,
+     "title": "Agent registry · AWS Agent Registry",
+     "sub": "Agent descriptor; discovery and approval",
+     "kind": "registry"
+    },
+    {
+     "id": "reg_mcp",
+     "row": 3,
+     "col": 2,
+     "title": "MCP registry · AWS Agent Registry",
+     "sub": "MCP descriptor; discovery and approval",
+     "kind": "registry"
+    },
+    {
+     "id": "db",
+     "row": 2,
+     "col": 5,
+     "title": "Persistence · conditional",
+     "sub": "Approved AWS store, only if durable state is needed",
+     "kind": "store",
+     "dashed": true
+    }
+   ],
+   "edges": [
+    [
+     "ui",
+     "agent",
+     "invoke",
+     ""
+    ],
+    [
+     "agent",
+     "portkey",
+     "llm",
+     "LLM request",
+     {
+      "off": -14
+     }
+    ],
+    [
+     "portkey",
+     "llm",
+     "llm",
+     "model call"
+    ],
+    [
+     "idp",
+     "agent",
+     "identity",
+     "workload / user token"
+    ],
+    [
+     "gitlab",
+     "agent",
+     "deploy",
+     "deploy",
+     {
+      "off": 0
+     }
+    ],
+    [
+     "agent",
+     "reg_agent",
+     "registry",
+     "agent record",
+     {
+      "off": -20,
+      "labelAt": "mid"
+     }
+    ],
+    [
+     "gitlab",
+     "reg_agent",
+     "deploy",
+     "publish records",
+     {
+      "off": 0
+     }
+    ],
+    [
+     "agent",
+     "gw",
+     "invoke",
+     "MCP tools/call"
+    ],
+    [
+     "gw",
+     "apigee",
+     "invoke",
+     "MCP target"
+    ],
+    [
+     "apigee",
+     "int",
+     "invoke",
+     "API call"
+    ],
+    [
+     "apigee",
+     "custom",
+     "invoke",
+     "proxy target (if needed)",
+     {
+      "off": -30
+     }
+    ],
+    [
+     "gitlab",
+     "custom",
+     "deploy",
+     ""
+    ],
+    [
+     "int",
+     "cc",
+     "invoke",
+     "if private"
+    ],
+    [
+     "cc",
+     "sap",
+     "invoke",
+     "RFC / OData"
+    ],
+    [
+     "gw",
+     "reg_mcp",
+     "registry",
+     "MCP descriptor",
+     {
+      "off": -20,
+      "labelAt": "mid"
+     }
+    ]
+   ],
+   "bounds": [
+    [
+     "AWS SAP-agent account (proposed)",
+     [
+      "agent",
+      "gw"
+     ],
+     "aws"
+    ],
+    [
+     "Google Apigee",
+     [
+      "apigee"
+     ],
+     "google"
+    ],
+    [
+     "SAP landscape",
+     [
+      "int",
+      "cc",
+      "sap"
+     ],
+     "sap"
+    ]
+   ],
+   "lanes": [
+    [
+     0,
+     "IDENTITY · LLM"
+    ],
+    [
+     1,
+     "RUNTIME PATH"
+    ],
+    [
+     2,
+     "OPTIONAL · DEPLOY"
+    ],
+    [
+     3,
+     "CONTROL PLANE"
+    ]
+   ],
+   "legend": [
+    "invoke",
+    "llm",
+    "identity",
+    "registry",
+    "deploy"
+   ],
+   "footer": "AgentCore Gateway fronts Apigee: two gateways in series with separate responsibilities. AWS Agent Registry registers and is never an execution hop."
   },
   "D5": {
    "id": "D5",
    "scenario": null,
-   "title": "MCP hosting versus registration",
-   "chain": "Four independent decisions, plus the MCP gateway and the LLM gateway as separate shared responsibilities",
+   "title": "Four responsibility model",
+   "chain": "Agent hosting, MCP hosting, agent registration and MCP registration, with gateway mediation and the LLM gateway identified separately",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 4,
    "nh": 76,
@@ -1680,7 +1894,7 @@
      "row": 0,
      "col": 1,
      "title": "SAP BTP Cloud Foundry",
-     "sub": "S1 · SAP-centric",
+     "sub": "S1 · SAP-hosted hybrid",
      "kind": "agent"
     },
     {
@@ -1688,15 +1902,15 @@
      "row": 0,
      "col": 2,
      "title": "AWS AgentCore Runtime",
-     "sub": "S2 · AWS AgentCore-centric",
+     "sub": "S2 · AWS AgentCore-native",
      "kind": "agent"
     },
     {
      "id": "c0_3",
      "row": 0,
      "col": 3,
-     "title": "SAP BTP Cloud Foundry",
-     "sub": "S3 · SAP-hosted hybrid",
+     "title": "AWS AgentCore Runtime",
+     "sub": "S3 · AgentCore + Apigee",
      "kind": "agent"
     },
     {
@@ -1711,19 +1925,16 @@
      "id": "c1_1",
      "row": 1,
      "col": 1,
-     "title": "Domain-managed catalog · product selection pending",
-     "sub": "S1 · SAP-centric",
-     "kind": "registry",
-     "dashed": true,
-     "status": "PRODUCT PENDING",
-     "statusColor": "#B3261E"
+     "title": "AWS Agent Registry",
+     "sub": "S1 · SAP-hosted hybrid",
+     "kind": "registry"
     },
     {
      "id": "c1_2",
      "row": 1,
      "col": 2,
      "title": "AWS Agent Registry",
-     "sub": "S2 · AWS AgentCore-centric",
+     "sub": "S2 · AWS AgentCore-native",
      "kind": "registry"
     },
     {
@@ -1731,7 +1942,7 @@
      "row": 1,
      "col": 3,
      "title": "AWS Agent Registry",
-     "sub": "S3 · SAP-hosted hybrid",
+     "sub": "S3 · AgentCore + Apigee",
      "kind": "registry"
     },
     {
@@ -1747,23 +1958,23 @@
      "row": 2,
      "col": 1,
      "title": "Cloud Foundry, only if custom code is needed",
-     "sub": "S1 · SAP-centric",
+     "sub": "S1 · SAP-hosted hybrid",
      "kind": "domain"
     },
     {
      "id": "c2_2",
      "row": 2,
      "col": 2,
-     "title": "AgentCore Runtime, only if custom code is needed",
-     "sub": "S2 · AWS AgentCore-centric",
+     "title": "AgentCore Runtime, when a custom MCP is needed",
+     "sub": "S2 · AWS AgentCore-native",
      "kind": "domain"
     },
     {
      "id": "c2_3",
      "row": 2,
      "col": 3,
-     "title": "Cloud Foundry, only if custom code is needed",
-     "sub": "S3 · SAP-hosted hybrid",
+     "title": "Conditional: AgentCore Runtime preferred, exposed through Apigee",
+     "sub": "S3 · AgentCore + Apigee",
      "kind": "domain"
     },
     {
@@ -1778,19 +1989,16 @@
      "id": "c3_1",
      "row": 3,
      "col": 1,
-     "title": "Domain-managed catalog · product selection pending",
-     "sub": "S1 · SAP-centric",
-     "kind": "registry",
-     "dashed": true,
-     "status": "PRODUCT PENDING",
-     "statusColor": "#B3261E"
+     "title": "AWS Agent Registry",
+     "sub": "S1 · SAP-hosted hybrid",
+     "kind": "registry"
     },
     {
      "id": "c3_2",
      "row": 3,
      "col": 2,
      "title": "AWS Agent Registry",
-     "sub": "S2 · AWS AgentCore-centric",
+     "sub": "S2 · AWS AgentCore-native",
      "kind": "registry"
     },
     {
@@ -1798,15 +2006,15 @@
      "row": 3,
      "col": 3,
      "title": "AWS Agent Registry",
-     "sub": "S3 · SAP-hosted hybrid",
+     "sub": "S3 · AgentCore + Apigee",
      "kind": "registry"
     },
     {
      "id": "l4",
      "row": 4,
      "col": 0,
-     "title": "MCP gateway / exposure (shared responsibility)",
-     "sub": "Shared across scenarios",
+     "title": "Runtime gateway mediation (separate responsibility)",
+     "sub": "Separate responsibility",
      "kind": "gateway"
     },
     {
@@ -1814,23 +2022,23 @@
      "row": 4,
      "col": 1,
      "title": "Google Apigee",
-     "sub": "S1 · SAP-centric",
+     "sub": "S1 · SAP-hosted hybrid",
      "kind": "gateway"
     },
     {
      "id": "c4_2",
      "row": 4,
      "col": 2,
-     "title": "AgentCore Gateway + Google Apigee",
-     "sub": "S2 · AWS AgentCore-centric",
+     "title": "AgentCore Gateway (Apigee optional)",
+     "sub": "S2 · AWS AgentCore-native",
      "kind": "gateway"
     },
     {
      "id": "c4_3",
      "row": 4,
      "col": 3,
-     "title": "Google Apigee",
-     "sub": "S3 · SAP-hosted hybrid",
+     "title": "AgentCore Gateway in front of Apigee",
+     "sub": "S3 · AgentCore + Apigee",
      "kind": "gateway"
     },
     {
@@ -1838,7 +2046,7 @@
      "row": 5,
      "col": 0,
      "title": "LLM gateway (common to all)",
-     "sub": "Shared across scenarios",
+     "sub": "Separate responsibility",
      "kind": "llm"
     },
     {
@@ -1846,7 +2054,7 @@
      "row": 5,
      "col": 1,
      "title": "Portkey",
-     "sub": "S1 · SAP-centric",
+     "sub": "S1 · SAP-hosted hybrid",
      "kind": "llm"
     },
     {
@@ -1854,7 +2062,7 @@
      "row": 5,
      "col": 2,
      "title": "Portkey",
-     "sub": "S2 · AWS AgentCore-centric",
+     "sub": "S2 · AWS AgentCore-native",
      "kind": "llm"
     },
     {
@@ -1862,7 +2070,7 @@
      "row": 5,
      "col": 3,
      "title": "Portkey",
-     "sub": "S3 · SAP-hosted hybrid",
+     "sub": "S3 · AgentCore + Apigee",
      "kind": "llm"
     }
    ],
@@ -1871,10 +2079,7 @@
      "c0_1",
      "c1_1",
      "registry",
-     "metadata only",
-     {
-      "off": 0
-     }
+     "metadata only"
     ],
     [
      "c2_1",
@@ -1886,10 +2091,7 @@
      "c0_2",
      "c1_2",
      "registry",
-     "metadata",
-     {
-      "off": 0
-     }
+     "metadata only"
     ],
     [
      "c2_2",
@@ -1901,10 +2103,7 @@
      "c0_3",
      "c1_3",
      "registry",
-     "metadata only",
-     {
-      "off": 0
-     }
+     "metadata only"
     ],
     [
      "c2_3",
@@ -1918,13 +2117,190 @@
    "legend": [
     "registry"
    ],
-   "footer": "Using AWS Agent Registry (S3) does not require AWS agent hosting: the agent still runs on SAP BTP Cloud Foundry. The dashed arrow carries metadata only."
+   "footer": "Using AWS Agent Registry does not decide where anything runs, and AgentCore Gateway is not an agent-hosting service. The dashed arrow carries metadata only."
   },
   "D6": {
    "id": "D6",
    "scenario": null,
-   "title": "Identity, authorization and principal propagation",
-   "chain": "Six identities, five boundaries; SAP decides business authorization",
+   "title": "AWS account and governance architecture",
+   "chain": "Dedicated SAP-agent execution account, central AI Foundry registry, identity, network and operational ownership (proposed; nothing is provisioned)",
+   "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
+   "cols": 5,
+   "nh": 100,
+   "ys": [
+    104,
+    232,
+    388,
+    540,
+    668
+   ],
+   "height": 840,
+   "nodes": [
+    {
+     "id": "org",
+     "row": 0,
+     "col": 0,
+     "title": "AWS Organizations and landing zone",
+     "sub": "SCPs, region and data-residency policy, enterprise compliance",
+     "kind": "decision",
+     "span": 2,
+     "h": 84
+    },
+    {
+     "id": "idp",
+     "row": 0,
+     "col": 3,
+     "title": "Identity",
+     "sub": "Corporate IdP, workload roles, least privilege",
+     "kind": "identity",
+     "span": 2,
+     "h": 84
+    },
+    {
+     "id": "gov",
+     "row": 1,
+     "col": 0,
+     "title": "AI Foundry governance account",
+     "sub": "Central AWS Agent Registry, curator and approval roles, shared by AWS RAM",
+     "kind": "registry",
+     "span": 2
+    },
+    {
+     "id": "wl",
+     "row": 1,
+     "col": 3,
+     "title": "SAP-agent workload account (proposed)",
+     "sub": "AgentCore Runtime and Gateway; dev, test and prod separated",
+     "kind": "agent",
+     "span": 2
+    },
+    {
+     "id": "gl",
+     "row": 2,
+     "col": 0,
+     "title": "GitLab (central platform)",
+     "sub": "Pipelines deploy the runtime and publish registry records",
+     "kind": "artifact",
+     "span": 2,
+     "h": 84
+    },
+    {
+     "id": "net",
+     "row": 2,
+     "col": 3,
+     "title": "Network and egress",
+     "sub": "Approved path to Apigee and Integration Suite; Portkey connectivity",
+     "kind": "integration",
+     "span": 2,
+     "h": 84
+    },
+    {
+     "id": "ops",
+     "row": 3,
+     "col": 0,
+     "title": "Operations",
+     "sub": "Monitoring, incident response, tagging and lifecycle policies",
+     "kind": "store",
+     "span": 2,
+     "h": 84
+    },
+    {
+     "id": "fin",
+     "row": 3,
+     "col": 3,
+     "title": "Cost allocation and billing",
+     "sub": "Budgets and alerts; owner per account",
+     "kind": "control",
+     "span": 2,
+     "h": 84
+    }
+   ],
+   "edges": [
+    [
+     "org",
+     "gov",
+     "approval",
+     "guardrails"
+    ],
+    [
+     "org",
+     "wl",
+     "approval",
+     "SCPs",
+     {
+      "off": 20
+     }
+    ],
+    [
+     "wl",
+     "gov",
+     "registry",
+     "publish records"
+    ],
+    [
+     "gl",
+     "wl",
+     "deploy",
+     "deploy",
+     {
+      "off": -20
+     }
+    ],
+    [
+     "gl",
+     "gov",
+     "deploy",
+     "publish record definitions",
+     {
+      "off": 24
+     }
+    ],
+    [
+     "idp",
+     "wl",
+     "identity",
+     "workload roles"
+    ],
+    [
+     "wl",
+     "net",
+     "invoke",
+     "egress"
+    ]
+   ],
+   "bounds": [],
+   "lanes": [
+    [
+     0,
+     "POLICY"
+    ],
+    [
+     1,
+     "ACCOUNTS"
+    ],
+    [
+     2,
+     "PLATFORM"
+    ],
+    [
+     3,
+     "OPERATIONS"
+    ]
+   ],
+   "legend": [
+    "invoke",
+    "registry",
+    "identity",
+    "deploy",
+    "approval"
+   ],
+   "footer": "Account provisioning does not prove access to every AgentCore capability: confirm policy, entitlements, permissions and region. The registry is not duplicated per account."
+  },
+  "D7": {
+   "id": "D7",
+   "scenario": null,
+   "title": "Gateway and principal propagation (S3)",
+   "chain": "Six identities across AWS, Apigee and SAP; S1 drops the AgentCore hops, S2 drops Apigee unless inserted",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 6,
    "nh": 96,
@@ -1938,52 +2314,42 @@
    "height": 840,
    "nodes": [
     {
-     "id": "idp",
-     "row": 0,
-     "col": 1,
-     "title": "SAP Cloud Identity Services (IAS) · candidate trust component",
-     "sub": "Evaluate as trust component; Global User ID as identity-correlation attribute where supported",
-     "kind": "identity",
-     "span": 3,
-     "h": 70
-    },
-    {
      "id": "user",
      "row": 1,
      "col": 0,
      "title": "Business user",
-     "sub": "Authenticates at the IdP",
+     "sub": "Enterprise authentication; delegated user token",
      "kind": "ui"
     },
     {
      "id": "agent",
      "row": 1,
      "col": 1,
-     "title": "Agent workload identity",
-     "sub": "Identity of the agent runtime",
-     "kind": "agent"
-    },
-    {
-     "id": "mcp",
-     "row": 1,
-     "col": 2,
-     "title": "MCP client identity",
-     "sub": "Token the client presents to the gateway",
+     "title": "AgentCore Runtime agent",
+     "sub": "Agent workload identity (AgentCore Identity)",
      "kind": "agent"
     },
     {
      "id": "gw",
      "row": 1,
+     "col": 2,
+     "title": "AgentCore Gateway",
+     "sub": "Inbound JWT validation; outbound credential or token exchange",
+     "kind": "gateway"
+    },
+    {
+     "id": "apigee",
+     "row": 1,
      "col": 3,
-     "title": "Gateway identity",
-     "sub": "Apigee (and AgentCore Gateway in S2)",
+     "title": "Google Apigee",
+     "sub": "Token validation; API product policy",
      "kind": "gateway"
     },
     {
      "id": "int",
      "row": 1,
      "col": 4,
-     "title": "Integration Suite identity",
+     "title": "SAP Integration Suite",
      "sub": "Service identity toward SAP",
      "kind": "integration"
     },
@@ -1991,59 +2357,49 @@
      "id": "sap",
      "row": 1,
      "col": 5,
-     "title": "SAP backend identity",
-     "sub": "Mapped user or technical user executes",
+     "title": "SAP backend",
+     "sub": "Mapped user executes; SAP roles authorize",
      "kind": "backend"
     },
     {
-     "id": "notenough",
-     "row": 2,
-     "col": 0,
-     "title": "Not sufficient on its own",
-     "sub": "A Global User ID or an ordinary HTTP header is not principal propagation",
-     "kind": "decision",
-     "span": 2,
-     "h": 80
-    },
-    {
-     "id": "tx",
-     "row": 2,
-     "col": 2,
-     "title": "Token exchange / user mapping",
-     "sub": "Subject to validation at every boundary: PENDING, not proven",
-     "kind": "decision",
-     "span": 2,
-     "h": 80,
-     "dashed": true
-    },
-    {
-     "id": "neg",
-     "row": 2,
-     "col": 4,
-     "title": "Negative case",
-     "sub": "Agent may discover and call the tool; SAP rejects an operation the mapped user lacks authority for",
-     "kind": "decision",
-     "span": 2,
-     "h": 80
-    },
-    {
-     "id": "auth",
-     "row": 3,
-     "col": 0,
-     "title": "SAP backend is the business authority",
-     "sub": "Registry visibility, gateway access and tool discovery never grant business authorization. Business approval is a separate step.",
-     "kind": "backend",
+     "id": "idp",
+     "row": 0,
+     "col": 1,
+     "title": "Corporate IdP · SAP Cloud Identity (candidate)",
+     "sub": "Issues and exchanges tokens; Global User ID is a correlation attribute, not proof of propagation",
+     "kind": "identity",
      "span": 3,
      "h": 84
     },
     {
-     "id": "byscen",
-     "row": 3,
-     "col": 3,
-     "title": "What differs by scenario",
-     "sub": "S1: agent to Apigee, one hop. S2: agent to AgentCore Gateway to Apigee, two hops. S3: as S1, plus a separate registry identity.",
+     "id": "neg",
+     "row": 2,
+     "col": 0,
+     "title": "Negative case",
+     "sub": "An authorized and an unauthorized user call the same read-only tool; SAP rejects the unauthorized one",
      "kind": "decision",
-     "span": 3,
+     "span": 2,
+     "h": 84
+    },
+    {
+     "id": "val",
+     "row": 2,
+     "col": 2,
+     "title": "Validation status",
+     "sub": "Token exchange and user mapping are NOT yet proven at any hop",
+     "kind": "decision",
+     "span": 2,
+     "h": 84,
+     "dashed": true
+    },
+    {
+     "id": "auth",
+     "row": 2,
+     "col": 4,
+     "title": "SAP is the business authority",
+     "sub": "Gateways and registries never grant business authorization",
+     "kind": "backend",
+     "span": 2,
      "h": 84
     }
    ],
@@ -2052,25 +2408,25 @@
      "user",
      "agent",
      "identity",
-     "delegated user token"
+     "user token"
     ],
     [
      "agent",
-     "mcp",
-     "identity",
-     "client credential"
-    ],
-    [
-     "mcp",
      "gw",
      "identity",
      "bearer · validated"
     ],
     [
      "gw",
+     "apigee",
+     "identity",
+     "exchange / client credential"
+    ],
+    [
+     "apigee",
      "int",
      "identity",
-     "OAuth / cert · mapping"
+     "OAuth / cert"
     ],
     [
      "int",
@@ -2082,7 +2438,7 @@
      "idp",
      "agent",
      "identity",
-     "issues tokens",
+     "issues",
      {
       "off": -20
      }
@@ -2093,7 +2449,7 @@
      "identity",
      "validates",
      {
-      "off": -10
+      "off": 0
      }
     ]
    ],
@@ -2111,889 +2467,561 @@
    "legend": [
     "identity"
    ],
-   "footer": "Authentication and authorization are separate at each boundary. Token exchange and user mapping are design assumptions until validated."
-  },
-  "D7": {
-   "id": "D7",
-   "scenario": null,
-   "title": "LLM execution architecture",
-   "chain": "Agent runtime → Portkey → approved LLM provider (common to S1, S2, S3)",
-   "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
-   "cols": 5,
-   "nh": 100,
-   "ys": [
-    118,
-    258,
-    398,
-    528,
-    668
-   ],
-   "height": 840,
-   "nodes": [
-    {
-     "id": "agent",
-     "row": 1,
-     "col": 0,
-     "title": "Agent runtime",
-     "sub": "S1, S3: SAP BTP Cloud Foundry. S2: AgentCore Runtime",
-     "kind": "agent"
-    },
-    {
-     "id": "portkey",
-     "row": 1,
-     "col": 1,
-     "title": "Portkey LLM gateway",
-     "sub": "Single route to models in all scenarios",
-     "kind": "llm"
-    },
-    {
-     "id": "llm",
-     "row": 1,
-     "col": 2,
-     "title": "Approved LLM provider",
-     "sub": "Selected model",
-     "kind": "llm"
-    },
-    {
-     "id": "sep",
-     "row": 1,
-     "col": 4,
-     "title": "MCP gateway and registries",
-     "sub": "Separate planes: no path to Portkey",
-     "kind": "gateway",
-     "dashed": true
-    },
-    {
-     "id": "m1",
-     "row": 2,
-     "col": 0,
-     "title": "Model selection",
-     "sub": "Which approved model serves the request",
-     "kind": "control"
-    },
-    {
-     "id": "m2",
-     "row": 2,
-     "col": 1,
-     "title": "Credential management",
-     "sub": "Provider keys held in Portkey, not in the agent",
-     "kind": "control"
-    },
-    {
-     "id": "m3",
-     "row": 2,
-     "col": 2,
-     "title": "Timeout and fallback",
-     "sub": "Policy for slow or failed calls",
-     "kind": "control"
-    },
-    {
-     "id": "m4",
-     "row": 2,
-     "col": 3,
-     "title": "Monitoring",
-     "sub": "Usage, latency and cost per request",
-     "kind": "control"
-    },
-    {
-     "id": "nobypass",
-     "row": 3,
-     "col": 0,
-     "title": "No direct provider route",
-     "sub": "A call that bypasses Portkey is not permitted in any scenario",
-     "kind": "decision",
-     "span": 5,
-     "h": 70
-    }
-   ],
-   "edges": [
-    [
-     "agent",
-     "portkey",
-     "llm",
-     "LLM request"
-    ],
-    [
-     "portkey",
-     "llm",
-     "llm",
-     "model call"
-    ]
-   ],
-   "bounds": [],
-   "lanes": [
-    [
-     1,
-     "LLM PATH"
-    ],
-    [
-     2,
-     "AT PORTKEY"
-    ]
-   ],
-   "legend": [
-    "llm"
-   ],
-   "footer": "Portkey is independent of the MCP gateway and the registry. Model-provider routes that skip Portkey are not drawn because they are not allowed."
+   "footer": "The workload token alone is not end-user principal propagation. The final SAP execution identity must be evidenced in the SAP backend."
   },
   "D8": {
    "id": "D8",
    "scenario": null,
-   "title": "Registry lifecycle and synchronization",
-   "chain": "Developed → artifact → validation → approval → publication → discovery → invocation → monitoring → update or retirement",
+   "title": "Cost and operational responsibility architecture",
+   "chain": "The separately billable runtime, gateway, integration, network, persistence, observability and support layers",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 5,
    "nh": 100,
    "ys": [
-    118,
-    258,
-    398,
-    528,
-    668
+    120,
+    250,
+    400,
+    560,
+    700
    ],
    "height": 840,
    "nodes": [
     {
-     "id": "t0",
+     "id": "rt",
      "row": 1,
      "col": 0,
-     "title": "Capability developed",
-     "sub": "Agent or MCP code and descriptor",
-     "kind": "artifact"
-    },
-    {
-     "id": "t1",
-     "row": 1,
-     "col": 1,
-     "title": "Versioned artifact",
-     "sub": "Git tag, image or spec version",
-     "kind": "artifact"
-    },
-    {
-     "id": "t2",
-     "row": 1,
-     "col": 2,
-     "title": "Domain validation",
-     "sub": "Domain owner checks scope",
-     "kind": "artifact"
-    },
-    {
-     "id": "t3",
-     "row": 1,
-     "col": 3,
-     "title": "Approval",
-     "sub": "AI Foundry or domain owner",
-     "kind": "registry"
-    },
-    {
-     "id": "t4",
-     "row": 1,
-     "col": 4,
-     "title": "Registry publication",
-     "sub": "Registry record created",
-     "kind": "registry"
-    },
-    {
-     "id": "b0",
-     "row": 2,
-     "col": 4,
-     "title": "Discovery",
-     "sub": "Approved records only",
-     "kind": "registry"
-    },
-    {
-     "id": "b1",
-     "row": 2,
-     "col": 3,
-     "title": "Invocation under runtime authorization",
-     "sub": "Not proven by registration alone",
+     "title": "Agent runtime",
+     "sub": "S1: BTP credits · S2, S3: AgentCore consumption",
      "kind": "agent"
     },
     {
-     "id": "b2",
-     "row": 2,
-     "col": 2,
-     "title": "Monitoring",
-     "sub": "Runtime and registry telemetry",
-     "kind": "registry"
+     "id": "gw",
+     "row": 1,
+     "col": 1,
+     "title": "AgentCore Gateway",
+     "sub": "S2, S3 only · per tool invocation",
+     "kind": "gateway"
     },
     {
-     "id": "b3",
+     "id": "ap",
+     "row": 1,
+     "col": 2,
+     "title": "Apigee MCP/API",
+     "sub": "S1, S3 · S2 optional",
+     "kind": "gateway"
+    },
+    {
+     "id": "is",
+     "row": 1,
+     "col": 3,
+     "title": "Integration Suite",
+     "sub": "All · messages or API calls",
+     "kind": "integration"
+    },
+    {
+     "id": "cc",
+     "row": 1,
+     "col": 4,
+     "title": "Cloud Connector",
+     "sub": "Where applicable",
+     "kind": "integration"
+    },
+    {
+     "id": "llm",
+     "row": 2,
+     "col": 0,
+     "title": "Portkey and model",
+     "sub": "All · tokens",
+     "kind": "llm"
+    },
+    {
+     "id": "net",
      "row": 2,
      "col": 1,
-     "title": "Version update or retirement",
-     "sub": "New version or retire record",
-     "kind": "registry"
+     "title": "Network and egress",
+     "sub": "Cross-cloud transfer: highest in S3",
+     "kind": "control"
     },
     {
-     "id": "b4",
+     "id": "db",
      "row": 2,
-     "col": 0,
-     "title": "Revocation and stale-metadata handling",
-     "sub": "Sync reverts a record to draft and removes nothing: retire or revoke explicitly",
-     "kind": "registry"
-    },
-    {
-     "id": "ext",
-     "row": 3,
-     "col": 0,
-     "title": "External sources (S3)",
-     "sub": "SAP-hosted agent and Apigee MCP endpoint metadata",
-     "kind": "domain",
-     "span": 1
-    },
-    {
-     "id": "areg",
-     "row": 3,
      "col": 2,
-     "title": "AWS Agent Registry",
-     "sub": "Synchronizes approved metadata from external sources where supported",
-     "kind": "registry",
-     "span": 1
+     "title": "Persistence",
+     "sub": "Conditional",
+     "kind": "store"
     },
     {
-     "id": "warn",
-     "row": 4,
+     "id": "obs",
+     "row": 2,
+     "col": 3,
+     "title": "Observability",
+     "sub": "Logs per platform",
+     "kind": "store"
+    },
+    {
+     "id": "sup",
+     "row": 2,
+     "col": 4,
+     "title": "Support and operations",
+     "sub": "Teams differ per scenario",
+     "kind": "decision"
+    },
+    {
+     "id": "note",
+     "row": 3,
      "col": 0,
-     "title": "Publication is not proof",
-     "sub": "Not proof of endpoint reachability, runtime authorization or SAP execution. Stale or revoked metadata is detected by periodic re-validation.",
+     "title": "Billable layers differ per scenario",
+     "sub": "One workload definition, one editable model, no invented rates: see Selection · Cost model",
      "kind": "decision",
      "span": 5,
      "h": 70
     }
    ],
-   "edges": [
-    [
-     "t0",
-     "t1",
-     "invoke",
-     ""
-    ],
-    [
-     "t1",
-     "t2",
-     "invoke",
-     ""
-    ],
-    [
-     "t2",
-     "t3",
-     "invoke",
-     ""
-    ],
-    [
-     "t3",
-     "t4",
-     "invoke",
-     ""
-    ],
-    [
-     "t4",
-     "b0",
-     "registry",
-     "publish → discover"
-    ],
-    [
-     "b0",
-     "b1",
-     "invoke",
-     ""
-    ],
-    [
-     "b1",
-     "b2",
-     "invoke",
-     ""
-    ],
-    [
-     "b2",
-     "b3",
-     "invoke",
-     ""
-    ],
-    [
-     "b3",
-     "b4",
-     "invoke",
-     ""
-    ],
-    [
-     "ext",
-     "areg",
-     "registry",
-     "sync approved metadata"
-    ]
-   ],
+   "edges": [],
    "bounds": [],
    "lanes": [
     [
      1,
-     "PUBLISH"
+     "RUNTIME LAYERS"
     ],
     [
      2,
-     "USE · RETIRE"
-    ],
-    [
-     3,
-     ""
+     "SHARED LAYERS"
     ]
    ],
    "legend": [
-    "invoke",
-    "registry"
+    "invoke"
    ],
-   "footer": "Lifecycle arrows show order of steps, not runtime traffic. Discovery returns metadata; invocation is a separate authorized call."
+   "footer": "Layers are cost and ownership categories, not arrows of traffic."
   },
   "D9": {
    "id": "D9",
    "scenario": null,
-   "title": "Observability and audit",
-   "chain": "Agent request → LLM → MCP tool → gateway → Integration Suite → SAP backend, joined by a correlation id",
+   "title": "Architecture selection decision tree",
+   "chain": "Workload classification and approval gates lead to S1, S2 or S3; the same rules are in Selection · Recommendation",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
-   "cols": 6,
+   "cols": 4,
    "nh": 100,
    "ys": [
-    118,
-    258,
-    398,
-    528,
-    668
+    130,
+    270,
+    410,
+    560,
+    700
    ],
    "height": 840,
    "nodes": [
     {
-     "id": "s0",
-     "row": 1,
+     "id": "start",
+     "row": 0,
      "col": 0,
-     "title": "Agent request",
-     "sub": "Session and business correlation id created",
-     "kind": "agent"
+     "title": "Classify the workload",
+     "sub": "SAP-specific or enterprise; frequency, bursts, duration, tools",
+     "kind": "ui"
+    },
+    {
+     "id": "q1",
+     "row": 0,
+     "col": 1,
+     "title": "AWS account and AgentCore approved?",
+     "sub": "Account, services, ownership",
+     "kind": "decision"
+    },
+    {
+     "id": "q2",
+     "row": 0,
+     "col": 3,
+     "title": "Apigee required for the SAP route?",
+     "sub": "SAP Integration and Security",
+     "kind": "decision"
+    },
+    {
+     "id": "q3",
+     "row": 1,
+     "col": 3,
+     "title": "Identity and gateway interop validated, cost competitive?",
+     "sub": "Evidence, not preference",
+     "kind": "decision"
     },
     {
      "id": "s1",
-     "row": 1,
-     "col": 1,
-     "title": "LLM request",
-     "sub": "Portkey log with request id",
-     "kind": "llm"
+     "row": 2,
+     "col": 0,
+     "title": "S1 · SAP-hosted hybrid",
+     "sub": "SAP coupling or verified economics, or AWS unavailable",
+     "kind": "agent"
     },
     {
      "id": "s2",
-     "row": 1,
+     "row": 2,
      "col": 2,
-     "title": "MCP tool invocation",
-     "sub": "Client call and tool name",
+     "title": "S2 · AWS AgentCore-native",
+     "sub": "Apigee not mandated or exception approved",
      "kind": "agent"
     },
     {
      "id": "s3",
-     "row": 1,
-     "col": 3,
-     "title": "Gateway decision",
-     "sub": "Apigee (and AgentCore Gateway in S2) allow or deny",
-     "kind": "gateway"
-    },
-    {
-     "id": "s4",
-     "row": 1,
-     "col": 4,
-     "title": "Integration Suite execution",
-     "sub": "Message processing log",
-     "kind": "integration"
-    },
-    {
-     "id": "s5",
-     "row": 1,
-     "col": 5,
-     "title": "SAP backend operation",
-     "sub": "Application log and change documents",
-     "kind": "backend"
-    },
-    {
-     "id": "err",
      "row": 2,
-     "col": 0,
-     "title": "Error / exception outcome",
-     "sub": "Recorded with the same business correlation id",
-     "kind": "decision",
-     "span": 2,
-     "h": 80
-    },
-    {
-     "id": "model",
-     "row": 2,
-     "col": 2,
-     "title": "Common correlation model",
-     "sub": "Business id + session id + per-system request ids. Products do not share one trace id automatically",
-     "kind": "store",
-     "span": 4,
-     "h": 80
-    },
-    {
-     "id": "join",
-     "row": 3,
-     "col": 0,
-     "title": "Evidence join",
-     "sub": "Records are joined across systems by the business correlation id in an evidence store",
-     "kind": "store",
-     "span": 3,
-     "h": 70
-    },
-    {
-     "id": "resp",
-     "row": 3,
      "col": 3,
-     "title": "Audit responsibility",
-     "sub": "Agent platform: agent and LLM. Gateway team: gateway. Integration team: Suite. SAP: backend",
-     "kind": "control",
-     "span": 3,
-     "h": 70
+     "title": "S3 · AgentCore + Apigee",
+     "sub": "Preferred to evaluate first; conditional",
+     "kind": "agent"
+    },
+    {
+     "id": "hold",
+     "row": 1,
+     "col": 1,
+     "title": "HOLD / CONDITIONAL",
+     "sub": "A missing approval never gives an unconditional choice",
+     "kind": "control"
     }
    ],
    "edges": [
     [
-     "s0",
+     "start",
+     "q1",
+     "invoke",
+     ""
+    ],
+    [
+     "q1",
+     "q2",
+     "invoke",
+     "yes"
+    ],
+    [
+     "q1",
+     "hold",
+     "invoke",
+     "pending"
+    ],
+    [
+     "q1",
      "s1",
-     "audit",
-     "correlate"
+     "invoke",
+     "no",
+     {
+      "my": 234
+     }
     ],
     [
+     "q2",
+     "q3",
+     "invoke",
+     "yes"
+    ],
+    [
+     "q2",
+     "s2",
+     "invoke",
+     "no",
+     {
+      "my": 240
+     }
+    ],
+    [
+     "q3",
+     "s3",
+     "invoke",
+     "yes"
+    ],
+    [
+     "q3",
      "s1",
-     "s2",
-     "audit",
-     "correlate"
-    ],
-    [
-     "s2",
-     "s3",
-     "audit",
-     "correlate"
-    ],
-    [
-     "s3",
-     "s4",
-     "audit",
-     "correlate"
-    ],
-    [
-     "s4",
-     "s5",
-     "audit",
-     "correlate"
+     "invoke",
+     "S1 cheaper",
+     {
+      "my": 372,
+      "off": 30
+     }
     ]
    ],
    "bounds": [],
-   "lanes": [
-    [
-     1,
-     "EVIDENCE"
-    ],
-    [
-     2,
-     "OUTCOME"
-    ],
-    [
-     3,
-     "JOIN"
-    ]
-   ],
+   "lanes": [],
    "legend": [
-    "audit"
+    "invoke"
    ],
-   "footer": "The correlation id must be propagated by design and tested; it is not assumed to be carried by every product."
+   "footer": "Preferred to evaluate first is not selected. S3 needs its conditions met; S2 and S1 stay valid outcomes."
   },
   "D10": {
    "id": "D10",
    "scenario": null,
-   "title": "Three-scenario comparison",
-   "chain": "Same labels and ownership boundaries in every scenario; Portkey is common and the registry is never in the path",
+   "title": "Three-scenario executive comparison",
+   "chain": "A decision-ready comparison; S3 is the preferred candidate to evaluate first, S2 and S1 stay valid alternatives",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
-   "cols": 6,
-   "nh": 62,
+   "cols": 4,
+   "nh": 88,
    "ys": [
-    104,
-    176,
-    304,
-    376,
-    504,
-    576
+    110,
+    220,
+    330,
+    440,
+    550
    ],
    "height": 840,
    "nodes": [
     {
-     "id": "S1_ui",
+     "id": "l0",
      "row": 0,
      "col": 0,
-     "title": "SAP Fiori / UI",
-     "sub": "SAP-centric",
-     "kind": "ui"
+     "title": "Classification",
+     "sub": "",
+     "kind": "decision"
     },
     {
-     "id": "S1_agent",
+     "id": "c0_1",
      "row": 0,
      "col": 1,
-     "title": "Cloud Foundry agent",
-     "sub": "SAP BTP",
+     "title": "SAP-hosted alternative",
+     "sub": "S1 · SAP-hosted hybrid",
      "kind": "agent"
     },
     {
-     "id": "S1_apigee",
+     "id": "c0_2",
+     "row": 0,
+     "col": 2,
+     "title": "AWS-native alternative",
+     "sub": "S2 · AWS AgentCore-native",
+     "kind": "agent"
+    },
+    {
+     "id": "c0_3",
      "row": 0,
      "col": 3,
-     "title": "Apigee MCP/API",
-     "sub": "SAP-facing gateway",
-     "kind": "gateway"
+     "title": "Preferred candidate for a comparative POC",
+     "sub": "S3 · AgentCore + Apigee",
+     "kind": "agent"
     },
     {
-     "id": "S1_int",
-     "row": 0,
-     "col": 4,
-     "title": "Integration Suite",
-     "sub": "SAP integration",
-     "kind": "integration"
+     "id": "l1",
+     "row": 1,
+     "col": 0,
+     "title": "Benefits",
+     "sub": "",
+     "kind": "decision"
     },
     {
-     "id": "S1_sap",
-     "row": 0,
-     "col": 5,
-     "title": "SAP backend",
-     "sub": "Authorizes",
-     "kind": "backend"
-    },
-    {
-     "id": "S1_portkey",
+     "id": "c1_1",
      "row": 1,
      "col": 1,
-     "title": "Portkey",
-     "sub": "LLM gateway",
-     "kind": "llm",
-     "h": 56
+     "title": "SAP-domain ownership; BTP practices reused",
+     "sub": "",
+     "kind": "integration"
     },
     {
-     "id": "S1_reg",
+     "id": "c1_2",
      "row": 1,
      "col": 2,
-     "title": "Registry",
-     "sub": "Domain-managed catalog · product selection pending",
-     "kind": "registry",
-     "h": 56,
-     "dashed": true,
-     "status": "PENDING",
-     "statusColor": "#B3261E"
-    },
-    {
-     "id": "S2_ui",
-     "row": 2,
-     "col": 0,
-     "title": "SAP Fiori / UI",
-     "sub": "AWS AgentCore-centric",
-     "kind": "ui"
-    },
-    {
-     "id": "S2_agent",
-     "row": 2,
-     "col": 1,
-     "title": "AgentCore Runtime agent",
-     "sub": "AWS",
-     "kind": "agent"
-    },
-    {
-     "id": "S2_gw",
-     "row": 2,
-     "col": 2,
-     "title": "AgentCore Gateway",
-     "sub": "Enterprise gateway",
-     "kind": "gateway"
-    },
-    {
-     "id": "S2_apigee",
-     "row": 2,
-     "col": 3,
-     "title": "Apigee MCP/API",
-     "sub": "SAP-facing gateway",
-     "kind": "gateway"
-    },
-    {
-     "id": "S2_int",
-     "row": 2,
-     "col": 4,
-     "title": "Integration Suite",
-     "sub": "SAP integration",
+     "title": "Simpler AWS-native runtime; AgentCore tooling",
+     "sub": "",
      "kind": "integration"
     },
     {
-     "id": "S2_sap",
-     "row": 2,
-     "col": 5,
-     "title": "SAP backend",
-     "sub": "Authorizes",
-     "kind": "backend"
-    },
-    {
-     "id": "S2_portkey",
-     "row": 3,
-     "col": 1,
-     "title": "Portkey",
-     "sub": "LLM gateway",
-     "kind": "llm",
-     "h": 56
-    },
-    {
-     "id": "S2_reg",
-     "row": 3,
-     "col": 2,
-     "title": "AWS Agent Registry",
-     "sub": "Agent and MCP records",
-     "kind": "registry",
-     "h": 56
-    },
-    {
-     "id": "S3_ui",
-     "row": 4,
-     "col": 0,
-     "title": "SAP Fiori / UI",
-     "sub": "SAP-hosted hybrid · preferred candidate",
-     "kind": "ui"
-    },
-    {
-     "id": "S3_agent",
-     "row": 4,
-     "col": 1,
-     "title": "Cloud Foundry agent",
-     "sub": "SAP BTP",
-     "kind": "agent"
-    },
-    {
-     "id": "S3_apigee",
-     "row": 4,
+     "id": "c1_3",
+     "row": 1,
      "col": 3,
-     "title": "Apigee MCP/API",
-     "sub": "SAP-facing gateway",
-     "kind": "gateway"
-    },
-    {
-     "id": "S3_int",
-     "row": 4,
-     "col": 4,
-     "title": "Integration Suite",
-     "sub": "SAP integration",
+     "title": "AWS execution plus SAP-specific MCP governance in Apigee",
+     "sub": "",
      "kind": "integration"
     },
     {
-     "id": "S3_sap",
-     "row": 4,
-     "col": 5,
-     "title": "SAP backend",
-     "sub": "Authorizes",
-     "kind": "backend"
+     "id": "l2",
+     "row": 2,
+     "col": 0,
+     "title": "Risks",
+     "sub": "",
+     "kind": "decision"
     },
     {
-     "id": "S3_portkey",
-     "row": 5,
+     "id": "c2_1",
+     "row": 2,
      "col": 1,
-     "title": "Portkey",
-     "sub": "LLM gateway",
-     "kind": "llm",
-     "h": 56
+     "title": "Cloud Foundry cost and capacity for frequent agents",
+     "sub": "",
+     "kind": "gateway"
     },
     {
-     "id": "S3_reg",
-     "row": 5,
+     "id": "c2_2",
+     "row": 2,
      "col": 2,
-     "title": "AWS Agent Registry",
-     "sub": "Metadata only, not a hop",
-     "kind": "registry",
-     "h": 56
+     "title": "Apigee policy exception; custom MCP lifecycle",
+     "sub": "",
+     "kind": "gateway"
+    },
+    {
+     "id": "c2_3",
+     "row": 2,
+     "col": 3,
+     "title": "Two gateways, extra hop, cross-cloud audit, token exchange",
+     "sub": "",
+     "kind": "gateway"
+    },
+    {
+     "id": "l3",
+     "row": 3,
+     "col": 0,
+     "title": "Pending decisions",
+     "sub": "",
+     "kind": "decision"
+    },
+    {
+     "id": "c3_1",
+     "row": 3,
+     "col": 1,
+     "title": "Direct Apigee invocation; BTP economics",
+     "sub": "",
+     "kind": "registry"
+    },
+    {
+     "id": "c3_2",
+     "row": 3,
+     "col": 2,
+     "title": "Is Apigee mandated; API target validity",
+     "sub": "",
+     "kind": "registry"
+    },
+    {
+     "id": "c3_3",
+     "row": 3,
+     "col": 3,
+     "title": "Account, interoperability, identity, cost, gateway ownership",
+     "sub": "",
+     "kind": "registry"
+    },
+    {
+     "id": "l4",
+     "row": 4,
+     "col": 0,
+     "title": "Recommended when",
+     "sub": "",
+     "kind": "decision"
+    },
+    {
+     "id": "c4_1",
+     "row": 4,
+     "col": 1,
+     "title": "AWS unavailable or SAP coupling and economics favor BTP",
+     "sub": "",
+     "kind": "domain"
+    },
+    {
+     "id": "c4_2",
+     "row": 4,
+     "col": 2,
+     "title": "AWS approved and Apigee not required",
+     "sub": "",
+     "kind": "domain"
+    },
+    {
+     "id": "c4_3",
+     "row": 4,
+     "col": 3,
+     "title": "AWS approved, Apigee required, evidence supports the extra gateway",
+     "sub": "",
+     "kind": "domain"
     }
    ],
-   "edges": [
-    [
-     "S1_ui",
-     "S1_agent",
-     "invoke",
-     ""
-    ],
-    [
-     "S1_agent",
-     "S1_apigee",
-     "invoke",
-     ""
-    ],
-    [
-     "S1_apigee",
-     "S1_int",
-     "invoke",
-     ""
-    ],
-    [
-     "S1_int",
-     "S1_sap",
-     "invoke",
-     ""
-    ],
-    [
-     "S1_agent",
-     "S1_portkey",
-     "llm",
-     ""
-    ],
-    [
-     "S1_agent",
-     "S1_reg",
-     "registry",
-     "",
-     {
-      "off": 22
-     }
-    ],
-    [
-     "S2_ui",
-     "S2_agent",
-     "invoke",
-     ""
-    ],
-    [
-     "S2_agent",
-     "S2_gw",
-     "invoke",
-     ""
-    ],
-    [
-     "S2_gw",
-     "S2_apigee",
-     "invoke",
-     ""
-    ],
-    [
-     "S2_apigee",
-     "S2_int",
-     "invoke",
-     ""
-    ],
-    [
-     "S2_int",
-     "S2_sap",
-     "invoke",
-     ""
-    ],
-    [
-     "S2_agent",
-     "S2_portkey",
-     "llm",
-     ""
-    ],
-    [
-     "S2_agent",
-     "S2_reg",
-     "registry",
-     "",
-     {
-      "off": 22
-     }
-    ],
-    [
-     "S3_ui",
-     "S3_agent",
-     "invoke",
-     ""
-    ],
-    [
-     "S3_agent",
-     "S3_apigee",
-     "invoke",
-     ""
-    ],
-    [
-     "S3_apigee",
-     "S3_int",
-     "invoke",
-     ""
-    ],
-    [
-     "S3_int",
-     "S3_sap",
-     "invoke",
-     ""
-    ],
-    [
-     "S3_agent",
-     "S3_portkey",
-     "llm",
-     ""
-    ],
-    [
-     "S3_agent",
-     "S3_reg",
-     "registry",
-     "",
-     {
-      "off": 22
-     }
-    ]
-   ],
+   "edges": [],
    "bounds": [],
-   "lanes": [
-    [
-     0,
-     "S1"
-    ],
-    [
-     2,
-     "S2"
-    ],
-    [
-     4,
-     "S3 · PREFERRED CANDIDATE"
-    ]
-   ],
+   "lanes": [],
    "legend": [
-    "invoke",
-    "llm",
-    "registry"
+    "invoke"
    ],
-   "footer": "Portkey is the LLM gateway in all three. The SAP backend decides authorization in all three. S3-B (AgentCore Gateway mandated) is a separate option, not drawn."
+   "footer": "Preferred for evaluation, not approved. Selection is conditional on the evidence listed under Pending decisions and the rules in Selection · Recommendation."
   }
  },
  "diagramNames": {
-  "D1": "Enterprise overview",
-  "D2": "S1 SAP-centric",
-  "D3": "S2 AWS AgentCore-centric",
-  "D4": "S3 SAP-hosted hybrid",
-  "D5": "MCP hosting versus registration",
-  "D6": "Identity and authorization",
-  "D7": "LLM execution",
-  "D8": "Registry lifecycle",
-  "D9": "Observability and audit",
-  "D10": "Three-scenario comparison"
+  "D1": "Enterprise AI reference",
+  "D2": "S1 SAP-hosted hybrid",
+  "D3": "S2 AWS-native",
+  "D4": "S3 AgentCore + Apigee",
+  "D5": "Four responsibility model",
+  "D6": "AWS account and governance",
+  "D7": "Gateway and principal propagation",
+  "D8": "Cost and operations",
+  "D9": "Selection decision tree",
+  "D10": "Executive comparison"
  },
  "recommendation": {
-  "headline": "S3 is the preferred candidate for POC validation, subject to AI Foundry policy. It is not approved and not production-ready.",
+  "headline": "S3 is the preferred candidate to evaluate first in a comparative POC. It is not an unconditional winner and it is not approved: if cost, identity, interoperability or policy fail, recommend S2 or S1 with those reasons.",
   "why": [
-   "SAP keeps execution ownership: the agent and any custom MCP code run on SAP BTP Cloud Foundry, and Apigee stays the SAP-facing gateway.",
-   "AI Foundry still gets central discovery and registration through AWS Agent Registry, which is control plane only and adds no execution hop.",
-   "It needs one gateway hop and one identity mapping to prove, not two as in S2."
+   "AWS runs the agent, which separates compute from SAP BTP and is reusable across SAP systems.",
+   "Apigee keeps the SAP-specific MCP and API governance in front of Integration Suite.",
+   "AWS Agent Registry gives central registration without becoming an execution hop."
   ],
   "depends": [
-   "AI Foundry policy on whether AgentCore Gateway is mandatory for all tool invocations (S3-B)",
-   "AWS Agent Registry accepts records for agents and MCP servers hosted outside AWS",
-   "Approved synchronization method for registry records"
+   "The dedicated SAP-agent AWS account and AgentCore services are approved",
+   "Apigee remains part of the approved SAP integration design",
+   "AgentCore Gateway can securely invoke the Apigee MCP endpoint",
+   "Delegated user identity is validated end to end",
+   "Comparative cost supports the extra gateway",
+   "AI Foundry and SAP Integration approve the ownership boundaries"
   ],
   "open": [
-   "Registry product for S1 (unresolved)",
-   "Delegated user versus service identity",
-   "Principal propagation through Integration Suite and Cloud Connector",
-   "Whether HANA Cloud is needed at all: persistence is conditional"
+   "Account approval",
+   "Gateway-to-Apigee interoperability",
+   "Identity and principal propagation",
+   "Verified comparative cost",
+   "Non-duplicative gateway responsibilities"
   ],
   "changes": [
-   "If AI Foundry mandates AgentCore Gateway for every tool call, evaluate S3-B or S2.",
-   "If the enterprise requires AWS hosting for all agents, choose S2.",
-   "If no central registry is required, S1 is simplest but its registry stays unresolved."
+   "If Apigee is not mandated, S2 is simpler.",
+   "If AWS is unavailable, restricted or costlier, S1 stays valid.",
+   "If cost, identity or interoperability evidence fails, S3 is not selected."
   ],
   "poc": [
-   "Run one read tool through the S3 path with a service identity and record the call, token and SAP user.",
-   "Repeat with user delegation and mark each result PASS, HOLD or NOT_VERIFIED.",
-   "Register the SAP-hosted agent and the Apigee endpoint in AWS Agent Registry and confirm discovery without any AWS execution hop."
+   "Dedicated AWS account service access",
+   "AgentCore Runtime operation",
+   "AgentCore Gateway tool invocation",
+   "AWS Agent Registry registration and discovery",
+   "Cross-account registry access",
+   "Apigee-managed MCP endpoint",
+   "S2 direct Integration Suite/API pattern, if permitted",
+   "S3 Gateway-to-Apigee pattern",
+   "Portkey model invocation",
+   "Delegated business-user identity",
+   "Backend SAP authorization (authorized and unauthorized user, same tool)",
+   "Read-only reconciliation accuracy",
+   "Network and gateway latency",
+   "Execution cost",
+   "Operational logs and audit",
+   "Failure and retry handling",
+   "Incident and support ownership"
+  ],
+  "conditions": [
+   "Account approved with AgentCore services",
+   "Gateway interoperability and identity validated",
+   "Cost competitive for the workload",
+   "Ownership agreed"
+  ],
+  "cost_assumptions": [
+   "No rates are assumed: SAP BTP credits, enterprise AWS discounts and Apigee charges are unknown",
+   "One workload definition across the three scenarios"
+  ],
+  "risks": [
+   "Two gateways with overlapping policy",
+   "Extra hop and cross-cloud audit",
+   "Token exchange across AWS, Apigee and SAP",
+   "Account approval and ownership"
+  ],
+  "rejected": [
+   "S2 while Apigee is required for the SAP route (needs an approved exception)",
+   "S1 while AWS execution is approved and the placement is not justified by coupling or verified cost"
+  ],
+  "missing": [
+   "Dedicated account approval",
+   "End-to-end call through the gateway to Apigee",
+   "Delegated identity validation",
+   "Verified comparative cost"
+  ],
+  "authority": "AI Foundry with SAP Integration, Security and Enterprise Architecture; Finance for cost",
+  "revisit": [
+   "Actual enterprise costs become known",
+   "The AWS account or AgentCore availability changes",
+   "SAP Integration changes the Apigee mandate",
+   "Identity or gateway validation fails or passes",
+   "The workload profile changes",
+   "Enterprise security or data-residency policy changes"
   ]
  },
  "evidence": [
@@ -3001,92 +3029,84 @@
    "Google Apigee",
    "Apigee MCP overview",
    "https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/apigee-mcp-overview",
-   "Existing Apigee APIs are exposed as MCP tools with no MCP server to install or manage. Stateless protocol 2026-07-28 and stateful 2025-11-25, 2025-06-18, 2025-03-26, 2024-11-05 at one endpoint over HTTP/S; SSE streams are not supported. OAuth 2.1 and OIDC. OpenAPI 3.0.x; 1000 tools per organization; capacity limits in some regions. Proxying a separately hosted MCP server is not described on this page.",
-   "Pattern A needs no custom MCP server, within the tool and region limits.",
-   "Tenant enablement, region capacity, hybrid version (1.17.4 or later for stateless)"
+   "Existing Apigee APIs are exposed as MCP tools with no MCP server to install or manage. Stateless protocol 2026-07-28 and stateful 2025-11-25, 2025-06-18, 2025-03-26, 2024-11-05 at one endpoint over HTTP/S; SSE streams are not supported. OAuth 2.1 and OIDC. OpenAPI 3.0.x; 1000 tools per organization; capacity limits in some regions.",
+   "Pattern A needs no custom MCP server, within the limits. Apigee is not arbitrary agent-code hosting.",
+   "Tenant enablement, region capacity, hybrid version"
   ],
   [
    "Google Apigee",
    "Manage MCP tool access",
    "https://docs.cloud.google.com/apigee/docs/api-platform/apigee-mcp/manage-mcp-tool-access",
-   "Access is controlled with API products and developer apps; ParsePayload (JSON-RPC 2.0) plus API-key or OAuth verification; tools outside the client's product are removed from tools/list. This page, not the overview, says traffic can be proxied to your own MCP server.",
-   "Apigee is the policy layer for tool access. Pattern B (custom server behind Apigee) rests on this one statement.",
-   "Prove the custom-server proxy pattern with a Cloud Foundry service in this tenant"
+   "Access is controlled with API products and developer apps; ParsePayload (JSON-RPC 2.0) plus API-key or OAuth verification; tools outside the client's product are removed from tools/list. This page says traffic can be proxied to your own MCP server.",
+   "Apigee is the SAP-domain policy layer. Pattern B rests on this one statement.",
+   "Prove the custom-server proxy pattern in this tenant"
   ],
   [
    "AWS AgentCore",
    "Gateway core concepts",
    "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-core-concepts.html",
-   "Gateway is a secure entry point for agentic traffic with MCP, HTTP and inference target categories and inbound OAuth (JWT), IAM, authenticate-only or none.",
-   "Basis of the S2 gateway hop.",
-   "Target classification of an external MCP server (the page lists it under both MCP and HTTP targets)"
+   "Gateway is a secure entry point for agentic traffic with MCP, HTTP and inference target categories and inbound OAuth (JWT), IAM, authenticate-only or none. It is not an agent-hosting service.",
+   "AgentCore Gateway mediates; AgentCore Runtime hosts.",
+   "Target classification of an external MCP server (listed under both MCP and HTTP targets)"
   ],
   [
    "AWS AgentCore",
    "Gateway MCP server targets and outbound authorization",
    "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html",
-   "Supported MCP versions 2026-07-28, 2025-11-25, 2025-06-18 and 2025-03-26. Outbound auth for MCP-server targets: none (not recommended), gateway role, OAuth client credentials, authorization code, token exchange, API key. Caller token passthrough is not supported; on-behalf-of is supported through token exchange. Listing mode DEFAULT when the authorization server supports client credentials, otherwise DYNAMIC (not interoperable with semantic search or 3LO). Tool names are prefixed with the target name.",
-   "Protocol versions overlap with Apigee (four shared). User identity reaches Apigee only through token exchange.",
-   "An authorization server that supports token exchange; whether a private target is allowed (not documented)"
+   "Supported MCP versions 2026-07-28, 2025-11-25, 2025-06-18 and 2025-03-26. Outbound auth for MCP-server targets: none (not recommended), gateway role, OAuth client credentials, authorization code, token exchange, API key. Caller token passthrough is not supported; on-behalf-of is supported through token exchange. Listing mode DEFAULT when the server supports client credentials, otherwise DYNAMIC. Tool names are prefixed with the target name.",
+   "Four protocol versions are shared with Apigee. User identity reaches Apigee only through token exchange.",
+   "An authorization server that supports token exchange; private targets (not documented)"
   ],
   [
    "AWS AgentCore",
    "AgentCore Policy",
    "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-getting-started.html",
    "Cedar policies attach to a gateway; in enforce mode every tool call that reaches the gateway is evaluated and denied unless permitted. The pages do not say that a target blocks calls that bypass the gateway.",
-   "A mandate to use AgentCore Gateway (S3-B) is enforceable at the gateway, but bypass prevention is a separate credential or network control.",
-   "Prove that Apigee rejects a direct call that does not carry a gateway-issued credential"
+   "Policy is enforced at the gateway; bypass prevention is a separate credential or network control.",
+   "Prove that Apigee rejects a call that does not carry a gateway-issued credential"
   ],
   [
    "AWS AgentCore",
    "Agent Registry",
    "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry.html",
-   "A managed discovery service: a catalog for organizing, curating and discovering resources. Record types AGENT, MCP, SKILL, CUSTOM and WEB_BOT; publishers submit, curators approve. Runtime and Gateway are related services, so it is separate from both. The older bedrock-agentcore preview namespace was announced for discontinuation on 2026-10-30.",
-   "Registry is a separate capability from Runtime and Gateway and does not require AWS hosting. Use the agent-registry namespace.",
-   "Availability and region in the tenant; curator and approval roles"
+   "A managed discovery service: a catalog for organizing, curating and discovering resources. Record types AGENT, MCP, SKILL, CUSTOM and WEB_BOT; publishers submit, curators approve. Runtime and Gateway are related services, so it is separate from both. The older preview namespace was announced for discontinuation on 2026-10-30.",
+   "The registry is a catalog, not a gateway and not a runtime. Use the agent-registry namespace.",
+   "Availability and region; cross-account sharing (not read in this build)"
   ],
   [
    "AWS AgentCore",
    "Registry: synchronize external records",
    "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-sync-records.html",
-   "The registry connects to a valid HTTPS URL with outbound credentials (none, OAuth from a provider in the same account, or IAM SigV4) and extracts server and tool definitions for MCP servers and A2A agent cards. Sync runs when the record is created and on demand; no schedule is stated. Triggering sync reverts the record to draft. Removal of stale tools is not described. Private-network reachability is not mentioned.",
-   "Supports S3 registration, but AWS must reach the endpoint URL, and stale entries need an explicit retirement process.",
+   "The registry connects to a valid HTTPS URL with outbound credentials (none, OAuth from a provider in the same account, or IAM SigV4) and extracts server and tool definitions. Sync runs when the record is created and on demand; no schedule is stated. Triggering sync reverts the record to draft. Removal of stale tools is not described. Private-network reachability is not mentioned.",
+   "Supports registering SAP-hosted or Apigee endpoints, but AWS must reach the URL; stale entries need an explicit retirement process.",
    "Reachability of the Apigee URL from AWS; credential provider in the same account"
   ],
   [
    "AWS AgentCore",
    "Registry: supported record types",
    "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/registry-supported-record-types.html",
-   "AGENT records use a2aAgentCard, mcpServer or custom descriptors; MCP records use mcpServer or custom; exactly one primary descriptor per record.",
-   "A SAP-hosted agent can be registered with a custom or mcpServer descriptor.",
+   "AGENT records use a2aAgentCard, mcpServer or custom descriptors; MCP records use mcpServer or custom; SKILL is a separate record type.",
+   "A skill record is metadata and never grants tool permissions.",
    "Descriptor fit for our agents"
   ],
   [
    "SAP",
    "SAP BTP Cloud Foundry runtime",
    "https://help.sap.com/docs/cf-runtime/cloud-foundry-runtime/what-is-sap-btp-cloud-foundry-runtime",
-   "The Cloud Foundry runtime on SAP platform runs polyglot cloud-native applications with SAP Java, Node.js and Python buildpacks; apps are started, stopped and scaled with standard Cloud Foundry tools; orgs, spaces and space quota plans are managed; service plans and metering apply. (Page read in a browser on 2026-11-25; the plain fetch returned no body.)",
-   "Cloud Foundry can host the S1 and S3 agent and any custom MCP code.",
-   "Entitlement, space quota and service plan in this tenant"
+   "The Cloud Foundry runtime on SAP platform runs polyglot cloud-native applications with SAP Java, Node.js and Python buildpacks; orgs, spaces and space quota plans are managed; service plans and metering apply. (Read in a browser on 2026-11-25.)",
+   "Cloud Foundry can host the S1 agent and any custom MCP code.",
+   "Entitlement, quota and contractual charges"
   ],
   [
    "SAP",
    "A2A and MCP for AI agent interoperability at SAP (reference architecture, updated 2026-10-26)",
    "https://architecture.learning.sap.com/docs/ref-arch/76ec36",
-   "SAP recommends Agent Gateway (A2A) for multi-agent collaboration and an MCP Gateway in SAP Integration Suite for governed exposure of APIs as MCP tools; agents use MCP to discover tools. A disclaimer says bidirectional communication with third-party and self-hosted agents through Agent Gateway is not yet generally available.",
-   "SAP offers its own MCP gateway and discovery path; it is an alternative to Apigee that this evaluation does not model. Registry statements for agents are not on this page.",
+   "SAP recommends Agent Gateway (A2A) for multi-agent collaboration and an MCP Gateway in SAP Integration Suite for governed exposure of APIs as MCP tools. A disclaimer says bidirectional communication with third-party and self-hosted agents through Agent Gateway is not yet generally available.",
+   "SAP offers its own MCP gateway; it is an alternative to Apigee that this evaluation does not model.",
    "Whether SAP's own MCP Gateway should be compared with Apigee"
-  ],
-  [
-   "SAP",
-   "SAP AI Agent Hub (product page)",
-   "https://www.sap.com/products/artificial-intelligence/ai-agent-hub.html",
-   "NOT_VERIFIED: the page returned HTTP 403, so no statement is recorded. Web search summaries describe it as a registry of agents, LLMs and MCP servers, but those summaries are secondary and unchecked.",
-   "Named only as a candidate for the S1 registry; nothing is claimed about its availability.",
-   "Read the product documentation with an SAP account and confirm availability and entitlement"
   ]
  ],
- "evidenceStatus": "Read on 2026-11-25: six AWS and Google pages through a web fetch, the SAP Cloud Foundry runtime page and the SAP reference architecture in a browser. The SAP AI Agent Hub product page returned HTTP 403 and is NOT_VERIFIED. Vendor documentation describes product capability only; it does not show that a feature is configured, licensed or available in this organization's tenant or region.",
+ "evidenceStatus": "Read on 2026-11-25: AWS and Google pages through a web fetch, the SAP Cloud Foundry runtime page and the SAP reference architecture in a browser. Cross-account sharing of AWS Agent Registry (AWS Organizations, AWS Resource Access Manager) and AWS account service entitlements were NOT read in this build and are NOT_VERIFIED. Vendor documentation describes product capability only; it does not show that a feature is configured, licensed or available in this organization's tenant or region.",
  "domains": [
   {
    "name": "Finance Read MCP",
@@ -3107,134 +3127,890 @@
    "control": "Entitlement and scope: TBD · REQUIRES VALIDATION"
   }
  ],
- "unresolvedRegistry": "Domain-managed catalog · product selection pending",
  "decisions": [
   {
-   "id": "s1_registry",
-   "title": "Registry product for S1",
+   "id": "aws_account",
+   "title": "Dedicated SAP-agent AWS account",
    "scenarios": [
-    "S1"
-   ],
-   "status": "OPEN · OWNER DECISION",
-   "settled": [
-    "Candidates exist and are listed with their evidence status; none is selected.",
-    "AWS Agent Registry works for SAP-hosted agents, but choosing it makes the design S3."
-   ],
-   "remaining": [
-    "Availability and entitlement of SAP AI Agent Hub (product page could not be read)",
-    "Who approves publication and revokes records"
-   ],
-   "options": [
-    "SAP AI Agent Hub (candidate, NOT_VERIFIED)",
-    "SAP Integration Suite MCP Gateway developer hub (MCP tools only)",
-    "AWS Agent Registry (this is S3)",
-    "Interim domain-run catalog in Git with an approval step"
-   ],
-   "proposal": "Confirm SAP AI Agent Hub first; if it is unavailable, run the interim Git catalog or move to S3. Do not call a plain API catalog an agent registry.",
-   "proof": "Register the agent and the Apigee MCP endpoint, discover them as another client, then revoke one and confirm it disappears.",
-   "owner": "Enterprise architecture + AI Foundry"
-  },
-  {
-   "id": "agentcore_mandate",
-   "title": "Is AgentCore Gateway mandatory for every tool call? (S3-B)",
-   "scenarios": [
+    "S2",
     "S3"
    ],
-   "status": "OPEN · POLICY DECISION",
+   "status": "OPEN · APPROVAL NOT RECORDED",
+   "answers": [
+    [
+     "Are the tenant entitlements live (Cloud Foundry, Apigee MCP, AgentCore, Agent Registry, Portkey)?",
+     "Live, per the owner (carried forward from 2026-11-25)",
+     "OWNER-CONFIRMED"
+    ],
+    [
+     "Has the dedicated SAP-agent AWS account been approved, with AgentCore services?",
+     "Not recorded",
+     "OPEN"
+    ]
+   ],
    "settled": [
-    "AgentCore Policy (Cedar, enforce mode, default deny) enforces rules at the gateway.",
-    "The documentation does not say that a target refuses calls that bypass the gateway."
+    "The account is a proposal, not a provisioned resource.",
+    "Provisioning an account does not prove access to every AgentCore capability."
    ],
    "remaining": [
-    "AI Foundry's written position",
-    "A bypass control if it is mandated"
+    "Account approval, quotas, region and permissions",
+    "Separation of development, test and production",
+    "Written entitlement confirmations"
    ],
    "options": [
-    "Not mandated: S3 baseline, Cloud Foundry agent calls Apigee directly",
-    "Mandated: variant S3-B, with Apigee accepting only gateway-issued credentials",
-    "Mandated and AWS-hosted: S2"
+    "Dedicated account with separate environments",
+    "Dedicated account plus a central governance account",
+    "Reuse the existing SAP AWS account (the proposal says it is unsuitable for AI-native workloads)"
    ],
-   "proposal": "Keep the S3 baseline. If AI Foundry mandates the gateway, adopt S3-B and make Apigee reject any call without a gateway-issued credential.",
-   "proof": "A direct call to Apigee without the gateway credential is rejected; a call through the gateway succeeds and is audited in both places.",
-   "owner": "AI Foundry + Security"
+   "proposal": "Approve the dedicated account within the AWS Organization and confirm AgentCore entitlements in writing before any build.",
+   "proof": "AgentCore Runtime, Gateway and Registry are used in the account by the platform team and logged.",
+   "owner": "AI Foundry + AWS platform + Security"
   },
   {
-   "id": "s3_registry_sync",
-   "title": "Can AWS Agent Registry reach SAP-hosted endpoints? (S3)",
-   "scenarios": [
-    "S3"
-   ],
-   "status": "OPEN · SECURITY DECISION",
-   "settled": [
-    "Sync needs a valid HTTPS URL and, for OAuth, a credential provider in the same AWS account.",
-    "Sync runs on creation and on demand only, reverts the record to draft and is not documented to remove stale tools.",
-    "Private-network reachability is not documented."
-   ],
-   "remaining": [
-    "Whether the Apigee or Cloud Foundry URL may be reached from AWS",
-    "Who retires stale records"
-   ],
-   "options": [
-    "Publish records from the SAP release pipeline through the registry API, with no AWS connection to SAP",
-    "Register manually with a custom descriptor",
-    "Allow registry sync to the Apigee endpoint with OAuth client credentials"
-   ],
-   "proposal": "Start with pipeline-published records so AWS never calls into SAP; use sync only if Security approves the reachability.",
-   "proof": "Publish a record, discover it, release a new version, retire the old record, and confirm discovery shows only the approved version.",
-   "owner": "AI Foundry + SAP BTP + Security"
-  },
-  {
-   "id": "s2_gateway_apigee",
-   "title": "AgentCore Gateway to Apigee: protocol and token exchange (S2)",
-   "scenarios": [
-    "S2"
-   ],
-   "status": "EVIDENCE READ · TENANT PROOF PENDING",
-   "settled": [
-    "Both sides support MCP 2026-07-28, 2025-11-25, 2025-06-18 and 2025-03-26.",
-    "The gateway can call an MCP-server target with OAuth client credentials, authorization code or token exchange; caller token passthrough is not supported.",
-    "Apigee MCP accepts OAuth 2.1 and OIDC; it does not support SSE streams."
-   ],
-   "remaining": [
-    "Target classification (MCP or HTTP target)",
-    "An authorization server that supports token exchange for user delegation",
-    "Whether a private Apigee endpoint is allowed",
-    "Tool names are prefixed with the target name"
-   ],
-   "options": [
-    "Service identity first: client credentials, DEFAULT listing",
-    "User delegation: token exchange, DYNAMIC listing if the server lacks client credentials"
-   ],
-   "proposal": "Prove service identity end to end first, then user delegation.",
-   "proof": "One tools/list and one tools/call through the gateway to Apigee and on to a read tool, with the SAP user recorded.",
-   "owner": "AI Foundry + SAP Integration"
-  },
-  {
-   "id": "tenant_capabilities",
-   "title": "Tenant entitlements and capabilities",
+   "id": "registry_ownership",
+   "title": "Central AWS Agent Registry and cross-account sharing",
    "scenarios": [
     "S1",
     "S2",
     "S3"
    ],
-   "status": "CAPABILITY DOCUMENTED · ENTITLEMENT NOT_VERIFIED",
+   "status": "OPEN · SHARING NOT CONFIRMED",
+   "answers": [
+    [
+     "Who approves publishing an agent or MCP record?",
+     "The integration team with the respective technical approvals (owner, carried forward)",
+     "OWNER-CONFIRMED"
+    ],
+    [
+     "Is GitLab the central platform for source, specs, descriptors and CI/CD?",
+     "Yes (owner, carried forward)",
+     "DECIDED"
+    ],
+    [
+     "Does AI Foundry own the registry in a central account, shared with the workload account?",
+     "Not confirmed",
+     "OPEN"
+    ]
+   ],
    "settled": [
-    "SAP BTP Cloud Foundry runs Python applications; space quota plans and service plans apply.",
-    "Apigee MCP needs OpenAPI 3.0.x, allows 1000 tools per organization and has capacity limits in some regions.",
-    "AWS Agent Registry and AgentCore Gateway are documented."
+    "Registry records can be published from the GitLab pipeline through the registry API.",
+    "A registry duplicate per account is not wanted."
    ],
    "remaining": [
-    "Cloud Foundry space and quota",
-    "Apigee MCP enablement and region",
-    "AgentCore and Agent Registry availability and region",
-    "Portkey routes"
+    "Cross-account sharing through AWS Organizations and AWS Resource Access Manager (not read in this build)",
+    "Curator and publisher permissions",
+    "Region compatibility and revocation"
    ],
    "options": [
-    "Check each item per scenario before the POC starts"
+    "Central registry in the AI Foundry account, shared to workload accounts",
+    "Registry inside the workload account (rejected as a duplicate)"
    ],
-   "proposal": "Run an entitlement checklist per scenario before any build.",
-   "proof": "Each item is confirmed by the platform owner in writing; none is inferred from product documentation.",
-   "owner": "Platform owners"
+   "proposal": "Keep one central registry, publish from GitLab, and confirm the sharing mechanism with AWS.",
+   "proof": "A record published from the workload account is discovered by a consumer in another account; a revoked record disappears.",
+   "owner": "AI Foundry"
+  },
+  {
+   "id": "gateway_interop",
+   "title": "AgentCore Gateway to Apigee (S3)",
+   "scenarios": [
+    "S3"
+   ],
+   "status": "OPEN · NOT YET CHECKED",
+   "answers": [
+    [
+     "Has an end-to-end call through the gateway to Apigee been made?",
+     "Not yet checked",
+     "OPEN"
+    ],
+    [
+     "Is the Apigee MCP endpoint reachable from AWS?",
+     "Not yet checked",
+     "OPEN"
+    ],
+    [
+     "Is the registry credential provider in the same AWS account?",
+     "Not yet checked",
+     "OPEN"
+    ]
+   ],
+   "settled": [
+    "Four MCP protocol versions are shared (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26).",
+    "The gateway supports outbound OAuth client credentials, authorization code and token exchange; passthrough is not supported.",
+    "Apigee MCP supports OAuth 2.1 and OIDC and no SSE."
+   ],
+   "remaining": [
+    "The real call",
+    "Target classification and tool naming",
+    "Non-duplicative gateway responsibilities and quota ownership",
+    "Private reachability"
+   ],
+   "options": [
+    "Service identity first (client credentials)",
+    "User delegation through token exchange"
+   ],
+   "proposal": "Prove service identity end to end first, then user delegation.",
+   "proof": "One tools/list and one tools/call through the gateway to Apigee and on to a read tool, with correlation across both logs.",
+   "owner": "AI Foundry + SAP Integration"
+  },
+  {
+   "id": "identity",
+   "title": "Delegated identity and SAP authorization",
+   "scenarios": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "status": "OPEN · NOT YET VALIDATED",
+   "answers": [
+    [
+     "Is delegated user identity validated end to end?",
+     "Not yet checked",
+     "OPEN"
+    ]
+   ],
+   "settled": [
+    "Global User ID, a user-name header or a workload token alone is not principal propagation.",
+    "SAP backend authorization stays mandatory."
+   ],
+   "remaining": [
+    "Which platform exchanges each token",
+    "Evidence of the final SAP execution identity"
+   ],
+   "options": [
+    "Service identity first",
+    "Delegated user through token exchange"
+   ],
+   "proposal": "Run the negative test: an authorized and an unauthorized user call the same read-only tool.",
+   "proof": "SAP rejects the unauthorized user and the evidence names the execution identity.",
+   "owner": "Security + SAP Basis"
+  },
+  {
+   "id": "cost_evidence",
+   "title": "Verified comparative operating cost",
+   "scenarios": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "status": "OPEN · NO RATES ENTERED",
+   "answers": [
+    [
+     "Are SAP BTP credit rates, enterprise AWS discounts and Apigee charges known?",
+     "Not provided",
+     "OPEN"
+    ]
+   ],
+   "settled": [
+    "The model is editable and has no rates; none is invented.",
+    "High invocation frequency does not automatically make AWS cheaper."
+   ],
+   "remaining": [
+    "Unit rates with provenance",
+    "Measured workload volumes",
+    "Support and staffing assumptions"
+   ],
+   "options": [
+    "Enter rates in the cost model for one workload definition"
+   ],
+   "proposal": "FinOps supplies rates and volumes; the model then shows totals, sensitivity and break-even.",
+   "proof": "The same workload is run on the compared platforms and measured.",
+   "owner": "FinOps + platform owners"
+  },
+  {
+   "id": "apigee_policy",
+   "title": "Is Apigee mandatory for the SAP API route? (S2)",
+   "scenarios": [
+    "S2"
+   ],
+   "status": "OPEN · POLICY NOT RECORDED",
+   "answers": [
+    [
+     "Does SAP Integration require Apigee for the route from AWS to Integration Suite?",
+     "Not recorded",
+     "OPEN"
+    ]
+   ],
+   "settled": [
+    "S2 is valid without Apigee only if SAP Integration and Security accept it or approve an exception."
+   ],
+   "remaining": [
+    "SAP Integration's written position"
+   ],
+   "options": [
+    "Apigee not required: S2",
+    "Apigee required: S3",
+    "Apigee optional by exception: S2 with Apigee inserted"
+   ],
+   "proposal": "Obtain SAP Integration's written position per route.",
+   "proof": "The policy statement is recorded against the decision.",
+   "owner": "SAP Integration + Security"
   }
- ]
+ ],
+ "decisionSummary": {
+  "DECIDED": 1,
+  "OWNER-CONFIRMED": 2,
+  "OPEN": 8
+ },
+ "ownerDate": "2026-11-25",
+ "selection": {
+  "inputs": [
+   {
+    "id": "aws_account",
+    "label": "Dedicated SAP-agent AWS account",
+    "options": [
+     [
+      "approved",
+      "Approved"
+     ],
+     [
+      "pending",
+      "Pending"
+     ],
+     [
+      "denied",
+      "Denied"
+     ]
+    ]
+   },
+   {
+    "id": "agentcore",
+    "label": "AgentCore Runtime, Gateway and Registry availability",
+    "options": [
+     [
+      "available",
+      "Available"
+     ],
+     [
+      "pending",
+      "Pending"
+     ],
+     [
+      "unavailable",
+      "Unavailable"
+     ]
+    ]
+   },
+   {
+    "id": "apigee",
+    "label": "Apigee for the SAP route",
+    "options": [
+     [
+      "required",
+      "Required"
+     ],
+     [
+      "optional",
+      "Optional (exception possible)"
+     ],
+     [
+      "not_required",
+      "Not required"
+     ],
+     [
+      "undecided",
+      "Undecided"
+     ]
+    ]
+   },
+   {
+    "id": "identity",
+    "label": "Delegated user identity and SAP authorization",
+    "options": [
+     [
+      "validated",
+      "Validated end to end"
+     ],
+     [
+      "pending",
+      "Not yet validated"
+     ],
+     [
+      "failed",
+      "Failed"
+     ]
+    ]
+   },
+   {
+    "id": "interop",
+    "label": "AgentCore Gateway to Apigee interoperability",
+    "options": [
+     [
+      "validated",
+      "Validated"
+     ],
+     [
+      "pending",
+      "Not yet validated"
+     ],
+     [
+      "failed",
+      "Failed"
+     ]
+    ]
+   },
+   {
+    "id": "cost",
+    "label": "Verified comparative operating cost",
+    "options": [
+     [
+      "s3_competitive",
+      "S3 is competitive"
+     ],
+     [
+      "s2_cheaper",
+      "S2 is cheaper"
+     ],
+     [
+      "s1_cheaper",
+      "S1 is cheaper"
+     ],
+     [
+      "unknown",
+      "Not verified"
+     ]
+    ]
+   },
+   {
+    "id": "ops",
+    "label": "Operational ownership and support",
+    "options": [
+     [
+      "agreed",
+      "Agreed"
+     ],
+     [
+      "pending",
+      "Pending"
+     ],
+     [
+      "none",
+      "Not available"
+     ]
+    ]
+   },
+   {
+    "id": "sap_hosting",
+    "label": "Enterprise permits centrally registered SAP-hosted agents",
+    "options": [
+     [
+      "permitted",
+      "Permitted"
+     ],
+     [
+      "restricted",
+      "Restricted"
+     ]
+    ]
+   },
+   {
+    "id": "sap_coupling",
+    "label": "SAP application coupling",
+    "options": [
+     [
+      "high",
+      "High"
+     ],
+     [
+      "medium",
+      "Medium"
+     ],
+     [
+      "low",
+      "Low"
+     ]
+    ]
+   },
+   {
+    "id": "security",
+    "label": "Security restriction",
+    "options": [
+     [
+      "none",
+      "None"
+     ],
+     [
+      "no_cross_cloud",
+      "No cross-cloud runtime calls"
+     ],
+     [
+      "sap_only_execution",
+      "Execution must stay on SAP"
+     ]
+    ]
+   },
+   {
+    "id": "workload",
+    "label": "Workload profile",
+    "options": [
+     [
+      "low_frequency",
+      "Low-frequency SAP-specific agent"
+     ],
+     [
+      "high_frequency",
+      "High-frequency analytical agent"
+     ],
+     [
+      "bursty",
+      "Bursty enterprise agent"
+     ],
+     [
+      "long_running",
+      "Long-running reconciliation workflow"
+     ],
+     [
+      "multi_agent",
+      "Multi-agent and multi-tool orchestration"
+     ]
+    ]
+   }
+  ],
+  "defaults": {
+   "aws_account": "pending",
+   "agentcore": "pending",
+   "apigee": "required",
+   "identity": "pending",
+   "interop": "pending",
+   "cost": "unknown",
+   "ops": "pending",
+   "sap_hosting": "permitted",
+   "sap_coupling": "medium",
+   "security": "none",
+   "workload": "low_frequency"
+  },
+  "rules": [
+   [
+    "S1 recommended when",
+    "SAP BTP execution is technically justified; SAP coupling is significant; BTP capacity or terms are verified favorable; AWS execution is unavailable, disallowed or not economical; the enterprise permits centrally registered SAP-hosted agents."
+   ],
+   [
+    "S2 recommended when",
+    "AWS-hosted execution is approved; AgentCore-managed MCP capabilities meet the tool needs; Apigee is not mandated for the route or an exception exists; a simpler AWS-native runtime is preferable; identity and SAP authorization stay intact."
+   ],
+   [
+    "S3 recommended when",
+    "AWS execution is approved; AgentCore hosting is suitable; Apigee remains required or preferred; the gateway can invoke Apigee securely; delegated identity is validated end to end; comparative cost supports the extra gateway; AI Foundry and SAP Integration approve the boundaries."
+   ],
+   [
+    "Hold rule",
+    "A missing mandatory approval or unvalidated prerequisite never produces an unconditional selection: the result is HOLD (selection not allowed) or CONDITIONAL."
+   ]
+  ],
+  "authority": "AI Foundry with SAP Integration, Security and Enterprise Architecture; Finance for cost",
+  "revisit": [
+   "Actual enterprise costs become known",
+   "The AWS account or AgentCore availability changes",
+   "SAP Integration changes the Apigee mandate",
+   "Identity or gateway validation fails or passes",
+   "The workload profile changes",
+   "Enterprise security or data-residency policy changes"
+  ]
+ },
+ "gatewayResponsibilities": [
+  [
+   "Agent-facing MCP access",
+   "Candidate: enterprise entry for agents (MCP endpoint, tool discovery)",
+   "Not the agent-facing entry in S3",
+   "Validate in the POC"
+  ],
+  [
+   "Inbound authentication and authorization",
+   "Candidate: JWT, IAM or authenticate-only; Cedar policy in enforce mode",
+   "Candidate: OAuth 2.1 / OIDC or API key per API product",
+   "Neither is assumed to provide every function; validate supported features"
+  ],
+  [
+   "Gateway target configuration",
+   "Candidate: MCP-server, OpenAPI and function targets; tool names prefixed with the target name",
+   "Not applicable",
+   "Target classification of an external MCP server is ambiguous in the documents"
+  ],
+  [
+   "Outbound credentials",
+   "Candidate: client credentials, authorization code, token exchange, API key, gateway role; no caller passthrough",
+   "Candidate: target credentials held for the SAP-facing API",
+   "Two credential hops in S3"
+  ],
+  [
+   "SAP-facing MCP/API exposure",
+   "Not the SAP-facing layer",
+   "Candidate: API products expose Integration Suite APIs as MCP tools; OpenAPI 3.0.x; 1000 tools per organization",
+   "Apigee is not arbitrary agent-code hosting"
+  ],
+  [
+   "Domain-specific tool access control",
+   "Enterprise tool-access policies",
+   "API products and apps filter which tools a client sees",
+   "Avoid duplicated or conflicting policies"
+  ],
+  [
+   "Schema and backend routing",
+   "Target schema to the next hop",
+   "OpenAPI schema and routing to Integration Suite",
+   "One owner per schema"
+  ],
+  [
+   "Telemetry",
+   "Runtime gateway telemetry",
+   "Domain traffic analytics",
+   "A correlation id must join both; products do not share a trace id automatically"
+  ],
+  [
+   "Rate limits and quotas",
+   "Gateway quotas",
+   "API product quotas and capacity limits",
+   "Quota ownership to be agreed"
+  ]
+ ],
+ "identityChain": [
+  [
+   "Business user",
+   "Enterprise authentication (corporate IdP; SAP Cloud Identity Services as a candidate trust component)",
+   "User identity; Global User ID is a correlation attribute where supported, not proof of propagation"
+  ],
+  [
+   "Agent workload",
+   "AgentCore Runtime / AgentCore Identity (S2, S3) or Cloud Foundry (S1)",
+   "Workload identity, separate from the user"
+  ],
+  [
+   "MCP client",
+   "Inside the agent process",
+   "Token presented to the first gateway"
+  ],
+  [
+   "Gateway / service",
+   "AgentCore Gateway, then Apigee (S3); Apigee (S1); AgentCore Gateway (S2)",
+   "Inbound validation and outbound token exchange or credential"
+  ],
+  [
+   "SAP integration",
+   "SAP Integration Suite, then Cloud Connector where applicable",
+   "Service identity toward SAP; principal propagation to validate"
+  ],
+  [
+   "SAP backend",
+   "S/4HANA / Central Finance",
+   "Execution identity: mapped user or technical user; SAP roles decide business authorization"
+  ]
+ ],
+ "account": {
+  "status": "PROPOSED · NOT PROVISIONED · NO AWS RESOURCE IS CREATED BY THIS APPLICATION",
+  "topology": [
+   [
+    "AI Foundry governance account",
+    "Owns AWS Agent Registry (central), curator and approval roles, shared with workload accounts",
+    "Registry ownership; publisher and consumer permissions; record approval"
+   ],
+   [
+    "SAP-agent workload account (proposed)",
+    "AgentCore Runtime and Gateway for SAP-related agents; separate environments (development, test, production) or another enterprise-approved arrangement",
+    "IAM least privilege, SCP guardrails, egress to Apigee and Integration Suite, secrets and encryption, tagging"
+   ],
+   [
+    "AWS Organizations and landing zone",
+    "Existing organization; landing-zone compliance; SCPs; region and data-residency policy",
+    "Enterprise policy owner"
+   ],
+   [
+    "Shared services",
+    "Portkey connectivity, central logging and monitoring, incident response, cost allocation and billing ownership",
+    "Platform operations"
+   ]
+  ],
+  "evaluate": [
+   "Dedicated account within the approved AWS Organization",
+   "Enterprise landing-zone compliance",
+   "Separation of development, test and production",
+   "IAM roles and least-privilege access",
+   "AWS Organizations SCP restrictions",
+   "Region and data-residency policy",
+   "AgentCore service availability and quotas",
+   "AgentCore Runtime and Gateway permissions",
+   "Approved networking and egress",
+   "Access to Apigee and Integration Suite",
+   "Approved Portkey connectivity",
+   "Secrets management and encryption",
+   "Cost allocation and billing ownership",
+   "Operational monitoring and incident response",
+   "Resource tagging and lifecycle policies"
+  ],
+  "registry_sharing": [
+   "Registry ownership by AI Foundry in a central governance account",
+   "Publisher permissions for the SAP-agent account",
+   "Consumer permissions for discovering clients",
+   "Record approval authority (curator)",
+   "Cross-account sharing through AWS Organizations and AWS Resource Access Manager",
+   "Region compatibility",
+   "Metadata synchronization and endpoint reachability",
+   "Revocation and versioning",
+   "Registry service entitlements"
+  ],
+  "qualification": "Account provisioning does not prove access to every AgentCore capability. Confirm enterprise service policy, actual entitlements, permissions and regional support. Do not create a duplicate registry because execution uses a dedicated account."
+ },
+ "lifecycle": [
+  "Use-case intake",
+  "Business and risk classification",
+  "Architecture selection",
+  "Identity and security design",
+  "MCP/API contract",
+  "Agent development",
+  "Testing",
+  "Registry publication",
+  "Runtime validation",
+  "Business approval",
+  "Production release",
+  "Monitoring and lifecycle management"
+ ],
+ "guardrails": [
+  "Approved agent and MCP ownership",
+  "Version-controlled artifacts in GitLab",
+  "LLM routing only through Portkey",
+  "Least-privilege tool access",
+  "User and workload identity separation",
+  "Prompt-injection and data-exfiltration protection",
+  "Read/write capability classification",
+  "Human approval for applicable business operations",
+  "SAP authorization and segregation of duties",
+  "Timeouts, retries and idempotency",
+  "Sensitive data handling and retention",
+  "Cost budgets and alerts",
+  "Centralized audit correlation",
+  "Incident response",
+  "Tool and agent revocation",
+  "Rollback and recovery",
+  "A registered skill never grants additional tool permissions"
+ ],
+ "raci": [
+  [
+   "Agent runtime (AgentCore or Cloud Foundry)",
+   "AWS platform team / SAP BTP team",
+   "AI Foundry",
+   "Security",
+   "Integration team"
+  ],
+  [
+   "Apigee MCP/API policies",
+   "SAP Integration",
+   "SAP Integration lead",
+   "Security, AI Foundry",
+   "Agent teams"
+  ],
+  [
+   "AgentCore Gateway targets and policy",
+   "AWS platform team",
+   "AI Foundry",
+   "SAP Integration, Security",
+   "Agent teams"
+  ],
+  [
+   "AWS Agent Registry records and approval",
+   "Integration team (publish)",
+   "AI Foundry (curator)",
+   "Security",
+   "Consumers"
+  ],
+  [
+   "LLM routing (Portkey)",
+   "AI platform",
+   "AI Foundry",
+   "Security, Finance",
+   "Agent teams"
+  ],
+  [
+   "SAP backend authorization",
+   "SAP Security",
+   "SAP Finance owner",
+   "Integration team",
+   "Agent teams"
+  ],
+  [
+   "GitLab pipelines and artifacts",
+   "Platform engineering",
+   "Integration team",
+   "Security",
+   "All teams"
+  ],
+  [
+   "Cost allocation and budgets",
+   "FinOps",
+   "Platform owners",
+   "Finance",
+   "Agent teams"
+  ]
+ ],
+ "pocValidations": [
+  "Dedicated AWS account service access",
+  "AgentCore Runtime operation",
+  "AgentCore Gateway tool invocation",
+  "AWS Agent Registry registration and discovery",
+  "Cross-account registry access",
+  "Apigee-managed MCP endpoint",
+  "S2 direct Integration Suite/API pattern, if permitted",
+  "S3 Gateway-to-Apigee pattern",
+  "Portkey model invocation",
+  "Delegated business-user identity",
+  "Backend SAP authorization (authorized and unauthorized user, same tool)",
+  "Read-only reconciliation accuracy",
+  "Network and gateway latency",
+  "Execution cost",
+  "Operational logs and audit",
+  "Failure and retry handling",
+  "Incident and support ownership"
+ ],
+ "cost": {
+  "components": [
+   {
+    "id": "runtime",
+    "label": "Agent runtime CPU and memory",
+    "driver": "vCPU-hours and GB-hours per month",
+    "applies": {
+     "S1": "SAP BTP Cloud Foundry credits",
+     "S2": "AgentCore Runtime",
+     "S3": "AgentCore Runtime"
+    }
+   },
+   {
+    "id": "idle",
+    "label": "Runtime idle capacity",
+    "driver": "Reserved or idle hours per month",
+    "applies": {
+     "S1": "Cloud Foundry instances kept running",
+     "S2": "AgentCore (consumption)",
+     "S3": "AgentCore (consumption)"
+    }
+   },
+   {
+    "id": "gateway",
+    "label": "AgentCore Gateway tool invocations",
+    "driver": "Tool invocations per month",
+    "applies": {
+     "S2": "AgentCore Gateway",
+     "S3": "AgentCore Gateway"
+    }
+   },
+   {
+    "id": "apigee",
+    "label": "Apigee MCP/API usage",
+    "driver": "API calls per month",
+    "applies": {
+     "S1": "Apigee",
+     "S3": "Apigee"
+    }
+   },
+   {
+    "id": "integration",
+    "label": "SAP Integration Suite consumption",
+    "driver": "Messages or API calls per month",
+    "applies": {
+     "S1": "Integration Suite",
+     "S2": "Integration Suite",
+     "S3": "Integration Suite"
+    }
+   },
+   {
+    "id": "connector",
+    "label": "Cloud Connector operating cost",
+    "driver": "Operating effort or hosting per month",
+    "applies": {
+     "S1": "Where applicable",
+     "S2": "Where applicable",
+     "S3": "Where applicable"
+    }
+   },
+   {
+    "id": "llm",
+    "label": "Portkey and model-provider cost",
+    "driver": "Tokens per month",
+    "applies": {
+     "S1": "Portkey + provider",
+     "S2": "Portkey + provider",
+     "S3": "Portkey + provider"
+    }
+   },
+   {
+    "id": "egress",
+    "label": "Inter-cloud data transfer and egress",
+    "driver": "GB per month",
+    "applies": {
+     "S1": "Cloud Foundry to Apigee and registry",
+     "S2": "AWS to SAP",
+     "S3": "AWS to Apigee to SAP"
+    }
+   },
+   {
+    "id": "persistence",
+    "label": "Persistence and storage",
+    "driver": "GB per month and operations",
+    "applies": {
+     "S1": "Approved service or HANA Cloud",
+     "S2": "Approved AWS service",
+     "S3": "Approved AWS service"
+    }
+   },
+   {
+    "id": "observability",
+    "label": "Observability and logging",
+    "driver": "GB of logs per month",
+    "applies": {
+     "S1": "BTP + Apigee",
+     "S2": "AgentCore",
+     "S3": "AgentCore + Apigee"
+    }
+   },
+   {
+    "id": "registry",
+    "label": "Agent Registry",
+    "driver": "Records and requests per month",
+    "applies": {
+     "S1": "AWS Agent Registry",
+     "S2": "AWS Agent Registry",
+     "S3": "AWS Agent Registry"
+    }
+   },
+   {
+    "id": "support",
+    "label": "Support and operational staffing",
+    "driver": "FTE-months",
+    "applies": {
+     "S1": "BTP + integration teams",
+     "S2": "AWS platform team",
+     "S3": "AWS platform + integration teams"
+    }
+   },
+   {
+    "id": "dr",
+    "label": "Environment isolation and disaster recovery",
+    "driver": "Extra environments per month",
+    "applies": {
+     "S1": "BTP subaccounts",
+     "S2": "AWS accounts",
+     "S3": "AWS accounts"
+    }
+   }
+  ],
+  "workloads": [
+   [
+    "low_frequency",
+    "Low-frequency SAP-specific agent"
+   ],
+   [
+    "high_frequency",
+    "High-frequency analytical agent"
+   ],
+   [
+    "bursty",
+    "Bursty enterprise agent"
+   ],
+   [
+    "long_running",
+    "Long-running reconciliation workflow"
+   ],
+   [
+    "multi_agent",
+    "Multi-agent and multi-tool orchestration"
+   ]
+  ],
+  "note": "No rate is supplied. SAP BTP credit rates, enterprise AWS discounts, Apigee charges and measured savings are not known to this application and are never invented: enter them with their source. One workload definition (the volumes) applies to every scenario."
+ }
 }

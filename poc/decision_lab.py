@@ -15,13 +15,13 @@ from .route_playbooks import QUESTION_DEPENDENCIES
 QUESTIONS = [
     {
         "id": "sap_mcp_hosting",
-        "scenario_position": {"S1": "The MCP endpoint is Apigee-managed (Pattern A) and any custom MCP runs on SAP BTP Cloud Foundry behind it. SAP owns both; the registry for the endpoint is a domain-managed catalog with no product selected.", "S2": "Apigee exposes the SAP tools behind AgentCore Gateway. A custom MCP on AgentCore Runtime would be reached through Apigee as a cross-cloud target. Gateway-to-Apigee protocol and target type are unproven.", "S3": "Same SAP-side hosting as S1 (Apigee, custom MCP on Cloud Foundry). The endpoint metadata is registered in AWS Agent Registry; registration does not move hosting."},
+        "scenario_position": {"S1": "Apigee-managed MCP (Pattern A); any custom MCP runs on SAP BTP Cloud Foundry behind Apigee. SAP owns both and the endpoint is registered in AWS Agent Registry as metadata only.", "S2": "The MCP capability is an AgentCore Runtime MCP server or an approved API target behind AgentCore Gateway. Apigee is inserted only where SAP Integration requires it.", "S3": "Apigee exposes the SAP tools behind AgentCore Gateway (Pattern A). A custom MCP (Pattern B) runs on an approved runtime, preferably AgentCore Runtime, and is exposed through Apigee."},
         "title": "Can SAP retain Apigee as its domain MCP layer?",
         "summary": "Test a domain-owned MCP target behind the agent runtime.",
         "current_position": "Existing MCP targets are technically possible; SAP ownership and Apigee hosting approval remain open.",
         "decision": "May SAP own and host this MCP capability through Apigee, and what onboarding contract applies?",
         "owner": "AI Foundry + SAP Solution Architecture + Integration",
-        "next_action": "Confirm SAP-owned Apigee MCP hosting policy and document the Apigee MCP endpoint onboarding contract (and the AgentCore Gateway target in S2).",
+        "next_action": "Confirm SAP-owned Apigee MCP hosting policy and document the Apigee MCP endpoint onboarding contract and the AgentCore Gateway target in S3.",
         "default_route": "S3", "probes": [
             {"id": "onboarded", "label": "Target onboarded (candidate)"},
             {"id": "missing_target", "label": "Target absent / denied"},
@@ -29,10 +29,10 @@ QUESTIONS = [
     },
     {
         "id": "gateway_ownership",
-        "scenario_position": {"S1": "One gateway, Apigee, owns inbound authorization, credentials, routing and audit. There is no second policy point.", "S2": "Two gateways in series: AgentCore Gateway (enterprise entry) then Apigee (SAP-facing). Each control needs one named owner and a deny-precedence rule to avoid duplicated policy.", "S3": "One gateway, Apigee, as in S1. AgentCore Gateway is absent from the baseline; if AI Foundry mandates it for all tool calls that is variant S3-B."},
+        "scenario_position": {"S1": "One gateway, Apigee, owns inbound authorization, credentials, routing and audit. There is no second policy point.", "S2": "AgentCore Gateway owns tool access and credentials; Apigee, if inserted, owns the SAP-facing policy. Each control needs one named owner.", "S3": "Two gateways in series with separate responsibilities: AgentCore Gateway for agent-facing access, Apigee for SAP-facing exposure. Quotas, tool naming and deny precedence need one owner each to avoid duplicated policy."},
         "title": "Which gateway owns each control?",
-        "summary": "Show gateway, registry and Apigee responsibilities per scenario.",
-        "current_position": "Apigee is the SAP-facing gateway in every scenario; AgentCore Gateway fronts it only in S2; a registry is control plane only. The control split needs agreement.",
+        "summary": "Show runtime-gateway, registry and Apigee responsibilities per scenario.",
+        "current_position": "AgentCore Gateway (S2, S3) and Apigee (S1, S3; S2 optional) have separate responsibilities; the registry is control plane only. The control split needs agreement.",
         "decision": "Assign one accountable owner for discovery, authorization, credentials, routing and audit at each boundary.",
         "owner": "Enterprise Architecture + AI Foundry + Apigee + Security",
         "next_action": "Sign off a control matrix for both gateways, including policy precedence and cross-gateway audit correlation.",
@@ -43,7 +43,7 @@ QUESTIONS = [
     },
     {
         "id": "sap_identity",
-        "scenario_position": {"S1": "Cloud Foundry agent identity to Apigee, then Integration Suite identity to the SAP backend. One gateway hop to prove.", "S2": "Agent identity to AgentCore Gateway, outbound credential to Apigee, then Integration Suite to SAP: two token hops to prove.", "S3": "As S1, plus a separate control-plane identity for registry access that must never carry business authorization."},
+        "scenario_position": {"S1": "Cloud Foundry agent identity to Apigee, then Integration Suite identity to the SAP backend. One gateway hop to prove.", "S2": "Agent identity (AgentCore Identity) to AgentCore Gateway, then to Integration Suite: one gateway hop plus the AWS identity to prove.", "S3": "Agent identity to AgentCore Gateway, outbound token exchange to Apigee, then Integration Suite to SAP: two token hops to prove."},
         "title": "Does the caller identity reach SAP?",
         "summary": "Trace a redacted principal reference across every trust boundary.",
         "current_position": "Gateway authentication does not establish delegated SAP principal propagation or backend authorization.",
@@ -58,7 +58,7 @@ QUESTIONS = [
     },
     {
         "id": "read_vs_post",
-        "scenario_position": {"S1": "Read tools only. Posting would be a separately governed capability behind Apigee on Cloud Foundry; none is active.", "S2": "Read tools only. Posting would be a separately governed capability reachable through both gateways; none is active.", "S3": "Read tools only. Registration of a posting tool would not authorize it; none is active."},
+        "scenario_position": {"S1": "Read tools only. Posting would be a separately governed capability behind Apigee on Cloud Foundry; none is active.", "S2": "Read tools only. Posting would be a separately governed capability behind AgentCore Gateway; none is active.", "S3": "Read tools only. Posting would be a separately governed capability through both gateways; none is active."},
         "title": "Can the agent read but not post?",
         "summary": "Compare finance read access with approval-gated write intent.",
         "current_position": "Read and write require separate controls; a synthetic marker is not an SAP FI posting.",
@@ -73,7 +73,7 @@ QUESTIONS = [
     },
     {
         "id": "foundry_registry",
-        "scenario_position": {"S1": "No registry product is selected (domain-managed catalog). Registration, approval and revocation have no owner yet.", "S2": "AWS Agent Registry catalogues the AgentCore-hosted agent and the MCP descriptor; approved records only are discoverable.", "S3": "AWS Agent Registry holds metadata for the SAP-hosted agent and the Apigee endpoint. Synchronization connects from AWS to the URL with an outbound credential; it is control plane only."},
+        "scenario_position": {"S1": "AWS Agent Registry holds metadata for the SAP-hosted agent and the Apigee endpoint, published from GitLab. It is control plane only and does not move the agent to AWS.", "S2": "AWS Agent Registry catalogues the AgentCore-hosted agent and MCP descriptor; approved records only are discoverable.", "S3": "AWS Agent Registry catalogues the AgentCore agent and the Apigee MCP endpoint metadata on a path separate from the gateways. Cross-account sharing from a central AI Foundry account is not yet confirmed."},
         "title": "What does the Foundry registry govern?",
         "summary": "Separate design-time registration from runtime tool invocation.",
         "current_position": "Registration governs lifecycle and discovery; it grants no direct SAP access by itself.",
@@ -87,7 +87,7 @@ QUESTIONS = [
     },
     {
         "id": "external_agent",
-        "scenario_position": {"S1": "A partner agent would call Apigee directly; Apigee product and app controls limit its tools.", "S2": "A partner agent would enter through AgentCore Gateway, then Apigee; both gateways constrain its tools.", "S3": "A partner agent would call Apigee directly; discovery of its record in AWS Agent Registry is separate from its authorization."},
+        "scenario_position": {"S1": "A partner agent would call Apigee directly; Apigee API products and apps limit its tools.", "S2": "A partner agent would enter through AgentCore Gateway; its Cedar policy limits the tools.", "S3": "A partner agent would enter through AgentCore Gateway, then Apigee; both gateways constrain its tools."},
         "title": "Can an external agent use SAP tools?",
         "summary": "Demonstrate partner onboarding, scoped entry and backend authorization.",
         "current_position": "External agents need explicit identity, tool, repository and SAP authorization decisions.",
@@ -102,16 +102,16 @@ QUESTIONS = [
 ]
 
 ROUTES = {
-    "S1": {"label": "S1 · SAP-centric", "status": "Evaluation candidate", "gateways": ["apigee_mcp"], "agent": "sap_btp", "registry": "domain"},
-    "S2": {"label": "S2 · AWS AgentCore-centric", "status": "Evaluation candidate", "gateways": ["agentcore_gateway", "apigee_mcp"], "agent": "agentcore", "registry": "aws"},
-    "S3": {"label": "S3 · SAP-hosted hybrid", "status": "Preferred candidate, subject to AI Foundry policy and POC validation", "gateways": ["apigee_mcp"], "agent": "sap_btp", "registry": "aws"},
+    "S1": {"label": "S1 · SAP-hosted hybrid", "status": "SAP-hosted alternative", "gateways": ["apigee_mcp"], "agent": "sap_btp", "registry": "aws"},
+    "S2": {"label": "S2 · AWS AgentCore-native", "status": "AWS-native alternative", "gateways": ["agentcore_gateway"], "agent": "agentcore", "registry": "aws"},
+    "S3": {"label": "S3 · AgentCore + Apigee hybrid", "status": "Preferred candidate for a comparative POC, conditional", "gateways": ["agentcore_gateway", "apigee_mcp"], "agent": "agentcore", "registry": "aws"},
 }
 
 CONTROL_MATRIX = [
-    {"component": "Agent and MCP registry", "owner": "AI Foundry (S2, S3) or domain team (S1, product pending)", "responsibility": "Registration, discovery, approval, version and lifecycle. Control plane only: registration is not an invocation hop and grants no SAP access."},
-    {"component": "AgentCore Gateway (S2 only)", "owner": "AI Foundry runtime", "responsibility": "Enterprise MCP gateway: inbound authorization, outbound credential and invocation audit toward Apigee."},
-    {"component": "Google Apigee MCP/API", "owner": "SAP Integration", "responsibility": "SAP-facing MCP/API gateway in every scenario: tool mapping, policy, routing and SAP-facing audit."},
-    {"component": "Portkey", "owner": "AI platform", "responsibility": "LLM gateway in every scenario: model selection, credentials, fallback and monitoring. Independent of the MCP gateway."},
+    {"component": "AWS Agent Registry", "owner": "AI Foundry (curator); integration team publishes from GitLab", "responsibility": "Registration, discovery, approval, version and lifecycle for agents and MCP servers. Control plane only: registration is not an invocation hop and grants no SAP access."},
+    {"component": "AgentCore Gateway (S2, S3)", "owner": "AWS platform team", "responsibility": "Runtime gateway: agent-facing MCP access, inbound authorization, gateway targets, outbound credentials and invocation audit. It does not host agents."},
+    {"component": "Google Apigee MCP/API (S1, S3; S2 optional)", "owner": "SAP Integration", "responsibility": "SAP-facing MCP/API gateway: API products, tool access control, schema and routing to Integration Suite, SAP-facing audit. It is not arbitrary agent-code hosting."},
+    {"component": "Portkey", "owner": "AI platform", "responsibility": "LLM gateway in every scenario: model selection, credentials, fallback and monitoring. Independent of the MCP gateways and the registry."},
     {"component": "SAP Integration Suite", "owner": "SAP Integration", "responsibility": "SAP integration boundary: approved API, identity mapping and conditional Cloud Connector route."},
     {"component": "SAP backend", "owner": "SAP Security + FI", "responsibility": "Final user or service authorization and finance operation control."},
 ]
@@ -141,8 +141,8 @@ def build_run(question_id: str, route: str, probe: str) -> dict:
 
     add("Business intent", "Finance architect", "Typed use-case scope", question["title"], proof="Finance use-case signoff")
     registered = probe != "unregistered"
-    registry_name = {"domain": "Domain-managed catalog (product pending)", "aws": "AWS Agent Registry"}[ROUTES[route]["registry"]]
-    add(registry_name, "AI Foundry governance" if ROUTES[route]["registry"] == "aws" else "Domain team", "Owner, approval, version and tool binding",
+    registry_name = "AWS Agent Registry"
+    add(registry_name, "AI Foundry governance", "Owner, approval, version and tool binding",
         "Registered synthetic tool reference" if registered else "Tool not registered; runtime invocation blocked",
         status="passed" if registered else "denied", phase="design-time",
         proof="Published domain-owned hosting and onboarding policy")

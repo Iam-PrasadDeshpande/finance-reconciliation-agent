@@ -1,34 +1,27 @@
 # POC proof and entitlement checklist (Architecture V5.2)
 
-Status: a checklist for the owner and platform teams. Nothing here has been run: no tenant is connected. Each line is PASS, HOLD or NOT_VERIFIED only when a named owner confirms it in writing. The five open decisions behind it are in the Decision brief page and `poc/architecture_model.py` (`DECISIONS`).
+Status: a checklist for the owner and platform teams. Nothing here has been run by this application: no tenant is connected. On 2026-11-25 the owner stated that tenant entitlements are live; that is recorded as owner-confirmed, not verified. A line is PASS, HOLD or NOT_VERIFIED only when a named owner confirms it in writing.
 
 ## 1. Entitlement and capability, before any build
 
-| Item | Applies to | Documented capability | Confirm in the tenant | Owner |
-|---|---|---|---|---|
-| SAP BTP Cloud Foundry space and quota for the agent and any custom MCP | S1, S3 | Python buildpack, space quota plans, service plans and metering | Space exists, memory quota covers the agent, outbound path to Apigee and Portkey | SAP BTP platform team |
-| Apigee MCP enabled for the organization | S1, S2, S3 | Existing APIs exposed as MCP tools; OpenAPI 3.0.x; 1000 tools per organization; capacity limits in some regions | Enablement, region, hybrid version if hybrid (1.17.4 or later for stateless) | SAP Integration |
-| AgentCore Runtime and Gateway availability | S2 (S3-B) | Runtime hosts agents; Gateway has MCP, HTTP and inference targets | Region, account, quota | AWS platform team |
-| AWS Agent Registry availability | S2, S3 | Records, curator approval, `agent-registry` namespace | Region, curator and publisher roles | AI Foundry |
-| Registry for S1 | S1 | Candidates only (SAP AI Agent Hub NOT_VERIFIED; Integration Suite MCP Gateway developer hub; interim Git catalog) | Written confirmation of the chosen product's availability | Enterprise architecture |
-| Portkey route to the approved model | all | LLM gateway | Route, credentials held in Portkey, fallback | AI platform |
-| Identity provider that supports token exchange | S2 (user delegation) | AgentCore outbound OAuth: client credentials, authorization code, token exchange | Token exchange supported by the chosen server | Security |
+| Item | Applies to | Confirm | Owner |
+|---|---|---|---|
+| Dedicated SAP-agent AWS account, region, quotas | S2, S3 | Approved in the AWS Organization; AgentCore Runtime, Gateway and Registry usable | AI Foundry + AWS platform |
+| Central AWS Agent Registry and cross-account sharing | all | Registry owned by AI Foundry; publisher and consumer permissions; sharing through AWS Organizations and RAM | AI Foundry |
+| SAP BTP Cloud Foundry space, quota and contractual charges | S1 | Space and memory quota fit the agent and custom MCP; consumption cost known | SAP BTP platform team |
+| Apigee MCP enabled | S1, S3 (S2 optional) | Enabled, region, hybrid version if hybrid (1.17.4 or later for stateless) | SAP Integration |
+| Portkey route to the approved model | all | Route, credentials held in Portkey, fallback | AI platform |
+| Identity provider that supports token exchange | S2, S3 | Token exchange for user delegation | Security |
+| GitLab pipelines and runners | all | Pipelines deploy the runtime, targets, bundles and registry records | Platform engineering |
 
-## 2. Proofs, one per open decision
+## 2. Validations (compare S2 and S3 first; S1 as a baseline)
 
-1. **S1 registry**: register the agent and the Apigee MCP endpoint, discover them as another client, revoke one and confirm it disappears from discovery.
-2. **AgentCore Gateway mandate (S3-B)**: a direct call to Apigee that does not carry a gateway-issued credential is rejected; a call through the gateway succeeds and is audited at both.
-3. **Registry synchronization (S3)**: publish a record through the registry API from the SAP release pipeline (no AWS connection into SAP), discover it, release a new version, retire the old record and confirm discovery shows only the approved version. Test synchronization to the Apigee URL only if Security approves the reachability.
-4. **AgentCore Gateway to Apigee (S2)**: one `tools/list` and one `tools/call` through the gateway to Apigee and on to a read tool; first with service identity (client credentials, DEFAULT listing), then with user delegation (token exchange); record the SAP user in the evidence.
-5. **Negative authorization (all)**: a tool the mapped user may not run is rejected by the SAP backend even though the agent can discover and call it.
+Dedicated account service access; AgentCore Runtime operation; AgentCore Gateway tool invocation; AWS Agent Registry registration and discovery; cross-account registry access; Apigee-managed MCP endpoint; S2 direct Integration Suite or API target pattern, if permitted; S3 Gateway-to-Apigee pattern; Portkey model invocation; delegated business-user identity; backend SAP authorization with an authorized and an unauthorized user on the same read-only tool; read-only reconciliation accuracy; network and gateway latency; execution cost; operational logs and audit; failure and retry handling; incident and support ownership.
 
-## 3. What the documents already settle (read 2026-11-25)
+## 3. Decision logic
 
-- AgentCore Gateway and Apigee share four MCP protocol versions (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26).
-- The gateway supports outbound OAuth client credentials, authorization code and token exchange for MCP-server targets; caller token passthrough is not supported.
-- Apigee MCP supports OAuth 2.1 and OIDC and does not support SSE streams.
-- Registry synchronization needs an HTTPS URL, runs on creation and on demand, reverts the record to draft and is not documented to remove stale tools.
-- AgentCore Policy enforces Cedar rules at the gateway; the documents do not say that a target refuses calls that bypass it.
-- The SAP Cloud Foundry runtime runs Python applications and uses space quota and service plans.
+Select S3 only when the account and services are approved, Apigee remains in the approved SAP integration design, gateway-to-gateway invocation works, principal propagation is validated, policy ownership is clear, cost is competitive and operations are acceptable. Select S2 where AgentCore-native MCP or API access meets enterprise and SAP policy with lower complexity or cost. Select S1 where SAP-specific execution or verified cost justifies Cloud Foundry. Platform preference alone decides nothing.
 
-What they do not settle: any tenant entitlement, private-network reachability for the registry or the gateway target, the AgentCore target classification of an external MCP server, and the availability of SAP AI Agent Hub (its product page returned HTTP 403).
+## 4. What the documents already settle (read 2026-11-25)
+
+AgentCore Gateway and Apigee share four MCP protocol versions; the gateway supports outbound OAuth client credentials, authorization code and token exchange but not caller passthrough; Apigee MCP supports OAuth 2.1 and OIDC and not SSE; registry synchronization needs an HTTPS URL, runs on creation and on demand, reverts the record to draft and is not documented to remove stale tools; AgentCore Policy enforces at the gateway; the Cloud Foundry runtime runs Python with space quotas. They do not settle any tenant entitlement, private-network reachability, the target classification of an external MCP server, or cross-account registry sharing.

@@ -7,10 +7,10 @@ const W=1200,H=840,MAX_SCALE=12;
 export const PNG_SCALES=[2,4];
 const clamp=(value,low,high)=>Math.min(high,Math.max(low,value));
 
-const SHORT={D1:'Overview',D2:'S1',D3:'S2',D4:'S3',D5:'Hosting vs registry',D6:'Identity',D7:'LLM',D8:'Lifecycle',D9:'Audit',D10:'Comparison'};
+const SHORT={D1:'Reference',D2:'S1',D3:'S2',D4:'S3',D5:'Responsibilities',D6:'AWS account',D7:'Gateway identity',D8:'Cost',D9:'Decision tree',D10:'Executive'};
 const DIAGRAMS=Object.fromEntries(DIAGRAM_KEYS.map(key=>{const spec=diagramSpec(key);return [key,{id:key,tab:`${key} · ${SHORT[key]}`,title:`${key} · ${spec.title}`,svg:diagramSvg(key),file:`architecture-${key.toLowerCase()}`,png:true,summary:spec.chain,footer:spec.footer}]}));
 const COMPARE_PAIR=['D2','D4'];
-const OPEN_ITEMS=['Registry product for S1 is unresolved: a plain API catalog is not a complete agent registry','AgentCore Gateway to Apigee protocol and token exchange (S2): unproven','Whether AI Foundry mandates AgentCore Gateway for every tool call (S3-B): policy-dependent','Principal propagation through Integration Suite and Cloud Connector: to validate','Persistence is conditional: HANA Cloud only if durable SAP-side state is required'];
+const OPEN_ITEMS=['S3 is the preferred candidate to evaluate first: it is conditional on account approval, identity, gateway interoperability and verified cost','The dedicated SAP-agent AWS account is proposed and not provisioned','AgentCore Gateway to Apigee: the real call has not been run; reachability and the credential provider account are not yet checked','Delegated identity and principal propagation are not yet validated','No cost rates are entered: the comparison is pending FinOps input'];
 
 function markup(svg,uid){return svg.replace('aria-labelledby="t d"',`aria-labelledby="${uid}-t ${uid}-d"`).replace('id="t"',`id="${uid}-t"`).replace('id="d"',`id="${uid}-d"`)}
 function svgFile(svg){return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${svg}`],{type:'image/svg+xml'})}
@@ -158,7 +158,7 @@ export default function DetailedDiagrams({view='D1',onView,onBack}){
     </header>
     <section className="surface dd-summary" aria-label="Diagram summary">
       <div><span className="eyebrow">{compare?'WHAT THIS VIEW SHOWS':single.id}</span><p>{compare?'Two scenario topologies from the same model. Pick the scenarios below; zoom and pan can be synchronized.':single.summary}</p></div>
-      <div className="dd-invariant"><span className="eyebrow">COMMON TO S1, S2 AND S3</span><p>Portkey is the LLM gateway. Google Apigee is the SAP-facing MCP/API gateway. SAP Integration Suite is the SAP integration boundary. The SAP backend decides business authorization. A registry is a catalog, never an invocation hop.</p></div>
+      <div className="dd-invariant"><span className="eyebrow">COMMON TO S1, S2 AND S3</span><p>Portkey is the LLM gateway. SAP Integration Suite is the SAP integration boundary. The SAP backend decides business authorization. GitLab deploys everything and is never a runtime. A registry is a catalog, never an invocation hop.</p></div>
     </section>
     <div className={`dd-body ${compare?'is-compare':''}`}>
       {compare?<>
@@ -169,7 +169,7 @@ export default function DetailedDiagrams({view='D1',onView,onBack}){
       </>:<PanZoom key={single.id} diagram={single} uid={`dd-${single.id}`} view={viewA} onView={setViewA} onFit={setViewA} expanded={expanded===single.id} onExpand={on=>setExpanded(on?single.id:null)}/>}
       <aside className="surface dd-side" aria-label="Open validations">
         <h3>Scenarios in this model</h3>
-        <ul>{['S1','S2','S3'].map(id=><li key={id}><strong>{id}</strong> {SCENARIOS[id].agent_runtime} · registry: {SCENARIOS[id].agent_registry}</li>)}</ul>
+        <ul>{['S1','S2','S3'].map(id=><li key={id}><strong>{id}</strong> {SCENARIOS[id].agent_runtime} · gateway: {SCENARIOS[id].mcp_gateway}</li>)}</ul>
         <h3>Open validations</h3>
         <ul>{OPEN_ITEMS.map(item=><li key={item}>{item}</li>)}</ul>
         <p className="micro">{BANNER}. Vendor-named components are design projections, not connected services.</p>

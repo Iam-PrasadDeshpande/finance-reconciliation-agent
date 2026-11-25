@@ -1,9 +1,9 @@
 import React,{useEffect,useRef,useState} from 'react';
 
 const ROUTES=[
-  {id:'S1',label:'S1 · SAP-centric'},
-  {id:'S2',label:'S2 · AWS AgentCore-centric'},
-  {id:'S3',label:'S3 · SAP-hosted hybrid'},
+  {id:'S1',label:'S1 · SAP-hosted hybrid'},
+  {id:'S2',label:'S2 · AWS AgentCore-native'},
+  {id:'S3',label:'S3 · AgentCore + Apigee hybrid'},
 ];
 
 function FlowNode({step,selected,processing,onSelect}){
@@ -74,7 +74,7 @@ export default function ArchitectureQuestions({questions=[],routePlaybooks={},fo
       <div className="question-list">{questions.map((item,index)=><button type="button" key={item.id} className={`question-card ${selectedId===item.id?'selected':''}`} onClick={()=>choose(item)} aria-pressed={selectedId===item.id}>
         <span>Q{index+1} · OPEN</span><strong>{item.title}</strong><small>{item.summary}</small>
       </button>)}</div>
-      <p className="lab-footnote">Each probe walks the selected scenario: S1 SAP-centric (Cloud Foundry agent, Apigee), S2 AWS AgentCore-centric (AgentCore Runtime and Gateway, then Apigee) and S3 SAP-hosted hybrid (Cloud Foundry agent, Apigee, AWS Agent Registry for registration only). Results are simulated; approval remains open.</p>
+      <p className="lab-footnote">Each probe walks the selected scenario: S1 SAP-hosted hybrid (Cloud Foundry agent, Apigee), S2 AWS AgentCore-native (AgentCore Runtime and Gateway) and S3 AgentCore + Apigee hybrid (AgentCore Runtime and Gateway, then Apigee). AWS Agent Registry registers on a separate path in all three. Results are simulated; approval remains open.</p>
     </aside>
 
     <section className="lab-center">

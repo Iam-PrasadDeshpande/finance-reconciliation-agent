@@ -1,3 +1,5 @@
+> **Superseded by Architecture V5.2** (`docs/ARCHITECTURE_V5_2.md`). This page records the earlier V5.1 meaning of S1, S2 and S3 for history.
+
 # Architecture V5.1: three scenarios, one model
 
 Status: **proposed design for evaluation. Nothing here is approved, deployed or tenant-verified.** No cloud resource, registry, gateway, SAP system or credential is created or contacted by this application.
@@ -11,7 +13,7 @@ Three candidate designs are agreed for evaluation. Portkey is the LLM gateway in
 | Agent hosting and execution | SAP BTP Cloud Foundry | AWS AgentCore Runtime | SAP BTP Cloud Foundry |
 | Custom MCP code (only if required) | Cloud Foundry, behind Apigee | AgentCore Runtime, proxied by Apigee (cross-cloud, conditional) | Cloud Foundry, behind Apigee |
 | MCP gateway | Apigee | AgentCore Gateway in front of Apigee | Apigee |
-| Agent and MCP registry | Domain-managed catalog, **product selection pending** | AWS Agent Registry | AWS Agent Registry (control plane only) |
+| Agent and MCP registry | **Interim GitLab catalog** (owner decision; not a full agent registry) | AWS Agent Registry | AWS Agent Registry (control plane only) |
 | AgentCore Runtime / Gateway | not used | used | not used (Gateway only in the S3-B variant) |
 | Status | evaluation candidate | evaluation candidate | **preferred candidate, subject to AI Foundry policy and POC validation** |
 
@@ -122,3 +124,17 @@ The five items that were open after V5.1 were researched against current documen
 ## Themes (V5.2)
 
 `frontend/src/ThemeSwitch.jsx` and `frontend/src/themes.css` provide the six standard SAP Fiori themes for the whole application. Quartz Light is the stylesheet as written; the accent colour is a token, and the other themes re-map the rendered colours on the root element so every screen, dialog and inline diagram follows. In the hosted Streamlit page the rules are injected into the page document because the component's own stylesheet sits in a shadow root. Exports (SVG, PNG) are unaffected. The My Home audience block was removed.
+
+## Owner answers (2026-11-25)
+
+| Item | Answer | State |
+|---|---|---|
+| S1 registry | SAP AI Agent Hub is not available; interim catalog on GitLab; the integration team with the respective technical approvals approves publishing | DECIDED |
+| GitLab | Central platform for source, specs, descriptors, catalog records and CI/CD in all scenarios | DECIDED |
+| AgentCore Gateway mandatory | Yes in S2 by design; no in S3 and S1, so S3-B is not required (AI Foundry written confirmation pending) | OWNER-CONFIRMED |
+| Apigee MCP endpoint reachable from AWS | Not yet checked | OPEN |
+| Registry credential provider in the same AWS account | Not yet checked | OPEN |
+| Real call through AgentCore Gateway to Apigee (S2) | Not yet run | OPEN |
+| Tenant entitlements (Cloud Foundry, Apigee MCP, AgentCore, Agent Registry, Portkey) | Live, per the owner; no written evidence, region or quota attached | OWNER-CONFIRMED |
+
+The Decision brief shows these as 4 decided, 5 owner-confirmed (not independently verified) and 3 still open answers. Owner-confirmed means the owner said so; it is not a PASS.

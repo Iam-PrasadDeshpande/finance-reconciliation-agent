@@ -6,10 +6,11 @@ from .identity import authorize
 from .store import Store,Denied
 from .tools import DomainTools
 
-# Architecture V5.1: the gateways a tool call passes through, in order, for each scenario.
-#   S1 and S3: the agent calls Apigee directly (S3 differs from S1 only in registration, which is never on the call path).
-#   S2: the agent calls AgentCore Gateway, which calls Apigee, which reaches the SAP side.
-GATES={"S1":("apigee",),"S2":("agentcore","apigee"),"S3":("apigee",)}
+# Architecture V5.2: the gateways a tool call passes through, in order, for each scenario.
+#   S1: the Cloud Foundry agent calls Apigee directly (registration in AWS Agent Registry is never on the call path).
+#   S2: the AgentCore agent calls AgentCore Gateway, which reaches the MCP or API target (Apigee only where inserted by policy; not simulated).
+#   S3: the AgentCore agent calls AgentCore Gateway, which calls Apigee, which reaches the SAP side.
+GATES={"S1":("apigee",),"S2":("agentcore",),"S3":("agentcore","apigee")}
 OPERATION={"apigee":"cross_cloud_mcp","agentcore":"aws_internal_mcp"}
 BOUNDARY={"apigee":"external Google","agentcore":"agent platform logical"}
 TARGET={"sap.read":"sap_read_tool","sap.compare":"sap_read_tool","databricks.read":"databricks_read_tool","sap.post":"sap_post_tool","bdc.read":"bdc_read_tool"}
@@ -53,9 +54,10 @@ class ApigeeGatewaySimulator(GatewaySimulator):
     def __init__(self,store,scenario="S1"): super().__init__(store,scenario)
 
 class AgentCoreGatewaySimulator(GatewaySimulator):
-    def __init__(self,store): super().__init__(store,"S2")
+    def __init__(self,store,scenario="S2"): super().__init__(store,scenario)
 
 def select_gateway(store,scenario):
-    if scenario in ("S1","S3"): return ApigeeGatewaySimulator(store,scenario)
-    if scenario=="S2": return AgentCoreGatewaySimulator(store)
+    if scenario=="S1": return ApigeeGatewaySimulator(store,scenario)
+    if scenario=="S2": return AgentCoreGatewaySimulator(store,scenario)
+    if scenario=="S3": return GatewaySimulator(store,scenario)
     raise Denied("Unknown scenario")

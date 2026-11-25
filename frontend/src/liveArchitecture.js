@@ -27,7 +27,7 @@ export function liveSvg({registry, events, scenario, selectedZone, liveRunning, 
     const [row, col] = POS[zone];
     const here = processing && current === zone, seen = Boolean(stats[zone]);
     const status = here ? 'Processing now' : seen ? `${stats[zone]} events` : zone === 'Future BDC' ? 'Future / simulated' : zone === 'Write approval' ? 'Separate branch' : 'Waiting';
-    const sub = zone === 'Selected gateway' ? `${scenario} · ${scenario === 'S2' ? 'AgentCore Gateway, then Apigee' : 'Apigee'}` : `${zone} · ${count(zone)} components`;
+    const sub = zone === 'Selected gateway' ? `${scenario} · ${scenario === 'S3' ? 'AgentCore Gateway, then Apigee' : scenario === 'S2' ? 'AgentCore Gateway' : 'Apigee'}` : `${zone} · ${count(zone)} components`;
     return N(zone, row, col, zoneShort[zone] || zone, sub, KIND[zone], {
       zone, status, statusColor: here ? '#B45309' : seen ? '#0D6A33' : '#506778',
       stroke: zone === selectedZone ? '#0A6ED1' : here ? '#E9730C' : seen ? '#107E3E' : undefined,
@@ -59,6 +59,6 @@ export function liveSvg({registry, events, scenario, selectedZone, liveRunning, 
     title: `Live run (simulator) · ${(SCENARIOS[scenario] || SCENARIOS.S1).name}`,
     chain: 'Finance request → external agent → selected gateway → domain tools → SAP integration → SAP backend',
     banner: processing ? 'RUN IN PROGRESS · SIMULATED' : 'SIMULATED · NO TENANT CONNECTED',
-    footer: 'Simulator scope: the agent runtime zone stands for Cloud Foundry (S1, S3) or AgentCore Runtime (S2). S2 passes AgentCore Gateway and then Apigee; S1 and S3 call Apigee directly (S3 registration is not on the call path). The full topology is in Diagrams D2 to D4. Orange: processing now. Green: visited. Blue: selected zone.',
+    footer: 'Simulator scope: the agent runtime zone stands for Cloud Foundry (S1) or AgentCore Runtime (S2, S3). S1 calls Apigee; S2 calls AgentCore Gateway; S3 passes AgentCore Gateway and then Apigee. Registration is never on the call path. The full topology is in Diagrams D2 to D4. Orange: processing now. Green: visited. Blue: selected zone.',
   });
 }
