@@ -23,7 +23,7 @@ OUT=ROOT/"release"
 OUT.mkdir(exist_ok=True)
 TARGET=OUT/"finance_architecture_streamlit.zip"
 files=[ROOT/"streamlit_app.py",ROOT/".streamlit"/"config.toml",ROOT/"README.md",ROOT/"docs"/"POC_LIMITATIONS.md",ROOT/"docs"/"ARCHITECTURE_MAPPING.md"]
-files+=sorted((ROOT/"poc").glob("*.py"))
+files+=sorted(p for p in (ROOT/"poc").rglob("*.py") if "__pycache__" not in p.parts)
 files+=sorted((ROOT/"frontend"/"dist_streamlit").glob("finance_architecture.*"))
 files.append(ROOT/"static"/"finance_reconciliation_local_windows.zip")
 assert all(path.is_file() for path in files)

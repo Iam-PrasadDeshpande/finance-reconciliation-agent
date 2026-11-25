@@ -35,7 +35,7 @@ files = [
     ROOT / "docs" / "LOCAL_LAPTOP_GUIDE.md",
     ROOT / ".streamlit" / "config.toml",
 ]
-files += sorted((ROOT / "poc").glob("*.py"))
+files += sorted(p for p in (ROOT / "poc").rglob("*.py") if "__pycache__" not in p.parts)
 files += sorted((ROOT / "frontend" / "dist").rglob("*.*"))
 files += sorted((ROOT / "frontend" / "dist_streamlit").glob("finance_architecture.*"))
 assert all(path.is_file() for path in files)
@@ -43,6 +43,8 @@ payload = {str(path.relative_to(ROOT)).replace("\\", "/"): committed_bytes(ROOT,
 assert "frontend/dist/index.html" in payload
 assert "frontend/dist_streamlit/finance_architecture.js" in payload
 assert "poc/route_playbooks.py" in payload
+for required in ("poc/cockpit.py", "poc/agent_modules/__init__.py", "poc/agent_modules/reconciliation.py", "poc/agent_modules/treasury.py", "poc/treasury.py", "poc/ontology_core.py"):
+    assert required in payload, required  # the agent modules live in a subpackage and must ship
 assert not any(any(block in name for block in (".env", ".sqlite", "node_modules", "__pycache__", ".venv", "secrets.toml")) for name in payload)
 manifest = {name: hashlib.sha256(data).hexdigest() for name, data in sorted(payload.items())}
 payload["LOCAL_BUNDLE_MANIFEST.json"] = json.dumps({"synthetic": True, "files_sha256": manifest}, indent=2).encode()
