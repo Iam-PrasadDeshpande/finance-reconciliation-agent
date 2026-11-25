@@ -81,3 +81,7 @@ Whatever is asked, wherever it is asked, runs the same agents. The front-screen 
 - Each module screen shows a **Latest agent run** banner (for the same period) with a "View agent run" link back to the Agents screen.
 - A finished plan is shown complete when you return to it; the step animation plays once.
 - Close & reconcile is one view: all twelve periods with the S/4HANA balance, Central Finance balance, variance and status; the selected period's detail; the scenario lab; and the case and approval controls in a fold. It fits a 1440 × 900 laptop without scrolling.
+
+## 8. Streamlit action delivery
+
+Streamlit keeps only the latest trigger value, so two actions sent before a rerun finishes lose one. This showed up on the hosted app as a request, a period change or a tab that appeared to do nothing, and was reproduced locally by slowing the action handler (`COCKPIT_ACTION_DELAY`, a test-only setting). The browser bridge (`frontend/src/streamlit.jsx`) now sends one action at a time and waits for the server's acknowledgement (`action_seq`) before the next; a newer period selection replaces an older one still waiting, and a 12 second timeout means a lost acknowledgement cannot block the queue. The request-text hook no longer resets typed text on mount. `COCKPIT_DEBUG=1` logs each action the server receives.
