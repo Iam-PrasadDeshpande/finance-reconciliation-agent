@@ -71,5 +71,5 @@ MODULE = AgentModule(
     catalog=TA.catalog_domain, run=_run, ontology=lambda: ONTOLOGY, view=_view, actions={"decide": _decide, "proposals": lambda store, p: TA.list_proposals(store, p.get("period"))},
     tool_concepts=TOOL_CONCEPTS,
     output={"screen_name": "Cash & treasury", "open_label": "Open in Cash & treasury", "detail_label": "Open the detailed cash & treasury view"},
-    architecture={"route": "Selected MCP route S1 or S2, then the S/4HANA backend (modelled with the existing S/4HANA components; no new architecture components)", "data": "poc/treasury_data.py (synthetic, deterministic)", "hosting": "Agent runtime and MCP hosting are chosen on the Architecture pages; they apply to every module"},
+    architecture={"route": "Selected scenario (S1, S2 or S3: Apigee MCP/API, with AgentCore Gateway in front in S2), then the S/4HANA backend (modelled with the existing S/4HANA components; no new architecture components)", "data": "poc/treasury_data.py (synthetic, deterministic)", "hosting": "Agent runtime and MCP hosting are chosen on the Architecture pages; they apply to every module"},
 )

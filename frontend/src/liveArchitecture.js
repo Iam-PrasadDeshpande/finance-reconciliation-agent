@@ -27,7 +27,7 @@ export function liveSvg({registry, events, scenario, selectedZone, liveRunning, 
     const [row, col] = POS[zone];
     const here = processing && current === zone, seen = Boolean(stats[zone]);
     const status = here ? 'Processing now' : seen ? `${stats[zone]} events` : zone === 'Future BDC' ? 'Future / simulated' : zone === 'Write approval' ? 'Separate branch' : 'Waiting';
-    const sub = zone === 'Selected gateway' ? `${scenario} · ${scenario === 'S1' ? 'Apigee, external boundary' : 'AgentCore, AWS boundary'}` : `${zone} · ${count(zone)} components`;
+    const sub = zone === 'Selected gateway' ? `${scenario} · ${scenario === 'S1' ? 'Apigee path (S1, S3)' : 'AgentCore Gateway path (S2)'}` : `${zone} · ${count(zone)} components`;
     return N(zone, row, col, zoneShort[zone] || zone, sub, KIND[zone], {
       zone, status, statusColor: here ? '#B45309' : seen ? '#0D6A33' : '#506778',
       stroke: zone === selectedZone ? '#0A6ED1' : here ? '#E9730C' : seen ? '#107E3E' : undefined,

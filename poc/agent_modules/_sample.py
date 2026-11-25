@@ -89,5 +89,5 @@ MODULE = AgentModule(
                       "relations": [{"from": "sample.Figure", "to": "FiscalPeriod", "label": "for", "kind": "scoped"}]},
     tool_concepts={"plan": {"reads": [], "produces": []}, "read_sample": {"reads": ["FiscalPeriod"], "produces": ["sample.Figure", "FlowEvent"]}},
     output={"screen_name": "Sample agent", "open_label": "Open the Sample agent screen", "detail_label": None},
-    architecture={"route": "Selected MCP route S1 or S2, then the existing S/4HANA components", "data": "computed in this file (synthetic)", "hosting": "Chosen on the Architecture pages; applies to every module"},
+    architecture={"route": "Selected scenario (S1, S2 or S3: Apigee MCP/API, with AgentCore Gateway in front in S2), then the existing S/4HANA components", "data": "computed in this file (synthetic)", "hosting": "Chosen on the Architecture pages; applies to every module"},
 )

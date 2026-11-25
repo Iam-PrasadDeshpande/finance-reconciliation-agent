@@ -180,3 +180,13 @@ def test_every_rendered_svg_matches_its_spec(tmp_path):
         svg = (tmp_path / f"{key}.svg").read_text(encoding="utf-8")
         assert "<svg" in svg and "NOT AN APPROVED ARCHITECTURE" in svg
         assert "Cloud Run" not in svg and "Vertex" not in svg
+
+
+def test_no_page_or_backend_text_still_uses_the_old_scenario_meaning():
+    old = re.compile(r"S1 Apigee|S2 AgentCore|S1 · Apigee|S2 · AgentCore|Combined candidate|S1/S2 simulated|S1 and S2 are simulated|Apigee route|AgentCore route|PTP/PAP|Microsoft Foundry|Joule Studio|Bedrock response", re.I)
+    files = [*SRC.glob("*.js"), *SRC.glob("*.jsx"), *(ROOT / "poc").glob("*.py"), *(ROOT / "poc" / "agent_modules").glob("*.py"), ROOT / "streamlit_app.py"]
+    hits = {f.name: m.group(0) for f in files if f.name != "architecture_model.py" for m in [old.search(f.read_text(encoding="utf-8"))] if m}
+    assert hits == {}, hits
+    for doc in ("MCP_HOSTING_GOVERNANCE.md", "POC_LIMITATIONS.md"):
+        text = (ROOT / "docs" / doc).read_text(encoding="utf-8")
+        assert not re.search(r"API hub|Google Agent Registry|S3 AgentCore-to-Apigee", text), doc

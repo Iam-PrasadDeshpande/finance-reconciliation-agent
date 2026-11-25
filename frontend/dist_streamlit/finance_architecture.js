@@ -11432,8 +11432,8 @@ function Ke({ run: e, questions: t = [], requestedSeq: n }) {
 }
 // src/ImplementationEvidence.jsx
 var qe = [
-	["External agent contract", "AgentCore Runtime, identity and MCP client are named simulator components. The local Python runtime follows a bounded plan; no external agent is connected."],
-	["SAP-owned capability", "The SAP finance tool, Apigee candidate, Integration Suite path and backend roles are simulated boundaries. No SAP tenant call or principal propagation is proved."],
+	["External agent contract", "The agent host, identity and MCP client are named simulator components (the simulator draws the agent in an AWS zone; the V5.1 hosts are SAP BTP Cloud Foundry in S1 and S3 and AgentCore Runtime in S2). The local Python runtime follows a bounded plan; no external agent is connected."],
+	["SAP-owned capability", "The SAP finance tool, Apigee gateway, Integration Suite path and backend roles are simulated boundaries. No SAP tenant call or principal propagation is proved."],
 	["Presentation", "The Fiori-inspired interface is built with React and Node.js tooling. Streamlit hosts its compiled assets; Node.js is not an agent in the runtime path."],
 	["Execution and proof", "Python evaluates the finance rules and SQLite stores synthetic snapshots, cases and request/response events. The variance amount comes from the deterministic engine."]
 ];
@@ -11469,7 +11469,7 @@ function Je({ currentCase: e, events: t = [] }) {
 						t.length,
 						" stored events"
 					] }),
-					/* @__PURE__ */ (0, k.jsx)("span", { children: "S1/S2 simulated alternatives · S3 proposed combined path remains open" })
+					/* @__PURE__ */ (0, k.jsx)("span", { children: "Simulator replays the Apigee path (S1, S3) and the AgentCore Gateway path (S2) · all three scenarios remain proposals" })
 				]
 			})
 		]
@@ -11701,15 +11701,15 @@ function Ye({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 var Xe = [
 	{
 		id: "S1",
-		label: "S1 · Apigee route"
+		label: "S1 · SAP-centric"
 	},
 	{
 		id: "S2",
-		label: "S2 · AgentCore route"
+		label: "S2 · AWS AgentCore-centric"
 	},
 	{
 		id: "S3",
-		label: "S3 · Combined candidate"
+		label: "S3 · SAP-hosted hybrid"
 	}
 ];
 function Ze({ step: e, selected: t, processing: n, onSelect: r }) {
@@ -11929,7 +11929,7 @@ function $e({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 					}),
 					/* @__PURE__ */ (0, k.jsx)("p", {
 						className: "lab-footnote",
-						children: "S1 and S2 are simulated alternatives. S3 tests a proposed external agent → AgentCore Gateway → SAP Apigee path; approval remains open."
+						children: "Each probe walks the selected scenario: S1 SAP-centric (Cloud Foundry agent, Apigee), S2 AWS AgentCore-centric (AgentCore Runtime and Gateway, then Apigee) and S3 SAP-hosted hybrid (Cloud Foundry agent, Apigee, AWS Agent Registry for registration only). Results are simulated; approval remains open."
 					})
 				]
 			}),
@@ -14249,8 +14249,8 @@ var Jt = [
 		"SAP BTP + finance engineering"
 	],
 	[
-		"Model access (PTP/PAP)",
-		"Separate approval; does not decide the host",
+		"Model access (Portkey)",
+		"Portkey is the LLM gateway in every scenario; model and credential approval is separate and does not decide the host",
 		"Enterprise AI"
 	],
 	[
@@ -15532,7 +15532,7 @@ var Dn = {
 	"Selected gateway": [
 		"Selected MCP gateway",
 		"gateway",
-		"S1 Apigee or S2 AgentCore"
+		"Apigee, or AgentCore Gateway in S2"
 	],
 	"Domain MCP": [
 		"Domain MCP tools",
@@ -16456,7 +16456,7 @@ function Vn({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onO
 								children: "⬡"
 							}),
 							/* @__PURE__ */ (0, k.jsx)("strong", { children: "Review the architecture" }),
-							/* @__PURE__ */ (0, k.jsx)("small", { children: "Live run, S1 · S2 · S3 options, governance and diagrams." }),
+							/* @__PURE__ */ (0, k.jsx)("small", { children: "Live run, the three scenarios (SAP-centric, AgentCore-centric, SAP-hosted hybrid), MCP hosting and diagrams." }),
 							/* @__PURE__ */ (0, k.jsx)("em", { children: "Open Architecture →" })
 						]
 					}) })
@@ -16558,7 +16558,7 @@ function Jn({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 		t && (u[t] = (u[t] || 0) + 1);
 	}
 	let d = t.at(-1), f = d ? c[d.direction === "response" ? d.source_component_id : d.target_component_id] : null, p = i && f, m = Object.keys(qn).map((e) => {
-		let [t, i] = qn[e], a = p && f === e, s = !!u[e], c = a ? "Processing now" : s ? `${u[e]} events` : e === "Future BDC" ? "Future / simulated" : e === "Write approval" ? "Separate branch" : "Waiting", d = e === "Selected gateway" ? `${n} · ${n === "S1" ? "Apigee, external boundary" : "AgentCore, AWS boundary"}` : `${e} · ${l(e)} components`;
+		let [t, i] = qn[e], a = p && f === e, s = !!u[e], c = a ? "Processing now" : s ? `${u[e]} events` : e === "Future BDC" ? "Future / simulated" : e === "Write approval" ? "Separate branch" : "Waiting", d = e === "Selected gateway" ? `${n} · ${n === "S1" ? "Apigee path (S1, S3)" : "AgentCore Gateway path (S2)"}` : `${e} · ${l(e)} components`;
 		return Un(e, t, i, o[e] || e, d, Kn[e], {
 			zone: e,
 			status: c,
@@ -16787,8 +16787,8 @@ var Zn = {
 	["Central Finance", "Replication mapping and cutoff"],
 	["BW/4HANA", "Aggregate context and load state"],
 	["Integration", "BAIP, destinations and identity"],
-	["Apigee", "S1 policy, routing and audit"],
-	["AWS", "Runtime identity and S2 gateway"],
+	["Apigee", "SAP-facing MCP/API policy, routing and audit (S1, S2, S3)"],
+	["AWS", "AgentCore Gateway and runtime identity (S2); Agent Registry (S2, S3)"],
 	["Databricks", "Unity Catalog and Delta evidence"],
 	["BDC", "Future sharing boundary"],
 	["Portkey / AI", "Redaction, guardrails and advisory text"],
@@ -18213,7 +18213,7 @@ function ur({ bridge: e }) {
 								children: "EXTERNAL AGENT → SAP FINANCE"
 							}),
 							/* @__PURE__ */ (0, k.jsx)("h2", { children: "Follow an external agent into SAP" }),
-							/* @__PURE__ */ (0, k.jsx)("p", { children: "S1 Apigee and S2 AgentCore are simulated alternatives. The combined S3 path requires a separate architecture decision." }),
+							/* @__PURE__ */ (0, k.jsx)("p", { children: "This simulator replays gateway behaviour for the Apigee path (S1, S3) and the AgentCore Gateway path (S2). It is not the V5.1 topology: see the Diagrams tab (D2 to D4). Any change to the combined path requires a separate architecture decision." }),
 							/* @__PURE__ */ (0, k.jsx)("button", {
 								type: "button",
 								className: "text-link architecture-question-link",
@@ -18242,10 +18242,10 @@ function ur({ bridge: e }) {
 									disabled: He,
 									children: [/* @__PURE__ */ (0, k.jsx)("option", {
 										value: "S1",
-										children: "S1 · Apigee"
+										children: "Apigee path (S1, S3)"
 									}), /* @__PURE__ */ (0, k.jsx)("option", {
 										value: "S2",
-										children: "S2 · AgentCore"
+										children: "AgentCore Gateway path (S2)"
 									})]
 								})] }),
 								/* @__PURE__ */ (0, k.jsxs)("label", { children: ["Pace", /* @__PURE__ */ (0, k.jsxs)("select", {

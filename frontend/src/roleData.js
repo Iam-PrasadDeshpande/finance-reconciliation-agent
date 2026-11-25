@@ -24,7 +24,7 @@ export const DECISIONS = [
   ['Registry', 'AWS Agent Registry in S2 and S3; S1 registry product is unresolved (domain-managed catalog)', 'Enterprise AI Foundry'],
   ['Is AgentCore Gateway mandatory for every tool call?', 'Not in the S3 baseline; if mandated, evaluate S3-B or S2', 'AI Foundry + Security'],
   ['Is persistence needed?', 'Conditional: HANA Cloud only if durable SAP-side state is required', 'SAP BTP + finance engineering'],
-  ['Model access (PTP/PAP)', 'Separate approval; does not decide the host', 'Enterprise AI'],
+  ['Model access (Portkey)', 'Portkey is the LLM gateway in every scenario; model and credential approval is separate and does not decide the host', 'Enterprise AI'],
   ['Posting to SAP', 'Out of scope. Human approval and nonproduction evidence first', 'Finance + SAP'],
   ['12-month total cost', 'Unmeasured; needs an estimate per route', 'Finance + procurement'],
 ];

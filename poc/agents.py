@@ -41,7 +41,7 @@ CARD = {c["id"]: c for c in AGENT_CARDS}
 TOOLS = {
     "plan": {"agent": "orchestrator", "rw": "none", "input": {"message": "string", "case_id": "string?"}, "output": "Plan"},
     "resolve_scope": {"agent": "scope", "rw": "read", "input": {"message": "string", "case_id": "string?"}, "output": "scope, assumed fields or a follow-up question"},
-    "collect_evidence": {"agent": "evidence", "rw": "read", "input": {"scope": "object", "route": "S1|S2"}, "output": "case with four source snapshots"},
+    "collect_evidence": {"agent": "evidence", "rw": "read", "input": {"scope": "object", "route": "S1|S2|S3"}, "output": "case with four source snapshots"},
     "compute_variance": {"agent": "variance", "rw": "read", "input": {"case_id": "string"}, "output": "variance amount and state"},
     "close_readiness": {"agent": "variance", "rw": "read", "input": {"period": "YYYY-MM", "case_id": "string?"}, "output": "report status and open items"},
     "start_investigation": {"agent": "investigator", "rw": "read", "input": {"case_id": "string"}, "output": "investigation with proof items"},
