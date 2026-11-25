@@ -58,10 +58,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function O(e, t) {
 		return D(e.type, t, e.props);
 	}
-	function ee(e) {
+	function k(e) {
 		return typeof e == "object" && !!e && e.$$typeof === t;
 	}
-	function te(e) {
+	function ee(e) {
 		var t = {
 			"=": "=0",
 			":": "=2"
@@ -70,11 +70,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return t[e];
 		});
 	}
-	var ne = /\/+/g;
-	function re(e, t) {
-		return typeof e == "object" && e && e.key != null ? te("" + e.key) : t.toString(36);
+	var te = /\/+/g;
+	function ne(e, t) {
+		return typeof e == "object" && e && e.key != null ? ee("" + e.key) : t.toString(36);
 	}
-	function ie(e) {
+	function re(e) {
 		switch (e.status) {
 			case "fulfilled": return e.value;
 			case "rejected": throw e.reason;
@@ -89,7 +89,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		throw e;
 	}
-	function ae(e, r, i, a, o) {
+	function ie(e, r, i, a, o) {
 		var s = typeof e;
 		(s === "undefined" || s === "boolean") && (e = null);
 		var c = !1;
@@ -105,30 +105,30 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				case n:
 					c = !0;
 					break;
-				case d: return c = e._init, ae(c(e._payload), r, i, a, o);
+				case d: return c = e._init, ie(c(e._payload), r, i, a, o);
 			}
 		}
-		if (c) return o = o(e), c = a === "" ? "." + re(e, 0) : a, C(o) ? (i = "", c != null && (i = c.replace(ne, "$&/") + "/"), ae(o, r, i, "", function(e) {
+		if (c) return o = o(e), c = a === "" ? "." + ne(e, 0) : a, C(o) ? (i = "", c != null && (i = c.replace(te, "$&/") + "/"), ie(o, r, i, "", function(e) {
 			return e;
-		})) : o != null && (ee(o) && (o = O(o, i + (o.key == null || e && e.key === o.key ? "" : ("" + o.key).replace(ne, "$&/") + "/") + c)), r.push(o)), 1;
+		})) : o != null && (k(o) && (o = O(o, i + (o.key == null || e && e.key === o.key ? "" : ("" + o.key).replace(te, "$&/") + "/") + c)), r.push(o)), 1;
 		c = 0;
 		var l = a === "" ? "." : a + ":";
-		if (C(e)) for (var u = 0; u < e.length; u++) a = e[u], s = l + re(a, u), c += ae(a, r, i, s, o);
-		else if (u = h(e), typeof u == "function") for (e = u.call(e), u = 0; !(a = e.next()).done;) a = a.value, s = l + re(a, u++), c += ae(a, r, i, s, o);
+		if (C(e)) for (var u = 0; u < e.length; u++) a = e[u], s = l + ne(a, u), c += ie(a, r, i, s, o);
+		else if (u = h(e), typeof u == "function") for (e = u.call(e), u = 0; !(a = e.next()).done;) a = a.value, s = l + ne(a, u++), c += ie(a, r, i, s, o);
 		else if (s === "object") {
-			if (typeof e.then == "function") return ae(ie(e), r, i, a, o);
+			if (typeof e.then == "function") return ie(re(e), r, i, a, o);
 			throw r = String(e), Error("Objects are not valid as a React child (found: " + (r === "[object Object]" ? "object with keys {" + Object.keys(e).join(", ") + "}" : r) + "). If you meant to render a collection of children, use an array instead.");
 		}
 		return c;
 	}
-	function oe(e, t, n) {
+	function ae(e, t, n) {
 		if (e == null) return e;
 		var r = [], i = 0;
-		return ae(e, r, "", "", function(e) {
+		return ie(e, r, "", "", function(e) {
 			return t.call(n, e, i++);
 		}), r;
 	}
-	function se(e) {
+	function oe(e) {
 		if (e._status === -1) {
 			var t = e._result, n = t();
 			n.then(function(t) {
@@ -140,7 +140,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (e._status === 1) return e._result.default;
 		throw e._result;
 	}
-	var ce = typeof reportError == "function" ? reportError : function(e) {
+	var se = typeof reportError == "function" ? reportError : function(e) {
 		if (typeof window == "object" && typeof window.ErrorEvent == "function") {
 			var t = new window.ErrorEvent("error", {
 				bubbles: !0,
@@ -155,54 +155,54 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		console.error(e);
 	};
-	function le(e) {
+	function ce(e) {
 		var t = T.T, n = {};
 		n.types = t === null ? null : t.types, T.T = n;
 		try {
 			var r = e(), i = T.S;
-			i !== null && i(n, r), typeof r == "object" && r && typeof r.then == "function" && r.then(w, ce);
+			i !== null && i(n, r), typeof r == "object" && r && typeof r.then == "function" && r.then(w, se);
 		} catch (e) {
-			ce(e);
+			se(e);
 		} finally {
 			t !== null && n.types !== null && (t.types = n.types), T.T = t;
 		}
 	}
-	function ue(e) {
+	function le(e) {
 		var t = T.T;
 		if (t !== null) {
 			var n = t.types;
 			n === null ? t.types = [e] : n.indexOf(e) === -1 && n.push(e);
-		} else le(ue.bind(null, e));
+		} else ce(le.bind(null, e));
 	}
-	var de = {
-		map: oe,
+	var ue = {
+		map: ae,
 		forEach: function(e, t, n) {
-			oe(e, function() {
+			ae(e, function() {
 				t.apply(this, arguments);
 			}, n);
 		},
 		count: function(e) {
 			var t = 0;
-			return oe(e, function() {
+			return ae(e, function() {
 				t++;
 			}), t;
 		},
 		toArray: function(e) {
-			return oe(e, function(e) {
+			return ae(e, function(e) {
 				return e;
 			}) || [];
 		},
 		only: function(e) {
-			if (!ee(e)) throw Error("React.Children.only expected to receive a single React element child.");
+			if (!k(e)) throw Error("React.Children.only expected to receive a single React element child.");
 			return e;
 		}
 	};
-	e.Activity = f, e.Children = de, e.Component = y, e.Fragment = r, e.Profiler = a, e.PureComponent = x, e.StrictMode = i, e.Suspense = l, e.ViewTransition = p, e.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = T, e.__COMPILER_RUNTIME = {
+	e.Activity = f, e.Children = ue, e.Component = y, e.Fragment = r, e.Profiler = a, e.PureComponent = x, e.StrictMode = i, e.Suspense = l, e.ViewTransition = p, e.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = T, e.__COMPILER_RUNTIME = {
 		__proto__: null,
 		c: function(e) {
 			return T.H.useMemoCache(e);
 		}
-	}, e.addTransitionType = ue, e.cache = function(e) {
+	}, e.addTransitionType = le, e.cache = function(e) {
 		return function() {
 			return e.apply(null, arguments);
 		};
@@ -249,14 +249,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			$$typeof: c,
 			render: e
 		};
-	}, e.isValidElement = ee, e.lazy = function(e) {
+	}, e.isValidElement = k, e.lazy = function(e) {
 		return {
 			$$typeof: d,
 			_payload: {
 				_status: -1,
 				_result: e
 			},
-			_init: se
+			_init: oe
 		};
 	}, e.memo = function(e, t) {
 		return {
@@ -264,7 +264,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			type: e,
 			compare: t === void 0 ? null : t
 		};
-	}, e.startTransition = le, e.unstable_useCacheRefresh = function() {
+	}, e.startTransition = ce, e.unstable_useCacheRefresh = function() {
 		return T.H.useCacheRefresh();
 	}, e.use = function(e) {
 		return T.H.use(e);
@@ -361,7 +361,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (n(c) !== null) m = !0, S || (S = !0, O());
 			else {
 				var t = n(l);
-				t !== null && ne(x, t.startTime - e);
+				t !== null && te(x, t.startTime - e);
 			}
 		}
 	}
@@ -396,7 +396,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 							if (d !== null) i = !0;
 							else {
 								var u = n(l);
-								u !== null && ne(x, u.startTime - t), i = !1;
+								u !== null && te(x, u.startTime - t), i = !1;
 							}
 						}
 						break a;
@@ -415,14 +415,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		y(D);
 	};
 	else if (typeof MessageChannel < "u") {
-		var ee = new MessageChannel(), te = ee.port2;
-		ee.port1.onmessage = D, O = function() {
-			te.postMessage(null);
+		var k = new MessageChannel(), ee = k.port2;
+		k.port1.onmessage = D, O = function() {
+			ee.postMessage(null);
 		};
 	} else O = function() {
 		_(D, 0);
 	};
-	function ne(t, n) {
+	function te(t, n) {
 		C = _(function() {
 			t(e.unstable_now());
 		}, n);
@@ -491,7 +491,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			startTime: a,
 			expirationTime: s,
 			sortIndex: -1
-		}, a > o ? (r.sortIndex = a, t(l, r), n(c) === null && r === n(l) && (h ? (v(C), C = -1) : h = !0, ne(x, a - o))) : (r.sortIndex = s, t(c, r), m || p || (m = !0, S || (S = !0, O()))), r;
+		}, a > o ? (r.sortIndex = a, t(l, r), n(c) === null && r === n(l) && (h ? (v(C), C = -1) : h = !0, te(x, a - o))) : (r.sortIndex = s, t(c, r), m || p || (m = !0, S || (S = !0, O()))), r;
 	}, e.unstable_shouldYield = E, e.unstable_wrapCallback = function(e) {
 		var t = f;
 		return function() {
@@ -814,41 +814,41 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return null;
 	}
-	var D = Object.assign, O = Symbol.for("react.element"), ee = Symbol.for("react.transitional.element"), te = Symbol.for("react.portal"), ne = Symbol.for("react.fragment"), re = Symbol.for("react.strict_mode"), ie = Symbol.for("react.profiler"), ae = Symbol.for("react.consumer"), oe = Symbol.for("react.context"), se = Symbol.for("react.forward_ref"), ce = Symbol.for("react.suspense"), le = Symbol.for("react.suspense_list"), ue = Symbol.for("react.memo"), de = Symbol.for("react.lazy"), fe = Symbol.for("react.activity"), pe = Symbol.for("react.legacy_hidden"), me = Symbol.for("react.memo_cache_sentinel"), he = Symbol.for("react.view_transition"), ge = Symbol.for("react.recoverable"), _e = Symbol.iterator;
-	function ve(e) {
-		return typeof e != "object" || !e ? null : (e = _e && e[_e] || e["@@iterator"], typeof e == "function" ? e : null);
+	var D = Object.assign, O = Symbol.for("react.element"), k = Symbol.for("react.transitional.element"), ee = Symbol.for("react.portal"), te = Symbol.for("react.fragment"), ne = Symbol.for("react.strict_mode"), re = Symbol.for("react.profiler"), ie = Symbol.for("react.consumer"), ae = Symbol.for("react.context"), oe = Symbol.for("react.forward_ref"), se = Symbol.for("react.suspense"), ce = Symbol.for("react.suspense_list"), le = Symbol.for("react.memo"), ue = Symbol.for("react.lazy"), de = Symbol.for("react.activity"), fe = Symbol.for("react.legacy_hidden"), pe = Symbol.for("react.memo_cache_sentinel"), me = Symbol.for("react.view_transition"), he = Symbol.for("react.recoverable"), ge = Symbol.iterator;
+	function _e(e) {
+		return typeof e != "object" || !e ? null : (e = ge && e[ge] || e["@@iterator"], typeof e == "function" ? e : null);
 	}
-	var ye = Symbol.for("react.client.reference");
-	function be(e) {
+	var ve = Symbol.for("react.client.reference");
+	function ye(e) {
 		if (e == null) return null;
-		if (typeof e == "function") return e.$$typeof === ye ? null : e.displayName || e.name || null;
+		if (typeof e == "function") return e.$$typeof === ve ? null : e.displayName || e.name || null;
 		if (typeof e == "string") return e;
 		switch (e) {
-			case ne: return "Fragment";
-			case ie: return "Profiler";
-			case re: return "StrictMode";
-			case ce: return "Suspense";
-			case le: return "SuspenseList";
-			case fe: return "Activity";
-			case he: return "ViewTransition";
+			case te: return "Fragment";
+			case re: return "Profiler";
+			case ne: return "StrictMode";
+			case se: return "Suspense";
+			case ce: return "SuspenseList";
+			case de: return "Activity";
+			case me: return "ViewTransition";
 		}
 		if (typeof e == "object") switch (e.$$typeof) {
-			case te: return "Portal";
-			case oe: return e.displayName || "Context";
-			case ae: return (e._context.displayName || "Context") + ".Consumer";
-			case se:
+			case ee: return "Portal";
+			case ae: return e.displayName || "Context";
+			case ie: return (e._context.displayName || "Context") + ".Consumer";
+			case oe:
 				var t = e.render;
 				return e = e.displayName, e ||= (e = t.displayName || t.name || "", e === "" ? "ForwardRef" : "ForwardRef(" + e + ")"), e;
-			case ue: return t = e.displayName || null, t === null ? be(e.type) || "Memo" : t;
-			case de:
+			case le: return t = e.displayName || null, t === null ? ye(e.type) || "Memo" : t;
+			case ue:
 				t = e._payload, e = e._init;
 				try {
-					return be(e(t));
+					return ye(e(t));
 				} catch {}
 		}
 		return null;
 	}
-	var k = Array.isArray, A = n.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, j = r.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, xe = {
+	var be = Array.isArray, A = n.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, j = r.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, xe = {
 		pending: !1,
 		data: null,
 		method: null,
@@ -857,15 +857,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function we(e) {
 		return { current: e };
 	}
-	function M(e) {
+	function Te(e) {
 		0 > Ce || (e.current = Se[Ce], Se[Ce] = null, Ce--);
 	}
-	function N(e, t) {
+	function M(e, t) {
 		Ce++, Se[Ce] = e.current, e.current = t;
 	}
-	var Te = we(null), P = we(null), Ee = we(null), De = we(null);
-	function Oe(e, t) {
-		switch (N(Ee, t), N(P, e), N(Te, null), t.nodeType) {
+	var Ee = we(null), N = we(null), De = we(null), Oe = we(null);
+	function P(e, t) {
+		switch (M(De, t), M(N, e), M(Ee, null), t.nodeType) {
 			case 9:
 			case 11:
 				e = (e = t.documentElement) && (e = e.namespaceURI) ? up(e) : 0;
@@ -881,19 +881,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				default: e = 0;
 			}
 		}
-		M(Te), N(Te, e);
+		Te(Ee), M(Ee, e);
 	}
-	function ke() {
-		M(Te), M(P), M(Ee);
+	function F() {
+		Te(Ee), Te(N), Te(De);
 	}
-	function F(e) {
+	function ke(e) {
 		var t = e.memoizedState;
-		t !== null && (sh._currentValue = t.memoizedState, N(De, e)), t = Te.current;
+		t !== null && (sh._currentValue = t.memoizedState, M(Oe, e)), t = Ee.current;
 		var n = dp(t, e.type);
-		t !== n && (N(P, e), N(Te, n));
+		t !== n && (M(N, e), M(Ee, n));
 	}
 	function Ae(e) {
-		P.current === e && (M(Te), M(P)), De.current === e && (M(De), sh._currentValue = xe);
+		N.current === e && (Te(Ee), Te(N)), Oe.current === e && (Te(Oe), sh._currentValue = xe);
 	}
 	var je, Me;
 	function Ne(e) {
@@ -1419,7 +1419,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (t == null) {
 			if (r != null) {
 				if (n != null) throw Error(i(92));
-				if (k(r)) {
+				if (be(r)) {
 					if (1 < r.length) throw Error(i(93));
 					r = r[0];
 				}
@@ -1429,7 +1429,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		n = Zt(t), e.defaultValue = n, r = e.textContent, r === n && r !== "" && r !== null && (e.value = r), en(e);
 	}
-	function z(e, t) {
+	function dn(e, t) {
 		if (t) {
 			var n = e.firstChild;
 			if (n && n === e.lastChild && n.nodeType === 3) {
@@ -1439,17 +1439,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		e.textContent = t;
 	}
-	var dn = new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));
-	function fn(e, t, n) {
+	var fn = new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));
+	function z(e, t, n) {
 		var r = t.indexOf("--") === 0;
-		n == null || typeof n == "boolean" || n === "" ? r ? e.setProperty(t, "") : t === "float" ? e.cssFloat = "" : e[t] = "" : r ? e.setProperty(t, n) : typeof n != "number" || n === 0 || dn.has(t) ? t === "float" ? e.cssFloat = n : e[t] = ("" + n).trim() : e[t] = n + "px";
+		n == null || typeof n == "boolean" || n === "" ? r ? e.setProperty(t, "") : t === "float" ? e.cssFloat = "" : e[t] = "" : r ? e.setProperty(t, n) : typeof n != "number" || n === 0 || fn.has(t) ? t === "float" ? e.cssFloat = n : e[t] = ("" + n).trim() : e[t] = n + "px";
 	}
 	function pn(e, t, n) {
 		if (t != null && typeof t != "object") throw Error(i(62));
 		if (e = e.style, n != null) {
 			for (var r in n) !n.hasOwnProperty(r) || t != null && t.hasOwnProperty(r) || (r.indexOf("--") === 0 ? e.setProperty(r, "") : r === "float" ? e.cssFloat = "" : e[r] = "", R = !0);
-			for (var a in t) r = t[a], t.hasOwnProperty(a) && n[a] !== r && (fn(e, a, r), R = !0);
-		} else for (var o in t) t.hasOwnProperty(o) && fn(e, o, t[o]);
+			for (var a in t) r = t[a], t.hasOwnProperty(a) && n[a] !== r && (z(e, a, r), R = !0);
+		} else for (var o in t) t.hasOwnProperty(o) && z(e, o, t[o]);
 	}
 	function mn(e) {
 		if (e.indexOf("-") === -1) return !1;
@@ -2163,18 +2163,18 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function Ii(e, t, n, r, a, o) {
 		var s = 0;
 		if (r = e, typeof r == "function") Ni(r) && (s = 1);
-		else if (typeof r == "string") s = qm(e, n, Te.current) ? 26 : e === "html" || e === "head" || e === "body" ? 27 : 5;
+		else if (typeof r == "string") s = qm(e, n, Ee.current) ? 26 : e === "html" || e === "head" || e === "body" ? 27 : 5;
 		else a: switch (r) {
-			case fe: return e = Mi(31, n, t, a), e.elementType = fe, e.lanes = o, e;
-			case ne: return Li(n.children, a, o, t);
-			case re:
+			case de: return e = Mi(31, n, t, a), e.elementType = de, e.lanes = o, e;
+			case te: return Li(n.children, a, o, t);
+			case ne:
 				s = 8, a |= 24;
 				break;
-			case ie: return e = Mi(12, n, t, a | 2), e.elementType = ie, e.lanes = o, e;
-			case ce: return e = Mi(13, n, t, a), e.elementType = ce, e.lanes = o, e;
-			case le: return e = Mi(19, n, t, a), e.elementType = le, e.lanes = o, e;
-			case pe:
-			case he: return e = a | 32, e = Mi(30, n, t, e), e.elementType = he, e.lanes = o, e.stateNode = {
+			case re: return e = Mi(12, n, t, a | 2), e.elementType = re, e.lanes = o, e;
+			case se: return e = Mi(13, n, t, a), e.elementType = se, e.lanes = o, e;
+			case ce: return e = Mi(19, n, t, a), e.elementType = ce, e.lanes = o, e;
+			case fe:
+			case me: return e = a | 32, e = Mi(30, n, t, e), e.elementType = me, e.lanes = o, e.stateNode = {
 				autoName: null,
 				paired: null,
 				clones: null,
@@ -2182,19 +2182,19 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}, e;
 			default:
 				if (typeof r == "object" && r) switch (r.$$typeof) {
-					case oe:
+					case ae:
 						s = 10;
 						break a;
-					case ae:
+					case ie:
 						s = 9;
 						break a;
-					case se:
+					case oe:
 						s = 11;
 						break a;
-					case ue:
+					case le:
 						s = 14;
 						break a;
-					case de:
+					case ue:
 						s = 16, r = null;
 						break a;
 				}
@@ -2340,10 +2340,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	var ma = we(null), ha = null, ga = null;
 	function _a(e, t, n) {
-		N(ma, t._currentValue), t._currentValue = n;
+		M(ma, t._currentValue), t._currentValue = n;
 	}
 	function va(e) {
-		e._currentValue = ma.current, M(ma);
+		e._currentValue = ma.current, Te(ma);
 	}
 	function ya(e, t, n) {
 		for (; e !== null;) {
@@ -2401,7 +2401,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var c = a.type;
 					Vr(a.pendingProps.value, s.value) || (e === null ? e = [c] : e.push(c));
 				}
-			} else if (a === De.current) {
+			} else if (a === Oe.current) {
 				if (s = a.alternate, s === null) throw Error(i(387));
 				s.memoizedState.memoizedState !== a.memoizedState.memoizedState && (e === null ? e = [sh] : e.push(sh));
 			}
@@ -2453,7 +2453,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			});
 		};
 	}, Oa = t.unstable_scheduleCallback, ka = t.unstable_NormalPriority, Aa = {
-		$$typeof: oe,
+		$$typeof: ae,
 		Consumer: null,
 		Provider: null,
 		_currentValue: null,
@@ -2545,7 +2545,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		return e === null ? q.pooledCache : e;
 	}
 	function Ka(e, t) {
-		t === null ? N(Wa, Wa.current) : N(Wa, t.pool);
+		t === null ? M(Wa, Wa.current) : M(Wa, t.pool);
 	}
 	function qa() {
 		var e = Ga();
@@ -2643,7 +2643,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		function l(e, t, n, r) {
 			var i = n.type;
-			return i === ne ? (e = d(e, t, n.props.children, r, n.key), so(e, n), e) : t !== null && (t.elementType === i || typeof i == "object" && i && i.$$typeof === de && eo(i) === t.type) ? (t = a(t, n.props), so(t, n), t.return = e, t) : (t = Ii(n.type, n.key, n.props, null, e.mode, r), so(t, n), t.return = e, t);
+			return i === te ? (e = d(e, t, n.props.children, r, n.key), so(e, n), e) : t !== null && (t.elementType === i || typeof i == "object" && i && i.$$typeof === ue && eo(i) === t.type) ? (t = a(t, n.props), so(t, n), t.return = e, t) : (t = Ii(n.type, n.key, n.props, null, e.mode, r), so(t, n), t.return = e, t);
 		}
 		function u(e, t, n, r) {
 			return t === null || t.tag !== 4 || t.stateNode.containerInfo !== n.containerInfo || t.stateNode.implementation !== n.implementation ? (t = Bi(n, e.mode, r), t.return = e, t) : (t = a(t, n.children || []), t.return = e, t);
@@ -2655,13 +2655,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (typeof t == "string" && t !== "" || typeof t == "number" || typeof t == "bigint") return t = Ri("" + t, e.mode, n), t.return = e, t;
 			if (typeof t == "object" && t) {
 				switch (t.$$typeof) {
-					case ee: return n = Ii(t.type, t.key, t.props, null, e.mode, n), so(n, t), n.return = e, n;
-					case te: return t = Bi(t, e.mode, n), t.return = e, t;
-					case de: return t = eo(t), f(e, t, n);
+					case k: return n = Ii(t.type, t.key, t.props, null, e.mode, n), so(n, t), n.return = e, n;
+					case ee: return t = Bi(t, e.mode, n), t.return = e, t;
+					case ue: return t = eo(t), f(e, t, n);
 				}
-				if (k(t) || ve(t)) return t = Li(t, e.mode, n, null), t.return = e, t;
+				if (be(t) || _e(t)) return t = Li(t, e.mode, n, null), t.return = e, t;
 				if (typeof t.then == "function") return f(e, oo(t), n);
-				if (t.$$typeof === oe) return f(e, Ta(e, t), n);
+				if (t.$$typeof === ae) return f(e, Ta(e, t), n);
 				co(e, t);
 			}
 			return null;
@@ -2671,13 +2671,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (typeof n == "string" && n !== "" || typeof n == "number" || typeof n == "bigint") return i === null ? c(e, t, "" + n, r) : null;
 			if (typeof n == "object" && n) {
 				switch (n.$$typeof) {
-					case ee: return n.key === i ? l(e, t, n, r) : null;
-					case te: return n.key === i ? u(e, t, n, r) : null;
-					case de: return n = eo(n), p(e, t, n, r);
+					case k: return n.key === i ? l(e, t, n, r) : null;
+					case ee: return n.key === i ? u(e, t, n, r) : null;
+					case ue: return n = eo(n), p(e, t, n, r);
 				}
-				if (k(n) || ve(n)) return i === null ? d(e, t, n, r, null) : null;
+				if (be(n) || _e(n)) return i === null ? d(e, t, n, r, null) : null;
 				if (typeof n.then == "function") return p(e, t, oo(n), r);
-				if (n.$$typeof === oe) return p(e, t, Ta(e, n), r);
+				if (n.$$typeof === ae) return p(e, t, Ta(e, n), r);
 				co(e, n);
 			}
 			return null;
@@ -2686,13 +2686,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			if (typeof r == "string" && r !== "" || typeof r == "number" || typeof r == "bigint") return e = e.get(n) || null, c(t, e, "" + r, i);
 			if (typeof r == "object" && r) {
 				switch (r.$$typeof) {
-					case ee: return e = e.get(r.key === null ? n : r.key) || null, l(t, e, r, i);
-					case te: return e = e.get(r.key === null ? n : r.key) || null, u(t, e, r, i);
-					case de: return r = eo(r), m(e, t, n, r, i);
+					case k: return e = e.get(r.key === null ? n : r.key) || null, l(t, e, r, i);
+					case ee: return e = e.get(r.key === null ? n : r.key) || null, u(t, e, r, i);
+					case ue: return r = eo(r), m(e, t, n, r, i);
 				}
-				if (k(r) || ve(r)) return e = e.get(n) || null, d(t, e, r, i, null);
+				if (be(r) || _e(r)) return e = e.get(n) || null, d(t, e, r, i, null);
 				if (typeof r.then == "function") return m(e, t, n, oo(r), i);
-				if (r.$$typeof === oe) return m(e, t, n, Ta(t, r), i);
+				if (r.$$typeof === ae) return m(e, t, n, Ta(t, r), i);
 				co(t, r);
 			}
 			return null;
@@ -2739,18 +2739,18 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			}), V && Qi(a, g), u;
 		}
 		function _(e, r, o, c) {
-			if (typeof o == "object" && o && o.type === ne && o.key === null && o.props.ref === void 0 && (o = o.props.children), typeof o == "object" && o) {
+			if (typeof o == "object" && o && o.type === te && o.key === null && o.props.ref === void 0 && (o = o.props.children), typeof o == "object" && o) {
 				switch (o.$$typeof) {
-					case ee:
+					case k:
 						a: {
 							for (var l = o.key; r !== null;) {
 								if (r.key === l) {
-									if (l = o.type, l === ne) {
+									if (l = o.type, l === te) {
 										if (r.tag === 7) {
 											n(e, r.sibling), c = a(r, o.props.children), so(c, o), c.return = e, e = c;
 											break a;
 										}
-									} else if (r.elementType === l || typeof l == "object" && l && l.$$typeof === de && eo(l) === r.type) {
+									} else if (r.elementType === l || typeof l == "object" && l && l.$$typeof === ue && eo(l) === r.type) {
 										n(e, r.sibling), c = a(r, o.props), so(c, o), c.return = e, e = c;
 										break a;
 									}
@@ -2759,10 +2759,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 								}
 								t(e, r), r = r.sibling;
 							}
-							o.type === ne ? (c = Li(o.props.children, e.mode, c, o.key), so(c, o), c.return = e, e = c) : (c = Ii(o.type, o.key, o.props, null, e.mode, c), so(c, o), c.return = e, e = c);
+							o.type === te ? (c = Li(o.props.children, e.mode, c, o.key), so(c, o), c.return = e, e = c) : (c = Ii(o.type, o.key, o.props, null, e.mode, c), so(c, o), c.return = e, e = c);
 						}
 						return s(e);
-					case te:
+					case ee:
 						a: {
 							for (l = o.key; r !== null;) {
 								if (r.key === l) {
@@ -2778,15 +2778,15 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 							c = Bi(o, e.mode, c), c.return = e, e = c;
 						}
 						return s(e);
-					case de: return o = eo(o), _(e, r, o, c);
+					case ue: return o = eo(o), _(e, r, o, c);
 				}
-				if (k(o)) return h(e, r, o, c);
-				if (ve(o)) {
-					if (l = ve(o), typeof l != "function") throw Error(i(150));
+				if (be(o)) return h(e, r, o, c);
+				if (_e(o)) {
+					if (l = _e(o), typeof l != "function") throw Error(i(150));
 					return o = l.call(o), g(e, r, o, c);
 				}
 				if (typeof o.then == "function") return _(e, r, oo(o), c);
-				if (o.$$typeof === oe) return _(e, r, Ta(e, o), c);
+				if (o.$$typeof === ae) return _(e, r, Ta(e, o), c);
 				co(e, o);
 			}
 			return typeof o == "string" && o !== "" || typeof o == "number" || typeof o == "bigint" ? (o = "" + o, r !== null && r.tag === 6 ? (n(e, r.sibling), c = a(r, o), c.return = e, e = c) : (n(e, r), c = Ri(o, e.mode, c), c.return = e, e = c), s(e)) : n(e, r);
@@ -2954,37 +2954,37 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}
 	var To = we(null), Eo = we(0);
 	function Do(e, t) {
-		e = id, N(Eo, e), N(To, t), id = e | t.baseLanes;
+		e = id, M(Eo, e), M(To, t), id = e | t.baseLanes;
 	}
 	function Oo() {
-		N(Eo, id), N(To, To.current);
+		M(Eo, id), M(To, To.current);
 	}
 	function ko() {
-		id = Eo.current, M(To), M(Eo);
+		id = Eo.current, Te(To), Te(Eo);
 	}
 	var Ao = we(null), jo = null;
 	function Mo(e) {
 		var t = e.alternate;
-		N(Lo, Lo.current & 1), N(Ao, e), jo === null && (t === null || To.current !== null || t.memoizedState !== null) && (jo = e);
+		M(Lo, Lo.current & 1), M(Ao, e), jo === null && (t === null || To.current !== null || t.memoizedState !== null) && (jo = e);
 	}
 	function No(e) {
-		N(Lo, Lo.current), N(Ao, e), jo === null && (jo = e);
+		M(Lo, Lo.current), M(Ao, e), jo === null && (jo = e);
 	}
 	function Po(e) {
-		e.tag === 22 ? (N(Lo, Lo.current), N(Ao, e), jo === null && (jo = e)) : Fo();
+		e.tag === 22 ? (M(Lo, Lo.current), M(Ao, e), jo === null && (jo = e)) : Fo();
 	}
 	function Fo() {
-		N(Lo, Lo.current), N(Ao, Ao.current);
+		M(Lo, Lo.current), M(Ao, Ao.current);
 	}
 	function Io(e) {
-		M(Ao), jo === e && (jo = null), M(Lo);
+		Te(Ao), jo === e && (jo = null), Te(Lo);
 	}
 	var Lo = we(0);
 	function Ro(e, t) {
-		N(Ao, Ao.current), N(Lo, t);
+		M(Ao, Ao.current), M(Lo, t);
 	}
 	function zo(e) {
-		M(Lo), M(Ao), jo === e && (jo = null);
+		Te(Lo), Te(Ao), jo === e && (jo = null);
 	}
 	function Bo(e) {
 		for (var t = e; t !== null;) {
@@ -3102,8 +3102,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function ls(e) {
 		if (typeof e == "object" && e) {
 			if (typeof e.then == "function") return cs(e);
-			if (e.$$typeof === ge) return;
-			if (e.$$typeof === oe) return wa(e);
+			if (e.$$typeof === he) return;
+			if (e.$$typeof === ae) return wa(e);
 		}
 		throw Error(i(438, String(e)));
 	}
@@ -3121,7 +3121,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (t ??= {
 			data: [],
 			index: 0
-		}, n === null && (n = ss(), H.updateQueue = n), n.memoCache = t, n = t.data[t.index], n === void 0) for (n = t.data[t.index] = Array(e), r = 0; r < e; r++) n[r] = me;
+		}, n === null && (n = ss(), H.updateQueue = n), n.memoCache = t, n = t.data[t.index], n === void 0) for (n = t.data[t.index] = Array(e), r = 0; r < e; r++) n[r] = pe;
 		return t.index++, n;
 	}
 	function ds(e, t) {
@@ -4338,14 +4338,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function dl(e, t, n) {
 		switch (t.tag) {
 			case 3:
-				Oe(t, t.stateNode.containerInfo), _a(t, Aa, e.memoizedState.cache), da();
+				P(t, t.stateNode.containerInfo), _a(t, Aa, e.memoizedState.cache), da();
 				break;
 			case 27:
 			case 5:
-				F(t);
+				ke(t);
 				break;
 			case 4:
-				Oe(t, t.stateNode.containerInfo);
+				P(t, t.stateNode.containerInfo);
 				break;
 			case 10:
 				_a(t, t.type, t.memoizedProps.value);
@@ -4392,20 +4392,20 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					else {
 						if (e != null) {
 							var a = e.$$typeof;
-							if (a === se) {
+							if (a === oe) {
 								t.tag = 11, t = Fc(null, t, e, r, n);
 								break a;
 							}
-							if (a === ue) {
+							if (a === le) {
 								t.tag = 14, t = Ic(null, t, e, r, n);
 								break a;
 							}
-							if (a === oe) {
+							if (a === ae) {
 								t.tag = 10, t.type = e, t = cl(null, t, n);
 								break a;
 							}
 						}
-						throw t = be(e) || e, Error(i(306, t, ""));
+						throw t = ye(e) || e, Error(i(306, t, ""));
 					}
 				}
 				return t;
@@ -4413,7 +4413,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			case 1: return r = t.type, a = Sc(r, t.pendingProps), qc(e, t, r, a, n);
 			case 3:
 				a: {
-					if (Oe(t, t.stateNode.containerInfo), e === null) throw Error(i(387));
+					if (P(t, t.stateNode.containerInfo), e === null) throw Error(i(387));
 					r = t.pendingProps;
 					var o = t.memoizedState;
 					a = o.element, ho(e, t), So(t, r, null, n);
@@ -4448,12 +4448,12 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					t = t.child;
 				}
 				return t;
-			case 26: return Wc(e, t), e === null ? (n = Nm(t.type, null, t.pendingProps, null)) ? t.memoizedState = n : V || (t.stateNode = fp(t.type, t.pendingProps, Ee.current, t)) : t.memoizedState = Nm(t.type, e.memoizedProps, t.pendingProps, e.memoizedState), null;
-			case 27: return F(t), e === null && V && (r = t.stateNode = hm(t.type, t.pendingProps, Ee.current), ra = t, aa = !0, a = B, Sp(t.type) ? (um = a, B = lm(r.firstChild)) : B = a), Pc(e, t, t.pendingProps.children, n), Wc(e, t), e === null && (t.flags |= 4194304), t.child;
-			case 5: return e === null && V && ((a = r = B) && (r = rm(r, t.type, t.pendingProps, aa), r === null ? a = !1 : (t.stateNode = r, ra = t, B = lm(r.firstChild), aa = !1, a = !0)), a || sa(t)), F(t), a = t.type, o = t.pendingProps, s = e === null ? null : e.memoizedProps, r = o.children, pp(a, o) ? r = null : s !== null && pp(a, s) && (t.flags |= 32), t.memoizedState !== null && (a = Qo(e, t, ts, null, null, n), sh._currentValue = a), Wc(e, t), Pc(e, t, r, n), t.child;
+			case 26: return Wc(e, t), e === null ? (n = Nm(t.type, null, t.pendingProps, null)) ? t.memoizedState = n : V || (t.stateNode = fp(t.type, t.pendingProps, De.current, t)) : t.memoizedState = Nm(t.type, e.memoizedProps, t.pendingProps, e.memoizedState), null;
+			case 27: return ke(t), e === null && V && (r = t.stateNode = hm(t.type, t.pendingProps, De.current), ra = t, aa = !0, a = B, Sp(t.type) ? (um = a, B = lm(r.firstChild)) : B = a), Pc(e, t, t.pendingProps.children, n), Wc(e, t), e === null && (t.flags |= 4194304), t.child;
+			case 5: return e === null && V && ((a = r = B) && (r = rm(r, t.type, t.pendingProps, aa), r === null ? a = !1 : (t.stateNode = r, ra = t, B = lm(r.firstChild), aa = !1, a = !0)), a || sa(t)), ke(t), a = t.type, o = t.pendingProps, s = e === null ? null : e.memoizedProps, r = o.children, pp(a, o) ? r = null : s !== null && pp(a, s) && (t.flags |= 32), t.memoizedState !== null && (a = Qo(e, t, ts, null, null, n), sh._currentValue = a), Wc(e, t), Pc(e, t, r, n), t.child;
 			case 6: return e === null && V && ((e = n = B) && (n = im(n, t.pendingProps, aa), n === null ? e = !1 : (t.stateNode = n, ra = t, B = null, e = !0)), e || sa(t)), null;
 			case 13: return Qc(e, t, n);
-			case 4: return Oe(t, t.stateNode.containerInfo), r = t.pendingProps, e === null ? t.child = uo(t, null, r, n) : Pc(e, t, r, n), t.child;
+			case 4: return P(t, t.stateNode.containerInfo), r = t.pendingProps, e === null ? t.child = uo(t, null, r, n) : Pc(e, t, r, n), t.child;
 			case 11: return Fc(e, t, t.type, t.pendingProps, n);
 			case 7: return r = t.pendingProps, Wc(e, t), Pc(e, t, r, n), t.child;
 			case 8: return Pc(e, t, t.pendingProps.children, n), t.child;
@@ -4536,18 +4536,18 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			case 9:
 			case 14: return W(t), null;
 			case 1: return W(t), null;
-			case 3: return n = t.stateNode, r = null, e !== null && (r = e.memoizedState.cache), t.memoizedState.cache !== r && (t.flags |= 2048), va(Aa), ke(), n.pendingContext && (n.context = n.pendingContext, n.pendingContext = null), (e === null || e.child === null) && (ua(t) ? pl(t) : e === null || e.memoizedState.isDehydrated && !(t.flags & 256) || (t.flags |= 1024, fa())), W(t), null;
+			case 3: return n = t.stateNode, r = null, e !== null && (r = e.memoizedState.cache), t.memoizedState.cache !== r && (t.flags |= 2048), va(Aa), F(), n.pendingContext && (n.context = n.pendingContext, n.pendingContext = null), (e === null || e.child === null) && (ua(t) ? pl(t) : e === null || e.memoizedState.isDehydrated && !(t.flags & 256) || (t.flags |= 1024, fa())), W(t), null;
 			case 26:
 				var a = t.type, o = t.memoizedState;
 				return e === null ? (pl(t), o === null ? (W(t), ml(t, a, null, r, n)) : (W(t), hl(t, o))) : o ? o === e.memoizedState ? (W(t), t.flags &= -16777217) : (pl(t), W(t), hl(t, o)) : (e = e.memoizedProps, e !== r && pl(t), W(t), ml(t, a, e, r, n)), null;
 			case 27:
-				if (Ae(t), n = Ee.current, a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && pl(t);
+				if (Ae(t), n = De.current, a = t.type, e !== null && t.stateNode != null) e.memoizedProps !== r && pl(t);
 				else {
 					if (!r) {
 						if (t.stateNode === null) throw Error(i(166));
 						return W(t), t.subtreeFlags &= -33554433, null;
 					}
-					e = Te.current, ua(t) ? ca(t, e) : (e = hm(a, r, n), t.stateNode = e, pl(t));
+					e = Ee.current, ua(t) ? ca(t, e) : (e = hm(a, r, n), t.stateNode = e, pl(t));
 				}
 				return W(t), t.subtreeFlags &= -33554433, null;
 			case 5:
@@ -4557,9 +4557,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						if (t.stateNode === null) throw Error(i(166));
 						return W(t), t.subtreeFlags &= -33554433, null;
 					}
-					if (o = Te.current, ua(t)) ca(t, o);
+					if (o = Ee.current, ua(t)) ca(t, o);
 					else {
-						var s = lp(Ee.current);
+						var s = lp(De.current);
 						switch (o) {
 							case 1:
 								o = s.createElementNS("http://www.w3.org/2000/svg", a);
@@ -4618,7 +4618,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				if (e && t.stateNode != null) e.memoizedProps !== r && pl(t);
 				else {
 					if (typeof r != "string" && t.stateNode === null) throw Error(i(166));
-					if (e = Ee.current, ua(t)) {
+					if (e = De.current, ua(t)) {
 						if (e = t.stateNode, n = t.memoizedProps, r = null, a = ra, a !== null) switch (a.tag) {
 							case 27:
 							case 5: r = a.memoizedProps;
@@ -4654,7 +4654,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					if (!a) return t.flags & 256 ? (Io(t), t) : (Io(t), null);
 				}
 				return Io(t), t.flags & 128 ? (t.lanes = n, t) : (n = r !== null, e = e !== null && e.memoizedState !== null, n && (r = t.child, a = null, r.alternate !== null && r.alternate.memoizedState !== null && r.alternate.memoizedState.cachePool !== null && (a = r.alternate.memoizedState.cachePool.pool), o = null, r.memoizedState !== null && r.memoizedState.cachePool !== null && (o = r.memoizedState.cachePool.pool), o !== a && (r.flags |= 2048)), n !== e && n && (t.child.flags |= 8192), gl(t, t.updateQueue), W(t), null);
-			case 4: return ke(), e === null && Wf(t.stateNode.containerInfo), t.flags |= 67108864, W(t), null;
+			case 4: return F(), e === null && Wf(t.stateNode.containerInfo), t.flags |= 67108864, W(t), null;
 			case 10: return va(t.type), W(t), null;
 			case 19:
 				if (zo(t), r = t.memoizedState, r === null) return W(t), null;
@@ -4690,11 +4690,11 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						}
 						n = !0;
 					}
-					return r.rendering = e, r.tail = e.sibling, r.renderingStartTime = I(), e.sibling = null, o = Lo.current, o = a ? o & 1 | 2 : o & 1, r.tailMode === "visible" || r.tailMode === "collapsed" || !n || V ? Ro(t, o) : (n = o, N(Ao, t), N(Lo, n), jo === null && (jo = t)), V && Qi(t, r.treeForkCount), e;
+					return r.rendering = e, r.tail = e.sibling, r.renderingStartTime = I(), e.sibling = null, o = Lo.current, o = a ? o & 1 | 2 : o & 1, r.tailMode === "visible" || r.tailMode === "collapsed" || !n || V ? Ro(t, o) : (n = o, M(Ao, t), M(Lo, n), jo === null && (jo = t)), V && Qi(t, r.treeForkCount), e;
 				}
 				return W(t), null;
 			case 22:
-			case 23: return Io(t), ko(), r = t.memoizedState !== null, e === null ? r && (t.flags |= 8192) : e.memoizedState !== null !== r && (t.flags |= 8192), r ? n & 536870912 && !(t.flags & 128) && (W(t), t.subtreeFlags & 6 && (t.flags |= 8192)) : W(t), n = t.updateQueue, n !== null && gl(t, n.retryQueue), n = null, e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), r = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (r = t.memoizedState.cachePool.pool), r !== n && (t.flags |= 2048), e !== null && M(Wa), null;
+			case 23: return Io(t), ko(), r = t.memoizedState !== null, e === null ? r && (t.flags |= 8192) : e.memoizedState !== null !== r && (t.flags |= 8192), r ? n & 536870912 && !(t.flags & 128) && (W(t), t.subtreeFlags & 6 && (t.flags |= 8192)) : W(t), n = t.updateQueue, n !== null && gl(t, n.retryQueue), n = null, e !== null && e.memoizedState !== null && e.memoizedState.cachePool !== null && (n = e.memoizedState.cachePool.pool), r = null, t.memoizedState !== null && t.memoizedState.cachePool !== null && (r = t.memoizedState.cachePool.pool), r !== n && (t.flags |= 2048), e !== null && Te(Wa), null;
 			case 24: return n = null, e !== null && (n = e.memoizedState.cache), t.memoizedState.cache !== n && (t.flags |= 2048), va(Aa), W(t), null;
 			case 25: return null;
 			case 30: return t.flags |= 33554432, W(t), null;
@@ -4704,7 +4704,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function yl(e, t) {
 		switch (ta(t), t.tag) {
 			case 1: return e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
-			case 3: return va(Aa), ke(), e = t.flags, e & 65536 && !(e & 128) ? (t.flags = e & -65537 | 128, t) : null;
+			case 3: return va(Aa), F(), e = t.flags, e & 65536 && !(e & 128) ? (t.flags = e & -65537 | 128, t) : null;
 			case 26:
 			case 27:
 			case 5: return Ae(t), null;
@@ -4721,10 +4721,10 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				return e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
 			case 19: return zo(t), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, e = t.memoizedState, e !== null && (e.rendering = null, e.tail = null), t.flags |= 4, t) : null;
-			case 4: return ke(), null;
+			case 4: return F(), null;
 			case 10: return va(t.type), null;
 			case 22:
-			case 23: return Io(t), ko(), e !== null && M(Wa), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
+			case 23: return Io(t), ko(), e !== null && Te(Wa), e = t.flags, e & 65536 ? (t.flags = e & -65537 | 128, t) : null;
 			case 24: return va(Aa), null;
 			case 25: return null;
 			default: return null;
@@ -4733,7 +4733,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function bl(e, t) {
 		switch (ta(t), t.tag) {
 			case 3:
-				va(Aa), ke();
+				va(Aa), F();
 				break;
 			case 26:
 			case 27:
@@ -4741,7 +4741,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				Ae(t);
 				break;
 			case 4:
-				ke();
+				F();
 				break;
 			case 31:
 				t.memoizedState !== null && Io(t);
@@ -4757,7 +4757,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				break;
 			case 22:
 			case 23:
-				Io(t), ko(), e !== null && M(Wa);
+				Io(t), ko(), e !== null && Te(Wa);
 				break;
 			case 24: va(Aa);
 		}
@@ -5531,7 +5531,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				if (o = au, au = !1, Ou(t, e, n), au = o, ju(e), a & 512 && (G || r === null || El(r, r.return)), e.flags & 32) {
 					t = e.stateNode;
 					try {
-						z(t, ""), R = !0;
+						dn(t, ""), R = !0;
 					} catch (t) {
 						Z(e, e.return, t);
 					}
@@ -5614,7 +5614,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 						break;
 					case 5:
 						var l = n.stateNode;
-						n.flags & 32 && (z(l, ""), n.flags &= -33), Ll(e, Fl(e), l, s);
+						n.flags & 32 && (dn(l, ""), n.flags &= -33), Ll(e, Fl(e), l, s);
 						break;
 					case 3:
 					case 4:
@@ -7011,8 +7011,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	function $(e, t, n, r, a, o) {
 		switch (n) {
 			case "children":
-				if (typeof r == "string") t === "body" || t === "textarea" && r === "" || z(e, r);
-				else if (typeof r == "number" || typeof r == "bigint") t !== "body" && z(e, "" + r);
+				if (typeof r == "string") t === "body" || t === "textarea" && r === "" || dn(e, r);
+				else if (typeof r == "number" || typeof r == "bigint") t !== "body" && dn(e, "" + r);
 				else return;
 				break;
 			case "className":
@@ -7198,8 +7198,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				}
 				break;
 			case "children":
-				if (typeof r == "string") z(e, r);
-				else if (typeof r == "number" || typeof r == "bigint") z(e, "" + r);
+				if (typeof r == "string") dn(e, r);
+				else if (typeof r == "number" || typeof r == "bigint") dn(e, "" + r);
 				else return;
 				break;
 			case "onScroll":
@@ -8348,7 +8348,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	function Nm(e, t, n, r) {
-		var a = (a = Ee.current) ? bm(a) : null;
+		var a = (a = De.current) ? bm(a) : null;
 		if (!a) throw Error(i(446));
 		switch (e) {
 			case "meta":
@@ -8601,7 +8601,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 	}
 	var sh = {
-		$$typeof: oe,
+		$$typeof: ae,
 		Provider: null,
 		Consumer: null,
 		_currentValue: xe,
@@ -9065,7 +9065,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	maximumFractionDigits: 0
 }).format(Number(e || 0));
 function C({ onOpenReport: e, conditions: t = [], onCondition: n, history: r, historyDetail: i, cases: a, currentCase: o, proposal: s, role: c, onRole: l, approve: u, loadCase: d, onOpenEvidence: f, onOpenAgent: p }) {
-	let [m, h] = (0, b.useState)("all"), [g, _] = (0, b.useState)("all"), [v, y] = (0, b.useState)(""), [C, w] = (0, b.useState)(""), T = r?.periods || [], E = T.filter((e) => Object.values(e.sources || {}).some((e) => e.freshness !== "current")), D = T.length - E.length, O = o?.result, ee = T.filter((e) => (m === "all" || e.period === m) && (g === "all" || g === "exception" === E.some((t) => t.period === e.period)));
+	let [m, h] = (0, b.useState)("all"), [g, _] = (0, b.useState)("all"), [v, y] = (0, b.useState)(""), [C, w] = (0, b.useState)(""), T = r?.periods || [], E = T.filter((e) => Object.values(e.sources || {}).some((e) => e.freshness !== "current")), D = T.length - E.length, O = o?.result, k = T.filter((e) => (m === "all" || e.period === m) && (g === "all" || g === "exception" === E.some((t) => t.period === e.period)));
 	return /* @__PURE__ */ (0, x.jsxs)("section", {
 		className: "surface close-cockpit",
 		"aria-label": "Month-end close work center",
@@ -9163,7 +9163,7 @@ function C({ onOpenReport: e, conditions: t = [], onCondition: n, history: r, hi
 						children: "Clear filters"
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("span", { children: [
-						ee.length,
+						k.length,
 						" of ",
 						T.length,
 						" periods"
@@ -9238,7 +9238,7 @@ function C({ onOpenReport: e, conditions: t = [], onCondition: n, history: r, hi
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "worklist",
-						children: [ee.map((e) => {
+						children: [k.map((e) => {
 							let t = E.some((t) => t.period === e.period);
 							return /* @__PURE__ */ (0, x.jsxs)("button", {
 								type: "button",
@@ -9253,7 +9253,7 @@ function C({ onOpenReport: e, conditions: t = [], onCondition: n, history: r, hi
 									})
 								]
 							}, e.period);
-						}), !ee.length && /* @__PURE__ */ (0, x.jsx)("p", {
+						}), !k.length && /* @__PURE__ */ (0, x.jsx)("p", {
 							className: "fi-empty-filter",
 							children: "No periods match the selected filters."
 						})]
@@ -9529,7 +9529,7 @@ var D = {
 	currency: "USD",
 	maximumFractionDigits: 0
 }).format(Number(e));
-function ee({ currentCase: e, history: t, historyDetail: n }) {
+function k({ currentCase: e, history: t, historyDetail: n }) {
 	let r = e?.result?.variance ? e.result : null;
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "finance-evidence",
@@ -9656,7 +9656,7 @@ function ee({ currentCase: e, history: t, historyDetail: n }) {
 		]
 	});
 }
-function te({ run: e, questions: t = [], requestedSeq: n }) {
+function ee({ run: e, questions: t = [], requestedSeq: n }) {
 	let [r, i] = (0, b.useState)(null);
 	(0, b.useEffect)(() => i(n || e?.steps?.[0]?.seq || null), [e?.run_id, n]);
 	let a = e?.steps?.find((e) => e.seq === r) || e?.steps?.[0], o = t.find((t) => t.id === e?.question_id);
@@ -9746,13 +9746,13 @@ function te({ run: e, questions: t = [], requestedSeq: n }) {
 	});
 }
 // src/ImplementationEvidence.jsx
-var ne = [
+var te = [
 	["External agent contract", "AgentCore Runtime, identity and MCP client are named simulator components. The local Python runtime follows a bounded plan; no external agent is connected."],
 	["SAP-owned capability", "The SAP finance tool, Apigee candidate, Integration Suite path and backend roles are simulated boundaries. No SAP tenant call or principal propagation is proved."],
 	["Presentation", "The Fiori-inspired interface is built with React and Node.js tooling. Streamlit hosts its compiled assets; Node.js is not an agent in the runtime path."],
 	["Execution and proof", "Python evaluates the finance rules and SQLite stores synthetic snapshots, cases and request/response events. The variance amount comes from the deterministic engine."]
 ];
-function re({ currentCase: e, events: t = [] }) {
+function ne({ currentCase: e, events: t = [] }) {
 	return /* @__PURE__ */ (0, x.jsxs)("section", {
 		className: "surface implementation-evidence",
 		children: [
@@ -9772,7 +9772,7 @@ function re({ currentCase: e, events: t = [] }) {
 			}),
 			/* @__PURE__ */ (0, x.jsx)("div", {
 				className: "implementation-grid",
-				children: ne.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e }), /* @__PURE__ */ (0, x.jsx)("p", { children: t })] }, e))
+				children: te.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e }), /* @__PURE__ */ (0, x.jsx)("p", { children: t })] }, e))
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "implementation-state",
@@ -9791,20 +9791,20 @@ function re({ currentCase: e, events: t = [] }) {
 	});
 }
 // src/EvidenceCorrelation.jsx
-function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, events: i, caseEvents: a, decisionRun: o, decisionQuestions: s, componentDetails: c, reviewPanel: l, focus: u, busy: d, onStart: f, onResolve: p, onTrace: m }) {
+function re({ investigation: e, currentCase: t, history: n, historyDetail: r, events: i, caseEvents: a, decisionRun: o, decisionQuestions: s, componentDetails: c, reviewPanel: l, focus: u, busy: d, onStart: f, onResolve: p, onTrace: m }) {
 	let [h, g] = (0, b.useState)(null), [_, v] = (0, b.useState)(""), [y, S] = (0, b.useState)("investigation"), [C, w] = (0, b.useState)("proof");
 	(0, b.useEffect)(() => {
 		u?.section && w(u.section);
 	}, [u?.nonce]);
-	let T = (0, b.useRef)(null), D = Math.min(...e?.plan?.map((e) => e.last_event_seq).filter(Boolean) || []), O = Number.isFinite(D) ? D - 2 : 0, ne = (0, b.useMemo)(() => i.filter((e) => (y === "full" || e.seq >= O) && `${e.operation} ${e.source_component_id} ${e.target_component_id} ${e.status}`.toLowerCase().includes(_.toLowerCase())), [
+	let T = (0, b.useRef)(null), D = Math.min(...e?.plan?.map((e) => e.last_event_seq).filter(Boolean) || []), O = Number.isFinite(D) ? D - 2 : 0, te = (0, b.useMemo)(() => i.filter((e) => (y === "full" || e.seq >= O) && `${e.operation} ${e.source_component_id} ${e.target_component_id} ${e.status}`.toLowerCase().includes(_.toLowerCase())), [
 		i,
 		_,
 		y,
 		O
-	]), ie = i.find((e) => e.seq === h) || ne.at(-1);
+	]), re = i.find((e) => e.seq === h) || te.at(-1);
 	return (0, b.useEffect)(() => {
 		h && T.current?.querySelector(`[data-seq="${h}"]`)?.scrollIntoView({ block: "nearest" });
-	}, [h, ne]), /* @__PURE__ */ (0, x.jsxs)("main", {
+	}, [h, te]), /* @__PURE__ */ (0, x.jsxs)("main", {
 		className: "evidence-workspace",
 		"aria-label": "Evidence and correlation",
 		children: [/* @__PURE__ */ (0, x.jsx)("nav", {
@@ -9929,10 +9929,10 @@ function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 							/* @__PURE__ */ (0, x.jsx)("div", {
 								className: "correlation-events",
 								ref: T,
-								children: ne.map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
+								children: te.map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
 									type: "button",
 									"data-seq": e.seq,
-									className: ie?.seq === e.seq ? "selected" : "",
+									className: re?.seq === e.seq ? "selected" : "",
 									onClick: () => g(e.seq),
 									children: [
 										/* @__PURE__ */ (0, x.jsxs)("span", { children: ["#", e.seq] }),
@@ -9950,29 +9950,29 @@ function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 									]
 								}, e.seq))
 							}),
-							ie && /* @__PURE__ */ (0, x.jsxs)("div", {
+							re && /* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "correlation-inspector",
 								children: [
 									/* @__PURE__ */ (0, x.jsxs)("span", {
 										className: "eyebrow",
-										children: ["SELECTED MESSAGE · #", ie.seq]
+										children: ["SELECTED MESSAGE · #", re.seq]
 									}),
-									/* @__PURE__ */ (0, x.jsx)("strong", { children: ie.operation.replaceAll("_", " ") }),
-									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "From" }), /* @__PURE__ */ (0, x.jsx)("b", { children: ie.source_component_id.replaceAll("_", " ") })] }),
-									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "To" }), /* @__PURE__ */ (0, x.jsx)("b", { children: ie.target_component_id.replaceAll("_", " ") })] }),
+									/* @__PURE__ */ (0, x.jsx)("strong", { children: re.operation.replaceAll("_", " ") }),
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "From" }), /* @__PURE__ */ (0, x.jsx)("b", { children: re.source_component_id.replaceAll("_", " ") })] }),
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "To" }), /* @__PURE__ */ (0, x.jsx)("b", { children: re.target_component_id.replaceAll("_", " ") })] }),
 									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Direction" }), /* @__PURE__ */ (0, x.jsxs)("b", { children: [
-										ie.direction,
+										re.direction,
 										" · ",
-										ie.status
+										re.status
 									] })] }),
-									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Time" }), /* @__PURE__ */ (0, x.jsx)("b", { children: ie.timestamp_utc })] }),
-									/* @__PURE__ */ (0, x.jsx)("pre", { children: JSON.stringify(ie.payload_summary || {}, null, 2) })
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Time" }), /* @__PURE__ */ (0, x.jsx)("b", { children: re.timestamp_utc })] }),
+									/* @__PURE__ */ (0, x.jsx)("pre", { children: JSON.stringify(re.payload_summary || {}, null, 2) })
 								]
 							})
 						]
 					})]
 				}),
-				C === "finance" && /* @__PURE__ */ (0, x.jsx)(ee, {
+				C === "finance" && /* @__PURE__ */ (0, x.jsx)(k, {
 					currentCase: t,
 					history: n,
 					historyDetail: r
@@ -9999,12 +9999,12 @@ function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 						]
 					})]
 				}),
-				C === "questions" && /* @__PURE__ */ (0, x.jsx)(te, {
+				C === "questions" && /* @__PURE__ */ (0, x.jsx)(ee, {
 					run: o,
 					questions: s,
 					requestedSeq: u?.section === "questions" ? u.stepSeq : null
 				}),
-				C === "implementation" && /* @__PURE__ */ (0, x.jsx)(re, {
+				C === "implementation" && /* @__PURE__ */ (0, x.jsx)(ne, {
 					currentCase: t,
 					events: a || i
 				})
@@ -10013,7 +10013,7 @@ function ie({ investigation: e, currentCase: t, history: n, historyDetail: r, ev
 	});
 }
 // src/ArchitectureQuestions.jsx
-var ae = [
+var ie = [
 	{
 		id: "S1",
 		label: "S1 · Apigee route"
@@ -10027,7 +10027,7 @@ var ae = [
 		label: "S3 · Combined candidate"
 	}
 ];
-function oe({ step: e, selected: t, processing: n, onSelect: r }) {
+function ae({ step: e, selected: t, processing: n, onSelect: r }) {
 	return /* @__PURE__ */ (0, x.jsxs)("button", {
 		type: "button",
 		"data-seq": e.seq,
@@ -10045,7 +10045,7 @@ function oe({ step: e, selected: t, processing: n, onSelect: r }) {
 		]
 	});
 }
-function se({ playbooks: e, question: t, initialRoute: n, onClose: r }) {
+function oe({ playbooks: e, question: t, initialRoute: n, onClose: r }) {
 	let [i, a] = (0, b.useState)(n), [o, s] = (0, b.useState)(0), c = e[i], l = c?.steps?.[o];
 	return (0, b.useEffect)(() => {
 		let e = (e) => {
@@ -10079,7 +10079,7 @@ function se({ playbooks: e, question: t, initialRoute: n, onClose: r }) {
 				/* @__PURE__ */ (0, x.jsx)("nav", {
 					className: "route-plan-tabs",
 					"aria-label": "Gateway scenarios",
-					children: ae.map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
+					children: ie.map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						className: i === e.id ? "active" : "",
 						onClick: () => {
@@ -10172,7 +10172,7 @@ function se({ playbooks: e, question: t, initialRoute: n, onClose: r }) {
 		})
 	});
 }
-function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun: i, busy: a, onOpenEvidence: o }) {
+function se({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun: i, busy: a, onOpenEvidence: o }) {
 	let [s, c] = (0, b.useState)(r?.question_id || null), [l, u] = (0, b.useState)(r?.route || "S3"), [d, f] = (0, b.useState)(r?.probe || ""), [p, m] = (0, b.useState)(null), [h, g] = (0, b.useState)(!0), [_, v] = (0, b.useState)(!1), y = (0, b.useRef)(null), S = e.find((e) => e.id === s), C = r?.question_id === s ? r : null, w = C?.steps || [], T = w.filter((e) => e.phase === "design-time"), E = w.filter((e) => e.phase !== "design-time"), D = w.find((e) => e.seq === p) || w.at(-1), O = w.findIndex((e) => e.seq === D?.seq);
 	(0, b.useEffect)(() => {
 		w.length && (h || p === null || !w.some((e) => e.seq === p)) && m(w.at(-1).seq);
@@ -10190,16 +10190,16 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 	]), (0, b.useEffect)(() => {
 		if (!n?.id || n.nonce === y.current) return;
 		let t = e.find((e) => e.id === n.id);
-		t && (y.current = n.nonce, ee(t));
+		t && (y.current = n.nonce, k(t));
 	}, [n?.nonce, e]);
-	function ee(e) {
+	function k(e) {
 		let t = e.default_route || "S3", n = e.probes[0].id;
 		c(e.id), u(t), f(n), m(null), g(!0), i(e.id, t, n);
 	}
-	function te() {
+	function ee() {
 		S && (m(null), g(!0), i(S.id, l, d));
 	}
-	function ne(e) {
+	function te(e) {
 		let t = w[O + e];
 		t && (m(t.seq), g(!1));
 	}
@@ -10229,7 +10229,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 						children: e.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("button", {
 							type: "button",
 							className: `question-card ${s === e.id ? "selected" : ""}`,
-							onClick: () => ee(e),
+							onClick: () => k(e),
 							"aria-pressed": s === e.id,
 							children: [
 								/* @__PURE__ */ (0, x.jsxs)("span", { children: [
@@ -10267,7 +10267,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 									"aria-label": "Architecture route",
 									value: l,
 									onChange: (e) => u(e.target.value),
-									children: ae.map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+									children: ie.map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
 										value: e.id,
 										children: e.label
 									}, e.id))
@@ -10284,7 +10284,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 								/* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
 									className: "primary",
-									onClick: te,
+									onClick: ee,
 									disabled: a,
 									children: a ? "Running…" : "Run selected probe"
 								}),
@@ -10309,7 +10309,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 								children: [
 									/* @__PURE__ */ (0, x.jsx)("button", {
 										type: "button",
-										onClick: () => ne(-1),
+										onClick: () => te(-1),
 										disabled: O <= 0,
 										"aria-label": "Previous handoff",
 										children: "←"
@@ -10317,7 +10317,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 									/* @__PURE__ */ (0, x.jsx)("span", { children: D ? `${D.seq}/${C.total_steps}` : "—" }),
 									/* @__PURE__ */ (0, x.jsx)("button", {
 										type: "button",
-										onClick: () => ne(1),
+										onClick: () => te(1),
 										disabled: O < 0 || O >= w.length - 1,
 										"aria-label": "Next handoff",
 										children: "→"
@@ -10339,7 +10339,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "lab-design-branch",
-								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "DESIGN-TIME PREREQUISITE · NOT A RUNTIME HOP" }), T.map((e) => /* @__PURE__ */ (0, x.jsx)(oe, {
+								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "DESIGN-TIME PREREQUISITE · NOT A RUNTIME HOP" }), T.map((e) => /* @__PURE__ */ (0, x.jsx)(ae, {
 									step: e,
 									selected: D?.seq === e.seq,
 									processing: C.status === "running" && e.seq === w.at(-1)?.seq,
@@ -10356,7 +10356,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 										className: "lab-flow-caption",
 										children: "RUNTIME CALL PATH · LEFT TO RIGHT, THEN NEXT ROW"
 									}),
-									E.map((e) => /* @__PURE__ */ (0, x.jsx)(oe, {
+									E.map((e) => /* @__PURE__ */ (0, x.jsx)(ae, {
 										step: e,
 										selected: D?.seq === e.seq,
 										processing: C.status === "running" && e.seq === w.at(-1)?.seq,
@@ -10436,7 +10436,7 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 					children: "Select an open question to see its decision owner and required architecture alignment. Control details are in Evidence."
 				})]
 			}),
-			_ && /* @__PURE__ */ (0, x.jsx)(se, {
+			_ && /* @__PURE__ */ (0, x.jsx)(oe, {
 				playbooks: t,
 				question: S,
 				initialRoute: l,
@@ -10445,82 +10445,37 @@ function ce({ questions: e = [], routePlaybooks: t = {}, focus: n, run: r, onRun
 		]
 	});
 }
-// src/HostingPriority.jsx
-var le = [
-	{
-		id: "agentcore",
-		name: "Approved enterprise agent platform",
-		priority: "NOW · leading validation candidate",
-		host: "AgentCore Runtime if the AWS landing zone and service are approved",
-		model: "Approved model endpoint; normally Bedrock unless policy requires another provider",
-		owner: "Enterprise AI + AWS platform; SAP retains tool/API and backend authorization",
-		fit: "Reuse a managed runtime and existing operating team for a portfolio of agents.",
-		gates: "Landing zone, Region, entitlement, workload identity, private egress, quotas, durable state, recovery and SAP authorization.",
-		source: "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness-vs-runtime.html"
-	},
-	{
-		id: "btp",
-		name: "SAP BTP pro-code agent",
-		priority: "CONDITIONAL · SAP-owned alternative",
-		host: "Python application on BTP Cloud Foundry; Kyma only when a container topology is needed",
-		model: "SAP AI Core generative AI hub if approved and entitled",
-		owner: "SAP BTP application team + SAP AI Core + SAP Integration",
-		fit: "Keeps an SAP-owned agent portfolio close to existing BTP identity and integration services.",
-		gates: "Cloud Foundry quota, AI Core/hub entitlement, agent framework, checkpoints, approvals, monitoring, CI/CD and funded on-call owner.",
-		source: "https://architecture.learning.sap.com/docs/golden-path/ai-golden-path/build-and-deliver/build-ai-agents"
-	},
-	{
-		id: "microsoft",
-		name: "Microsoft Foundry hosted agent",
-		priority: "CONDITIONAL · enterprise standard check",
-		host: "Foundry hosted agent service only if an approved Azure project and region exist",
-		model: "Foundry model catalog under enterprise policy",
-		owner: "Enterprise AI + Azure platform; SAP retains Apigee and backend controls",
-		fit: "Compare when the enterprise already operates Microsoft Foundry for agents.",
-		gates: "Confirm this is the actual enterprise platform; an internal AI Foundry registry alone proves no Azure hosting. Verify service availability, network, identity and commercial terms.",
-		source: "https://learn.microsoft.com/azure/foundry/agents/concepts/hosted-agents"
-	},
-	{
-		id: "joule",
-		name: "Managed Joule Studio",
-		priority: "LATER · eligibility unresolved",
-		host: "SAP-managed agent runtime if the tenant and commercial path are eligible",
-		model: "SAP-managed model access subject to the applicable service contract",
-		owner: "SAP platform + business process owner",
-		fit: "Strategic SAP-managed path for eligible scenarios, not an executable near-term assumption.",
-		gates: "The user reports Joule Studio unavailable. Obtain an exact SKU, provisioning, tenant and integration applicability decision without changing the current setup.",
-		source: "https://help.sap.com/docs/joule-studio/joule-studio/sap-managed-provisioning-for-joule-studio?ai=true&version=CLOUD"
-	}
-], ue = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S1 · Google Apigee MCP</title><desc id=\"d\">Detailed L2 architecture diagram S1 · Google Apigee MCP</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#E8F1FB\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E0\" stroke=\"none\"/><text x=\"1010.12\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">S1  ·  Google Apigee MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Google Apigee · external to AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#5B3F8C\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Apigee mode TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0C8F76\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#6B6B6B\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#0C8F76\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#5B3F8C\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">S1 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", de = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S2 · AgentCore Gateway MCP</title><desc id=\"d\">Detailed L2 architecture diagram S2 · AgentCore Gateway MCP</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#E8F1FB\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E0\" stroke=\"none\"/><text x=\"999.93\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">S2  ·  AgentCore Gateway MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"132.56\" y=\"172.59\" width=\"446.51\" height=\"315.53\" rx=\"7.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"475.12\" y=\"162.71\" width=\"71.51\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"480.63\" y=\"171.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">AWS trust boundary</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AgentCore Gateway · inside AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#5B3F8C\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Target type TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0C8F76\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#6B6B6B\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#0C8F76\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#5B3F8C\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">S2 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", fe = {
+// src/diagrams/s1.svg?raw
+var ce = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S1 · Google Apigee MCP</title><desc id=\"d\">Detailed L2 architecture diagram S1 · Google Apigee MCP</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#E8F1FB\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E0\" stroke=\"none\"/><text x=\"1010.12\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">S1  ·  Google Apigee MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Google Apigee · external to AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#5B3F8C\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Apigee mode TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0C8F76\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#6B6B6B\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#0C8F76\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#5B3F8C\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">S1 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", le = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 840\" role=\"img\" aria-labelledby=\"t d\" font-family=\"'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif\" text-rendering=\"geometricPrecision\" shape-rendering=\"geometricPrecision\"><title id=\"t\">S2 · AgentCore Gateway MCP</title><desc id=\"d\">Detailed L2 architecture diagram S2 · AgentCore Gateway MCP</desc><rect width=\"1200\" height=\"840\" fill=\"#F1F4F7\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"840\" fill=\"#F1F4F7\" stroke=\"none\"/><rect x=\"0\" y=\"0\" width=\"1200\" height=\"58.24\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"20.93\" y=\"24.45\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">AI FOUNDRY  /  MONTH-END RECONCILIATION</text><text x=\"21.63\" y=\"41.14\" font-size=\"6.97\" fill=\"#E8F1FB\" text-anchor=\"start\">L2  |  Worked reconciliation, identity and controls</text><rect x=\"945.35\" y=\"15.18\" width=\"233.72\" height=\"24.35\" rx=\"12.18\" fill=\"#FFF1E0\" stroke=\"none\"/><text x=\"999.93\" y=\"30.55\" font-size=\"7.25\" font-weight=\"700\" fill=\"#C26A00\" text-anchor=\"start\">S2  ·  AgentCore Gateway MCP</text><text x=\"20.93\" y=\"70.47\" font-size=\"5.58\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">ARCHITECTURE REVIEW DRAFT  ·  logically aligned; integration, identity and finance controls pending validation</text><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"79.41\" width=\"537.21\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"28.6\" y=\"96.18\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">A  AI Foundry · design time</text><text x=\"28.6\" y=\"107.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source, tool contracts and deployment pipeline; deployment interface TBD</text><rect x=\"31.4\" y=\"100.94\" width=\"104.65\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"50.57\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Custom Foundry SDK</text><rect x=\"141.28\" y=\"100.94\" width=\"113.37\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"160.77\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Local agent creation API</text><rect x=\"259.88\" y=\"100.94\" width=\"118.6\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"274.55\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Python agent + tool bindings</text><rect x=\"383.72\" y=\"100.94\" width=\"162.21\" height=\"18.35\" rx=\"3.18\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.28\"/><text x=\"414.36\" y=\"113.18\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">GitLab · tests · CI/CD · deploy TBD</text><line x1=\"136.05\" y1=\"110.12\" x2=\"140.23\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"137.44,106.59 140.23,113.65 134.65,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(137.44 110.12) rotate(90) translate(-137.44 -110.12)\"/><line x1=\"254.65\" y1=\"110.12\" x2=\"258.84\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"256.05,106.59 258.84,113.65 253.26,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(256.05 110.12) rotate(90) translate(-256.05 -110.12)\"/><line x1=\"378.49\" y1=\"110.12\" x2=\"382.67\" y2=\"110.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><polygon points=\"379.88,106.59 382.67,113.65 377.09,113.65\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(379.88 110.12) rotate(90) translate(-379.88 -110.12)\"/><rect x=\"568.6\" y=\"79.41\" width=\"610.47\" height=\"46.59\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"579.07\" y=\"94.46\" font-size=\"5.86\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">SCENARIO INVARIANT</text><text x=\"579.07\" y=\"106.79\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Only MCP gateway placement and its inbound / outbound auth controls change.</text><text x=\"579.07\" y=\"117.76\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.</text><rect x=\"20.93\" y=\"132.35\" width=\"1158.14\" height=\"33.53\" rx=\"4.94\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><text x=\"28.95\" y=\"143.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">IDENTITY &amp; CREDENTIAL PATH · CANDIDATE</text><text x=\"28.95\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IdP → app user session</text><line x1=\"165\" y1=\"153.88\" x2=\"175.47\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"172.67,150.35 175.47,157.41 169.88,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(172.67 153.88) rotate(90) translate(-172.67 -153.88)\"/><text x=\"181.4\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore inbound + workload</text><line x1=\"355.81\" y1=\"153.88\" x2=\"366.28\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"363.49,150.35 366.28,157.41 360.7,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(363.49 153.88) rotate(90) translate(-363.49 -153.88)\"/><text x=\"376.74\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Gateway inbound authZ</text><line x1=\"526.74\" y1=\"153.88\" x2=\"537.21\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"534.42,150.35 537.21,157.41 531.63,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(534.42 153.88) rotate(90) translate(-534.42 -153.88)\"/><text x=\"547.67\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Tool credential / operation policy</text><line x1=\"715.12\" y1=\"153.88\" x2=\"725.58\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"722.79,150.35 725.58,157.41 720,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(722.79 153.88) rotate(90) translate(-722.79 -153.88)\"/><text x=\"732.56\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">IS/iFlow propagation: TBD</text><line x1=\"906.98\" y1=\"153.88\" x2=\"917.44\" y2=\"153.88\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.56\" stroke-dasharray=\"2.23 1.67\"/><polygon points=\"914.65,150.35 917.44,157.41 911.86,157.41\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(914.65 153.88) rotate(90) translate(-914.65 -153.88)\"/><text x=\"927.91\" y=\"156.59\" font-size=\"5.3\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SCC if private → SAP user / ABAP</text><text x=\"1049.23\" y=\"144.25\" font-size=\"4.74\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Delegation vs service identity: TO VALIDATE</text><rect x=\"132.56\" y=\"172.59\" width=\"446.51\" height=\"315.53\" rx=\"7.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"475.12\" y=\"162.71\" width=\"71.51\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"480.63\" y=\"171.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">AWS trust boundary</text><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"176.47\" width=\"104.65\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"28.6\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">01  Business entry</text><text x=\"28.6\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human intent and app</text><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"307.06\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"136.05\" y=\"176.47\" width=\"313.95\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"143.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">02  AWS AgentCore</text><text x=\"143.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Managed runtime + custom agent</text><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"460.47\" y=\"176.47\" width=\"115.12\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"468.14\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">03  MCP gateway</text><text x=\"468.14\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AgentCore Gateway · inside AWS</text><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"586.05\" y=\"176.47\" width=\"139.53\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"593.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">04  Domain MCP</text><text x=\"593.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Finance-owned tool targets</text><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"736.05\" y=\"176.47\" width=\"143.02\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"743.72\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">05  SAP BAIP</text><text x=\"743.72\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Integration Suite · direct/iFlow route TBD</text><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"889.53\" y=\"176.47\" width=\"59.3\" height=\"3.18\" rx=\"1.59\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"897.21\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">06  SCC</text><text x=\"897.21\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only if private</text><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"307.06\" rx=\"4.74\" fill=\"#FFFFFF\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"959.3\" y=\"176.47\" width=\"219.77\" height=\"3.18\" rx=\"1.59\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"966.98\" y=\"193.24\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">07  SAP backends</text><text x=\"966.98\" y=\"204.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Distinct systems / authorizations</text><rect x=\"28.6\" y=\"215.29\" width=\"89.3\" height=\"42.35\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"215.29\" width=\"2.79\" height=\"42.35\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance user</text><text x=\"36.28\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Company code · ledger</text><text x=\"36.28\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Period · scope</text><rect x=\"28.6\" y=\"268.24\" width=\"89.3\" height=\"48.71\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"268.24\" width=\"2.79\" height=\"48.71\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"36.28\" y=\"280.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business application</text><text x=\"36.28\" y=\"292.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Chat / finance UI</text><text x=\"36.28\" y=\"302\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Authorized invocation</text><rect x=\"28.6\" y=\"328.24\" width=\"89.3\" height=\"49.41\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"328.24\" width=\"2.79\" height=\"49.41\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"36.28\" y=\"340.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Enterprise IdP / SSO</text><text x=\"36.28\" y=\"352.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Human authentication</text><text x=\"36.28\" y=\"362\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">OIDC / SAML TBD</text><rect x=\"28.6\" y=\"388.24\" width=\"89.3\" height=\"51.18\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"28.6\" y=\"388.24\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"36.28\" y=\"400.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Business rule</text><text x=\"36.28\" y=\"412.12\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only by default</text><text x=\"36.28\" y=\"422\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Writes need approval</text><line x1=\"73.26\" y1=\"257.65\" x2=\"73.26\" y2=\"266.82\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"73.26,256.24 77.44,266.82 69.07,266.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(73.26 261.53) rotate(180) translate(-73.26 -261.53)\"/><line x1=\"73.26\" y1=\"318\" x2=\"73.26\" y2=\"328.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(73.26 323.12) scale(1 -1) translate(-73.26 -323.12)\"/><polygon points=\"73.26,318 77.44,328.59 69.07,328.59\" fill=\"#5B3F8C\" stroke=\"none\"/><rect x=\"144.77\" y=\"213.53\" width=\"296.51\" height=\"148.24\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"144.77\" y=\"213.53\" width=\"2.79\" height=\"148.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"152.44\" y=\"226.06\" font-size=\"7.81\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock AgentCore Runtime</text><text x=\"152.44\" y=\"237.41\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Managed hosting for deployed custom Python agent</text><rect x=\"153.49\" y=\"250.59\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Agent + MCP client</text><text x=\"161.16\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · typed tool binding</text><text x=\"161.16\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Trace / case ID</text><rect x=\"293.02\" y=\"250.59\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"250.59\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"300.7\" y=\"263.15\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Context Manager</text><text x=\"300.7\" y=\"274.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · scoped evidence</text><text x=\"300.7\" y=\"284.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Provenance / timestamps</text><rect x=\"153.49\" y=\"307.06\" width=\"132.56\" height=\"47.65\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"161.16\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Reconciliation Engine</text><text x=\"161.16\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · deterministic math</text><text x=\"161.16\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Ledger / FX / tolerance</text><rect x=\"293.02\" y=\"307.06\" width=\"139.53\" height=\"47.65\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"293.02\" y=\"307.06\" width=\"2.79\" height=\"47.65\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"300.7\" y=\"319.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Posting Executor</text><text x=\"300.7\" y=\"330.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom · approved writes</text><text x=\"300.7\" y=\"340.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Rechecks + idempotency</text><rect x=\"153.49\" y=\"374.12\" width=\"87.21\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"153.49\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"161.16\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Identity</text><text x=\"161.16\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed credential access</text><text x=\"161.16\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Inbound/outbound design TBD</text><rect x=\"247.67\" y=\"374.12\" width=\"81.98\" height=\"44.12\" rx=\"4.24\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"247.67\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"255.35\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">AgentCore Memory</text><text x=\"255.35\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed · optional</text><text x=\"255.35\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Conversation only</text><rect x=\"336.63\" y=\"374.12\" width=\"95.93\" height=\"44.12\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"336.63\" y=\"374.12\" width=\"2.79\" height=\"44.12\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"344.3\" y=\"386.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Observability</text><text x=\"344.3\" y=\"398.01\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Managed traces/metrics</text><text x=\"344.3\" y=\"407.89\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">Case + audit correlation</text><text x=\"153.84\" y=\"439.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">AWS support: IAM / workload roles · Secrets Manager · KMS · CloudWatch</text><text x=\"153.84\" y=\"453.41\" font-size=\"5.3\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">Gateway integration: MCP client + versioned, typed tool bindings</text><rect x=\"468.84\" y=\"217.06\" width=\"98.37\" height=\"51.18\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"217.06\" width=\"2.79\" height=\"51.18\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"229.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">MCP entry</text><text x=\"476.51\" y=\"240.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Tool discovery / invoke</text><text x=\"476.51\" y=\"250.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Target type TBD</text><rect x=\"468.84\" y=\"277.06\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"277.06\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"289.62\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Inbound authZ</text><text x=\"476.51\" y=\"300.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Caller policy + scopes</text><text x=\"476.51\" y=\"310.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Operation allowlist TBD</text><rect x=\"468.84\" y=\"338.82\" width=\"98.37\" height=\"52.94\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"468.84\" y=\"338.82\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"476.51\" y=\"351.4\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Outbound target auth</text><text x=\"476.51\" y=\"362.71\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Separate target credential</text><text x=\"476.51\" y=\"372.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Exchange/delegation TBD</text><text x=\"470.23\" y=\"414.6\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Diagnostics: version · audit ID · timeout</text><text x=\"470.23\" y=\"430.48\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">ONE selected gateway · no Portkey MCP</text><rect x=\"594.77\" y=\"215.29\" width=\"122.09\" height=\"65.29\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"215.29\" width=\"2.79\" height=\"65.29\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · read</text><text x=\"602.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><text x=\"602.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Scoped read APIs</text><text x=\"602.44\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">No direct database access</text><rect x=\"594.77\" y=\"291.18\" width=\"122.09\" height=\"58.24\" rx=\"4.23\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"291.18\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"602.44\" y=\"303.74\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Finance · posting</text><text x=\"602.44\" y=\"315.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Restricted, typed API</text><text x=\"602.44\" y=\"324.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">S/4 default · TO VALIDATE</text><rect x=\"594.77\" y=\"358.24\" width=\"122.09\" height=\"37.06\" rx=\"4.24\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"358.24\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"602.44\" y=\"370.8\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Databricks · read</text><text x=\"602.44\" y=\"382.12\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved SQL / API · UC grants</text><rect x=\"594.77\" y=\"405.88\" width=\"122.09\" height=\"32.47\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"594.77\" y=\"405.88\" width=\"2.79\" height=\"32.47\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"602.44\" y=\"418.45\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC · future read</text><text x=\"602.44\" y=\"429.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Optional approved MCP target</text><text x=\"594.77\" y=\"451.65\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Domain tool: owner · schema/version · input checks</text><text x=\"594.77\" y=\"462.24\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Per-operation authZ · bounded result · audit ID</text><rect x=\"744.77\" y=\"215.29\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"215.29\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"227.85\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">API Management</text><text x=\"752.44\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Policies · API authorization</text><text x=\"752.44\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Token exchange · scoped access</text><rect x=\"744.77\" y=\"287.65\" width=\"125.58\" height=\"61.76\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"287.65\" width=\"2.79\" height=\"61.76\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"300.21\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud Integration</text><text x=\"752.44\" y=\"311.53\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom iFlows as needed</text><text x=\"752.44\" y=\"321.41\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Principal propagation candidate</text><text x=\"752.44\" y=\"331.3\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Route · error handling · trace</text><rect x=\"744.77\" y=\"360\" width=\"125.58\" height=\"58.24\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"744.77\" y=\"360\" width=\"2.79\" height=\"58.24\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"752.44\" y=\"372.56\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Destinations / connectivity</text><text x=\"752.44\" y=\"383.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP API + identity mapping</text><text x=\"752.44\" y=\"393.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Backend ABAP auth still applies</text><text x=\"744.77\" y=\"435.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">API-managed direct or custom iFlow per target</text><text x=\"744.77\" y=\"448.12\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">Identity mapping per backend: TO VALIDATE</text><rect x=\"896.51\" y=\"243.53\" width=\"45.35\" height=\"111.18\" rx=\"3.35\" fill=\"#F0EAF8\" stroke=\"#5B3F8C\" stroke-width=\"0.56\"/><rect x=\"896.51\" y=\"243.53\" width=\"2.79\" height=\"111.18\" rx=\"1.12\" fill=\"#5B3F8C\" stroke=\"none\"/><text x=\"904.19\" y=\"256.11\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Cloud</text><text x=\"904.19\" y=\"267.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Connector</text><text x=\"904.19\" y=\"277.3\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">private</text><text x=\"904.19\" y=\"287.18\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">network</text><text x=\"904.19\" y=\"297.07\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">only</text><text x=\"895.47\" y=\"374.01\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Private route</text><text x=\"895.47\" y=\"383.18\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">and mapping</text><text x=\"895.47\" y=\"392.36\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">need proof</text><rect x=\"968.02\" y=\"215.29\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"215.29\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"227.84\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA</text><text x=\"975.7\" y=\"239.18\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Live G/L balances · journals · open items</text><text x=\"975.7\" y=\"249.06\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Custom ABAP read API · controlled posting API</text><text x=\"975.7\" y=\"258.94\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">SAP document reference + status</text><rect x=\"968.02\" y=\"294.71\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"294.71\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"307.26\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP S/4HANA Central Finance</text><text x=\"975.7\" y=\"318.59\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Central posted / replicated accounting</text><text x=\"975.7\" y=\"328.47\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Source mapping · errors · status · cutoff</text><text x=\"975.7\" y=\"338.36\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Posting target not assumed</text><rect x=\"968.02\" y=\"374.12\" width=\"202.33\" height=\"68.82\" rx=\"4.23\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"968.02\" y=\"374.12\" width=\"2.79\" height=\"68.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"975.7\" y=\"386.66\" font-size=\"7.25\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP BW/4HANA</text><text x=\"975.7\" y=\"398\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Reporting aggregates / hierarchy</text><text x=\"975.7\" y=\"407.88\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Load and refresh status</text><text x=\"975.7\" y=\"417.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Read-only analytic role</text><text x=\"976.74\" y=\"273.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"352.83\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><text x=\"976.74\" y=\"432.24\" font-size=\"5.02\" font-weight=\"700\" fill=\"#5B3F8C\" text-anchor=\"start\">Mapped principal + ABAP roles: TO VALIDATE</text><line x1=\"117.91\" y1=\"300\" x2=\"144.07\" y2=\"300\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"137.09,291.18 144.07,308.82 130.12,308.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(137.09 300) rotate(90) translate(-137.09 -300)\"/><rect x=\"117.91\" y=\"282.71\" width=\"59.3\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"125.42\" y=\"291.42\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">intent · HTTPS</text><line x1=\"441.28\" y1=\"240\" x2=\"468.14\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"461.16,231.18 468.14,248.82 454.19,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(461.16 240) rotate(90) translate(-461.16 -240)\"/><line x1=\"567.56\" y1=\"240\" x2=\"594.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"587.09,231.18 594.07,248.82 580.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(587.09 240) rotate(90) translate(-587.09 -240)\"/><line x1=\"717.56\" y1=\"240\" x2=\"744.07\" y2=\"240\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"737.09,231.18 744.07,248.82 730.12,248.82\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(737.09 240) rotate(90) translate(-737.09 -240)\"/><line x1=\"807.56\" y1=\"277.06\" x2=\"807.56\" y2=\"286.94\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,276.35 811.74,286.94 803.37,286.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 281.65) rotate(180) translate(-807.56 -281.65)\"/><line x1=\"807.56\" y1=\"349.41\" x2=\"807.56\" y2=\"359.29\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"0.84\"/><polygon points=\"807.56,348.71 811.74,359.29 803.37,359.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(807.56 354) rotate(180) translate(-807.56 -354)\"/><line x1=\"840.7\" y1=\"277.06\" x2=\"840.7\" y2=\"286.94\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,276.35 844.88,286.94 836.51,286.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 281.65) rotate(180) translate(-840.7 -281.65)\"/><line x1=\"840.7\" y1=\"349.41\" x2=\"840.7\" y2=\"359.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\"/><polygon points=\"840.7,348.71 844.88,359.29 836.51,359.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(840.7 354) rotate(180) translate(-840.7 -354)\"/><line x1=\"870.35\" y1=\"247.06\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"883.26\" y1=\"210\" x2=\"883.26\" y2=\"247.06\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\" transform=\"translate(883.26 228.53) scale(1 -1) translate(-883.26 -228.53)\"/><line x1=\"883.26\" y1=\"210\" x2=\"952.33\" y2=\"210\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"210\" x2=\"952.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"967.33\" y2=\"249.53\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,242.47 967.33,256.59 956.16,256.59\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 249.53) rotate(90) translate(-961.74 -249.53)\"/><line x1=\"952.33\" y1=\"249.53\" x2=\"952.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"967.33\" y2=\"328.24\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,321.18 967.33,335.29 956.16,335.29\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 328.24) rotate(90) translate(-961.74 -328.24)\"/><line x1=\"952.33\" y1=\"328.24\" x2=\"952.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><line x1=\"952.33\" y1=\"407.65\" x2=\"967.33\" y2=\"407.65\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.12\"/><polygon points=\"961.74,400.59 967.33,414.71 956.16,414.71\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(961.74 407.65) rotate(90) translate(-961.74 -407.65)\"/><line x1=\"870.35\" y1=\"388.24\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"883.26\" y2=\"388.24\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(883.26 352.94) scale(1 -1) translate(-883.26 -352.94)\"/><line x1=\"883.26\" y1=\"317.65\" x2=\"895.81\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"891.63,312.35 895.81,322.94 887.44,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(891.63 317.65) rotate(90) translate(-891.63 -317.65)\"/><line x1=\"941.86\" y1=\"317.65\" x2=\"952.33\" y2=\"317.65\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"948.14,312.35 952.33,322.94 943.95,322.94\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(948.14 317.65) rotate(90) translate(-948.14 -317.65)\"/><text x=\"968.72\" y=\"462.95\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Direct API or iFlow/SCC route is selected per backend.</text><line x1=\"717.56\" y1=\"320.47\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"729.07\" y2=\"320.47\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(729.07 292.59) scale(1 -1) translate(-729.07 -292.59)\"/><line x1=\"729.07\" y1=\"264.71\" x2=\"744.07\" y2=\"264.71\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"738.49,257.65 744.07,271.76 732.91,271.76\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(738.49 264.71) rotate(90) translate(-738.49 -264.71)\"/><line x1=\"432.56\" y1=\"338.82\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"455.23\" y2=\"338.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\" transform=\"translate(455.23 329.12) scale(1 -1) translate(-455.23 -329.12)\"/><line x1=\"455.23\" y1=\"319.41\" x2=\"468.14\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"462.56,312.35 468.14,326.47 456.98,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(462.56 319.41) rotate(90) translate(-462.56 -319.41)\"/><line x1=\"567.56\" y1=\"319.41\" x2=\"594.07\" y2=\"319.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"588.49,312.35 594.07,326.47 582.91,326.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(588.49 319.41) rotate(90) translate(-588.49 -319.41)\"/><line x1=\"567.56\" y1=\"381.18\" x2=\"579.77\" y2=\"381.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"381.18\" x2=\"579.77\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><line x1=\"579.77\" y1=\"390\" x2=\"594.07\" y2=\"390\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"1.12\"/><polygon points=\"588.49,382.94 594.07,397.06 582.91,397.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(588.49 390) rotate(90) translate(-588.49 -390)\"/><line x1=\"968.02\" y1=\"457.06\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"139.53\" y1=\"471.18\" x2=\"968.02\" y2=\"471.18\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(553.78 471.18) scale(-1 1) translate(-553.78 -471.18)\"/><polygon points=\"143.72,465.88 147.91,476.47 139.53,476.47\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(143.72 471.18) rotate(270) translate(-143.72 -471.18)\"/><rect x=\"282.56\" y=\"457.06\" width=\"226.74\" height=\"12.71\" rx=\"3.18\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.28\"/><text x=\"312.77\" y=\"465.77\" font-size=\"5.02\" font-weight=\"700\" fill=\"#0C8F76\" text-anchor=\"start\">read results + source status return via same mediated path</text><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"88.24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"501.18\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">B  LLM inference branch</text><text x=\"28.6\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Selected, sanitized exception context only</text><rect x=\"29.65\" y=\"540\" width=\"160.47\" height=\"38.82\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Portkey · model governance</text><text x=\"37.33\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Auth · routing · guardrails</text><text x=\"37.33\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Redaction · logs · usage</text><rect x=\"244.19\" y=\"540\" width=\"181.4\" height=\"38.82\" rx=\"4.24\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.56\"/><rect x=\"244.19\" y=\"540\" width=\"2.79\" height=\"38.82\" rx=\"1.12\" fill=\"#0A4F9E\" stroke=\"none\"/><text x=\"251.86\" y=\"552.56\" font-size=\"6.41\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Amazon Bedrock · foundation model</text><text x=\"251.86\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approved model · explanation</text><text x=\"251.86\" y=\"573.77\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">No authoritative math / posting</text><line x1=\"190.12\" y1=\"559.41\" x2=\"243.49\" y2=\"559.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"237.91,552.35 243.49,566.47 232.33,566.47\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(237.91 559.41) rotate(90) translate(-237.91 -559.41)\"/><line x1=\"190.81\" y1=\"571.76\" x2=\"244.19\" y2=\"571.76\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(217.5 571.76) scale(-1 1) translate(-217.5 -571.76)\"/><polygon points=\"195,566.47 199.19,577.06 190.81,577.06\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(195 571.76) rotate(270) translate(-195 -571.76)\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"209.3\" y2=\"367.06\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(170.93 367.06) scale(-1 1) translate(-170.93 -367.06)\"/><line x1=\"132.56\" y1=\"367.06\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"132.56\" y2=\"488.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(116.86 488.82) scale(-1 1) translate(-116.86 -488.82)\"/><line x1=\"101.16\" y1=\"488.82\" x2=\"101.16\" y2=\"539.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"101.16,528.71 105.35,539.29 96.98,539.29\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(101.16 534) rotate(180) translate(-101.16 -534)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"111.63\" y2=\"540\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(111.63 517.06) scale(1 -1) translate(-111.63 -517.06)\"/><line x1=\"111.63\" y1=\"494.12\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"127.33\" y2=\"494.12\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(127.33 432.35) scale(1 -1) translate(-127.33 -432.35)\"/><line x1=\"127.33\" y1=\"370.59\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"209.3\" y1=\"362.47\" x2=\"209.3\" y2=\"370.59\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(209.3 366.53) scale(1 -1) translate(-209.3 -366.53)\"/><polygon points=\"209.3,362.47 213.49,373.06 205.12,373.06\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"31.4\" y=\"585.77\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Minimized prompt; response via Portkey to Runtime; advisory only.</text><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"95.29\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"20.93\" y=\"603.53\" width=\"415.12\" height=\"3.18\" rx=\"1.59\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"28.6\" y=\"620.29\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">C  n8n approval side path</text><text x=\"28.6\" y=\"632\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Only for a proposed financial write</text><rect x=\"29.65\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"29.65\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"37.33\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Finance approver</text><text x=\"37.33\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Verified decision</text><text x=\"37.33\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Approve / reject</text><rect x=\"160.47\" y=\"640.59\" width=\"111.63\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"160.47\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"168.14\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n workflow</text><text x=\"168.14\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Case version + hash</text><text x=\"168.14\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Trusted callback</text><rect x=\"291.28\" y=\"640.59\" width=\"132.56\" height=\"37.06\" rx=\"4.24\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.56\"/><rect x=\"291.28\" y=\"640.59\" width=\"2.79\" height=\"37.06\" rx=\"1.12\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"298.95\" y=\"653.15\" font-size=\"6.13\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Executor recheck</text><text x=\"298.95\" y=\"664.48\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">SAP state + authorization</text><text x=\"298.95\" y=\"674.36\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Idempotency / retry stop</text><line x1=\"141.98\" y1=\"649.41\" x2=\"160.47\" y2=\"649.41\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" transform=\"translate(151.22 649.41) scale(-1 1) translate(-151.22 -649.41)\"/><polygon points=\"146.16,644.12 150.35,654.71 141.98,654.71\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(146.16 649.41) rotate(270) translate(-146.16 -649.41)\"/><line x1=\"141.28\" y1=\"665.29\" x2=\"159.77\" y2=\"665.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"154.19,658.24 159.77,672.35 148.6,672.35\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(154.19 665.29) rotate(90) translate(-154.19 -665.29)\"/><line x1=\"272.09\" y1=\"660\" x2=\"290.58\" y2=\"660\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.12\"/><polygon points=\"285,652.94 290.58,667.06 279.42,667.06\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(285 660) rotate(90) translate(-285 -660)\"/><line x1=\"380.23\" y1=\"355.41\" x2=\"380.23\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"380.23\" y1=\"365.29\" x2=\"437.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"365.29\" x2=\"437.79\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"437.79\" y1=\"494.12\" x2=\"441.28\" y2=\"494.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"441.28\" y1=\"494.12\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"441.28\" y2=\"608.82\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(328.78 608.82) scale(-1 1) translate(-328.78 -608.82)\"/><line x1=\"216.28\" y1=\"608.82\" x2=\"216.28\" y2=\"639.88\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"216.28,629.29 220.47,639.88 212.09,639.88\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(216.28 634.59) rotate(180) translate(-216.28 -634.59)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"359.3\" y2=\"640.59\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(359.3 619.41) scale(1 -1) translate(-359.3 -619.41)\"/><line x1=\"359.3\" y1=\"598.24\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"444.77\" y1=\"365.29\" x2=\"444.77\" y2=\"598.24\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(444.77 481.76) scale(1 -1) translate(-444.77 -481.76)\"/><line x1=\"362.79\" y1=\"365.29\" x2=\"444.77\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(403.78 365.29) scale(-1 1) translate(-403.78 -365.29)\"/><line x1=\"362.79\" y1=\"355.41\" x2=\"362.79\" y2=\"365.29\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(362.79 360.35) scale(1 -1) translate(-362.79 -360.35)\"/><polygon points=\"362.79,355.41 366.98,366 358.6,366\" fill=\"#C26A00\" stroke=\"none\"/><text x=\"29.65\" y=\"688.12\" font-size=\"5.02\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">n8n request → finance decision → exact-match callback → recheck → posting/audit.</text><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"446.51\" y=\"501.18\" width=\"352.33\" height=\"3.18\" rx=\"1.59\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"454.19\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">D  Enterprise Databricks</text><text x=\"454.19\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Current governed history and evidence</text><rect x=\"455.23\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Unity Catalog</text><text x=\"462.91\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Grants + policy</text><rect x=\"566.86\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"566.86\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"574.53\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Delta / Lakehouse</text><text x=\"574.53\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Balances + snapshots</text><rect x=\"678.49\" y=\"540\" width=\"111.63\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"678.49\" y=\"540\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"686.16\" y=\"552.58\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SQL Warehouse</text><text x=\"686.16\" y=\"563.89\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Scoped SQL</text><rect x=\"455.23\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"455.23\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"462.91\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Data Engineering Pipelines</text><text x=\"462.91\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Freshness + load status</text><rect x=\"627.91\" y=\"592.94\" width=\"162.21\" height=\"40.59\" rx=\"4.23\" fill=\"#E5F5F2\" stroke=\"#0C8F76\" stroke-width=\"0.56\"/><rect x=\"627.91\" y=\"592.94\" width=\"2.79\" height=\"40.59\" rx=\"1.12\" fill=\"#0C8F76\" stroke=\"none\"/><text x=\"635.58\" y=\"605.52\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">Approved API / MCP access</text><text x=\"635.58\" y=\"616.83\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Bounded read + audit</text><text x=\"455.23\" y=\"652.83\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Data ownership, freshness and stored results: TO VALIDATE.</text><text x=\"455.23\" y=\"666.95\" font-size=\"5.02\" fill=\"#5B3F8C\" text-anchor=\"start\">UC grants + OAuth / service principal or delegated identity.</text><line x1=\"655.12\" y1=\"395.29\" x2=\"655.12\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"655.12\" y1=\"487.06\" x2=\"675\" y2=\"487.06\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"487.06\" x2=\"675\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"675\" y1=\"585.88\" x2=\"704.65\" y2=\"585.88\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><line x1=\"704.65\" y1=\"585.88\" x2=\"704.65\" y2=\"592.24\" fill=\"none\" stroke=\"#0C8F76\" stroke-width=\"0.84\"/><polygon points=\"704.65,581.65 708.84,592.24 700.47,592.24\" fill=\"#0C8F76\" stroke=\"none\" transform=\"translate(704.65 586.94) rotate(180) translate(-704.65 -586.94)\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"197.65\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"812.79\" y=\"501.18\" width=\"366.28\" height=\"3.18\" rx=\"1.59\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"820.47\" y=\"517.94\" font-size=\"8.09\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">E  SAP Business Data Cloud</text><text x=\"820.47\" y=\"529.65\" font-size=\"5.3\" fill=\"#506778\" text-anchor=\"start\">Future state · entitlement and scope TO VALIDATE</text><rect x=\"821.51\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"846.35\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Datasphere</text><rect x=\"933.14\" y=\"540\" width=\"104.65\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"959.12\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Databricks</text><rect x=\"1044.77\" y=\"540\" width=\"125.58\" height=\"40.59\" rx=\"3.53\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.28\"/><text x=\"1063.08\" y=\"561.05\" font-size=\"5.86\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">SAP Analytics Cloud (SAC)</text><rect x=\"821.51\" y=\"592.94\" width=\"348.84\" height=\"52.94\" rx=\"4.24\" fill=\"#F3F3F3\" stroke=\"#6B6B6B\" stroke-width=\"0.56\"/><rect x=\"821.51\" y=\"592.94\" width=\"2.79\" height=\"52.94\" rx=\"1.12\" fill=\"#6B6B6B\" stroke=\"none\"/><text x=\"829.19\" y=\"605.49\" font-size=\"6.97\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">BDC Connect · zero-copy sharing</text><text x=\"829.19\" y=\"616.82\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Future governed link with existing enterprise Databricks</text><text x=\"829.19\" y=\"626.7\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Bidirectional data products via Delta Sharing</text><text x=\"829.19\" y=\"636.59\" font-size=\"5.58\" fill=\"#506778\" text-anchor=\"start\">Provisioning, grants and product scope TO VALIDATE</text><line x1=\"798.84\" y1=\"610.59\" x2=\"820.81\" y2=\"610.59\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"816.63,605.29 820.81,615.88 812.44,615.88\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(816.63 610.59) rotate(90) translate(-816.63 -610.59)\"/><line x1=\"799.53\" y1=\"626.47\" x2=\"821.51\" y2=\"626.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\" transform=\"translate(810.52 626.47) scale(-1 1) translate(-810.52 -626.47)\"/><polygon points=\"803.72,621.18 807.91,631.76 799.53,631.76\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(803.72 626.47) rotate(270) translate(-803.72 -626.47)\"/><line x1=\"717.56\" y1=\"421.76\" x2=\"717.56\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"717.56\" y1=\"488.82\" x2=\"973.26\" y2=\"488.82\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><line x1=\"973.26\" y1=\"488.82\" x2=\"973.26\" y2=\"500.47\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"0.84\" stroke-dasharray=\"3.35 2.51\"/><polygon points=\"973.26,489.88 977.44,500.47 969.07,500.47\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(973.26 495.18) rotate(180) translate(-973.26 -495.18)\"/><text x=\"821.51\" y=\"665.18\" font-size=\"5.3\" fill=\"#6B6B6B\" text-anchor=\"start\">Future retrieval through approved MCP capability, if selected.</text><ellipse cx=\"130.81\" cy=\"300\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"125.51\" y=\"302.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">1</text><ellipse cx=\"455.23\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"449.93\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">2</text><ellipse cx=\"580.81\" cy=\"240\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"575.51\" y=\"242.36\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">3</text><ellipse cx=\"216.28\" cy=\"365.29\" rx=\"4.74\" ry=\"6\" fill=\"#0A4F9E\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"367.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">4</text><ellipse cx=\"216.28\" cy=\"559.41\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"210.98\" y=\"561.77\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">5</text><ellipse cx=\"136.05\" cy=\"471.18\" rx=\"4.74\" ry=\"6\" fill=\"#0C8F76\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"130.74\" y=\"473.53\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">6</text><ellipse cx=\"150.7\" cy=\"665.29\" rx=\"4.74\" ry=\"6\" fill=\"#C26A00\" stroke=\"#FFFFFF\" stroke-width=\"0.84\"/><text x=\"145.4\" y=\"667.65\" font-size=\"5.3\" font-weight=\"700\" fill=\"#FFFFFF\" text-anchor=\"start\">7</text><rect x=\"20.93\" y=\"709.41\" width=\"1158.14\" height=\"97.06\" rx=\"5.65\" fill=\"#FFFFFF\" stroke=\"#C9D5DE\" stroke-width=\"0.56\"/><text x=\"29.65\" y=\"725.85\" font-size=\"6.69\" font-weight=\"700\" fill=\"#0A4F9E\" text-anchor=\"start\">WORKED EXAMPLE  ·  company code 1000  ·  ledger 0L  ·  Nov 2026  ·  illustrative USD $25,000 variance</text><rect x=\"29.65\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"35.23\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">1–2  Sign-in + scope</text><text x=\"35.23\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">User → app → AgentCore</text><rect x=\"219.77\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"225.35\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">3  Current SAP reads</text><text x=\"225.35\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">S/4 · Central Finance · BW</text><rect x=\"409.88\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"415.47\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">4  Reconcile</text><text x=\"415.47\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Snapshot / timestamps / tolerance</text><rect x=\"600\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"605.58\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">5  Explain</text><text x=\"605.58\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Sanitized context → model</text><rect x=\"790.12\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#E8F1FB\" stroke=\"#0A4F9E\" stroke-width=\"0.28\"/><text x=\"795.7\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">6  Read-only result</text><text x=\"795.7\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">Evidence-backed answer</text><rect x=\"980.23\" y=\"734.12\" width=\"183.14\" height=\"44.12\" rx=\"3.53\" fill=\"#FFF1E0\" stroke=\"#C26A00\" stroke-width=\"0.28\"/><text x=\"985.81\" y=\"746.7\" font-size=\"5.58\" font-weight=\"700\" fill=\"#1D2D3E\" text-anchor=\"start\">7  If adjustment</text><text x=\"985.81\" y=\"759.42\" font-size=\"5.02\" fill=\"#506778\" text-anchor=\"start\">n8n → recheck → posting → audit</text><text x=\"29.65\" y=\"795.06\" font-size=\"5.3\" fill=\"#5B3F8C\" text-anchor=\"start\">L2 identity caveat: Integration Suite / custom iFlow propagation is a candidate; prove identity mapping and ABAP roles at each SAP backend.</text><line x1=\"30\" y1=\"818.12\" x2=\"52.33\" y2=\"818.12\" fill=\"none\" stroke=\"#0A4F9E\" stroke-width=\"1.4\"/><polygon points=\"45.35,809.29 52.33,826.94 38.37,826.94\" fill=\"#0A4F9E\" stroke=\"none\" transform=\"translate(45.35 818.12) rotate(90) translate(-45.35 -818.12)\"/><text x=\"57.56\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">read / result</text><line x1=\"132.56\" y1=\"818.12\" x2=\"154.88\" y2=\"818.12\" fill=\"none\" stroke=\"#C26A00\" stroke-width=\"1.4\"/><polygon points=\"147.91,809.29 154.88,826.94 140.93,826.94\" fill=\"#C26A00\" stroke=\"none\" transform=\"translate(147.91 818.12) rotate(90) translate(-147.91 -818.12)\"/><text x=\"160.47\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">approval-gated write</text><line x1=\"268.6\" y1=\"818.12\" x2=\"290.93\" y2=\"818.12\" fill=\"none\" stroke=\"#5B3F8C\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"285.35,811.06 290.93,825.18 279.77,825.18\" fill=\"#5B3F8C\" stroke=\"none\" transform=\"translate(285.35 818.12) rotate(90) translate(-285.35 -818.12)\"/><text x=\"296.51\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">identity / credentials</text><line x1=\"425.58\" y1=\"818.12\" x2=\"447.91\" y2=\"818.12\" fill=\"none\" stroke=\"#6B6B6B\" stroke-width=\"1.12\" stroke-dasharray=\"4.46 3.35\"/><polygon points=\"442.33,811.06 447.91,825.18 436.74,825.18\" fill=\"#6B6B6B\" stroke=\"none\" transform=\"translate(442.33 818.12) rotate(90) translate(-442.33 -818.12)\"/><text x=\"453.49\" y=\"820.48\" font-size=\"4.74\" fill=\"#506778\" text-anchor=\"start\">optional / future</text><text x=\"1062.35\" y=\"820.48\" font-size=\"4.74\" font-weight=\"700\" fill=\"#506778\" text-anchor=\"start\">S2 / L2  ·  22 NOV 2026  ·  REVIEW DRAFT</text></svg>\r\n", ue = {
 	label: "Finance user",
 	owner: "Experience",
 	detail: "Fiori-style reconciliation request",
 	out: "business intent",
 	type: "ux"
-}, pe = {
+}, de = {
 	label: "SAP Integration Suite",
 	owner: "SAP Integration",
 	detail: "Approved API and iFlow mapping",
 	out: "backend read",
 	type: "sap"
-}, me = {
+}, fe = {
 	label: "Cloud Connector",
 	owner: "SAP connectivity",
 	detail: "Controlled route to SAP landscape",
 	out: "authorized call",
 	type: "sap"
-}, he = {
+}, pe = {
 	label: "SAP finance backend",
 	owner: "SAP Security + FI",
 	detail: "S/4HANA and Central Finance role checks",
 	out: "finance evidence",
 	type: "sap"
-}, ge = {
+}, me = {
 	S1: {
 		title: "S1 · Direct SAP Apigee MCP",
 		status: "SAP domain baseline · direct access open",
 		stages: [
-			fe,
+			ue,
 			{
 				label: "External finance agent",
 				owner: "Approved agent runtime",
@@ -10535,9 +10490,9 @@ var le = [
 				out: "typed SAP request",
 				type: "gateway"
 			},
-			pe,
-			me,
-			he
+			de,
+			fe,
+			pe
 		],
 		returnFlow: "SAP evidence and correlation ID → Apigee tool response → agent reconciliation → business report",
 		controls: [
@@ -10553,7 +10508,7 @@ var le = [
 		title: "S2 · AgentCore-hosted SAP finance MCP",
 		status: "AWS hosting alternative · approval open",
 		stages: [
-			fe,
+			ue,
 			{
 				label: "External finance agent",
 				owner: "AgentCore Runtime",
@@ -10575,9 +10530,9 @@ var le = [
 				out: "typed finance API",
 				type: "gateway"
 			},
-			pe,
-			me,
-			he
+			de,
+			fe,
+			pe
 		],
 		returnFlow: "SAP evidence → hosted MCP adapter → Gateway → agent reconciliation → business report",
 		controls: [
@@ -10593,7 +10548,7 @@ var le = [
 		title: "S3 · AgentCore Gateway to SAP Apigee MCP",
 		status: "Federated candidate · not approved",
 		stages: [
-			fe,
+			ue,
 			{
 				label: "External finance agent",
 				owner: "Approved runtime",
@@ -10615,9 +10570,9 @@ var le = [
 				out: "typed SAP request",
 				type: "gateway"
 			},
-			pe,
-			me,
-			he
+			de,
+			fe,
+			pe
 		],
 		returnFlow: "SAP evidence → Apigee MCP → AgentCore Gateway → agent reconciliation → business report",
 		controls: [
@@ -10629,12 +10584,12 @@ var le = [
 		decision: "Federated hosting policy, cross-gateway controls and end-to-end principal propagation are unapproved.",
 		source: "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-MCPservers.html"
 	}
-}, _e = {
+}, he = {
 	agentcore: {
 		title: "AgentCore Runtime · agent hosting",
 		status: "Leading validation candidate · conditional",
 		stages: [
-			fe,
+			ue,
 			{
 				label: "Custom finance agent",
 				owner: "AgentCore Runtime",
@@ -10649,9 +10604,9 @@ var le = [
 				out: "SAP finance tool",
 				type: "gateway"
 			},
-			pe,
-			me,
-			he
+			de,
+			fe,
+			pe
 		],
 		returnFlow: "SAP evidence → selected MCP route → AgentCore agent → finance result",
 		controls: [
@@ -10667,7 +10622,7 @@ var le = [
 		title: "SAP BTP pro-code · agent hosting",
 		status: "SAP-owned alternative · conditional",
 		stages: [
-			fe,
+			ue,
 			{
 				label: "Python finance agent",
 				owner: "BTP Cloud Foundry",
@@ -10682,9 +10637,9 @@ var le = [
 				out: "SAP finance tool",
 				type: "gateway"
 			},
-			pe,
-			me,
-			he
+			de,
+			fe,
+			pe
 		],
 		returnFlow: "SAP evidence → MCP tool → BTP agent → finance result",
 		controls: [
@@ -10700,7 +10655,7 @@ var le = [
 		title: "Microsoft Foundry · agent hosting",
 		status: "Enterprise-standard check · conditional",
 		stages: [
-			fe,
+			ue,
 			{
 				label: "Hosted finance agent",
 				owner: "Microsoft Foundry",
@@ -10715,9 +10670,9 @@ var le = [
 				out: "SAP finance tool",
 				type: "gateway"
 			},
-			pe,
-			me,
-			he
+			de,
+			fe,
+			pe
 		],
 		returnFlow: "SAP evidence → selected MCP route → Foundry agent → finance result",
 		controls: [
@@ -10754,9 +10709,9 @@ var le = [
 				out: "finance API",
 				type: "gateway"
 			},
-			pe,
-			me,
-			he
+			de,
+			fe,
+			pe
 		],
 		returnFlow: "SAP evidence → approved tool binding → Joule agent → finance result",
 		controls: [
@@ -10768,7 +10723,7 @@ var le = [
 		decision: "Joule Studio is reported unavailable; no executable tenant path is assumed.",
 		source: "https://architecture.learning.sap.com/docs/golden-path/ai-golden-path/build-and-deliver/build-ai-agents"
 	}
-}, ve = "2026-11-24", ye = "TBD — REQUIRES VALIDATION", be = {
+}, ge = "2026-11-24", _e = "TBD — REQUIRES VALIDATION", ve = {
 	S1: {
 		id: "S1",
 		label: "S1 · Google Apigee MCP",
@@ -10793,11 +10748,11 @@ var le = [
 		summary: "Two gateways in series. AgentCore Gateway is the enterprise agent entry on the AWS side; Apigee remains the SAP-domain MCP endpoint, so Finance-specific logic stays on the SAP-facing side. The AgentCore-to-Apigee hop is a gateway MCP-server target whose protocol and token-exchange behaviour is documented separately by each vendor and unproven together.",
 		baseline: "Baseline: Apigee owns the SAP-domain MCP interface; AgentCore Gateway holds a reference. Cross-gateway protocol, identity exchange and registry sync are open dependencies."
 	}
-}, k = [
+}, ye = [
 	"S1",
 	"S2",
 	"S3"
-], A = [
+], be = [
 	["MCP client", "Agent-side component that discovers and invokes MCP tools."],
 	["MCP server", "Protocol endpoint exposing tools and resources over MCP."],
 	["Domain MCP server", "Business-domain MCP implementation, e.g. SAP Finance read or posting."],
@@ -10808,12 +10763,12 @@ var le = [
 	["Backend integration", "API, integration flow or adapter reaching enterprise applications (SAP Integration Suite)."],
 	["Agent runtime", "Compute and orchestration platform running the agent. Independent of MCP hosting."],
 	["Model runtime", "LLM inference provider. Independent of MCP hosting."]
-], j = [
+], A = [
 	[
 		"Agent development environment",
-		`Enterprise-approved pro-code (Python) agent environment. ${ye}`,
-		`Same as S1. ${ye}`,
-		`Same as S1. ${ye}`
+		`Enterprise-approved pro-code (Python) agent environment. ${_e}`,
+		`Same as S1. ${_e}`,
+		`Same as S1. ${_e}`
 	],
 	[
 		"Agent hosting runtime",
@@ -10865,15 +10820,15 @@ var le = [
 	],
 	[
 		"Enterprise registry / approval authority",
-		`Enterprise AI Foundry publication approval. ${ye}`,
-		`Enterprise AI Foundry, or the AWS Agent Registry curator role. ${ye}`,
-		`Enterprise AI Foundry as the single approver across both catalogs. ${ye}`
+		`Enterprise AI Foundry publication approval. ${_e}`,
+		`Enterprise AI Foundry, or the AWS Agent Registry curator role. ${_e}`,
+		`Enterprise AI Foundry as the single approver across both catalogs. ${_e}`
 	],
 	[
 		"Source-code repository",
-		`Organization Git repository for specs, tool definitions, policies and tests. ${ye}`,
-		`Organization Git repository for server source, target schemas and infrastructure code. ${ye}`,
-		`Organization Git repository covering both sides. ${ye}`
+		`Organization Git repository for specs, tool definitions, policies and tests. ${_e}`,
+		`Organization Git repository for server source, target schemas and infrastructure code. ${_e}`,
+		`Organization Git repository covering both sides. ${_e}`
 	],
 	[
 		"MCP specifications and versioned artifacts",
@@ -10915,7 +10870,7 @@ var le = [
 		"Logging, monitoring and audit evidence",
 		"Apigee analytics and logging, Integration Suite monitoring, SAP change documents.",
 		"AgentCore Gateway and Runtime observability, Integration Suite monitoring, SAP change documents.",
-		`Two gateway logs. Correlation across them needs a propagated trace id. ${ye}`
+		`Two gateway logs. Correlation across them needs a propagated trace id. ${_e}`
 	],
 	[
 		"Deployment ownership",
@@ -10935,7 +10890,7 @@ var le = [
 		"Region availability, Agent Registry status and namespace, choice of coded server or generated tools.",
 		"Gateway-to-Apigee protocol and auth proof, ownership of double policy, registry synchronization method."
 	]
-], xe = [
+], j = [
 	"Source",
 	"Destination",
 	"Endpoint type",
@@ -10949,7 +10904,7 @@ var le = [
 	"Read / write",
 	"Registry reference",
 	"Verification"
-], Se = "Vendor-documented · tenant NOT_VERIFIED", Ce = "Design assumption", we = ye, M = "Read tools default; write tools only via the separate posting domain", N = {
+], xe = "Vendor-documented · tenant NOT_VERIFIED", Se = "Design assumption", Ce = _e, we = "Read tools default; write tools only via the separate posting domain", Te = {
 	S1: [
 		[
 			"Agent MCP client",
@@ -10962,9 +10917,9 @@ var le = [
 			"OAuth 2.1 / OIDC bearer, or API key per API product",
 			"Agent identity; end-user delegation TO VALIDATE",
 			"Agent runtime network → Apigee ingress; private path TBD",
-			M,
+			we,
 			"API hub entry",
-			Se
+			xe
 		],
 		[
 			"Apigee MCP proxy",
@@ -10977,9 +10932,9 @@ var le = [
 			"Target credentials held by Apigee: TBD",
 			"Mapped technical or user identity: TBD",
 			"Apigee → Integration Suite",
-			M,
+			we,
 			"OpenAPI spec in API hub",
-			we
+			Ce
 		],
 		[
 			"SAP-facing domain API",
@@ -10992,9 +10947,9 @@ var le = [
 			"OAuth client or certificate",
 			"Technical user or propagated principal",
 			"Customer / SAP BTP boundary",
-			M,
+			we,
 			"None (not a registry object)",
-			Ce
+			Se
 		],
 		[
 			"SAP Integration Suite",
@@ -11009,7 +10964,7 @@ var le = [
 			"Cloud Connector or private link: needs proof",
 			"Read-only in the demo; posting needs a separate approval path",
 			"None",
-			we
+			Ce
 		],
 		[
 			"Apigee API hub",
@@ -11039,7 +10994,7 @@ var le = [
 			"Agent runtime → Google APIs",
 			"Metadata only",
 			"API hub / Agent Registry",
-			we
+			Ce
 		],
 		[
 			"Git and CI/CD",
@@ -11054,7 +11009,7 @@ var le = [
 			"CI/CD → Apigee management plane",
 			"Not applicable",
 			"Spec registered in API hub",
-			Ce
+			Se
 		]
 	],
 	S2: [
@@ -11069,9 +11024,9 @@ var le = [
 			"JWT bearer validated by the gateway authorizer, or IAM",
 			"Agent identity; end-user delegation TO VALIDATE",
 			"Agent runtime → AWS gateway endpoint",
-			M,
+			we,
 			"Registry record (optional)",
-			Se
+			xe
 		],
 		[
 			"AgentCore Gateway",
@@ -11084,9 +11039,9 @@ var le = [
 			"Outbound OAuth, API key or gateway role from an AgentCore Identity credential provider",
 			"Gateway service identity or exchanged token: TBD",
 			"Inside the AWS account",
-			M,
+			we,
 			"Registry record",
-			Se
+			xe
 		],
 		[
 			"AgentCore Gateway",
@@ -11099,9 +11054,9 @@ var le = [
 			"Credential provider per target",
 			"TBD",
 			"AWS → target API",
-			M,
+			we,
 			"Registry record",
-			"Alternative; " + Se.toLowerCase()
+			"Alternative; " + xe.toLowerCase()
 		],
 		[
 			"Finance domain MCP server",
@@ -11114,9 +11069,9 @@ var le = [
 			"OAuth client or certificate",
 			"Technical user or propagated principal",
 			"AWS → SAP BTP; private route needs proof",
-			M,
+			we,
 			"None",
-			we
+			Ce
 		],
 		[
 			"SAP Integration Suite",
@@ -11131,7 +11086,7 @@ var le = [
 			"Cloud Connector or private link: needs proof",
 			"Read-only in the demo; posting needs a separate approval path",
 			"None",
-			we
+			Ce
 		],
 		[
 			"Agent runtime",
@@ -11146,7 +11101,7 @@ var le = [
 			"Agent runtime → AWS",
 			"Metadata only; approved records only",
 			"agent-registry namespace",
-			Se
+			xe
 		],
 		[
 			"Git and CI/CD",
@@ -11161,7 +11116,7 @@ var le = [
 			"CI/CD → AWS control plane",
 			"Not applicable",
 			"Record submitted for approval",
-			Ce
+			Se
 		]
 	],
 	S3: [
@@ -11176,9 +11131,9 @@ var le = [
 			"JWT bearer validated by the gateway authorizer, or IAM",
 			"Agent identity; end-user delegation TO VALIDATE",
 			"Agent runtime → AWS gateway endpoint",
-			M,
+			we,
 			"AWS Agent Registry reference",
-			Se
+			xe
 		],
 		[
 			"AgentCore Gateway",
@@ -11191,9 +11146,9 @@ var le = [
 			"Outbound OAuth (client credentials, authorization code or token exchange) or API key; Apigee must accept it",
 			"Token exchange and user-context carry-over: unproven",
 			"AWS → Google ingress; egress and latency unmeasured",
-			M,
+			we,
 			"API hub entry; AWS record is a manual reference",
-			we
+			Ce
 		],
 		[
 			"Apigee MCP proxy",
@@ -11206,9 +11161,9 @@ var le = [
 			"Target credentials held by Apigee: TBD",
 			"Mapped technical or user identity: TBD",
 			"Apigee → Integration Suite",
-			M,
+			we,
 			"OpenAPI spec in API hub",
-			we
+			Ce
 		],
 		[
 			"SAP-facing domain API",
@@ -11221,9 +11176,9 @@ var le = [
 			"OAuth client or certificate",
 			"Technical user or propagated principal",
 			"Customer / SAP BTP boundary",
-			M,
+			we,
 			"None",
-			Ce
+			Se
 		],
 		[
 			"SAP Integration Suite",
@@ -11238,7 +11193,7 @@ var le = [
 			"Cloud Connector or private link: needs proof",
 			"Read-only in the demo; posting needs a separate approval path",
 			"None",
-			we
+			Ce
 		],
 		[
 			"Apigee API hub",
@@ -11253,7 +11208,7 @@ var le = [
 			"Cross-cloud",
 			"Metadata only",
 			"No automatic sync documented; implementation dependency",
-			we
+			Ce
 		],
 		[
 			"Git and CI/CD",
@@ -11268,10 +11223,10 @@ var le = [
 			"CI/CD → both control planes",
 			"Not applicable",
 			"Specs in API hub; reference record in AWS",
-			Ce
+			Se
 		]
 	]
-}, Te = [
+}, M = [
 	{
 		name: "Finance Read MCP",
 		mode: "READ",
@@ -11290,37 +11245,6 @@ var le = [
 		tools: "Authorized Databricks or BDC-backed context · governed snapshots and support data",
 		control: "Data owner and freshness stated per source. Entitlement and scope: TO VALIDATE."
 	}
-], P = [
-	[
-		"Approved enterprise Agent Platform / AI Foundry",
-		"Conditional · remote MCP endpoint reachable",
-		"Conditional · remote MCP endpoint reachable",
-		"Tenant validation"
-	],
-	[
-		"AWS AgentCore Runtime",
-		"Conditional · calls Apigee as a remote MCP server",
-		"Documented · native fit",
-		"Documented for runtime and gateway; Apigee hop needs proof"
-	],
-	[
-		"SAP BTP pro-code runtime",
-		"Conditional · remote MCP endpoint reachable",
-		"Tenant validation",
-		"Tenant validation"
-	],
-	[
-		"Microsoft Foundry hosted agent",
-		"Tenant validation",
-		"Tenant validation",
-		"Tenant validation"
-	],
-	[
-		"Joule Studio",
-		"Tenant validation · eligibility TBD",
-		"Not recommended without proof",
-		"Not recommended without proof"
-	]
 ], Ee = [
 	[
 		"MCP development effort",
@@ -11412,7 +11336,7 @@ var le = [
 		"Open",
 		"Open"
 	]
-], De = {
+], N = {
 	headline: "ARCHITECTURE_RECOMMENDED (proposal for owner decision, not approval): use S1 as the proof-of-concept baseline for the SAP Finance domain interface.",
 	why: [
 		"It keeps the Finance domain contract on the SAP-facing side (API hub plus Integration Suite), so an agent hosted on AWS or elsewhere consumes it as a remote MCP endpoint without moving Finance logic into AWS.",
@@ -11440,7 +11364,7 @@ var le = [
 		"Repeat with user delegation; mark the result PASS, HOLD or NOT_VERIFIED.",
 		"Run a single AgentCore Gateway to Apigee call to settle the S3 protocol and token questions before any S3 commitment."
 	]
-}, Oe = [
+}, De = [
 	[
 		"Google Apigee",
 		"Apigee MCP overview",
@@ -11529,34 +11453,34 @@ var le = [
 		"Secondary source. End-to-end propagation must be proven in our tenant.",
 		"Token exchange, mapping and ABAP authorization"
 	]
-], ke = `Sources were read on ${ve}. Vendor documents describe product capability only. They are not evidence of our tenant's entitlement, activation or approval.`, F = (e, t, n, r, i, a) => ({
+], Oe = `Sources were read on ${ge}. Vendor documents describe product capability only. They are not evidence of our tenant's entitlement, activation or approval.`, P = (e, t, n, r, i, a) => ({
 	id: e,
 	row: t,
 	col: n,
 	title: r,
 	sub: i,
 	kind: a
-}), Ae = {
-	idp: F("idp", 0, 0, "Enterprise identity provider", "OAuth 2.1 / OIDC · user and agent identity", "identity"),
-	ent: F("ent", 3, 0, "Enterprise AI Foundry", "Publication and approval authority · TBD", "registry"),
-	repo: F("repo", 4, 0, "Git repository", "Source, specs, tool definitions, tests", "artifact")
-}, je = {
+}), F = {
+	idp: P("idp", 0, 0, "Enterprise identity provider", "OAuth 2.1 / OIDC · user and agent identity", "identity"),
+	ent: P("ent", 3, 0, "Enterprise AI Foundry", "Publication and approval authority · TBD", "registry"),
+	repo: P("repo", 4, 0, "Git repository", "Source, specs, tool definitions, tests", "artifact")
+}, ke = {
 	S1: {
 		cols: 5,
 		nodes: [
-			Ae.idp,
-			Ae.ent,
-			Ae.repo,
-			F("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
-			F("gw", 1, 1, "Apigee MCP endpoint", "MCP gateway · OAuth and API-product policy", "gateway"),
-			F("dom", 1, 2, "SAP Finance domain tools", "Read domain and separate posting domain · derived from OpenAPI", "domain"),
-			F("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
-			F("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
-			F("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
-			F("hub", 3, 2, "Apigee API hub", "SAP-domain MCP catalog (proposed)", "registry"),
-			F("reg", 3, 3, "Google Agent Registry", "Synced from API hub · maturity TO VALIDATE", "registry"),
-			F("cicd", 4, 1, "CI/CD → Apigee deploy", "Proxies, products, policies", "artifact"),
-			F("spec", 4, 2, "OpenAPI and tool specs", "Versioned in Git, registered in API hub", "artifact")
+			F.idp,
+			F.ent,
+			F.repo,
+			P("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
+			P("gw", 1, 1, "Apigee MCP endpoint", "MCP gateway · OAuth and API-product policy", "gateway"),
+			P("dom", 1, 2, "SAP Finance domain tools", "Read domain and separate posting domain · derived from OpenAPI", "domain"),
+			P("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
+			P("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
+			P("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
+			P("hub", 3, 2, "Apigee API hub", "SAP-domain MCP catalog (proposed)", "registry"),
+			P("reg", 3, 3, "Google Agent Registry", "Synced from API hub · maturity TO VALIDATE", "registry"),
+			P("cicd", 4, 1, "CI/CD → Apigee deploy", "Proxies, products, policies", "artifact"),
+			P("spec", 4, 2, "OpenAPI and tool specs", "Versioned in Git, registered in API hub", "artifact")
 		],
 		edges: [
 			[
@@ -11651,19 +11575,19 @@ var le = [
 	S2: {
 		cols: 5,
 		nodes: [
-			Ae.idp,
-			Ae.ent,
-			Ae.repo,
-			F("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
-			F("gw", 1, 1, "AgentCore Gateway", "MCP gateway · inbound auth, outbound credentials · no custom tool code", "gateway"),
-			F("dom", 1, 2, "Finance domain MCP server", "Coded server on AgentCore Runtime, or gateway-generated tools", "domain"),
-			F("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
-			F("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
-			F("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
-			F("aid", 0, 1, "AgentCore Identity", "Credential providers for outbound auth", "identity"),
-			F("reg", 3, 2, "AWS Agent Registry", "Discovery and approval · agent-registry namespace", "registry"),
-			F("cicd", 4, 1, "CI/CD → AWS deploy", "Runtime image, gateway targets", "artifact"),
-			F("ecr", 4, 2, "Container registry (ECR)", "Runtime image for the MCP server", "artifact")
+			F.idp,
+			F.ent,
+			F.repo,
+			P("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
+			P("gw", 1, 1, "AgentCore Gateway", "MCP gateway · inbound auth, outbound credentials · no custom tool code", "gateway"),
+			P("dom", 1, 2, "Finance domain MCP server", "Coded server on AgentCore Runtime, or gateway-generated tools", "domain"),
+			P("int", 1, 3, "SAP Integration Suite", "API and iFlow layer · Cloud Connector", "integration"),
+			P("sap", 1, 4, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
+			P("data", 2, 3, "Analytical MCP · Databricks / BDC", "Future state · entitlement TO VALIDATE", "data"),
+			P("aid", 0, 1, "AgentCore Identity", "Credential providers for outbound auth", "identity"),
+			P("reg", 3, 2, "AWS Agent Registry", "Discovery and approval · agent-registry namespace", "registry"),
+			P("cicd", 4, 1, "CI/CD → AWS deploy", "Runtime image, gateway targets", "artifact"),
+			P("ecr", 4, 2, "Container registry (ECR)", "Runtime image for the MCP server", "artifact")
 		],
 		edges: [
 			[
@@ -11762,21 +11686,21 @@ var le = [
 	S3: {
 		cols: 6,
 		nodes: [
-			Ae.idp,
-			Ae.ent,
-			Ae.repo,
-			F("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
-			F("gw", 1, 1, "AgentCore Gateway", "First gateway · agent entry on AWS", "gateway"),
-			F("gw2", 1, 2, "Apigee MCP endpoint", "Second gateway · SAP-domain policy", "gateway"),
-			F("dom", 1, 3, "SAP Finance domain tools", "Owned on the SAP-facing side · from OpenAPI", "domain"),
-			F("int", 1, 4, "SAP Integration Suite", "API and iFlow layer", "integration"),
-			F("sap", 1, 5, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
-			F("data", 2, 4, "Analytical MCP · Databricks / BDC", "Future state · TO VALIDATE", "data"),
-			F("aid", 0, 1, "AgentCore Identity", "Outbound token handling", "identity"),
-			F("areg", 3, 1, "AWS Agent Registry", "Reference record · manual or custom sync", "registry"),
-			F("hub", 3, 3, "Apigee API hub", "SAP-domain source of truth (proposed)", "registry"),
-			F("cicd", 4, 2, "CI/CD → both platforms", "Apigee bundle and AWS target", "artifact"),
-			F("spec", 4, 3, "Specs and interface contract", "OpenAPI plus cross-gateway contract", "artifact")
+			F.idp,
+			F.ent,
+			F.repo,
+			P("agent", 1, 0, "Agent runtime · MCP client", "Approved host · demo: AgentCore Runtime", "agent"),
+			P("gw", 1, 1, "AgentCore Gateway", "First gateway · agent entry on AWS", "gateway"),
+			P("gw2", 1, 2, "Apigee MCP endpoint", "Second gateway · SAP-domain policy", "gateway"),
+			P("dom", 1, 3, "SAP Finance domain tools", "Owned on the SAP-facing side · from OpenAPI", "domain"),
+			P("int", 1, 4, "SAP Integration Suite", "API and iFlow layer", "integration"),
+			P("sap", 1, 5, "SAP S/4HANA · CF · BW/4HANA", "ABAP authorization boundary", "backend"),
+			P("data", 2, 4, "Analytical MCP · Databricks / BDC", "Future state · TO VALIDATE", "data"),
+			P("aid", 0, 1, "AgentCore Identity", "Outbound token handling", "identity"),
+			P("areg", 3, 1, "AWS Agent Registry", "Reference record · manual or custom sync", "registry"),
+			P("hub", 3, 3, "Apigee API hub", "SAP-domain source of truth (proposed)", "registry"),
+			P("cicd", 4, 2, "CI/CD → both platforms", "Apigee bundle and AWS target", "artifact"),
+			P("spec", 4, 3, "Specs and interface contract", "OpenAPI plus cross-gateway contract", "artifact")
 		],
 		edges: [
 			[
@@ -11888,7 +11812,7 @@ var le = [
 			]
 		]
 	}
-}, Me = {
+}, Ae = {
 	control: "#FFFFFF",
 	decision: "#FFF8EE",
 	agent: "#E8F1FB",
@@ -11900,7 +11824,7 @@ var le = [
 	registry: "#E5F5F2",
 	artifact: "#F3F3F3",
 	identity: "#FFF7DA"
-}, Ne = {
+}, je = {
 	invoke: {
 		c: "#0A4F9E",
 		w: 2.6,
@@ -11931,42 +11855,42 @@ var le = [
 		w: 2.2,
 		d: "7 4"
 	}
-}, Pe = [
+}, Me = [
 	["invoke", "Runtime invocation"],
 	["registry", "Registry / discovery"],
 	["deploy", "Deployment / artifacts"],
 	["identity", "Identity / authentication"],
 	["approval", "Approval-gated operation"]
-], Fe = {
+], Ne = {
 	google: "#C26A00",
 	aws: "#0A4F9E",
 	sap: "#5B3F8C"
-}, Ie = (e) => String(e).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-function Le(e, t) {
+}, Pe = (e) => String(e).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function Fe(e, t) {
 	let n = [], r = "";
 	for (let i of String(e).split(" ")) (r + " " + i).trim().length > t && r ? (n.push(r), r = i) : r = (r + " " + i).trim();
 	return r && n.push(r), n;
 }
-var Re = [
+var Ie = [
 	[104, "IDENTITY AND SECURITY"],
 	[224, "RUNTIME INVOCATION PATH"],
 	[392, "DATA / ANALYTICS BRANCH"],
 	[514, "REGISTRY AND DISCOVERY (NOT AN INVOCATION HOP)"],
 	[654, "ARTIFACT REPOSITORY AND DEPLOYMENT"]
-], ze = "Proposed design for review. Vendor names are design projections, not connected services. Placeholders are not tenant addresses. Registry and deployment arrows are not invocation traffic.";
-function Be(e) {
-	let t = je[e], n = be[e];
-	return Ve({
+], Le = "Proposed design for review. Vendor names are design projections, not connected services. Placeholders are not tenant addresses. Registry and deployment arrows are not invocation traffic.";
+function Re(e) {
+	let t = ke[e], n = ve[e];
+	return ze({
 		...t,
 		title: `${n.label} · MCP topology`,
 		chain: n.chain,
 		banner: "PROPOSED DESIGN · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
-		captions: Re,
-		legend: Pe,
-		footer: ze
+		captions: Ie,
+		legend: Me,
+		footer: Le
 	});
 }
-function Ve(e) {
+function ze(e) {
 	let t = e.height || 840, n = e.nh || 92, r = (1140 - (e.cols - 1) * 30) / e.cols, i = e.ys || [
 		118,
 		258,
@@ -11987,17 +11911,17 @@ function Ve(e) {
 	let o = [];
 	for (let [t, n, r] of e.bounds) {
 		let e = n.map((e) => a[e]), i = Math.min(...e.map((e) => e.x)) - 10, s = Math.min(...e.map((e) => e.y)) - 24, c = Math.max(...e.map((e) => e.x + e.w)) + 10, l = Math.max(...e.map((e) => e.y + e.h)) + 10;
-		o.push(`<rect x="${i}" y="${s}" width="${c - i}" height="${l - s}" rx="8" fill="none" stroke="${Fe[r]}" stroke-width="2" stroke-dasharray="14 5"/>`), o.push(`<text x="${i + 8}" y="${s + 15}" font-size="12" font-weight="700" fill="${Fe[r]}">${Ie(t)}</text>`);
+		o.push(`<rect x="${i}" y="${s}" width="${c - i}" height="${l - s}" rx="8" fill="none" stroke="${Ne[r]}" stroke-width="2" stroke-dasharray="14 5"/>`), o.push(`<text x="${i + 8}" y="${s + 15}" font-size="12" font-weight="700" fill="${Ne[r]}">${Pe(t)}</text>`);
 	}
 	let s = (e, t, n = "end") => o.push(`<text x="${n === "end" ? 1170 : 30}" y="${e}" font-size="11.5" font-weight="700" fill="#506778" text-anchor="${n}">${t}</text>`);
 	for (let [t, n, r] of e.captions) s(t, n, r);
 	let c = [], l = [], u = {};
 	for (let [t, n, r, i, s = {}] of e.edges) {
 		let e = r === "identity" ? u[t] = (u[t] ?? -1) + 1 : 0, d = a[t], f = a[n], p = s.active ? {
-			...Ne[r],
+			...je[r],
 			c: "#E9730C",
-			w: Ne[r].w + 1
-		} : Ne[r], m = {
+			w: je[r].w + 1
+		} : je[r], m = {
 			x: d.x + d.w / 2,
 			y: d.y + d.h / 2
 		}, h = {
@@ -12024,26 +11948,26 @@ function Ve(e) {
 	o.push(...l);
 	for (let t of e.nodes) {
 		let e = a[t.id], n = `${t.stage ? " data-stage=\"1\"" : ""}${t.kind === "control" ? " data-control=\"1\"" : ""}`;
-		o.push(`<rect data-node="${t.id}"${n} x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="${Me[t.kind]}" stroke="${t.stroke || "#506778"}" stroke-width="${t.strokeWidth || 1.4}"${t.dashed ? " stroke-dasharray=\"7 4\"" : ""}${t.cls ? ` class="${t.cls}"` : ""}/>`);
-		let r = Le(t.title, Math.floor(e.w / 7.1)).slice(0, 2);
-		r.forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + n * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${Ie(t)}</text>`)), Le(t.sub, Math.floor((e.w - 8) / 5.7)).slice(0, Math.max(2, Math.floor((e.h - 20 - r.length * 15 - 8) / 12.5) - +!!t.status)).forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + r.length * 15 + n * 12.5}" font-size="10.5" fill="#34495C">${Ie(t)}</text>`)), t.status && o.push(`<text x="${e.x + 8}" y="${e.y + e.h - 9}" font-size="10.5" font-weight="700" fill="${t.statusColor || "#34495C"}">${Ie(t.status)}</text>`), t.zone && o.push(`<rect data-zone="${Ie(t.zone)}" x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="transparent"/>`);
+		o.push(`<rect data-node="${t.id}"${n} x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="${Ae[t.kind]}" stroke="${t.stroke || "#506778"}" stroke-width="${t.strokeWidth || 1.4}"${t.dashed ? " stroke-dasharray=\"7 4\"" : ""}${t.cls ? ` class="${t.cls}"` : ""}/>`);
+		let r = Fe(t.title, Math.floor(e.w / 7.1)).slice(0, 2);
+		r.forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + n * 15}" font-size="12.5" font-weight="700" fill="#1D2D3E">${Pe(t)}</text>`)), Fe(t.sub, Math.floor((e.w - 8) / 5.7)).slice(0, Math.max(2, Math.floor((e.h - 20 - r.length * 15 - 8) / 12.5) - +!!t.status)).forEach((t, n) => o.push(`<text x="${e.x + 8}" y="${e.y + 20 + r.length * 15 + n * 12.5}" font-size="10.5" fill="#34495C">${Pe(t)}</text>`)), t.status && o.push(`<text x="${e.x + 8}" y="${e.y + e.h - 9}" font-size="10.5" font-weight="700" fill="${t.statusColor || "#34495C"}">${Pe(t.status)}</text>`), t.zone && o.push(`<rect data-zone="${Pe(t.zone)}" x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="7" fill="transparent"/>`);
 	}
 	for (let [e, t, n, r] of c) {
 		let i = n.length * 5.6 + 10;
-		o.push(`<rect x="${e - i / 2}" y="${t - 11}" width="${i}" height="15" rx="3" fill="#F1F4F7" opacity="0.94"/><text x="${e}" y="${t}" font-size="10.5" font-weight="600" fill="${r}" text-anchor="middle">${Ie(n)}</text>`);
+		o.push(`<rect x="${e - i / 2}" y="${t - 11}" width="${i}" height="15" rx="3" fill="#F1F4F7" opacity="0.94"/><text x="${e}" y="${t}" font-size="10.5" font-weight="600" fill="${r}" text-anchor="middle">${Pe(n)}</text>`);
 	}
 	let d = 30;
 	o.push(`<rect x="22" y="${t - 54}" width="1156" height="40" rx="6" fill="#FFFFFF" stroke="#D9E1E7"/>`), o.push(`<text x="30" y="${t - 36}" font-size="11" font-weight="700" fill="#506778">LEGEND</text>`);
 	for (let [n, r] of e.legend) {
-		let e = Ne[n];
-		o.push(`<line x1="${d + 60}" y1="${t - 40}" x2="${d + 90}" y2="${t - 40}" stroke="${e.c}" stroke-width="${e.w}"${e.d ? ` stroke-dasharray="${e.d}"` : ""}/><text x="${d + 96}" y="${t - 36}" font-size="11" fill="#1D2D3E">${Ie(r)}</text>`), d += 96 + r.length * 5.4 + 8;
+		let e = je[n];
+		o.push(`<line x1="${d + 60}" y1="${t - 40}" x2="${d + 90}" y2="${t - 40}" stroke="${e.c}" stroke-width="${e.w}"${e.d ? ` stroke-dasharray="${e.d}"` : ""}/><text x="${d + 96}" y="${t - 36}" font-size="11" fill="#1D2D3E">${Pe(r)}</text>`), d += 96 + r.length * 5.4 + 8;
 	}
-	o.push(`<text x="30" y="${t - 20}" font-size="10.5" fill="#506778">${Ie(e.footer)}</text>`);
+	o.push(`<text x="30" y="${t - 20}" font-size="10.5" fill="#506778">${Pe(e.footer)}</text>`);
 	let f = e.title;
-	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${t}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${Ie(f)}</title><desc id="d">${Ie(e.chain)}</desc><rect width="1200" height="${t}" fill="#F1F4F7"/><text x="30" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${Ie(f)}</text><text x="30" y="62" font-size="12" fill="#34495C">${Ie(e.chain.length > 150 ? e.chain.slice(0, 147) + "…" : e.chain)}</text><text x="30" y="82" font-size="11" fill="#B3261E" font-weight="700">${Ie(e.banner)}</text>${o.join("")}</svg>\n`;
+	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${t}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${Pe(f)}</title><desc id="d">${Pe(e.chain)}</desc><rect width="1200" height="${t}" fill="#F1F4F7"/><text x="30" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${Pe(f)}</text><text x="30" y="62" font-size="12" fill="#34495C">${Pe(e.chain.length > 150 ? e.chain.slice(0, 147) + "…" : e.chain)}</text><text x="30" y="82" font-size="11" fill="#B3261E" font-weight="700">${Pe(e.banner)}</text>${o.join("")}</svg>\n`;
 }
 // src/landscapeDiagrams.js
-var He = [...[
+var Be = [...[
 	"S1",
 	"S2",
 	"S3"
@@ -12051,8 +11975,8 @@ var He = [...[
 	key: `mcp-${e}`,
 	kind: "mcp",
 	id: e,
-	tab: ge[e].title.split(" · ")[0] + " path",
-	title: ge[e].title
+	tab: me[e].title.split(" · ")[0] + " path",
+	title: me[e].title
 })), ...[
 	["agentcore", "AgentCore"],
 	["btp", "SAP BTP"],
@@ -12063,8 +11987,8 @@ var He = [...[
 	kind: "hosting",
 	id: e,
 	tab: `Host · ${t}`,
-	title: _e[e].title
-}))], I = (e, t, n, r, i, a, o = {}) => ({
+	title: he[e].title
+}))], Ve = (e, t, n, r, i, a, o = {}) => ({
 	id: e,
 	row: t,
 	col: n,
@@ -12072,30 +11996,30 @@ var He = [...[
 	sub: i,
 	kind: a,
 	...o
-}), Ue = [
+}), He = [
 	["invoke", "Request / tool call"],
 	["return", "Evidence / response"],
 	["identity", "Identity / authentication"]
-], We = [
+], I = [
 	[104, "IDENTITY AND SECURITY"],
 	[224, "REQUEST AND TOOL-CALL PATH"],
 	[514, "CROSS-CUTTING CONTROLS · design dependencies, not proved connections"],
 	[654, "OPEN DECISION"]
 ];
-function Ge(e) {
+function Ue(e) {
 	return e.type === "ux" ? "agent" : e.type === "agent" ? "domain" : e.type === "gateway" ? "gateway" : /backend/i.test(e.label) ? "backend" : "integration";
 }
-function Ke(e, t) {
-	let n = (e === "mcp" ? ge : _e)[t], r = n.stages.length, i = n.stages.map((e, t) => I(`s${t}`, 1, t, e.label, `${e.owner}. ${e.detail}`, Ge(e), {
+function We(e, t) {
+	let n = (e === "mcp" ? me : he)[t], r = n.stages.length, i = n.stages.map((e, t) => Ve(`s${t}`, 1, t, e.label, `${e.owner}. ${e.detail}`, Ue(e), {
 		h: 124,
 		stage: !0
 	}));
-	i.push(I("idp", 0, 0, "Identity and access", "Caller or service identity is proved at every hop. The SAP backend role check is the final authorization.", "identity"));
+	i.push(Ve("idp", 0, 0, "Identity and access", "Caller or service identity is proved at every hop. The SAP backend role check is the final authorization.", "identity"));
 	let a = r / 4;
-	n.controls.forEach(([e, t], n) => i.push(I(`c${n}`, 3, n * a, e, t, "control", {
+	n.controls.forEach(([e, t], n) => i.push(Ve(`c${n}`, 3, n * a, e, t, "control", {
 		span: a,
 		h: 108
-	}))), i.push(I("decision", 4, 0, "Open decision", n.decision, "decision", {
+	}))), i.push(Ve("decision", 4, 0, "Open decision", n.decision, "decision", {
 		span: r,
 		h: 70
 	}));
@@ -12122,7 +12046,7 @@ function Ke(e, t) {
 		`s${s}`,
 		"identity",
 		"tool credential"
-	]), Ve({
+	]), ze({
 		cols: r,
 		nodes: i,
 		edges: o,
@@ -12131,8 +12055,8 @@ function Ke(e, t) {
 			n.stages.map((e, t) => e.type === "sap" && t > 0 ? `s${t}` : null).filter(Boolean),
 			"sap"
 		]],
-		captions: We,
-		legend: Ue,
+		captions: I,
+		legend: He,
 		title: n.title,
 		chain: n.stages.map((e) => e.label).join(" → "),
 		banner: n.status.toUpperCase(),
@@ -12140,12 +12064,12 @@ function Ke(e, t) {
 	});
 }
 // src/DetailedDiagrams.jsx
-var qe = 1200, Je = 840, Ye = 12, Xe = [2, 4], Ze = (e, t, n) => Math.min(n, Math.max(t, e)), Qe = {
+var Ge = 1200, Ke = 840, qe = 12, Je = [2, 4], Ye = (e, t, n) => Math.min(n, Math.max(t, e)), Xe = {
 	S1: {
 		id: "S1",
 		tab: "S1 · Google Apigee MCP",
 		title: "S1 · Google Apigee MCP",
-		svg: ue,
+		svg: ce,
 		gateway: "Google Apigee MCP, external to AWS",
 		summary: "The custom agent runs on Amazon Bedrock AgentCore Runtime and reaches the finance-owned domain MCP tools, SAP BAIP and the SAP backends through one MCP gateway: Google Apigee, outside the AWS boundary. Apigee applies inbound authorization and outbound target credentials; read paths return results over the same mediated path."
 	},
@@ -12153,24 +12077,24 @@ var qe = 1200, Je = 840, Ye = 12, Xe = [2, 4], Ze = (e, t, n) => Math.min(n, Mat
 		id: "S2",
 		tab: "S2 · AgentCore Gateway MCP",
 		title: "S2 · AgentCore Gateway MCP",
-		svg: de,
+		svg: le,
 		gateway: "AgentCore Gateway MCP, inside AWS",
 		summary: "The same agent and downstream path, but the single MCP gateway is AgentCore Gateway inside the AWS trust boundary. Inbound authorization and outbound target credentials are applied by the gateway before the finance-owned domain MCP tools, SAP BAIP and the SAP backends."
 	}
-}, $e = Object.fromEntries(He.map((e) => {
-	let t = (e.kind === "mcp" ? ge : _e)[e.id];
+}, Ze = Object.fromEntries(Be.map((e) => {
+	let t = (e.kind === "mcp" ? me : he)[e.id];
 	return [e.key, {
 		id: e.key,
 		tab: e.tab,
 		title: e.title,
-		svg: Ke(e.kind, e.id),
+		svg: We(e.kind, e.id),
 		file: `landscape-${e.key}`,
 		png: !0,
 		landscape: !0,
 		data: t,
 		summary: `${t.status}. ${t.decision}`
 	}];
-})), et = "Only MCP gateway placement and its inbound / outbound auth controls change. Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.", tt = [
+})), Qe = "Only MCP gateway placement and its inbound / outbound auth controls change. Agent logic, domain tools, SAP integration, data, model and approval paths remain equivalent.", $e = [
 	[
 		"Lane 03 MCP gateway",
 		"Google Apigee · external to AWS",
@@ -12196,7 +12120,7 @@ var qe = 1200, Je = 840, Ye = 12, Xe = [2, 4], Ze = (e, t, n) => Math.min(n, Mat
 		"ONE selected gateway · no Portkey MCP",
 		"ONE selected gateway · no Portkey MCP"
 	]
-], nt = [
+], et = [
 	"Delegation versus service identity: TO VALIDATE",
 	"Integration Suite / iFlow identity propagation: TBD",
 	"Mapped principal and ABAP roles at each SAP backend: TO VALIDATE",
@@ -12204,14 +12128,14 @@ var qe = 1200, Je = 840, Ye = 12, Xe = [2, 4], Ze = (e, t, n) => Math.min(n, Mat
 	"Direct API versus iFlow / Cloud Connector route per backend; private route needs proof",
 	"SAP Business Data Cloud and Databricks entitlement and scope: TO VALIDATE (future state)"
 ];
-function rt(e, t) {
+function tt(e, t) {
 	return e.replace("aria-labelledby=\"t d\"", `aria-labelledby="${t}-t ${t}-d"`).replace("id=\"t\"", `id="${t}-t"`).replace("id=\"d\"", `id="${t}-d"`);
 }
-function it(e) {
+function nt(e) {
 	return new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${e}`], { type: "image/svg+xml" });
 }
-function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onExpand: o, compact: s, onPick: c }) {
-	let l = e.w || qe, u = e.h || Je, d = (0, b.useRef)(null), f = (0, b.useRef)(null), p = (0, b.useRef)(null), m = (0, b.useRef)(n), h = (0, b.useRef)({
+function rt({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onExpand: o, compact: s, onPick: c }) {
+	let l = e.w || Ge, u = e.h || Ke, d = (0, b.useRef)(null), f = (0, b.useRef)(null), p = (0, b.useRef)(null), m = (0, b.useRef)(n), h = (0, b.useRef)({
 		s: .5,
 		x: 0,
 		y: 0
@@ -12219,7 +12143,7 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 	m.current = n;
 	let y = (0, b.useRef)(r), S = (0, b.useRef)(i);
 	y.current = r, S.current = i;
-	let C = (0, b.useMemo)(() => rt(e.svg, t), [e, t]), w = (0, b.useCallback)(() => {
+	let C = (0, b.useMemo)(() => tt(e.svg, t), [e, t]), w = (0, b.useCallback)(() => {
 		let e = f.current?.getBoundingClientRect();
 		if (!e || !e.width || !e.height) return null;
 		let t = Math.min((e.width - 16) / l, (e.height - 16) / u);
@@ -12253,7 +12177,7 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 	let E = (0, b.useCallback)((e, t, n) => {
 		let r = m.current;
 		if (!r) return;
-		let i = Math.max(.05, h.current.s * .5), a = Ze(r.s * e, i, Ye), o = a / r.s;
+		let i = Math.max(.05, h.current.s * .5), a = Ye(r.s * e, i, qe), o = a / r.s;
 		g.current = !1, y.current({
 			s: a,
 			x: t - (t - r.x) * o,
@@ -12269,7 +12193,7 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 			x: n.x + e,
 			y: n.y + t
 		}));
-	}, ee = () => {
+	}, k = () => {
 		let e = f.current.getBoundingClientRect(), t = m.current, n = 1 / t.s;
 		g.current = !1;
 		let r = e.width / 2, i = e.height / 2;
@@ -12289,7 +12213,7 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 		};
 		return e.addEventListener("wheel", t, { passive: !1 }), () => e.removeEventListener("wheel", t);
 	}, [E]);
-	let te = (e) => {
+	let ee = (e) => {
 		if (!e.target.closest("button") && (f.current.setPointerCapture?.(e.pointerId), _.current.set(e.pointerId, {
 			x: e.clientX,
 			y: e.clientY
@@ -12300,7 +12224,7 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 			let [e, t] = [..._.current.values()];
 			v.current = Math.hypot(e.x - t.x, e.y - t.y);
 		}
-	}, ne = (e) => {
+	}, te = (e) => {
 		let t = _.current.get(e.pointerId);
 		if (!t) return;
 		let n = {
@@ -12315,18 +12239,18 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 			return;
 		}
 		_.current.set(e.pointerId, n);
-	}, re = (e) => {
+	}, ne = (e) => {
 		let t = d.current;
 		if (_.current.delete(e.pointerId), _.current.size < 2 && (v.current = null), c && t && e.type === "pointerup" && _.current.size === 0 && Math.hypot(e.clientX - t.x, e.clientY - t.y) < 5) {
 			let t = f.current?.getRootNode?.(), n = (t?.elementFromPoint ? t : document).elementFromPoint(e.clientX, e.clientY)?.closest?.("[data-zone]");
 			n && c(n.getAttribute("data-zone"));
 		}
 		d.current = null;
-	}, ie = (e) => {
+	}, re = (e) => {
 		if (e.key === "+" || e.key === "=") D(1.25);
 		else if (e.key === "-" || e.key === "_") D(.8);
 		else if (e.key === "0") T();
-		else if (e.key === "1") ee();
+		else if (e.key === "1") k();
 		else if (e.key === "ArrowLeft") O(60, 0);
 		else if (e.key === "ArrowRight") O(-60, 0);
 		else if (e.key === "ArrowUp") O(0, 60);
@@ -12348,7 +12272,7 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 			document.removeEventListener("keydown", e), document.removeEventListener("fullscreenchange", t);
 		};
 	}, [a, o]);
-	let ae = () => {
+	let ie = () => {
 		if (a) document.fullscreenElement && document.exitFullscreen?.().catch(() => {}), o(!1);
 		else {
 			o(!0);
@@ -12356,14 +12280,14 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 				p.current?.requestFullscreen?.().catch(() => {});
 			} catch {}
 		}
-	}, oe = () => {
-		let t = URL.createObjectURL(it(e.svg));
+	}, ae = () => {
+		let t = URL.createObjectURL(nt(e.svg));
 		window.open(t, "_blank", "noopener"), setTimeout(() => URL.revokeObjectURL(t), 6e4);
-	}, se = () => {
-		let t = URL.createObjectURL(it(e.svg)), n = document.createElement("a");
+	}, oe = () => {
+		let t = URL.createObjectURL(nt(e.svg)), n = document.createElement("a");
 		n.href = t, n.download = `${e.file || `finance-architecture-${e.id.toLowerCase()}`}.svg`, document.body.appendChild(n), n.click(), n.remove(), setTimeout(() => URL.revokeObjectURL(t), 1e3);
-	}, ce = (t) => {
-		let n = URL.createObjectURL(it(e.svg)), r = new Image();
+	}, se = (t) => {
+		let n = URL.createObjectURL(nt(e.svg)), r = new Image();
 		r.onload = () => {
 			let i = document.createElement("canvas");
 			i.width = l * t, i.height = u * t, i.getContext("2d").drawImage(r, 0, 0, i.width, i.height), URL.revokeObjectURL(n), i.toBlob((n) => {
@@ -12372,7 +12296,7 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 				i.href = r, i.download = `${e.file || `finance-architecture-${e.id.toLowerCase()}`}-${t}x.png`, document.body.appendChild(i), i.click(), i.remove(), setTimeout(() => URL.revokeObjectURL(r), 1e3);
 			}, "image/png");
 		}, r.onerror = () => URL.revokeObjectURL(n), r.src = n;
-	}, le = Math.round((n?.s || 0) * 100), ue = n ? `translate(${n.x}px,${n.y}px) scale(${n.s})` : "none";
+	}, ce = Math.round((n?.s || 0) * 100), le = n ? `translate(${n.x}px,${n.y}px) scale(${n.s})` : "none";
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		ref: p,
 		className: `dd-viewer ${a ? "expanded" : ""} ${s ? "compact" : ""}`,
@@ -12400,7 +12324,7 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 						className: "dd-zoom",
 						"aria-live": "polite",
 						"aria-label": `${e.id} zoom level`,
-						children: [le, "%"]
+						children: [ce, "%"]
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
@@ -12418,33 +12342,33 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: ee,
+						onClick: k,
 						"aria-label": `${e.id} actual size`,
 						title: "Actual size, 100% (1)",
 						children: "100%"
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: ae,
+						onClick: ie,
 						"aria-label": a ? `Exit expanded ${e.id} view` : `Expand ${e.id} to full screen`,
 						"aria-pressed": a,
 						children: a ? "Close ✕" : "Expand ⤢"
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: oe,
+						onClick: ae,
 						title: "Open the vector SVG in a new browser tab",
 						children: "Open full-size ↗"
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: se,
+						onClick: oe,
 						title: "Download the vector SVG",
 						children: "SVG ⤓"
 					}),
-					e.png && Xe.map((t) => /* @__PURE__ */ (0, x.jsxs)("button", {
+					e.png && Je.map((t) => /* @__PURE__ */ (0, x.jsxs)("button", {
 						type: "button",
-						onClick: () => ce(t),
+						onClick: () => se(t),
 						"aria-label": `Download ${e.id} as ${t}x PNG`,
 						title: `Download a ${l * t} x ${u * t} px PNG`,
 						children: [
@@ -12461,11 +12385,11 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 			tabIndex: 0,
 			role: "group",
 			"aria-label": `${e.title} diagram. Scroll or pinch to zoom, drag to pan. Keys: plus and minus zoom, arrow keys pan, 0 resets, 1 actual size.`,
-			onPointerDown: te,
-			onPointerMove: ne,
-			onPointerUp: re,
-			onPointerCancel: re,
-			onKeyDown: ie,
+			onPointerDown: ee,
+			onPointerMove: te,
+			onPointerUp: ne,
+			onPointerCancel: ne,
+			onKeyDown: re,
 			onDoubleClick: (e) => {
 				if (e.target.closest("button")) return;
 				let t = f.current.getBoundingClientRect();
@@ -12477,7 +12401,7 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 				style: {
 					width: l,
 					height: u,
-					transform: ue
+					transform: le
 				},
 				dangerouslySetInnerHTML: { __html: C }
 			}), /* @__PURE__ */ (0, x.jsx)("span", {
@@ -12488,10 +12412,10 @@ function at({ diagram: e, uid: t, view: n, onView: r, onFit: i, expanded: a, onE
 		})]
 	});
 }
-function ot({ view: e = "S1", onView: t, onBack: n }) {
+function it({ view: e = "S1", onView: t, onBack: n }) {
 	let [r, i] = (0, b.useState)(null), [a, o] = (0, b.useState)(null), [s, c] = (0, b.useState)(!0), [l, u] = (0, b.useState)(null), d = e === "compare", f = (e) => {
 		u(null), t(e);
-	}, p = !!$e[e], m = $e[e] || Qe[d ? "S1" : e] || Qe.S1, h = (0, b.useCallback)((e) => {
+	}, p = !!Ze[e], m = Ze[e] || Xe[d ? "S1" : e] || Xe.S1, h = (0, b.useCallback)((e) => {
 		i(e), o(e);
 	}, []), g = ["S1", "S2"];
 	return /* @__PURE__ */ (0, x.jsxs)("main", {
@@ -12518,7 +12442,7 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 							"aria-selected": e === t,
 							className: e === t ? "active" : "",
 							onClick: () => f(t),
-							children: t === "compare" ? "Compare side-by-side" : Qe[t].tab
+							children: t === "compare" ? "Compare side-by-side" : Xe[t].tab
 						}, t))
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
@@ -12529,7 +12453,7 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 						}), /* @__PURE__ */ (0, x.jsx)("button", {
 							type: "button",
 							onClick: n,
-							children: "← Architecture pros & cons"
+							children: "← Complete architecture"
 						})]
 					})
 				]
@@ -12545,7 +12469,7 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 					children: [/* @__PURE__ */ (0, x.jsx)("span", {
 						className: "eyebrow",
 						children: "SCENARIO INVARIANT"
-					}), /* @__PURE__ */ (0, x.jsx)("p", { children: et })]
+					}), /* @__PURE__ */ (0, x.jsx)("p", { children: Qe })]
 				})]
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("section", {
@@ -12558,7 +12482,7 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 					className: "dd-selector",
 					role: "tablist",
 					"aria-label": "Landscape diagram selection",
-					children: He.map((t) => /* @__PURE__ */ (0, x.jsx)("button", {
+					children: Be.map((t) => /* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						role: "tab",
 						"aria-selected": e === t.key,
@@ -12579,8 +12503,8 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 					}), " Synchronize zoom and pan"] }), /* @__PURE__ */ (0, x.jsx)("span", { children: "Zoom into lane 03 and the AWS trust boundary to see where the two options differ." })]
 				}), /* @__PURE__ */ (0, x.jsx)("div", {
 					className: "dd-compare-grid",
-					children: g.map((e, t) => /* @__PURE__ */ (0, x.jsx)(at, {
-						diagram: Qe[e],
+					children: g.map((e, t) => /* @__PURE__ */ (0, x.jsx)(rt, {
+						diagram: Xe[e],
 						uid: `dd-${e}-cmp`,
 						compact: !0,
 						view: t === 0 ? r : a,
@@ -12593,7 +12517,7 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 						expanded: l === e,
 						onExpand: (t) => u(t ? e : null)
 					}, e))
-				})] }) : /* @__PURE__ */ (0, x.jsx)(at, {
+				})] }) : /* @__PURE__ */ (0, x.jsx)(rt, {
 					diagram: m,
 					uid: `dd-${m.id}`,
 					view: r,
@@ -12628,7 +12552,7 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 							type: "button",
 							className: "text-link",
 							onClick: n,
-							children: "Back to architecture pros & cons →"
+							children: "Back to complete architecture →"
 						})
 					]
 				}) : /* @__PURE__ */ (0, x.jsxs)("aside", {
@@ -12649,7 +12573,7 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 								scope: "col",
 								children: "S2"
 							})
-						] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: tt.map(([t, n, r]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+						] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: $e.map(([t, n, r]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
 							/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "row",
 								children: t
@@ -12664,7 +12588,7 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 							})
 						] }, t)) })] }),
 						/* @__PURE__ */ (0, x.jsx)("h3", { children: "Open validations shown in the diagram" }),
-						/* @__PURE__ */ (0, x.jsx)("ul", { children: nt.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) }),
+						/* @__PURE__ */ (0, x.jsx)("ul", { children: et.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) }),
 						/* @__PURE__ */ (0, x.jsx)("p", {
 							className: "micro",
 							children: "Vendor-named components are design projections, not connected services. S3 has no detailed L2 diagram; see the S3 landscape path."
@@ -12673,7 +12597,7 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 							type: "button",
 							className: "text-link",
 							onClick: n,
-							children: "Back to architecture pros & cons →"
+							children: "Back to complete architecture →"
 						})
 					]
 				})]
@@ -12682,11 +12606,11 @@ function ot({ view: e = "S1", onView: t, onBack: n }) {
 	});
 }
 // src/ArchitectureDiagram.jsx
-function st({ kind: e, id: t, onClose: n, onDetails: r }) {
-	let i = (e === "mcp" ? ge : _e)[t], [a, o] = (0, b.useState)(null), [s, c] = (0, b.useState)(!1), l = (0, b.useMemo)(() => i ? {
+function at({ kind: e, id: t, onClose: n, onDetails: r }) {
+	let i = (e === "mcp" ? me : he)[t], [a, o] = (0, b.useState)(null), [s, c] = (0, b.useState)(!1), l = (0, b.useMemo)(() => i ? {
 		id: `${e}-${t}`,
 		title: i.title,
-		svg: Ke(e, t),
+		svg: We(e, t),
 		file: `landscape-${e}-${t}`,
 		png: !0
 	} : null, [
@@ -12727,7 +12651,7 @@ function st({ kind: e, id: t, onClose: n, onDetails: r }) {
 				}),
 				/* @__PURE__ */ (0, x.jsx)("div", {
 					className: "arch-diagram-viewer",
-					children: /* @__PURE__ */ (0, x.jsx)(at, {
+					children: /* @__PURE__ */ (0, x.jsx)(rt, {
 						diagram: l,
 						uid: `arch-${e}-${t}`,
 						view: a,
@@ -12759,7 +12683,7 @@ function st({ kind: e, id: t, onClose: n, onDetails: r }) {
 	}) : null;
 }
 // src/McpApproaches.jsx
-var ct = {
+var ot = {
 	S1: {
 		name: "SAP Apigee MCP · direct agent access",
 		position: "SAP domain baseline · direct access policy open",
@@ -12853,13 +12777,7 @@ var ct = {
 		agentcore: "Register the externally reachable Apigee HTTPS MCP URL as an MCP-server target. Configure supported protocol, inbound agent authorization, outbound OAuth or approved token exchange, listing mode, egress and catalog synchronization.",
 		sap: "Publish and secure Apigee tools; map them to Integration Suite and backend APIs. Validate principal or scoped service identity, finance role and company/ledger authorization at the final SAP target."
 	}
-}, lt = [
-	[
-		"Agent host",
-		"Demo: AgentCore Runtime; AWS-free host to decide",
-		"AgentCore Runtime",
-		"Demo: AgentCore Runtime; external host subject to review"
-	],
+}, st = [
 	[
 		"MCP host",
 		"SAP Apigee",
@@ -12902,40 +12820,40 @@ var ct = {
 		"AWS hosting and target mode open",
 		"Combined path open"
 	]
-], ut = [
+], ct = [
 	{
 		id: "S1",
-		agent: "AgentCore Runtime in demo; other approved host possible",
 		mcp: "SAP Apigee",
 		entry: "Direct to Apigee",
+		identity: "Agent host → Apigee → SAP",
 		state: "Direct-access policy open"
 	},
 	{
 		id: "S2",
-		agent: "AgentCore Runtime",
 		mcp: "SAP MCP adapter on AgentCore Runtime",
 		entry: "AgentCore Gateway",
+		identity: "Agent → Gateway → adapter → SAP",
 		state: "AWS hosting approval open"
 	},
 	{
 		id: "S3",
-		agent: "AgentCore Runtime in demo; external host to review",
 		mcp: "SAP Apigee behind AgentCore Gateway",
 		entry: "AgentCore Gateway",
+		identity: "Agent → Gateway → Apigee → SAP",
 		state: "Combined path approval open"
 	}
 ];
-function dt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernance: r }) {
-	let [i, a] = (0, b.useState)("S1"), [o, s] = (0, b.useState)(null), [c, l] = (0, b.useState)(null), u = i === "compare" ? null : i, d = u ? ct[u] : null, f = u ? e[u] : null, p = u ? ut.find((e) => e.id === u) : null, m = le.find((e) => e.id === o);
+function lt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernance: r, onAgentHosting: i }) {
+	let [a, o] = (0, b.useState)("S1"), [s, c] = (0, b.useState)(null), [l, u] = (0, b.useState)(null), d = a === "compare" ? null : a, f = d ? ot[d] : null, p = d ? e[d] : null, m = d ? ct.find((e) => e.id === d) : null;
 	(0, b.useEffect)(() => {
-		if (!o) return;
+		if (!s) return;
 		let e = (e) => {
-			e.key === "Escape" && s(null);
+			e.key === "Escape" && c(null);
 		};
 		return window.addEventListener("keydown", e), () => window.removeEventListener("keydown", e);
-	}, [o]);
+	}, [s]);
 	let h = [
-		...lt,
+		...st,
 		...[
 			"Simplicity",
 			"Cost efficiency",
@@ -12945,17 +12863,17 @@ function dt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 			"S1",
 			"S2",
 			"S3"
-		].map((e) => `${ct[e].criteria[t][1]} — ${ct[e].criteria[t][2]}`)]),
+		].map((e) => `${ot[e].criteria[t][1]} — ${ot[e].criteria[t][2]}`)]),
 		["Benefits", ...[
 			"S1",
 			"S2",
 			"S3"
-		].map((e) => ct[e].benefits.join(" • "))],
+		].map((e) => ot[e].benefits.join(" • "))],
 		["Tradeoffs", ...[
 			"S1",
 			"S2",
 			"S3"
-		].map((e) => ct[e].tradeoffs.join(" • "))],
+		].map((e) => ot[e].tradeoffs.join(" • "))],
 		["Open decisions", ...[
 			"S1",
 			"S2",
@@ -12963,15 +12881,15 @@ function dt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 		].map((t) => (e[t]?.decisions || []).join(" • "))]
 	];
 	return /* @__PURE__ */ (0, x.jsxs)("main", {
-		className: "mcp-comparison mcp-bird",
-		"aria-label": "MCP architecture approaches",
+		className: "mcp-comparison mcp-bird arch-page",
+		"aria-label": "Complete architecture",
 		children: [
 			/* @__PURE__ */ (0, x.jsxs)("header", {
 				className: "surface mcp-bird-header",
-				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("h2", { children: "Complete architecture" }), /* @__PURE__ */ (0, x.jsx)("span", {
 					className: "eyebrow",
-					children: "ARCHITECTURE PROS & CONS"
-				}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "MCP access and agent hosting" })] }), /* @__PURE__ */ (0, x.jsx)("span", {
+					children: "AGENT → MCP → SAP, END TO END"
+				})] }), /* @__PURE__ */ (0, x.jsx)("span", {
 					className: "pill warn",
 					children: "SYNTHETIC DESIGN · DECISIONS OPEN"
 				})]
@@ -12988,111 +12906,151 @@ function dt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 				].map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
 					type: "button",
 					role: "tab",
-					"aria-selected": i === e,
-					className: i === e ? "active" : "",
-					onClick: () => a(e),
-					children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e === "compare" ? "Compare all" : e }), /* @__PURE__ */ (0, x.jsx)("span", { children: e === "compare" ? "MCP route comparison" : ct[e].name })]
+					"aria-selected": a === e,
+					className: a === e ? "active" : "",
+					onClick: () => o(e),
+					children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e === "compare" ? "Compare all" : e }), /* @__PURE__ */ (0, x.jsx)("span", { children: e === "compare" ? "Three routes side by side" : ot[e].name })]
 				}, e))
 			}),
-			u ? /* @__PURE__ */ (0, x.jsxs)("section", {
-				className: "surface mcp-bird-panel",
+			d ? /* @__PURE__ */ (0, x.jsxs)("section", {
+				className: "surface mcp-bird-panel arch-panel",
 				role: "tabpanel",
-				"aria-label": `${u} MCP overview`,
+				"aria-label": `${d} architecture overview`,
 				children: [
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "mcp-bird-panel-title",
 						children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsxs)("span", {
 							className: "eyebrow",
 							children: [
-								"MCP ACCESS · ",
-								u,
+								"ROUTE ",
+								d,
 								" · ",
-								d.position
+								f.position
 							]
-						}), /* @__PURE__ */ (0, x.jsx)("h3", { children: d.name })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
+						}), /* @__PURE__ */ (0, x.jsx)("h3", { children: f.name })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 							className: "mcp-bird-title-actions",
-							children: [
-								/* @__PURE__ */ (0, x.jsx)("button", {
-									type: "button",
-									className: "diagram-action",
-									onClick: () => l({
-										kind: "mcp",
-										id: u
-									}),
-									children: "Architecture diagram ↗"
+							children: [/* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								className: "diagram-action",
+								onClick: () => u({
+									kind: "mcp",
+									id: d
 								}),
-								n && (u === "S1" || u === "S2") && /* @__PURE__ */ (0, x.jsx)("button", {
-									type: "button",
-									className: "detailed-diagram-action",
-									onClick: () => n(u),
-									children: "Detailed diagram (zoom) →"
-								}),
-								r && /* @__PURE__ */ (0, x.jsx)("button", {
-									type: "button",
-									className: "detailed-diagram-action",
-									onClick: () => r(u),
-									children: "MCP hosting & governance →"
-								}),
-								/* @__PURE__ */ (0, x.jsx)("button", {
-									type: "button",
-									onClick: () => s("route"),
-									children: "View handoffs and proof →"
-								})
-							]
+								children: "Architecture diagram ↗"
+							}), /* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								onClick: () => c("route"),
+								children: "Handoffs and proof →"
+							})]
 						})]
 					}),
 					/* @__PURE__ */ (0, x.jsx)("div", {
-						className: "mcp-bird-path",
+						className: "mcp-bird-path arch-path",
 						"aria-label": "Selected request path",
-						children: (f?.path || "").split(" → ").map((e, t) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [t > 0 && /* @__PURE__ */ (0, x.jsx)("span", {
+						children: (p?.path || "").split(" → ").map((e, t) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [t > 0 && /* @__PURE__ */ (0, x.jsx)("span", {
 							"aria-hidden": "true",
 							children: "→"
 						}), /* @__PURE__ */ (0, x.jsx)("b", { children: e })] }, e + t))
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
-						className: "mcp-bird-facts",
+						className: "arch-grid",
 						children: [
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Agent runtime" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: p.agent })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "MCP endpoint" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: p.mcp })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Agent entry" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: p.entry })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Open decision" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: p.state })] })
+							/* @__PURE__ */ (0, x.jsxs)("section", {
+								"aria-label": "Route facts",
+								children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How it connects" }), /* @__PURE__ */ (0, x.jsxs)("div", {
+									className: "arch-cards",
+									children: [
+										/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "MCP endpoint" }), /* @__PURE__ */ (0, x.jsx)("b", { children: m.mcp })] }),
+										/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Agent entry" }), /* @__PURE__ */ (0, x.jsx)("b", { children: m.entry })] }),
+										/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Caller identity" }), /* @__PURE__ */ (0, x.jsx)("b", { children: m.identity })] }),
+										/* @__PURE__ */ (0, x.jsxs)("div", {
+											className: "warn",
+											children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Open decision" }), /* @__PURE__ */ (0, x.jsx)("b", { children: m.state })]
+										})
+									]
+								})]
+							}),
+							/* @__PURE__ */ (0, x.jsxs)("section", {
+								"aria-label": "Route assessment",
+								children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How it scores" }), /* @__PURE__ */ (0, x.jsx)("div", {
+									className: "arch-cards",
+									children: f.criteria.map(([e, t, n]) => /* @__PURE__ */ (0, x.jsxs)("div", {
+										title: n,
+										children: [
+											/* @__PURE__ */ (0, x.jsx)("span", { children: e }),
+											/* @__PURE__ */ (0, x.jsx)("b", { children: t }),
+											/* @__PURE__ */ (0, x.jsx)("small", { children: n })
+										]
+									}, e))
+								})]
+							}),
+							/* @__PURE__ */ (0, x.jsxs)("section", {
+								"aria-label": "Benefit and tradeoff",
+								className: "arch-judgment",
+								children: [
+									/* @__PURE__ */ (0, x.jsx)("h4", { children: "Judgment" }),
+									/* @__PURE__ */ (0, x.jsxs)("p", {
+										className: "good",
+										children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Benefit" }), f.benefits[0]]
+									}),
+									/* @__PURE__ */ (0, x.jsxs)("p", {
+										className: "bad",
+										children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Tradeoff" }), f.tradeoffs[0]]
+									})
+								]
+							})
 						]
 					}),
-					/* @__PURE__ */ (0, x.jsx)("div", {
-						className: "mcp-bird-scores",
-						children: d.criteria.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: e }), /* @__PURE__ */ (0, x.jsx)("strong", { children: t })] }, e))
-					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
-						className: "mcp-bird-judgment",
-						children: [/* @__PURE__ */ (0, x.jsxs)("p", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Benefit" }), d.benefits[0]] }), /* @__PURE__ */ (0, x.jsxs)("p", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Tradeoff" }), d.tradeoffs[0]] })]
+						className: "arch-links",
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("span", { children: "Related, separate views:" }),
+							r && /* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								className: "text-link",
+								onClick: () => r(d),
+								children: "MCP hosting →"
+							}),
+							i && /* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								className: "text-link",
+								onClick: i,
+								children: "Agent hosting →"
+							}),
+							n && (d === "S1" || d === "S2") && /* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								className: "text-link",
+								onClick: () => n(d),
+								children: "Detailed diagram (zoom) →"
+							})
+						]
 					})
 				]
 			}) : /* @__PURE__ */ (0, x.jsxs)("section", {
-				className: "surface mcp-bird-panel mcp-bird-compare",
+				className: "surface mcp-bird-panel mcp-bird-compare arch-panel",
 				role: "tabpanel",
-				"aria-label": "MCP route comparison overview",
+				"aria-label": "Route comparison overview",
 				children: [/* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "mcp-bird-panel-title",
 					children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 						className: "eyebrow",
-						children: "MCP ACCESS · SIDE BY SIDE"
+						children: "COMPLETE ARCHITECTURE · SIDE BY SIDE"
 					}), /* @__PURE__ */ (0, x.jsx)("h3", { children: "Three routes, one decision view" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "mcp-bird-title-actions",
 						children: [n && /* @__PURE__ */ (0, x.jsx)("button", {
 							type: "button",
-							className: "detailed-diagram-action",
 							onClick: () => n("compare"),
 							children: "Compare S1 and S2 detailed diagrams →"
 						}), /* @__PURE__ */ (0, x.jsx)("button", {
 							type: "button",
-							onClick: () => s("compare"),
+							onClick: () => c("compare"),
 							children: "View full control matrix →"
 						})]
 					})]
 				}), /* @__PURE__ */ (0, x.jsx)("div", {
 					className: "mcp-bird-compare-grid",
-					children: ut.map((e) => {
-						let t = ct[e.id];
+					children: ct.map((e) => {
+						let t = ot[e.id];
 						return /* @__PURE__ */ (0, x.jsxs)("article", { children: [
 							/* @__PURE__ */ (0, x.jsxs)("h4", { children: [
 								e.id,
@@ -13104,97 +13062,54 @@ function dt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 								/* @__PURE__ */ (0, x.jsx)("dd", { children: e.mcp }),
 								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Entry" }),
 								/* @__PURE__ */ (0, x.jsx)("dd", { children: e.entry }),
+								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Identity" }),
+								/* @__PURE__ */ (0, x.jsx)("dd", { children: e.identity }),
 								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Simplicity" }),
 								/* @__PURE__ */ (0, x.jsx)("dd", { children: t.criteria[0][1] }),
 								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Cost" }),
 								/* @__PURE__ */ (0, x.jsx)("dd", { children: t.criteria[1][1] }),
 								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Maintenance" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: t.criteria[2][1] })
+								/* @__PURE__ */ (0, x.jsx)("dd", { children: t.criteria[2][1] }),
+								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Flexibility" }),
+								/* @__PURE__ */ (0, x.jsx)("dd", { children: t.criteria[3][1] })
 							] }),
 							/* @__PURE__ */ (0, x.jsx)("span", { children: e.state })
 						] }, e.id);
 					})
 				})]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)("section", {
-				className: "surface mcp-bird-hosting",
-				"aria-label": "Agent hosting options",
-				children: [/* @__PURE__ */ (0, x.jsxs)("div", {
-					className: "mcp-bird-hosting-heading",
-					children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
-						className: "eyebrow",
-						children: "AGENT HOSTING · SEPARATE DECISION FROM MCP"
-					}), /* @__PURE__ */ (0, x.jsx)("h3", { children: "Where the custom SAP finance agent could run" })] }), /* @__PURE__ */ (0, x.jsx)("p", { children: "Model access and SAP tool authorization need their own approval." })]
-				}), /* @__PURE__ */ (0, x.jsx)("div", {
-					className: "mcp-bird-host-grid",
-					children: le.map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
-						type: "button",
-						onClick: () => l({
-							kind: "hosting",
-							id: e.id
-						}),
-						children: [
-							/* @__PURE__ */ (0, x.jsx)("span", { children: e.priority }),
-							/* @__PURE__ */ (0, x.jsx)("strong", { children: e.name }),
-							/* @__PURE__ */ (0, x.jsx)("small", { children: e.fit }),
-							/* @__PURE__ */ (0, x.jsx)("em", { children: "Architecture diagram ↗" })
-						]
-					}, e.id))
-				})]
-			}),
-			c && /* @__PURE__ */ (0, x.jsx)(st, {
-				kind: c.kind,
-				id: c.id,
-				onClose: () => l(null),
+			l && /* @__PURE__ */ (0, x.jsx)(at, {
+				kind: l.kind,
+				id: l.id,
+				onClose: () => u(null),
 				onDetails: () => {
-					s(c.kind === "mcp" ? "route" : c.id), l(null);
+					c("route"), u(null);
 				}
 			}),
-			o && /* @__PURE__ */ (0, x.jsx)("div", {
+			s && /* @__PURE__ */ (0, x.jsx)("div", {
 				className: "mcp-bird-modal-backdrop",
 				onMouseDown: (e) => {
-					e.target === e.currentTarget && s(null);
+					e.target === e.currentTarget && c(null);
 				},
 				children: /* @__PURE__ */ (0, x.jsxs)("section", {
 					className: "surface mcp-bird-modal",
 					role: "dialog",
 					"aria-modal": "true",
-					"aria-label": m ? `${m.name} hosting details` : o === "compare" ? "Full MCP control matrix" : `${u} architecture details`,
+					"aria-label": s === "compare" ? "Full MCP control matrix" : `${d} architecture details`,
 					children: [/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "mcp-bird-modal-header",
 						children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 							className: "eyebrow",
 							children: "ARCHITECTURE DETAIL · DESIGN REVIEW ONLY"
-						}), /* @__PURE__ */ (0, x.jsx)("h3", { children: m ? m.name : o === "compare" ? "Full MCP control matrix" : `${u} · handoffs, owners and proof` })] }), /* @__PURE__ */ (0, x.jsx)("button", {
+						}), /* @__PURE__ */ (0, x.jsx)("h3", { children: s === "compare" ? "Full MCP control matrix" : `${d} · handoffs, owners and proof` })] }), /* @__PURE__ */ (0, x.jsx)("button", {
 							type: "button",
-							onClick: () => s(null),
+							onClick: () => c(null),
 							autoFocus: !0,
 							children: "Close"
 						})]
 					}), /* @__PURE__ */ (0, x.jsx)("div", {
 						className: "mcp-bird-modal-body",
-						children: m ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("dl", {
-							className: "mcp-bird-host-detail",
-							children: [
-								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Priority" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: m.priority }),
-								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Agent host" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: m.host }),
-								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Model access" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: m.model }),
-								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Operators" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: m.owner }),
-								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Why assess" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: m.fit }),
-								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Proof needed" }),
-								/* @__PURE__ */ (0, x.jsx)("dd", { children: m.gates })
-							]
-						}), /* @__PURE__ */ (0, x.jsx)("a", {
-							href: m.source,
-							target: "_blank",
-							rel: "noreferrer",
-							children: "Official product reference ↗"
-						})] }) : o === "compare" ? /* @__PURE__ */ (0, x.jsxs)("table", {
+						children: s === "compare" ? /* @__PURE__ */ (0, x.jsxs)("table", {
 							className: "mcp-bird-full-table",
 							children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
 								/* @__PURE__ */ (0, x.jsx)("th", { children: "Control" }),
@@ -13206,18 +13121,13 @@ function dt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 								children: e[0]
 							}), e.slice(1).map((e, t) => /* @__PURE__ */ (0, x.jsx)("td", { children: e }, t))] }, e[0])) })]
 						}) : /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
-							/* @__PURE__ */ (0, x.jsxs)("p", { children: [
-								/* @__PURE__ */ (0, x.jsx)("strong", { children: "Agent hosting:" }),
-								" ",
-								d.host
-							] }),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "mcp-bird-modal-owners",
-								children: [/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "AgentCore / AI Foundry" }), /* @__PURE__ */ (0, x.jsx)("p", { children: d.agentcore })] }), /* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "SAP / Apigee / Integration" }), /* @__PURE__ */ (0, x.jsx)("p", { children: d.sap })] })]
+								children: [/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "AgentCore / AI Foundry" }), /* @__PURE__ */ (0, x.jsx)("p", { children: f.agentcore })] }), /* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "SAP / Apigee / Integration" }), /* @__PURE__ */ (0, x.jsx)("p", { children: f.sap })] })]
 							}),
 							/* @__PURE__ */ (0, x.jsx)("div", {
 								className: "mcp-bird-modal-steps",
-								children: f?.steps?.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("article", { children: [
+								children: p?.steps?.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("article", { children: [
 									/* @__PURE__ */ (0, x.jsxs)("h4", { children: [
 										t + 1,
 										". ",
@@ -13246,12 +13156,12 @@ function dt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 								] }, e.handoff))
 							}),
 							/* @__PURE__ */ (0, x.jsx)("h4", { children: "Open decisions" }),
-							/* @__PURE__ */ (0, x.jsx)("ul", { children: f?.decisions?.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) }),
+							/* @__PURE__ */ (0, x.jsx)("ul", { children: p?.decisions?.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) }),
 							/* @__PURE__ */ (0, x.jsx)("button", {
 								type: "button",
 								className: "mcp-question-link",
 								onClick: () => {
-									s(null), t();
+									c(null), t();
 								},
 								children: "Run related architecture questions →"
 							})
@@ -13263,7 +13173,7 @@ function dt({ playbooks: e = {}, onQuestion: t, onDetailedDiagram: n, onGovernan
 	});
 }
 // src/McpGovernance.jsx
-var ft = [
+var ut = [
 	"MCP registry and discovery",
 	"Enterprise registry / approval authority",
 	"Source-code repository",
@@ -13271,30 +13181,29 @@ var ft = [
 	"Container / package artifact storage",
 	"Gateway-target configuration",
 	"Deployment ownership"
-], pt = [
+], dt = [
 	["mg-responsibility", "Responsibility matrix"],
 	["mg-connections", "Endpoint connectivity"],
 	["mg-registry", "Registry and artifacts"],
 	["mg-domain", "Finance domain design"],
-	["mg-hosting", "Agent hosting"],
 	["mg-decision", "Decision matrix"],
 	["mg-recommendation", "Recommendation"],
 	["mg-evidence", "Evidence"]
 ];
-function mt(e) {
+function ft(e) {
 	return {
 		id: e,
-		title: be[e].label,
-		svg: Be(e),
+		title: ve[e].label,
+		svg: Re(e),
 		file: `mcp-topology-${e.toLowerCase()}`,
 		png: !0
 	};
 }
-var ht = (e) => /TBD|TO VALIDATE|unproven|NOT_VERIFIED|REQUIRES VALIDATION|needs proof|must be proven|unmeasured/i.test(e), gt = ({ text: e }) => /* @__PURE__ */ (0, x.jsx)("td", {
-	className: ht(e) ? "mg-open" : "",
+var pt = (e) => /TBD|TO VALIDATE|unproven|NOT_VERIFIED|REQUIRES VALIDATION|needs proof|must be proven|unmeasured/i.test(e), mt = ({ text: e }) => /* @__PURE__ */ (0, x.jsx)("td", {
+	className: pt(e) ? "mg-open" : "",
 	children: e
 });
-function _t({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, children: o }) {
+function ht({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, children: o }) {
 	return /* @__PURE__ */ (0, x.jsxs)("details", {
 		id: e,
 		className: "surface mg-section mg-fold",
@@ -13307,7 +13216,7 @@ function _t({ id: e, testid: t, title: n, hint: r, open: i, onToggle: a, childre
 		})] }), o]
 	});
 }
-var vt = {
+var gt = {
 	"mg-responsibility": "21 rows: who creates, hosts, registers and calls the Finance MCP",
 	"mg-registry": "Catalog, source and artifact owners",
 	"mg-domain": "Read, posting and analytical tools with separate authorizations",
@@ -13317,27 +13226,27 @@ var vt = {
 	"mg-evidence": "Vendor sources read on the access date",
 	"mg-connections": "Every connection, with invocation separated from registry and deployment"
 };
-function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
-	let i = (0, b.useRef)(null), [a, o] = (0, b.useState)({ "mg-recommendation": !0 }), s = (e, t) => o((n) => n[e] === t ? n : {
+function _t({ view: e = "S1", onView: t, onApproaches: n, onAgentHosting: r, onDetailed: i }) {
+	let a = (0, b.useRef)(null), [o, s] = (0, b.useState)({ "mg-recommendation": !0 }), c = (e, t) => s((n) => n[e] === t ? n : {
 		...n,
 		[e]: t
-	}), [c, l] = (0, b.useState)(null), [u, d] = (0, b.useState)(null), [f, p] = (0, b.useState)(!0), [m, h] = (0, b.useState)(null), [g, _] = (0, b.useState)("S3"), v = e === "compare", y = v ? "S1" : e, S = be[y], C = (0, b.useMemo)(() => Object.fromEntries(k.map((e) => [e, mt(e)])), []), w = (0, b.useCallback)((e) => {
-		l(e), d(e);
-	}, []), T = g === y ? k.find((e) => e !== y) : g, E = (n) => {
-		n !== e && (h(null), t(n));
-	}, D = (e) => {
-		o((t) => ({
+	}), [l, u] = (0, b.useState)(null), [d, f] = (0, b.useState)(null), [p, m] = (0, b.useState)(!0), [h, g] = (0, b.useState)(null), [_, v] = (0, b.useState)("S3"), y = e === "compare", S = y ? "S1" : e, C = ve[S], w = (0, b.useMemo)(() => Object.fromEntries(ye.map((e) => [e, ft(e)])), []), T = (0, b.useCallback)((e) => {
+		u(e), f(e);
+	}, []), E = _ === S ? ye.find((e) => e !== S) : _, D = (n) => {
+		n !== e && (g(null), t(n));
+	}, O = (e) => {
+		s((t) => ({
 			...t,
 			[e]: !0
-		})), requestAnimationFrame(() => i.current?.querySelector(`#${e}`)?.scrollIntoView({
+		})), requestAnimationFrame(() => a.current?.querySelector(`#${e}`)?.scrollIntoView({
 			behavior: "smooth",
 			block: "start"
 		}));
-	}, O = v ? ["S1", T] : [y];
+	}, k = y ? ["S1", E] : [S];
 	return /* @__PURE__ */ (0, x.jsxs)("main", {
-		ref: i,
+		ref: a,
 		className: "detailed-diagrams mcp-governance",
-		"aria-label": "MCP hosting and governance",
+		"aria-label": "MCP hosting",
 		children: [
 			/* @__PURE__ */ (0, x.jsxs)("header", {
 				className: "surface dd-header",
@@ -13346,20 +13255,20 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 						className: "dd-title",
 						children: [/* @__PURE__ */ (0, x.jsx)("span", {
 							className: "eyebrow",
-							children: "MCP HOSTING & GOVERNANCE · WHO CREATES, HOSTS, REGISTERS AND CALLS THE FINANCE MCP"
-						}), /* @__PURE__ */ (0, x.jsx)("h2", { children: v ? "Compare MCP topologies" : S.label })]
+							children: "MCP HOSTING · WHO CREATES, HOSTS, REGISTERS AND CALLS THE FINANCE MCP"
+						}), /* @__PURE__ */ (0, x.jsx)("h2", { children: y ? "Compare MCP topologies" : C.label })]
 					}),
 					/* @__PURE__ */ (0, x.jsx)("nav", {
 						className: "dd-selector",
 						role: "tablist",
 						"aria-label": "MCP scenario selection",
-						children: [...k, "compare"].map((t) => /* @__PURE__ */ (0, x.jsx)("button", {
+						children: [...ye, "compare"].map((t) => /* @__PURE__ */ (0, x.jsx)("button", {
 							type: "button",
 							role: "tab",
 							"aria-selected": e === t,
 							className: e === t ? "active" : "",
-							onClick: () => E(t),
-							children: t === "compare" ? "Compare side-by-side" : be[t].label
+							onClick: () => D(t),
+							children: t === "compare" ? "Compare side-by-side" : ve[t].label
 						}, t))
 					}),
 					/* @__PURE__ */ (0, x.jsx)("div", {
@@ -13377,91 +13286,96 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 					/* @__PURE__ */ (0, x.jsx)("span", {
 						className: "eyebrow",
-						children: v ? "WHAT THIS VIEW SHOWS" : `${y} · ${S.short.toUpperCase()}`
+						children: y ? "WHAT THIS VIEW SHOWS" : `${S} · ${C.short.toUpperCase()}`
 					}),
-					/* @__PURE__ */ (0, x.jsx)("p", { children: v ? "Two scenarios side by side. Pick the second one below. The matrices further down always show all three." : S.summary }),
-					!v && /* @__PURE__ */ (0, x.jsx)("p", {
+					/* @__PURE__ */ (0, x.jsx)("p", { children: y ? "Two scenarios side by side. Pick the second one below. The matrices further down always show all three." : C.summary }),
+					!y && /* @__PURE__ */ (0, x.jsx)("p", {
 						className: "mg-baseline",
-						children: S.baseline
+						children: C.baseline
 					})
 				] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "dd-invariant",
 					children: [/* @__PURE__ */ (0, x.jsx)("span", {
 						className: "eyebrow",
-						children: "AGENT HOSTING IS A SEPARATE DECISION"
-					}), /* @__PURE__ */ (0, x.jsx)("p", { children: "Choosing a gateway does not choose the agent runtime or the LLM. A registry is a catalog, never an invocation hop. A gateway routes and authorizes; it does not necessarily run the domain tools." })]
+						children: "MCP ONLY · AGENT HOSTING IS ITS OWN PAGE"
+					}), /* @__PURE__ */ (0, x.jsx)("p", { children: "A registry is a catalog, never an invocation hop. A gateway routes and authorizes; it does not necessarily run the domain tools. Where the agent itself runs is decided separately." })]
 				})]
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("nav", {
 				className: "mg-anchors",
 				"aria-label": "Sections on this page",
 				children: [
-					pt.map(([e, t]) => /* @__PURE__ */ (0, x.jsx)("button", {
+					dt.map(([e, t]) => /* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: () => D(e),
+						onClick: () => O(e),
 						children: t
 					}, e)),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						onClick: n,
-						children: "Pros & cons →"
+						children: "Complete architecture →"
+					}),
+					r && /* @__PURE__ */ (0, x.jsx)("button", {
+						type: "button",
+						onClick: r,
+						children: "Agent hosting →"
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: () => r(y === "S3" || v ? "S1" : y),
+						onClick: () => i(S === "S3" || y ? "S1" : S),
 						children: "Detailed reference diagrams →"
 					})
 				]
 			}),
-			v && /* @__PURE__ */ (0, x.jsxs)("div", {
+			y && /* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "surface dd-compare-bar",
 				children: [/* @__PURE__ */ (0, x.jsxs)("label", { children: [/* @__PURE__ */ (0, x.jsx)("input", {
 					type: "checkbox",
-					checked: f,
-					onChange: (e) => p(e.target.checked)
+					checked: p,
+					onChange: (e) => m(e.target.checked)
 				}), " Synchronize zoom and pan"] }), /* @__PURE__ */ (0, x.jsxs)("label", { children: ["Compare S1 with ", /* @__PURE__ */ (0, x.jsx)("select", {
-					value: T,
-					onChange: (e) => _(e.target.value),
+					value: E,
+					onChange: (e) => v(e.target.value),
 					"aria-label": "Second scenario",
-					children: k.filter((e) => e !== "S1").map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+					children: ye.filter((e) => e !== "S1").map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
 						value: e,
-						children: be[e].label
+						children: ve[e].label
 					}, e))
 				})] })]
 			}),
 			/* @__PURE__ */ (0, x.jsx)("div", {
-				className: `mg-viewers ${v ? "two" : ""}`,
-				children: O.map((e, t) => /* @__PURE__ */ (0, x.jsx)("div", {
+				className: `mg-viewers ${y ? "two" : ""}`,
+				children: k.map((e, t) => /* @__PURE__ */ (0, x.jsx)("div", {
 					className: "mg-viewer",
 					"data-scenario": e,
-					children: /* @__PURE__ */ (0, x.jsx)(at, {
-						diagram: C[e],
-						uid: `mg-${e}-${v ? "c" : "s"}`,
-						compact: v,
-						view: t === 0 ? c : u,
+					children: /* @__PURE__ */ (0, x.jsx)(rt, {
+						diagram: w[e],
+						uid: `mg-${e}-${y ? "c" : "s"}`,
+						compact: y,
+						view: t === 0 ? l : d,
 						onView: (e) => {
-							v && f ? w(e) : (t === 0 ? l : d)(e);
+							y && p ? T(e) : (t === 0 ? u : f)(e);
 						},
 						onFit: (e) => {
-							v && f ? w(e) : (t === 0 ? l : d)(e);
+							y && p ? T(e) : (t === 0 ? u : f)(e);
 						},
-						expanded: m === e,
-						onExpand: (t) => h(t ? e : null)
+						expanded: h === e,
+						onExpand: (t) => g(t ? e : null)
 					})
 				}, e))
 			}),
-			/* @__PURE__ */ (0, x.jsxs)(_t, {
+			/* @__PURE__ */ (0, x.jsxs)(ht, {
 				id: "mg-responsibility",
 				testid: "mg-matrix",
 				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Responsibility matrix · 21 rows" }),
-				hint: vt["mg-responsibility"],
-				open: !!a["mg-responsibility"],
-				onToggle: s,
+				hint: gt["mg-responsibility"],
+				open: !!o["mg-responsibility"],
+				onToggle: c,
 				children: [/* @__PURE__ */ (0, x.jsxs)("p", {
 					className: "micro",
 					children: [
 						"Selected scenario highlighted. “",
-						ye,
+						_e,
 						"” and other open items are tinted. Every cell comes from one scenario configuration."
 					]
 				}), /* @__PURE__ */ (0, x.jsx)("div", {
@@ -13471,11 +13385,11 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 						children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
 							scope: "col",
 							children: "Responsibility"
-						}), k.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+						}), ye.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
 							scope: "col",
-							className: O.includes(e) ? "sel" : "",
-							children: be[e].label
-						}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: j.map(([e, ...t], n) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsxs)("th", {
+							className: k.includes(e) ? "sel" : "",
+							children: ve[e].label
+						}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: A.map(([e, ...t], n) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsxs)("th", {
 							scope: "row",
 							children: [
 								n + 1,
@@ -13483,19 +13397,19 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 								e
 							]
 						}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)("td", {
-							className: `${O.includes(k[t]) ? "sel" : ""} ${ht(e) ? "mg-open" : ""}`,
+							className: `${k.includes(ye[t]) ? "sel" : ""} ${pt(e) ? "mg-open" : ""}`,
 							children: e
-						}, k[t]))] }, e)) })]
+						}, ye[t]))] }, e)) })]
 					})
 				})]
 			}),
-			O.map((e) => /* @__PURE__ */ (0, x.jsxs)(_t, {
-				id: e === O[0] ? "mg-connections" : `mg-connections-${e}`,
+			k.map((e) => /* @__PURE__ */ (0, x.jsxs)(ht, {
+				id: e === k[0] ? "mg-connections" : `mg-connections-${e}`,
 				testid: `mg-connections-${e}`,
-				title: /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: ["Endpoint connectivity · ", be[e].label] }),
-				hint: vt["mg-connections"],
-				open: !!a[e === O[0] ? "mg-connections" : `mg-connections-${e}`],
-				onToggle: s,
+				title: /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: ["Endpoint connectivity · ", ve[e].label] }),
+				hint: gt["mg-connections"],
+				open: !!o[e === k[0] ? "mg-connections" : `mg-connections-${e}`],
+				onToggle: c,
 				children: [/* @__PURE__ */ (0, x.jsx)("p", {
 					className: "micro",
 					children: "Invocation traffic is listed separately from registry lookups and artifact deployment. Endpoint addresses are conceptual placeholders."
@@ -13503,26 +13417,26 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 					className: "mg-scroll",
 					children: /* @__PURE__ */ (0, x.jsxs)("table", {
 						className: "mg-table wide",
-						children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsx)("tr", { children: xe.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+						children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsx)("tr", { children: j.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
 							scope: "col",
 							children: e
-						}, e)) }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: N[e].map((e, t) => /* @__PURE__ */ (0, x.jsx)("tr", {
+						}, e)) }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Te[e].map((e, t) => /* @__PURE__ */ (0, x.jsx)("tr", {
 							className: /not invocation/i.test(e[2]) ? "mg-aside" : "",
 							children: e.map((e, t) => t === 0 ? /* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "row",
 								children: e
-							}, t) : /* @__PURE__ */ (0, x.jsx)(gt, { text: e }, t))
+							}, t) : /* @__PURE__ */ (0, x.jsx)(mt, { text: e }, t))
 						}, t)) })]
 					})
 				})]
 			}, e)),
-			/* @__PURE__ */ (0, x.jsxs)(_t, {
+			/* @__PURE__ */ (0, x.jsxs)(ht, {
 				id: "mg-registry",
 				testid: "mg-registry",
 				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Registry and artifact ownership" }),
-				hint: vt["mg-registry"],
-				open: !!a["mg-registry"],
-				onToggle: s,
+				hint: gt["mg-registry"],
+				open: !!o["mg-registry"],
+				onToggle: c,
 				children: [
 					/* @__PURE__ */ (0, x.jsx)("p", {
 						className: "micro",
@@ -13535,17 +13449,17 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 							children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "col",
 								children: "Item"
-							}), k.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+							}), ye.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "col",
-								className: O.includes(e) ? "sel" : "",
-								children: be[e].label
-							}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: j.filter((e) => ft.includes(e[0])).map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
+								className: k.includes(e) ? "sel" : "",
+								children: ve[e].label
+							}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: A.filter((e) => ut.includes(e[0])).map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "row",
 								children: e
 							}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)("td", {
-								className: `${O.includes(k[t]) ? "sel" : ""} ${ht(e) ? "mg-open" : ""}`,
+								className: `${k.includes(ye[t]) ? "sel" : ""} ${pt(e) ? "mg-open" : ""}`,
 								children: e
-							}, k[t]))] }, e)) })]
+							}, ye[t]))] }, e)) })]
 						})
 					}),
 					/* @__PURE__ */ (0, x.jsx)("p", {
@@ -13554,13 +13468,13 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)(_t, {
+			/* @__PURE__ */ (0, x.jsxs)(ht, {
 				id: "mg-domain",
 				testid: "mg-domain",
 				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Finance domain MCP design" }),
-				hint: vt["mg-domain"],
-				open: !!a["mg-domain"],
-				onToggle: s,
+				hint: gt["mg-domain"],
+				open: !!o["mg-domain"],
+				onToggle: c,
 				children: [
 					/* @__PURE__ */ (0, x.jsx)("p", {
 						className: "micro",
@@ -13568,7 +13482,7 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 					}),
 					/* @__PURE__ */ (0, x.jsx)("div", {
 						className: "mg-cards",
-						children: Te.map((e) => /* @__PURE__ */ (0, x.jsxs)("article", { children: [
+						children: M.map((e) => /* @__PURE__ */ (0, x.jsxs)("article", { children: [
 							/* @__PURE__ */ (0, x.jsx)("span", {
 								className: `pill ${e.mode.startsWith("WRITE") ? "warn" : "quiet"}`,
 								children: e.mode
@@ -13586,46 +13500,19 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 						className: "micro",
 						children: [
 							"Five authorizations stay distinct: business approval, agent authorization, gateway authorization, SAP backend user authorization and the actual SAP posting result. Service identity is simpler to prove; end-user delegation needs proven token exchange, Cloud Connector, identity mapping and ABAP roles (",
-							ye,
+							_e,
 							")."
 						]
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)(_t, {
-				id: "mg-hosting",
-				testid: "mg-hosting",
-				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Agent hosting versus MCP scenario" }),
-				hint: vt["mg-hosting"],
-				open: !!a["mg-hosting"],
-				onToggle: s,
-				children: [/* @__PURE__ */ (0, x.jsx)("p", {
-					className: "micro",
-					children: "A custom agent can run on one platform and consume an MCP endpoint hosted elsewhere. Nothing here is an enterprise approval."
-				}), /* @__PURE__ */ (0, x.jsx)("div", {
-					className: "mg-scroll",
-					children: /* @__PURE__ */ (0, x.jsxs)("table", {
-						className: "mg-table",
-						children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
-							scope: "col",
-							children: "Agent host"
-						}), k.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
-							scope: "col",
-							children: be[e].label
-						}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: P.map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
-							scope: "row",
-							children: e
-						}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)(gt, { text: e }, t))] }, e)) })]
-					})
-				})]
-			}),
-			/* @__PURE__ */ (0, x.jsxs)(_t, {
+			/* @__PURE__ */ (0, x.jsxs)(ht, {
 				id: "mg-decision",
 				testid: "mg-decision",
 				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Decision matrix" }),
-				hint: vt["mg-decision"],
-				open: !!a["mg-decision"],
-				onToggle: s,
+				hint: gt["mg-decision"],
+				open: !!o["mg-decision"],
+				onToggle: c,
 				children: [
 					/* @__PURE__ */ (0, x.jsx)("p", {
 						className: "micro",
@@ -13638,47 +13525,47 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 							children: [/* @__PURE__ */ (0, x.jsx)("thead", { children: /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "col",
 								children: "Dimension"
-							}), k.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
+							}), ye.map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "col",
-								className: O.includes(e) ? "sel" : "",
-								children: be[e].label
+								className: k.includes(e) ? "sel" : "",
+								children: ve[e].label
 							}, e))] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Ee.map(([e, ...t]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "row",
 								children: e
 							}), t.map((e, t) => /* @__PURE__ */ (0, x.jsx)("td", {
-								className: O.includes(k[t]) ? "sel" : "",
+								className: k.includes(ye[t]) ? "sel" : "",
 								children: e
-							}, k[t]))] }, e)) })]
+							}, ye[t]))] }, e)) })]
 						})
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						className: "text-link",
 						onClick: n,
-						children: "Compare with the pros & cons view →"
+						children: "Compare with the complete architecture view →"
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)(_t, {
+			/* @__PURE__ */ (0, x.jsxs)(ht, {
 				id: "mg-recommendation",
 				testid: "mg-recommendation",
 				title: /* @__PURE__ */ (0, x.jsx)(x.Fragment, { children: "Recommendation and proof plan" }),
-				hint: vt["mg-recommendation"],
-				open: !!a["mg-recommendation"],
-				onToggle: s,
+				hint: gt["mg-recommendation"],
+				open: !!o["mg-recommendation"],
+				onToggle: c,
 				children: [
 					/* @__PURE__ */ (0, x.jsx)("p", {
 						className: "mg-reco",
-						children: /* @__PURE__ */ (0, x.jsx)("strong", { children: De.headline })
+						children: /* @__PURE__ */ (0, x.jsx)("strong", { children: N.headline })
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "mg-cards",
 						children: [
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Why" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: De.why.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Depends on" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: De.standards.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Open decisions" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: De.open.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "What would change it" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: De.changes.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
-							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How a POC proves it" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: De.poc.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] })
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Why" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: N.why.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Depends on" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: N.standards.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "Open decisions" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: N.open.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "What would change it" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: N.changes.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] }),
+							/* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "How a POC proves it" }), /* @__PURE__ */ (0, x.jsx)("ul", { children: N.poc.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) })] })
 						]
 					}),
 					/* @__PURE__ */ (0, x.jsx)("p", {
@@ -13687,16 +13574,16 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 					})
 				]
 			}),
-			/* @__PURE__ */ (0, x.jsxs)(_t, {
+			/* @__PURE__ */ (0, x.jsxs)(ht, {
 				id: "mg-evidence",
 				testid: "mg-evidence",
-				title: /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: ["Source evidence · accessed ", ve] }),
-				hint: vt["mg-evidence"],
-				open: !!a["mg-evidence"],
-				onToggle: s,
+				title: /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: ["Source evidence · accessed ", ge] }),
+				hint: gt["mg-evidence"],
+				open: !!o["mg-evidence"],
+				onToggle: c,
 				children: [/* @__PURE__ */ (0, x.jsx)("p", {
 					className: "micro",
-					children: ke
+					children: Oe
 				}), /* @__PURE__ */ (0, x.jsx)("div", {
 					className: "mg-scroll",
 					children: /* @__PURE__ */ (0, x.jsxs)("table", {
@@ -13710,7 +13597,7 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 						].map((e) => /* @__PURE__ */ (0, x.jsx)("th", {
 							scope: "col",
 							children: e
-						}, e)) }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Oe.map(([e, t, n, r, i, a]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+						}, e)) }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: De.map(([e, t, n, r, i, a]) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
 							/* @__PURE__ */ (0, x.jsx)("th", {
 								scope: "row",
 								children: e
@@ -13736,12 +13623,12 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 				"aria-label": "Glossary",
 				children: [/* @__PURE__ */ (0, x.jsxs)("details", { children: [/* @__PURE__ */ (0, x.jsx)("summary", { children: /* @__PURE__ */ (0, x.jsx)("strong", { children: "Glossary · MCP terms used on this page" }) }), /* @__PURE__ */ (0, x.jsx)("dl", {
 					className: "mg-glossary",
-					children: A.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)("dt", { children: e }), /* @__PURE__ */ (0, x.jsx)("dd", { children: t })] }, e))
+					children: be.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)("dt", { children: e }), /* @__PURE__ */ (0, x.jsx)("dd", { children: t })] }, e))
 				})] }), /* @__PURE__ */ (0, x.jsxs)("p", {
 					className: "micro",
 					children: [
 						"Legend: ",
-						Pe.map(([, e]) => e).join(" · "),
+						Me.map(([, e]) => e).join(" · "),
 						"."
 					]
 				})]
@@ -13749,12 +13636,279 @@ function yt({ view: e = "S1", onView: t, onApproaches: n, onDetailed: r }) {
 		]
 	});
 }
+// src/HostingPriority.jsx
+var vt = [
+	{
+		id: "agentcore",
+		name: "Approved enterprise agent platform",
+		priority: "NOW · leading validation candidate",
+		host: "AgentCore Runtime if the AWS landing zone and service are approved",
+		model: "Approved model endpoint; normally Bedrock unless policy requires another provider",
+		owner: "Enterprise AI + AWS platform; SAP retains tool/API and backend authorization",
+		fit: "Reuse a managed runtime and existing operating team for a portfolio of agents.",
+		gates: "Landing zone, Region, entitlement, workload identity, private egress, quotas, durable state, recovery and SAP authorization.",
+		source: "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness-vs-runtime.html"
+	},
+	{
+		id: "btp",
+		name: "SAP BTP pro-code agent",
+		priority: "CONDITIONAL · SAP-owned alternative",
+		host: "Python application on BTP Cloud Foundry; Kyma only when a container topology is needed",
+		model: "SAP AI Core generative AI hub if approved and entitled",
+		owner: "SAP BTP application team + SAP AI Core + SAP Integration",
+		fit: "Keeps an SAP-owned agent portfolio close to existing BTP identity and integration services.",
+		gates: "Cloud Foundry quota, AI Core/hub entitlement, agent framework, checkpoints, approvals, monitoring, CI/CD and funded on-call owner.",
+		source: "https://architecture.learning.sap.com/docs/golden-path/ai-golden-path/build-and-deliver/build-ai-agents"
+	},
+	{
+		id: "microsoft",
+		name: "Microsoft Foundry hosted agent",
+		priority: "CONDITIONAL · enterprise standard check",
+		host: "Foundry hosted agent service only if an approved Azure project and region exist",
+		model: "Foundry model catalog under enterprise policy",
+		owner: "Enterprise AI + Azure platform; SAP retains Apigee and backend controls",
+		fit: "Compare when the enterprise already operates Microsoft Foundry for agents.",
+		gates: "Confirm this is the actual enterprise platform; an internal AI Foundry registry alone proves no Azure hosting. Verify service availability, network, identity and commercial terms.",
+		source: "https://learn.microsoft.com/azure/foundry/agents/concepts/hosted-agents"
+	},
+	{
+		id: "joule",
+		name: "Managed Joule Studio",
+		priority: "LATER · eligibility unresolved",
+		host: "SAP-managed agent runtime if the tenant and commercial path are eligible",
+		model: "SAP-managed model access subject to the applicable service contract",
+		owner: "SAP platform + business process owner",
+		fit: "Strategic SAP-managed path for eligible scenarios, not an executable near-term assumption.",
+		gates: "The user reports Joule Studio unavailable. Obtain an exact SKU, provisioning, tenant and integration applicability decision without changing the current setup.",
+		source: "https://help.sap.com/docs/joule-studio/joule-studio/sap-managed-provisioning-for-joule-studio?ai=true&version=CLOUD"
+	}
+], yt = [
+	["Experience", "Fiori/UI5 or approved chat is the user interface; it does not host the agent."],
+	["Agent runtime", "Runs orchestration and tool selection; needs scaling, isolation, deployment and recovery."],
+	["Model access", "PTP/PAP, Bedrock, SAP AI Core or Foundry model endpoint must be approved separately."],
+	["SAP tools", "Apigee MCP remains the SAP-facing boundary unless architecture owners change it."],
+	["Business state", "Durable checkpoints, approvals and retries need a defined store and owner."],
+	["Governance", "Registry, versioning, evaluation, audit, secrets and incident ownership need evidence."]
+], bt = [
+	"Approved production service and region",
+	"Data policy and model-processing geography",
+	"SAP identity and connectivity proof",
+	"Entitlement and three-year total cost",
+	"Named operating and incident owner",
+	"Recovery, rollback and audit controls"
+];
+function xt({ onMcp: e, onComplete: t }) {
+	let [n, r] = (0, b.useState)("agentcore"), [i, a] = (0, b.useState)(null), [o, s] = (0, b.useState)(null), c = vt.find((e) => e.id === n);
+	(0, b.useEffect)(() => {
+		if (!i) return;
+		let e = (e) => {
+			e.key === "Escape" && a(null);
+		};
+		return window.addEventListener("keydown", e), () => window.removeEventListener("keydown", e);
+	}, [i]);
+	let l = i === "gates" ? "Eligibility before ranking" : i === "layers" ? "Complete operating platform" : `${c.name} hosting details`;
+	return /* @__PURE__ */ (0, x.jsxs)("main", {
+		className: "mcp-comparison mcp-bird arch-page hosting-page",
+		"aria-label": "Agent hosting",
+		children: [
+			/* @__PURE__ */ (0, x.jsxs)("header", {
+				className: "surface mcp-bird-header",
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("h2", { children: "Agent hosting" }), /* @__PURE__ */ (0, x.jsx)("span", {
+					className: "eyebrow",
+					children: "WHERE THE CUSTOM FINANCE AGENT RUNS"
+				})] }), /* @__PURE__ */ (0, x.jsx)("span", {
+					className: "pill warn",
+					children: "SHORTLIST · NO TENANT PROOF YET"
+				})]
+			}),
+			/* @__PURE__ */ (0, x.jsx)("nav", {
+				className: "surface mcp-route-tabs mcp-bird-tabs",
+				role: "tablist",
+				"aria-label": "Agent hosting options",
+				children: vt.map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
+					type: "button",
+					role: "tab",
+					"aria-selected": n === e.id,
+					className: n === e.id ? "active" : "",
+					onClick: () => r(e.id),
+					children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e.name }), /* @__PURE__ */ (0, x.jsx)("span", { children: e.priority })]
+				}, e.id))
+			}),
+			/* @__PURE__ */ (0, x.jsxs)("section", {
+				className: "surface mcp-bird-panel arch-panel",
+				role: "tabpanel",
+				"aria-label": `${c.name} overview`,
+				children: [
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "mcp-bird-panel-title",
+						children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "eyebrow",
+							children: c.priority
+						}), /* @__PURE__ */ (0, x.jsx)("h3", { children: c.name })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
+							className: "mcp-bird-title-actions",
+							children: [/* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								className: "diagram-action",
+								onClick: () => s(c.id),
+								children: "Architecture diagram ↗"
+							}), /* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								onClick: () => a("detail"),
+								children: "Prerequisites and proof →"
+							})]
+						})]
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "mcp-bird-path arch-path",
+						"aria-label": "Where the agent sits",
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("b", { children: "User or Fiori" }),
+							/* @__PURE__ */ (0, x.jsx)("span", {
+								"aria-hidden": "true",
+								children: "→"
+							}),
+							/* @__PURE__ */ (0, x.jsxs)("b", { children: ["Agent runtime · ", c.name] }),
+							/* @__PURE__ */ (0, x.jsx)("span", {
+								"aria-hidden": "true",
+								children: "→"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("b", { children: "Model endpoint" }),
+							/* @__PURE__ */ (0, x.jsx)("span", {
+								"aria-hidden": "true",
+								children: "→"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("b", { children: "MCP route S1 · S2 · S3" })
+						]
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "arch-grid two",
+						children: [/* @__PURE__ */ (0, x.jsxs)("section", {
+							"aria-label": "Platform facts",
+							children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: "What runs where" }), /* @__PURE__ */ (0, x.jsxs)("div", {
+								className: "arch-cards",
+								children: [
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Agent host" }), /* @__PURE__ */ (0, x.jsx)("b", { children: c.host })] }),
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Model access" }), /* @__PURE__ */ (0, x.jsx)("b", { children: c.model })] }),
+									/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Operators" }), /* @__PURE__ */ (0, x.jsx)("b", { children: c.owner })] })
+								]
+							})]
+						}), /* @__PURE__ */ (0, x.jsxs)("section", {
+							"aria-label": "Platform fit",
+							children: [
+								/* @__PURE__ */ (0, x.jsx)("h4", { children: "Why assess it" }),
+								/* @__PURE__ */ (0, x.jsx)("p", { children: c.fit }),
+								/* @__PURE__ */ (0, x.jsx)("h4", { children: "What must be proved" }),
+								/* @__PURE__ */ (0, x.jsx)("p", { children: c.gates }),
+								/* @__PURE__ */ (0, x.jsx)("a", {
+									href: c.source,
+									target: "_blank",
+									rel: "noreferrer",
+									children: "Official product reference ↗"
+								})
+							]
+						})]
+					}),
+					/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "arch-links",
+						children: [
+							/* @__PURE__ */ (0, x.jsx)("span", { children: "Also:" }),
+							/* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								className: "text-link",
+								onClick: () => a("gates"),
+								children: "Eligibility gates"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								className: "text-link",
+								onClick: () => a("layers"),
+								children: "Operating platform layers"
+							}),
+							e && /* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								className: "text-link",
+								onClick: e,
+								children: "MCP hosting →"
+							}),
+							t && /* @__PURE__ */ (0, x.jsx)("button", {
+								type: "button",
+								className: "text-link",
+								onClick: t,
+								children: "Complete architecture →"
+							}),
+							/* @__PURE__ */ (0, x.jsx)("small", { children: "Choosing a host does not choose the MCP route or the model." })
+						]
+					})
+				]
+			}),
+			o && /* @__PURE__ */ (0, x.jsx)(at, {
+				kind: "hosting",
+				id: o,
+				onClose: () => s(null),
+				onDetails: () => {
+					r(o), s(null), a("detail");
+				}
+			}),
+			i && /* @__PURE__ */ (0, x.jsx)("div", {
+				className: "mcp-bird-modal-backdrop",
+				onMouseDown: (e) => {
+					e.target === e.currentTarget && a(null);
+				},
+				children: /* @__PURE__ */ (0, x.jsxs)("section", {
+					className: "surface mcp-bird-modal",
+					role: "dialog",
+					"aria-modal": "true",
+					"aria-label": l,
+					children: [/* @__PURE__ */ (0, x.jsxs)("div", {
+						className: "mcp-bird-modal-header",
+						children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
+							className: "eyebrow",
+							children: "AGENT HOSTING · DESIGN REVIEW ONLY"
+						}), /* @__PURE__ */ (0, x.jsx)("h3", { children: l })] }), /* @__PURE__ */ (0, x.jsx)("button", {
+							type: "button",
+							onClick: () => a(null),
+							autoFocus: !0,
+							children: "Close"
+						})]
+					}), /* @__PURE__ */ (0, x.jsx)("div", {
+						className: "mcp-bird-modal-body",
+						children: i === "gates" ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)("ul", { children: bt.map((e) => /* @__PURE__ */ (0, x.jsx)("li", { children: e }, e)) }), /* @__PURE__ */ (0, x.jsx)("p", { children: "UNKNOWN remains conditional. Compare the same workflow and approved model on eligible platforms; measure cost, latency, failure recovery and final SAP authorization before selecting one. Kyma is a separate SAP option only with a demonstrated container requirement; AgentCore Runtime with SAP AI Core model access is an exception that needs a specific governance reason." })] }) : i === "layers" ? /* @__PURE__ */ (0, x.jsx)("div", {
+							className: "mcp-bird-modal-owners",
+							children: yt.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("article", { children: [/* @__PURE__ */ (0, x.jsx)("h4", { children: e }), /* @__PURE__ */ (0, x.jsx)("p", { children: t })] }, e))
+						}) : /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("dl", {
+							className: "mcp-bird-host-detail",
+							children: [
+								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Priority" }),
+								/* @__PURE__ */ (0, x.jsx)("dd", { children: c.priority }),
+								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Agent host" }),
+								/* @__PURE__ */ (0, x.jsx)("dd", { children: c.host }),
+								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Model access" }),
+								/* @__PURE__ */ (0, x.jsx)("dd", { children: c.model }),
+								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Operators" }),
+								/* @__PURE__ */ (0, x.jsx)("dd", { children: c.owner }),
+								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Why assess" }),
+								/* @__PURE__ */ (0, x.jsx)("dd", { children: c.fit }),
+								/* @__PURE__ */ (0, x.jsx)("dt", { children: "Proof needed" }),
+								/* @__PURE__ */ (0, x.jsx)("dd", { children: c.gates })
+							]
+						}), /* @__PURE__ */ (0, x.jsx)("a", {
+							href: c.source,
+							target: "_blank",
+							rel: "noreferrer",
+							children: "Official product reference ↗"
+						})] })
+					})]
+				})
+			})
+		]
+	});
+}
 // src/ReconciliationReport.jsx
-var bt = (e) => new Intl.NumberFormat("en-US", {
+var St = (e) => new Intl.NumberFormat("en-US", {
 	style: "currency",
 	currency: "USD",
 	maximumFractionDigits: 0
-}).format(Number(e || 0)), xt = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${bt(Math.abs(Number(e || 0)))}`, St = [
+}).format(Number(e || 0)), Ct = (e) => `${Number(e) > 0 ? "+" : Number(e) < 0 ? "−" : ""}${St(Math.abs(Number(e || 0)))}`, L = [
 	["summary", "Summary"],
 	["accounts", "Accounts"],
 	["items", "Reconciling items"],
@@ -13762,25 +13916,25 @@ var bt = (e) => new Intl.NumberFormat("en-US", {
 	["controls", "Controls"],
 	["ai", "AI review"],
 	["audit", "Audit trail"]
-], Ct = {
+], wt = {
 	BALANCED: "Balanced",
 	WITHIN_TOLERANCE: "Within tolerance",
 	EXPLAINED: "Explained · approval needed",
 	EXCEPTION: "Exception · investigate",
 	HOLD: "On hold · sources stale"
-}, L = {
+}, Tt = {
 	BALANCED: "ok",
 	WITHIN_TOLERANCE: "ok",
 	EXPLAINED: "info",
 	EXCEPTION: "bad",
 	HOLD: "warn"
 };
-function wt(e, t, n) {
+function Et(e, t, n) {
 	let r = URL.createObjectURL(new Blob([n], { type: t })), i = document.createElement("a");
 	i.href = r, i.download = e, document.body.appendChild(i), i.click(), i.remove(), setTimeout(() => URL.revokeObjectURL(r), 1e3);
 }
-var Tt = (e) => `"${String(e ?? "").replace(/"/g, "\"\"")}"`;
-function Et(e) {
+var Dt = (e) => `"${String(e ?? "").replace(/"/g, "\"\"")}"`;
+function Ot(e) {
 	let t = [
 		"item_id",
 		"document_id",
@@ -13800,9 +13954,9 @@ function Et(e) {
 		"recommended_action",
 		"ai_confidence"
 	];
-	return [t.join(","), ...e.items.map((e) => t.map((t) => Tt(t === "ai_confidence" ? e.ai.confidence : e[t])).join(","))].join("\r\n");
+	return [t.join(","), ...e.items.map((e) => t.map((t) => Dt(t === "ai_confidence" ? e.ai.confidence : e[t])).join(","))].join("\r\n");
 }
-function Dt({ bridge: e }) {
+function kt({ bridge: e }) {
 	let t = e[0].value, n = e[e.length - 1].value, r = Math.min(t, n) * .985, i = Math.max(t, n) * 1.005, a = 640 / e.length, o = (e) => 24 + 142 * (1 - (e - r) / Math.max(1, i - r)), s = t;
 	return /* @__PURE__ */ (0, x.jsx)("svg", {
 		className: "rr-bridge",
@@ -13829,7 +13983,7 @@ function Dt({ bridge: e }) {
 					fontSize: "11",
 					fontWeight: "700",
 					fill: "#1d2d3e",
-					children: e.kind === "total" ? bt(e.value) : xt(e.value)
+					children: e.kind === "total" ? St(e.value) : Ct(e.value)
 				}),
 				/* @__PURE__ */ (0, x.jsx)("text", {
 					x: n + i / 2,
@@ -13843,46 +13997,46 @@ function Dt({ bridge: e }) {
 		})
 	});
 }
-function Ot({ status: e }) {
+function At({ status: e }) {
 	return /* @__PURE__ */ (0, x.jsx)("span", {
 		className: `rr-chip ${String(e).toLowerCase().replace("_", "-")}`,
 		children: String(e).replace("_", " ")
 	});
 }
-function kt({ report: e }) {
+function jt({ report: e }) {
 	let t = e.summary;
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "rr-pane",
 		children: [
 			/* @__PURE__ */ (0, x.jsxs)("div", {
-				className: `rr-banner ${L[t.status]}`,
-				children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: Ct[t.status] }), /* @__PURE__ */ (0, x.jsx)("span", { children: t.status_text })]
+				className: `rr-banner ${Tt[t.status]}`,
+				children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: wt[t.status] }), /* @__PURE__ */ (0, x.jsx)("span", { children: t.status_text })]
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "rr-kpis",
 				children: [
-					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "S/4HANA balance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: bt(t.s4_total) })] }),
-					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Central Finance balance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: bt(t.cfin_total) })] }),
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "S/4HANA balance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: St(t.s4_total) })] }),
+					/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Central Finance balance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: St(t.cfin_total) })] }),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: t.variance ? "attn" : "",
 						children: [
 							/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }),
-							/* @__PURE__ */ (0, x.jsx)("strong", { children: xt(t.variance) }),
-							/* @__PURE__ */ (0, x.jsxs)("small", { children: ["Tolerance ", bt(t.tolerance)] })
+							/* @__PURE__ */ (0, x.jsx)("strong", { children: Ct(t.variance) }),
+							/* @__PURE__ */ (0, x.jsxs)("small", { children: ["Tolerance ", St(t.tolerance)] })
 						]
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, x.jsx)("span", { children: "Explained" }),
 						/* @__PURE__ */ (0, x.jsxs)("strong", { children: [t.explained_pct, "%"] }),
 						/* @__PURE__ */ (0, x.jsxs)("small", { children: [
-							bt(t.explained),
+							St(t.explained),
 							" of ",
-							bt(t.variance)
+							St(t.variance)
 						] })
 					] }),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: t.unexplained ? "attn" : "",
-						children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Unexplained" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: bt(t.unexplained) })]
+						children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Unexplained" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: St(t.unexplained) })]
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, x.jsx)("span", { children: "Open items" }),
@@ -13904,7 +14058,7 @@ function kt({ report: e }) {
 						className: "rr-note",
 						children: "From the S/4HANA balance to the Central Finance balance, by reason."
 					}),
-					e.bridge.length > 2 ? /* @__PURE__ */ (0, x.jsx)(Dt, { bridge: e.bridge }) : /* @__PURE__ */ (0, x.jsx)("p", {
+					e.bridge.length > 2 ? /* @__PURE__ */ (0, x.jsx)(kt, { bridge: e.bridge }) : /* @__PURE__ */ (0, x.jsx)("p", {
 						className: "rr-empty",
 						children: "No reconciling items. The two balances agree."
 					})
@@ -13913,7 +14067,7 @@ function kt({ report: e }) {
 					children: e.timeline.map((e) => /* @__PURE__ */ (0, x.jsxs)("li", {
 						className: e.freshness === "current" ? "ok" : "warn",
 						children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e.step }), /* @__PURE__ */ (0, x.jsxs)("span", { children: [
-							bt(e.balance),
+							St(e.balance),
 							" · ",
 							e.freshness,
 							" · ",
@@ -13943,7 +14097,7 @@ function kt({ report: e }) {
 					/* @__PURE__ */ (0, x.jsx)("td", { children: e.due }),
 					/* @__PURE__ */ (0, x.jsx)("td", {
 						className: "num",
-						children: xt(e.amount)
+						children: Ct(e.amount)
 					})
 				] }, e.item_id)) })]
 			}) : /* @__PURE__ */ (0, x.jsx)("p", {
@@ -13961,7 +14115,7 @@ function kt({ report: e }) {
 		]
 	});
 }
-function At({ report: e }) {
+function Mt({ report: e }) {
 	let t = Math.max(1, ...e.accounts.map((e) => Math.abs(e.difference)));
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "rr-pane",
@@ -13993,11 +14147,11 @@ function At({ report: e }) {
 						/* @__PURE__ */ (0, x.jsx)("td", { children: e.name }),
 						/* @__PURE__ */ (0, x.jsx)("td", {
 							className: "num",
-							children: bt(e.s4_balance)
+							children: St(e.s4_balance)
 						}),
 						/* @__PURE__ */ (0, x.jsx)("td", {
 							className: "num",
-							children: bt(e.cfin_balance)
+							children: St(e.cfin_balance)
 						}),
 						/* @__PURE__ */ (0, x.jsxs)("td", {
 							className: "num",
@@ -14005,11 +14159,11 @@ function At({ report: e }) {
 								className: "rr-bar",
 								style: { width: `${Math.abs(e.difference) / t * 60}px` },
 								"aria-hidden": "true"
-							}), xt(e.difference)]
+							}), Ct(e.difference)]
 						}),
 						/* @__PURE__ */ (0, x.jsx)("td", { children: e.open_items }),
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
-							/* @__PURE__ */ (0, x.jsx)(Ot, { status: e.status === "variance" ? "EXCEPTION" : (e.status, "PASS") }),
+							/* @__PURE__ */ (0, x.jsx)(At, { status: e.status === "variance" ? "EXCEPTION" : (e.status, "PASS") }),
 							" ",
 							e.status.replace("_", " ")
 						] })
@@ -14022,15 +14176,15 @@ function At({ report: e }) {
 					}),
 					/* @__PURE__ */ (0, x.jsx)("td", {
 						className: "num",
-						children: bt(e.summary.s4_total)
+						children: St(e.summary.s4_total)
 					}),
 					/* @__PURE__ */ (0, x.jsx)("td", {
 						className: "num",
-						children: bt(e.summary.cfin_total)
+						children: St(e.summary.cfin_total)
 					}),
 					/* @__PURE__ */ (0, x.jsx)("td", {
 						className: "num",
-						children: xt(e.summary.variance)
+						children: Ct(e.summary.variance)
 					}),
 					/* @__PURE__ */ (0, x.jsx)("td", { children: e.summary.open_items }),
 					/* @__PURE__ */ (0, x.jsx)("td", {})
@@ -14042,7 +14196,7 @@ function At({ report: e }) {
 		})]
 	});
 }
-function jt({ report: e }) {
+function Nt({ report: e }) {
 	let [t, n] = (0, b.useState)("all"), [r, i] = (0, b.useState)("all"), [a, o] = (0, b.useState)(null), s = e.items.filter((e) => (t === "all" || e.status === t) && (r === "all" || e.materiality === r));
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "rr-pane",
@@ -14149,15 +14303,15 @@ function jt({ report: e }) {
 						] }),
 						/* @__PURE__ */ (0, x.jsx)("td", {
 							className: "num",
-							children: bt(e.s4_amount)
+							children: St(e.s4_amount)
 						}),
 						/* @__PURE__ */ (0, x.jsx)("td", {
 							className: "num",
-							children: bt(e.cfin_amount)
+							children: St(e.cfin_amount)
 						}),
 						/* @__PURE__ */ (0, x.jsx)("td", {
 							className: "num",
-							children: /* @__PURE__ */ (0, x.jsx)("strong", { children: xt(e.difference) })
+							children: /* @__PURE__ */ (0, x.jsx)("strong", { children: Ct(e.difference) })
 						}),
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
 							e.reason_code,
@@ -14165,7 +14319,7 @@ function jt({ report: e }) {
 							e.category_label
 						] }),
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
-							/* @__PURE__ */ (0, x.jsx)(Ot, { status: e.status === "explained" ? "PASS" : "HOLD" }),
+							/* @__PURE__ */ (0, x.jsx)(At, { status: e.status === "explained" ? "PASS" : "HOLD" }),
 							" ",
 							e.status.replace("_", " "),
 							" · ",
@@ -14233,7 +14387,7 @@ function jt({ report: e }) {
 						/* @__PURE__ */ (0, x.jsx)("td", { children: e.description }),
 						/* @__PURE__ */ (0, x.jsx)("td", {
 							className: "num",
-							children: bt(e.amount)
+							children: St(e.amount)
 						})
 					] }, e.journal_id)) })]
 				})]
@@ -14241,7 +14395,7 @@ function jt({ report: e }) {
 		]
 	});
 }
-function Mt({ report: e }) {
+function Pt({ report: e }) {
 	let t = Math.max(1, ...e.aging.map((e) => Math.abs(e.amount)));
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "rr-pane",
@@ -14263,7 +14417,7 @@ function Mt({ report: e }) {
 						" item",
 						e.count === 1 ? "" : "s",
 						" · ",
-						xt(e.amount)
+						Ct(e.amount)
 					] })
 				] }, e.bucket))
 			}),
@@ -14274,7 +14428,7 @@ function Mt({ report: e }) {
 		]
 	});
 }
-function Nt({ report: e }) {
+function Ft({ report: e }) {
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "rr-pane",
 		children: [/* @__PURE__ */ (0, x.jsx)("p", {
@@ -14290,13 +14444,13 @@ function Nt({ report: e }) {
 			] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: e.controls.map((e) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
 				/* @__PURE__ */ (0, x.jsx)("td", { children: e.id }),
 				/* @__PURE__ */ (0, x.jsx)("td", { children: e.name }),
-				/* @__PURE__ */ (0, x.jsx)("td", { children: /* @__PURE__ */ (0, x.jsx)(Ot, { status: e.status }) }),
+				/* @__PURE__ */ (0, x.jsx)("td", { children: /* @__PURE__ */ (0, x.jsx)(At, { status: e.status }) }),
 				/* @__PURE__ */ (0, x.jsx)("td", { children: e.detail })
 			] }, e.id)) })]
 		})]
 	});
 }
-function Pt({ report: e }) {
+function It({ report: e }) {
 	let t = e.ai_review;
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "rr-pane",
@@ -14344,7 +14498,7 @@ function Pt({ report: e }) {
 		]
 	});
 }
-function Ft({ report: e }) {
+function Lt({ report: e }) {
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "rr-pane",
 		children: [
@@ -14373,10 +14527,10 @@ function Ft({ report: e }) {
 					/* @__PURE__ */ (0, x.jsx)("td", { children: t.source }),
 					/* @__PURE__ */ (0, x.jsx)("td", {
 						className: "num",
-						children: bt(t.balance)
+						children: St(t.balance)
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("td", { children: [
-						/* @__PURE__ */ (0, x.jsx)(Ot, { status: t.freshness === "current" ? "PASS" : "HOLD" }),
+						/* @__PURE__ */ (0, x.jsx)(At, { status: t.freshness === "current" ? "PASS" : "HOLD" }),
 						" ",
 						t.freshness
 					] }),
@@ -14421,7 +14575,7 @@ function Ft({ report: e }) {
 		]
 	});
 }
-function It({ report: e, period: t, onClose: n }) {
+function Rt({ report: e, period: t, onClose: n }) {
 	let r = (0, b.useRef)(null), [i, a] = (0, b.useState)("summary"), [o, s] = (0, b.useState)(!1);
 	(0, b.useEffect)(() => {
 		let e = r.current;
@@ -14444,13 +14598,13 @@ function It({ report: e, period: t, onClose: n }) {
 		};
 	}, [o]);
 	let c = (0, b.useMemo)(() => e ? {
-		summary: /* @__PURE__ */ (0, x.jsx)(kt, { report: e }),
-		accounts: /* @__PURE__ */ (0, x.jsx)(At, { report: e }),
-		items: /* @__PURE__ */ (0, x.jsx)(jt, { report: e }),
-		aging: /* @__PURE__ */ (0, x.jsx)(Mt, { report: e }),
-		controls: /* @__PURE__ */ (0, x.jsx)(Nt, { report: e }),
-		ai: /* @__PURE__ */ (0, x.jsx)(Pt, { report: e }),
-		audit: /* @__PURE__ */ (0, x.jsx)(Ft, { report: e })
+		summary: /* @__PURE__ */ (0, x.jsx)(jt, { report: e }),
+		accounts: /* @__PURE__ */ (0, x.jsx)(Mt, { report: e }),
+		items: /* @__PURE__ */ (0, x.jsx)(Nt, { report: e }),
+		aging: /* @__PURE__ */ (0, x.jsx)(Pt, { report: e }),
+		controls: /* @__PURE__ */ (0, x.jsx)(Ft, { report: e }),
+		ai: /* @__PURE__ */ (0, x.jsx)(It, { report: e }),
+		audit: /* @__PURE__ */ (0, x.jsx)(Lt, { report: e })
 	}[i] : null, [e, i]);
 	return /* @__PURE__ */ (0, x.jsxs)("dialog", {
 		ref: r,
@@ -14469,19 +14623,19 @@ function It({ report: e, period: t, onClose: n }) {
 				className: "rr-actions",
 				children: [
 					e && /* @__PURE__ */ (0, x.jsx)("span", {
-						className: `rr-chip ${L[e.summary.status]}`,
-						children: Ct[e.summary.status]
+						className: `rr-chip ${Tt[e.summary.status]}`,
+						children: wt[e.summary.status]
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						disabled: !e,
-						onClick: () => wt(`${e.report_id}-items.csv`, "text/csv", Et(e)),
+						onClick: () => Et(`${e.report_id}-items.csv`, "text/csv", Ot(e)),
 						children: "Items CSV ⤓"
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						disabled: !e,
-						onClick: () => wt(`${e.report_id}.json`, "application/json", JSON.stringify(e, null, 2)),
+						onClick: () => Et(`${e.report_id}.json`, "application/json", JSON.stringify(e, null, 2)),
 						children: "Report JSON ⤓"
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
@@ -14500,24 +14654,24 @@ function It({ report: e, period: t, onClose: n }) {
 			})]
 		}), e && o ? /* @__PURE__ */ (0, x.jsx)("div", {
 			className: "rr-body rr-print-all",
-			children: St.map(([t, n]) => /* @__PURE__ */ (0, x.jsxs)("section", { children: [/* @__PURE__ */ (0, x.jsx)("h2", { children: n }), {
-				summary: /* @__PURE__ */ (0, x.jsx)(kt, { report: e }),
-				accounts: /* @__PURE__ */ (0, x.jsx)(At, { report: e }),
-				items: /* @__PURE__ */ (0, x.jsx)(jt, { report: e }),
-				aging: /* @__PURE__ */ (0, x.jsx)(Mt, { report: e }),
-				controls: /* @__PURE__ */ (0, x.jsx)(Nt, { report: e }),
-				ai: /* @__PURE__ */ (0, x.jsx)(Pt, { report: e }),
-				audit: /* @__PURE__ */ (0, x.jsx)(Ft, { report: e })
+			children: L.map(([t, n]) => /* @__PURE__ */ (0, x.jsxs)("section", { children: [/* @__PURE__ */ (0, x.jsx)("h2", { children: n }), {
+				summary: /* @__PURE__ */ (0, x.jsx)(jt, { report: e }),
+				accounts: /* @__PURE__ */ (0, x.jsx)(Mt, { report: e }),
+				items: /* @__PURE__ */ (0, x.jsx)(Nt, { report: e }),
+				aging: /* @__PURE__ */ (0, x.jsx)(Pt, { report: e }),
+				controls: /* @__PURE__ */ (0, x.jsx)(Ft, { report: e }),
+				ai: /* @__PURE__ */ (0, x.jsx)(It, { report: e }),
+				audit: /* @__PURE__ */ (0, x.jsx)(Lt, { report: e })
 			}[t]] }, t))
 		}) : e ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)("div", {
 			className: "rr-tabs",
 			role: "tablist",
 			"aria-label": "Report sections",
 			onKeyDown: (e) => {
-				let t = St.findIndex(([e]) => e === i);
-				e.key === "ArrowRight" && (a(St[(t + 1) % St.length][0]), e.preventDefault()), e.key === "ArrowLeft" && (a(St[(t + St.length - 1) % St.length][0]), e.preventDefault());
+				let t = L.findIndex(([e]) => e === i);
+				e.key === "ArrowRight" && (a(L[(t + 1) % L.length][0]), e.preventDefault()), e.key === "ArrowLeft" && (a(L[(t + L.length - 1) % L.length][0]), e.preventDefault());
 			},
-			children: St.map(([t, n]) => /* @__PURE__ */ (0, x.jsxs)("button", {
+			children: L.map(([t, n]) => /* @__PURE__ */ (0, x.jsxs)("button", {
 				type: "button",
 				role: "tab",
 				"aria-selected": i === t,
@@ -14541,10 +14695,10 @@ function It({ report: e, period: t, onClose: n }) {
 	});
 }
 // src/orchestrationSvg.js
-var Lt = {
+var zt = {
 	w: 1200,
 	h: 660
-}, Rt = (e, t, n, r, i, a, o = {}) => ({
+}, Bt = (e, t, n, r, i, a, o = {}) => ({
 	id: e,
 	row: t,
 	col: n,
@@ -14552,12 +14706,12 @@ var Lt = {
 	sub: i,
 	kind: a,
 	...o
-}), zt = [
+}), Vt = [
 	["invoke", "MCP-style tools/call (in-process)"],
 	["registry", "Reaches application layer"],
 	["identity", "Needs input"],
 	["approval", "Blocked by a control"]
-], Bt = {
+], Ht = {
 	"Selected gateway": [
 		"Selected MCP gateway",
 		"gateway",
@@ -14618,18 +14772,18 @@ var Lt = {
 		"registry",
 		"Design time"
 	]
-}, Vt = {
+}, Ut = {
 	done: "#107E3E",
 	running: "#E9730C",
 	held: "#E9730C",
 	blocked: "#BB0000",
 	pending: void 0
 };
-function Ht(e, t, n) {
+function Wt(e, t, n) {
 	return t < n ? e.status : t === n ? "running" : "pending";
 }
-function Ut({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
-	let i = (t?.agents || []).filter((e) => e.id !== "orchestrator"), a = e?.steps || [], o = Math.min(n, a.length), s = (t, r) => e ? Ht(t, r, n) : "pending", c = {};
+function Gt({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
+	let i = (t?.agents || []).filter((e) => e.id !== "orchestrator"), a = e?.steps || [], o = Math.min(n, a.length), s = (t, r) => e ? Wt(t, r, n) : "pending", c = {};
 	a.forEach((e, t) => {
 		(c[e.agent] ||= []).push({
 			step: e,
@@ -14637,7 +14791,7 @@ function Ut({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 		});
 	});
 	let l = [], u = e ? o >= a.length ? "All steps dispatched" : `Dispatching step ${o + 1} of ${a.length}` : "Waiting for a request";
-	l.push(Rt("orch", 0, 1.5, "Orchestrator · tool client", e ? `${e.orchestrator?.rule || ""}. ${u}. It plans and calls tools; it never touches SAP.` : "Ask a question to start. It plans and calls tools; it never touches SAP.", "agent", {
+	l.push(Bt("orch", 0, 1.5, "Orchestrator · tool client", e ? `${e.orchestrator?.rule || ""}. ${u}. It plans and calls tools; it never touches SAP.` : "Ask a question to start. It plans and calls tools; it never touches SAP.", "agent", {
 		span: 3,
 		h: 84,
 		zone: "agent:orchestrator",
@@ -14647,12 +14801,12 @@ function Ut({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 		strokeWidth: 2.4
 	})), i.forEach((e, t) => {
 		let n = c[e.id] || [], i = n.map(({ step: e, index: t }) => s(e, t)), a = n.length > 0 && i.some((e) => e !== "pending"), o = i.includes("blocked") ? "blocked" : i.includes("held") ? "held" : i.includes("running") ? "running" : a ? "done" : "pending", u = i.filter((e) => e === "done").length;
-		l.push(Rt(`agent:${e.id}`, 1, t, e.name, `${e.mcp_server} · ${e.tools.join(", ")}`, "domain", {
+		l.push(Bt(`agent:${e.id}`, 1, t, e.name, `${e.mcp_server} · ${e.tools.join(", ")}`, "domain", {
 			h: 84,
 			zone: `agent:${e.id}`,
 			status: n.length ? a ? `${u}/${n.length} calls done${n.every(({ step: e }) => !e.trace?.layers?.length) ? " · computed locally" : ""}` : "Queued" : "Not called",
-			statusColor: a ? Vt[o] : "#506778",
-			stroke: r === e.id ? "#0A6ED1" : a ? Vt[o] : "#B8C7D3",
+			statusColor: a ? Ut[o] : "#506778",
+			stroke: r === e.id ? "#0A6ED1" : a ? Ut[o] : "#B8C7D3",
 			strokeWidth: r === e.id ? 3.2 : a ? 2.2 : 1.2,
 			dashed: !a && n.length === 0
 		}));
@@ -14669,12 +14823,12 @@ function Ut({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 			]);
 		});
 	}), d.forEach((e, t) => {
-		let n = Bt[e] || [
+		let n = Ht[e] || [
 			e,
 			"control",
 			""
 		];
-		l.push(Rt(`layer:${e}`, t < 6 ? 2 : 3, t % 6, n[0], n[2], n[1], {
+		l.push(Bt(`layer:${e}`, t < 6 ? 2 : 3, t % 6, n[0], n[2], n[1], {
 			h: 84,
 			status: "Reached",
 			statusColor: "#0D6A33",
@@ -14694,7 +14848,7 @@ function Ut({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 			i,
 			{ active: n.includes("running") }
 		]);
-	}), h.push(...m), Ve({
+	}), h.push(...m), ze({
 		cols: 6,
 		ys: [
 			96,
@@ -14703,11 +14857,11 @@ function Ut({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 			508
 		],
 		nh: 84,
-		height: Lt.h,
+		height: zt.h,
 		nodes: l,
 		edges: h,
 		bounds: [],
-		legend: zt,
+		legend: Vt,
 		captions: [[
 			88,
 			"ORCHESTRATOR · TOOL CLIENT",
@@ -14724,33 +14878,33 @@ function Ut({ plan: e, catalog: t, shown: n, selectedAgent: r }) {
 	});
 }
 // src/AgentWorkbench.jsx
-var Wt = {
+var Kt = {
 	done: "✓",
 	running: "…",
 	pending: "·",
 	held: "?",
 	blocked: "✕",
 	skipped: "–"
-}, Gt = {
+}, R = {
 	run: "Open the live architecture",
 	report: "Open the detailed report",
 	"evidence-proof": "Open the proof dossier",
 	"decision-responsibilities": "Open responsibilities & governance",
 	close: "Open Close & reconcile",
 	plan: "Stay here"
-}, Kt = [
+}, qt = [
 	"Reconcile November 2026 company code 1000 ledger 0L USD",
 	"Explain the route controls",
 	"Investigate this variance",
 	"Post a journal entry to SAP for November 2026"
-], R = () => {
+], Jt = () => {
 	try {
 		return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	} catch {
 		return !1;
 	}
 };
-function qt({ onAsk: e, busy: t, label: n = "Ask the agents" }) {
+function Yt({ onAsk: e, busy: t, label: n = "Ask the agents" }) {
 	let [r, i] = (0, b.useState)("Reconcile November 2026 company code 1000 ledger 0L USD");
 	return /* @__PURE__ */ (0, x.jsxs)("form", {
 		className: "surface agent-ask-bar",
@@ -14780,11 +14934,11 @@ function qt({ onAsk: e, busy: t, label: n = "Ask the agents" }) {
 		]
 	});
 }
-function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
-	let a = e?.agents || [], [o, s] = (0, b.useState)(Kt[0]), [c, l] = (0, b.useState)(0), [u, d] = (0, b.useState)(null), [f, p] = (0, b.useState)(null), [m, h] = (0, b.useState)(!1), g = (0, b.useRef)(null), _ = t?.steps || [];
+function Xt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
+	let a = e?.agents || [], [o, s] = (0, b.useState)(qt[0]), [c, l] = (0, b.useState)(0), [u, d] = (0, b.useState)(null), [f, p] = (0, b.useState)(null), [m, h] = (0, b.useState)(!1), g = (0, b.useRef)(null), _ = t?.steps || [];
 	(0, b.useEffect)(() => {
 		if (!t || g.current === t.plan_id) return;
-		if (g.current = t.plan_id, d(null), R() || !_.length) {
+		if (g.current = t.plan_id, d(null), Jt() || !_.length) {
 			l(_.length);
 			return;
 		}
@@ -14794,7 +14948,7 @@ function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
 		}, 650);
 		return () => clearInterval(n);
 	}, [t?.plan_id]);
-	let v = u?.agent || null, y = (0, b.useMemo)(() => Ut({
+	let v = u?.agent || null, y = (0, b.useMemo)(() => Gt({
 		plan: t,
 		catalog: e,
 		shown: c,
@@ -14808,8 +14962,8 @@ function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
 		id: "orchestration",
 		title: "Orchestration",
 		svg: y,
-		w: Lt.w,
-		h: Lt.h,
+		w: zt.w,
+		h: zt.h,
 		file: "orchestration",
 		png: !0
 	}), [y]), C = Object.fromEntries(a.map((e) => [e.id, e])), w = (e) => {
@@ -14868,7 +15022,7 @@ function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
 							className: "aw-examples",
 							role: "group",
 							"aria-label": "Example requests",
-							children: Kt.map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
+							children: qt.map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
 								type: "button",
 								onClick: () => s(e),
 								children: e.length > 34 ? e.slice(0, 32) + "…" : e
@@ -14900,7 +15054,7 @@ function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
 					"aria-label": "Orchestration graph",
 					children: /* @__PURE__ */ (0, x.jsx)("div", {
 						className: "aw-viewer",
-						children: /* @__PURE__ */ (0, x.jsx)(at, {
+						children: /* @__PURE__ */ (0, x.jsx)(rt, {
 							diagram: S,
 							uid: "orch",
 							view: f,
@@ -14951,7 +15105,7 @@ function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
 										]
 									})
 								}), _.map((e, t) => {
-									let n = Ht(e, t, c);
+									let n = Wt(e, t, c);
 									return n === "pending" && t > c ? null : /* @__PURE__ */ (0, x.jsx)("li", {
 										className: `${n} ${u?.step_id === e.step_id ? "sel" : ""}`,
 										children: /* @__PURE__ */ (0, x.jsxs)("button", {
@@ -14964,7 +15118,7 @@ function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
 												/* @__PURE__ */ (0, x.jsx)("span", {
 													className: "aw-mark",
 													"aria-hidden": "true",
-													children: Wt[n]
+													children: Kt[n]
 												}),
 												/* @__PURE__ */ (0, x.jsxs)("b", { children: [
 													"#",
@@ -15063,7 +15217,7 @@ function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
 										type: "button",
 										className: "aw-open",
 										onClick: () => i(D, E),
-										children: [Gt[E.view || D.view] || "Open layer", " →"]
+										children: [R[E.view || D.view] || "Open layer", " →"]
 									})
 								] }) : /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
 									/* @__PURE__ */ (0, x.jsxs)("dl", { children: [
@@ -15082,7 +15236,7 @@ function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
 										type: "button",
 										className: "aw-open",
 										onClick: () => i(D),
-										children: [Gt[D.view] || "Open layer", " →"]
+										children: [R[D.view] || "Open layer", " →"]
 									})
 								] })
 							]
@@ -15168,13 +15322,13 @@ function Jt({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i }) {
 	});
 }
 // src/Entry.jsx
-var Yt = [
+var Zt = [
 	"Reconcile November 2026 company code 1000 ledger 0L USD",
 	"Investigate this variance",
 	"Explain the route controls"
 ];
-function Xt({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onOpenArchitecture: i, onAsk: a }) {
-	let [o, s] = (0, b.useState)(Yt[0]);
+function Qt({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onOpenArchitecture: i, onAsk: a }) {
+	let [o, s] = (0, b.useState)(Zt[0]);
 	return /* @__PURE__ */ (0, x.jsxs)("main", {
 		className: "entry",
 		"aria-label": "Finance agents home",
@@ -15216,7 +15370,7 @@ function Xt({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onO
 						className: "entry-examples",
 						role: "group",
 						"aria-label": "Example requests",
-						children: Yt.map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
+						children: Zt.map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
 							type: "button",
 							onClick: () => s(e),
 							children: e
@@ -15320,10 +15474,10 @@ function Xt({ periodCount: e, localBundle: t, onOpenApp: n, onOpenAgents: r, onO
 	});
 }
 // src/liveArchitecture.js
-var Zt = {
+var $t = {
 	w: 1200,
 	h: 520
-}, Qt = (e, t, n, r, i, a, o = {}) => ({
+}, en = (e, t, n, r, i, a, o = {}) => ({
 	id: e,
 	row: t,
 	col: n,
@@ -15331,14 +15485,14 @@ var Zt = {
 	sub: i,
 	kind: a,
 	...o
-}), $t = [
+}), tn = [
 	["invoke", "Tool call"],
 	["return", "Evidence"],
 	["registry", "Reference"],
 	["deploy", "Registration"],
 	["identity", "Identity"],
 	["approval", "Approval"]
-], en = [[
+], nn = [[
 	92,
 	"DESIGN TIME AND IDENTITY",
 	"end"
@@ -15346,7 +15500,7 @@ var Zt = {
 	322,
 	"RESULT, EVIDENCE AND APPROVAL",
 	"start"
-]], tn = {
+]], rn = {
 	"Business entry": "agent",
 	"AWS runtime": "domain",
 	"Selected gateway": "gateway",
@@ -15359,7 +15513,7 @@ var Zt = {
 	"AI Foundry design time": "registry",
 	"AWS controls": "identity",
 	"Write approval": "decision"
-}, nn = {
+}, an = {
 	"AI Foundry design time": [0, 0],
 	"AWS controls": [0, 1],
 	"Business entry": [1, 0],
@@ -15373,15 +15527,15 @@ var Zt = {
 	"Write approval": [2, 0],
 	"Model branch": [2, 2]
 };
-function rn({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning: i, reportReady: a, zoneShort: o }) {
+function on({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning: i, reportReady: a, zoneShort: o }) {
 	let s = e?.components || [], c = Object.fromEntries(s.map((e) => [e.component_id, e.zone])), l = (e) => s.filter((t) => t.zone === e).length, u = {};
 	for (let e of t) {
 		let t = c[e.direction === "response" ? e.source_component_id : e.target_component_id];
 		t && (u[t] = (u[t] || 0) + 1);
 	}
-	let d = t.at(-1), f = d ? c[d.direction === "response" ? d.source_component_id : d.target_component_id] : null, p = i && f, m = Object.keys(nn).map((e) => {
-		let [t, i] = nn[e], a = p && f === e, s = !!u[e], c = a ? "Processing now" : s ? `${u[e]} events` : e === "Future BDC" ? "Future / simulated" : e === "Write approval" ? "Separate branch" : "Waiting", d = e === "Selected gateway" ? `${n} · ${n === "S1" ? "Apigee, external boundary" : "AgentCore, AWS boundary"}` : `${e} · ${l(e)} components`;
-		return Qt(e, t, i, o[e] || e, d, tn[e], {
+	let d = t.at(-1), f = d ? c[d.direction === "response" ? d.source_component_id : d.target_component_id] : null, p = i && f, m = Object.keys(an).map((e) => {
+		let [t, i] = an[e], a = p && f === e, s = !!u[e], c = a ? "Processing now" : s ? `${u[e]} events` : e === "Future BDC" ? "Future / simulated" : e === "Write approval" ? "Separate branch" : "Waiting", d = e === "Selected gateway" ? `${n} · ${n === "S1" ? "Apigee, external boundary" : "AgentCore, AWS boundary"}` : `${e} · ${l(e)} components`;
+		return en(e, t, i, o[e] || e, d, rn[e], {
 			zone: e,
 			status: c,
 			statusColor: a ? "#B45309" : s ? "#0D6A33" : "#506778",
@@ -15391,7 +15545,7 @@ function rn({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			cls: a ? "node-current" : ""
 		});
 	});
-	m.push(Qt("__report", 2, 1, "Business report", a ? "Analysis and evidence are ready" : "Run the architecture to generate the result", "control", {
+	m.push(en("__report", 2, 1, "Business report", a ? "Analysis and evidence are ready" : "Run the architecture to generate the result", "control", {
 		zone: "__report",
 		status: a ? "Complete · open report" : "Awaiting run",
 		statusColor: a ? "#0D6A33" : "#506778",
@@ -15488,7 +15642,7 @@ function rn({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			"separate write branch"
 		]
 	];
-	return Ve({
+	return ze({
 		cols: 6,
 		ys: [
 			100,
@@ -15496,7 +15650,7 @@ function rn({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			334
 		],
 		nh: 80,
-		height: Zt.h,
+		height: $t.h,
 		nodes: m,
 		edges: g,
 		bounds: [[
@@ -15504,8 +15658,8 @@ function rn({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 			["SAP BAIP", "SAP backends"],
 			"sap"
 		]],
-		captions: en,
-		legend: $t,
+		captions: nn,
+		legend: tn,
 		title: `Live architecture · ${n === "S1" ? "S1 Google Apigee MCP" : "S2 AgentCore Gateway MCP"}`,
 		chain: "Finance request → external agent → selected gateway → domain tools → SAP integration → SAP backend",
 		banner: p ? "RUN IN PROGRESS · SIMULATED" : "SIMULATED · NO TENANT CONNECTED",
@@ -15513,7 +15667,7 @@ function rn({ registry: e, events: t, scenario: n, selectedZone: r, liveRunning:
 	});
 }
 // src/AgentJourney.jsx
-var an = [
+var sn = [
 	{
 		label: "Finance intent",
 		operation: "submit_request",
@@ -15550,8 +15704,8 @@ var an = [
 		description: "Deterministic check completed"
 	}
 ];
-function on({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: r }) {
-	let i = an.map((t) => {
+function cn({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: r }) {
+	let i = sn.map((t) => {
 		let n = e.filter((e) => e.operation === t.operation), r = n.findLast((e) => e.direction === t.doneDirection && e.status !== "denied"), i = n.findLast((e) => e.status === "denied");
 		return {
 			...t,
@@ -15590,7 +15744,7 @@ function on({ events: e = [], running: t = !1, selectedZone: n, onOpenEvidence: 
 	});
 }
 // src/App.jsx
-var sn = {
+var ln = {
 	"Business entry": "Finance request",
 	"AI Foundry design time": "Agent registration",
 	"AWS runtime": "External finance agent",
@@ -15603,7 +15757,7 @@ var sn = {
 	"Future BDC": "BDC reference",
 	"Model branch": "AI advisory",
 	"Write approval": "Approval"
-}, cn = [
+}, un = [
 	["FI", "Variance operands, freshness, posting controls"],
 	["SAP", "Backend roles and approved APIs"],
 	["Central Finance", "Replication mapping and cutoff"],
@@ -15616,7 +15770,7 @@ var sn = {
 	["Portkey / AI", "Redaction, guardrails and advisory text"],
 	["Node.js / Python", "Typed UI contracts and deterministic engine"],
 	["UX", "Task clarity, accessibility and trace readability"]
-], ln = (e) => {
+], dn = (e) => {
 	if (!e) return "Select month";
 	let [t, n] = e.split("-").map(Number);
 	return new Date(Date.UTC(t, n - 1, 1)).toLocaleString("en-US", {
@@ -15624,7 +15778,7 @@ var sn = {
 		year: "numeric",
 		timeZone: "UTC"
 	});
-}, un = (e) => e == null ? "—" : new Intl.NumberFormat("en-US", {
+}, fn = (e) => e == null ? "—" : new Intl.NumberFormat("en-US", {
 	style: "currency",
 	currency: "USD",
 	maximumFractionDigits: 0
@@ -15643,7 +15797,7 @@ async function z(e, t = "GET", n) {
 	if (!r.ok) throw Error(i.detail || r.statusText);
 	return i;
 }
-function dn(e, t) {
+function pn(e, t) {
 	if (e.error) return [];
 	let n = e.case_id || t?.case_id || null, r = e.trace_case_id || n, i = !!(e.result || t?.result), a = [];
 	return i && (a.push({
@@ -15667,7 +15821,7 @@ function dn(e, t) {
 		target: "business"
 	}), a;
 }
-function fn({ open: e, onToggle: t, onNavigate: n }) {
+function mn({ open: e, onToggle: t, onNavigate: n }) {
 	return /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: "shell-menu-wrap",
 		children: [/* @__PURE__ */ (0, x.jsxs)("button", {
@@ -15710,7 +15864,7 @@ function fn({ open: e, onToggle: t, onNavigate: n }) {
 					type: "button",
 					role: "menuitem",
 					onClick: () => n("approaches"),
-					children: ["⇌ ", /* @__PURE__ */ (0, x.jsx)("span", { children: "MCP approaches" })]
+					children: ["⇌ ", /* @__PURE__ */ (0, x.jsx)("span", { children: "Complete architecture" })]
 				}),
 				/* @__PURE__ */ (0, x.jsxs)("button", {
 					type: "button",
@@ -15722,7 +15876,7 @@ function fn({ open: e, onToggle: t, onNavigate: n }) {
 		})]
 	});
 }
-function pn({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r }) {
+function hn({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r }) {
 	let i = e?.variance;
 	return /* @__PURE__ */ (0, x.jsxs)("section", {
 		className: "surface business-result",
@@ -15733,7 +15887,7 @@ function pn({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r }) 
 				children: "MONTH-END RECONCILIATION"
 			}), /* @__PURE__ */ (0, x.jsx)("h2", { children: "Business outcome" })] }), e && /* @__PURE__ */ (0, x.jsx)("span", {
 				className: "pill quiet",
-				children: ln(e.scope?.period)
+				children: dn(e.scope?.period)
 			})]
 		}), i ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [
 			/* @__PURE__ */ (0, x.jsxs)("div", {
@@ -15745,7 +15899,7 @@ function pn({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r }) 
 			}),
 			/* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "business-result-metrics",
-				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: i.amount === null ? "Not comparable" : un(i.amount) })] }), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Source status" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: i.state.toUpperCase() })] })]
+				children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: i.amount === null ? "Not comparable" : fn(i.amount) })] }), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Source status" }), /* @__PURE__ */ (0, x.jsx)("strong", { children: i.state.toUpperCase() })] })]
 			}),
 			/* @__PURE__ */ (0, x.jsx)("p", {
 				className: "business-result-explanation",
@@ -15782,7 +15936,7 @@ function pn({ result: e, onOpenEvidence: t, onRunCurrent: n, onOpenDetail: r }) 
 		})]
 	});
 }
-function mn({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
+function gn({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 	let r = (0, b.useRef)(null), i = e?.result, a = i?.variance;
 	return (0, b.useEffect)(() => {
 		let e = r.current;
@@ -15806,7 +15960,7 @@ function mn({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 						id: "business-report-title",
 						children: "Business analysis report"
 					}),
-					/* @__PURE__ */ (0, x.jsx)("p", { children: i ? `${ln(i.scope?.period)} · ${i.scenario} · ${i.case_id}` : "No completed case selected" })
+					/* @__PURE__ */ (0, x.jsx)("p", { children: i ? `${dn(i.scope?.period)} · ${i.scenario} · ${i.case_id}` : "No completed case selected" })
 				] }), /* @__PURE__ */ (0, x.jsx)("button", {
 					type: "button",
 					onClick: t,
@@ -15822,7 +15976,7 @@ function mn({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 						children: [
 							/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 								/* @__PURE__ */ (0, x.jsx)("span", { children: "Variance" }),
-								/* @__PURE__ */ (0, x.jsx)("strong", { children: a.amount === null ? "Not comparable" : un(a.amount) }),
+								/* @__PURE__ */ (0, x.jsx)("strong", { children: a.amount === null ? "Not comparable" : fn(a.amount) }),
 								/* @__PURE__ */ (0, x.jsx)("small", { children: "S/4HANA − Central Finance" })
 							] }),
 							/* @__PURE__ */ (0, x.jsxs)("div", { children: [
@@ -15832,7 +15986,7 @@ function mn({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 							] }),
 							/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 								/* @__PURE__ */ (0, x.jsx)("span", { children: "Period" }),
-								/* @__PURE__ */ (0, x.jsx)("strong", { children: ln(i.scope?.period) }),
+								/* @__PURE__ */ (0, x.jsx)("strong", { children: dn(i.scope?.period) }),
 								/* @__PURE__ */ (0, x.jsxs)("small", { children: [i.scenario, " synthetic route"] })
 							] })
 						]
@@ -15872,15 +16026,15 @@ function mn({ caseRecord: e, onClose: t, onOpenEvidence: n }) {
 		]
 	});
 }
-function hn({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, liveRunning: a, reportReady: o, onOpenReport: s }) {
-	let [c, l] = (0, b.useState)(null), [u, d] = (0, b.useState)(!1), f = (0, b.useMemo)(() => rn({
+function _n({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, liveRunning: a, reportReady: o, onOpenReport: s }) {
+	let [c, l] = (0, b.useState)(null), [u, d] = (0, b.useState)(!1), f = (0, b.useMemo)(() => on({
 		registry: e,
 		events: t,
 		scenario: n,
 		selectedZone: r,
 		liveRunning: a,
 		reportReady: o,
-		zoneShort: sn
+		zoneShort: ln
 	}), [
 		e,
 		t,
@@ -15892,15 +16046,15 @@ function hn({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, l
 		id: "live",
 		title: `Live architecture · ${n}`,
 		svg: f,
-		w: Zt.w,
-		h: Zt.h,
+		w: $t.w,
+		h: $t.h,
 		file: "live-architecture",
 		png: !0
 	}), [f, n]);
 	return /* @__PURE__ */ (0, x.jsx)("div", {
 		className: "route-viewer",
 		"aria-label": "Live architecture topology",
-		children: /* @__PURE__ */ (0, x.jsx)(at, {
+		children: /* @__PURE__ */ (0, x.jsx)(rt, {
 			diagram: p,
 			uid: "live-arch",
 			view: c,
@@ -15912,7 +16066,7 @@ function hn({ registry: e, events: t, scenario: n, selectedZone: r, onZone: i, l
 		})
 	});
 }
-function gn({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
+function vn({ registry: e, zone: t, events: n, selectedComponent: r, onComponent: i, scenario: a }) {
 	let o = (e?.components || []).filter((e) => e.zone === t), s = (0, b.useMemo)(() => {
 		let e = {};
 		for (let t of n) {
@@ -16008,20 +16162,20 @@ function gn({ registry: e, zone: t, events: n, selectedComponent: r, onComponent
 		})]
 	});
 }
-function _n({ bridge: e }) {
+function yn({ bridge: e }) {
 	let t = !!e, [n, r] = (0, b.useState)(e?.data || null), [i, a] = (0, b.useState)("business"), [o, s] = (0, b.useState)("S1"), [c, l] = (0, b.useState)("S1"), [u, d] = (0, b.useState)(e?.data?.conditions || []), [f, p] = (0, b.useState)(e?.data?.agents || null), [m, h] = (0, b.useState)(e?.data?.agent_plan || null), [g, _] = (0, b.useState)(!1), [v, y] = (0, b.useState)(null), [S, T] = (0, b.useState)(() => {
 		try {
 			return localStorage.getItem("finance.showTech") === "1";
 		} catch {
 			return !1;
 		}
-	}), E = (0, b.useRef)("approaches"), [D, O] = (0, b.useState)(null), [ee, te] = (0, b.useState)(null), [ne, re] = (0, b.useState)("launchpad"), ae = (0, b.useRef)("business"), [oe, se] = (0, b.useState)(!1), [le, ue] = (0, b.useState)(!1), [de, fe] = (0, b.useState)(null), [pe, me] = (0, b.useState)(null), [he, ge] = (0, b.useState)({
+	}), E = (0, b.useRef)("approaches"), [D, O] = (0, b.useState)(null), [k, ee] = (0, b.useState)(null), [te, ne] = (0, b.useState)("launchpad"), ie = (0, b.useRef)("business"), [ae, oe] = (0, b.useState)(!1), [ce, le] = (0, b.useState)(!1), [ue, de] = (0, b.useState)(null), [fe, pe] = (0, b.useState)(null), [me, he] = (0, b.useState)({
 		section: "proof",
 		nonce: 0
-	}), [_e, ve] = (0, b.useState)(!1), [ye, be] = (0, b.useState)("S1"), [k, A] = (0, b.useState)("2026-11"), [j, xe] = (0, b.useState)(60), [Se, Ce] = (0, b.useState)(""), [we, M] = (0, b.useState)("Reconcile the selected synthetic period"), [N, Te] = (0, b.useState)([{
+	}), [ge, _e] = (0, b.useState)(!1), [ve, ye] = (0, b.useState)("S1"), [be, A] = (0, b.useState)("2026-11"), [j, xe] = (0, b.useState)(60), [Se, Ce] = (0, b.useState)(""), [we, Te] = (0, b.useState)("Reconcile the selected synthetic period"), [M, Ee] = (0, b.useState)([{
 		role: "assistant",
 		text: "Ask about a reconciliation, the source evidence, an architecture component, or a control. Each answer has an inspectable synthetic flow."
-	}]), [P, Ee] = (0, b.useState)(null), [De, Oe] = (0, b.useState)(null), [ke, F] = (0, b.useState)([]), [Ae, je] = (0, b.useState)(!1), [Me, Ne] = (0, b.useState)("Business entry"), [Pe, Fe] = (0, b.useState)(null), [Ie, Le] = (0, b.useState)(null), [Re, ze] = (0, b.useState)(null), [Be, Ve] = (0, b.useState)(!1), [He, I] = (0, b.useState)(""), [Ue, We] = (0, b.useState)([]), [Ge, Ke] = (0, b.useState)([]), [qe, Je] = (0, b.useState)(null), [Ye, Xe] = (0, b.useState)(e?.data?.investigation || null), [Ze, Qe] = (0, b.useState)([]), [$e, et] = (0, b.useState)(!1), [tt, nt] = (0, b.useState)("maker"), [rt, it] = (0, b.useState)(!1), [at, st] = (0, b.useState)(e?.data?.decision_run || null), [ct, lt] = (0, b.useState)(!1), ut = (0, b.useRef)(!1), ft = (0, b.useRef)(null), pt = (0, b.useRef)(null), mt = (0, b.useRef)(null), ht = (0, b.useRef)(null), gt = n?.architecture, _t = n?.history, vt = Ge.find((e) => e.case_id === P?.case_id);
+	}]), [N, De] = (0, b.useState)(null), [Oe, P] = (0, b.useState)(null), [F, ke] = (0, b.useState)([]), [Ae, je] = (0, b.useState)(!1), [Me, Ne] = (0, b.useState)("Business entry"), [Pe, Fe] = (0, b.useState)(null), [Ie, Le] = (0, b.useState)(null), [Re, ze] = (0, b.useState)(null), [Be, Ve] = (0, b.useState)(!1), [He, I] = (0, b.useState)(""), [Ue, We] = (0, b.useState)([]), [Ge, Ke] = (0, b.useState)([]), [qe, Je] = (0, b.useState)(null), [Ye, Xe] = (0, b.useState)(e?.data?.investigation || null), [Ze, Qe] = (0, b.useState)([]), [$e, et] = (0, b.useState)(!1), [tt, nt] = (0, b.useState)("maker"), [rt, at] = (0, b.useState)(!1), [ot, st] = (0, b.useState)(e?.data?.decision_run || null), [ct, ut] = (0, b.useState)(!1), dt = (0, b.useRef)(!1), ft = (0, b.useRef)(null), pt = (0, b.useRef)(null), mt = (0, b.useRef)(null), ht = (0, b.useRef)(null), gt = n?.architecture, vt = n?.history, yt = Ge.find((e) => e.case_id === N?.case_id);
 	(0, b.useEffect)(() => {
 		[
 			"business",
@@ -16029,13 +16183,14 @@ function _n({ bridge: e }) {
 			"architecture",
 			"approaches",
 			"diagrams",
-			"mcp"
-		].includes(i) && (ae.current = i);
+			"mcp",
+			"agenthost"
+		].includes(i) && (ie.current = i);
 	}, [i]), (0, b.useEffect)(() => {
-		let e = P?.scope?.period;
+		let e = N?.scope?.period;
 		!t && e && z(`/api/history/${e}`).then(Je).catch(() => Je(null));
-	}, [t, P?.scope?.period]);
-	let bt = Re === null ? ke : ke.slice(0, Re + 1), xt = Ie || bt.at(-1), St = xt ? xt.direction === "response" ? xt.source_component_id : xt.target_component_id : null, Ct = gt?.components?.find((e) => e.component_id === St)?.zone;
+	}, [t, N?.scope?.period]);
+	let bt = Re === null ? F : F.slice(0, Re + 1), St = Ie || bt.at(-1), Ct = St ? St.direction === "response" ? St.source_component_id : St.target_component_id : null, L = gt?.components?.find((e) => e.component_id === Ct)?.zone;
 	(0, b.useEffect)(() => {
 		if (!t) return Promise.all([z("/api/bootstrap"), z("/api/proposals")]).then(([e, t]) => {
 			r(e), We(e.cases || []), Ke(t);
@@ -16048,18 +16203,18 @@ function _n({ bridge: e }) {
 		r((e) => ({
 			...e,
 			...n
-		})), We(n.cases || []), Ke(n.proposals || []), Je(n.history_detail || null), Xe(n.investigation || null), Qe(n.investigation_events || []), st(n.decision_run || null), n.decision_run?.status === "complete" && lt(!1), n.active_case && (Ee(n.active_case), Oe(n.active_case.case_id), be(n.active_case.scenario), A(n.active_case.scope?.period || "2026-11")), n.events && F(n.events), je(n.active_case?.status === "queued" || n.active_case?.status === "running"), n.response && n.response_nonce !== ht.current && (ht.current = n.response_nonce, ut.current = !1, it(!1), et(!1), Te((e) => [...e, {
+		})), We(n.cases || []), Ke(n.proposals || []), Je(n.history_detail || null), Xe(n.investigation || null), Qe(n.investigation_events || []), st(n.decision_run || null), n.decision_run?.status === "complete" && ut(!1), n.active_case && (De(n.active_case), P(n.active_case.case_id), ye(n.active_case.scenario), A(n.active_case.scope?.period || "2026-11")), n.events && ke(n.events), je(n.active_case?.status === "queued" || n.active_case?.status === "running"), n.response && n.response_nonce !== ht.current && (ht.current = n.response_nonce, dt.current = !1, at(!1), et(!1), Ee((e) => [...e, {
 			role: "assistant",
 			text: n.response.answer || n.response.error || "The synthetic operation completed.",
 			limited: n.response.status === "limited",
-			actions: dn(n.response, n.active_case || P)
+			actions: pn(n.response, n.active_case || N)
 		}]), n.response.error && I(n.response.error));
 	}, [t, e?.data]), (0, b.useEffect)(() => {
 		if (t || !Ye?.investigation_id || !["running", "reconciling"].includes(Ye.status)) return;
 		let e = !1, n = setInterval(async () => {
 			try {
 				let [t, n] = await Promise.all([z(`/api/investigations/${Ye.investigation_id}`), z(`/api/architecture/events?case_id=${encodeURIComponent(Ye.case_id)}`)]);
-				e || (Xe(t), Qe(n), Oe(t.case_id), F(n));
+				e || (Xe(t), Qe(n), P(t.case_id), ke(n));
 			} catch (t) {
 				e || I(t.message);
 			}
@@ -16079,13 +16234,13 @@ function _n({ bridge: e }) {
 		Ye?.case_id,
 		Ye?.status
 	]), (0, b.useEffect)(() => {
-		if (t || !at?.run_id || at.status === "complete") return;
+		if (t || !ot?.run_id || ot.status === "complete") return;
 		let e = !1, n = setInterval(async () => {
 			try {
-				let t = await z(`/api/architecture/questions/runs/${encodeURIComponent(at.run_id)}`);
-				e || (st(t), t.status === "complete" && lt(!1));
+				let t = await z(`/api/architecture/questions/runs/${encodeURIComponent(ot.run_id)}`);
+				e || (st(t), t.status === "complete" && ut(!1));
 			} catch (t) {
-				e || (I(t.message), lt(!1));
+				e || (I(t.message), ut(!1));
 			}
 		}, 350);
 		return () => {
@@ -16093,39 +16248,39 @@ function _n({ bridge: e }) {
 		};
 	}, [
 		t,
-		at?.run_id,
-		at?.status
+		ot?.run_id,
+		ot?.status
 	]), (0, b.useEffect)(() => {
-		if (!Be || !ke.length) return;
+		if (!Be || !F.length) return;
 		let e = setInterval(() => ze((e) => {
 			let t = (e ?? -1) + 1;
-			return t >= ke.length ? (Ve(!1), ke.length - 1) : t;
+			return t >= F.length ? (Ve(!1), F.length - 1) : t;
 		}), 140);
 		return () => clearInterval(e);
-	}, [Be, ke.length]), (0, b.useEffect)(() => {
+	}, [Be, F.length]), (0, b.useEffect)(() => {
 		mt.current && (mt.current.scrollTop = mt.current.scrollHeight);
-	}, [N]), (0, b.useEffect)(() => {
-		if (!oe) return;
+	}, [M]), (0, b.useEffect)(() => {
+		if (!ae) return;
 		let e = (e) => {
-			e.key === "Escape" && se(!1);
+			e.key === "Escape" && oe(!1);
 		};
 		return window.addEventListener("keydown", e), document.getElementById("chat-question")?.focus(), () => window.removeEventListener("keydown", e);
-	}, [oe]), (0, b.useEffect)(() => {
-		if (!le) return;
+	}, [ae]), (0, b.useEffect)(() => {
+		if (!ce) return;
 		let e = (e) => {
-			e.target.closest(".shell-menu-wrap") || ue(!1);
+			e.target.closest(".shell-menu-wrap") || le(!1);
 		}, t = (e) => {
-			e.key === "Escape" && ue(!1);
+			e.key === "Escape" && le(!1);
 		};
 		return document.addEventListener("pointerdown", e), window.addEventListener("keydown", t), () => {
 			document.removeEventListener("pointerdown", e), window.removeEventListener("keydown", t);
 		};
-	}, [le]), (0, b.useEffect)(() => {
-		Ct && Re === null && Ne(Ct);
-	}, [Ct, Re]), (0, b.useEffect)(() => {
-		de && P?.case_id === de && (fe(null), ve(!0));
-	}, [de, P?.case_id]);
-	async function L(n) {
+	}, [ce]), (0, b.useEffect)(() => {
+		L && Re === null && Ne(L);
+	}, [L, Re]), (0, b.useEffect)(() => {
+		ue && N?.case_id === ue && (de(null), _e(!0));
+	}, [ue, N?.case_id]);
+	async function wt(n) {
 		if (t) {
 			e.action({
 				type: "load_case",
@@ -16138,18 +16293,18 @@ function _n({ bridge: e }) {
 			z(`/api/architecture/events?case_id=${encodeURIComponent(n)}`),
 			z(`/api/investigations?case_id=${encodeURIComponent(n)}`)
 		]);
-		Ee(r), Xe(a[0] || null), Oe(n), be(r.scenario), A(r.scope?.period || k), F(i), ze(null), Le(null);
+		De(r), Xe(a[0] || null), P(n), ye(r.scenario), A(r.scope?.period || be), ke(i), ze(null), Le(null);
 	}
-	function wt(e) {
+	function Tt(e) {
 		ft.current?.close();
 		let t = new EventSource(`/api/architecture/runs/${encodeURIComponent(e)}/stream`);
 		ft.current = t, t.addEventListener("flow", (e) => {
 			let t = JSON.parse(e.data);
-			F((e) => e.some((e) => e.seq === t.seq) ? e : [...e, t]);
+			ke((e) => e.some((e) => e.seq === t.seq) ? e : [...e, t]);
 		}), t.addEventListener("complete", async () => {
 			t.close(), ft.current = null, je(!1);
 			try {
-				await L(e);
+				await wt(e);
 				let t = await z("/api/cases");
 				We(t.slice(0, 20));
 			} catch (e) {
@@ -16159,20 +16314,20 @@ function _n({ bridge: e }) {
 			I("Live connection interrupted. Stored events can be reloaded from the case list.");
 		};
 	}
-	async function Tt() {
-		I(""), Xe(null), a("architecture"), F([]), ze(null), Le(null), je(!0);
-		let n = we.trim() === "Reconcile the selected synthetic period" || !we.trim() ? `Reconcile ${ln(k)}` : we.trim();
+	async function Et() {
+		I(""), Xe(null), a("architecture"), ke([]), ze(null), Le(null), je(!0);
+		let n = we.trim() === "Reconcile the selected synthetic period" || !we.trim() ? `Reconcile ${dn(be)}` : we.trim();
 		if (t) e.action({
 			type: "run",
 			message: n,
-			scenario: ye,
-			period: k,
+			scenario: ve,
+			period: be,
 			pace: j
 		});
 		else try {
 			let e = await z("/api/runs", "POST", {
 				message: n,
-				scenario: ye,
+				scenario: ve,
 				user_id: "finance.user",
 				demo_pace_ms: j
 			});
@@ -16180,71 +16335,71 @@ function _n({ bridge: e }) {
 				je(!1), I(e.follow_up);
 				return;
 			}
-			Oe(e.case_id), Ee({
+			P(e.case_id), De({
 				case_id: e.case_id,
 				scenario: e.scenario,
 				scope: e.scope,
 				status: "running"
-			}), wt(e.case_id);
+			}), Tt(e.case_id);
 		} catch (e) {
 			je(!1), I(e.message);
 		}
 	}
-	async function Et(n = Se) {
+	async function Dt(n = Se) {
 		let r = n.trim();
-		if (r && !ut.current) {
-			if (ut.current = !0, it(!0), Ce(""), Te((e) => [...e, {
+		if (r && !dt.current) {
+			if (dt.current = !0, at(!0), Ce(""), Ee((e) => [...e, {
 				role: "user",
 				text: r
 			}]), I(""), t) e.action({
 				type: "chat",
 				message: r,
-				scenario: P?.scenario || ye,
-				case_id: P?.case_id
+				scenario: N?.scenario || ve,
+				case_id: N?.case_id
 			});
 			else try {
 				let e = await z("/api/chat", "POST", {
 					message: r,
-					scenario: P?.scenario || ye,
-					case_id: P?.case_id,
+					scenario: N?.scenario || ve,
+					case_id: N?.case_id,
 					user_id: "finance.user"
 				});
-				Te((t) => [...t, {
+				Ee((t) => [...t, {
 					role: "assistant",
 					text: e.answer || "The synthetic operation completed.",
 					limited: e.status === "limited",
-					actions: dn(e, e.result ? {
+					actions: pn(e, e.result ? {
 						case_id: e.case_id,
 						result: e.result
-					} : P)
-				}]), e.investigation && Xe(e.investigation), e.result && (Xe(null), Ee({
+					} : N)
+				}]), e.investigation && Xe(e.investigation), e.result && (Xe(null), De({
 					case_id: e.case_id,
 					scenario: e.scenario,
 					scope: e.result.scope,
 					status: "complete",
 					result: e.result
-				}), A(e.result.scope.period), be(e.scenario)), e.trace_case_id && (Oe(e.trace_case_id), F(await z(`/api/architecture/events?case_id=${encodeURIComponent(e.trace_case_id)}`)), ze(null));
+				}), A(e.result.scope.period), ye(e.scenario)), e.trace_case_id && (P(e.trace_case_id), ke(await z(`/api/architecture/events?case_id=${encodeURIComponent(e.trace_case_id)}`)), ze(null));
 				let [t, n] = await Promise.all([z("/api/cases"), z("/api/proposals")]);
 				We(t.slice(0, 20)), Ke(n);
 			} catch (e) {
-				Te((t) => [...t, {
+				Ee((t) => [...t, {
 					role: "assistant",
 					text: `I could not complete that synthetic request: ${e.message}`,
 					limited: !0
 				}]), I(e.message);
 			} finally {
-				ut.current = !1, it(!1);
+				dt.current = !1, at(!1);
 			}
 		}
 	}
-	async function Dt(n) {
-		if (O(n), te(null), t) e.action({
+	async function Ot(n) {
+		if (O(n), ee(null), t) e.action({
 			type: "report",
 			period: n
 		});
 		else try {
-			let e = P?.scope?.period === n ? `?case_id=${encodeURIComponent(P.case_id)}` : "";
-			te(await z(`/api/reports/${n}${e}`));
+			let e = N?.scope?.period === n ? `?case_id=${encodeURIComponent(N.case_id)}` : "";
+			ee(await z(`/api/reports/${n}${e}`));
 		} catch (e) {
 			I(e.message), O(null);
 		}
@@ -16252,7 +16407,7 @@ function _n({ bridge: e }) {
 	(0, b.useEffect)(() => {
 		t ? d(e.data?.conditions || []) : z("/api/conditions").then(d).catch(() => {});
 	}, [t, e?.data?.conditions]);
-	async function Ot(n, i) {
+	async function kt(n, i) {
 		if (I(""), t) e.action({
 			type: "condition",
 			period: n,
@@ -16267,19 +16422,19 @@ function _n({ bridge: e }) {
 			r((t) => ({
 				...t,
 				history: e
-			})), D && Dt(D);
+			})), D && Ot(D);
 		} catch (e) {
 			I(e.message);
 		}
 	}
-	function kt() {
-		O(null), te(null), t && e.action({
+	function At() {
+		O(null), ee(null), t && e.action({
 			type: "report",
 			period: null
 		});
 	}
 	(0, b.useEffect)(() => {
-		t && D && e.data?.report?.period === D && te(e.data.report);
+		t && D && e.data?.report?.period === D && ee(e.data.report);
 	}, [
 		t,
 		D,
@@ -16293,6 +16448,7 @@ function _n({ bridge: e }) {
 			"approaches",
 			"diagrams",
 			"mcp",
+			"agenthost",
 			"architecture"
 		].includes(i) && (E.current = i);
 	}, [i]), (0, b.useEffect)(() => {
@@ -16305,23 +16461,23 @@ function _n({ bridge: e }) {
 		e?.data?.agents,
 		e?.data?.agent_plan
 	]);
-	async function At(n) {
-		if (I(""), re("app"), a("agents"), _(!0), t) e.action({
+	async function jt(n) {
+		if (I(""), ne("app"), a("agents"), _(!0), t) e.action({
 			type: "agent_plan",
 			message: n,
-			scenario: ye,
-			case_id: P?.case_id || null
+			scenario: ve,
+			case_id: N?.case_id || null
 		});
 		else try {
 			let e = await z("/api/agent/plan", "POST", {
 				message: n,
-				scenario: ye,
+				scenario: ve,
 				user_id: "finance.user",
-				case_id: P?.case_id || null,
+				case_id: N?.case_id || null,
 				demo_pace_ms: 0
 			});
 			if (h(e), e.case_id) {
-				await L(e.case_id);
+				await wt(e.case_id);
 				let t = await z("/api/history");
 				r((e) => ({
 					...e,
@@ -16334,7 +16490,7 @@ function _n({ bridge: e }) {
 			_(!1);
 		}
 	}
-	function jt(e, t) {
+	function Mt(e, t) {
 		if (!e?.id) return;
 		y({
 			id: e.id,
@@ -16342,10 +16498,10 @@ function _n({ bridge: e }) {
 			role: e.role,
 			tools: e.tools || []
 		});
-		let n = t?.view || e.view, r = t?.ref?.period || P?.scope?.period || _t?.available_periods?.at(-1);
-		n === "run" ? a("architecture") : n === "report" ? Dt(r) : n === "evidence-proof" ? zt("proof") : a(n === "decision-responsibilities" ? "mcp" : "business");
+		let n = t?.view || e.view, r = t?.ref?.period || N?.scope?.period || vt?.available_periods?.at(-1);
+		n === "run" ? a("architecture") : n === "report" ? Ot(r) : n === "evidence-proof" ? Bt("proof") : a(n === "decision-responsibilities" ? "mcp" : "business");
 	}
-	function Mt(e) {
+	function Nt(e) {
 		let t = [
 			"business",
 			"agents",
@@ -16354,6 +16510,7 @@ function _n({ bridge: e }) {
 			"architecture",
 			"approaches",
 			"mcp",
+			"agenthost",
 			"diagrams"
 		].includes(i) : i === e), r = null;
 		if (e.key === "ArrowRight" && (r = (n + 1) % 3), e.key === "ArrowLeft" && (r = (n + 2) % 3), r === null) return;
@@ -16361,15 +16518,15 @@ function _n({ bridge: e }) {
 		let o = t[r], s = e.currentTarget;
 		a(o === "architecture" ? E.current : o), requestAnimationFrame(() => s.querySelectorAll("[role=tab]")[r]?.focus());
 	}
-	async function Nt() {
+	async function Pt() {
 		if (tt !== "approver") I("Switch to the synthetic finance approver lane first.");
 		else if (t) e.action({
 			type: "approve",
-			case_id: P?.case_id,
+			case_id: N?.case_id,
 			role: tt
 		});
 		else try {
-			let e = (await z("/api/proposals")).find((e) => e.case_id === P?.case_id && e.status === "awaiting_approval");
+			let e = (await z("/api/proposals")).find((e) => e.case_id === N?.case_id && e.status === "awaiting_approval");
 			if (!e) {
 				I("No pending synthetic proposal for this case.");
 				return;
@@ -16381,27 +16538,27 @@ function _n({ bridge: e }) {
 				payload_hash: e.payload_hash,
 				case_version: e.case_version
 			});
-			Te((e) => [...e, {
+			Ee((e) => [...e, {
 				role: "assistant",
 				text: `Approval result: ${t.status}. Synthetic variance marker ${t.document_number || "not created"}.`
-			}]), F(await z(`/api/architecture/events?case_id=${encodeURIComponent(P.case_id)}`)), Ke(await z("/api/proposals"));
+			}]), ke(await z(`/api/architecture/events?case_id=${encodeURIComponent(N.case_id)}`)), Ke(await z("/api/proposals"));
 		} catch (e) {
 			I(e.message);
 		}
 	}
-	async function Pt(n) {
-		if (P?.case_id) {
+	async function Ft(n) {
+		if (N?.case_id) {
 			if (I(""), et(!0), t) e.action({
 				type: "investigate",
-				case_id: P.case_id,
+				case_id: N.case_id,
 				fault_profile: n
 			});
 			else try {
 				let e = await z("/api/investigations", "POST", {
-					case_id: P.case_id,
+					case_id: N.case_id,
 					fault_profile: n
 				});
-				Xe(e), Oe(e.case_id), ze(null), F(await z(`/api/architecture/events?case_id=${encodeURIComponent(e.case_id)}`));
+				Xe(e), P(e.case_id), ze(null), ke(await z(`/api/architecture/events?case_id=${encodeURIComponent(e.case_id)}`));
 			} catch (e) {
 				I(e.message);
 			} finally {
@@ -16409,7 +16566,7 @@ function _n({ bridge: e }) {
 			}
 		}
 	}
-	async function Ft(n) {
+	async function It(n) {
 		if (I(""), et(!0), t) e.action({
 			type: "reprocess",
 			investigation_id: n,
@@ -16417,12 +16574,12 @@ function _n({ bridge: e }) {
 		});
 		else try {
 			let e = await z(`/api/investigations/${n}/reprocess`, "POST", { operator_id: "finance.operator" });
-			e.after?.case_id && await L(e.after.case_id), Xe(e);
+			e.after?.case_id && await wt(e.after.case_id), Xe(e);
 			let t = await z("/api/history");
 			r((e) => ({
 				...e,
 				history: t
-			})), We((await z("/api/cases")).slice(0, 20)), Te((t) => [...t, {
+			})), We((await z("/api/cases")).slice(0, 20)), Ee((t) => [...t, {
 				role: "assistant",
 				text: e.reason
 			}]);
@@ -16436,10 +16593,10 @@ function _n({ bridge: e }) {
 		t ? (e.action({
 			type: "load_case",
 			case_id: n
-		}), a("architecture")) : (Oe(n), F(await z(`/api/architecture/events?case_id=${encodeURIComponent(n)}`)), ze(null), a("architecture"));
+		}), a("architecture")) : (P(n), ke(await z(`/api/architecture/events?case_id=${encodeURIComponent(n)}`)), ze(null), a("architecture"));
 	}
-	async function Rt(n, r, i) {
-		if (a("questions"), I(""), lt(!0), st(null), t) e.action({
+	async function zt(n, r, i) {
+		if (a("questions"), I(""), ut(!0), st(null), t) e.action({
 			type: "decision_run",
 			question_id: n,
 			route: r,
@@ -16453,46 +16610,46 @@ function _n({ bridge: e }) {
 			});
 			st(e);
 		} catch (e) {
-			I(e.message), lt(!1);
+			I(e.message), ut(!1);
 		}
 	}
-	function zt(e = "proof", t = {}) {
-		ge((n) => ({
+	function Bt(e = "proof", t = {}) {
+		he((n) => ({
 			section: e,
 			...t,
 			nonce: n.nonce + 1
 		})), a("evidence");
 	}
-	function Bt(e) {
-		ue(!1), se(!1), e === "launchpad" ? re("launchpad") : (re("app"), e === "agent" ? (a("business"), se(!0)) : a(e));
+	function Vt(e) {
+		le(!1), oe(!1), e === "launchpad" ? ne("launchpad") : (ne("app"), e === "agent" ? (a("business"), oe(!0)) : a(e));
 	}
-	async function Vt(e) {
-		se(!1), ue(!1), e.target === "architecture" ? a("architecture") : e.target === "finance" ? zt("finance") : a(e.target === "report" ? "business" : e.target);
+	async function Ht(e) {
+		oe(!1), le(!1), e.target === "architecture" ? a("architecture") : e.target === "finance" ? Bt("finance") : a(e.target === "report" ? "business" : e.target);
 		try {
-			if (t && e.target === "report" && e.caseId && e.caseId !== P?.case_id) {
-				fe(e.caseId), await L(e.caseId);
+			if (t && e.target === "report" && e.caseId && e.caseId !== N?.case_id) {
+				de(e.caseId), await wt(e.caseId);
 				return;
 			}
-			e.caseId && e.caseId !== P?.case_id && e.target !== "questions" && await L(e.caseId), e.target === "architecture" && e.traceId && !t && (Oe(e.traceId), F(await z(`/api/architecture/events?case_id=${encodeURIComponent(e.traceId)}`)), ze(null)), e.target === "report" && ve(!0);
+			e.caseId && e.caseId !== N?.case_id && e.target !== "questions" && await wt(e.caseId), e.target === "architecture" && e.traceId && !t && (P(e.traceId), ke(await z(`/api/architecture/events?case_id=${encodeURIComponent(e.traceId)}`)), ze(null)), e.target === "report" && _e(!0);
 		} catch (e) {
 			I(e.message);
 		}
 	}
-	let Ht = /* @__PURE__ */ (0, x.jsx)("footer", {
+	let Ut = /* @__PURE__ */ (0, x.jsx)("footer", {
 		className: "app-footer",
 		children: /* @__PURE__ */ (0, x.jsxs)("span", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Demo and learning purposes only." }), " Synthetic finance data; no live SAP or cloud system is connected."] })
 	});
-	return ne === "launchpad" ? /* @__PURE__ */ (0, x.jsxs)("div", {
+	return te === "launchpad" ? /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: `app-shell launchpad-shell ${t ? "embedded" : ""}`,
 		children: [
 			/* @__PURE__ */ (0, x.jsxs)("header", {
 				className: "shell-header launchpad-header",
 				children: [/* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "brand",
-					children: [/* @__PURE__ */ (0, x.jsx)(fn, {
-						open: le,
-						onToggle: () => ue((e) => !e),
-						onNavigate: Bt
+					children: [/* @__PURE__ */ (0, x.jsx)(mn, {
+						open: ce,
+						onToggle: () => le((e) => !e),
+						onNavigate: Vt
 					}), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 						className: "brand-overline",
 						children: "FINANCE / LOCAL DEMO"
@@ -16505,21 +16662,21 @@ function _n({ bridge: e }) {
 					})
 				})]
 			}),
-			/* @__PURE__ */ (0, x.jsx)(Xt, {
-				periodCount: _t?.available_periods?.length || 12,
+			/* @__PURE__ */ (0, x.jsx)(Qt, {
+				periodCount: vt?.available_periods?.length || 12,
 				localBundle: n?.local_bundle,
 				onOpenApp: () => {
-					a("business"), re("app");
+					a("business"), ne("app");
 				},
 				onOpenAgents: () => {
-					a("agents"), re("app");
+					a("agents"), ne("app");
 				},
 				onOpenArchitecture: () => {
-					a(E.current), re("app");
+					a(E.current), ne("app");
 				},
-				onAsk: At
+				onAsk: jt
 			}),
-			Ht
+			Ut
 		]
 	}) : /* @__PURE__ */ (0, x.jsxs)("div", {
 		className: `app-shell ${t ? "embedded" : ""} ${S ? "" : "tech-off"}`,
@@ -16532,14 +16689,14 @@ function _n({ bridge: e }) {
 						/* @__PURE__ */ (0, x.jsx)("button", {
 							type: "button",
 							className: "shell-home",
-							onClick: () => Bt("launchpad"),
+							onClick: () => Vt("launchpad"),
 							"aria-label": "Back to Finance Launchpad",
 							children: "⌂"
 						}),
-						/* @__PURE__ */ (0, x.jsx)(fn, {
-							open: le,
-							onToggle: () => ue((e) => !e),
-							onNavigate: Bt
+						/* @__PURE__ */ (0, x.jsx)(mn, {
+							open: ce,
+							onToggle: () => le((e) => !e),
+							onNavigate: Vt
 						}),
 						/* @__PURE__ */ (0, x.jsx)("span", {
 							className: "brand-mark",
@@ -16559,7 +16716,7 @@ function _n({ bridge: e }) {
 							children: "LOCAL SIMULATION"
 						}),
 						/* @__PURE__ */ (0, x.jsx)("span", { className: "header-separator" }),
-						/* @__PURE__ */ (0, x.jsxs)("span", { children: [_t?.available_periods?.length || 12, " monthly periods"] }),
+						/* @__PURE__ */ (0, x.jsxs)("span", { children: [vt?.available_periods?.length || 12, " monthly periods"] }),
 						/* @__PURE__ */ (0, x.jsx)("span", { className: "header-separator" }),
 						/* @__PURE__ */ (0, x.jsxs)("label", {
 							className: "tech-toggle",
@@ -16576,7 +16733,7 @@ function _n({ bridge: e }) {
 				className: "tab-nav three",
 				role: "tablist",
 				"aria-label": "Application sections",
-				onKeyDown: Mt,
+				onKeyDown: Nt,
 				children: [
 					[
 						"business",
@@ -16601,6 +16758,7 @@ function _n({ bridge: e }) {
 						"architecture",
 						"approaches",
 						"mcp",
+						"agenthost",
 						"diagrams"
 					].includes(i) : i === e;
 					return /* @__PURE__ */ (0, x.jsxs)("button", {
@@ -16635,15 +16793,16 @@ function _n({ bridge: e }) {
 					children: "ON-DEMAND DETAIL"
 				}), /* @__PURE__ */ (0, x.jsx)("strong", { children: i === "evidence" ? "Evidence & correlation" : "Architecture questions" })] }), /* @__PURE__ */ (0, x.jsxs)("button", {
 					type: "button",
-					onClick: () => a(ae.current),
+					onClick: () => a(ie.current),
 					children: ["← Back to ", {
 						business: "Execution simulator",
 						architecture: "Live architecture",
-						approaches: "Architecture pros & cons",
+						approaches: "Complete architecture",
+						agenthost: "Agent hosting",
 						diagrams: "Architecture diagrams",
-						mcp: "MCP hosting & governance",
+						mcp: "MCP hosting",
 						agents: "Agents"
-					}[ae.current]]
+					}[ie.current]]
 				})]
 			}),
 			He && /* @__PURE__ */ (0, x.jsxs)("div", {
@@ -16664,6 +16823,7 @@ function _n({ bridge: e }) {
 				"architecture",
 				"approaches",
 				"mcp",
+				"agenthost",
 				"diagrams"
 			].includes(i) && /* @__PURE__ */ (0, x.jsx)("div", {
 				className: "surface decision-nav",
@@ -16677,13 +16837,18 @@ function _n({ bridge: e }) {
 					],
 					[
 						"approaches",
-						"Compare options",
-						"S1 · S2 · S3 and agent hosting"
+						"Complete architecture",
+						"S1 · S2 · S3 end to end"
 					],
 					[
 						"mcp",
-						"Responsibilities & governance",
-						"Who creates, hosts and registers"
+						"MCP hosting",
+						"Who creates, hosts and registers the MCP"
+					],
+					[
+						"agenthost",
+						"Agent hosting",
+						"Where the finance agent runs"
 					],
 					[
 						"diagrams",
@@ -16724,44 +16889,44 @@ function _n({ bridge: e }) {
 					})
 				]
 			}),
-			D && /* @__PURE__ */ (0, x.jsx)(It, {
-				report: ee,
+			D && /* @__PURE__ */ (0, x.jsx)(Rt, {
+				report: k,
 				period: D,
-				onClose: kt
+				onClose: At
 			}),
-			i === "business" ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)(qt, {
-				onAsk: At,
+			i === "business" ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsx)(Yt, {
+				onAsk: jt,
 				busy: g
 			}), /* @__PURE__ */ (0, x.jsxs)("main", {
 				className: "business-layout fiori-list-report",
 				children: [
 					/* @__PURE__ */ (0, x.jsx)(C, {
-						onOpenReport: Dt,
+						onOpenReport: Ot,
 						conditions: u,
-						onCondition: Ot,
-						history: _t,
+						onCondition: kt,
+						history: vt,
 						historyDetail: qe,
-						onOpenEvidence: () => zt("finance"),
-						onOpenAgent: () => se(!0),
+						onOpenEvidence: () => Bt("finance"),
+						onOpenAgent: () => oe(!0),
 						cases: Ue,
-						currentCase: P,
-						proposal: vt,
+						currentCase: N,
+						proposal: yt,
 						role: tt,
 						onRole: nt,
-						approve: Nt,
-						loadCase: (e) => Et(`Reconcile ${ln(e)}`)
+						approve: Pt,
+						loadCase: (e) => Dt(`Reconcile ${dn(e)}`)
 					}),
-					oe && /* @__PURE__ */ (0, x.jsx)("button", {
+					ae && /* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
 						className: "chat-drawer-backdrop",
-						onClick: () => se(!1),
+						onClick: () => oe(!1),
 						"aria-label": "Close Finance Agent panel"
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("section", {
-						className: `surface chat-panel ${oe ? "open" : ""}`,
+						className: `surface chat-panel ${ae ? "open" : ""}`,
 						role: "dialog",
 						"aria-label": "Finance Agent",
-						"aria-modal": oe,
+						"aria-modal": ae,
 						children: [
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "section-heading",
@@ -16773,14 +16938,14 @@ function _n({ bridge: e }) {
 									children: [
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
-											onClick: () => se(!1),
+											onClick: () => oe(!1),
 											"aria-label": "Close Finance Agent",
 											children: "Close"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
-											onClick: () => Te([]),
-											disabled: rt || N.length === 0,
+											onClick: () => Ee([]),
+											disabled: rt || M.length === 0,
 											"aria-label": "Clear chat conversation",
 											children: "Clear chat"
 										}),
@@ -16795,10 +16960,10 @@ function _n({ bridge: e }) {
 								className: "chat-messages",
 								ref: mt,
 								"aria-live": "polite",
-								children: [!N.length && /* @__PURE__ */ (0, x.jsx)("div", {
+								children: [!M.length && /* @__PURE__ */ (0, x.jsx)("div", {
 									className: "chat-empty",
 									children: "Chat cleared. The selected case and evidence remain available. Ask a finance question to continue."
-								}), N.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("div", {
+								}), M.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("div", {
 									className: `chat-message ${e.role} ${e.limited ? "limited" : ""}`,
 									children: [
 										/* @__PURE__ */ (0, x.jsx)("span", { children: e.role === "user" ? "You" : "Finance assistant" }),
@@ -16807,7 +16972,7 @@ function _n({ bridge: e }) {
 											className: "chat-answer-actions",
 											children: e.actions.map((e, n) => /* @__PURE__ */ (0, x.jsxs)("button", {
 												type: "button",
-												onClick: () => Vt(e),
+												onClick: () => Ht(e),
 												children: [e.label, " →"]
 											}, `${t}-${n}`))
 										})
@@ -16817,7 +16982,7 @@ function _n({ bridge: e }) {
 							/* @__PURE__ */ (0, x.jsxs)("form", {
 								className: "chat-composer",
 								onSubmit: (e) => {
-									e.preventDefault(), Et();
+									e.preventDefault(), Dt();
 								},
 								children: [/* @__PURE__ */ (0, x.jsx)("label", {
 									htmlFor: "chat-question",
@@ -16837,14 +17002,14 @@ function _n({ bridge: e }) {
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "suggestions",
 								children: [/* @__PURE__ */ (0, x.jsx)("span", { children: "Try:" }), [
-									"Reconcile " + ln(k),
+									"Reconcile " + dn(be),
 									"Why is there a variance?",
 									"Show source evidence",
 									"Investigate this variance"
 								].map((e) => /* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
 									disabled: rt,
-									onClick: () => Et(e),
+									onClick: () => Dt(e),
 									children: e
 								}, e))]
 							}),
@@ -16855,13 +17020,13 @@ function _n({ bridge: e }) {
 									className: "text-link",
 									onClick: () => a("architecture"),
 									children: "Inspect this question’s architecture →"
-								}), P && /* @__PURE__ */ (0, x.jsxs)("span", {
+								}), N && /* @__PURE__ */ (0, x.jsxs)("span", {
 									className: "tech",
 									children: [
 										"Case ",
-										P.case_id,
+										N.case_id,
 										" · ",
-										P.scenario
+										N.scenario
 									]
 								})]
 							})
@@ -16872,15 +17037,15 @@ function _n({ bridge: e }) {
 						children: [
 							Ye && /* @__PURE__ */ (0, x.jsx)(w, {
 								investigation: Ye,
-								onOpen: () => zt("proof")
+								onOpen: () => Bt("proof")
 							}),
-							/* @__PURE__ */ (0, x.jsx)(pn, {
-								result: P?.result,
-								onOpenDetail: () => Dt(P?.result?.scope?.period),
-								onOpenEvidence: () => zt("finance"),
-								onRunCurrent: () => Et(`Reconcile ${ln(k)}`)
+							/* @__PURE__ */ (0, x.jsx)(hn, {
+								result: N?.result,
+								onOpenDetail: () => Ot(N?.result?.scope?.period),
+								onOpenEvidence: () => Bt("finance"),
+								onRunCurrent: () => Dt(`Reconcile ${dn(be)}`)
 							}),
-							P?.result?.variance?.amount !== null && P?.result?.variance?.amount !== void 0 && Number(P.result.variance.amount) !== 0 && Ye?.case_id !== P.case_id && /* @__PURE__ */ (0, x.jsxs)("section", {
+							N?.result?.variance?.amount !== null && N?.result?.variance?.amount !== void 0 && Number(N.result.variance.amount) !== 0 && Ye?.case_id !== N.case_id && /* @__PURE__ */ (0, x.jsxs)("section", {
 								className: "surface action-strip",
 								children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 									/* @__PURE__ */ (0, x.jsx)("span", {
@@ -16891,19 +17056,19 @@ function _n({ bridge: e }) {
 									/* @__PURE__ */ (0, x.jsx)("p", { children: "A comparable nonzero variance may create a local marker proposal." })
 								] }), /* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
-									onClick: () => Et("Propose an adjustment"),
+									onClick: () => Dt("Propose an adjustment"),
 									children: "Propose variance marker"
 								})]
 							})
 						]
 					})
 				]
-			})] }) : i === "agents" ? /* @__PURE__ */ (0, x.jsx)(Jt, {
+			})] }) : i === "agents" ? /* @__PURE__ */ (0, x.jsx)(Xt, {
 				catalog: f,
 				plan: m,
 				busy: g,
-				onAsk: At,
-				onOpenLayer: jt
+				onAsk: jt,
+				onOpenLayer: Mt
 			}) : i === "architecture" ? /* @__PURE__ */ (0, x.jsxs)("main", {
 				className: "architecture-layout",
 				children: [
@@ -16927,20 +17092,20 @@ function _n({ bridge: e }) {
 							children: [
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Business intent", /* @__PURE__ */ (0, x.jsx)("input", {
 									value: we,
-									onChange: (e) => M(e.target.value),
+									onChange: (e) => Te(e.target.value),
 									"aria-label": "Business intent"
 								})] }),
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Period", /* @__PURE__ */ (0, x.jsx)("select", {
-									value: k,
+									value: be,
 									onChange: (e) => A(e.target.value),
-									children: (_t?.available_periods || ["2026-11"]).map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
+									children: (vt?.available_periods || ["2026-11"]).map((e) => /* @__PURE__ */ (0, x.jsx)("option", {
 										value: e,
-										children: ln(e)
+										children: dn(e)
 									}, e))
 								})] }),
 								/* @__PURE__ */ (0, x.jsxs)("label", { children: ["Route", /* @__PURE__ */ (0, x.jsxs)("select", {
-									value: ye,
-									onChange: (e) => be(e.target.value),
+									value: ve,
+									onChange: (e) => ye(e.target.value),
 									disabled: Ae,
 									children: [/* @__PURE__ */ (0, x.jsx)("option", {
 										value: "S1",
@@ -16971,7 +17136,7 @@ function _n({ bridge: e }) {
 								/* @__PURE__ */ (0, x.jsx)("button", {
 									type: "button",
 									className: "primary",
-									onClick: Tt,
+									onClick: Et,
 									disabled: Ae,
 									children: Ae ? "Running…" : "Run architecture"
 								})
@@ -16986,19 +17151,19 @@ function _n({ bridge: e }) {
 								children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("span", {
 									className: "eyebrow",
 									children: "COMPONENT COMMUNICATION"
-								}), /* @__PURE__ */ (0, x.jsx)("h2", { children: Ae ? "Processing live" : P?.status === "complete" ? "Case complete" : "Architecture ready" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
+								}), /* @__PURE__ */ (0, x.jsx)("h2", { children: Ae ? "Processing live" : N?.status === "complete" ? "Case complete" : "Architecture ready" })] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 									className: "route-actions",
 									children: [
 										/* @__PURE__ */ (0, x.jsx)("span", {
 											className: "pill quiet tech",
-											children: De || "No trace selected"
+											children: Oe || "No trace selected"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
 											type: "button",
 											onClick: () => {
 												ze(-1), Le(null), Ve(!0);
 											},
-											disabled: !ke.length,
+											disabled: !F.length,
 											children: "Replay"
 										}),
 										/* @__PURE__ */ (0, x.jsx)("button", {
@@ -17018,39 +17183,39 @@ function _n({ bridge: e }) {
 									]
 								})]
 							}),
-							/* @__PURE__ */ (0, x.jsx)(hn, {
+							/* @__PURE__ */ (0, x.jsx)(_n, {
 								registry: gt,
 								events: bt,
-								scenario: ye,
+								scenario: ve,
 								selectedZone: Me,
 								onZone: (e) => {
 									Ne(e), Fe(null);
 								},
 								viewportRef: pt,
 								liveRunning: Ae,
-								reportReady: !!P?.result?.variance,
-								onOpenReport: () => ve(!0)
+								reportReady: !!N?.result?.variance,
+								onOpenReport: () => _e(!0)
 							}),
 							/* @__PURE__ */ (0, x.jsxs)("div", {
 								className: "flow-caption",
 								children: [
 									/* @__PURE__ */ (0, x.jsx)("span", { className: `status-dot ${Ae ? "pulsing" : ""}` }),
 									" ",
-									/* @__PURE__ */ (0, x.jsx)("strong", { children: xt ? `${xt.status === "denied" ? "Control denied" : "Handoff recorded"} · ${sn[Ct || Me] || Ct || Me}` : "Awaiting a business question" }),
-									/* @__PURE__ */ (0, x.jsx)("span", { children: sn[Ct] || "Select a route zone" }),
+									/* @__PURE__ */ (0, x.jsx)("strong", { children: St ? `${St.status === "denied" ? "Control denied" : "Handoff recorded"} · ${ln[L || Me] || L || Me}` : "Awaiting a business question" }),
+									/* @__PURE__ */ (0, x.jsx)("span", { children: ln[L] || "Select a route zone" }),
 									/* @__PURE__ */ (0, x.jsxs)("span", {
 										className: "tech",
-										children: [ke.length, " stored events"]
+										children: [F.length, " stored events"]
 									})
 								]
 							})
 						]
 					}),
-					/* @__PURE__ */ (0, x.jsx)(on, {
+					/* @__PURE__ */ (0, x.jsx)(cn, {
 						events: bt,
 						running: Ae,
-						selectedZone: sn[Me] || Me,
-						onOpenEvidence: () => zt("components")
+						selectedZone: ln[Me] || Me,
+						onOpenEvidence: () => Bt("components")
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("section", {
 						className: "surface case-strip",
@@ -17061,9 +17226,9 @@ function _n({ bridge: e }) {
 							className: "case-buttons",
 							children: [Ue.slice(0, 8).map((e) => /* @__PURE__ */ (0, x.jsxs)("button", {
 								type: "button",
-								onClick: () => L(e.case_id),
+								onClick: () => wt(e.case_id),
 								children: [
-									ln(e.scope?.period),
+									dn(e.scope?.period),
 									" · ",
 									e.scenario,
 									" · ",
@@ -17076,26 +17241,30 @@ function _n({ bridge: e }) {
 						})]
 					})
 				]
-			}) : i === "questions" ? /* @__PURE__ */ (0, x.jsx)(ce, {
+			}) : i === "questions" ? /* @__PURE__ */ (0, x.jsx)(se, {
 				questions: n?.decision_questions || [],
 				routePlaybooks: n?.route_playbooks || {},
-				focus: pe,
-				run: at,
-				onRun: Rt,
+				focus: fe,
+				run: ot,
+				onRun: zt,
 				busy: ct,
-				onOpenEvidence: (e) => zt("questions", { stepSeq: e })
-			}) : i === "mcp" ? /* @__PURE__ */ (0, x.jsx)(yt, {
+				onOpenEvidence: (e) => Bt("questions", { stepSeq: e })
+			}) : i === "agenthost" ? /* @__PURE__ */ (0, x.jsx)(xt, {
+				onMcp: () => a("mcp"),
+				onComplete: () => a("approaches")
+			}) : i === "mcp" ? /* @__PURE__ */ (0, x.jsx)(_t, {
 				view: c,
 				onView: l,
 				onApproaches: () => a("approaches"),
+				onAgentHosting: () => a("agenthost"),
 				onDetailed: (e) => {
 					s(e), a("diagrams");
 				}
-			}) : i === "diagrams" ? /* @__PURE__ */ (0, x.jsx)(ot, {
+			}) : i === "diagrams" ? /* @__PURE__ */ (0, x.jsx)(it, {
 				view: o,
 				onView: s,
 				onBack: () => a("approaches")
-			}) : i === "approaches" ? /* @__PURE__ */ (0, x.jsx)(dt, {
+			}) : i === "approaches" ? /* @__PURE__ */ (0, x.jsx)(lt, {
 				playbooks: n?.route_playbooks || {},
 				onQuestion: () => a("questions"),
 				onDetailedDiagram: (e) => {
@@ -17103,28 +17272,29 @@ function _n({ bridge: e }) {
 				},
 				onGovernance: (e) => {
 					l(e), a("mcp");
-				}
-			}) : /* @__PURE__ */ (0, x.jsx)(ie, {
+				},
+				onAgentHosting: () => a("agenthost")
+			}) : /* @__PURE__ */ (0, x.jsx)(re, {
 				investigation: Ye,
-				currentCase: P,
-				history: _t,
+				currentCase: N,
+				history: vt,
 				busy: $e,
-				onStart: Pt,
-				onResolve: Ft,
+				onStart: Ft,
+				onResolve: It,
 				onTrace: Lt,
 				historyDetail: qe,
-				events: Ye?.case_id === P?.case_id && Ze.length ? Ze : ke,
-				caseEvents: ke,
-				decisionRun: at,
+				events: Ye?.case_id === N?.case_id && Ze.length ? Ze : F,
+				caseEvents: F,
+				decisionRun: ot,
 				decisionQuestions: n?.decision_questions || [],
-				focus: he,
-				componentDetails: /* @__PURE__ */ (0, x.jsx)(gn, {
+				focus: me,
+				componentDetails: /* @__PURE__ */ (0, x.jsx)(vn, {
 					registry: gt,
 					zone: Me,
 					events: bt,
 					selectedComponent: Pe,
 					onComponent: Fe,
-					scenario: ye
+					scenario: ve
 				}),
 				reviewPanel: /* @__PURE__ */ (0, x.jsxs)("section", {
 					className: "surface architect-review",
@@ -17138,7 +17308,7 @@ function _n({ bridge: e }) {
 						}),
 						/* @__PURE__ */ (0, x.jsx)("div", {
 							className: "review-list",
-							children: cn.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e }), /* @__PURE__ */ (0, x.jsx)("span", { children: t })] }, e))
+							children: un.map(([e, t]) => /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: e }), /* @__PURE__ */ (0, x.jsx)("span", { children: t })] }, e))
 						}),
 						/* @__PURE__ */ (0, x.jsx)("p", {
 							className: "micro",
@@ -17147,27 +17317,27 @@ function _n({ bridge: e }) {
 					]
 				})
 			}),
-			Ht,
-			_e && /* @__PURE__ */ (0, x.jsx)(mn, {
-				caseRecord: P,
-				onClose: () => ve(!1),
-				onOpenEvidence: () => zt("finance")
+			Ut,
+			ge && /* @__PURE__ */ (0, x.jsx)(gn, {
+				caseRecord: N,
+				onClose: () => _e(!1),
+				onOpenEvidence: () => Bt("finance")
 			})
 		]
 	});
 }
 // src/streamlit.jsx
-var vn = /* @__PURE__ */ new WeakMap();
-function yn(e) {
+var bn = /* @__PURE__ */ new WeakMap();
+function xn(e) {
 	let { parentElement: t, data: n, setTriggerValue: r } = e, i = t.querySelector(".finance-root");
 	if (!i) throw Error("Missing finance component mount");
-	let a = vn.get(t);
-	return a || (a = (0, y.createRoot)(i), vn.set(t, a)), a.render(/* @__PURE__ */ (0, x.jsx)(_n, { bridge: {
+	let a = bn.get(t);
+	return a || (a = (0, y.createRoot)(i), bn.set(t, a)), a.render(/* @__PURE__ */ (0, x.jsx)(yn, { bridge: {
 		data: n || {},
 		action: (e) => r("action", e)
 	} })), () => {
-		let e = vn.get(t);
-		e && (e.unmount(), vn.delete(t));
+		let e = bn.get(t);
+		e && (e.unmount(), bn.delete(t));
 	};
 }
-export { yn as default };
+export { xn as default };
