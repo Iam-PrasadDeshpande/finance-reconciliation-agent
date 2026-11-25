@@ -1,5 +1,6 @@
 import React,{useEffect,useState} from 'react';
-import {defaultAsk,explicitOutsideHistory,fiscalLabel,longMonth,mentionedPeriod,shortMonth} from './period';
+import {explicitOutsideHistory,fiscalLabel,longMonth,mentionedPeriod,shortMonth} from './period';
+import {useCockpit} from './cockpit';
 import './period.css';
 
 export function PeriodSelect({period,periods,onPeriod,label='Period',id}){
@@ -20,10 +21,18 @@ export function EffectivePeriod({text,period,periods}){
 }
 
 // Request text follows the selected period until the person edits it.
-export function useAskText(period){
+export function useAskText(period,domain){
+  const cockpit=useCockpit();
   const [edited,setEdited]=useState(null);
-  useEffect(()=>{setEdited(null)},[period]);
-  return [edited??defaultAsk(period),setEdited];
+  useEffect(()=>{setEdited(null)},[period,domain]);
+  return [edited??cockpit.ask(domain,period),setEdited];
+}
+
+// Shows which agent family a request will go to, before it runs.
+export function RouteChip({text}){
+  const cockpit=useCockpit();
+  const domain=cockpit.route(text);
+  return <span className={`route-chip ${domain}`} data-testid="route-chip" data-domain={domain}>Routed to <b>{cockpit.label(domain)}</b></span>;
 }
 
 export function ProvenanceStrip({provenance,compact}){

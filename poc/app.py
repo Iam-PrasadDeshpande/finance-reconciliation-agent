@@ -28,6 +28,7 @@ from .architecture_view import architecture_registry, architecture_events
 from .decision_lab import question_catalog, start_run as start_decision_run, get_run as get_decision_run, advance_run as advance_decision_run
 from .route_playbooks import route_playbook_catalog
 from .agents import Context as AgentContext,catalog as agent_catalog,case_for_period,invoke_tool,plan_for,run_plan
+from . import cockpit
 from .recon_report import CONDITIONS,apply_condition,build_report
 from .store import Denied,Store
 
@@ -132,7 +133,7 @@ def architecture_question_run(run_id:str):
 @app.get("/api/bootstrap")
 def bootstrap():
     return {"history":history(),"cases":store.cases()[:20],"agent":foundry.active(),
-            "architecture":architecture_registry(),"decision_questions":question_catalog(),"route_playbooks":route_playbook_catalog(),"simulation":True}
+            "architecture":architecture_registry(),"decision_questions":question_catalog(),"route_playbooks":route_playbook_catalog(),"modules":cockpit.manifests(),"simulation":True}
 
 @app.get("/api/agents")
 def agents(): return {"active":foundry.active()}
@@ -255,7 +256,41 @@ class AgentToolInput(BaseModel):
 def agent_context(): return AgentContext(store,runtime,investigator,approval,ensure_demo_agent)
 
 @app.get("/api/agent/catalog")
-def agents_catalog(): return agent_catalog()
+def agents_catalog(): return cockpit.catalog()
+
+@app.get("/api/cockpit/modules")
+def cockpit_modules(): return cockpit.manifests()
+
+@app.get("/api/cockpit/ontology")
+def cockpit_ontology(): return cockpit.ontology()
+
+@app.get("/api/cockpit/{module_id}/view/{period}")
+def cockpit_view(module_id:str,period:str):
+    try: return cockpit.view(store,module_id,period)
+    except Exception as exc: fail(exc)
+
+@app.post("/api/cockpit/{module_id}/action/{name}")
+def cockpit_action(module_id:str,name:str,payload:dict):
+    try: return cockpit.action(store,module_id,name,payload)
+    except Exception as exc: fail(exc)
+
+@app.get("/api/treasury/proposals")
+def treasury_proposals(period:str|None=None): return cockpit.action(store,"treasury","proposals",{"period":period})
+
+class TreasuryDecision(BaseModel):
+    approver_id:str
+    approved:bool
+    payload_hash:str
+
+@app.post("/api/treasury/proposals/{proposal_id}/decision")
+def treasury_decision(proposal_id:str,data:TreasuryDecision):
+    try: return cockpit.action(store,"treasury","decide",{"proposal_id":proposal_id,"approver_id":data.approver_id,"approved":data.approved,"payload_hash":data.payload_hash})
+    except Exception as exc: fail(exc)
+
+@app.get("/api/treasury/{period}")
+def treasury_view(period:str):
+    try: return cockpit.view(store,"treasury",period)
+    except Exception as exc: fail(exc)
 
 @app.post("/api/agent/plan")
 def agent_plan(data:ChatInput):
@@ -263,8 +298,7 @@ def agent_plan(data:ChatInput):
     if len(data.message)>400: raise HTTPException(422,"Message is too long")
     try:
         if data.period is not None and (not re.fullmatch(r"\d{4}-\d{2}",data.period) or data.period not in store.available_periods()): raise Denied(f"NO DATA AVAILABLE FOR {data.period}")
-        case=case_for_period(store,data.case_id,data.period)
-        return run_plan(agent_context(),plan_for(data.message,case),data.scenario,"finance.user",{"selected_period":data.period} if data.period else None)
+        return cockpit.run(agent_context(),data.message,data.scenario,data.case_id,data.period)
     except Exception as exc: fail(exc)
 
 @app.get("/api/agent/plans/last")

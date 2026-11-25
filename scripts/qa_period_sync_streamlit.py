@@ -30,7 +30,7 @@ with sync_playwright() as pw:
         f.locator(f"[data-testid=period-panel][data-period='{period}']").wait_for(timeout=60000)
         return f.locator("[data-testid=level1-variance]").inner_text(), f.locator("#global-period").input_value()
 
-    f.get_by_role("button", name="Open Finance Reconciliation Agent").click()
+    f.get_by_role("button", name="Open Close & reconcile").click()
     v, sel = level1("2026-11"); check("streamlit level 1 starts on November", v == NOV and sel == "2026-11", v)
     f.locator("#global-period").select_option("2026-02")
     v, sel = level1("2026-02"); check("streamlit level 1 shows February", v == FEB and sel == "2026-02", v)
@@ -62,7 +62,7 @@ with sync_playwright() as pw:
     f = surface()
     f.locator(".entry-card").first.wait_for(timeout=120000)
     check("streamlit refresh keeps February on the entry page", f.locator("#entry-period").input_value() == "2026-02")
-    f.get_by_role("button", name="Open Finance Reconciliation Agent").click()
+    f.get_by_role("button", name="Open Close & reconcile").click()
     v, sel = level1("2026-02"); check("streamlit refresh keeps February on level 1", v == FEB and sel == "2026-02", v)
     page.screenshot(path=str(SHOTS / "s04_streamlit_after_refresh.png"))
     browser.close()

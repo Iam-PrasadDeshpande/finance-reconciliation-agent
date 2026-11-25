@@ -11,7 +11,7 @@ export const longMonth = period => {
 };
 export const shortMonth = period => (validPeriod(period) ? `${longMonth(period).slice(0, 3)} ${period.slice(0, 4)}` : 'Select month');
 export const fiscalLabel = period => (validPeriod(period) ? `FY${period.slice(0, 4)} · P${period.slice(5)}` : '');
-export const defaultAsk = period => `Reconcile ${longMonth(period)} company code 1000 ledger 0L USD`;
+
 
 // Mirrors poc/questions.py mentioned_period: YYYY-MM, or a month name or abbreviation with 2025/2026.
 export function mentionedPeriod(text) {

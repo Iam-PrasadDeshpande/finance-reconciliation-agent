@@ -26,7 +26,7 @@ with sync_playwright() as p:
     page.locator('.lab-next-action').wait_for()
     assert page.locator('.lab-gates li').count()==3
     page.get_by_role('button',name='Back to Finance Launchpad').click()
-    page.get_by_role('button',name='Open Finance Reconciliation Agent').click()
+    page.get_by_role('button',name='Open Close & reconcile').click()
     assert page.get_by_role('tab').count()==4
     page.get_by_role('button',name='Open application menu').click()
     assert page.get_by_role('menuitem').count()==6
@@ -119,14 +119,14 @@ with sync_playwright() as p:
     assert not errors,errors
     page.get_by_role('button',name='Back to Finance Launchpad').click()
     assert page.get_by_role('heading',name='My Home').is_visible()
-    page.get_by_role('button',name='Open Finance Reconciliation Agent').click()
+    page.get_by_role('button',name='Open Close & reconcile').click()
     assert page.get_by_role('tab',name='Business workspace').get_attribute('aria-selected')=='true'
     print({'fastapi':'PASS','tab_widths':widths,'months':12,'zones':12,'journey_stages':5,'routes':['S1','S2'],'question_handoffs':'PASS','page_errors':errors})
     mobile=browser.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
     mobile.goto(WEB,wait_until='networkidle')
     assert 'Demo and learning purposes only' in mobile.locator('.app-footer').inner_text()
     assert mobile.evaluate('document.documentElement.scrollWidth')<=390
-    mobile.get_by_role('button',name='Open Finance Reconciliation Agent').click()
+    mobile.get_by_role('button',name='Open Close & reconcile').click()
     mobile.get_by_role('button',name='Open application menu').click()
     assert mobile.get_by_role('menu').is_visible()
     assert mobile.get_by_role('menu').bounding_box()['x']>=0
@@ -144,8 +144,8 @@ with sync_playwright() as p:
     assert hosted.locator('.lab-gates li').count()==3
     hosted.get_by_role('button',name='Back to Finance Launchpad').click()
     hosted.reload(wait_until='domcontentloaded')
-    hosted.get_by_role('button',name='Open Finance Reconciliation Agent').wait_for(timeout=30000)
-    hosted.get_by_role('button',name='Open Finance Reconciliation Agent').click()
+    hosted.get_by_role('button',name='Open Close & reconcile').wait_for(timeout=30000)
+    hosted.get_by_role('button',name='Open Close & reconcile').click()
     hosted.get_by_role('tab',name='Business workspace').wait_for(timeout=30000)
     assert 'Demo and learning purposes only' in hosted.locator('.app-footer').inner_text()
     assert hosted.get_by_role('tab').count()==4
@@ -163,8 +163,8 @@ with sync_playwright() as p:
     print({'streamlit_reconciliation_and_evidence':'PASS','implementation_disclosure':'PASS'})
     short=browser.new_page(viewport={'width':1536,'height':720})
     short.goto(STREAMLIT,wait_until='domcontentloaded')
-    short.get_by_role('button',name='Open Finance Reconciliation Agent').wait_for(timeout=30000)
-    short.get_by_role('button',name='Open Finance Reconciliation Agent').click()
+    short.get_by_role('button',name='Open Close & reconcile').wait_for(timeout=30000)
+    short.get_by_role('button',name='Open Close & reconcile').click()
     short.get_by_role('tab',name='Live architecture').wait_for(timeout=30000)
     short.get_by_role('tab',name='Live architecture').click()
     assert short.locator('.route-zone').count()==12

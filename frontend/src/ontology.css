@@ -1,0 +1,16 @@
+.ontology-page{flex:1;min-height:0;overflow:auto;padding:12px 16px;display:grid;gap:10px;align-content:start}
+.ont-head{display:flex;justify-content:space-between;gap:16px;padding:12px 16px;align-items:flex-start}.ont-head h2{font-size:20px;margin:2px 0}.ont-head p{font-size:12px;color:#34495c;margin:2px 0 0;max-width:760px}
+.ont-controls{display:grid;gap:8px;justify-items:end}.ont-controls input{font:inherit;font-size:12px;padding:6px 9px;border:1px solid #b9d2e5;border-radius:4px;min-width:220px}
+.ont-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.ont-chips button{font:inherit;font-size:11px;font-weight:700;padding:5px 10px;border-radius:14px;border:1px solid #cfdfec;background:#fff;color:#34495c;cursor:pointer}.ont-chips button.active{background:#0a6ed1;border-color:#0a6ed1;color:#fff}
+.ont-body{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:10px;align-items:start}
+.ont-graph{padding:8px;overflow:auto;max-height:620px}.ont-graph svg{display:block}
+.ont-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:#587184;padding:8px 4px 0}.ont-legend i{display:inline-block;width:12px;height:12px;border:1.5px solid;border-radius:3px;margin-right:5px;vertical-align:-2px}.ont-legend i.dashed{border-style:dashed;border-color:#587184;background:#fff}.ont-legend i.solid{border-width:3px;border-color:#587184;background:#fff}
+.ont-detail{padding:12px 14px;max-height:620px;overflow:auto}.ont-detail h3{font-size:16px;margin:3px 0 6px}.ont-detail h4{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#557695;margin:10px 0 3px}.ont-detail p{font-size:12px;line-height:1.45;margin:0}
+.ont-props{color:#34495c}.ont-note{color:#587184}.ont-list{margin:4px 0 0;padding-left:16px}.ont-list li{font-size:12px;line-height:1.45;margin-bottom:3px}.ont-list small{color:#587184}
+.ont-chip{font-size:10.5px;font-weight:800;border-radius:3px;padding:2px 7px;border:1px solid #cfdfec;background:#eef4f9;color:#34495c;margin-right:4px}.ont-chip.ok{background:#f2faf4;border-color:#bfe3cc;color:#14532d}.ont-chip.warn{background:#fff8e8;border-color:#efd9a9;color:#8a5b13}
+.ont-link{font:inherit;font-size:12px;font-weight:700;color:#0a5da7;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+.ont-open{margin-top:12px;font:inherit;font-size:12px;font-weight:700;padding:7px 11px;border-radius:4px;border:1px solid #0a6ed1;background:#0a6ed1;color:#fff;cursor:pointer}
+.ont-table{padding:8px 14px}.ont-table summary{cursor:pointer;font-size:12px}
+.concept-chips{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}.concept-chip{font:inherit;font-size:11px;font-weight:700;border-radius:12px;padding:2px 9px;border:1px solid #c9e1f2;background:#edf7ff;color:#075793;cursor:pointer}.concept-chip.produces{background:#f2faf4;border-color:#bfe3cc;color:#14532d}
+@media(max-width:1000px){.ont-body{grid-template-columns:1fr}.ont-head{flex-direction:column}.ont-controls{justify-items:start}.ont-chips{justify-content:flex-start}.ont-graph,.ont-detail{max-height:none}}
+.ont-table{overflow-x:auto}

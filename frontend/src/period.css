@@ -48,3 +48,6 @@
 .period-panel .pp-actions button{font-size:11px;padding:6px 8px}
 .period-panel .pp-kpis div{padding:5px 7px}.period-panel .pp-kpis strong{font-size:14px}
 @media(max-width:700px){.header-meta{flex-wrap:wrap;gap:4px 8px;max-width:100%}.header-meta .header-separator{display:none}.header-meta .pill.simulated{display:none}.agent-ask-bar{flex-wrap:wrap}.agent-ask-bar .ask-main{flex:1 1 100%;min-width:0}.period-effective{max-width:100%}}
+.route-chip{display:inline-flex;gap:4px;align-items:baseline;font-size:11px;color:#34495c;background:#eef4f9;border:1px solid #cfdfec;border-radius:10px;padding:1px 9px;margin-top:3px}
+.route-chip.treasury{background:#eefaf3;border-color:#bfe3cc;color:#14532d}.route-chip b{font-weight:800}
+.ask-meta{display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline}

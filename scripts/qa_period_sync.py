@@ -47,7 +47,7 @@ def open_app(page, url=WEB + "/"):
 
 
 def enter(page):
-    page.get_by_role("button", name="Open Finance Reconciliation Agent").click()
+    page.get_by_role("button", name="Open Close & reconcile").click()
     page.locator("[data-testid=period-panel], [data-testid=level1-nodata]").first.wait_for(timeout=30000)
 
 
@@ -110,7 +110,7 @@ with sync_playwright() as pw:
     shot(page, "04_level1_after_return_february")
 
     # 5. Change the period inside Level 2: stale plan is flagged, not shown as current
-    tab(page, 1)
+    tab(page, 2)
     select_header(page, "2026-11")
     page.locator("[data-testid=plan-stale]").wait_for(timeout=10000)
     check("changing period at level 2 flags the February plan as stale", "February 2026" in page.locator("[data-testid=plan-stale]").inner_text())
@@ -189,7 +189,7 @@ with sync_playwright() as pw:
     open_app(deep, WEB + "/?period=2026-02")
     enter(deep)
     check("deep link ?period=2026-02 opens February", "Feb 2026" in level1(deep, "2026-02")["badge"])
-    tab(deep, 1)
+    tab(deep, 2)
     deep.locator("#aw-ask-input").wait_for()
     check("deep link reaches level 2 with February in the request text", "February 2026" in deep.locator("#aw-ask-input").input_value() and "February 2026" in deep.locator(".aw-ask .period-effective").inner_text())
     deep.close()
@@ -203,7 +203,7 @@ with sync_playwright() as pw:
     shot(gone, "12_unavailable_period_no_data")
     gone.close()
     page.locator("#global-period").select_option("2026-11")
-    tab(page, 1)
+    tab(page, 2)
     page.locator("#aw-ask-input").fill("Reconcile December 2026 company code 1000 ledger 0L USD")
     check("effective-period chip warns before running", "NO DATA AVAILABLE FOR DECEMBER 2026" in page.locator(".aw-ask .period-effective").inner_text())
     page.get_by_role("button", name="Run plan").click()

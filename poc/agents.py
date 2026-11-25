@@ -33,6 +33,8 @@ AGENT_CARDS = [
     {"id": "governance", "name": "Governance & route", "role": "Explains the MCP route, controls and open decisions, and the stored trace.", "mode": "read", "view": "decision-responsibilities", "tools": ["route_controls", "trace"], "mcp_server": "governance-mcp", "layers": ["Route playbooks", "Stored event trail"]},
     {"id": "approval", "name": "Approval gatekeeper", "role": "Drafts a proposal only. A person with the approver role decides.", "mode": "local marker draft", "view": "close", "tools": ["draft_proposal"], "mcp_server": "approval-mcp", "layers": ["Approval store (local marker)"]},
 ]
+for _card in AGENT_CARDS:
+    _card.setdefault("kind", "orchestrator" if _card["id"] == "orchestrator" else "specialist")
 CARD = {c["id"]: c for c in AGENT_CARDS}
 
 # name -> agent, class, input, output. sap.post, decide, execute and fixture changes are NOT tools.
