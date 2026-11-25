@@ -85,3 +85,10 @@ Whatever is asked, wherever it is asked, runs the same agents. The front-screen 
 ## 8. Streamlit action delivery
 
 Streamlit keeps only the latest trigger value, so two actions sent before a rerun finishes lose one. This showed up on the hosted app as a request, a period change or a tab that appeared to do nothing, and was reproduced locally by slowing the action handler (`COCKPIT_ACTION_DELAY`, a test-only setting). The browser bridge (`frontend/src/streamlit.jsx`) now sends one action at a time and waits for the server's acknowledgement (`action_seq`) before the next; a newer period selection replaces an older one still waiting, and a 12 second timeout means a lost acknowledgement cannot block the queue. The request-text hook no longer resets typed text on mount. `COCKPIT_DEBUG=1` logs each action the server receives.
+
+## 9. The one-second refresh (hosted stall)
+
+On the hosted app a request, a period change or a tab could silently do nothing, and the front page reappeared with default text: the component had been recreated. Cause: the whole Streamlit view was a fragment that re-ran **every second**, and each run rebuilt the catalog, ontology, manifests and every module's period view. On a slow host a run took longer than a second, so runs collided with actions. It was reproduced locally by emulating a slow CPU (`COCKPIT_RENDER_DELAY`, test-only): the old code stalled at the same step as the hosted app, the fix does not.
+
+The fix: everything static is built once per process (`static_payload`); period views are memoized per session until an action changes something; and the one-second refresh runs only while a reconciliation or decision run is in flight, otherwise the idle fragment (no timer) is used. Verified under the slow-CPU emulation with the full prompt matrix on desktop and phone, and a burst test (`scripts/qa_stress_streamlit.py`) that changes the period three times in quick succession, twelve rounds, plus a request sent immediately after.
+

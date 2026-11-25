@@ -106,62 +106,79 @@ with sync_playwright() as pw:
         f.locator("[data-testid=plan-request]").wait_for(timeout=60000)
         return count
 
+    def watchdog(error):
+        """When a wait times out, record what the page actually shows, so a stall can be told apart from a failed check."""
+        print(f"STALL: {type(error).__name__}: {str(error).splitlines()[0][:120]}")
+        try:
+            page.screenshot(path=str(SHOTS / "stall.png"))
+            print("STALL page text:", page.inner_text("body")[:300].replace(chr(10), " | "))
+            print("STALL iframe count:", page.locator("iframe").count(), "| app visible:", f.locator(".app-shell").count(), "| entry visible:", f.locator(".entry-card").count(), "| workbench:", f.locator("main.agent-workbench").count())
+            print("STALL entry input now:", repr(f.locator("#entry-ask-input").input_value()[:70]) if f.locator("#entry-ask-input").count() else "none", "| last typed:", repr(LAST_TYPED[:70]))
+        except Exception as inner:
+            print("STALL could not inspect the page:", str(inner)[:100])
+
     first = True
     last_request = ""
-    for module, prompt, expected_tools in MATRIX:
-        label = f"[{module}] {prompt[:46]}"
-        if not first:
-            home()
-        first = False
-        f.locator("#entry-ask-input").fill(prompt)
-        check(f"{label}: routes to its module before running", f.locator("[data-testid=route-chip]").get_attribute("data-domain") == module)
-        before = last_request  # the workbench still shows the previous plan until the new one arrives
-        f.get_by_role("button", name="Run plan →").click()
-        ran = None
-        for _ in range(300):
-            current = f.locator("[data-testid=plan-request]").inner_text() if f.locator("[data-testid=plan-request]").count() else ""
-            if current and current != before:
-                ran = current
-                break
-            page.wait_for_timeout(500)
-        if not check(f"{label}: the request that ran is the one typed", ran is not None and prompt in ran, f"ran: {ran!r}"):
-            continue
-        settled()
-        a = snapshot()
-        last_request = a["request"]
-        check(f"{label}: the agent screen shows the request exactly as typed", prompt in a["request"])
-        check(f"{label}: handled by {module}", cockpit.get(module).family_label.lower() in a["domain"].lower())
-        if expected_tools is None:
-            check(f"{label}: stopped at a control, nothing executed", "blocked" in a["state"] and a["steps"] == [] and a["output"] == 0)
-        elif isinstance(expected_tools, tuple):
-            check(f"{label}: the agent ran and a control stopped it with the reason shown", "blocked" in a["state"] and len(a["steps"]) == 1 and expected_tools[1] in f.locator(".aw-answer").inner_text() and a["output"] == 0, expected_tools[1])
-        else:
-            want = [NAME[t] for t in expected_tools]
-            check(f"{label}: every expected agent ran and finished", all(w in " ".join(a["steps"]) for w in want) and a["done"] >= len(set(want)) and "done" in a["state"], f"{a['done']} steps done: {sorted(set(want))}")
-            check(f"{label}: the full-output link is shown", a["output"] == 1)
-            exercised.update(w for w in want if w in SPECIALISTS)
-        page.screenshot(path=str(SHOTS / f"p_{module}_{abs(hash(prompt)) % 10000}{'_m' if MOBILE else ''}.png"))
-        views = walk()
-        b = snapshot()
-        check(f"{label}: after {len(modules) + 1} areas, {views} architecture views and home, the same run is still shown", {k: a[k] for k in ("request", "domain", "steps", "answer", "output")} == {k: b[k] for k in ("request", "domain", "steps", "answer", "output")} and b["done"] == a["done"], f"{b['done']}/{len(b['steps'])} done")
-        if isinstance(expected_tools, list) and module in tab_of:
-            tabs_nav.nth(tab_of[module]).click()
-            f.locator("[data-testid=close-screen], [data-testid=treasury-page], [data-testid=module-page]").first.wait_for(timeout=60000)
-            check(f"{label}: the module's own screen still carries the latest-run banner", f.locator("[data-testid=agent-run-banner]").count() == 1)
-            other = [i for m, i in tab_of.items() if m != module]
-            if other:
-                tabs_nav.nth(other[0]).click()
+    LAST_TYPED = ""
+    try:
+        for module, prompt, expected_tools in MATRIX:
+            label = f"[{module}] {prompt[:46]}"
+            if not first:
+                home()
+            first = False
+            f.locator("#entry-ask-input").fill(prompt)
+            LAST_TYPED = prompt
+            check(f"{label}: routes to its module before running", f.locator("[data-testid=route-chip]").get_attribute("data-domain") == module)
+            before = last_request  # the workbench still shows the previous plan until the new one arrives
+            f.get_by_role("button", name="Run plan →").click()
+            ran = None
+            for _ in range(300):
+                current = f.locator("[data-testid=plan-request]").inner_text() if f.locator("[data-testid=plan-request]").count() else ""
+                if current and current != before:
+                    ran = current
+                    break
                 page.wait_for_timeout(500)
-                check(f"{label}: the other module's screen does not claim this run", f.locator("[data-testid=agent-run-banner]").count() == 0)
-            tabs_nav.nth(agents_index).click()
-        # the period contract holds for a run that is still on screen
-        if isinstance(expected_tools, list) and prompt.startswith(("Reconcile November", "What is our cash")):
-            f.locator("#global-period").select_option("2026-02")
-            f.locator("[data-testid=plan-stale]").wait_for(timeout=30000)
-            check(f"{label}: changing the period flags the run as stale and offers a re-run", f.locator("[data-testid=plan-stale] button").count() == 1)
-            f.locator("#global-period").select_option("2026-11")
-            f.locator("[data-testid=plan-stale]").wait_for(state="detached", timeout=30000)
-            check(f"{label}: returning to the period clears the stale flag and keeps the run", prompt in f.locator("[data-testid=plan-request]").inner_text())
+            if not check(f"{label}: the request that ran is the one typed", ran is not None and prompt in ran, f"ran: {ran!r}"):
+                continue
+            settled()
+            a = snapshot()
+            last_request = a["request"]
+            check(f"{label}: the agent screen shows the request exactly as typed", prompt in a["request"])
+            check(f"{label}: handled by {module}", cockpit.get(module).family_label.lower() in a["domain"].lower())
+            if expected_tools is None:
+                check(f"{label}: stopped at a control, nothing executed", "blocked" in a["state"] and a["steps"] == [] and a["output"] == 0)
+            elif isinstance(expected_tools, tuple):
+                check(f"{label}: the agent ran and a control stopped it with the reason shown", "blocked" in a["state"] and len(a["steps"]) == 1 and expected_tools[1] in f.locator(".aw-answer").inner_text() and a["output"] == 0, expected_tools[1])
+            else:
+                want = [NAME[t] for t in expected_tools]
+                check(f"{label}: every expected agent ran and finished", all(w in " ".join(a["steps"]) for w in want) and a["done"] >= len(set(want)) and "done" in a["state"], f"{a['done']} steps done: {sorted(set(want))}")
+                check(f"{label}: the full-output link is shown", a["output"] == 1)
+                exercised.update(w for w in want if w in SPECIALISTS)
+            page.screenshot(path=str(SHOTS / f"p_{module}_{abs(hash(prompt)) % 10000}{'_m' if MOBILE else ''}.png"))
+            views = walk()
+            b = snapshot()
+            check(f"{label}: after {len(modules) + 1} areas, {views} architecture views and home, the same run is still shown", {k: a[k] for k in ("request", "domain", "steps", "answer", "output")} == {k: b[k] for k in ("request", "domain", "steps", "answer", "output")} and b["done"] == a["done"], f"{b['done']}/{len(b['steps'])} done")
+            if isinstance(expected_tools, list) and module in tab_of:
+                tabs_nav.nth(tab_of[module]).click()
+                f.locator("[data-testid=close-screen], [data-testid=treasury-page], [data-testid=module-page]").first.wait_for(timeout=60000)
+                check(f"{label}: the module's own screen still carries the latest-run banner", f.locator("[data-testid=agent-run-banner]").count() == 1)
+                other = [i for m, i in tab_of.items() if m != module]
+                if other:
+                    tabs_nav.nth(other[0]).click()
+                    page.wait_for_timeout(500)
+                    check(f"{label}: the other module's screen does not claim this run", f.locator("[data-testid=agent-run-banner]").count() == 0)
+                tabs_nav.nth(agents_index).click()
+            # the period contract holds for a run that is still on screen
+            if isinstance(expected_tools, list) and prompt.startswith(("Reconcile November", "What is our cash")):
+                f.locator("#global-period").select_option("2026-02")
+                f.locator("[data-testid=plan-stale]").wait_for(timeout=30000)
+                check(f"{label}: changing the period flags the run as stale and offers a re-run", f.locator("[data-testid=plan-stale] button").count() == 1)
+                f.locator("#global-period").select_option("2026-11")
+                f.locator("[data-testid=plan-stale]").wait_for(state="detached", timeout=30000)
+                check(f"{label}: returning to the period clears the stale flag and keeps the run", prompt in f.locator("[data-testid=plan-request]").inner_text())
+    except Exception as error:
+        watchdog(error)
+        check("the matrix ran to the end without a stall", False, str(error).splitlines()[0][:100])
 
     check("every specialist agent of every module was exercised by a front-page prompt", exercised >= SPECIALISTS, f"missing: {sorted(SPECIALISTS - exercised)}" if exercised < SPECIALISTS else f"{len(SPECIALISTS)} agents")
     check("no page errors across the whole matrix", not errors, "; ".join(errors)[:200])

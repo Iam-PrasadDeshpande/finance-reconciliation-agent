@@ -68,6 +68,7 @@ with sync_playwright() as pw:
     f.locator("[data-testid=treasury-page]").wait_for(timeout=90000)
     f.locator("#ask-bar-input").fill("What is our cash position for November 2026?")
     f.get_by_role("button", name="Ask →").click()
+    f.locator("[data-testid=plan-request]").get_by_text("cash position").first.wait_for(timeout=150000)  # the previous run stays on screen until the new one arrives
     f.locator("[data-testid=plan-output]").wait_for(timeout=150000)
     page.wait_for_timeout(5500)
     check("a treasury request is handled by the treasury module with its own output link", "Cash and Treasury assistant" in f.locator("[data-testid=plan-domain]").inner_text() and f.locator("[data-testid=plan-output-screen]").inner_text().startswith("Open in Cash & treasury"))
@@ -83,7 +84,7 @@ with sync_playwright() as pw:
     area(0)
     f.locator("[data-testid=close-screen]").wait_for(timeout=60000)
     f.get_by_role("button", name="Ask the agents about November 2026").first.click()
-    f.locator("[data-testid=plan-request]").wait_for(timeout=150000)
+    f.locator("[data-testid=plan-request]").get_by_text("Reconcile November 2026").first.wait_for(timeout=150000)
     page.wait_for_timeout(5500)
     body = f.locator("main.agent-workbench").inner_text()
     check("asking from Close & reconcile runs the reconciliation agents on the agent screen", "Reconciliation agent" in f.locator("[data-testid=plan-domain]").inner_text() and "Reconcile November 2026" in f.locator("[data-testid=plan-request]").inner_text())
