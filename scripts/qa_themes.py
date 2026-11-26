@@ -46,7 +46,7 @@ with sync_playwright() as pw:
     select = f.get_by_label("SAP Fiori theme")
     options = [o.get_attribute("value") for o in select.locator("option").all()]
     check("the six SAP Fiori themes are offered", options == [t[0] for t in THEMES], str(options))
-    areas = [(0, "close"), (1, "cash"), (2, "agents"), (3, "architecture")]
+    areas = [(0, "close"), (1, "cash"), (2, "accruals"), (3, "agents"), (4, "architecture")]
     light_lum = {}
     for tid, label, tone in THEMES:
         select.select_option(tid)

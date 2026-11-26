@@ -53,6 +53,7 @@ class AgentModule:
     architecture: dict = field(default_factory=dict)  # how this module sits on the shared MCP route and data
     output: dict = field(default_factory=dict)  # where the full output of a run lives: screen_name, open_label, detail_label (optional)
     options: list = field(default_factory=list)  # execution options the Agents area shows for this module (id, label, default, choices)
+    display_order: int = 100  # position of the module's tab and tile group: lower first; ties by routing priority, then id
     workflow: bool = False  # True: the Agents area shows this module's view() below a run as a workflow panel (review, approve, post, reconcile)
 
 
@@ -72,7 +73,7 @@ def unregister(module_id: str) -> None:
 
 
 def modules() -> list[AgentModule]:
-    """Registered modules in a stable order: the default module first, then by routing priority, then id."""
+    """Registered modules in a stable order: the default module first, then by display order, routing priority and id."""
     global _loaded
     if not _loaded:
         _loaded = True
@@ -83,7 +84,7 @@ def modules() -> list[AgentModule]:
             loaded = importlib.import_module(f"{agent_modules.__name__}.{info.name}")
             if getattr(loaded, "MODULE", None) is not None and loaded.MODULE.id not in _registry:
                 register(loaded.MODULE)
-    return sorted(_registry.values(), key=lambda m: (not m.default, -m.routing_priority, m.id))
+    return sorted(_registry.values(), key=lambda m: (not m.default, m.display_order, -m.routing_priority, m.id))
 
 
 def get(module_id: str) -> AgentModule:

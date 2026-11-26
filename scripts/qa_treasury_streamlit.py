@@ -30,7 +30,7 @@ with sync_playwright() as pw:
 
     f = surface()
     f.locator(".entry-card").nth(3).wait_for(timeout=120000)
-    check("streamlit entry has four cards", f.locator(".entry-card").count() == 4)
+    check("streamlit entry has five cards", f.locator(".entry-card").count() == 5)
     f.locator("#entry-ask-input").fill("What is our cash position for November 2026?")
     check("streamlit routes the treasury question", f.locator("[data-testid=route-chip]").get_attribute("data-domain") == "treasury")
     f.get_by_role("button", name="Run plan →").click()
@@ -57,7 +57,7 @@ with sync_playwright() as pw:
     dialog.locator("[data-testid=detail-accounts]").wait_for(timeout=90000)
     check("streamlit detail dialog has six sections", dialog.get_by_role("tab").count() == 6 and dialog.locator("[data-testid=detail-accounts] tbody tr").count() == 9)
     dialog.get_by_role("button", name="Close cash and treasury view").click()
-    f.locator(".tab-nav [role=tab]").nth(2).click()
+    f.locator(".tab-nav [role=tab]").nth(3).click()
     f.locator("#aw-ask-input").fill("Initiate the bank transfer now")
     f.get_by_role("button", name="Run plan").click()
     f.locator(".aw-answer").get_by_text("not an agent action").first.wait_for(timeout=90000)

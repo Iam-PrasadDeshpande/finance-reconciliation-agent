@@ -55,7 +55,7 @@ with sync_playwright() as pw:
     # 1. Entry: four cards and live routing
     page.goto(WEB + "/", wait_until="domcontentloaded")
     page.locator(".entry-card").nth(3).wait_for(timeout=30000)  # the module cards come from the manifests
-    check("entry has four cards including Cash & treasury", page.locator(".entry-card").count() == 4 and page.get_by_role("button", name="Open Cash & treasury").count() == 1)
+    check("entry has five cards including Cash & treasury", page.locator(".entry-card").count() == 5 and page.get_by_role("button", name="Open Cash & treasury").count() == 1)
     page.locator("#entry-ask-input").fill("What is our cash position for November 2026?")
     check("treasury question routes to the Cash and Treasury assistant", page.locator("[data-testid=route-chip]").get_attribute("data-domain") == "treasury")
     page.locator("#entry-ask-input").fill("Reconcile November 2026 company code 1000 ledger 0L USD")
@@ -103,7 +103,7 @@ with sync_playwright() as pw:
     check("level 1 treasury switches to February's numbers", page.locator("[data-testid=kpi-deficit] strong").inner_text() == str(feb["position"]["totals"]["deficit"])
           and fmt(feb["position"]["totals"]["usd_opening"]) in page.locator("[data-testid=kpi-cash]").inner_text() and fmt(nov["position"]["totals"]["usd_opening"]) not in page.locator("[data-testid=kpi-cash]").inner_text())
     shot("t04_level1_treasury_feb")
-    tab(2)
+    tab(3)
     page.locator("[data-testid=plan-stale]").wait_for(timeout=10000)
     check("level 2 flags the November treasury plan as stale for February", "November 2026" in page.locator("[data-testid=plan-stale]").inner_text())
     page.get_by_role("button", name="Run for February 2026").click()
@@ -140,7 +140,7 @@ with sync_playwright() as pw:
     dialog.get_by_role("button", name="Close cash and treasury view").click()
 
     # 6. Controls: initiation is refused, unavailable period is explicit
-    tab(2)
+    tab(3)
     page.locator("#aw-ask-input").fill("Initiate the bank transfer now")
     page.get_by_role("button", name="Run plan").click()
     page.locator(".aw-answer").wait_for(timeout=30000)
@@ -166,7 +166,7 @@ with sync_playwright() as pw:
     shot("t07_reconciliation_still_works")
 
     # 8. Architecture views are unchanged and the treasury events are reachable in the Live run
-    tab(3)
+    tab(4)
     check("architecture area keeps its views and adds the ontology", page.get_by_role("tablist", name="Architecture views").get_by_role("tab").count() == 9)
     check("no page errors", not errors, "; ".join(errors)[:200])
     browser.close()

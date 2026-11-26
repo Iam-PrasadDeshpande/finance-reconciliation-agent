@@ -186,6 +186,13 @@ with sync_playwright() as pw:
     check("the reconciliation agents are tiles in their own group", f.locator(".fi-launchpad .fi-tile").count() == len(CAT["reconciliation"]["agents"]))
     f.get_by_role("tab", name="Tool catalog").click()
     check("the tool catalog is a technical tab and lists the family's tools", f.locator(".aw-catalog tbody tr").count() == len(CAT["reconciliation"]["tools"]))
+    # first-level Accruals tab, plugged in like Close & reconcile and Cash & treasury
+    nav = f.locator(".tab-nav [role=tab]")
+    check("first-level tabs are Close, Cash, Accruals, Agents, Architecture", nav.count() == 5 and "Accruals" in nav.nth(2).inner_text() and "Agents" in nav.nth(3).inner_text(), str(nav.all_inner_texts()))
+    nav.nth(2).click()
+    f.locator("[data-testid=module-page][data-module=accruals]").wait_for(timeout=90000)
+    check("the Accruals tab shows the accrual screen and the workflow panel", until(lambda: panel().count() == 1 and "Accrual" in panel().inner_text()))
+    check("the Accruals tab offers the preparer and approver roles", panel().get_by_role("button", name="Finance approver").count() >= 1 or "approver" in text().lower())
     check("no page errors", not errors, "; ".join(errors)[:200])
     browser.close()
 

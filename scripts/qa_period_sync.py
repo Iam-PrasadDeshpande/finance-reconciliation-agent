@@ -110,7 +110,7 @@ with sync_playwright() as pw:
     shot(page, "04_level1_after_return_february")
 
     # 5. Change the period inside Level 2: stale plan is flagged, not shown as current
-    tab(page, 2)
+    tab(page, 3)
     select_header(page, "2026-11")
     page.locator("[data-testid=plan-stale]").wait_for(timeout=10000)
     check("changing period at level 2 flags the February plan as stale", "February 2026" in page.locator("[data-testid=plan-stale]").inner_text())
@@ -203,7 +203,7 @@ with sync_playwright() as pw:
     shot(gone, "12_unavailable_period_no_data")
     gone.close()
     page.locator("#global-period").select_option("2026-11")
-    tab(page, 2)
+    tab(page, 3)
     page.locator("#aw-ask-input").fill("Reconcile December 2026 company code 1000 ledger 0L USD")
     check("effective-period chip warns before running", "NO DATA AVAILABLE FOR DECEMBER 2026" in page.locator(".aw-ask .period-effective").inner_text())
     page.get_by_role("button", name="Run plan").click()

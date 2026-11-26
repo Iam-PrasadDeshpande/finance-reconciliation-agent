@@ -20510,13 +20510,20 @@ function ii({ bridge: e }) {
 					onOpenDetail: At,
 					onDecision: Ht,
 					onAsk: gn
-				}) : /* @__PURE__ */ (0, A.jsx)(P, {
+				}) : /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [/* @__PURE__ */ (0, A.jsx)(P, {
 					module: Pt,
 					period: N,
 					view: Bt(Pt.id),
 					state: Vt(Pt.id),
 					onAsk: gn
-				})
+				}), Pt.workflow && Bt(Pt.id) && /* @__PURE__ */ (0, A.jsx)(Dr, {
+					module: Pt,
+					view: Bt(Pt.id),
+					role: dt,
+					onRole: ft,
+					onAction: zt,
+					error: Lt
+				})] })
 			] }) : a === "business" ? /* @__PURE__ */ (0, A.jsxs)(A.Fragment, { children: [/* @__PURE__ */ (0, A.jsx)(Mr, {
 				onAsk: gn,
 				busy: v,

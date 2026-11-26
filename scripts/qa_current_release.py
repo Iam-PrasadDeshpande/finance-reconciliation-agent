@@ -14,16 +14,16 @@ def check(page, url, hosted):
     page.goto(url, wait_until="domcontentloaded")
     page.get_by_role("button", name="Open Close & reconcile").wait_for(timeout=30000)
     # Level 1 entry: agent-first, no open-decision list.
-    assert page.locator(".entry-card").count() == 4
+    assert page.locator(".entry-card").count() == 5
     assert page.locator(".entry-roles").count() == 0  # the audience block was removed from My Home
     assert page.get_by_text("Open decisions").count() == 0
     assert page.get_by_label("What should the agents do?").input_value() != ""
     page.get_by_role("button", name="Open Close & reconcile").click()
     tabs = page.locator(".tab-nav [role=tab]")
-    assert tabs.count() == 4
+    assert tabs.count() == 5
 
     def go_decision(label):
-        tabs.nth(3).click()
+        tabs.nth(4).click()
         page.get_by_role("tablist", name="Architecture views").get_by_role("tab", name=label).click()
 
     def decision_selected(label):
@@ -34,8 +34,8 @@ def check(page, url, hosted):
 
     # Agents area: the orchestrator calls specialist agents over MCP and the graph shows what each reached.
     assert page.locator(".agent-ask-bar").count() == 1
-    tabs.nth(2).click()
-    assert tabs.nth(2).get_attribute("aria-selected") == "true"
+    tabs.nth(3).click()
+    assert tabs.nth(3).get_attribute("aria-selected") == "true"
     page.get_by_role("button", name="Run plan").click()
     for _ in range(240):
         if "Plan complete" in (page.locator(".aw-plan-state").first.text_content() if page.locator(".aw-plan-state").count() else ""):
@@ -57,12 +57,12 @@ def check(page, url, hosted):
     assert decision_selected("Live run")
     assert "Evidence agent" in page.locator(".agent-ribbon").inner_text()
     page.get_by_role("button", name="Back to Agents").click()
-    assert tabs.nth(2).get_attribute("aria-selected") == "true"
+    assert tabs.nth(3).get_attribute("aria-selected") == "true"
     page.get_by_role("button", name="Select Governance & route agent").click()
     page.get_by_role("button", name="Open responsibilities & governance").click()
     assert decision_selected("MCP hosting")
     page.get_by_role("button", name="Dismiss agent banner").click()
-    tabs.nth(2).click()
+    tabs.nth(3).click()
     page.get_by_role("tab", name="Tool catalog").click()
     assert page.locator(".aw-catalog").text_content().count("collect_evidence") >= 1
     assert "sap.post" in page.locator(".aw-catalog").text_content()
@@ -205,7 +205,7 @@ def check(page, url, hosted):
     scenario.nth(3).click()
     assert page.locator(".mg-viewer").count() == 2
     page.get_by_role("button", name="Complete architecture →").first.click()
-    assert tabs.nth(3).get_attribute("aria-selected") == "true"
+    assert tabs.nth(4).get_attribute("aria-selected") == "true"
 
     # Audience-ready additions: decision brief, role lenses on My Home and the close process panel.
     go_decision("Decision brief")
