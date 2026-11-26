@@ -6,6 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 from poc import cockpit
 
 URL = os.environ.get("QA_STREAMLIT_URL", "http://127.0.0.1:8924").rstrip("/")
@@ -25,6 +26,7 @@ with sync_playwright() as pw:
     page = browser.new_page(viewport={"width": 1440, "height": 900})
     page.set_default_timeout(90000)
     page.goto(URL, wait_until="domcontentloaded")
+    page.add_style_tag(content="[data-testid=stSkillsNudgeAnchor]{display:none !important}")  # the local Streamlit dev toast covers the corner
     page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
     f.locator(".entry-card").nth(len(with_tab) + 1).wait_for(timeout=120000)
@@ -32,14 +34,15 @@ with sync_playwright() as pw:
     f.locator("#entry-ask-input").fill(modules[1]["examples"][0].replace("{period}", "November 2026"))
     check("streamlit routes from the manifest", f.locator("[data-testid=route-chip]").get_attribute("data-domain") == modules[1]["id"])
     f.get_by_role("button", name=f"Open {with_tab[0]['short_name']}").click()
-    tabs = f.get_by_role("tablist", name="Application sections").get_by_role("tab")
+    tabs = f.get_by_role("tablist", name="Spaces").get_by_role("tab")
     tabs.first.wait_for(timeout=90000)
-    check("streamlit area tabs come from the manifests", tabs.count() == len(with_tab) + 2)
-    tabs.nth(len(with_tab)).click()
+    check("streamlit has the three spaces and a tile per agent app", tabs.count() == 3 and (space(f, "Finance apps") or True) and f.locator(".fi-gtile").count() == len(with_tab))
+    space(f, "Agents")
     f.locator("#aw-ask-input").fill(modules[1]["examples"][0].replace("{period}", "November 2026"))
     f.get_by_role("button", name="Run plan").click()
     f.locator("[data-testid=plan-domain]").get_by_text(modules[1]["family_label"]).first.wait_for(timeout=120000)
     page.wait_for_timeout(5500)
+    agent_page(f, "Technical options")
     f.locator(".aw-log li:not(.orch) button").first.click()
     chips = f.locator("[data-testid=concept-chip]")
     check("streamlit steps list the concepts their tools touch", chips.count() > 0)

@@ -24,6 +24,7 @@ with sync_playwright() as pw:
     page = browser.new_page(viewport={"width": 1440, "height": 900})
     page.set_default_timeout(90000)
     page.goto(URL, wait_until="domcontentloaded")
+    page.add_style_tag(content="[data-testid=stSkillsNudgeAnchor]{display:none !important}")  # the local Streamlit dev toast covers the corner
 
     def surface():
         page.wait_for_timeout(4000)
