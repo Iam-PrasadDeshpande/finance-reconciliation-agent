@@ -80,8 +80,8 @@
       "bytes": 10828
     },
     "docs/Enterprise_AI_Foundation_Governance_V5_2.pptx": {
-      "sha256": "8da035fa9faafb2390aee2f04495506dd757349bf25ea82018b6c0345cba5d8f",
-      "bytes": 128651
+      "sha256": "2330858c48ca074ec455c85e10b44ed4fe04d3a0a31b4120e34001a48e4e517e",
+      "bytes": 128886
     },
     "docs/INDEPENDENT_REVIEW_AND_RELEASE.md": {
       "sha256": "b86cfcf9d08ff4199fd749107524119af34930372bc555049357d09d4e30880c",
@@ -688,8 +688,8 @@
       "bytes": 1383
     },
     "scripts/build_governance_deck.py": {
-      "sha256": "2c020d121704af3d0a7202ca221c6845d3ad40fc3650864b3d5bf04ed33c4f3a",
-      "bytes": 71139
+      "sha256": "e7e8e1960480002a84bf45dbce685e8b007ba16eee6d79472ac08e3192be920e",
+      "bytes": 71730
     },
     "scripts/deck_kit.py": {
       "sha256": "f2f1a347007435f4505d5b68d3825bcfdf3859e58e7c364d7094d30039882a98",
