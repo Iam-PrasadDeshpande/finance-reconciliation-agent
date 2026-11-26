@@ -9,8 +9,8 @@ export const SPACES = [
   {id: 'arch', icon: '⬡', label: 'Architecture & operations', short: 'Architecture', hint: 'How the agents run, are hosted and governed'},
 ];
 
-export function SpaceBar({space, onSpace, onKeyDown}) {
-  return <div className="fi-spacebar" role="tablist" aria-label="Spaces" onKeyDown={onKeyDown}>
+export function SpaceBar({space, onSpace, onKeyDown, label = 'Spaces'}) {
+  return <div className="fi-spacebar" role="tablist" aria-label={label} onKeyDown={onKeyDown}>
     {SPACES.map(s => <button type="button" role="tab" key={s.id} data-space={s.id} tabIndex={space === s.id ? 0 : -1} aria-selected={space === s.id} className={space === s.id ? 'active' : ''} onClick={() => onSpace(s.id)}>
       <span className="tab-icon" aria-hidden="true">{s.icon}</span><span className="tab-label-full">{s.label}</span><span className="tab-label-mobile">{s.short}</span>
     </button>)}
@@ -25,7 +25,7 @@ export function Crumb({space, page, onHome}) {
 }
 
 function Tile({tile, onOpen}) {
-  return <button type="button" className={`fi-gtile ${tile.accent || ''}`} data-tile={tile.id} aria-label={`Open ${tile.title}`} onClick={() => onOpen(tile.id)}>
+  return <button type="button" className={`fi-gtile ${tile.accent || ''} ${tile.cls || ''}`} data-tile={tile.id} data-module={tile.module} aria-label={`Open ${tile.title}`} onClick={() => onOpen(tile.id)}>
     <span className="fi-gtile-head"><span className="fi-gtile-icon" aria-hidden="true">{tile.icon}</span>{tile.tag && <i className="fi-gtile-tag">{tile.tag}</i>}</span>
     <strong className="fi-gtile-title">{tile.title}</strong>
     <span className="fi-gtile-sub">{tile.sub}</span>
@@ -33,14 +33,19 @@ function Tile({tile, onOpen}) {
   </button>;
 }
 
+// Sections of tiles without a page wrapper (used inside My Home, which has its own main landmark).
+export function TileSections({sections, onOpen}) {
+  return sections.map(section => <section key={section.title} className="fi-page-section" aria-label={section.title}>
+    <h3>{section.title}{section.note && <small>{section.note}</small>}</h3>
+    <ul className="fi-gtiles">{section.tiles.map(tile => <li key={tile.id}><Tile tile={tile} onOpen={onOpen}/></li>)}</ul>
+  </section>);
+}
+
 // A page: a title and sections, each section a titled grid of tiles.
 export function TilePage({testid, title, subtitle, sections, onOpen}) {
   return <main className="fi-page" aria-label={title} data-testid={testid}>
     <header className="fi-page-head"><h2>{title}</h2><p>{subtitle}</p></header>
-    {sections.map(section => <section key={section.title} className="fi-page-section" aria-label={section.title}>
-      <h3>{section.title}{section.note && <small>{section.note}</small>}</h3>
-      <ul className="fi-gtiles">{section.tiles.map(tile => <li key={tile.id}><Tile tile={tile} onOpen={onOpen}/></li>)}</ul>
-    </section>)}
+    <TileSections sections={sections} onOpen={onOpen}/>
   </main>;
 }
 

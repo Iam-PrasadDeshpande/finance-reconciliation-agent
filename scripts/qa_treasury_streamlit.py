@@ -31,8 +31,8 @@ with sync_playwright() as pw:
         return page.frame_locator("iframe").first if page.locator("iframe").count() else page
 
     f = surface()
-    f.locator(".entry-card").nth(3).wait_for(timeout=120000)
-    check("streamlit entry has five cards", f.locator(".entry-card").count() == 5)
+    f.get_by_role("tab", name="Finance apps").click(); f.locator(".entry-card").nth(2).wait_for(timeout=120000)
+    check("streamlit entry has one tile per app", f.locator(".entry-card").count() == 3)
     f.locator("#entry-ask-input").fill("What is our cash position for November 2026?")
     check("streamlit routes the treasury question", f.locator("[data-testid=route-chip]").get_attribute("data-domain") == "treasury")
     f.get_by_role("button", name="Run plan →").click()
@@ -73,7 +73,7 @@ with sync_playwright() as pw:
     page.screenshot(path=str(SHOTS / "s_t3_streamlit_reconciliation_intact.png"))
     page.reload(wait_until="domcontentloaded")
     f = surface()
-    f.locator(".entry-card").first.wait_for(timeout=120000)
+    f.get_by_role("tab", name="Finance apps").click(); f.locator(".entry-card").first.wait_for(timeout=120000)
     check("streamlit refresh keeps the period", f.locator("#entry-period").input_value() == "2026-11")
     browser.close()
 print(f"\n{sum(results)} passed, {len(results) - sum(results)} failed")

@@ -29,13 +29,13 @@ function ModuleResult({plan}){
   </section>;
 }
 
-export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenLayer,onOpenConcept,onOpenOutput,period=DEFAULT_PERIOD,periods,ontology,workflowViews={},role='maker',onRole,onModuleAction,actionError}){
+export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenLayer,onOpenConcept,onOpenOutput,period=DEFAULT_PERIOD,periods,ontology,workflowViews={},role='maker',onRole,onModuleAction,actionError,startPage='ask'}){
   const cockpit=useCockpit();
   const order=catalog?.order||['reconciliation'];
   const [picked,setPicked]=useState(null);
   const domain=picked||catalog?.default||order[0];
   const setDomain=setPicked;
-  const [page,setPage]=useState('ask'),[group,setGroup]=useState('all'),[tech,setTech]=useState('orchestration'),[optionValues,setOptionValues]=useState({});
+  const [page,setPage]=useState(startPage),[group,setGroup]=useState('all'),[tech,setTech]=useState('orchestration'),[optionValues,setOptionValues]=useState({});
   useEffect(()=>{if(planProp?.domain){setPicked(planProp.domain);setGroup(planProp.domain);setPage('ask')}},[planProp?.plan_id]);
   const activeCatalog=catalog?.domains?.[domain]||catalog;
   const plan=planProp&&(planProp.domain||catalog?.default)===domain?planProp:null;

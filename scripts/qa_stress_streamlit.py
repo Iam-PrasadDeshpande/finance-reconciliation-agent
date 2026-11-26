@@ -15,7 +15,7 @@ with sync_playwright() as pw:
     page.goto(URL, wait_until="domcontentloaded")
     page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
-    f.locator(".entry-card").nth(3).wait_for(timeout=150000)
+    f.get_by_role("tab", name="Finance apps").click(); f.locator(".entry-card").nth(2).wait_for(timeout=150000)
     f.get_by_role("button", name="Open Close & reconcile").click()
     f.locator("[data-testid=period-panel]").wait_for(timeout=90000)
     for round_ in range(12):

@@ -25,7 +25,7 @@ with sync_playwright() as pw:
         return page.frame_locator("iframe").first if page.locator("iframe").count() else page
 
     f = surface()
-    f.locator(".entry-card").first.wait_for(timeout=120000)
+    f.get_by_role("tab", name="Finance apps").click(); f.locator(".entry-card").first.wait_for(timeout=120000)
 
     def level1(period):
         f.locator(f"[data-testid=period-panel][data-period='{period}']").wait_for(timeout=60000)
@@ -61,7 +61,7 @@ with sync_playwright() as pw:
     page.wait_for_timeout(800)
     page.reload(wait_until="domcontentloaded")
     f = surface()
-    f.locator(".entry-card").first.wait_for(timeout=120000)
+    f.get_by_role("tab", name="Finance apps").click(); f.locator(".entry-card").first.wait_for(timeout=120000)
     check("streamlit refresh keeps February on the entry page", f.locator("#entry-period").input_value() == "2026-02")
     f.get_by_role("button", name="Open Close & reconcile").click()
     v, sel = level1("2026-02"); check("streamlit refresh keeps February on level 1", v == FEB and sel == "2026-02", v)

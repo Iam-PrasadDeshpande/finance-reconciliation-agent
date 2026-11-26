@@ -39,7 +39,7 @@ with sync_playwright() as pw:
     page.goto(URL, wait_until="domcontentloaded")
     page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
-    f.locator(".entry-card").nth(3).wait_for(timeout=150000)
+    f.get_by_role("tab", name="Finance apps").click(); f.locator(".entry-card").nth(2).wait_for(timeout=150000)
     modules = [x for x in cockpit.manifests() if x.get("tab")]
     tabs_nav = nav(f)
     seen_text = []
@@ -57,7 +57,7 @@ with sync_playwright() as pw:
         seen_text.append(text)
         return text
 
-    f.get_by_role("button", name="Open Agents").click() if f.get_by_role("button", name="Open Agents").count() else None
+    f.get_by_role("tab", name="Agents & architecture").click(); f.get_by_role("button", name="Open Watch the agents work").click()
     for name in ("Live run", "Complete architecture", "MCP hosting", "Agent hosting", "Registry", "Selection", "Decision brief", "Ontology", "Diagrams"):
         arch(name)
         check(f"architecture view '{name}' opens", len(body()) > 200)

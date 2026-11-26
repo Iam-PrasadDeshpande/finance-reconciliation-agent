@@ -55,8 +55,8 @@ with sync_playwright() as pw:
 
     # 1. Entry: four cards and live routing
     page.goto(WEB + "/", wait_until="domcontentloaded")
-    page.locator(".entry-card").nth(3).wait_for(timeout=30000)  # the module cards come from the manifests
-    check("entry has five cards including Cash & treasury", page.locator(".entry-card").count() == 5 and page.get_by_role("button", name="Open Cash & treasury").count() == 1)
+    page.get_by_role("tab", name="Finance apps").click(); page.locator(".entry-card").nth(2).wait_for(timeout=30000)  # the module cards come from the manifests
+    check("entry has a tile for each app including Cash & treasury", page.locator(".entry-card").count() == 3 and page.get_by_role("button", name="Open Cash & treasury").count() == 1)
     page.locator("#entry-ask-input").fill("What is our cash position for November 2026?")
     check("treasury question routes to the Cash and Treasury assistant", page.locator("[data-testid=route-chip]").get_attribute("data-domain") == "treasury")
     page.locator("#entry-ask-input").fill("Reconcile November 2026 company code 1000 ledger 0L USD")
