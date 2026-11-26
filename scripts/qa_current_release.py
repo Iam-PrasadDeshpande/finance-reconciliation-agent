@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import os
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 
 WEB = os.environ.get("QA_WEB_URL", "http://127.0.0.1:8899")
 STREAMLIT = os.environ.get("QA_STREAMLIT_URL", "http://127.0.0.1:8612")
@@ -19,11 +20,13 @@ def check(page, url, hosted):
     assert page.get_by_text("Open decisions").count() == 0
     assert page.get_by_label("What should the agents do?").input_value() != ""
     page.get_by_role("button", name="Open Close & reconcile").click()
-    tabs = page.locator(".tab-nav [role=tab]")
-    assert tabs.count() == 5
+    tabs = nav(page)
+    assert page.get_by_role("tablist", name="Spaces").get_by_role("tab").count() == 3
 
     def go_decision(label):
-        tabs.nth(4).click()
+        if not page.get_by_role("tablist", name="Architecture views").count():
+            tabs.nth(4).click()
+            page.locator(".fi-gtile").first.click()
         page.get_by_role("tablist", name="Architecture views").get_by_role("tab", name=label).click()
 
     def decision_selected(label):
@@ -35,38 +38,46 @@ def check(page, url, hosted):
     # Agents area: the orchestrator calls specialist agents over MCP and the graph shows what each reached.
     assert page.locator(".agent-ask-bar").count() == 1
     tabs.nth(3).click()
-    assert tabs.nth(3).get_attribute("aria-selected") == "true"
+    assert page.get_by_role("tablist", name="Spaces").get_by_role("tab", name="Agents").get_attribute("aria-selected") == "true"
     page.get_by_role("button", name="Run plan").click()
     for _ in range(240):
         if "Plan complete" in (page.locator(".aw-plan-state").first.text_content() if page.locator(".aw-plan-state").count() else ""):
             break
         page.wait_for_timeout(250)
     assert "Plan complete" in page.locator(".aw-plan-state").first.text_content()
+    answer_text = page.locator(".aw-answer").text_content()
+    agent_page(page, "Technical options")
     stage = page.locator("[data-testid=diagram-orchestration]")
     assert stage.locator("[data-node^='agent:']").count() == 6 and stage.locator("[data-node='orch']").count() == 1
     assert stage.locator("[data-node^='layer:']").count() >= 5
     assert stage.locator("path[data-edge^='orch-agent:']").count() == 5
     assert stage.locator("path[data-edge='orch-agent:investigator']").count() == 1 and stage.locator("path[data-edge='orch-agent:approval']").count() == 0
-    assert "No SAP write was made" in page.locator(".aw-answer").text_content()
+    assert "No SAP write was made" in answer_text
     assert "start_investigation" in page.locator(".aw-log").text_content() or "Added by the orchestrator" in page.locator(".aw-log").text_content()
     assert page.locator(".aw-log li").count() == 7
+    agent_page(page, "Agent catalog")
     page.get_by_role("button", name="Select Evidence agent").click()
+    agent_page(page, "Technical options")
     detail = page.locator(".aw-detail").inner_text()
     assert "evidence-mcp" in detail and "tools/call" in detail and "SAP backends" in page.locator(".aw-detail").text_content()
     page.get_by_role("button", name="Open the live architecture").click()
     assert decision_selected("Live run")
     assert "Evidence agent" in page.locator(".agent-ribbon").inner_text()
     page.get_by_role("button", name="Back to Agents").click()
-    assert tabs.nth(3).get_attribute("aria-selected") == "true"
+    assert page.get_by_role("tablist", name="Spaces").get_by_role("tab", name="Agents").get_attribute("aria-selected") == "true"
+    agent_page(page, "Agent catalog")
     page.get_by_role("button", name="Select Governance & route agent").click()
+    agent_page(page, "Technical options")
     page.get_by_role("button", name="Open responsibilities & governance").click()
     assert decision_selected("MCP hosting")
     page.get_by_role("button", name="Dismiss agent banner").click()
     tabs.nth(3).click()
+    agent_page(page, "Technical options")
     page.get_by_role("tab", name="Tool catalog").click()
     assert page.locator(".aw-catalog").text_content().count("collect_evidence") >= 1
     assert "sap.post" in page.locator(".aw-catalog").text_content()
     page.get_by_role("tab", name="Orchestration and calls").click()
+    agent_page(page, "Ask the agents")
     page.get_by_label("Ask the orchestrator").fill("Post a journal entry to SAP for November 2026")
     page.get_by_role("button", name="Run plan").click()
     page.locator(".aw-plan-state.blocked").wait_for(timeout=60000)
@@ -205,7 +216,7 @@ def check(page, url, hosted):
     scenario.nth(3).click()
     assert page.locator(".mg-viewer").count() == 2
     page.get_by_role("button", name="Complete architecture →").first.click()
-    assert tabs.nth(4).get_attribute("aria-selected") == "true"
+    assert page.get_by_role("tablist", name="Spaces").get_by_role("tab", name="Architecture").get_attribute("aria-selected") == "true"
 
     # Audience-ready additions: decision brief, role lenses on My Home and the close process panel.
     go_decision("Decision brief")

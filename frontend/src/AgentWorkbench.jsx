@@ -35,8 +35,8 @@ export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenL
   const [picked,setPicked]=useState(null);
   const domain=picked||catalog?.default||order[0];
   const setDomain=setPicked;
-  const [group,setGroup]=useState('all'),[tech,setTech]=useState('orchestration'),[optionValues,setOptionValues]=useState({});
-  useEffect(()=>{if(planProp?.domain){setPicked(planProp.domain);setGroup(planProp.domain)}},[planProp?.plan_id]);
+  const [page,setPage]=useState('ask'),[group,setGroup]=useState('all'),[tech,setTech]=useState('orchestration'),[optionValues,setOptionValues]=useState({});
+  useEffect(()=>{if(planProp?.domain){setPicked(planProp.domain);setGroup(planProp.domain);setPage('ask')}},[planProp?.plan_id]);
   const activeCatalog=catalog?.domains?.[domain]||catalog;
   const plan=planProp&&(planProp.domain||catalog?.default)===domain?planProp:null;
   const agents=activeCatalog?.agents||[];
@@ -81,14 +81,17 @@ export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenL
   const chosenCard=selected?cardById[selected.agent]:null;
   const done=plan&&shown>=steps.length;
   return <main className="agent-workbench" aria-label="Agents">
-    <header className="surface aw-header">
+    <div className="fi-pagetabs" role="tablist" aria-label="Agent pages">{[['ask','Ask the agents'],['catalog','Agent catalog'],['technical','Technical options']].map(([key,label])=><button type="button" role="tab" key={key} id={`agent-page-${key}`} aria-selected={page===key} className={page===key?'active':''} onClick={()=>setPage(key)}>{label}</button>)}</div>
+    {page==='ask'&&<header className="surface aw-header">
       <div className="aw-title"><span className="eyebrow">AGENTS · ORCHESTRATED WITH MCP-STYLE TOOL CALLS · {(activeCatalog?.name||domain).toUpperCase()}</span><h2>Agent launchpad</h2><p>Every agent is a tile below, grouped by family. Ask in plain words, or pick a tile to see what the agent does. The orchestrator plans and calls the specialists; the technical detail (orchestration graph, MCP calls, execution options, tool catalog) is further down.</p></div>
       <form className="aw-ask" onSubmit={submit}><label htmlFor="aw-ask-input" className="sr-only">Ask the orchestrator</label><input id="aw-ask-input" value={text} onChange={event=>setText(event.target.value)} aria-label="Ask the orchestrator"/><button type="submit" className="primary" disabled={busy}>{busy?'Running…':'Run plan'}</button><span className="ask-meta"><EffectivePeriod text={text} period={period} periods={periods}/><RouteChip text={text}/></span>
-        {moduleOptions.length>0&&<div className="aw-opts-summary" data-testid="options-summary">{moduleOptions.map(o=><span key={o.id}>{o.label}: <b>{(o.choices.find(c=>c.id===values[o.id])||{}).label||values[o.id]}</b></span>)}<button type="button" onClick={()=>setTech('options')}>Change in technical options ↓</button></div>}
+        {moduleOptions.length>0&&<div className="aw-opts-summary" data-testid="options-summary">{moduleOptions.map(o=><span key={o.id}>{o.label}: <b>{(o.choices.find(c=>c.id===values[o.id])||{}).label||values[o.id]}</b></span>)}<button type="button" onClick={()=>{setTech('options');setPage('technical')}}>Change in technical options →</button></div>}
         <div className="aw-examples" role="group" aria-label="Example requests">{examples.map(item=><button type="button" key={item} title={item} onClick={()=>setText(item)}>{item}</button>)}</div></form>
-    </header>
-    <AgentLaunchpad catalog={catalog} modules={cockpit.modules} group={group} onGroup={key=>{setGroup(key);if(key!=='all')setPicked(key)}} selectedAgent={selected?.agent||null} onPick={pickTile} plan={plan}/>
+    </header>}
+    {page==='catalog'&&<AgentLaunchpad catalog={catalog} modules={cockpit.modules} group={group} onGroup={key=>{setGroup(key);if(key!=='all')setPicked(key)}} selectedAgent={selected?.agent||null} onPick={pickTile} plan={plan}/>}
+    {page==='ask'&&<>
     {plan&&<p className="aw-period"><span className={`domain-badge ${plan.domain}`} data-testid="plan-domain">Handled by <b>{cockpit.label(plan.domain)}</b></span></p>}
+    {page==='ask'&&plan&&<div className={`aw-plan-state ${plan.status}`} role="status" data-testid="plan-status"><strong>{String(plan.intent).replace('_',' ')}</strong><span>{plan.blocked_reason||(done||steps.length===0?({done:'Plan complete.',needs_input:'Stopped: it needs one more detail.',blocked:'Stopped at a control. Nothing was changed.'}[plan.status]||''):'Dispatching the agents…')}</span></div>}
     {plan?.message&&<p className="aw-period" data-testid="plan-request">Your request: <b>“{plan.message}”</b></p>}
     {plan?.effective_period&&<p className="aw-period" data-testid="plan-period">Plan period: <b>{longMonth(plan.effective_period)}</b> · {fiscalLabel(plan.effective_period)} · taken from {plan.period_source==='request'?'the request':plan.period_source==='selector'?'the period selector':'the open case'}</p>}
     {plan?.effective_period&&plan.effective_period!==period&&<div className="period-stale" role="alert" data-testid="plan-stale">This plan is for {longMonth(plan.effective_period)}. The selected period is {longMonth(period)}. <button type="button" onClick={()=>onAsk(cockpit.ask(plan.domain,period))}>Run for {longMonth(period)}</button></div>}
@@ -96,7 +99,8 @@ export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenL
     {plan&&plan.status==='done'&&(done||steps.length===0)&&(()=>{const out=cockpit.byId[plan.domain]?.output;return out?.open_label&&!cockpit.byId[plan.domain]?.workflow&&<section className="surface aw-output" data-testid="plan-output" aria-label="Open the full output of this run"><div><span className="eyebrow">FULL OUTPUT OF THIS RUN</span><p>The answer above is a summary. The complete output for {longMonth(plan.effective_period)} is on the {out.screen_name} screen.</p></div><div className="aw-output-actions"><button type="button" className="primary" data-testid="plan-output-screen" onClick={()=>onOpenOutput?.(plan,'screen')}>{out.open_label} →</button>{out.detail_label&&<button type="button" data-testid="plan-output-detail" onClick={()=>onOpenOutput?.(plan,'detail')}>{out.detail_label} →</button>}</div></section>})()}
     {plan?.result_blocks?.length>0&&(done||steps.length===0)&&<ModuleResult plan={plan}/>}
     {cockpit.byId[domain]?.workflow&&workflowViews[domain]&&<WorkflowPanel module={cockpit.byId[domain]} view={workflowViews[domain]} role={role} onRole={onRole} onAction={onModuleAction} error={actionError}/>}
-    <section className="surface fi-tech" aria-label="Technical options" data-testid="technical-options">
+    </>}
+    {page==='technical'&&<section className="surface fi-tech" aria-label="Technical options" data-testid="technical-options">
       <header><div><span className="eyebrow">TECHNICAL</span><strong>Technical options</strong></div><small>Orchestration and MCP calls, execution options and the tool catalog</small></header>
       <div className="fi-tabs" role="tablist" aria-label="Technical options">{[['orchestration','Orchestration and calls'],['options','Execution options'],['catalog','Tool catalog']].map(([key,label])=><button type="button" role="tab" key={key} id={`tech-tab-${key}`} aria-selected={tech===key} className={tech===key?'active':''} onClick={()=>setTech(key)}>{label}</button>)}</div>
       {tech==='orchestration'&&<div role="tabpanel" aria-labelledby="tech-tab-orchestration">
@@ -133,6 +137,6 @@ export default function AgentWorkbench({catalog,plan:planProp,busy,onAsk,onOpenL
       {tech==='catalog'&&<div role="tabpanel" aria-labelledby="tech-tab-catalog" className="aw-catalog">
       <table className="rr-table"><thead><tr><th>Tool</th><th>Agent</th><th>Class</th><th>Input</th><th>Output</th></tr></thead><tbody>{(activeCatalog?.tools||[]).map(tool=><tr key={tool.name}><td><code>{tool.name}</code></td><td>{cardById[tool.agent]?.name}</td><td>{tool.rw}</td><td><code>{JSON.stringify(tool.input)}</code></td><td>{tool.output}</td></tr>)}</tbody></table>
       <p className="micro">Not registered as tools, by design: {(activeCatalog?.not_tools||[]).join(', ')}. {activeCatalog?.note}</p>      </div>}
-    </section>
+    </section>}
   </main>;
 }

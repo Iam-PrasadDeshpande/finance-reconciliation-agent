@@ -6,6 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 from poc import treasury as T
 
 URL = os.environ.get("QA_STREAMLIT_URL", "http://127.0.0.1:8924").rstrip("/")
@@ -38,7 +39,7 @@ with sync_playwright() as pw:
     page.wait_for_timeout(4500)
     check("streamlit agents area shows the treasury result and sources", "Cash and Treasury assistant" in f.locator("[data-testid=plan-domain]").inner_text() and f.locator("[data-testid=module-sources] a").count() >= 4 and f"{nov['usd_opening']:,}" in f.locator(".aw-answer").inner_text())
     page.screenshot(path=str(SHOTS / "s_t1_streamlit_agents_treasury.png"))
-    f.locator(".tab-nav [role=tab]").nth(1).click()
+    nav(f).nth(1).click()
     f.locator("[data-testid=treasury-page][data-period='2026-11']").wait_for(timeout=90000)
     check("streamlit level 1 equals the calculation", f.locator("[data-testid=kpi-deficit] strong").inner_text() == str(nov["deficit"]) and f"{nov['usd_opening']:,}" in f.locator("[data-testid=kpi-cash]").inner_text())
     check("streamlit shows the drafted proposals", f.locator("[data-testid=treasury-recs] li").count() == 2 and "awaiting approval" in f.locator("[data-testid=treasury-recs]").inner_text())
@@ -57,7 +58,7 @@ with sync_playwright() as pw:
     dialog.locator("[data-testid=detail-accounts]").wait_for(timeout=90000)
     check("streamlit detail dialog has six sections", dialog.get_by_role("tab").count() == 6 and dialog.locator("[data-testid=detail-accounts] tbody tr").count() == 9)
     dialog.get_by_role("button", name="Close cash and treasury view").click()
-    f.locator(".tab-nav [role=tab]").nth(3).click()
+    nav(f).nth(3).click()
     f.locator("#aw-ask-input").fill("Initiate the bank transfer now")
     f.get_by_role("button", name="Run plan").click()
     f.locator(".aw-answer").get_by_text("not an agent action").first.wait_for(timeout=90000)

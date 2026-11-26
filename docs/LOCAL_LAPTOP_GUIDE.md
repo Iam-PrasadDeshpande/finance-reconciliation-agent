@@ -17,7 +17,7 @@ The FastAPI mode stores synthetic cases in `poc_state.sqlite3` beside the extrac
 
 In the **Execution simulator**, open **Detailed report for <period>** for the full reconciliation report (accounts, reconciling items, aging, controls, AI review, audit trail, CSV/JSON/print), and use **Scenario lab** to simulate a late replication, a stale load, an unreplicated posting or a clean close. Choose **Restore the seeded baseline** to reset. These changes affect only the local synthetic data.
 
-The interface has three primary areas (Close & reconcile, Cash & treasury, Agents) plus **Architecture**, whose views are Live run, Complete architecture, **MCP hosting**, **Agent hosting** (SAP BTP Cloud Foundry in S1, AWS AgentCore Runtime in S2 and S3), **Registry**, **Selection & cost** (recommendation evaluator, gateways and identity, an editable cost model without invented rates, the AWS account proposal), Decision brief, Ontology and Diagrams (ten generated diagrams). All are generated from the canonical model; see `docs/ARCHITECTURE_V5_2.md`. A **Theme** selector offers the standard SAP Fiori themes.
+The interface is a SAP Fiori-style shell with three spaces: **Finance apps** (tiles for Close & reconcile, Cash & treasury and Accruals), **Agents** (Ask the agents, Agent catalog, Technical options) and **Architecture & operations** (tiles for the architecture views, including Live run, Complete architecture, MCP hosting and Agent hosting).
 
 To use a different port, open a terminal in the extracted folder and run `py -3 local_demo.py --port 8899`. If the corporate laptop does not allow local Python or package installation, ask IT for an approved Python runtime and access to the approved package index; no production credentials should be added to this demo.
 

@@ -10,6 +10,7 @@ from pathlib import Path
 
 from PIL import Image
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 
 URL = os.environ.get("QA_URL", "http://127.0.0.1:8899").rstrip("/")
 MOBILE = os.environ.get("QA_MOBILE") == "1"
@@ -42,7 +43,7 @@ with sync_playwright() as pw:
     f.locator(".entry-card").nth(3).wait_for(timeout=150000)
     check("My Home no longer shows the audience block", f.locator(".entry-roles").count() == 0 and "Presenting this" not in f.locator("body").inner_text())
     f.get_by_role("button", name="Open Agents").click()
-    tabs = f.locator(".tab-nav [role=tab]")
+    tabs = nav(f)
     select = f.get_by_label("SAP Fiori theme")
     options = [o.get_attribute("value") for o in select.locator("option").all()]
     check("the six SAP Fiori themes are offered", options == [t[0] for t in THEMES], str(options))

@@ -3,6 +3,7 @@ QA_STREAMLIT_URL=http://127.0.0.1:8924 python scripts/qa_period_sync_streamlit.p
 import os
 from pathlib import Path
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 
 URL = os.environ.get("QA_STREAMLIT_URL", "http://127.0.0.1:8924").rstrip("/")
 SHOTS = Path(os.environ.get("QA_SHOTS", "period_sync_evidence")); SHOTS.mkdir(parents=True, exist_ok=True)
@@ -43,7 +44,7 @@ with sync_playwright() as pw:
     check("streamlit level 2 runs for February", "February 2026" in f.locator("[data-testid=plan-period]").inner_text() and "2026-02" in f.locator(".aw-answer").inner_text())
     check("streamlit level 2 selector is February", f.locator("#global-period").input_value() == "2026-02")
     page.screenshot(path=str(SHOTS / "s02_streamlit_level2_february.png"))
-    f.locator(".tab-nav [role=tab]").nth(0).click()
+    nav(f).nth(0).click()
     v, sel = level1("2026-02"); check("streamlit return to level 1 keeps February (case exists for it)", v == FEB and sel == "2026-02", v)
     for period, want in (("2026-11", NOV), ("2026-02", FEB), ("2026-11", NOV), ("2026-02", FEB)):
         f.locator("#global-period").select_option(period)
