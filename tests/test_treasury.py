@@ -190,9 +190,9 @@ def test_proposal_approval_marker_never_initiates(ctx):
     assert next(x for x in TA.list_proposals(ctx.store, "2026-11") if x["proposal_id"] == p["proposal_id"])["status"] == "approved_marker"
 
 
-def test_catalog_lists_both_families():
+def test_catalog_lists_every_family():
     cat = TA.assistant_catalog(app_module.agent_catalog())
-    assert set(cat["domains"]) == {"reconciliation", "treasury"} and len(cat["agents"]) == 7
+    assert set(cat["domains"]) == {"reconciliation", "treasury", "accruals"} and len(cat["agents"]) == 7  # the flat keys are the default (reconciliation) family
     treasury = cat["domains"]["treasury"]
     assert [a["id"] for a in treasury["agents"]] == ["treasury_orchestrator", "cash_positioning", "cash_forecasting", "bank_relationship"]
     assert all(t["agent"] in {a["id"] for a in treasury["agents"]} for t in treasury["tools"])

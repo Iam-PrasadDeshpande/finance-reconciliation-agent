@@ -18,11 +18,11 @@ export const PROCESS = [
 export const CONTROLS = ['Maker and approver are separate roles', 'Approval is bound to the proposal hash and case version', 'Every step is stored as an event you can inspect', 'No agent tool can post to SAP'];
 
 export const DECISIONS = [
-  ['Scenario to evaluate first', 'S3 (AgentCore + Apigee) as the preferred candidate for a comparative POC; not an unconditional winner', 'Enterprise architecture + AI Foundry + SAP integration'],
+  ['Preferred scenarios', 'S1 for SAP-centric agents and S3 (AgentCore + Apigee) for SAP and non-SAP agents; S2 is kept for reference and is not preferred. Neither preferred scenario is approved yet', 'Enterprise architecture + AI Foundry + SAP integration'],
   ['Agent runtime host', 'SAP BTP Cloud Foundry in S1; AWS AgentCore Runtime in S2 and S3. Registration and gateways are decided separately', 'Enterprise AI + platform team'],
   ['Identity: user delegation or service identity', 'Prove service identity first, then delegation', 'Security + SAP Basis'],
   ['Registry', 'AWS Agent Registry in every scenario, owned centrally by AI Foundry and published from GitLab; cross-account sharing to be confirmed', 'Enterprise AI Foundry'],
-  ['Is Apigee mandatory for the SAP route (S2 versus S3)?', 'Decides whether the simpler S2 is allowed; SAP Integration records its position', 'SAP Integration + Security'],
+  ['Is Apigee mandatory for the SAP route (S2 versus S3)?', 'Decides whether S2 could be considered by exception (S2 stays not preferred); SAP Integration records its position', 'SAP Integration + Security'],
   ['Is persistence needed?', 'Conditional: HANA Cloud only if durable SAP-side state is required', 'SAP BTP + finance engineering'],
   ['Model access (Portkey)', 'Portkey is the LLM gateway in every scenario; model and credential approval is separate and does not decide the host', 'Enterprise AI'],
   ['Posting to SAP', 'Out of scope. Human approval and nonproduction evidence first', 'Finance + SAP'],

@@ -50,3 +50,9 @@
 .fi-workflow .blk-table td:last-child .blk-btn-row{flex-wrap:nowrap}
 .fi-tech strong{display:block}.fi-tech .eyebrow{display:block}
 .fi-launchpad,.fi-tech,.fi-workflow{min-width:0}
+
+/* architecture preference banner and tab tags */
+.pref-banner{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:center;padding:8px 14px;margin:0 16px 8px;border:1px solid #d9e1e7;border-left:4px solid #107e3e;border-radius:6px;background:#fff}
+.pref-banner ul{list-style:none;margin:0;padding:0;display:flex;gap:8px;flex-wrap:wrap}.pref-banner p{grid-column:1/-1;margin:0;font-size:12px;color:#506778}
+.pref-banner li{display:inline-flex;gap:6px;align-items:baseline;font-size:12.5px;padding:2px 10px;border-radius:12px;border:1px solid #d9e1e7}
+.pref-banner li.yes{background:#e5f4ea;border-color:#107e3e;color:#0b5e2e}.pref-banner li.no{background:#fdeaea;border-color:#bb0000;color:#8f0000}.pref-badge{font-weight:700}

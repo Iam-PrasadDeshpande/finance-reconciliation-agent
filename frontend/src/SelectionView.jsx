@@ -21,7 +21,7 @@ function Recommendation({onDiagram}){
   const result=useMemo(()=>recommend(SELECTION,inputs),[inputs]);
   const set=(id,value)=>setInputs(previous=>({...previous,[id]:value}));
   return <div className="sel-grid">
-    <section className="surface mg-section" aria-label="Preferred candidate"><h3>Preferred candidate to evaluate first</h3>
+    <section className="surface mg-section" aria-label="Architecture preference"><h3>Preference: S1 for SAP-centric agents, S3 for SAP and non-SAP agents</h3>
       <p className="mg-reco" data-testid="sel-headline"><strong>{RECOMMENDATION.headline}</strong></p>
       <div className="mg-cards"><article><h4>Conditions</h4><ul>{RECOMMENDATION.conditions.map(x=><li key={x}>{x}</li>)}</ul></article><article><h4>Cost assumptions</h4><ul>{RECOMMENDATION.cost_assumptions.map(x=><li key={x}>{x}</li>)}</ul></article>
         <article><h4>Key risks</h4><ul>{RECOMMENDATION.risks.map(x=><li key={x}>{x}</li>)}</ul></article><article><h4>Rejected alternatives</h4><ul>{RECOMMENDATION.rejected.map(x=><li key={x}>{x}</li>)}</ul></article>
@@ -73,7 +73,7 @@ function Account({onDiagram}){
     <section className="surface mg-section" aria-label="Account evaluation"><div className="mg-cards"><article><h4>Evaluate for the account</h4><ul>{ACCOUNT.evaluate.map(x=><li key={x}>{x}</li>)}</ul></article><article><h4>Central registry and cross-account sharing</h4><ul>{ACCOUNT.registry_sharing.map(x=><li key={x}>{x}</li>)}</ul></article>
       <article><h4>Common implementation lifecycle</h4><ol>{LIFECYCLE.map(x=><li key={x}>{x}</li>)}</ol></article><article><h4>Guardrails for every scenario</h4><ul>{GUARDRAILS.map(x=><li key={x}>{x}</li>)}</ul></article></div></section>
     <section className="surface mg-section" aria-label="Operating ownership"><h3>Operating ownership (RACI)</h3><Table head={['Area','Responsible','Accountable','Consulted','Informed']} rows={RACI} testid="acct-raci"/>
-      <h3>POC validations</h3><ul className="sel-poc">{POC_VALIDATIONS.map(x=><li key={x}>{x}</li>)}</ul><p className="micro">Compare S2 and S3 first (both need the AWS runtime) and include S1 as a baseline where SAP BTP remains credible. Nothing here provisions an account or a service.</p></section>
+      <h3>POC validations</h3><ul className="sel-poc">{POC_VALIDATIONS.map(x=><li key={x}>{x}</li>)}</ul><p className="micro">Compare the preferred options S1 (SAP-centric agents) and S3 (SAP and non-SAP agents) first; S2 stays as a reference and is compared only on request. Nothing here provisions an account or a service.</p></section>
   </div>;
 }
 

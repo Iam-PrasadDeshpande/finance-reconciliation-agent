@@ -11,8 +11,8 @@
    "id": "S1",
    "name": "S1 · SAP-hosted hybrid",
    "short": "SAP-hosted hybrid",
-   "status": "SAP-hosted alternative",
-   "classification": "SAP-hosted alternative for workloads where SAP coupling or verified platform economics justify this placement.",
+   "status": "Preferred for SAP-centric agents",
+   "classification": "Preferred option for SAP-centric agents, where SAP coupling is high or verified platform economics justify SAP BTP execution; also the fallback when AWS execution is unavailable.",
    "objective": "SAP BTP Cloud Foundry hosts and executes the agent. Apigee exposes the SAP MCP capability. AWS Agent Registry holds registration and discovery metadata only; no AgentCore component runs anything.",
    "agent_runtime": "SAP BTP Cloud Foundry",
    "agent_hosting_owner": "SAP BTP platform team",
@@ -78,14 +78,20 @@
     "Supportability of custom orchestration",
     "Cross-cloud registry publication",
     "Approval of direct Apigee invocation"
-   ]
+   ],
+   "preference": {
+    "label": "Preferred",
+    "scope": "SAP-centric agents",
+    "badge": "PREFERRED · SAP-centric agents",
+    "text": "Preferred option for SAP-centric agents."
+   }
   },
   "S2": {
    "id": "S2",
    "name": "S2 · AWS AgentCore-native",
    "short": "AgentCore-native",
-   "status": "AWS-native alternative",
-   "classification": "AWS-native alternative, particularly suitable where AgentCore meets the technical and governance requirements without an additional Apigee gateway.",
+   "status": "Not preferred · kept for reference",
+   "classification": "Kept in the architecture for reference and not preferred. It is technically valid where AgentCore meets the requirements without an additional Apigee gateway, but selecting it needs an explicit owner exception.",
    "objective": "AWS owns agent execution, any custom MCP execution and the runtime gateway: AgentCore Runtime hosts the agent and eligible MCP servers, AgentCore Gateway mediates the tools, AWS Agent Registry registers them. Apigee is optional, only where SAP Integration and Security require it.",
    "agent_runtime": "AWS AgentCore Runtime",
    "agent_hosting_owner": "AWS cloud platform team (SAP-agent account)",
@@ -152,14 +158,20 @@
     "Cross-platform user identity",
     "AWS account permissions and service availability",
     "Responsibility for SAP-specific API policies"
-   ]
+   ],
+   "preference": {
+    "label": "Not preferred",
+    "scope": "Reference only",
+    "badge": "NOT PREFERRED · kept for reference",
+    "text": "Kept in the architecture for reference; not preferred. Selecting it needs an explicit owner exception."
+   }
   },
   "S3": {
    "id": "S3",
    "name": "S3 · AWS AgentCore + Apigee hybrid",
    "short": "AgentCore + Apigee",
-   "status": "Preferred candidate for a comparative POC · conditional",
-   "classification": "Preferred strategic investment candidate to evaluate first, conditional on account approval, identity validation, gateway interoperability, enterprise policy and measured comparative cost. Not production-approved.",
+   "status": "Preferred for SAP and non-SAP agents · conditional",
+   "classification": "Preferred option for agents that span SAP and non-SAP systems, conditional on account approval, identity validation, gateway interoperability, enterprise policy and measured comparative cost. Not production-approved.",
    "objective": "AWS AgentCore Runtime executes the agent, AgentCore Gateway is the enterprise runtime gateway, and Google Apigee stays the SAP-facing MCP/API gateway in front of SAP Integration Suite. AWS Agent Registry registers agents and MCP endpoints on a separate control-plane path. A dedicated SAP-agent AWS account is proposed.",
    "agent_runtime": "AWS AgentCore Runtime",
    "agent_hosting_owner": "AWS cloud platform team (SAP-agent account)",
@@ -210,7 +222,7 @@
     "Whether an external MCP server is an MCP or an HTTP target for the gateway; Apigee MCP does not support SSE streams",
     "Non-duplicative responsibilities of the two gateways, quota ownership and tool naming",
     "Dedicated account approval, quotas and region",
-    "Comparative cost against S1 and S2"
+    "Comparative cost against S1 (and S2, kept for reference)"
    ],
    "policy_dependencies": [
     "AI Foundry and SAP Integration approve the gateway ownership boundaries",
@@ -234,21 +246,54 @@
     "Possible duplicated tool catalogs and policy controls",
     "Multi-cloud incident management and audit correlation",
     "Separate AWS account approval and operational ownership"
-   ]
+   ],
+   "preference": {
+    "label": "Preferred",
+    "scope": "SAP and non-SAP agents",
+    "badge": "PREFERRED · SAP and non-SAP agents",
+    "text": "Preferred option for agents that span SAP and non-SAP systems; conditional, not yet approved."
+   }
   }
  },
+ "preference": {
+  "S1": {
+   "label": "Preferred",
+   "scope": "SAP-centric agents",
+   "badge": "PREFERRED · SAP-centric agents",
+   "text": "Preferred option for SAP-centric agents."
+  },
+  "S2": {
+   "label": "Not preferred",
+   "scope": "Reference only",
+   "badge": "NOT PREFERRED · kept for reference",
+   "text": "Kept in the architecture for reference; not preferred. Selecting it needs an explicit owner exception."
+  },
+  "S3": {
+   "label": "Preferred",
+   "scope": "SAP and non-SAP agents",
+   "badge": "PREFERRED · SAP and non-SAP agents",
+   "text": "Preferred option for agents that span SAP and non-SAP systems; conditional, not yet approved."
+  }
+ },
+ "preferenceLine": "Preference: S1 for SAP-centric agents · S3 for SAP and non-SAP agents · S2 is kept in the architecture for reference and is not preferred",
  "comparison": [
   [
-   "Classification",
-   "SAP-hosted alternative",
-   "AWS-native alternative",
-   "Preferred candidate for a comparative POC · conditional"
+   "Preference",
+   "Preferred for SAP-centric agents",
+   "Not preferred · kept for reference",
+   "Preferred for SAP and non-SAP agents · conditional"
   ],
   [
    "Agent hosting",
    "SAP BTP Cloud Foundry",
    "AWS AgentCore Runtime",
    "AWS AgentCore Runtime"
+  ],
+  [
+   "MCP / agent hosting",
+   "Agent: Cloud Foundry · MCP: Apigee",
+   "Agent: AgentCore · MCP: AgentCore Gateway",
+   "Agent: AgentCore · MCP: Apigee → AgentCore Gateway"
   ],
   [
    "Agent execution",
@@ -681,8 +726,9 @@
   "D1": {
    "id": "D1",
    "scenario": null,
+   "badge": null,
    "title": "Enterprise AI reference architecture",
-   "chain": "Control plane · runtime plane · evidence plane, common to S1, S2 and S3 (S3 is the preferred candidate to evaluate first)",
+   "chain": "Control plane · runtime plane · evidence plane, common to S1, S2 and S3. Preference: S1 for SAP-centric agents, S3 for SAP and non-SAP agents; S2 is kept for reference",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 6,
    "nh": 100,
@@ -940,6 +986,7 @@
   "D2": {
    "id": "D2",
    "scenario": "S1",
+   "badge": "PREFERRED · SAP-centric agents",
    "title": "S1 · SAP-hosted hybrid · topology",
    "chain": "UI → Cloud Foundry agent → Apigee MCP → Integration Suite → Cloud Connector (conditional) → SAP backend (registry is control plane only)",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
@@ -1231,11 +1278,12 @@
     "registry",
     "deploy"
    ],
-   "footer": "SAP BTP executes; AWS Agent Registry registers metadata only. No AgentCore component runs anything in S1."
+   "footer": "Preferred option for SAP-centric agents. SAP BTP executes; AWS Agent Registry registers metadata only. No AgentCore component runs anything in S1."
   },
   "D3": {
    "id": "D3",
    "scenario": "S2",
+   "badge": "NOT PREFERRED · kept for reference",
    "title": "S2 · AWS AgentCore-native · topology",
    "chain": "UI → AgentCore agent → AgentCore Gateway → MCP or API target → Integration Suite → Cloud Connector → SAP backend",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
@@ -1555,11 +1603,12 @@
     "registry",
     "deploy"
    ],
-   "footer": "Apigee is optional and inserted into the approved route only where required. A Gateway API target avoids a custom MCP server once its schema, authentication and connectivity are checked."
+   "footer": "Kept in the architecture for reference; not preferred. Selecting it needs an explicit owner exception. Apigee is optional and inserted into the approved route only where required. A Gateway API target avoids a custom MCP server once its schema, authentication and connectivity are checked."
   },
   "D4": {
    "id": "D4",
    "scenario": "S3",
+   "badge": "PREFERRED · SAP and non-SAP agents",
    "title": "S3 · AWS AgentCore + Apigee hybrid · topology",
    "chain": "UI → AgentCore Runtime agent → AgentCore Gateway → Apigee MCP → Integration Suite → Cloud Connector (conditional) → SAP backend",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
@@ -1861,11 +1910,12 @@
     "registry",
     "deploy"
    ],
-   "footer": "AgentCore Gateway fronts Apigee: two gateways in series with separate responsibilities. AWS Agent Registry registers and is never an execution hop."
+   "footer": "Preferred option for agents that span SAP and non-SAP systems; conditional, not yet approved. AgentCore Gateway fronts Apigee: two gateways in series with separate responsibilities. AWS Agent Registry registers and is never an execution hop."
   },
   "D5": {
    "id": "D5",
    "scenario": null,
+   "badge": null,
    "title": "Four responsibility model",
    "chain": "Agent hosting, MCP hosting, agent registration and MCP registration, with gateway mediation and the LLM gateway identified separately",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
@@ -2122,6 +2172,7 @@
   "D6": {
    "id": "D6",
    "scenario": null,
+   "badge": null,
    "title": "AWS account and governance architecture",
    "chain": "Dedicated SAP-agent execution account, central AI Foundry registry, identity, network and operational ownership (proposed; nothing is provisioned)",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
@@ -2299,6 +2350,7 @@
   "D7": {
    "id": "D7",
    "scenario": null,
+   "badge": null,
    "title": "Gateway and principal propagation (S3)",
    "chain": "Six identities across AWS, Apigee and SAP; S1 drops the AgentCore hops, S2 drops Apigee unless inserted",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
@@ -2472,6 +2524,7 @@
   "D8": {
    "id": "D8",
    "scenario": null,
+   "badge": null,
    "title": "Cost and operational responsibility architecture",
    "chain": "The separately billable runtime, gateway, integration, network, persistence, observability and support layers",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
@@ -2597,8 +2650,9 @@
   "D9": {
    "id": "D9",
    "scenario": null,
+   "badge": null,
    "title": "Architecture selection decision tree",
-   "chain": "Workload classification and approval gates lead to S1, S2 or S3; the same rules are in Selection · Recommendation",
+   "chain": "Agent scope and approval gates lead to S1 or S3; S2 is kept for reference and is not preferred; the same rules are in Selection · Recommendation",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 4,
    "nh": 100,
@@ -2615,77 +2669,93 @@
      "id": "start",
      "row": 0,
      "col": 0,
-     "title": "Classify the workload",
-     "sub": "SAP-specific or enterprise; frequency, bursts, duration, tools",
+     "title": "Classify the agent",
+     "sub": "SAP-centric, or spans SAP and non-SAP systems; frequency, tools",
      "kind": "ui"
+    },
+    {
+     "id": "q0",
+     "row": 0,
+     "col": 1,
+     "title": "SAP-centric?",
+     "sub": "SAP coupling, BTP practice, verified economics",
+     "kind": "decision"
     },
     {
      "id": "q1",
      "row": 0,
-     "col": 1,
+     "col": 2,
      "title": "AWS account and AgentCore approved?",
      "sub": "Account, services, ownership",
      "kind": "decision"
     },
     {
-     "id": "q2",
+     "id": "q3",
      "row": 0,
      "col": 3,
-     "title": "Apigee required for the SAP route?",
-     "sub": "SAP Integration and Security",
+     "title": "Identity and interop validated, cost competitive?",
+     "sub": "Evidence, not preference",
      "kind": "decision"
     },
     {
-     "id": "q3",
+     "id": "hold",
      "row": 1,
-     "col": 3,
-     "title": "Identity and gateway interop validated, cost competitive?",
-     "sub": "Evidence, not preference",
-     "kind": "decision"
+     "col": 2,
+     "title": "HOLD / CONDITIONAL",
+     "sub": "A missing approval never gives an unconditional choice",
+     "kind": "control"
     },
     {
      "id": "s1",
      "row": 2,
      "col": 0,
      "title": "S1 · SAP-hosted hybrid",
-     "sub": "SAP coupling or verified economics, or AWS unavailable",
+     "sub": "Preferred for SAP-centric agents; also the fallback",
      "kind": "agent"
     },
     {
      "id": "s2",
      "row": 2,
-     "col": 2,
+     "col": 1,
      "title": "S2 · AWS AgentCore-native",
-     "sub": "Apigee not mandated or exception approved",
-     "kind": "agent"
+     "sub": "Not preferred; owner exception only",
+     "kind": "agent",
+     "dashed": true
     },
     {
      "id": "s3",
      "row": 2,
      "col": 3,
      "title": "S3 · AgentCore + Apigee",
-     "sub": "Preferred to evaluate first; conditional",
+     "sub": "Preferred for SAP and non-SAP agents; conditional",
      "kind": "agent"
-    },
-    {
-     "id": "hold",
-     "row": 1,
-     "col": 1,
-     "title": "HOLD / CONDITIONAL",
-     "sub": "A missing approval never gives an unconditional choice",
-     "kind": "control"
     }
    ],
    "edges": [
     [
      "start",
-     "q1",
+     "q0",
      "invoke",
      ""
     ],
     [
+     "q0",
+     "s1",
+     "invoke",
+     "yes",
+     {
+      "my": 234
+     }
+    ],
+    [
+     "q0",
      "q1",
-     "q2",
+     "invoke",
+     "no: SAP and non-SAP"
+    ],
+    [
+     "q1",
+     "q3",
      "invoke",
      "yes"
     ],
@@ -2696,43 +2766,22 @@
      "pending"
     ],
     [
-     "q1",
-     "s1",
-     "invoke",
-     "no",
-     {
-      "my": 234
-     }
-    ],
-    [
-     "q2",
      "q3",
+     "s3",
      "invoke",
-     "yes"
-    ],
-    [
-     "q2",
-     "s2",
-     "invoke",
-     "no",
+     "yes",
      {
       "my": 240
      }
     ],
     [
-     "q3",
-     "s3",
+     "q1",
+     "s2",
      "invoke",
-     "yes"
-    ],
-    [
-     "q3",
-     "s1",
-     "invoke",
-     "S1 cheaper",
+     "exception only",
      {
       "my": 372,
-      "off": 30
+      "off": 20
      }
     ]
    ],
@@ -2741,13 +2790,14 @@
    "legend": [
     "invoke"
    ],
-   "footer": "Preferred to evaluate first is not selected. S3 needs its conditions met; S2 and S1 stay valid outcomes."
+   "footer": "S1 is preferred for SAP-centric agents and S3 for SAP and non-SAP agents. S3 needs its conditions met; S1 is the fallback; S2 needs an explicit owner exception."
   },
   "D10": {
    "id": "D10",
    "scenario": null,
-   "title": "Three-scenario executive comparison",
-   "chain": "A decision-ready comparison; S3 is the preferred candidate to evaluate first, S2 and S1 stay valid alternatives",
+   "badge": null,
+   "title": "Executive comparison: S1 and S3 are preferred",
+   "chain": "A decision-ready comparison; S1 for SAP-centric agents, S3 for SAP and non-SAP agents, S2 kept for reference",
    "banner": "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE",
    "cols": 4,
    "nh": 88,
@@ -2764,7 +2814,7 @@
      "id": "l0",
      "row": 0,
      "col": 0,
-     "title": "Classification",
+     "title": "Preference",
      "sub": "",
      "kind": "decision"
     },
@@ -2772,7 +2822,7 @@
      "id": "c0_1",
      "row": 0,
      "col": 1,
-     "title": "SAP-hosted alternative",
+     "title": "Preferred for SAP-centric agents",
      "sub": "S1 · SAP-hosted hybrid",
      "kind": "agent"
     },
@@ -2780,7 +2830,7 @@
      "id": "c0_2",
      "row": 0,
      "col": 2,
-     "title": "AWS-native alternative",
+     "title": "Not preferred · kept for reference",
      "sub": "S2 · AWS AgentCore-native",
      "kind": "agent"
     },
@@ -2788,7 +2838,7 @@
      "id": "c0_3",
      "row": 0,
      "col": 3,
-     "title": "Preferred candidate for a comparative POC",
+     "title": "Preferred for SAP and non-SAP agents · conditional",
      "sub": "S3 · AgentCore + Apigee",
      "kind": "agent"
     },
@@ -2892,7 +2942,7 @@
      "id": "l4",
      "row": 4,
      "col": 0,
-     "title": "Recommended when",
+     "title": "Chosen when",
      "sub": "",
      "kind": "decision"
     },
@@ -2900,7 +2950,7 @@
      "id": "c4_1",
      "row": 4,
      "col": 1,
-     "title": "AWS unavailable or SAP coupling and economics favor BTP",
+     "title": "The agent is SAP-centric, or AWS is unavailable",
      "sub": "",
      "kind": "domain"
     },
@@ -2908,7 +2958,7 @@
      "id": "c4_2",
      "row": 4,
      "col": 2,
-     "title": "AWS approved and Apigee not required",
+     "title": "Only by explicit owner exception",
      "sub": "",
      "kind": "domain"
     },
@@ -2916,7 +2966,7 @@
      "id": "c4_3",
      "row": 4,
      "col": 3,
-     "title": "AWS approved, Apigee required, evidence supports the extra gateway",
+     "title": "The agent spans SAP and non-SAP; AWS approved; evidence supports the extra gateway",
      "sub": "",
      "kind": "domain"
     }
@@ -2927,14 +2977,14 @@
    "legend": [
     "invoke"
    ],
-   "footer": "Preferred for evaluation, not approved. Selection is conditional on the evidence listed under Pending decisions and the rules in Selection · Recommendation."
+   "footer": "S3 is preferred for SAP and non-SAP agents but not approved; selection is conditional on the evidence listed under Pending decisions and the rules in Selection · Recommendation."
   }
  },
  "diagramNames": {
   "D1": "Enterprise AI reference",
-  "D2": "S1 SAP-hosted hybrid",
-  "D3": "S2 AWS-native",
-  "D4": "S3 AgentCore + Apigee",
+  "D2": "S1 SAP-hosted hybrid (preferred, SAP-centric)",
+  "D3": "S2 AWS-native (not preferred)",
+  "D4": "S3 AgentCore + Apigee (preferred, SAP and non-SAP)",
   "D5": "Four responsibility model",
   "D6": "AWS account and governance",
   "D7": "Gateway and principal propagation",
@@ -2943,7 +2993,12 @@
   "D10": "Executive comparison"
  },
  "recommendation": {
-  "headline": "S3 is the preferred candidate to evaluate first in a comparative POC. It is not an unconditional winner and it is not approved: if cost, identity, interoperability or policy fail, recommend S2 or S1 with those reasons.",
+  "headline": "S1 is preferred for SAP-centric agents and S3 for agents that span SAP and non-SAP systems. Neither is approved: S3 is conditional on account approval, identity, interoperability and cost, and S1 is its fallback. S2 stays in the architecture for reference and is not preferred.",
+  "preference": [
+   "Preferred option for SAP-centric agents.",
+   "Preferred option for agents that span SAP and non-SAP systems; conditional, not yet approved.",
+   "Kept in the architecture for reference; not preferred. Selecting it needs an explicit owner exception."
+  ],
   "why": [
    "AWS runs the agent, which separates compute from SAP BTP and is reusable across SAP systems.",
    "Apigee keeps the SAP-specific MCP and API governance in front of Integration Suite.",
@@ -2965,8 +3020,8 @@
    "Non-duplicative gateway responsibilities"
   ],
   "changes": [
-   "If Apigee is not mandated, S2 is simpler.",
-   "If AWS is unavailable, restricted or costlier, S1 stays valid.",
+   "If Apigee is not mandated, S2 becomes technically possible but is still not preferred; it needs an explicit owner exception.",
+   "If AWS is unavailable, restricted or costlier, S1 is the fallback.",
    "If cost, identity or interoperability evidence fails, S3 is not selected."
   ],
   "poc": [
@@ -3005,8 +3060,8 @@
    "Account approval and ownership"
   ],
   "rejected": [
-   "S2 while Apigee is required for the SAP route (needs an approved exception)",
-   "S1 while AWS execution is approved and the placement is not justified by coupling or verified cost"
+   "S2: not preferred; kept for reference (selecting it needs an explicit owner exception)",
+   "S1 for an agent that spans SAP and non-SAP systems while AWS execution is approved and the placement is not justified by coupling or verified cost"
   ],
   "missing": [
    "Dedicated account approval",
@@ -3128,6 +3183,44 @@
   }
  ],
  "decisions": [
+  {
+   "id": "architecture_preference",
+   "title": "Architecture preference: S1 and S3 preferred, S2 kept for reference",
+   "scenarios": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "status": "OWNER-STATED · NOT APPROVED BY AI FOUNDRY",
+   "answers": [
+    [
+     "Which scenarios are preferred?",
+     "S1 for SAP-centric agents and S3 for agents spanning SAP and non-SAP systems; S2 stays in the architecture for reference and is not preferred (owner statement, 2026-11-26)",
+     "OWNER-CONFIRMED"
+    ],
+    [
+     "Has AI Foundry approved the preference?",
+     "Not recorded",
+     "OPEN"
+    ]
+   ],
+   "settled": [
+    "The preference is stated by the owner and shown on every architecture view.",
+    "S2 stays in the architecture and the comparison; it is not under evaluation as a preferred option."
+   ],
+   "remaining": [
+    "AI Foundry approval of the preference",
+    "The per-agent rule for choosing between S1 and S3 (scope, coupling, cost)"
+   ],
+   "options": [
+    "S1 for SAP-centric and S3 for SAP and non-SAP (as stated)",
+    "S3 for every agent",
+    "S1 for every agent"
+   ],
+   "proposal": "Record the preference in the AI Foundry standard and classify each agent as SAP-centric or SAP and non-SAP at intake.",
+   "proof": "AI Foundry records the preference and each agent carries its classification and its selected scenario.",
+   "owner": "AI Foundry + Enterprise Architecture"
+  },
   {
    "id": "aws_account",
    "title": "Dedicated SAP-agent AWS account",
@@ -3348,12 +3441,26 @@
  ],
  "decisionSummary": {
   "DECIDED": 1,
-  "OWNER-CONFIRMED": 2,
-  "OPEN": 8
+  "OWNER-CONFIRMED": 3,
+  "OPEN": 9
  },
  "ownerDate": "2026-11-25",
  "selection": {
   "inputs": [
+   {
+    "id": "scope",
+    "label": "Agent scope",
+    "options": [
+     [
+      "sap_and_non_sap",
+      "Spans SAP and non-SAP systems"
+     ],
+     [
+      "sap_centric",
+      "SAP-centric"
+     ]
+    ]
+   },
    {
     "id": "aws_account",
     "label": "Dedicated SAP-agent AWS account",
@@ -3566,6 +3673,7 @@
    }
   ],
   "defaults": {
+   "scope": "sap_and_non_sap",
    "aws_account": "pending",
    "agentcore": "pending",
    "apigee": "required",
@@ -3580,16 +3688,16 @@
   },
   "rules": [
    [
-    "S1 recommended when",
-    "SAP BTP execution is technically justified; SAP coupling is significant; BTP capacity or terms are verified favorable; AWS execution is unavailable, disallowed or not economical; the enterprise permits centrally registered SAP-hosted agents."
+    "S1 preferred when",
+    "The agent is SAP-centric; SAP BTP execution is technically justified; SAP coupling is significant or BTP economics are verified favorable; BTP capacity or terms are verified; the enterprise permits centrally registered SAP-hosted agents. S1 is also the fallback when AWS execution is unavailable, disallowed or fails validation."
    ],
    [
-    "S2 recommended when",
-    "AWS-hosted execution is approved; AgentCore-managed MCP capabilities meet the tool needs; Apigee is not mandated for the route or an exception exists; a simpler AWS-native runtime is preferable; identity and SAP authorization stay intact."
+    "S3 preferred when",
+    "The agent spans SAP and non-SAP systems; AWS execution is approved; AgentCore hosting is suitable; Apigee remains required or preferred; the gateway can invoke Apigee securely; delegated identity is validated end to end; comparative cost supports the extra gateway; AI Foundry and SAP Integration approve the boundaries."
    ],
    [
-    "S3 recommended when",
-    "AWS execution is approved; AgentCore hosting is suitable; Apigee remains required or preferred; the gateway can invoke Apigee securely; delegated identity is validated end to end; comparative cost supports the extra gateway; AI Foundry and SAP Integration approve the boundaries."
+    "S2 not preferred",
+    "S2 stays in the architecture for reference. It is technically possible where AgentCore meets the requirements and Apigee is not mandated, but it is not preferred: selecting it needs an explicit owner exception."
    ],
    [
     "Hold rule",

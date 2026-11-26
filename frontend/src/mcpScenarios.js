@@ -6,6 +6,8 @@ import MODEL from './architectureModel.json';
 export const ACCESSED = '2026-11-25';
 export const TBD = 'TBD · REQUIRES VALIDATION';
 export const IDS = MODEL.ids;
+export const PREFERENCE = MODEL.preference;
+export const PREFERENCE_LINE = MODEL.preferenceLine;
 export const BANNER = MODEL.banner;
 
 export const SCENARIOS = Object.fromEntries(MODEL.ids.map(id => {
@@ -85,6 +87,12 @@ function wrap(text, max) {
   return out;
 }
 
+
+// The preference of a scenario diagram, drawn top right: green when preferred, red with a cross when not preferred.
+function badgeChip(text, W, M) {
+  const pref = !/^NOT/.test(text), w = Math.max(170, text.length * 7.4 + 30), x = W - M - w;
+  return `<g data-testid="diagram-badge"><rect x="${x}" y="14" width="${w}" height="26" rx="13" fill="${pref ? '#E5F4EA' : '#FDEAEA'}" stroke="${pref ? '#107E3E' : '#BB0000'}" stroke-width="1.5"/><text x="${x + w / 2}" y="31.5" font-size="11.5" font-weight="700" fill="${pref ? '#0B5E2E' : '#8F0000'}" text-anchor="middle">${pref ? '' : '✕ '}${esc(text)}</text></g>`;
+}
 
 export function renderTopology(t) {
   const W = 1200, H = t.height || 840, M = 30, GAP = 30, NH = t.nh || 92;
@@ -168,5 +176,5 @@ export function renderTopology(t) {
   }
   parts.push(`<text x="${M}" y="${H - 20}" font-size="10.5" fill="#506778">${esc(t.footer)}</text>`);
   const title = t.title;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${H}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${esc(title)}</title><desc id="d">${esc(t.chain)}</desc><rect width="1200" height="${H}" fill="#F1F4F7"/><text x="${M}" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${esc(title)}</text><text x="${M}" y="62" font-size="12" fill="#34495C">${esc(t.chain.length > 150 ? t.chain.slice(0, 147) + '…' : t.chain)}</text><text x="${M}" y="82" font-size="11" fill="#B3261E" font-weight="700">${esc(t.banner)}</text>${parts.join('')}</svg>\n`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ${H}" role="img" aria-labelledby="t d" font-family="'Segoe UI','Segoe UI Variable','Helvetica Neue',Arial,sans-serif" text-rendering="geometricPrecision"><title id="t">${esc(title)}</title><desc id="d">${esc(t.chain)}</desc><rect width="1200" height="${H}" fill="#F1F4F7"/><text x="${M}" y="40" font-size="20" font-weight="700" fill="#1D2D3E">${esc(title)}</text><text x="${M}" y="62" font-size="12" fill="#34495C">${esc(t.chain.length > 150 ? t.chain.slice(0, 147) + '…' : t.chain)}</text><text x="${M}" y="82" font-size="11" fill="#B3261E" font-weight="700">${esc(t.banner)}</text>${t.badge ? badgeChip(t.badge, W, M) : ''}${parts.join('')}</svg>\n`;
 }

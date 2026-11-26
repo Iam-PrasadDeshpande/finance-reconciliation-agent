@@ -2,7 +2,7 @@ import React,{useEffect,useRef,useState} from 'react';
 
 const ROUTES=[
   {id:'S1',label:'S1 · SAP-hosted hybrid'},
-  {id:'S2',label:'S2 · AWS AgentCore-native'},
+  {id:'S2',label:'S2 · AWS AgentCore-native · not preferred'},
   {id:'S3',label:'S3 · AgentCore + Apigee hybrid'},
 ];
 

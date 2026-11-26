@@ -1,14 +1,17 @@
-"""Canonical architecture model, Architecture V5.2: the single source of truth for the three scenarios under evaluation.
+"""Canonical architecture model, Architecture V5.2: the single source of truth for the three scenarios and the stated preference (S1 and S3 preferred, S2 kept for reference).
 
 Everything the Architecture pages show (scenarios, comparison, connections, diagrams D1..D10, the recommendation framework, the cost model,
 the AWS account proposal and the decision register) is defined here, exported to ``frontend/src/architectureModel.json`` by
 ``scripts/build_architecture_model.py`` and checked by ``tests/test_architecture_model.py``. Nothing here is tenant evidence and nothing is
 provisioned: it is a proposed design for evaluation.
 
-S1  SAP-hosted hybrid:           SAP BTP Cloud Foundry agent + Apigee MCP; AWS Agent Registry for registration only.
-S2  AWS AgentCore-native:        AgentCore Runtime agent + AgentCore Gateway + AgentCore-hosted or API-backed MCP; Apigee optional where approved.
+PREFERENCE (owner statement): S1 is preferred for SAP-centric agents and S3 is preferred for agents that span SAP and non-SAP systems.
+S2 stays in the architecture for reference and is not preferred; selecting it needs an explicit owner exception.
+
+S1  SAP-hosted hybrid:           SAP BTP Cloud Foundry agent + Apigee MCP; AWS Agent Registry for registration only. Preferred for SAP-centric agents.
+S2  AWS AgentCore-native:        AgentCore Runtime agent + AgentCore Gateway + AgentCore-hosted or API-backed MCP; Apigee optional. Not preferred; kept for reference.
 S3  AWS AgentCore + Apigee:      AgentCore Runtime agent + AgentCore Gateway fronting Apigee MCP; dedicated SAP-agent AWS account (proposed).
-                                 The preferred candidate to evaluate first, conditional on account approval, identity, interoperability and cost.
+                                 Preferred for SAP and non-SAP agents, conditional on account approval, identity, interoperability and cost.
 Common: Portkey is the LLM gateway; SAP Integration Suite is the SAP integration boundary; the SAP backend decides business authorization;
 GitLab is the source, CI/CD and artifact platform that deploys everything (it is never a runtime).
 """
@@ -19,6 +22,12 @@ import re
 MODEL_VERSION = "5.2"
 STATUS_BANNER = "PROPOSED DESIGN FOR EVALUATION · NOT TENANT-VERIFIED · NOT AN APPROVED ARCHITECTURE"
 SCENARIO_IDS = ("S1", "S2", "S3")
+PREFERENCE_LINE = "Preference: S1 for SAP-centric agents · S3 for SAP and non-SAP agents · S2 is kept in the architecture for reference and is not preferred"
+PREFERENCE = {
+    "S1": {"label": "Preferred", "scope": "SAP-centric agents", "badge": "PREFERRED · SAP-centric agents", "text": "Preferred option for SAP-centric agents."},
+    "S2": {"label": "Not preferred", "scope": "Reference only", "badge": "NOT PREFERRED · kept for reference", "text": "Kept in the architecture for reference; not preferred. Selecting it needs an explicit owner exception."},
+    "S3": {"label": "Preferred", "scope": "SAP and non-SAP agents", "badge": "PREFERRED · SAP and non-SAP agents", "text": "Preferred option for agents that span SAP and non-SAP systems; conditional, not yet approved."},
+}
 PENDING = "TBD · REQUIRES VALIDATION"
 OWNER_DATE = "2026-11-25"
 AWS_REGISTRY = "AWS Agent Registry"
@@ -28,8 +37,8 @@ GITLAB = "GitLab (central platform): source, specs, descriptors, CI/CD pipelines
 SCENARIOS: dict[str, dict] = {
     "S1": {
         "id": "S1", "name": "S1 · SAP-hosted hybrid", "short": "SAP-hosted hybrid",
-        "status": "SAP-hosted alternative",
-        "classification": "SAP-hosted alternative for workloads where SAP coupling or verified platform economics justify this placement.",
+        "status": "Preferred for SAP-centric agents",
+        "classification": "Preferred option for SAP-centric agents, where SAP coupling is high or verified platform economics justify SAP BTP execution; also the fallback when AWS execution is unavailable.",
         "objective": "SAP BTP Cloud Foundry hosts and executes the agent. Apigee exposes the SAP MCP capability. AWS Agent Registry holds registration and discovery metadata only; no AgentCore component runs anything.",
         "agent_runtime": "SAP BTP Cloud Foundry", "agent_hosting_owner": "SAP BTP platform team",
         "agent_execution_endpoint": "Cloud Foundry application route (agent API)",
@@ -65,8 +74,8 @@ SCENARIOS: dict[str, dict] = {
     },
     "S2": {
         "id": "S2", "name": "S2 · AWS AgentCore-native", "short": "AgentCore-native",
-        "status": "AWS-native alternative",
-        "classification": "AWS-native alternative, particularly suitable where AgentCore meets the technical and governance requirements without an additional Apigee gateway.",
+        "status": "Not preferred · kept for reference",
+        "classification": "Kept in the architecture for reference and not preferred. It is technically valid where AgentCore meets the requirements without an additional Apigee gateway, but selecting it needs an explicit owner exception.",
         "objective": "AWS owns agent execution, any custom MCP execution and the runtime gateway: AgentCore Runtime hosts the agent and eligible MCP servers, AgentCore Gateway mediates the tools, AWS Agent Registry registers them. Apigee is optional, only where SAP Integration and Security require it.",
         "agent_runtime": "AWS AgentCore Runtime", "agent_hosting_owner": "AWS cloud platform team (SAP-agent account)",
         "agent_execution_endpoint": "AgentCore Runtime agent invocation endpoint",
@@ -102,8 +111,8 @@ SCENARIOS: dict[str, dict] = {
     },
     "S3": {
         "id": "S3", "name": "S3 · AWS AgentCore + Apigee hybrid", "short": "AgentCore + Apigee",
-        "status": "Preferred candidate for a comparative POC · conditional",
-        "classification": "Preferred strategic investment candidate to evaluate first, conditional on account approval, identity validation, gateway interoperability, enterprise policy and measured comparative cost. Not production-approved.",
+        "status": "Preferred for SAP and non-SAP agents · conditional",
+        "classification": "Preferred option for agents that span SAP and non-SAP systems, conditional on account approval, identity validation, gateway interoperability, enterprise policy and measured comparative cost. Not production-approved.",
         "objective": "AWS AgentCore Runtime executes the agent, AgentCore Gateway is the enterprise runtime gateway, and Google Apigee stays the SAP-facing MCP/API gateway in front of SAP Integration Suite. AWS Agent Registry registers agents and MCP endpoints on a separate control-plane path. A dedicated SAP-agent AWS account is proposed.",
         "agent_runtime": "AWS AgentCore Runtime", "agent_hosting_owner": "AWS cloud platform team (SAP-agent account)",
         "agent_execution_endpoint": "AgentCore Runtime agent invocation endpoint",
@@ -131,18 +140,21 @@ SCENARIOS: dict[str, dict] = {
         "artifact_repository": GITLAB + "; the AgentCore runtime image, gateway targets, Apigee bundles and registry record definitions are deployed from GitLab",
         "trust_boundaries": ["AWS (SAP-agent account)", "AWS (AI Foundry governance account)", "Google Apigee", "SAP landscape", "Portkey / LLM provider"],
         "assumptions": ["AgentCore Gateway can register the Apigee MCP endpoint as a target and exchange tokens", "Apigee remains part of the approved SAP integration design", "The dedicated AWS account is approved with the AgentCore services"],
-        "unverified": ["AgentCore Gateway to Apigee: MCP protocol versions overlap (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26) and outbound OAuth and token exchange are documented, but no end-to-end call has been made", "Whether the Apigee endpoint is reachable from AWS (not yet checked)", "Whether the registry credential provider is in the same AWS account (not yet checked)", "Whether an external MCP server is an MCP or an HTTP target for the gateway; Apigee MCP does not support SSE streams", "Non-duplicative responsibilities of the two gateways, quota ownership and tool naming", "Dedicated account approval, quotas and region", "Comparative cost against S1 and S2"],
+        "unverified": ["AgentCore Gateway to Apigee: MCP protocol versions overlap (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26) and outbound OAuth and token exchange are documented, but no end-to-end call has been made", "Whether the Apigee endpoint is reachable from AWS (not yet checked)", "Whether the registry credential provider is in the same AWS account (not yet checked)", "Whether an external MCP server is an MCP or an HTTP target for the gateway; Apigee MCP does not support SSE streams", "Non-duplicative responsibilities of the two gateways, quota ownership and tool naming", "Dedicated account approval, quotas and region", "Comparative cost against S1 (and S2, kept for reference)"],
         "policy_dependencies": ["AI Foundry and SAP Integration approve the gateway ownership boundaries", "Dedicated SAP-agent AWS account approved", "Enterprise approval of the additional gateway hop and its cost"],
         "hosting_note": "AgentCore Gateway fronts Apigee: two gateways in series with separate responsibilities. AWS Agent Registry is never an execution hop.",
         "advantages": ["AWS-managed agent execution", "SAP-specific MCP/API governance retained through Apigee", "Central agent and MCP registration", "Potential separation of compute cost from SAP BTP", "Reusable for multiple SAP systems", "Consistent Portkey LLM governance"],
         "considerations": ["Two runtime gateways need non-duplicative responsibilities", "AgentCore-to-Apigee authentication and token exchange", "An additional network hop and gateway charges", "MCP protocol and tool schema compatibility", "Possible duplicated tool catalogs and policy controls", "Multi-cloud incident management and audit correlation", "Separate AWS account approval and operational ownership"],
     },
 }
+for _sid, _sc in SCENARIOS.items():
+    _sc["preference"] = PREFERENCE[_sid]
 
 # --------------------------------------------------------------------------- comparison
 COMPARISON: list[tuple[str, str, str, str]] = [
-    ("Classification", "SAP-hosted alternative", "AWS-native alternative", "Preferred candidate for a comparative POC · conditional"),
+    ("Preference", "Preferred for SAP-centric agents", "Not preferred · kept for reference", "Preferred for SAP and non-SAP agents · conditional"),
     ("Agent hosting", "SAP BTP Cloud Foundry", "AWS AgentCore Runtime", "AWS AgentCore Runtime"),
+    ("MCP / agent hosting", "Agent: Cloud Foundry · MCP: Apigee", "Agent: AgentCore · MCP: AgentCore Gateway", "Agent: AgentCore · MCP: Apigee → AgentCore Gateway"),
     ("Agent execution", "Cloud Foundry application", "AgentCore Runtime agent", "AgentCore Runtime agent"),
     ("AWS account", "Not used for execution; registry in the central governance account", "Dedicated SAP-agent account (proposed)", "Dedicated SAP-agent account (proposed)"),
     ("Runtime gateway", "Google Apigee", "AWS AgentCore Gateway", "AWS AgentCore Gateway in front of Google Apigee"),
@@ -275,6 +287,7 @@ POC_VALIDATIONS = [
 
 # --------------------------------------------------------------------------- recommendation framework
 SELECTION_INPUTS = [
+    {"id": "scope", "label": "Agent scope", "options": [["sap_and_non_sap", "Spans SAP and non-SAP systems"], ["sap_centric", "SAP-centric"]]},
     {"id": "aws_account", "label": "Dedicated SAP-agent AWS account", "options": [["approved", "Approved"], ["pending", "Pending"], ["denied", "Denied"]]},
     {"id": "agentcore", "label": "AgentCore Runtime, Gateway and Registry availability", "options": [["available", "Available"], ["pending", "Pending"], ["unavailable", "Unavailable"]]},
     {"id": "apigee", "label": "Apigee for the SAP route", "options": [["required", "Required"], ["optional", "Optional (exception possible)"], ["not_required", "Not required"], ["undecided", "Undecided"]]},
@@ -287,29 +300,31 @@ SELECTION_INPUTS = [
     {"id": "security", "label": "Security restriction", "options": [["none", "None"], ["no_cross_cloud", "No cross-cloud runtime calls"], ["sap_only_execution", "Execution must stay on SAP"]]},
     {"id": "workload", "label": "Workload profile", "options": [["low_frequency", "Low-frequency SAP-specific agent"], ["high_frequency", "High-frequency analytical agent"], ["bursty", "Bursty enterprise agent"], ["long_running", "Long-running reconciliation workflow"], ["multi_agent", "Multi-agent and multi-tool orchestration"]]},
 ]
-SELECTION_DEFAULTS = {"aws_account": "pending", "agentcore": "pending", "apigee": "required", "identity": "pending", "interop": "pending", "cost": "unknown", "ops": "pending",
+SELECTION_DEFAULTS = {"scope": "sap_and_non_sap", "aws_account": "pending", "agentcore": "pending", "apigee": "required", "identity": "pending", "interop": "pending", "cost": "unknown", "ops": "pending",
                       "sap_hosting": "permitted", "sap_coupling": "medium", "security": "none", "workload": "low_frequency"}
 AUTHORITY = "AI Foundry with SAP Integration, Security and Enterprise Architecture; Finance for cost"
 REVISIT = ["Actual enterprise costs become known", "The AWS account or AgentCore availability changes", "SAP Integration changes the Apigee mandate", "Identity or gateway validation fails or passes",
            "The workload profile changes", "Enterprise security or data-residency policy changes"]
 SELECTION_RULES = [
-    ["S1 recommended when", "SAP BTP execution is technically justified; SAP coupling is significant; BTP capacity or terms are verified favorable; AWS execution is unavailable, disallowed or not economical; the enterprise permits centrally registered SAP-hosted agents."],
-    ["S2 recommended when", "AWS-hosted execution is approved; AgentCore-managed MCP capabilities meet the tool needs; Apigee is not mandated for the route or an exception exists; a simpler AWS-native runtime is preferable; identity and SAP authorization stay intact."],
-    ["S3 recommended when", "AWS execution is approved; AgentCore hosting is suitable; Apigee remains required or preferred; the gateway can invoke Apigee securely; delegated identity is validated end to end; comparative cost supports the extra gateway; AI Foundry and SAP Integration approve the boundaries."],
+    ["S1 preferred when", "The agent is SAP-centric; SAP BTP execution is technically justified; SAP coupling is significant or BTP economics are verified favorable; BTP capacity or terms are verified; the enterprise permits centrally registered SAP-hosted agents. S1 is also the fallback when AWS execution is unavailable, disallowed or fails validation."],
+    ["S3 preferred when", "The agent spans SAP and non-SAP systems; AWS execution is approved; AgentCore hosting is suitable; Apigee remains required or preferred; the gateway can invoke Apigee securely; delegated identity is validated end to end; comparative cost supports the extra gateway; AI Foundry and SAP Integration approve the boundaries."],
+    ["S2 not preferred", "S2 stays in the architecture for reference. It is technically possible where AgentCore meets the requirements and Apigee is not mandated, but it is not preferred: selecting it needs an explicit owner exception."],
     ["Hold rule", "A missing mandatory approval or unvalidated prerequisite never produces an unconditional selection: the result is HOLD (selection not allowed) or CONDITIONAL."],
 ]
 
 
 def recommend(inputs: dict | None = None) -> dict:
-    """Evidence-driven recommendation. Mirrored by frontend/src/selectionEngine.js; tests prove they agree."""
+    """Evidence-driven recommendation with the stated preference: S1 for SAP-centric agents, S3 for SAP and non-SAP agents, S2 never preferred.
+    Mirrored by frontend/src/selectionEngine.js; tests prove they agree."""
     i = {**SELECTION_DEFAULTS, **(inputs or {})}
     reasons: list[str] = []
     conditions: list[str] = []
     missing: list[str] = []
-    rejected: dict[str, str] = {}
+    rejected: dict[str, str] = {"S2": "Not preferred: kept in the architecture for reference; selecting it needs an explicit owner exception."}
+    sap_centric = i["scope"] == "sap_centric"
     blocked = i["aws_account"] == "denied" or i["agentcore"] == "unavailable" or i["security"] in ("sap_only_execution", "no_cross_cloud")
     scenario, status = None, "HOLD"
-    evaluate_first = "S3"
+    evaluate_first = "S1" if sap_centric else "S3"
 
     if blocked:
         why = "the dedicated AWS account is denied" if i["aws_account"] == "denied" else "AgentCore is unavailable" if i["agentcore"] == "unavailable" else "a security restriction rules out AWS runtime calls"
@@ -328,7 +343,21 @@ def recommend(inputs: dict | None = None) -> dict:
         else:
             reasons.append("The enterprise does not permit centrally registered SAP-hosted agents and the AWS options are unavailable: no permitted option remains.")
             missing.append("A permitted hosting option")
+    elif sap_centric and i["sap_hosting"] == "permitted":
+        scenario = "S1"
+        if i["ops"] != "agreed":
+            missing.append("Operational ownership and support for Cloud Foundry")
+        status = "RECOMMENDED" if not missing else "CONDITIONAL"
+        reasons.append("S1 is the preferred option for SAP-centric agents.")
+        if i["sap_coupling"] == "high":
+            reasons.append("SAP application coupling is high, which supports SAP BTP execution.")
+        if i["cost"] == "s3_competitive":
+            reasons.append("Verified cost shows S3 is competitive, but S1 stays preferred for an SAP-centric agent.")
+        conditions += ["Verify Cloud Foundry capacity and contractual charges for the workload", "SAP Integration and Security approve direct Apigee invocation"]
+        rejected["S3"] = "Not needed for an SAP-centric agent: it adds an AWS account, a second gateway and cross-cloud transfer."
     else:
+        if sap_centric:
+            reasons.append("SAP-hosted agents are restricted, so S1 cannot be selected; S3 is the remaining preferred option.")
         if i["aws_account"] != "approved":
             missing.append("Dedicated SAP-agent AWS account approval")
         if i["agentcore"] != "available":
@@ -339,75 +368,49 @@ def recommend(inputs: dict | None = None) -> dict:
             missing.append("SAP Integration decision on whether Apigee is mandatory for the SAP route")
         if missing:
             scenario, status = None, "HOLD"
-            evaluate_first = "S3" if i["apigee"] in ("required", "undecided") else "S2"
-            reasons.append("Mandatory approvals are missing, so no scenario can be selected yet. Evaluate " + evaluate_first + " first in the comparative POC.")
-        elif i["apigee"] == "required":
-            if i["identity"] == "failed" or i["interop"] == "failed":
-                rejected["S3"] = "Identity or gateway interoperability validation failed."
+            evaluate_first = "S3"
+            reasons.append("Mandatory approvals are missing, so no scenario can be selected yet. Evaluate S3 first in the comparative POC.")
+        elif i["identity"] == "failed" or i["interop"] == "failed":
+            rejected["S3"] = "Identity or gateway interoperability validation failed."
+            if i["sap_hosting"] == "permitted":
+                scenario, status = "S1", "CONDITIONAL"
+                reasons.append("S3 failed validation; SAP-hosted execution with Apigee is the fallback.")
+                conditions.append("Verify Cloud Foundry capacity and contractual charges")
+            else:
+                scenario, status = None, "HOLD"
+                reasons.append("S3 failed validation and SAP-hosted agents are restricted.")
+        else:
+            scenario = "S3"
+            if i["identity"] != "validated":
+                missing.append("Delegated user identity validated end to end")
+            if i["interop"] != "validated":
+                missing.append("AgentCore Gateway to Apigee interoperability validated")
+            if i["cost"] == "s1_cheaper":
                 if i["sap_hosting"] == "permitted":
                     scenario, status = "S1", "CONDITIONAL"
-                    reasons.append("S3 failed validation; SAP-hosted execution with Apigee is the fallback.")
-                    conditions.append("Verify Cloud Foundry capacity and contractual charges")
-                else:
-                    scenario, status = None, "HOLD"
-                    reasons.append("S3 failed validation and SAP-hosted agents are restricted.")
-            else:
-                scenario = "S3"
-                if i["identity"] != "validated":
-                    missing.append("Delegated user identity validated end to end")
-                if i["interop"] != "validated":
-                    missing.append("AgentCore Gateway to Apigee interoperability validated")
-                if i["cost"] == "s1_cheaper":
-                    if i["sap_hosting"] == "permitted":
-                        scenario, status = "S1", "CONDITIONAL"
-                        rejected["S3"] = "Verified cost evidence shows S1 is cheaper for this workload."
-                        reasons.append("Verified cost evidence favors S1; the extra gateway of S3 is not justified.")
-                        conditions.append("Confirm the cost evidence with FinOps")
-                    else:
-                        status = "CONDITIONAL"
-                        conditions.append("S1 is cheaper but SAP-hosted agents are restricted")
-                elif i["cost"] == "s2_cheaper":
-                    scenario, status = "S2", "CONDITIONAL"
-                    rejected["S3"] = "Verified cost evidence shows S2 is cheaper."
-                    reasons.append("S2 is cheaper; it needs an approved Apigee exception for the SAP route.")
-                    conditions.append("SAP Integration approves an Apigee exception")
-                else:
-                    if i["cost"] == "unknown":
-                        missing.append("Verified comparative cost evidence")
-                    status = "RECOMMENDED" if not missing else "CONDITIONAL"
-                    reasons.append("AWS execution is approved and Apigee is required, so S3 is the preferred candidate.")
-        else:
-            scenario = "S2"
-            if i["identity"] == "failed":
-                scenario, status = None, "HOLD"
-                reasons.append("Identity validation failed: no AWS scenario can be selected.")
-            else:
-                if i["identity"] != "validated":
-                    missing.append("Delegated user identity validated end to end")
-                if i["cost"] == "s1_cheaper" and i["sap_hosting"] == "permitted":
-                    scenario, status = "S1", "CONDITIONAL"
-                    rejected["S2"] = "Verified cost evidence shows S1 is cheaper."
-                    reasons.append("Verified cost evidence favors S1.")
+                    rejected["S3"] = "Verified cost evidence shows S1 is cheaper for this workload."
+                    reasons.append("Verified cost evidence favors S1; the extra gateway of S3 is not justified.")
                     conditions.append("Confirm the cost evidence with FinOps")
                 else:
-                    if i["cost"] in ("unknown", "s3_competitive"):
-                        missing.append("Verified comparative cost evidence")
-                    status = "RECOMMENDED" if not missing else "CONDITIONAL"
-                    reasons.append("Apigee is not mandated for the route, so the simpler AgentCore-native S2 is preferred; S3 is still evaluated first in the POC.")
-                    conditions.append("SAP Integration and Security confirm the route without Apigee")
+                    status = "CONDITIONAL"
+                    conditions.append("S1 is cheaper but SAP-hosted agents are restricted")
+            else:
+                if i["cost"] == "unknown":
+                    missing.append("Verified comparative cost evidence")
+                if i["cost"] == "s2_cheaper":
+                    conditions.append("S2 is cheaper but not preferred: selecting it needs an explicit owner exception")
+                status = "RECOMMENDED" if not missing else "CONDITIONAL"
+                reasons.append("AWS execution is approved, so S3 is the preferred option for an agent that spans SAP and non-SAP systems.")
+                if i["apigee"] == "not_required":
+                    reasons.append("Apigee is not mandated for the route, so S2 would be technically possible but remains not preferred; S3 keeps the SAP-specific MCP governance.")
     if scenario == "S3":
         conditions += ["Non-duplicative responsibilities for AgentCore Gateway and Apigee", "Correlation id joined across both gateways"]
     if i["workload"] == "high_frequency":
         reasons.append("A high-frequency workload makes runtime and gateway charges material; it does not by itself make AWS cheaper.")
     if scenario and scenario != "S1" and "S1" not in rejected:
-        rejected["S1"] = "Not preferred while AWS execution is approved and the SAP-hosted placement is not required by coupling or verified cost."
+        rejected["S1"] = "Not preferred for an agent that spans SAP and non-SAP systems while AWS execution is approved and the SAP-hosted placement is not required by coupling or verified cost."
     if scenario == "S1":
-        for other in ("S2", "S3"):
-            rejected.setdefault(other, "Not selected: the SAP-hosted placement is preferred for the stated reasons.")
-    if scenario == "S3" and "S2" not in rejected:
-        rejected["S2"] = "Not preferred while Apigee is required for the SAP route; S2 needs an approved exception."
-    if scenario == "S2" and "S3" not in rejected:
-        rejected["S3"] = "Not needed while Apigee is not mandated: it would add a gateway hop and its charges."
+        rejected.setdefault("S3", "Not selected: the SAP-hosted placement is preferred for the stated reasons.")
     return {"scenario": scenario, "status": status, "selectable": status == "RECOMMENDED", "evaluate_first": evaluate_first, "reasons": reasons, "conditions": conditions,
             "missing_evidence": missing, "rejected": [[s, rejected[s]] for s in SCENARIO_IDS if s in rejected], "authority": AUTHORITY, "revisit": REVISIT}
 
@@ -492,8 +495,8 @@ def e(a: str, b: str, kind: str, label: str = "", **opts) -> list:
     return [a, b, kind, label, opts] if opts else [a, b, kind, label]
 
 
-def _spec(id: str, title: str, chain: str, nodes: list, edges: list, *, cols: int, bounds=(), lanes=(), legend=None, footer: str = "", nh: int = 100, ys=None, height: int = 840, scenario: str | None = None) -> dict:
-    return {"id": id, "scenario": scenario, "title": title, "chain": chain, "banner": STATUS_BANNER, "cols": cols, "nh": nh, "ys": ys or [118, 258, 398, 528, 668],
+def _spec(id: str, title: str, chain: str, nodes: list, edges: list, *, cols: int, bounds=(), lanes=(), legend=None, footer: str = "", nh: int = 100, ys=None, height: int = 840, scenario: str | None = None, badge: str | None = None) -> dict:
+    return {"id": id, "scenario": scenario, "badge": badge, "title": title, "chain": chain, "banner": STATUS_BANNER, "cols": cols, "nh": nh, "ys": ys or [118, 258, 398, 528, 668],
             "height": height, "nodes": nodes, "edges": edges, "bounds": [list(b) for b in bounds], "lanes": [list(x) for x in lanes], "legend": legend or LEGEND_ALL,
             "footer": footer or "Proposed design for review. Vendor names are design projections, not connected services. Registry, identity, LLM, audit and deployment arrows are not invocation traffic."}
 
@@ -538,7 +541,8 @@ def _scenario_diagram(sid: str) -> dict:
                   n("db", 2, 5, "Persistence · conditional", "Approved AWS store, only if durable state is needed", "store", dashed=True)]
         edges += [e("int", "cc", "invoke", "if private"), e("cc", "sap", "invoke", "RFC / OData"), e("gw", "reg_mcp", "registry", "MCP descriptor", off=-20, labelAt="mid")]
         lanes = [(0, "IDENTITY · LLM"), (1, "RUNTIME PATH"), (2, "OPTIONAL · DEPLOY"), (3, "CONTROL PLANE")]
-        return _spec({"S2": "D3", "S3": "D4"}[sid], f"{sc['name']} · topology", chain, nodes, edges, cols=cols, bounds=bounds, lanes=lanes, legend=["invoke", "llm", "identity", "registry", "deploy"], footer=footer, scenario=sid)
+        return _spec({"S2": "D3", "S3": "D4"}[sid], f"{sc['name']} · topology", chain, nodes, edges, cols=cols, bounds=bounds, lanes=lanes, legend=["invoke", "llm", "identity", "registry", "deploy"],
+                     footer=PREFERENCE[sid]["text"] + " " + footer, scenario=sid, badge=PREFERENCE[sid]["badge"])
     nodes += [n("agent", 1, 1, "Agent · SAP BTP Cloud Foundry", "Agent execution and MCP client", "agent"),
               n("apigee", 1, 2, "Google Apigee MCP/API", "SAP-facing gateway; managed MCP endpoint (Pattern A)", "gateway"),
               n("int", 1, 3, "SAP Integration Suite", "SAP integration boundary", "integration"),
@@ -553,8 +557,8 @@ def _scenario_diagram(sid: str) -> dict:
     bounds = [("SAP BTP", ["agent"], "sap"), ("Google Apigee", ["apigee"], "google"), ("SAP landscape", ["int", "cc", "sap"], "sap"), ("AWS control plane only", ["reg_agent", "reg_mcp"], "aws")]
     lanes = [(0, "IDENTITY · LLM"), (1, "RUNTIME PATH"), (2, "OPTIONAL · DEPLOY"), (3, "CONTROL PLANE")]
     return _spec("D2", f"{sc['name']} · topology", "UI → Cloud Foundry agent → Apigee MCP → Integration Suite → Cloud Connector (conditional) → SAP backend (registry is control plane only)", nodes, edges, cols=cols,
-                 bounds=bounds, lanes=lanes, legend=["invoke", "llm", "identity", "registry", "deploy"], scenario=sid,
-                 footer="SAP BTP executes; AWS Agent Registry registers metadata only. No AgentCore component runs anything in S1.")
+                 bounds=bounds, lanes=lanes, legend=["invoke", "llm", "identity", "registry", "deploy"], scenario=sid, badge=PREFERENCE[sid]["badge"],
+                 footer=PREFERENCE[sid]["text"] + " SAP BTP executes; AWS Agent Registry registers metadata only. No AgentCore component runs anything in S1.")
 
 
 def _d1() -> dict:
@@ -577,7 +581,7 @@ def _d1() -> dict:
              e("gw", "custom", "invoke", "proxy target (if needed)"), e("agent", "portkey", "llm", "LLM request", off=-14), e("portkey", "llm", "llm", "model call"),
              e("idp", "agent", "identity", "tokens"), e("agent", "reg", "registry", "register / discover", off=14), e("ent", "reg", "approval", "approve"),
              e("cc", "obs", "audit", "evidence"), e("sap", "obs", "audit", "evidence")]
-    return _spec("D1", "Enterprise AI reference architecture", "Control plane · runtime plane · evidence plane, common to S1, S2 and S3 (S3 is the preferred candidate to evaluate first)", nodes, edges, cols=6,
+    return _spec("D1", "Enterprise AI reference architecture", "Control plane · runtime plane · evidence plane, common to S1, S2 and S3. Preference: S1 for SAP-centric agents, S3 for SAP and non-SAP agents; S2 is kept for reference", nodes, edges, cols=6,
                  lanes=[(0, "CONTROL PLANE"), (1, "RUNTIME PLANE"), (2, "LLM · OPTIONAL"), (3, "PLATFORM · EVIDENCE")], bounds=[("SAP landscape", ["int", "cc", "sap"], "sap")],
                  legend=["invoke", "registry", "llm", "identity", "audit", "approval"], footer="No registry is a runtime hop. Per-scenario placement of the agent platform and gateways is in D2 to D4.")
 
@@ -651,55 +655,56 @@ def _d8() -> dict:
 
 def _d9() -> dict:
     nodes = [
-        n("start", 0, 0, "Classify the workload", "SAP-specific or enterprise; frequency, bursts, duration, tools", "ui"),
-        n("q1", 0, 1, "AWS account and AgentCore approved?", "Account, services, ownership", "decision"),
-        n("q2", 0, 3, "Apigee required for the SAP route?", "SAP Integration and Security", "decision"),
-        n("q3", 1, 3, "Identity and gateway interop validated, cost competitive?", "Evidence, not preference", "decision"),
-        n("s1", 2, 0, "S1 · SAP-hosted hybrid", "SAP coupling or verified economics, or AWS unavailable", "agent"),
-        n("s2", 2, 2, "S2 · AWS AgentCore-native", "Apigee not mandated or exception approved", "agent"),
-        n("s3", 2, 3, "S3 · AgentCore + Apigee", "Preferred to evaluate first; conditional", "agent"),
-        n("hold", 1, 1, "HOLD / CONDITIONAL", "A missing approval never gives an unconditional choice", "control"),
+        n("start", 0, 0, "Classify the agent", "SAP-centric, or spans SAP and non-SAP systems; frequency, tools", "ui"),
+        n("q0", 0, 1, "SAP-centric?", "SAP coupling, BTP practice, verified economics", "decision"),
+        n("q1", 0, 2, "AWS account and AgentCore approved?", "Account, services, ownership", "decision"),
+        n("q3", 0, 3, "Identity and interop validated, cost competitive?", "Evidence, not preference", "decision"),
+        n("hold", 1, 2, "HOLD / CONDITIONAL", "A missing approval never gives an unconditional choice", "control"),
+        n("s1", 2, 0, "S1 · SAP-hosted hybrid", "Preferred for SAP-centric agents; also the fallback", "agent"),
+        n("s2", 2, 1, "S2 · AWS AgentCore-native", "Not preferred; owner exception only", "agent", dashed=True),
+        n("s3", 2, 3, "S3 · AgentCore + Apigee", "Preferred for SAP and non-SAP agents; conditional", "agent"),
     ]
-    edges = [e("start", "q1", "invoke", ""), e("q1", "q2", "invoke", "yes"), e("q1", "hold", "invoke", "pending"), e("q1", "s1", "invoke", "no", my=234),
-             e("q2", "q3", "invoke", "yes"), e("q2", "s2", "invoke", "no", my=240), e("q3", "s3", "invoke", "yes"), e("q3", "s1", "invoke", "S1 cheaper", my=372, off=30)]
-    return _spec("D9", "Architecture selection decision tree", "Workload classification and approval gates lead to S1, S2 or S3; the same rules are in Selection · Recommendation", nodes, edges, cols=4, legend=["invoke"], nh=100,
-                 ys=[130, 270, 410, 560, 700], footer="Preferred to evaluate first is not selected. S3 needs its conditions met; S2 and S1 stay valid outcomes.")
+    edges = [e("start", "q0", "invoke", ""), e("q0", "s1", "invoke", "yes", my=234), e("q0", "q1", "invoke", "no: SAP and non-SAP"), e("q1", "q3", "invoke", "yes"), e("q1", "hold", "invoke", "pending"),
+             e("q3", "s3", "invoke", "yes", my=240), e("q1", "s2", "invoke", "exception only", my=372, off=20)]
+    return _spec("D9", "Architecture selection decision tree", "Agent scope and approval gates lead to S1 or S3; S2 is kept for reference and is not preferred; the same rules are in Selection · Recommendation", nodes, edges, cols=4, legend=["invoke"], nh=100,
+                 ys=[130, 270, 410, 560, 700], footer="S1 is preferred for SAP-centric agents and S3 for SAP and non-SAP agents. S3 needs its conditions met; S1 is the fallback; S2 needs an explicit owner exception.")
 
 
 def _d10() -> dict:
     cols = ("S1 · SAP-hosted hybrid", "S2 · AWS AgentCore-native", "S3 · AgentCore + Apigee")
-    rows = [("Classification", ["SAP-hosted alternative", "AWS-native alternative", "Preferred candidate for a comparative POC"]),
+    rows = [("Preference", ["Preferred for SAP-centric agents", "Not preferred · kept for reference", "Preferred for SAP and non-SAP agents · conditional"]),
             ("Benefits", ["SAP-domain ownership; BTP practices reused", "Simpler AWS-native runtime; AgentCore tooling", "AWS execution plus SAP-specific MCP governance in Apigee"]),
             ("Risks", ["Cloud Foundry cost and capacity for frequent agents", "Apigee policy exception; custom MCP lifecycle", "Two gateways, extra hop, cross-cloud audit, token exchange"]),
             ("Pending decisions", ["Direct Apigee invocation; BTP economics", "Is Apigee mandated; API target validity", "Account, interoperability, identity, cost, gateway ownership"]),
-            ("Recommended when", ["AWS unavailable or SAP coupling and economics favor BTP", "AWS approved and Apigee not required", "AWS approved, Apigee required, evidence supports the extra gateway"])]
+            ("Chosen when", ["The agent is SAP-centric, or AWS is unavailable", "Only by explicit owner exception", "The agent spans SAP and non-SAP; AWS approved; evidence supports the extra gateway"])]
     nodes = []
     for r, (label, vals) in enumerate(rows):
         nodes.append(n(f"l{r}", r, 0, label, "", "decision"))
         for c, v in enumerate(vals, start=1):
             nodes.append(n(f"c{r}_{c}", r, c, v, cols[c - 1] if r == 0 else "", ("agent", "integration", "gateway", "registry", "domain")[r]))
-    return _spec("D10", "Three-scenario executive comparison", "A decision-ready comparison; S3 is the preferred candidate to evaluate first, S2 and S1 stay valid alternatives", nodes, [], cols=4, legend=["invoke"], nh=88,
-                 ys=[110, 220, 330, 440, 550], footer="Preferred for evaluation, not approved. Selection is conditional on the evidence listed under Pending decisions and the rules in Selection · Recommendation.")
+    return _spec("D10", "Executive comparison: S1 and S3 are preferred", "A decision-ready comparison; S1 for SAP-centric agents, S3 for SAP and non-SAP agents, S2 kept for reference", nodes, [], cols=4, legend=["invoke"], nh=88,
+                 ys=[110, 220, 330, 440, 550], footer="S3 is preferred for SAP and non-SAP agents but not approved; selection is conditional on the evidence listed under Pending decisions and the rules in Selection · Recommendation.")
 
 
 def diagrams() -> dict[str, dict]:
     return {"D1": _d1(), "D2": _scenario_diagram("S1"), "D3": _scenario_diagram("S2"), "D4": _scenario_diagram("S3"), "D5": _d5(), "D6": _d6(), "D7": _d7(), "D8": _d8(), "D9": _d9(), "D10": _d10()}
 
 
-DIAGRAM_NAMES = {"D1": "Enterprise AI reference", "D2": "S1 SAP-hosted hybrid", "D3": "S2 AWS-native", "D4": "S3 AgentCore + Apigee", "D5": "Four responsibility model",
+DIAGRAM_NAMES = {"D1": "Enterprise AI reference", "D2": "S1 SAP-hosted hybrid (preferred, SAP-centric)", "D3": "S2 AWS-native (not preferred)", "D4": "S3 AgentCore + Apigee (preferred, SAP and non-SAP)", "D5": "Four responsibility model",
                  "D6": "AWS account and governance", "D7": "Gateway and principal propagation", "D8": "Cost and operations", "D9": "Selection decision tree", "D10": "Executive comparison"}
 
 RECOMMENDATION = {
-    "headline": "S3 is the preferred candidate to evaluate first in a comparative POC. It is not an unconditional winner and it is not approved: if cost, identity, interoperability or policy fail, recommend S2 or S1 with those reasons.",
+    "headline": "S1 is preferred for SAP-centric agents and S3 for agents that span SAP and non-SAP systems. Neither is approved: S3 is conditional on account approval, identity, interoperability and cost, and S1 is its fallback. S2 stays in the architecture for reference and is not preferred.",
+    "preference": [PREFERENCE["S1"]["text"], PREFERENCE["S3"]["text"], PREFERENCE["S2"]["text"]],
     "why": ["AWS runs the agent, which separates compute from SAP BTP and is reusable across SAP systems.", "Apigee keeps the SAP-specific MCP and API governance in front of Integration Suite.", "AWS Agent Registry gives central registration without becoming an execution hop."],
     "depends": ["The dedicated SAP-agent AWS account and AgentCore services are approved", "Apigee remains part of the approved SAP integration design", "AgentCore Gateway can securely invoke the Apigee MCP endpoint", "Delegated user identity is validated end to end", "Comparative cost supports the extra gateway", "AI Foundry and SAP Integration approve the ownership boundaries"],
     "open": ["Account approval", "Gateway-to-Apigee interoperability", "Identity and principal propagation", "Verified comparative cost", "Non-duplicative gateway responsibilities"],
-    "changes": ["If Apigee is not mandated, S2 is simpler.", "If AWS is unavailable, restricted or costlier, S1 stays valid.", "If cost, identity or interoperability evidence fails, S3 is not selected."],
+    "changes": ["If Apigee is not mandated, S2 becomes technically possible but is still not preferred; it needs an explicit owner exception.", "If AWS is unavailable, restricted or costlier, S1 is the fallback.", "If cost, identity or interoperability evidence fails, S3 is not selected."],
     "poc": POC_VALIDATIONS,
     "conditions": ["Account approved with AgentCore services", "Gateway interoperability and identity validated", "Cost competitive for the workload", "Ownership agreed"],
     "cost_assumptions": ["No rates are assumed: SAP BTP credits, enterprise AWS discounts and Apigee charges are unknown", "One workload definition across the three scenarios"],
     "risks": ["Two gateways with overlapping policy", "Extra hop and cross-cloud audit", "Token exchange across AWS, Apigee and SAP", "Account approval and ownership"],
-    "rejected": ["S2 while Apigee is required for the SAP route (needs an approved exception)", "S1 while AWS execution is approved and the placement is not justified by coupling or verified cost"],
+    "rejected": ["S2: not preferred; kept for reference (selecting it needs an explicit owner exception)", "S1 for an agent that spans SAP and non-SAP systems while AWS execution is approved and the placement is not justified by coupling or verified cost"],
     "missing": ["Dedicated account approval", "End-to-end call through the gateway to Apigee", "Delegated identity validation", "Verified comparative cost"],
     "authority": AUTHORITY, "revisit": REVISIT,
 }
@@ -731,6 +736,14 @@ MCP_PROTOCOL_VERSIONS = {"agentcore_gateway": ["2026-07-28", "2025-11-25", "2025
 
 # --------------------------------------------------------------------------- decision register
 DECISIONS = [
+    {"id": "architecture_preference", "title": "Architecture preference: S1 and S3 preferred, S2 kept for reference", "scenarios": ["S1", "S2", "S3"], "status": "OWNER-STATED · NOT APPROVED BY AI FOUNDRY",
+     "answers": [["Which scenarios are preferred?", "S1 for SAP-centric agents and S3 for agents spanning SAP and non-SAP systems; S2 stays in the architecture for reference and is not preferred (owner statement, 2026-11-26)", "OWNER-CONFIRMED"],
+                 ["Has AI Foundry approved the preference?", "Not recorded", "OPEN"]],
+     "settled": ["The preference is stated by the owner and shown on every architecture view.", "S2 stays in the architecture and the comparison; it is not under evaluation as a preferred option."],
+     "remaining": ["AI Foundry approval of the preference", "The per-agent rule for choosing between S1 and S3 (scope, coupling, cost)"],
+     "options": ["S1 for SAP-centric and S3 for SAP and non-SAP (as stated)", "S3 for every agent", "S1 for every agent"],
+     "proposal": "Record the preference in the AI Foundry standard and classify each agent as SAP-centric or SAP and non-SAP at intake.",
+     "proof": "AI Foundry records the preference and each agent carries its classification and its selected scenario.", "owner": "AI Foundry + Enterprise Architecture"},
     {"id": "aws_account", "title": "Dedicated SAP-agent AWS account", "scenarios": ["S2", "S3"], "status": "OPEN · APPROVAL NOT RECORDED",
      "answers": [["Are the tenant entitlements live (Cloud Foundry, Apigee MCP, AgentCore, Agent Registry, Portkey)?", "Live, per the owner (carried forward from 2026-11-25)", "OWNER-CONFIRMED"],
                  ["Has the dedicated SAP-agent AWS account been approved, with AgentCore services?", "Not recorded", "OPEN"]],
@@ -883,12 +896,18 @@ def validate(model: dict | None = None) -> list[str]:
         errors.append("S3: AgentCore Runtime and Gateway fronting Apigee are required")
     if "Dedicated SAP-agent AWS account" not in c["aws_account"]:
         errors.append("S3: the dedicated SAP-agent AWS account must be proposed")
-    if "Preferred candidate" not in c["status"] or "conditional" not in c["status"].lower():
-        errors.append("S3 must be labelled a preferred, conditional candidate for a comparative POC")
+    if "Preferred" not in c["status"] or "conditional" not in c["status"].lower():
+        errors.append("S3 must be labelled preferred for SAP and non-SAP agents and conditional")
+    if "Preferred" not in a["status"] or "SAP-centric" not in a["status"]:
+        errors.append("S1 must be labelled preferred for SAP-centric agents")
+    if "Not preferred" not in b["status"] or "reference" not in b["status"].lower():
+        errors.append("S2 must be kept in the architecture and labelled not preferred, for reference")
+    if [PREFERENCE[x]["label"] for x in SCENARIO_IDS] != ["Preferred", "Not preferred", "Preferred"]:
+        errors.append("the preference record must prefer S1 and S3 and not S2")
     if re.search(r"production-ready|enterprise-approved|unconditional winner", " ".join(map(str, c.values())), re.I):
         errors.append("S3 must not claim production readiness or approval")
-    if {d["id"] for d in DECISIONS} != {"aws_account", "registry_ownership", "gateway_interop", "identity", "cost_evidence", "apigee_policy"}:
-        errors.append("the decision register must cover the six items")
+    if {d["id"] for d in DECISIONS} != {"architecture_preference", "aws_account", "registry_ownership", "gateway_interop", "identity", "cost_evidence", "apigee_policy"}:
+        errors.append("the decision register must cover the seven items")
     if any(state not in ANSWER_STATES for d in DECISIONS for _, _, state in d["answers"]):
         errors.append("every decision answer must be DECIDED, OWNER-CONFIRMED or OPEN")
     if any(not d["proposal"] or not d["proof"] or not d["owner"] or not d["remaining"] for d in DECISIONS):
@@ -899,7 +918,7 @@ def validate(model: dict | None = None) -> list[str]:
 
 
 def export() -> dict:
-    return {"version": MODEL_VERSION, "banner": STATUS_BANNER, "ids": list(SCENARIO_IDS), "scenarios": SCENARIOS, "comparison": COMPARISON, "connCols": CONN_COLS, "connections": CONNECTIONS,
+    return {"version": MODEL_VERSION, "banner": STATUS_BANNER, "ids": list(SCENARIO_IDS), "scenarios": SCENARIOS, "preference": PREFERENCE, "preferenceLine": PREFERENCE_LINE, "comparison": COMPARISON, "connCols": CONN_COLS, "connections": CONNECTIONS,
             "diagrams": diagrams(), "diagramNames": DIAGRAM_NAMES, "recommendation": RECOMMENDATION, "evidence": EVIDENCE, "evidenceStatus": EVIDENCE_STATUS, "domains": DOMAINS,
             "decisions": DECISIONS, "decisionSummary": decision_summary(), "ownerDate": OWNER_DATE,
             "selection": {"inputs": SELECTION_INPUTS, "defaults": SELECTION_DEFAULTS, "rules": SELECTION_RULES, "authority": AUTHORITY, "revisit": REVISIT},

@@ -8,6 +8,7 @@ from __future__ import annotations
 import time
 import uuid
 
+from .architecture_model import SCENARIOS as _MODEL
 from .store import Denied, Store
 from .route_playbooks import QUESTION_DEPENDENCIES
 
@@ -102,9 +103,9 @@ QUESTIONS = [
 ]
 
 ROUTES = {
-    "S1": {"label": "S1 · SAP-hosted hybrid", "status": "SAP-hosted alternative", "gateways": ["apigee_mcp"], "agent": "sap_btp", "registry": "aws"},
-    "S2": {"label": "S2 · AWS AgentCore-native", "status": "AWS-native alternative", "gateways": ["agentcore_gateway"], "agent": "agentcore", "registry": "aws"},
-    "S3": {"label": "S3 · AgentCore + Apigee hybrid", "status": "Preferred candidate for a comparative POC, conditional", "gateways": ["agentcore_gateway", "apigee_mcp"], "agent": "agentcore", "registry": "aws"},
+    "S1": {"label": "S1 · SAP-hosted hybrid", "status": _MODEL["S1"]["status"], "gateways": ["apigee_mcp"], "agent": "sap_btp", "registry": "aws"},
+    "S2": {"label": "S2 · AWS AgentCore-native", "status": _MODEL["S2"]["status"], "gateways": ["agentcore_gateway"], "agent": "agentcore", "registry": "aws"},
+    "S3": {"label": "S3 · AgentCore + Apigee hybrid", "status": _MODEL["S3"]["status"], "gateways": ["agentcore_gateway", "apigee_mcp"], "agent": "agentcore", "registry": "aws"},
 }
 
 CONTROL_MATRIX = [
