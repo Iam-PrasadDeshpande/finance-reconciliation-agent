@@ -40,9 +40,9 @@ with sync_playwright() as pw:
     page.goto(URL, wait_until="domcontentloaded")
     page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
-    f.locator(".entry-card").nth(3).wait_for(timeout=150000)
+    f.locator("[data-home=apps]").click(); f.locator(".entry-card").nth(2).wait_for(timeout=150000)
     check("My Home no longer shows the audience block", f.locator(".entry-roles").count() == 0 and "Presenting this" not in f.locator("body").inner_text())
-    f.get_by_role("button", name="Open Agents").click()
+    f.locator("[data-home=arch]").click(); f.get_by_role("button", name="Open Watch the agents work").click()
     tabs = nav(f)
     select = f.get_by_label("SAP Fiori theme")
     options = [o.get_attribute("value") for o in select.locator("option").all()]
@@ -67,7 +67,7 @@ with sync_playwright() as pw:
     select.select_option("evening-horizon")
     page.reload(wait_until="domcontentloaded"); page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
-    f.locator(".entry-card").nth(3).wait_for(timeout=150000)
+    f.locator("[data-home=apps]").click(); f.locator(".entry-card").nth(2).wait_for(timeout=150000)
     check("the chosen theme persists after a reload", f.locator("html").get_attribute("data-theme-choice") == "evening-horizon")
     f.get_by_label("SAP Fiori theme").select_option("quartz-light")
     check("no page errors", not errors, "; ".join(errors)[:200])

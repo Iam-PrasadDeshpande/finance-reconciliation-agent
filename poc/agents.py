@@ -228,8 +228,40 @@ def run_plan(ctx: Context, plan: dict, scenario: str = "S1", user_id: str = "fin
     plan["effective_period"] = None if plan["status"] == "needs_input" else (state.get("period") or (state.get("parsed") or {}).get("period") or (state.get("scope") or {}).get("period"))
     plan["duration_ms"] = int((time.perf_counter() - started) * 1000)
     plan["answer"] = _answer(plan)
+    if plan["intent"] == "reconcile" and plan["status"] == "done" and state.get("report_full"):
+        plan["result_blocks"] = _recon_blocks(state["report_full"])
     store.set_state("last_plan", plan)
     return plan
+
+
+def _recon_blocks(report: dict) -> list:
+    """The reconciliation output shown inline on the Ask page, like the other agent apps: figures, reconciling items, accounts and controls."""
+    sm, ccy = report["summary"], report.get("currency", "USD")
+    tone = {"BALANCED": "ok", "WITHIN_TOLERANCE": "ok", "EXPLAINED": "ok"}.get(sm["status"], "warn")
+    blocks = [{"type": "kpis", "items": [
+        {"label": "Close readiness", "value": sm["status"].replace("_", " ").title(), "tone": tone, "note": sm.get("status_text", "")},
+        {"label": "S/4HANA total", "value": f"{sm['s4_total']:,} {ccy}"}, {"label": "Central Finance total", "value": f"{sm['cfin_total']:,} {ccy}"},
+        {"label": "Variance", "value": f"{sm['variance']:,} {ccy}"}, {"label": "Unexplained", "value": f"{sm['unexplained']:,} {ccy}", "tone": "ok" if not sm["unexplained"] else "warn"},
+        {"label": "Open items", "value": str(sm["open_items"])}]}]
+    items = report.get("items", [])
+    if items:
+        blocks.append({"type": "table", "title": "Reconciling items", "columns": [
+            {"key": "document", "label": "Document"}, {"key": "category", "label": "Category"}, {"key": "account", "label": "Account"},
+            {"key": "difference", "label": f"Difference ({ccy})", "align": "right", "format": "int"}, {"key": "status", "label": "Status"}, {"key": "owner", "label": "Owner"}],
+            "rows": [{"document": i["document_id"], "category": i["category_label"], "account": f"{i['account']} {i['account_name']}", "difference": i["difference"],
+                      "status": i["status"].replace("_", " "), "owner": i["owner"]} for i in items]})
+    accounts = report.get("accounts", [])
+    if accounts:
+        blocks.append({"type": "table", "title": "Accounts", "columns": [
+            {"key": "account", "label": "Account"}, {"key": "s4", "label": "S/4HANA", "align": "right", "format": "int"}, {"key": "cfin", "label": "Central Finance", "align": "right", "format": "int"},
+            {"key": "difference", "label": "Difference", "align": "right", "format": "int"}, {"key": "status", "label": "Status"}],
+            "rows": [{"account": f"{a['account']} {a['name']}", "s4": a["s4_balance"], "cfin": a["cfin_balance"], "difference": a["difference"], "status": a["status"].replace("_", " ")} for a in accounts]})
+    controls = report.get("controls", [])
+    if controls:
+        blocks.append({"type": "table", "title": "Controls", "columns": [{"key": "name", "label": "Control"}, {"key": "status", "label": "Result"}, {"key": "detail", "label": "Detail"}],
+                       "rows": [{"name": f"{c['id']} {c['name']}", "status": c["status"], "detail": c["detail"]} for c in controls]})
+    blocks.append({"type": "note", "text": "Synthetic data. This is the same report as the Close & reconcile screen; no SAP write was made and a person decides on any proposal."})
+    return blocks
 
 
 def _answer(plan):
@@ -291,7 +323,7 @@ def _run_step(ctx, plan, step, state, scenario, user_id):
         events = store.events(state["case_id"]) if state["case_id"] else None
         report = build_report(store, period, state["case"], events)
         summary = report["summary"]
-        state["period"], state["report"] = period, summary
+        state["period"], state["report"], state["report_full"] = period, summary, report
         _finish(step, "done", f"{summary['status'].replace('_', ' ').title()} · variance {summary['variance']:,} USD · {summary['open_items']} open items · unexplained {summary['unexplained']:,} USD")
         step["ref"] = {"period": period}
     elif tool == "trace":

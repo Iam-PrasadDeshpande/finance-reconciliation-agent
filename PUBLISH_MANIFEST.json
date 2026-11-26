@@ -255,21 +255,21 @@
       "sha256": "944fca9184e1970cd19a0c4ae3af21716e0ba903922b41f48c98a4d6887b9580",
       "bytes": 43407
     },
-    "frontend/dist/assets/index-BgYLK9Hx.css": {
-      "sha256": "09bcf3198f20214db958170add0a1c0a4e752bea77185157ff6517fb1f6eeb75",
-      "bytes": 193560
+    "frontend/dist/assets/index-B1V2AJYO.css": {
+      "sha256": "9f776821d98b3be803022397584a3f3e63f389cb6f9973696a3e84b887ffc370",
+      "bytes": 194209
     },
-    "frontend/dist/assets/index-BubhNbXQ.js": {
+    "frontend/dist/assets/index-Ce3MrPB4.js": {
       "sha256": "7b1e6e5af3a536cbf99daa9a852ad45410d43376c8e7db872a0a451b50a12668",
       "bytes": 590098
     },
     "frontend/dist/index.html": {
-      "sha256": "ac1f18071421fc0e5cf32fdc339c6deb61388cb14666e435578175387dab327e",
+      "sha256": "e070524c9aa3638df2c7f1850c138b73d225b94b26c9cb45547686b716bbd9b6",
       "bytes": 1276
     },
     "frontend/dist_streamlit/finance_architecture.css": {
-      "sha256": "1b50e63b5728ceaa9e22af1af174604796389460f486c621b29384d8ffa3fec2",
-      "bytes": 193572
+      "sha256": "2650ce6657dbe07dd27081d58ab2c8a6bacea87aa196e2a92399f0e383314a35",
+      "bytes": 194221
     },
     "frontend/dist_streamlit/finance_architecture.js": {
       "sha256": "bbf18b7d2aa1062f59c3b4e58bee7f9f595319cbe9bbdddafebb3f79200dcd7f",
@@ -532,8 +532,8 @@
       "bytes": 7968
     },
     "frontend/src/spaces.css": {
-      "sha256": "623e8c589f331b6a114d757a4fcd3bed6081dbaa972061411539859e432a9a00",
-      "bytes": 4259
+      "sha256": "6fdb9b292e64b9e495672d353ad554c97d85b972be89c2c2e207e56fca2cd461",
+      "bytes": 5082
     },
     "frontend/src/streamlit.jsx": {
       "sha256": "ddbfd961f4a2c38baa2befe805b3a902b546ed2fa1b588b45fd3eecef820b418",
@@ -600,8 +600,8 @@
       "bytes": 9752
     },
     "poc/agents.py": {
-      "sha256": "6f21be85aa178b02d1e59d69bf608bbf6f9b2729a096823d9c701d60be4170d2",
-      "bytes": 22547
+      "sha256": "bfc950e3d32bb4f6b41d7c69d8f9f447766b5820f0883c4e42686ac5638b1703",
+      "bytes": 25640
     },
     "poc/app.py": {
       "sha256": "aeb2b3f5935c908a6d45341849059e402c78a861506c1a9edde5787da6f8f45b",
@@ -724,12 +724,12 @@
       "bytes": 12350
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "b4a04b4fc65de29128c46de67c42067ecd32dabdc53f6cb270a7fb6fe906465d",
-      "bytes": 999042
+      "sha256": "2a82c866806557f8f88da287af76ec4102aeca2476ef7bf7f2774b62676c27da",
+      "bytes": 1001219
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "7f88c6c42c70d60313a94c1354ccecef25b378bd44bff0d60aded28669b8882a",
-      "bytes": 596377
+      "sha256": "b77ef35ecf864b365f73fc6ded1938094d79484d45b1d3bd74f3450ca57582d4",
+      "bytes": 597500
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -824,8 +824,8 @@
       "bytes": 2355
     },
     "scripts/qa_themes.py": {
-      "sha256": "e29b29045d2bb3ea545abe302c3ef60f3a02c8dbbeadeb56e01178a5098cf5c2",
-      "bytes": 3986
+      "sha256": "43abc308318ce09f45fcc602f25dc525e91364593e4867f0ec653a7ebf7f4f21",
+      "bytes": 4118
     },
     "scripts/qa_treasury.py": {
       "sha256": "24fb80e4ca14979c5db489c78f0a570891e566c25ff888a254eccd46a5c00613",
@@ -840,8 +840,8 @@
       "bytes": 2295
     },
     "static/finance_reconciliation_local_windows.zip": {
-      "sha256": "7f88c6c42c70d60313a94c1354ccecef25b378bd44bff0d60aded28669b8882a",
-      "bytes": 596377
+      "sha256": "b77ef35ecf864b365f73fc6ded1938094d79484d45b1d3bd74f3450ca57582d4",
+      "bytes": 597500
     },
     "streamlit_app.py": {
       "sha256": "1a7647e55ce09160c9d3a708b69214eae2eac5cd88039b985a1ac4f943584903",
@@ -864,8 +864,8 @@
       "bytes": 13795
     },
     "tests/test_period_sync.py": {
-      "sha256": "a22b9b63e99395f576a1af0b6929c54709f4926f7b5aab8adf96b102e94c7ac7",
-      "bytes": 6858
+      "sha256": "2f2c3a3bcffb3505d21247fe79311756f41362314688fce280f8fed7bc6bc439",
+      "bytes": 7638
     },
     "tests/test_poc.py": {
       "sha256": "ad322ffea4549e6afa69c72f020619ca56a5c3e45402b4d70ed081dc92670b05",
