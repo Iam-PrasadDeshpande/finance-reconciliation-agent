@@ -179,8 +179,9 @@ def table(slide, x, y, w, colw, rows, size=9.5, rowh=0.3, header=True, hl_col=No
             elif hl_col is not None and j == hl_col:
                 fill = "bluebg"
             if cell_fill and (i, j) in cell_fill:
-                fill, tcol = cell_fill[(i, j)]
-                bold = True
+                spec = cell_fill[(i, j)]
+                fill, tcol = spec[0], spec[1]
+                bold = spec[2] if len(spec) > 2 else True
             cell.fill.solid()
             cell.fill.fore_color.rgb = rgb(fill)
             tf = cell.text_frame
