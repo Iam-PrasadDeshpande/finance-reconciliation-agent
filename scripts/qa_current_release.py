@@ -63,8 +63,10 @@ def check(page, url, hosted):
     assert decision_selected("MCP hosting")
     page.get_by_role("button", name="Dismiss agent banner").click()
     tabs.nth(2).click()
+    page.get_by_role("tab", name="Tool catalog").click()
     assert page.locator(".aw-catalog").text_content().count("collect_evidence") >= 1
     assert "sap.post" in page.locator(".aw-catalog").text_content()
+    page.get_by_role("tab", name="Orchestration and calls").click()
     page.get_by_label("Ask the orchestrator").fill("Post a journal entry to SAP for November 2026")
     page.get_by_role("button", name="Run plan").click()
     page.locator(".aw-plan-state.blocked").wait_for(timeout=60000)

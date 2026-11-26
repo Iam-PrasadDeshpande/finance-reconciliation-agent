@@ -14,3 +14,10 @@
 .module-page{flex:1;min-height:0;overflow:auto;padding:12px 16px;display:grid;gap:10px;align-content:start}
 .module-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:12px 16px}.module-head h2{font-size:20px;margin:2px 0}.module-head p{font-size:12px;color:#34495c;margin:2px 0 0}
 .module-body{padding:12px 16px}
+
+/* Action buttons offered by a module's workflow (decide a line, approve, post, reconcile) */
+.blk-actions{display:grid;gap:6px}.blk-actions h4{margin:0;font-size:12px;color:#506778;text-transform:uppercase;letter-spacing:.04em}
+.blk-btn-row{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start}.blk-btn-cell{display:grid;gap:2px;justify-items:start}.blk-btn-cell small{font-size:11px;color:#506778;max-width:22ch}
+.blk-btn{font:inherit;font-size:12px;font-weight:600;color:var(--f-accent,#0a6ed1);background:#fff;border:1px solid var(--f-accent,#0a6ed1);border-radius:4px;padding:4px 10px;cursor:pointer}
+.blk-btn:hover:not(:disabled){background:#eef5fd}.blk-btn.active{background:var(--f-accent,#0a6ed1);color:#fff}.blk-btn.primary{background:var(--f-accent,#0a6ed1);color:#fff}
+.blk-btn:disabled{opacity:.5;cursor:not-allowed}.blk-btn:focus-visible{outline:2px solid #0a4f9e;outline-offset:2px}

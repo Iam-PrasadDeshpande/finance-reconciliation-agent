@@ -21,7 +21,7 @@ from poc.sap_guidance import PROVENANCE
 KINDS = {"entity", "measure", "rule", "process", "artifact", "actor"}
 SAP_STATUS = {"DOCUMENTED", "SAP_TERM", "DEMO_ONLY"}
 RENDERERS = {"builtin:reconciliation", "treasury", "generic"}
-BLOCK_TYPES = {"kpis", "table", "list", "note"}
+BLOCK_TYPES = {"kpis", "table", "list", "note", "actions"}
 WRITE_NAME = re.compile(r"post|execute|initiate|approve|decide|delete|write|change|release")
 KNOWN_ZONES = {c["zone"] for c in components()}
 KNOWN_COMPONENTS = {c["component_id"] for c in components()}
@@ -78,6 +78,8 @@ def check_blocks(blocks):
             assert all(isinstance(i, str) for i in b["items"])
         if b["type"] == "note":
             assert isinstance(b["text"], str)
+        if b["type"] == "actions":
+            assert b["items"] and all(i["label"] and i["action"] for i in b["items"])
 
 
 def test_registry_has_exactly_one_default_and_unique_ids_and_tabs():

@@ -41,12 +41,15 @@ MATRIX = [
     ("treasury", "Forecast liquidity for the next 30 days", ["forecast_liquidity"]),
     ("treasury", "Show bank fees and credit lines", ["bank_relationship_summary"]),
     ("treasury", "Initiate the bank transfer now", None),
+    ("accruals", "Prepare accruals for company code 1000 for November 2026", ["get_accrual_candidates", "get_prior_accruals", "read_source_documents", "interpret_policy", "calculate_accrual", "estimate_accrual", "check_accrual_policy", "draft_accrual_journal"]),
+    ("accruals", "Reconcile the posted accrual entries for company code 3000 for November 2026", ("control", "No posted accrual journal exists")),
+    ("accruals", "Post the accrual journal for November 2026", None),
 ]
 if os.environ.get("QA_ONLY"):
     MATRIX = [row for row in MATRIX if row[0] == os.environ["QA_ONLY"]]
 # any further module (for example the scaffold) is exercised with its own first example
 for manifest in cockpit.manifests():
-    if manifest["id"] not in ("reconciliation", "treasury"):
+    if manifest["id"] not in ("reconciliation", "treasury", "accruals"):
         MATRIX.append((manifest["id"], manifest["examples"][0].replace("{period}", "November 2026"), [t["name"] for t in CAT[manifest["id"]]["tools"] if t["name"] != "plan"]))
 
 
@@ -89,7 +92,7 @@ with sync_playwright() as pw:
         names = [log.nth(i).locator("b").inner_text() for i in range(log.count())]
         return {"request": f.locator("[data-testid=plan-request]").inner_text(), "domain": f.locator("[data-testid=plan-domain]").inner_text(),
                 "steps": names, "done": f.locator(".aw-log li.done:not(.orch)").count(), "answer": f.locator(".aw-answer p").first.inner_text()[:140] if f.locator(".aw-answer").count() else "",
-                "output": f.locator("[data-testid=plan-output]").count(), "state": f.locator(".aw-plan-state").first.get_attribute("class")}
+                "output": f.locator("[data-testid=plan-output]").count(), "workflow": f.locator("[data-testid=workflow-panel]").count(), "state": f.locator(".aw-plan-state").first.get_attribute("class")}
 
     def walk():
         """Every area, every Architecture view, and home, then back to the Agents screen."""
@@ -149,10 +152,11 @@ with sync_playwright() as pw:
                 check(f"{label}: stopped at a control, nothing executed", "blocked" in a["state"] and a["steps"] == [] and a["output"] == 0)
             elif isinstance(expected_tools, tuple):
                 check(f"{label}: the agent ran and a control stopped it with the reason shown", "blocked" in a["state"] and len(a["steps"]) == 1 and expected_tools[1] in f.locator(".aw-answer").inner_text() and a["output"] == 0, expected_tools[1])
+                exercised.update(w for w in SPECIALISTS if w in " ".join(a["steps"]))
             else:
                 want = [NAME[t] for t in expected_tools]
                 check(f"{label}: every expected agent ran and finished", all(w in " ".join(a["steps"]) for w in want) and a["done"] >= len(set(want)) and "done" in a["state"], f"{a['done']} steps done: {sorted(set(want))}")
-                check(f"{label}: the full-output link is shown", a["output"] == 1)
+                check(f"{label}: the full-output link or the workflow panel is shown", a["output"] == 1 or (cockpit.get(module).workflow and a["workflow"] == 1))
                 exercised.update(w for w in want if w in SPECIALISTS)
             page.screenshot(path=str(SHOTS / f"p_{module}_{abs(hash(prompt)) % 10000}{'_m' if MOBILE else ''}.png"))
             views = walk()

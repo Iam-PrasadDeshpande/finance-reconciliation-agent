@@ -59,6 +59,7 @@ class ChatInput(BaseModel):
     case_id:str|None=None
     period:str|None=None
     demo_pace_ms:int=80
+    options:dict={}
 
 class Mutation(BaseModel):
     source:str
@@ -303,7 +304,7 @@ def agent_plan(data:ChatInput):
     if len(data.message)>400: raise HTTPException(422,"Message is too long")
     try:
         if data.period is not None and (not re.fullmatch(r"\d{4}-\d{2}",data.period) or data.period not in store.available_periods()): raise Denied(f"NO DATA AVAILABLE FOR {data.period}")
-        return cockpit.run(agent_context(),data.message,data.scenario,data.case_id,data.period)
+        return cockpit.run(agent_context(),data.message,data.scenario,data.case_id,data.period,data.options)
     except Exception as exc: fail(exc)
 
 @app.get("/api/agent/plans/last")

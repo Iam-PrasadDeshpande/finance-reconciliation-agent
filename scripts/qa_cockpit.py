@@ -87,12 +87,14 @@ with sync_playwright() as pw:
     # Level 2: the same workbench serves every module
     page.get_by_role("tablist", name="Application sections").get_by_role("tab", name="Agents").click()
     switch = page.get_by_role("tablist", name="Agent family").get_by_role("tab")
-    check("the family switch lists every module from the catalog", switch.count() == len(ids) and all(catalog["domains"][i]["name"] in page.get_by_role("tablist", name="Agent family").inner_text() for i in ids))
+    check("the launchpad tabs list All agents and every module from the catalog", switch.count() == len(ids) + 1 and all(catalog["domains"][i]["name"] in page.get_by_role("tablist", name="Agent family").inner_text() for i in ids))
     for m in manifests:
         dom = catalog["domains"][m["id"]]
         page.get_by_role("tablist", name="Agent family").get_by_role("tab", name=dom["name"]).click()
-        check(f"{m['id']}: roster has the catalog's agents", page.locator(".aw-roster li").count() == len(dom["agents"]), f"{len(dom['agents'])} agents")
+        check(f"{m['id']}: roster has the catalog's agents", page.locator(".fi-launchpad .fi-tile").count() == len(dom["agents"]), f"{len(dom['agents'])} agents")
+        page.get_by_role("tab", name="Tool catalog").click()
         check(f"{m['id']}: tool catalog lists its tools", page.locator(".aw-catalog tbody tr").count() == len(dom["tools"]))
+        page.get_by_role("tab", name="Orchestration and calls").click()
         page.locator("#global-period").select_option("2026-11")
         page.locator("#aw-ask-input").fill(fill(m["examples"][0]))
         page.get_by_role("button", name="Run plan").click()

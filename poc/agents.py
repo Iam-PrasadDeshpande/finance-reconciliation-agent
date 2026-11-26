@@ -10,7 +10,7 @@ import re
 from datetime import datetime
 import time
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable
 
 from .contracts import ReconciliationRequest
@@ -66,6 +66,7 @@ class Context:
     investigator: object
     approval: object
     ensure: Callable[[], None]
+    options: dict = field(default_factory=dict)
 
 
 def _step(index, agent, tool, purpose, extra=None):

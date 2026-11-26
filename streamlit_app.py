@@ -162,7 +162,7 @@ def handle_action(action: dict):
             context = AgentContext(store, st.session_state.finance_runtime, st.session_state.finance_investigator, st.session_state.finance_approval, lambda: ensure_agent(store))
             selected = action.get("period") if action.get("period") in store.available_periods() else None
             case_id = action.get("case_id") or st.session_state.finance_case_id
-            plan = cockpit.run(context, action.get("message", ""), action.get("scenario", "S1"), case_id, selected)
+            plan = cockpit.run(context, action.get("message", ""), action.get("scenario", "S1"), case_id, selected, action.get("options") or {})
             if selected:
                 st.session_state.finance_selected_period = selected
             if plan.get("domain") == "treasury" and plan.get("trace_case_id"):

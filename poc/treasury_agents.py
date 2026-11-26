@@ -177,7 +177,7 @@ def _run_chain(store, case_id, scenario, hops, fn):
     return build(0)()
 
 
-def _read_chain(store, case_id, scenario, tool, fn):
+def _read_chain(store, case_id, scenario, tool, fn, cfin=None, ops=None):
     """The same selected-route layers the reconciliation reads use: gateway, domain MCP tool, BAIP, then the S/4HANA backend.
     Only existing components are used, so the architecture views are unchanged."""
     from .gateway import GATES, OPERATION
@@ -193,9 +193,9 @@ def _read_chain(store, case_id, scenario, tool, fn):
             ("tool_audit", "api_management", "sap_read", "read", {"backend": "s4"}),
             ("api_management", "destination_mapping", "direct_api", "read", {"backend": "s4"}),
             ("destination_mapping", "s4_roles", "backend_authorize", "identity", {"backend": "s4"}),
-            ("s4_roles", "s4_read_api", "read_cash_management", "read", s),
-            ("s4_read_api", "s4_live_gl", "read_bank_balances", "read", s)]
-    if tool in CFIN_TOOLS:  # Central Finance is the second system of record for these tools; existing components only
+            ("s4_roles", "s4_read_api", (ops or ("read_cash_management", "read_bank_balances"))[0], "read", s),
+            ("s4_read_api", "s4_live_gl", (ops or ("read_cash_management", "read_bank_balances"))[1], "read", s)]
+    if (tool in CFIN_TOOLS) if cfin is None else cfin:  # Central Finance is the second system of record for these tools; existing components only
         hops += [("destination_mapping", "cfin_roles", "backend_authorize", "identity", {"backend": "cfin"}),
                  ("cfin_roles", "cfin_accounting", "read_cash_items", "read", s),
                  ("cfin_accounting", "cfin_status", "replication_cutoff", "data", {"backend": "cfin"})]
