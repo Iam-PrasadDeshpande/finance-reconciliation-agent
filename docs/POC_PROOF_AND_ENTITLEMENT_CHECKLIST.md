@@ -20,7 +20,7 @@ Dedicated account service access; AgentCore Runtime operation; AgentCore Gateway
 
 ## 3. Decision logic
 
-Select S3 only when the account and services are approved, Apigee remains in the approved SAP integration design, gateway-to-gateway invocation works, principal propagation is validated, policy ownership is clear, cost is competitive and operations are acceptable. Select S2 where AgentCore-native MCP or API access meets enterprise and SAP policy with lower complexity or cost. Select S1 where SAP-specific execution or verified cost justifies Cloud Foundry. Platform preference alone decides nothing.
+Preference: S1 for SAP-centric agents, S3 for SAP and non-SAP agents; S2 is kept for reference and is not preferred. Select S3 only when the account and services are approved, Apigee remains in the approved SAP integration design, gateway-to-gateway invocation works, principal propagation is validated, policy ownership is clear, cost is competitive and operations are acceptable; otherwise S1 is the fallback. Select S1 for SAP-centric agents where SAP coupling or verified cost justifies Cloud Foundry. S2 needs an explicit owner exception. Platform preference alone approves nothing.
 
 ## 4. What the documents already settle (read 2026-11-25)
 

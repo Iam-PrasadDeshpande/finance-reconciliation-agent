@@ -63,6 +63,37 @@ for _card in AGENT_CARDS:
     _card["view_label"] = VIEW_LABELS.get(_card["view"])
 CARD = {c["id"]: c for c in AGENT_CARDS}
 
+# Systems of record for the cash agents (agent level only; the architecture views are unchanged). S/4HANA holds the bank accounts,
+# balances and statements of its own company codes; Central Finance holds cash-relevant postings replicated from connected source
+# systems. Design assumption for this demo: not verified against any tenant, and the data shown is synthetic.
+S4 = "S/4HANA (SYNG Core)"
+CFIN = "Central Finance (S/4HANA)"
+SYSTEMS_OF_RECORD = {
+    "check_statement_completeness": [(S4, "bank statements and opening balances of the house bank accounts")],
+    "get_opening_balances": [(S4, "bank account balances and posted flows of its own company codes"), (CFIN, "cash-relevant postings replicated from connected source systems")],
+    "identify_surplus_deficit": [],
+    "check_treasury_policy": [],
+    "retrieve_transfer_templates": [],
+    "generate_transfer_recommendations": [],
+    "forecast_liquidity": [(S4, "scheduled receipts and payments of its own company codes"), (CFIN, "replicated receipts and payments, and the replication cut-off")],
+    "bank_relationship_summary": [(S4, "bank accounts, balances, credit lines and fees"), (CFIN, "payment volumes replicated from connected source systems")],
+}
+CFIN_TOOLS = {t for t, rows in SYSTEMS_OF_RECORD.items() if any(system == CFIN for system, _ in rows)}
+RECORDS_NOTE = "Design assumption, not verified against a tenant; the demo data is synthetic. Computed steps use no system of record."
+
+
+def systems_for(tools):
+    seen = {}
+    for tool in tools:
+        for system, scope in SYSTEMS_OF_RECORD.get(tool, []):
+            seen.setdefault(system, []).append(scope)
+    return [{"system": system, "scope": "; ".join(dict.fromkeys(scopes))} for system, scopes in seen.items()]
+
+
+for _card in AGENT_CARDS:
+    _card["systems_of_record"] = systems_for(_card["tools"])
+    _card["records_note"] = RECORDS_NOTE if _card["systems_of_record"] else "None. It plans and calls; it never touches SAP itself."
+
 TOOLS = {
     "plan": {"agent": "treasury_orchestrator", "rw": "none", "input": {"message": "string"}, "output": "Plan"},
     "check_statement_completeness": {"agent": "cash_positioning", "rw": "read", "input": {"period": "YYYY-MM"}, "output": "statements received, opening balance agreement"},
@@ -92,6 +123,7 @@ def route_domain(message: str) -> str:
 
 def _step(index, agent, tool, purpose, extra=None):
     step = {"step_id": f"s{index}", "agent": agent, "tool": tool, "purpose": purpose, "rw": TOOLS[tool]["rw"], "status": "pending", "summary": "", "view": CARD[agent]["view"]}
+    step["systems_of_record"] = systems_for([tool])
     step.update(extra or {})
     return step
 
@@ -145,7 +177,7 @@ def _run_chain(store, case_id, scenario, hops, fn):
     return build(0)()
 
 
-def _read_chain(store, case_id, scenario, tool, fn):
+def _read_chain(store, case_id, scenario, tool, fn, cfin=None, ops=None):
     """The same selected-route layers the reconciliation reads use: gateway, domain MCP tool, BAIP, then the S/4HANA backend.
     Only existing components are used, so the architecture views are unchanged."""
     from .gateway import GATES, OPERATION
@@ -161,8 +193,12 @@ def _read_chain(store, case_id, scenario, tool, fn):
             ("tool_audit", "api_management", "sap_read", "read", {"backend": "s4"}),
             ("api_management", "destination_mapping", "direct_api", "read", {"backend": "s4"}),
             ("destination_mapping", "s4_roles", "backend_authorize", "identity", {"backend": "s4"}),
-            ("s4_roles", "s4_read_api", "read_cash_management", "read", s),
-            ("s4_read_api", "s4_live_gl", "read_bank_balances", "read", s)]
+            ("s4_roles", "s4_read_api", (ops or ("read_cash_management", "read_bank_balances"))[0], "read", s),
+            ("s4_read_api", "s4_live_gl", (ops or ("read_cash_management", "read_bank_balances"))[1], "read", s)]
+    if (tool in CFIN_TOOLS) if cfin is None else cfin:  # Central Finance is the second system of record for these tools; existing components only
+        hops += [("destination_mapping", "cfin_roles", "backend_authorize", "identity", {"backend": "cfin"}),
+                 ("cfin_roles", "cfin_accounting", "read_cash_items", "read", s),
+                 ("cfin_accounting", "cfin_status", "replication_cutoff", "data", {"backend": "cfin"})]
     return _run_chain(store, case_id, scenario, hops, fn)
 
 
@@ -326,6 +362,7 @@ def run_treasury_plan(ctx, plan, scenario="S1", period=None, selector=None):
             if r not in refs:
                 refs.append(r)
     plan["references"] = [TREASURY_REFS[r] | {"id": r} for r in sorted(refs)]
+    plan["systems_of_record"] = systems_for([s["tool"] for s in plan["steps"] if s.get("status") == "done"])
     plan["result"] = _result(state)
     plan["result_blocks"] = _blocks(state)
     plan["answer"] = _answer(plan, state)

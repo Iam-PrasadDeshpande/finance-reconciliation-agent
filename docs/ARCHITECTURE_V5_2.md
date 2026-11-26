@@ -6,7 +6,7 @@ Status: **proposed design for evaluation. Nothing here is approved, provisioned,
 
 | | S1 SAP-hosted hybrid | S2 AWS AgentCore-native | S3 AWS AgentCore + Apigee hybrid |
 |---|---|---|---|
-| Classification | SAP-hosted alternative | AWS-native alternative | Preferred candidate for a comparative POC, conditional |
+| Preference | Preferred for SAP-centric agents | Not preferred · kept for reference | Preferred for SAP and non-SAP agents, conditional |
 | Agent hosting and execution | SAP BTP Cloud Foundry | AWS AgentCore Runtime | AWS AgentCore Runtime |
 | Custom MCP code (only if required) | Cloud Foundry | AgentCore Runtime | Conditional; AgentCore Runtime preferred, exposed through Apigee |
 | Runtime gateway | Google Apigee | AWS AgentCore Gateway | AgentCore Gateway in front of Apigee |
@@ -17,9 +17,13 @@ Status: **proposed design for evaluation. Nothing here is approved, provisioned,
 
 Common to all: SAP Integration Suite is the SAP integration boundary; SAP Cloud Connector and persistence are conditional; the SAP backend decides business authorization; **GitLab is the central source, CI/CD and artifact platform wherever AgentCore (and Cloud Foundry) is used: it deploys the runtime, gateway targets, Apigee bundles and registry records and is never a runtime.** The application stays read and tally only.
 
+### Preference
+
+**Preference (stated by the owner, 2026-11-26): S1 is preferred for SAP-centric agents and S3 is preferred for agents that span SAP and non-SAP systems. S2 stays in the architecture for reference and is not preferred; selecting it needs an explicit owner exception.** The preference is not an approval. It is shown on every architecture view (a banner, a tag on each scenario tab, a badge on the scenario diagrams D2 to D4), in the comparison (Preference row), in the recommendation framework (the `scope` input: S1 for SAP-centric agents, S3 for SAP and non-SAP agents, S2 never recommended and always listed as not preferred) and in the decision register (architecture_preference: owner-confirmed, not yet approved by AI Foundry).
+
 ### Why the classification changed
 
-V5.1 treated the SAP-hosted hybrid as the preferred candidate. V5.2 reflects the proposal for a dedicated AWS account for SAP-related agents and AgentCore for managed execution, with Apigee kept for SAP-specific MCP/API governance: S3 (AgentCore + Apigee) becomes the strategic candidate to evaluate first, S2 the AWS-native alternative and S1 the SAP-hosted alternative. The change is a hypothesis to test, not a verdict: runtime cost, identity integration, operational complexity or policy can make S2 or S1 the right answer.
+V5.1 treated the SAP-hosted hybrid as the single preferred candidate. V5.2 reflects the proposal for a dedicated AWS account for SAP-related agents and AgentCore for managed execution, with Apigee kept for SAP-specific MCP/API governance, and the owner's preference: S1 for SAP-centric agents, S3 for agents that span SAP and non-SAP systems. S2 is kept as the AWS-native reference and is not preferred. The preference is a position to test, not an approval: cost, identity, interoperability or policy can still make S1 the right answer for an agent that would otherwise go to S3.
 
 ### Critical rules (all enforced by tests)
 

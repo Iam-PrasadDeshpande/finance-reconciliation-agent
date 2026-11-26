@@ -154,6 +154,25 @@ def test_events_show_the_selected_route_layers(ctx):
     assert next(s for s in local["steps"] if s["tool"] == "identify_surplus_deficit")["trace"]["layers"] == []  # computed locally, no layer called
 
 
+def test_cash_agents_name_s4hana_and_central_finance_as_systems_of_record(ctx):
+    cards = {c["id"]: c for c in TA.AGENT_CARDS}
+    for agent in ("cash_positioning", "cash_forecasting", "bank_relationship"):
+        systems = {r["system"] for r in cards[agent]["systems_of_record"]}
+        assert systems == {TA.S4, TA.CFIN}, agent
+        assert "not verified" in cards[agent]["records_note"]
+    assert cards["treasury_orchestrator"]["systems_of_record"] == [] and "never touches SAP" in cards["treasury_orchestrator"]["records_note"]
+    forecast = TA.run_assistant(ctx, "Forecast liquidity for the next 30 days", "S3", None, "2026-11")
+    step = next(s for s in forecast["steps"] if s["tool"] == "forecast_liquidity")
+    targets = {h["to"] for h in step["trace"]["hops"]}
+    assert {"s4_live_gl", "cfin_accounting", "cfin_status"} <= targets  # both systems of record are read
+    assert {r["system"] for r in forecast["systems_of_record"]} == {TA.S4, TA.CFIN}
+    statements = TA.run_assistant(ctx, "Are all bank statements complete?", "S3", None, "2026-11")
+    st = next(s for s in statements["steps"] if s["tool"] == "check_statement_completeness")
+    assert "cfin_accounting" not in {h["to"] for h in st["trace"]["hops"]} and [r["system"] for r in st["systems_of_record"]] == [TA.S4]
+    local = TA.run_assistant(ctx, "Which accounts are in deficit?", "S1", None, "2026-11")
+    assert next(s for s in local["steps"] if s["tool"] == "identify_surplus_deficit")["systems_of_record"] == []
+
+
 def test_proposal_approval_marker_never_initiates(ctx):
     plan = TA.run_assistant(ctx, "Propose transfers to cover shortfalls", "S1", None, "2026-11")
     saved = TA.list_proposals(ctx.store, "2026-11")
@@ -171,9 +190,9 @@ def test_proposal_approval_marker_never_initiates(ctx):
     assert next(x for x in TA.list_proposals(ctx.store, "2026-11") if x["proposal_id"] == p["proposal_id"])["status"] == "approved_marker"
 
 
-def test_catalog_lists_both_families():
+def test_catalog_lists_every_family():
     cat = TA.assistant_catalog(app_module.agent_catalog())
-    assert set(cat["domains"]) == {"reconciliation", "treasury"} and len(cat["agents"]) == 7
+    assert set(cat["domains"]) == {"reconciliation", "treasury", "accruals"} and len(cat["agents"]) == 7  # the flat keys are the default (reconciliation) family
     treasury = cat["domains"]["treasury"]
     assert [a["id"] for a in treasury["agents"]] == ["treasury_orchestrator", "cash_positioning", "cash_forecasting", "bank_relationship"]
     assert all(t["agent"] in {a["id"] for a in treasury["agents"]} for t in treasury["tools"])

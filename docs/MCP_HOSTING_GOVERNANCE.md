@@ -11,7 +11,7 @@ Status: **proposed design for evaluation (Architecture V5.2).** No SAP, AWS, Goo
 | Runtime gateway | Google Apigee | AgentCore Gateway | AgentCore Gateway in front of Google Apigee |
 | Apigee | Required | Optional, by SAP Integration and Security | Required |
 | Agent and MCP registry | AWS Agent Registry | AWS Agent Registry | AWS Agent Registry |
-| Classification | SAP-hosted alternative | AWS-native alternative | Preferred candidate for a comparative POC, conditional |
+| Preference | Preferred for SAP-centric agents | Not preferred · kept for reference | Preferred for SAP and non-SAP agents, conditional |
 
 ## Exposure patterns
 

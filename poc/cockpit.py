@@ -9,7 +9,8 @@ scenario (S1, S2, S3) and the simulated SAP layers, provenance labels, the Archi
 What a module owns:  its agents and tools, its synthetic data, its Level 1 view, its ontology fragment, its SAP references.
 
 The calls are in-process and MCP-shaped (no MCP transport). No module may expose a write tool; the only permitted write is a
-local draft or a local approval marker.
+local draft or a local approval marker. A module may also offer human-triggered ACTIONS (approval, a simulated posting to a local
+synthetic ledger, reconciliation); those are never agent tools and never change an SAP system.
 """
 from __future__ import annotations
 
@@ -51,6 +52,8 @@ class AgentModule:
     default: bool = False                # exactly one module answers requests that match nobody
     architecture: dict = field(default_factory=dict)  # how this module sits on the shared MCP route and data
     output: dict = field(default_factory=dict)  # where the full output of a run lives: screen_name, open_label, detail_label (optional)
+    options: list = field(default_factory=list)  # execution options the Agents area shows for this module (id, label, default, choices)
+    workflow: bool = False  # True: the Agents area shows this module's view() below a run as a workflow panel (review, approve, post, reconcile)
 
 
 _registry: dict[str, AgentModule] = {}
@@ -110,8 +113,9 @@ def route(message: str) -> str:
     return max(hits, key=lambda m: m.routing_priority).id
 
 
-def run(ctx, message: str, scenario: str, case_id, period):
+def run(ctx, message: str, scenario: str, case_id, period, options: dict | None = None):
     module = get(route(message))
+    ctx.options = dict(options or {})  # execution options chosen in the Agents area (a module reads what it declares)
     plan = module.run(ctx, message, scenario, case_id, period)
     plan["domain"] = module.id
     return plan
@@ -138,7 +142,7 @@ def manifests() -> list[dict]:
         out.append({"id": m.id, "name": m.name, "family_label": m.family_label, "short_name": m.short_name, "blurb": m.blurb, "icon": m.icon, "tab": m.tab,
                     "renderer": m.renderer, "default": m.default, "has_view": m.view is not None, "actions": sorted(m.actions),
                     "routing": {"words": m.routing_words, "priority": m.routing_priority}, "ask_template": m.ask_template, "examples": m.examples,
-                    "architecture": m.architecture, "output": m.output})
+                    "architecture": m.architecture, "output": m.output, "options": m.options, "workflow": m.workflow})
     return out
 
 

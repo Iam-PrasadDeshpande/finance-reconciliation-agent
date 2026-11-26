@@ -46,7 +46,7 @@ def test_architecture_decision_catalog_and_combined_route_are_open():
     assert "SAP Apigee MCP" not in s2 and s2.index("AgentCore Gateway") < s2.index("SAP Integration Suite")
     assert run["steps"][1]["phase"] == "design-time"
     assert run["steps"][2]["input"] == "Can SAP retain Apigee as its domain MCP layer?"
-    assert run["route_status"].startswith("Preferred candidate")
+    assert run["route_status"].startswith("Preferred for SAP and non-SAP")
     assert run["decision_status"].startswith("OPEN")
     assert all("1000" not in str(step) and "ghp_" not in str(step) for step in run["steps"])
 
@@ -58,7 +58,7 @@ def test_route_hosting_playbooks_cover_all_three_cases():
     assert all(all(stage["configure"] and stage["dependency"] and stage["proof"] and stage["owner"] for stage in item["steps"]) for item in playbooks.values())
     assert "AgentCore Gateway" in playbooks["S3"]["path"] and "Apigee MCP" in playbooks["S3"]["path"]
     assert "AgentCore Gateway" in playbooks["S2"]["path"] and "Apigee" not in playbooks["S2"]["path"] and "AgentCore" not in playbooks["S1"]["path"]
-    assert "Preferred candidate" in playbooks["S3"]["status"] and playbooks["S1"]["status"] == "SAP-hosted alternative"
+    assert "Preferred for SAP and non-SAP" in playbooks["S3"]["status"] and playbooks["S1"]["status"] == "Preferred for SAP-centric agents" and playbooks["S2"]["status"].startswith("Not preferred")
 
 
 @pytest.mark.parametrize("question,probe,denied_at", [

@@ -34,7 +34,7 @@ def test_exactly_three_scenarios_with_every_required_field():
 
 def test_s1_is_the_sap_hosted_hybrid():
     s = m.SCENARIOS["S1"]
-    assert s["name"].endswith("SAP-hosted hybrid") and s["status"] == "SAP-hosted alternative"
+    assert s["name"].endswith("SAP-hosted hybrid") and s["status"] == "Preferred for SAP-centric agents"
     assert s["agent_runtime"] == "SAP BTP Cloud Foundry" and "Cloud Foundry" in s["custom_mcp_runtime"] and "Apigee" in s["mcp_gateway"]
     assert not (s["agentcore_runtime"] or s["agentcore_gateway"]) and s["aws_agent_registry"]
     assert s["agent_registry"] == s["mcp_registry"] == "AWS Agent Registry"
@@ -52,7 +52,7 @@ def test_s3_is_the_conditional_preferred_candidate_with_a_dedicated_account():
     s = m.SCENARIOS["S3"]
     assert s["agent_runtime"] == "AWS AgentCore Runtime" and s["apigee_role"].startswith("Required")
     assert "AgentCore Gateway" in s["mcp_gateway"] and "Apigee" in s["mcp_gateway"]
-    assert s["status"].startswith("Preferred candidate") and "conditional" in s["status"].lower() and "Not production-approved" in s["classification"]
+    assert s["status"].startswith("Preferred for SAP and non-SAP") and "conditional" in s["status"].lower() and "Not production-approved" in s["classification"]
     assert "Dedicated SAP-agent AWS account" in s["aws_account"] and "not provisioned" in s["aws_account"]
     assert "Pattern A" in s["mcp_endpoint_type"] and "Pattern B" in s["mcp_endpoint_type"]
     assert "never an execution hop" in s["hosting_note"]
@@ -157,7 +157,7 @@ def test_responsibility_diagram_matches_the_scenario_facts():
 
 def test_comparison_covers_every_dimension_with_three_columns():
     names = " ".join(row[0] for row in m.COMPARISON).lower()
-    for need in ("classification", "agent hosting", "agent execution", "aws account", "runtime gateway", "apigee", "managed mcp endpoint", "custom mcp server hosting", "mcp tool execution", "agent registry",
+    for need in ("preference", "mcp / agent hosting", "agent hosting", "agent execution", "aws account", "runtime gateway", "apigee", "managed mcp endpoint", "custom mcp server hosting", "mcp tool execution", "agent registry",
                  "mcp registry", "llm routing", "persistence", "identity propagation", "sap connectivity", "business authorization", "operational responsibility", "monitoring", "scalability",
                  "network complexity", "cost drivers", "vendor", "governance", "deployment prerequisites", "open architecture decisions"):
         assert need in names, need
@@ -165,7 +165,8 @@ def test_comparison_covers_every_dimension_with_three_columns():
     assert all(len(row) == 4 for row in m.COMPARISON)
     assert flat["Agent hosting"][1:] == ("SAP BTP Cloud Foundry", "AWS AgentCore Runtime", "AWS AgentCore Runtime")
     assert flat["Apigee"][1].startswith("Required") and flat["Apigee"][2].startswith("Optional") and flat["Apigee"][3].startswith("Required")
-    assert flat["LLM routing"][1:] == ("Portkey",) * 3 and flat["Classification"][3].startswith("Preferred candidate")
+    assert flat["LLM routing"][1:] == ("Portkey",) * 3 and flat["Preference"][3].startswith("Preferred for SAP and non-SAP") and flat["Preference"][1].startswith("Preferred for SAP-centric") and flat["Preference"][2].startswith("Not preferred")
+    assert flat["MCP / agent hosting"][1:] == ("Agent: Cloud Foundry · MCP: Apigee", "Agent: AgentCore · MCP: AgentCore Gateway", "Agent: AgentCore · MCP: Apigee → AgentCore Gateway")
 
 
 # --------------------------------------------------------------------------- recommendation
@@ -198,16 +199,44 @@ def test_s3_falls_back_with_reasons_when_validation_or_cost_fails():
     assert _case(interop="failed", sap_hosting="restricted")["status"] == "HOLD"
     r = _case(cost="s1_cheaper")
     assert r["scenario"] == "S1" and any("cheaper" in x[1] for x in r["rejected"] if x[0] == "S3")
-    r = _case(cost="s2_cheaper")
-    assert r["scenario"] == "S2" and r["status"] == "CONDITIONAL" and any("exception" in c for c in r["conditions"])
+    r = _case(cost="s2_cheaper")  # S2 is cheaper but never preferred: S3 stays, with the owner-exception condition
+    assert r["scenario"] == "S3" and any("owner exception" in c for c in r["conditions"]) and any(x[0] == "S2" and "Not preferred" in x[1] for x in r["rejected"])
 
 
-def test_s2_is_the_simpler_choice_when_apigee_is_not_mandated():
+def test_s2_is_kept_but_never_preferred_even_when_apigee_is_not_mandated():
     for apigee in ("not_required", "optional"):
         r = _case(apigee=apigee, cost="s2_cheaper")
-        assert (r["scenario"], r["status"]) == ("S2", "RECOMMENDED"), apigee
+        assert r["scenario"] == "S3" and any(x[0] == "S2" and "Not preferred" in x[1] for x in r["rejected"]), apigee
+    assert any("remains not preferred" in x for x in _case(apigee="not_required")["reasons"])
     assert _case(apigee="not_required", cost="unknown")["status"] == "CONDITIONAL"
-    assert _case(apigee="not_required", identity="failed")["status"] == "HOLD"
+    assert (_case(apigee="not_required", identity="failed")["scenario"], _case(apigee="not_required", identity="failed")["status"]) == ("S1", "CONDITIONAL")
+    assert all(r["scenario"] != "S2" for r in (_case(**c) for c in ({}, {"cost": "s2_cheaper"}, {"apigee": "optional"}, {"scope": "sap_centric"}, {"aws_account": "denied"}))), "S2 is never the recommendation"
+
+
+def test_the_preference_is_s1_for_sap_centric_and_s3_for_sap_and_non_sap_with_s2_kept_for_reference():
+    assert [m.PREFERENCE[s]["label"] for s in m.SCENARIO_IDS] == ["Preferred", "Not preferred", "Preferred"]
+    assert m.PREFERENCE["S1"]["scope"] == "SAP-centric agents" and m.PREFERENCE["S3"]["scope"] == "SAP and non-SAP agents" and m.PREFERENCE["S2"]["scope"] == "Reference only"
+    assert "S2" in m.SCENARIOS and m.SCENARIOS["S2"]["status"].startswith("Not preferred") and "reference" in m.SCENARIOS["S2"]["status"].lower()  # S2 stays in the architecture
+    assert all(m.SCENARIOS[s]["preference"] == m.PREFERENCE[s] for s in m.SCENARIO_IDS)
+    for key in ("S1", "S2", "S3"):
+        assert m.PREFERENCE[key]["badge"] in {m.diagrams()[{"S1": "D2", "S2": "D3", "S3": "D4"}[key]]["badge"]}
+    assert m.diagrams()["D3"]["badge"].startswith("NOT PREFERRED") and m.diagrams()["D2"]["badge"].startswith("PREFERRED") and m.diagrams()["D4"]["badge"].startswith("PREFERRED")
+    assert "S1 for SAP-centric agents" in m.PREFERENCE_LINE and "S3 for SAP and non-SAP agents" in m.PREFERENCE_LINE and "S2" in m.PREFERENCE_LINE and "not preferred" in m.PREFERENCE_LINE
+    assert m.export()["preferenceLine"] == m.PREFERENCE_LINE and m.export()["preference"] == m.PREFERENCE
+    assert "S1 is preferred for SAP-centric agents and S3 for agents that span SAP and non-SAP systems" in m.RECOMMENDATION["headline"] and "not preferred" in m.RECOMMENDATION["headline"]
+
+
+def test_scope_selects_s1_for_sap_centric_agents_and_s3_for_the_rest():
+    r = _case(scope="sap_centric")
+    assert (r["scenario"], r["status"]) == ("S1", "RECOMMENDED") and any("preferred option for SAP-centric agents" in x for x in r["reasons"]) and {x[0] for x in r["rejected"]} == {"S2", "S3"}
+    assert _case(scope="sap_centric", ops="pending")["status"] == "CONDITIONAL"
+    assert _case(scope="sap_centric", cost="s3_competitive")["scenario"] == "S1"  # S1 stays preferred for SAP-centric agents even when S3 is competitive
+    r = _case(scope="sap_centric", sap_hosting="restricted")  # SAP-hosted agents are restricted: S3 is the remaining preferred option
+    assert r["scenario"] == "S3" and any("S1 cannot be selected" in x for x in r["reasons"])
+    assert _case(scope="sap_and_non_sap")["scenario"] == "S3"
+    first = m.recommend({"scope": "sap_centric"})
+    assert first["status"] == "CONDITIONAL" and first["scenario"] == "S1" and first["evaluate_first"] == "S1"  # nothing else approved, S1 needs no AWS approval
+    assert m.recommend()["evaluate_first"] == "S3" and m.recommend()["scenario"] is None
 
 
 def test_s1_when_aws_is_unavailable_or_restricted():
@@ -309,7 +338,9 @@ def test_gateway_identity_account_and_guardrail_content():
 
 def test_decision_register_records_the_owner_answers_and_what_is_open():
     ids = {d["id"]: d for d in m.DECISIONS}
-    assert set(ids) == {"aws_account", "registry_ownership", "gateway_interop", "identity", "cost_evidence", "apigee_policy"}
+    assert set(ids) == {"architecture_preference", "aws_account", "registry_ownership", "gateway_interop", "identity", "cost_evidence", "apigee_policy"}
+    pref = ids["architecture_preference"]
+    assert [s for _, _, s in pref["answers"]] == ["OWNER-CONFIRMED", "OPEN"] and "S1" in pref["answers"][0][1] and "S3" in pref["answers"][0][1] and "not preferred" in pref["answers"][0][1]
     for d in m.DECISIONS:
         assert d["settled"] and d["remaining"] and d["options"] and d["proposal"] and d["proof"] and d["owner"] and d["answers"], d["id"]
         assert all(state in m.ANSWER_STATES for _, _, state in d["answers"])
@@ -348,7 +379,7 @@ def test_every_rendered_svg_matches_its_spec(tmp_path):
         assert "NOT AN APPROVED ARCHITECTURE" in svg and "Cloud Run" not in svg
 
 
-OLD = re.compile(r"S1 SAP-centric|SAP-centric|S3-B|interim GitLab catalog|GitLab catalog|product selection pending|Domain-managed catalog|registry product unresolved|S1 Apigee|S2 AgentCore (?:route|gateway)|"
+OLD = re.compile(r"S3-B|interim GitLab catalog|GitLab catalog|product selection pending|Domain-managed catalog|registry product unresolved|S1 Apigee|S2 AgentCore (?:route|gateway)|"
                  r"Combined candidate|PTP/PAP|\bMicrosoft\b|\bEntra\b|\bAzure\b|Joule Studio|Bedrock response")
 
 

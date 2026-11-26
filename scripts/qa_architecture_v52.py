@@ -20,7 +20,7 @@ SC = model.SCENARIOS
 SPECS = model.diagrams()
 DIAGRAM = {"S1": "D2", "S2": "D3", "S3": "D4"}
 results = []
-OBSOLETE = re.compile(r"Google Cloud Run|Vertex AI|Google Agent Registry|Google Agent Runtime|Agent Engine|\bMicrosoft\b|\bEntra\b|\bAzure\b|S3-B|SAP-centric|GitLab catalog", re.I)
+OBSOLETE = re.compile(r"Google Cloud Run|Vertex AI|Google Agent Registry|Google Agent Runtime|Agent Engine|\bMicrosoft\b|\bEntra\b|\bAzure\b|S3-B|GitLab catalog", re.I)
 
 
 def check(name, ok, detail=""):
@@ -57,6 +57,8 @@ with sync_playwright() as pw:
     for name in ("Live run", "Complete architecture", "MCP hosting", "Agent hosting", "Registry", "Selection", "Decision brief", "Ontology", "Diagrams"):
         arch(name)
         check(f"architecture view '{name}' opens", len(body()) > 200)
+        pb = f.locator("[data-testid=preference-banner]")
+        check(f"'{name}' calls out the preference", pb.count() == 1 and all(w in pb.inner_text() for w in ("S1", "S3", "SAP-centric agents", "SAP and non-SAP agents", "Not preferred")))
 
     # ---- Complete architecture
     arch("Complete architecture")
@@ -70,10 +72,12 @@ with sync_playwright() as pw:
         check(f"{sid}: states agent hosting '{s['agent_runtime']}', registry and LLM gateway", s["agent_runtime"] in text and s["agent_registry"] in text and s["llm_gateway"] in text and "GitLab" in text)
         if sid == "S1":
             check("S1 has no AgentCore runtime or gateway and registers in AWS Agent Registry only", "AgentCore Runtime" not in text and "AgentCore Gateway" not in text and "AWS Agent Registry" in text)
+        if sid == "S1":
+            check("S1 is called out as preferred for SAP-centric agents", "preferred for sap-centric agents" in text.lower())
         if sid == "S2":
-            check("S2 names AgentCore Runtime and Gateway and treats Apigee as optional", "AWS AgentCore Runtime" in text and "AgentCore Gateway" in text and "Optional" in text)
+            check("S2 is kept, treats Apigee as optional and is called out as not preferred, for reference", "AWS AgentCore Runtime" in text and "AgentCore Gateway" in text and "Optional" in text and "not preferred" in text.lower() and "reference" in text.lower())
         if sid == "S3":
-            check("S3 is the preferred candidate, conditional, with a dedicated account", "preferred candidate" in text.lower() and "conditional" in text.lower() and "Dedicated SAP-agent AWS account" in text)
+            check("S3 is preferred for SAP and non-SAP agents, conditional, with a dedicated account", "preferred for sap and non-sap agents" in text.lower() and "conditional" in text.lower() and "Dedicated SAP-agent AWS account" in text)
         f.get_by_role("button", name="Architecture diagram ↗").click()
         f.locator(".arch-diagram-modal").wait_for()
         modal = f.locator(".arch-diagram-modal")
@@ -121,7 +125,7 @@ with sync_playwright() as pw:
     arch("Selection")
     st = f.get_by_role("tablist", name="Selection views").get_by_role("tab")
     check("selection offers recommendation, gateways, cost and account views", st.count() == 4)
-    check("the headline names S3 as preferred to evaluate first and not an unconditional winner", "evaluate first" in f.locator("[data-testid=sel-headline]").inner_text() and "not an unconditional winner" in f.locator("[data-testid=sel-headline]").inner_text())
+    check("the headline states the preference: S1 for SAP-centric, S3 for SAP and non-SAP, S2 not preferred", all(w in f.locator("[data-testid=sel-headline]").inner_text() for w in ("S1 is preferred for SAP-centric agents", "S3 for agents that span SAP and non-SAP", "S2 stays in the architecture for reference and is not preferred")))
     res = f.locator("[data-testid=sel-result]")
     check("with nothing approved the evaluator says HOLD and selects nothing", res.get_attribute("data-status") == "HOLD" and res.get_attribute("data-scenario") == "")
 
@@ -139,7 +143,10 @@ with sync_playwright() as pw:
     setin("cost", "s3_competitive"); setin("aws_account", "denied")
     check("a denied AWS account recommends S1 and rejects S2 and S3", res.get_attribute("data-scenario") == "S1" and "Not possible" in res.inner_text())
     setin("aws_account", "approved"); setin("apigee", "not_required")
-    check("no Apigee mandate moves the recommendation to S2", res.get_attribute("data-scenario") == "S2")
+    check("with no Apigee mandate S2 becomes possible but stays not preferred: S3 is kept and S2 is rejected as not preferred", res.get_attribute("data-scenario") == "S3" and "Not preferred" in res.inner_text() and "remains not preferred" in res.inner_text())
+    setin("apigee", "required"); setin("scope", "sap_centric")
+    check("an SAP-centric agent is recommended S1, and S3 is rejected as not needed", res.get_attribute("data-scenario") == "S1" and "preferred option for SAP-centric agents" in res.inner_text())
+    setin("scope", "sap_and_non_sap")
     check("the selection rules are listed", f.locator("[data-testid=sel-rules] tbody tr").count() == len(model.SELECTION_RULES))
     st.nth(1).click(); page.wait_for_timeout(300)
     check("the gateway comparison lists every responsibility", f.locator("[data-testid=sel-gateways] tbody tr").count() == len(model.GATEWAY_RESPONSIBILITIES))

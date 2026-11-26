@@ -1,7 +1,7 @@
 import React,{useCallback,useMemo,useRef,useState} from 'react';
 import {PanZoom} from './DetailedDiagrams';
 import ScenarioDecisions from './ScenarioDecisions';
-import {SCENARIOS,IDS,GLOSSARY,MATRIX,CONN_COLS,CONNECTIONS,DOMAINS,RECOMMENDATION,EVIDENCE,EVIDENCE_NOTE,ACCESSED,topologySvg,LEGEND,TBD,BANNER} from './mcpScenarios';
+import {PREFERENCE,SCENARIOS,IDS,GLOSSARY,MATRIX,CONN_COLS,CONNECTIONS,DOMAINS,RECOMMENDATION,EVIDENCE,EVIDENCE_NOTE,ACCESSED,topologySvg,LEGEND,TBD,BANNER} from './mcpScenarios';
 import './detailed-diagrams.css';
 import './mcp-governance.css';
 
@@ -36,7 +36,7 @@ export default function McpGovernance({view='S3',onView,onApproaches,onAgentHost
     <header className="surface dd-header">
       <div className="dd-title"><span className="eyebrow">MCP HOSTING AND EXPOSURE · WHO EXPOSES, GOVERNS, HOSTS AND EXECUTES THE FINANCE MCP</span><h2>{compare?'Compare MCP topologies':sc.label}</h2></div>
       <nav className="dd-selector" role="tablist" aria-label="MCP scenario selection">
-        {[...IDS,'compare'].map(key=><button type="button" role="tab" key={key} aria-selected={view===key} className={view===key?'active':''} onClick={()=>choose(key)}>{key==='compare'?'Compare side-by-side':SCENARIOS[key].label}</button>)}
+        {[...IDS,'compare'].map(key=><button type="button" role="tab" key={key} aria-selected={view===key} className={view===key?'active':''} onClick={()=>choose(key)}>{key==='compare'?'Compare side-by-side':SCENARIOS[key].label+' · '+PREFERENCE[key].label.toLowerCase()}</button>)}
       </nav>
       <div className="dd-header-actions"><span className="pill warn">{BANNER.split(' · ').slice(0,2).join(' · ')}</span></div>
     </header>

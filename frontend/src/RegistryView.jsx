@@ -1,7 +1,7 @@
 import React,{useMemo,useState} from 'react';
 import {PanZoom} from './DetailedDiagrams';
 import ScenarioDecisions from './ScenarioDecisions';
-import {SCENARIOS,IDS,MATRIX,BANNER,diagramSvg,diagramSpec} from './mcpScenarios';
+import {PREFERENCE,SCENARIOS,IDS,MATRIX,BANNER,diagramSvg,diagramSpec} from './mcpScenarios';
 import './detailed-diagrams.css';
 import './mcp-governance.css';
 import './arch-split.css';
@@ -25,7 +25,7 @@ export default function RegistryView({onMcp,onAgentHosting,onDiagrams}){
   return <main className="detailed-diagrams mcp-governance arch-page registry-page" aria-label="Registry">
     <header className="surface dd-header">
       <div className="dd-title"><span className="eyebrow">AGENT AND MCP REGISTRATION · CONTROL PLANE, NEVER AN EXECUTION HOP</span><h2>{compare?'Registry compared':SCENARIOS[id].name}</h2></div>
-      <nav className="dd-selector" role="tablist" aria-label="Registry scenario selection">{[...IDS,'compare'].map(key=><button type="button" role="tab" key={key} aria-selected={section===key} className={section===key?'active':''} onClick={()=>setSection(key)}>{key==='compare'?'Compare all':SCENARIOS[key].name}</button>)}</nav>
+      <nav className="dd-selector" role="tablist" aria-label="Registry scenario selection">{[...IDS,'compare'].map(key=><button type="button" role="tab" key={key} aria-selected={section===key} className={section===key?'active':''} onClick={()=>setSection(key)}>{key==='compare'?'Compare all':SCENARIOS[key].name+' · '+PREFERENCE[key].label.toLowerCase()}</button>)}</nav>
       <div className="dd-header-actions"><span className="pill warn">{BANNER.split(' · ').slice(0,2).join(' · ')}</span></div>
     </header>
     <ScenarioDecisions focus={compare?IDS:[id]} title="Registration next to hosting" rows={[['Agent hosting and execution','agent_runtime','Where it runs'],['Agent registration and discovery','agent_registry','Where it is catalogued'],['MCP implementation hosting','custom_mcp_runtime','Where custom code runs'],['MCP registration and discovery','mcp_registry','Where it is catalogued']]}/>

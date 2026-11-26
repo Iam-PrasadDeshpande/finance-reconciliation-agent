@@ -1,0 +1,58 @@
+/* SAP Fiori launchpad for the agents: tiles, sections, tabs, technical tabs, workflow panel. Follows the shell's accent variable, so every theme applies. */
+.fi-launchpad{padding:10px 14px 14px;display:grid;gap:10px}
+.fi-lp-head{display:flex;gap:6px 18px;align-items:baseline;justify-content:space-between;flex-wrap:wrap}.fi-lp-head strong{display:block;font-size:16px;color:#1d2d3e}.fi-lp-head small{font-size:12px;color:#506778}
+.fi-tabs{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1px solid #d9e1e7}
+.fi-tabs button{font:inherit;font-size:13px;color:#1d2d3e;background:none;border:0;border-bottom:3px solid transparent;padding:8px 14px 7px;cursor:pointer;display:inline-flex;gap:6px;align-items:baseline}
+.fi-tabs button::after{content:attr(data-count);font-size:11px;font-weight:700;color:#506778;background:#eef2f5;border-radius:9px;padding:0 6px}
+.fi-tabs button:hover{background:#f2f8fc}.fi-tabs button[aria-selected=true]{color:var(--f-accent,#0a6ed1);font-weight:700;border-bottom-color:var(--f-accent,#0a6ed1)}
+.fi-tabs button:focus-visible{outline:2px solid #0a4f9e;outline-offset:-2px}
+.fi-panel{display:grid;gap:14px}
+.fi-section{display:grid;gap:8px}.fi-section-title{margin:0;font-size:14px;color:#1d2d3e;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.fi-section-title span{color:var(--f-accent,#0a6ed1)}.fi-section-title small{font-size:12px;font-weight:400;color:#506778}
+.fi-tiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.fi-tile{width:100%;height:100%;text-align:left;font:inherit;display:grid;align-content:start;gap:6px;padding:12px 14px;background:#fff;border:1px solid #d9e1e7;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.08);cursor:pointer;color:#1d2d3e}
+.fi-tile:hover{box-shadow:0 3px 8px rgba(0,0,0,.14);border-color:var(--f-accent,#0a6ed1)}.fi-tile:focus-visible{outline:2px solid #0a4f9e;outline-offset:2px}
+.fi-tile.active{border-color:var(--f-accent,#0a6ed1);box-shadow:0 0 0 2px var(--f-accent,#0a6ed1) inset}.fi-tile.orchestrator{background:#f4f8fd}
+.fi-tile-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.fi-tile-icon{font-size:22px;line-height:1;color:var(--f-accent,#0a6ed1)}.fi-tile-kind{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#506778}
+.fi-tile-title{font-size:14.5px;line-height:1.25}.fi-tile-sub{font-size:12.5px;line-height:1.4;color:#506778}
+.fi-tile-foot{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:2px}.fi-tile-foot i{font-style:normal;font-size:11px;color:#1d2d3e;background:#eef2f5;border-radius:10px;padding:1px 8px}
+.fi-tile-state{font-style:normal;font-size:11px;font-weight:700;border-radius:10px;padding:1px 8px;color:#0b5e2e;background:#e5f4ea}.fi-tile-state.blocked{color:#8f0000;background:#fdeaea}.fi-tile-state.skipped{color:#6b4a00;background:#fff3d6}
+.fi-detail{display:grid;gap:8px;border-top:1px solid #e1e8ee;padding-top:10px}.fi-detail h3{margin:2px 0 4px;font-size:15px;color:#1d2d3e}.fi-detail p{margin:0;font-size:13px;max-width:90ch}
+.fi-detail dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:12.5px}.fi-detail dt{color:#506778;font-weight:600}.fi-detail dd{margin:0}.fi-chip{font-style:normal;display:inline-block;margin:0 4px 3px 0;font-size:11px;background:#eef2f5;border-radius:10px;padding:1px 8px}
+
+/* options chip line under the ask form */
+.aw-opts-summary{grid-column:1/-1;display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:#506778}.aw-opts-summary b{color:#1d2d3e}
+.aw-opts-summary button{font:inherit;font-size:12px;color:var(--f-accent,#0a6ed1);background:none;border:0;text-decoration:underline;cursor:pointer;padding:0}
+
+/* technical options: tabs below the results */
+.fi-tech{padding:10px 14px 14px;display:grid;gap:10px}.fi-tech>header{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}.fi-tech strong{font-size:15px;color:#1d2d3e}.fi-tech small{font-size:12px;color:#506778}
+.fi-options{display:grid;gap:12px}.fi-option-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.fi-option{display:grid;gap:4px;font-size:12.5px}.fi-option label{font-weight:600;color:#1d2d3e}.fi-option select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid #b8d8ee;border-radius:4px;background:#fff}.fi-option small{color:#506778;line-height:1.35}
+
+/* workflow panel of a module (review, approve, post, reconcile) */
+.fi-workflow{padding:12px 14px 14px;display:grid;gap:10px}.fi-workflow>header{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.fi-workflow h3{margin:2px 0 2px;font-size:16px;color:#1d2d3e}.fi-workflow header p{margin:0;font-size:12.5px;color:#506778}
+.fi-role{display:inline-flex;border:1px solid var(--f-accent,#0a6ed1);border-radius:4px;overflow:hidden}.fi-role button{font:inherit;font-size:12px;font-weight:600;color:var(--f-accent,#0a6ed1);background:#fff;border:0;padding:5px 12px;cursor:pointer}
+.fi-role button[aria-pressed=true]{background:var(--f-accent,#0a6ed1);color:#fff}.fi-role button:focus-visible{outline:2px solid #0a4f9e;outline-offset:-2px}
+.fi-workflow .blk-table td,.fi-workflow .blk-table th{vertical-align:top}.fi-workflow .blk-table td:nth-child(7){min-width:260px}
+.fi-tabs button:not([data-count])::after{content:none}
+
+/* the launchpad tabs replace the old pill-style family switch that shares the class name */
+.fi-tabs.domain-switch{gap:2px;margin:0;border-bottom:1px solid #d9e1e7}
+.fi-tabs.domain-switch button{font-size:13px;font-weight:400;padding:8px 14px 7px;border:0;border-bottom:3px solid transparent;border-radius:0;background:none;color:#1d2d3e}
+.fi-tabs.domain-switch button.active,.fi-tabs.domain-switch button[aria-selected=true]{background:none;color:var(--f-accent,#0a6ed1);font-weight:700;border-bottom-color:var(--f-accent,#0a6ed1)}
+.fi-tabs.domain-switch button:hover{background:#f2f8fc}
+
+/* keep wide module tables inside their panel: grid children must be allowed to shrink so the table's own scroll container works */
+.fi-workflow,.fi-workflow>*,.fi-workflow .blk-stack,.fi-workflow .blk-stack>*,.fi-workflow .blk-table{min-width:0}
+.fi-workflow .blk-scroll{overflow-x:auto;max-width:100%}
+.fi-workflow .blk-table td:nth-child(7){min-width:340px;max-width:520px;white-space:normal}
+.fi-workflow .blk-table td:nth-child(8){min-width:200px;white-space:normal}
+.fi-workflow .blk-table td:last-child .blk-btn-row{flex-wrap:nowrap}
+.fi-tech strong{display:block}.fi-tech .eyebrow{display:block}
+.fi-launchpad,.fi-tech,.fi-workflow{min-width:0}
+
+/* architecture preference banner and tab tags */
+.pref-banner{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:center;padding:8px 14px;margin:0 16px 8px;border:1px solid #d9e1e7;border-left:4px solid #107e3e;border-radius:6px;background:#fff}
+.pref-banner ul{list-style:none;margin:0;padding:0;display:flex;gap:8px;flex-wrap:wrap}.pref-banner p{grid-column:1/-1;margin:0;font-size:12px;color:#506778}
+.pref-banner li{display:inline-flex;gap:6px;align-items:baseline;font-size:12.5px;padding:2px 10px;border-radius:12px;border:1px solid #d9e1e7}
+.pref-banner li.yes{background:#e5f4ea;border-color:#107e3e;color:#0b5e2e}.pref-banner li.no{background:#fdeaea;border-color:#bb0000;color:#8f0000}.pref-badge{font-weight:700}

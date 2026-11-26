@@ -4,6 +4,7 @@ import './mcp-bird.css';
 import './arch-split.css';
 import ArchitectureDiagram from './ArchitectureDiagram';
 import {SCENARIOS,IDS,MATRIX,BANNER} from './mcpScenarios';
+import {prefTag} from './PreferenceBanner';
 
 // Complete architecture: one overview per scenario and a side-by-side comparison, all generated from the canonical model.
 const DIAGRAM={S1:'D2',S2:'D3',S3:'D4'};
@@ -16,9 +17,9 @@ export default function McpApproaches({playbooks={},onQuestion,onDetailedDiagram
   const sc=route?SCENARIOS[route]:null;
   const plan=route?playbooks[route]:null;
   return <main className="mcp-comparison mcp-bird arch-page hosting-page" aria-label="Complete architecture">
-    <header className="surface mcp-bird-header"><div><h2>Complete architecture</h2><span className="eyebrow">AGENT → MCP → SAP, END TO END · THREE SCENARIOS UNDER EVALUATION</span></div><span className="pill warn">{BANNER.split(' · ')[0]}</span></header>
+    <header className="surface mcp-bird-header"><div><h2>Complete architecture</h2><span className="eyebrow">AGENT → MCP → SAP, END TO END · THREE SCENARIOS · S1 AND S3 PREFERRED · S2 FOR REFERENCE</span></div><span className="pill warn">{BANNER.split(' · ')[0]}</span></header>
     <nav className="surface mcp-route-tabs mcp-bird-tabs" role="tablist" aria-label="Architecture approach details">
-      {[...IDS,'compare'].map(id=><button type="button" role="tab" key={id} aria-selected={section===id} className={section===id?'active':''} onClick={()=>setSection(id)}><strong>{id==='compare'?'Compare all':id}</strong><span>{id==='compare'?'Three scenarios side by side':SCENARIOS[id].short}</span></button>)}
+      {[...IDS,'compare'].map(id=><button type="button" role="tab" key={id} aria-selected={section===id} className={section===id?'active':''} onClick={()=>setSection(id)}><strong>{id==='compare'?'Compare all':id}</strong><span>{id==='compare'?'Three scenarios side by side':prefTag(id)}</span></button>)}
     </nav>
     {route?<section className="surface mcp-bird-panel arch-panel" role="tabpanel" aria-label={`${route} architecture overview`}>
       <div className="mcp-bird-panel-title"><div><span className="eyebrow">{route} · {sc.status.toUpperCase()}</span><h3>{sc.name}</h3></div><div className="mcp-bird-title-actions"><button type="button" className="diagram-action" onClick={()=>setDiagram(DIAGRAM[route])}>Architecture diagram ↗</button></div></div>

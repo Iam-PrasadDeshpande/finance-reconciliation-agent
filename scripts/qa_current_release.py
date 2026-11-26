@@ -63,8 +63,10 @@ def check(page, url, hosted):
     assert decision_selected("MCP hosting")
     page.get_by_role("button", name="Dismiss agent banner").click()
     tabs.nth(2).click()
+    page.get_by_role("tab", name="Tool catalog").click()
     assert page.locator(".aw-catalog").text_content().count("collect_evidence") >= 1
     assert "sap.post" in page.locator(".aw-catalog").text_content()
+    page.get_by_role("tab", name="Orchestration and calls").click()
     page.get_by_label("Ask the orchestrator").fill("Post a journal entry to SAP for November 2026")
     page.get_by_role("button", name="Run plan").click()
     page.locator(".aw-plan-state.blocked").wait_for(timeout=60000)
@@ -153,7 +155,7 @@ def check(page, url, hosted):
         assert diagram.locator("[data-node]").count() >= 12
         diagram.get_by_role("button", name="Close").click()
     route_tabs.nth(3).click()
-    assert page.locator("[data-testid=arch-compare] tbody tr").count() == 25
+    assert page.locator("[data-testid=arch-compare] tbody tr").count() == 26
     go_decision("Agent hosting")
     host_tabs = page.get_by_role("tablist", name="Agent hosting options").get_by_role("tab")
     assert host_tabs.count() == 2
@@ -186,7 +188,7 @@ def check(page, url, hosted):
     assert scenario.count() == 4
     assert scenario.nth(2).get_attribute("aria-selected") == "true"  # arrived from S3
     page.locator("[data-testid=mg-matrix] summary").click()
-    assert page.locator("[data-testid=mg-matrix] tbody tr").count() == 25
+    assert page.locator("[data-testid=mg-matrix] tbody tr").count() == 26
     for index, sid in enumerate(["S1", "S2", "S3"]):
         scenario.nth(index).click()
         assert page.locator(f"[data-scenario={sid}] svg [data-node]").count() >= 12
@@ -207,7 +209,7 @@ def check(page, url, hosted):
 
     # Audience-ready additions: decision brief, role lenses on My Home and the close process panel.
     go_decision("Decision brief")
-    assert page.locator(".brief-table tr[data-testid^=decision-]").count() == 6
+    assert page.locator(".brief-table tr[data-testid^=decision-]").count() == 7
     assert page.locator(".brief-gates li").count() == 7
     page.get_by_role("button", name="Proves / does not prove").click()
     assert "real MCP transport" in page.get_by_role("dialog", name="What this demo proves, and what it does not").inner_text()

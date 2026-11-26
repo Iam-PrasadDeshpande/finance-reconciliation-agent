@@ -29,7 +29,7 @@ def step(handoff, configure, dependency, proof, owner):
 PLAYBOOKS = {
     "S1": {
         "title": 'S1 · SAP-hosted hybrid',
-        "status": 'SAP-hosted alternative',
+        "status": 'Preferred for SAP-centric agents',
         "path": 'SAP Fiori / existing UI → Cloud Foundry agent → Apigee MCP → SAP Integration Suite → Cloud Connector (conditional) → SAP backend (registration in AWS Agent Registry, control plane only)',
         "hosting": 'SAP BTP Cloud Foundry hosts and executes the agent and any custom MCP code, behind Apigee, which is the SAP-facing MCP and runtime gateway. AWS Agent Registry holds registration metadata only. No AgentCore component runs anything. GitLab deploys the Cloud Foundry artifacts and publishes the registry records.',
         "steps": [
@@ -49,7 +49,7 @@ PLAYBOOKS = {
     },
     "S2": {
         "title": 'S2 · AWS AgentCore-native',
-        "status": 'AWS-native alternative',
+        "status": 'Not preferred · kept for reference',
         "path": 'UI → AgentCore Runtime agent → AgentCore Gateway → AgentCore-hosted MCP server or API target → SAP Integration Suite → Cloud Connector (conditional) → SAP backend',
         "hosting": 'AgentCore Runtime hosts the agent and any eligible custom MCP server; AgentCore Gateway mediates the tools; AWS Agent Registry registers them. These are three separate capabilities. Apigee is optional and is inserted into the approved route only where SAP Integration and Security require it. GitLab deploys the runtime image, gateway targets and registry records.',
         "steps": [
@@ -69,7 +69,7 @@ PLAYBOOKS = {
     },
     "S3": {
         "title": 'S3 · AgentCore + Apigee hybrid',
-        "status": 'Preferred candidate for a comparative POC · conditional',
+        "status": 'Preferred for SAP and non-SAP agents · conditional',
         "path": 'UI → AgentCore Runtime agent → AgentCore Gateway → Apigee MCP → SAP Integration Suite → Cloud Connector (conditional) → SAP backend (registration in AWS Agent Registry on a separate path)',
         "hosting": 'AgentCore Runtime in a proposed dedicated SAP-agent AWS account executes the agent; AgentCore Gateway is the enterprise runtime gateway; Apigee stays the SAP-facing MCP/API gateway; AWS Agent Registry registers the agent and the Apigee endpoint on a separate control-plane path. Final selection is conditional on account approval, identity validation, gateway interoperability, enterprise policy and measured comparative cost. GitLab deploys the runtime, gateway targets, Apigee bundles and registry records.',
         "steps": [

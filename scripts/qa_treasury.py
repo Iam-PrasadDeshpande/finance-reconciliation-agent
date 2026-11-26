@@ -21,6 +21,14 @@ def api(path, data=None):
         return json.loads(response.read())
 
 
+def open_catalog():
+    """The tool catalog now lives in the Technical options tabs below the launchpad."""
+    page.get_by_role("tab", name="Tool catalog").click()
+    rows = page.locator(".aw-catalog tbody tr")
+    rows.first.wait_for()
+    return rows
+
+
 def check(name, ok, detail=""):
     results.append(bool(ok)); print(("PASS " if ok else "FAIL ") + name + (f" :: {detail}" if detail else ""))
     return bool(ok)
@@ -61,7 +69,10 @@ with sync_playwright() as pw:
     page.wait_for_timeout(4500)
     check("agents area shows the treasury family and badge", "Cash and Treasury assistant" in page.locator("[data-testid=plan-domain]").inner_text()
           and page.locator(".domain-switch [aria-selected=true]").inner_text() == "Cash and Treasury Assistant")
-    check("roster lists the four SAP-modelled agents", page.locator(".aw-roster li").count() == 4 and "Cash Positioning Agent" in page.locator(".aw-roster").inner_text())
+    check("roster lists the four SAP-modelled agents", page.locator(".fi-launchpad .fi-tile").count() == 4 and "Cash Positioning Agent" in page.locator(".fi-launchpad").inner_text())
+    page.locator(".fi-launchpad .fi-tile", has_text="Cash Positioning Agent").first.click()
+    sor = page.locator("[data-testid=systems-of-record]")
+    check("cash agent detail names its system of record with the design-assumption note", sor.count() >= 1 and "S/4HANA" in sor.first.inner_text() and "not verified" in sor.first.inner_text(), sor.first.inner_text()[:90] if sor.count() else "")
     check("orchestration graph draws the treasury agents and the layers reached", page.locator("[data-testid=diagram-orchestration] [data-node]").count() >= 8)
     answer = page.locator(".aw-answer").inner_text()
     check("answer carries the computed Nov numbers", fmt(nov["position"]["totals"]["usd_opening"]) in answer and "synthetic" in answer and "no bank transfer was initiated" in answer, answer[:110].replace(chr(10), " "))
@@ -147,11 +158,11 @@ with sync_playwright() as pw:
     page.get_by_role("button", name="Run plan").click()
     page.wait_for_function("document.querySelector('[data-testid=plan-domain]')?.innerText.includes('Reconciliation agent')", timeout=60000)
     page.wait_for_timeout(5000)
-    check("reconciliation request goes to the Reconciliation agent with its own roster", page.locator(".aw-roster li").count() == 7 and "25,000" in page.locator(".aw-answer").inner_text() and page.locator("[data-testid=module-result]").count() == 0)
+    check("reconciliation request goes to the Reconciliation agent with its own roster", page.locator(".fi-launchpad .fi-tile").count() == 7 and "25,000" in page.locator(".aw-answer").inner_text() and page.locator("[data-testid=module-result]").count() == 0)
     page.get_by_role("tab", name="Cash and Treasury assistant").click()
-    check("switching the family lists the treasury agents and tools", page.locator(".aw-roster li").count() == 4 and page.locator(".aw-catalog tbody tr").count() == 9)
+    check("switching the family lists the treasury agents and tools", page.locator(".fi-launchpad .fi-tile").count() == 4 and open_catalog().count() == 9)
     page.get_by_role("tab", name="Reconciliation agent").click()
-    check("and back to the reconciliation agents", page.locator(".aw-roster li").count() == 7)
+    check("and back to the reconciliation agents", page.locator(".fi-launchpad .fi-tile").count() == 7)
     shot("t07_reconciliation_still_works")
 
     # 8. Architecture views are unchanged and the treasury events are reachable in the Live run
