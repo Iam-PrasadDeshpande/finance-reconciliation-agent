@@ -230,6 +230,10 @@ def run_plan(ctx: Context, plan: dict, scenario: str = "S1", user_id: str = "fin
     plan["answer"] = _answer(plan)
     if plan["intent"] == "reconcile" and plan["status"] == "done" and state.get("report_full"):
         plan["result_blocks"] = _recon_blocks(state["report_full"])
+    elif plan["intent"] == "investigate" and plan["status"] == "done" and state.get("investigation"):
+        plan["result_blocks"] = _investigation_blocks(state["investigation"])
+    elif plan["intent"] == "explain_route" and plan["status"] == "done" and state.get("route_entry"):
+        plan["result_blocks"] = _route_blocks(*state["route_entry"])
     store.set_state("last_plan", plan)
     return plan
 
@@ -261,6 +265,38 @@ def _recon_blocks(report: dict) -> list:
         blocks.append({"type": "table", "title": "Controls", "columns": [{"key": "name", "label": "Control"}, {"key": "status", "label": "Result"}, {"key": "detail", "label": "Detail"}],
                        "rows": [{"name": f"{c['id']} {c['name']}", "status": c["status"], "detail": c["detail"]} for c in controls]})
     blocks.append({"type": "note", "text": "Synthetic data. This is the same report as the Close & reconcile screen; no SAP write was made and a person decides on any proposal."})
+    return blocks
+
+
+def _investigation_blocks(record: dict) -> list:
+    """The investigation outcome shown inline: diagnosis, proposed action and the proof items."""
+    diagnosis, action = record.get("diagnosis") or {}, record.get("proposed_action") or {}
+    blocks = [{"type": "kpis", "items": [
+        {"label": "Status", "value": str(record.get("status", "")).replace("_", " ").title(), "tone": "ok" if record.get("status") == "action_proposed" else "warn"},
+        {"label": "Diagnosis", "value": str(diagnosis.get("classification", "n/a")).replace("_", " ").title()},
+        {"label": "Document", "value": str(diagnosis.get("document_id") or action.get("document_id") or "none")},
+        {"label": "Proposed action", "value": str(action.get("action", "n/a")).replace("_", " ").title(), "note": "Needs an operator; no automatic write"}]}]
+    if record.get("reason"):
+        blocks.append({"type": "list", "title": "Why", "items": [str(record["reason"])]})
+    proofs = record.get("proofs") or record.get("proof") or []
+    if isinstance(proofs, list) and proofs:
+        blocks.append({"type": "table", "title": "Proof items", "columns": [{"key": "id", "label": "Proof"}, {"key": "title", "label": "What it shows"}],
+                       "rows": [{"id": str(p.get("proof_id") or p.get("id") or ""), "title": str(p.get("title") or p.get("label") or "")} for p in proofs if isinstance(p, dict)]})
+    blocks.append({"type": "note", "text": "Synthetic data. Open the proof dossier for the full evidence; a person decides on any reprocess."})
+    return blocks
+
+
+def _route_blocks(route: str, entry: dict) -> list:
+    """The route and its controls shown inline: status, path, hand-offs with owners, and the open decisions."""
+    blocks = [{"type": "kpis", "items": [{"label": "Route", "value": entry.get("title", route)}, {"label": "Status", "value": entry.get("status", ""), "note": "Simulated or proposed path, not an approved tenant architecture"},
+                                         {"label": "Open decisions", "value": str(len(entry.get("decisions", [])))}]},
+              {"type": "note", "text": entry.get("path", "")}]
+    steps = entry.get("steps", [])
+    if steps:
+        blocks.append({"type": "table", "title": "Hand-offs and owners", "columns": [{"key": "handoff", "label": "Hand-off"}, {"key": "owner", "label": "Owner"}, {"key": "proof", "label": "Proof"}],
+                       "rows": [{"handoff": s.get("handoff", ""), "owner": s.get("owner", ""), "proof": s.get("proof", "")} for s in steps]})
+    if entry.get("decisions"):
+        blocks.append({"type": "list", "title": "Open decisions", "items": list(entry["decisions"])})
     return blocks
 
 
@@ -336,6 +372,7 @@ def _run_step(ctx, plan, step, state, scenario, user_id):
         done = ctx.investigator.run(record["investigation_id"])
         _finish(step, "done", f"Investigation {record['investigation_id']} · {(done or record).get('status', 'complete')}. Open the proof dossier.")
         step["ref"] = {"investigation_id": record["investigation_id"]}
+        state["investigation"] = done or record
     elif tool == "draft_proposal":
         _need_case(state)
         proposal = ctx.approval.propose(state["case_id"])
@@ -345,6 +382,7 @@ def _run_step(ctx, plan, step, state, scenario, user_id):
         route = scenario if scenario in catalog else "S1"
         entry = catalog[route]
         _finish(step, "done", f"{route}: {entry.get('path', '')} · {len(entry.get('decisions', []))} open decisions.")
+        state["route_entry"] = (route, entry)
     else:
         raise Denied("Unregistered agent tool")
 

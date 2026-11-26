@@ -13,7 +13,7 @@ def check(page, url, hosted):
     errors = []
     page.on("pageerror", lambda error: errors.append(str(error)))
     page.goto(url, wait_until="domcontentloaded")
-    page.get_by_role("tab", name="Finance apps").click(); page.get_by_role("button", name="Open Close & reconcile").wait_for(timeout=30000)
+    page.locator("[data-home=apps]").click(); page.get_by_role("button", name="Open Close & reconcile").wait_for(timeout=30000)
     # Level 1 entry: agent-first, no open-decision list.
     assert page.locator(".entry-card").count() == 3
     assert page.locator(".entry-roles").count() == 0  # the audience block was removed from My Home
@@ -50,7 +50,7 @@ def check(page, url, hosted):
     stage = page.locator("[data-testid=diagram-orchestration]")
     assert stage.locator("[data-node^='agent:']").count() == 6 and stage.locator("[data-node='orch']").count() == 1
     assert stage.locator("[data-node^='layer:']").count() >= 5
-    assert stage.locator("path[data-edge^='orch-agent:']").count() == 3
+    assert stage.locator("path[data-edge^='orch-agent:']").count() == 5
     assert stage.locator("path[data-edge='orch-agent:investigator']").count() == 1 and stage.locator("path[data-edge='orch-agent:approval']").count() == 0
     assert "No SAP write was made" in answer_text
     assert "start_investigation" in page.locator(".aw-log").text_content() or "Added by the orchestrator" in page.locator(".aw-log").text_content()

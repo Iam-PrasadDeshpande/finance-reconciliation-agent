@@ -145,10 +145,12 @@ with sync_playwright() as pw:
 
     # 6. Controls: initiation is refused, unavailable period is explicit
     tab(3)
+    page.wait_for_timeout(2500)  # let the page settle after the tab switch so a late auto-fill cannot land between typing and Run
     page.locator("#aw-ask-input").fill("Initiate the bank transfer now")
+    page.wait_for_function("document.querySelector('#aw-ask-input').value === 'Initiate the bank transfer now'", timeout=10000)
     page.get_by_role("button", name="Run plan").click()
     page.locator(".aw-answer").wait_for(timeout=30000)
-    page.wait_for_function("document.querySelector('.aw-answer')?.innerText.includes('not an agent action')", timeout=30000)
+    page.locator(".aw-answer").filter(has_text="not an agent action").wait_for(timeout=30000)
     check("initiating a bank transfer is refused and nothing runs", "not an agent action" in page.locator(".aw-plan-state").inner_text() and "blocked" in page.locator(".aw-plan-state").get_attribute("class") and page.locator("[data-testid=module-result]").count() == 0)
     page.locator("#aw-ask-input").fill("What is our cash position for December 2026?")
     page.get_by_role("button", name="Run plan").click()
@@ -162,7 +164,7 @@ with sync_playwright() as pw:
     page.get_by_role("button", name="Run plan").click()
     page.wait_for_function("document.querySelector('[data-testid=plan-domain]')?.innerText.includes('Reconciliation agent')", timeout=60000)
     page.wait_for_timeout(5000)
-    check("reconciliation request goes to the Reconciliation agent with its own roster", (agent_page(page, "Agent catalog") or True) and page.locator(".fi-launchpad .fi-tile").count() == 7 and (agent_page(page, "Ask the agents") or True) and "25,000" in page.locator(".aw-answer").inner_text() and page.locator("[data-testid=module-result]").count() == 0)
+    check("reconciliation request goes to the Reconciliation agent with its own roster", (agent_page(page, "Agent catalog") or True) and page.locator(".fi-launchpad .fi-tile").count() == 7 and (agent_page(page, "Ask the agents") or True) and "25,000" in page.locator(".aw-answer").inner_text() and page.locator("[data-testid=module-result]").count() == 1)
     agent_page(page, "Agent catalog")
     page.get_by_role("tab", name="Cash and Treasury assistant").click()
     tiles_ok = page.locator(".fi-launchpad .fi-tile").count() == 4
