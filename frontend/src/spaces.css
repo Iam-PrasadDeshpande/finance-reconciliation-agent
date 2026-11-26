@@ -41,3 +41,8 @@
 /* Review fixes: the shell header grows with its content between 721 and 1180 px instead of wrapping over the space tabs, and no label is cut off with an ellipsis */
 @media(min-width:721px) and (max-width:1180px){body .app-shell .shell-header{height:auto;min-height:70px;padding-top:6px;padding-bottom:6px}body .shell-header .brand h1{white-space:nowrap;line-height:1.15;font-size:16px}body .shell-header .brand>div:last-child{min-width:max-content}body .shell-header .brand-overline{white-space:nowrap}body .shell-header .header-meta{flex-wrap:wrap;gap:4px 10px;justify-content:flex-end}}
 body .mcp-bird-tabs button span,body .mcp-route-tabs button span,body .worklist button strong,body .agent-journey-stage strong,body .mcp-bird-judgment p{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+
+/* Result blocks on the Ask page: the grid may shrink to the card, so nothing is clipped or pushes the page sideways; table cells wrap on phones */
+body .aw-result.tr-result{grid-template-columns:minmax(0,1fr);min-width:0}body .aw-result.tr-result>*{min-width:0}
+body .aw-result .blk-kpis{grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr))}body .aw-result .blk-kpis strong,body .aw-result .blk-kpis small,body .aw-result .blk-list li,body .aw-result .blk-note{overflow-wrap:anywhere}
+@media(max-width:760px){body .aw-result .blk-table th,body .aw-result .blk-table td{white-space:normal;overflow-wrap:anywhere;vertical-align:top}}

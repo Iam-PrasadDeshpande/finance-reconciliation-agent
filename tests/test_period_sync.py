@@ -131,3 +131,15 @@ def test_reconciliation_plan_carries_its_output_inline(client):
     kpis = {i["label"]: i["value"] for i in blocks[0]["items"]}
     assert kpis["S/4HANA total"].endswith("USD") and "Variance" in kpis
     assert blocks[1]["title"] == "Reconciling items" and blocks[1]["rows"]
+
+
+def test_investigate_and_route_plans_carry_their_output_inline(client):
+    """Investigate and Explain-route-controls show their result on the Ask page too, not only a summary and a link."""
+    first = client.post("/api/agent/plan", json={"message": "Reconcile November 2026 company code 1000 ledger 0L USD", "scenario": "S1", "demo_pace_ms": 0}).json()
+    inv = client.post("/api/agent/plan", json={"message": "Investigate this variance", "scenario": "S1", "case_id": first["case_id"], "demo_pace_ms": 0}).json()
+    assert inv["status"] == "done" and inv["intent"] == "investigate"
+    assert inv["result_blocks"][0]["type"] == "kpis" and {i["label"] for i in inv["result_blocks"][0]["items"]} >= {"Status", "Diagnosis"}
+    route = client.post("/api/agent/plan", json={"message": "Explain the route controls", "scenario": "S1", "demo_pace_ms": 0}).json()
+    assert route["status"] == "done" and route["intent"] == "explain_route"
+    types = [b["type"] for b in route["result_blocks"]]
+    assert types[0] == "kpis" and "table" in types and "list" in types
