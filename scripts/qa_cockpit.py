@@ -50,8 +50,8 @@ with sync_playwright() as pw:
     with_tab = [m for m in manifests if m.get("tab")]
 
     page.goto(WEB + "/", wait_until="domcontentloaded")
-    page.locator(".entry-card").nth(len(with_tab) + 1).wait_for(timeout=30000)
-    check("entry shows one card per module plus agents and architecture", page.locator(".entry-card").count() == len(with_tab) + 2, f"{len(with_tab)} modules")
+    page.get_by_role("tab", name="Finance apps").click(); page.locator(".entry-card").nth(len(with_tab) - 1).wait_for(timeout=30000)
+    check("entry shows one tile per module in the Finance apps space", page.locator(".entry-card").count() == len(with_tab), f"{len(with_tab)} modules")
     check("every module has its own entry card", all(page.locator(f".entry-card[data-module='{m['id']}']").count() == 1 for m in with_tab))
     for m in manifests:
         for example in m["examples"]:

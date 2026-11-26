@@ -31,3 +31,9 @@
 .fi-pagetabs button{font:inherit;font-size:13px;color:#1d2d3e;background:none;border:0;border-bottom:3px solid transparent;padding:9px 16px 8px;cursor:pointer}
 .fi-pagetabs button:hover{background:#eef4f9}.fi-pagetabs button[aria-selected=true]{color:var(--f-accent,#0a6ed1);font-weight:700;border-bottom-color:var(--f-accent,#0a6ed1)}
 .fi-pagetabs button:focus-visible{outline:2px solid #0a4f9e;outline-offset:-2px}
+
+/* My Home: the same three spaces, with tiles, under the ask box */
+.entry-spaces{display:grid;gap:14px}.entry-spaces .fi-spacebar{padding:0;border:0;border-bottom:1px solid #d9e1e7;background:transparent}
+.entry-spaces .fi-page-section h3{margin-top:4px}
+.fi-gtile.entry-card{padding:14px 16px;border:1px solid #d9e1e7;border-radius:12px;background:#fff}.fi-gtile.entry-card:hover{background:#fff}.fi-gtile.entry-card>span{font-size:inherit;color:inherit}.fi-gtile.entry-card>.fi-gtile-sub{font-size:12.5px;color:#506778}.fi-gtile.entry-card>.fi-gtile-head{font-size:inherit;color:inherit}
+.brand-logo{flex:none;display:block;border-radius:6px}.entry-spaces .entry-how{margin-top:4px}.entry-how>div small{font-size:11.5px;color:#506778;line-height:1.35}.entry-how>div{align-content:start}

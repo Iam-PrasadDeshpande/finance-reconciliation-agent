@@ -68,7 +68,7 @@ with sync_playwright() as pw:
     page.goto(URL, wait_until="domcontentloaded")
     page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
-    f.locator(".entry-card").nth(3).wait_for(timeout=150000)
+    f.get_by_role("tab", name="Finance apps").click(); f.locator(".entry-card").nth(2).wait_for(timeout=150000)
     tabs_nav = nav(f)
     modules = [m for m in cockpit.manifests() if m.get("tab")]
     agents_index = len(modules)
@@ -110,7 +110,7 @@ with sync_playwright() as pw:
             views.nth(i).click()
             page.wait_for_timeout(300)
         home()
-        f.get_by_role("button", name="Open Agents").click()
+        f.get_by_role("tab", name="Agents & architecture").click(); f.get_by_role("button", name="Open Watch the agents work").click()
         f.locator("[data-testid=plan-request]").wait_for(timeout=60000)
         return count
 

@@ -44,7 +44,7 @@ def shot(page, name):
 
 def open_app(page, url=WEB + "/"):
     page.goto(url, wait_until="domcontentloaded")
-    page.locator(".entry-card").first.wait_for(timeout=30000)
+    page.get_by_role("tab", name="Finance apps").click(); page.locator(".entry-card").first.wait_for(timeout=30000)
 
 
 def enter(page):
@@ -181,7 +181,7 @@ with sync_playwright() as pw:
     select_header(page, "2026-02")
     level1(page, "2026-02")
     page.reload(wait_until="domcontentloaded")
-    page.locator(".entry-card").first.wait_for(timeout=30000)
+    page.get_by_role("tab", name="Finance apps").click(); page.locator(".entry-card").first.wait_for(timeout=30000)
     check("refresh keeps February on the entry page", page.locator("#entry-period").input_value() == "2026-02")
     enter(page)
     check("refresh keeps February on level 1", "Feb 2026" in level1(page, "2026-02")["badge"])

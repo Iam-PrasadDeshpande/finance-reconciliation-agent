@@ -29,8 +29,8 @@ with sync_playwright() as pw:
     page.add_style_tag(content="[data-testid=stSkillsNudgeAnchor]{display:none !important}")  # the local Streamlit dev toast covers the corner
     page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
-    f.locator(".entry-card").nth(len(with_tab) + 1).wait_for(timeout=120000)
-    check("streamlit entry has a card per module", f.locator(".entry-card").count() == len(with_tab) + 2)
+    f.get_by_role("tab", name="Finance apps").click(); f.locator(".entry-card").nth(len(with_tab) - 1).wait_for(timeout=120000)
+    check("streamlit entry has a card per module", f.locator(".entry-card").count() == len(with_tab))
     f.locator("#entry-ask-input").fill(modules[1]["examples"][0].replace("{period}", "November 2026"))
     check("streamlit routes from the manifest", f.locator("[data-testid=route-chip]").get_attribute("data-domain") == modules[1]["id"])
     f.get_by_role("button", name=f"Open {with_tab[0]['short_name']}").click()

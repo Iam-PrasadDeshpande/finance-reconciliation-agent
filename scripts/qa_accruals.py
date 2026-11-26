@@ -37,8 +37,8 @@ with sync_playwright() as pw:
     page.add_style_tag(content="[data-testid=stSkillsNudgeAnchor]{display:none !important}")  # the local Streamlit dev toast covers the corner
     page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
-    f.locator(".entry-card").nth(3).wait_for(timeout=150000)
-    f.get_by_role("button", name="Open Agents").click()
+    f.get_by_role("tab", name="Finance apps").click(); f.locator(".entry-card").nth(2).wait_for(timeout=150000)
+    f.get_by_role("tab", name="Agents & architecture").click(); f.get_by_role("button", name="Open Watch the agents work").click()
     agent_page(f, "Agent catalog")
     f.locator("[data-testid=agent-launchpad]").wait_for()
     family = f.get_by_role("tablist", name="Agent family")
