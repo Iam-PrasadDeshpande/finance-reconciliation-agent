@@ -120,3 +120,14 @@ def test_posting_guidance_is_manual_and_invents_nothing(store):
 def test_no_agent_tool_can_post_to_sap():
     from poc.agents import TOOLS
     assert not any(re.search(r"post|journal|sap\.write|execute", name) for name in TOOLS if name != "draft_proposal")
+
+
+def test_reconciliation_plan_carries_its_output_inline(client):
+    """The Ask page shows the reconciliation output like the other agent apps: the figures, items, accounts and controls come with the plan."""
+    plan = client.post("/api/agent/plan", json={"message": "Reconcile November 2026 company code 1000 ledger 0L USD", "scenario": "S1", "demo_pace_ms": 0}).json()
+    assert plan["status"] == "done" and plan["domain"] == "reconciliation"
+    blocks = plan["result_blocks"]
+    assert [b["type"] for b in blocks] == ["kpis", "table", "table", "table", "note"]
+    kpis = {i["label"]: i["value"] for i in blocks[0]["items"]}
+    assert kpis["S/4HANA total"].endswith("USD") and "Variance" in kpis
+    assert blocks[1]["title"] == "Reconciling items" and blocks[1]["rows"]
