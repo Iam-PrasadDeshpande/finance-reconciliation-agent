@@ -213,7 +213,7 @@ def new_slide(deck, kicker, chip, chip_kind, title, takeaway, source, footnote="
     txt(s, 0.5, 6.5, 12.33, 0.32, [{"text": [("TAKEAWAY   ", {"size": 10, "bold": True, "color": "blue"}), (takeaway, {"size": 13, "bold": True, "color": "navy"})]}], 13, tag=f"takeaway {deck.n}", anchor=MSO_ANCHOR.MIDDLE)
     if footnote:
         txt(s, 0.5, 6.83, 12.33, 0.22, footnote, 10, "mute", tag="footnote")
-    txt(s, 0.5, 7.08, 7.6, 0.22, source, 9, "mute", tag=f"source {deck.n}")
+    txt(s, 0.5, 7.08, 8.15, 0.22, source, 8.5, "mute", tag=f"source {deck.n}")
     txt(s, 8.2, 7.08, 3.1, 0.22, "CONFIDENTIAL · PRE-POC BASELINE", 10, "slate", True, align=PP_ALIGN.RIGHT, tag="conf")
     logo = rect(s, 11.45, 7.06, 0.85, 0.26, None, "soft", 0.75, True)
     tf = logo.text_frame
