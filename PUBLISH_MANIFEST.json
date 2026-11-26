@@ -80,8 +80,8 @@
       "bytes": 10828
     },
     "docs/Enterprise_AI_Foundation_Governance_V5_2.pptx": {
-      "sha256": "9bfa1d08c324d330737f9522c2f4b5e4898ce95844ad9e8e3b217339abf9c37a",
-      "bytes": 57033
+      "sha256": "453fdb2accdd07c3ceb10153e96d1b4180b4edf00bfc63e955ce9d59de1feb3f",
+      "bytes": 123704
     },
     "docs/INDEPENDENT_REVIEW_AND_RELEASE.md": {
       "sha256": "b86cfcf9d08ff4199fd749107524119af34930372bc555049357d09d4e30880c",
@@ -688,8 +688,12 @@
       "bytes": 1383
     },
     "scripts/build_governance_deck.py": {
-      "sha256": "d2b7a9ad305886cddd5e3297f254c7129bf016496b8c4d0db80e746121b1a4f1",
-      "bytes": 23642
+      "sha256": "0cf58f130cb87a8012600b4273f90ad63b69dcae5070f1172a415edb23016d0f",
+      "bytes": 65982
+    },
+    "scripts/deck_kit.py": {
+      "sha256": "38d621cefdadddcccec69187d58be09d08abf6aef5eadb6d9c40bc23befc46c5",
+      "bytes": 11384
     },
     "scripts/generate_agentic_evidence.py": {
       "sha256": "33548f124d8fc7c553e9716c1e11ca57885c831e5006b4173bd61a1d38b379ae",
