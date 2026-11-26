@@ -18048,6 +18048,11 @@ function Tr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 										] }),
 										/* @__PURE__ */ (0, A.jsx)("dt", { children: "Result" }),
 										/* @__PURE__ */ (0, A.jsx)("dd", { children: M.summary || "Pending" }),
+										/* @__PURE__ */ (0, A.jsx)("dt", { children: "System of record" }),
+										/* @__PURE__ */ (0, A.jsx)("dd", {
+											"data-testid": "systems-of-record",
+											children: M.systems_of_record?.length ? M.systems_of_record.map((e) => `${e.system}: ${e.scope}`).join(" · ") + ". " + he.records_note : "None. Computed from the steps above."
+										}),
 										/* @__PURE__ */ (0, A.jsx)("dt", { children: "Layers reached" }),
 										/* @__PURE__ */ (0, A.jsx)("dd", { children: M.trace?.layers?.length ? M.trace.layers.join(" → ") : "None. Computed locally, no application layer called." }),
 										/* @__PURE__ */ (0, A.jsx)("dt", { children: "Events" }),
@@ -18119,7 +18124,12 @@ function Tr({ catalog: e, plan: t, busy: n, onAsk: r, onOpenLayer: i, onOpenConc
 										/* @__PURE__ */ (0, A.jsx)("dt", { children: "Tools" }),
 										/* @__PURE__ */ (0, A.jsx)("dd", { children: he.tools.join(", ") }),
 										/* @__PURE__ */ (0, A.jsx)("dt", { children: "Layers it can reach" }),
-										/* @__PURE__ */ (0, A.jsx)("dd", { children: he.layers.join(" → ") || "None; it only plans and calls" })
+										/* @__PURE__ */ (0, A.jsx)("dd", { children: he.layers.join(" → ") || "None; it only plans and calls" }),
+										/* @__PURE__ */ (0, A.jsx)("dt", { children: "Systems of record" }),
+										/* @__PURE__ */ (0, A.jsx)("dd", {
+											"data-testid": "systems-of-record",
+											children: he.systems_of_record?.length ? he.systems_of_record.map((e) => `${e.system}: ${e.scope}`).join(" · ") + ". " + he.records_note : he.records_note
+										})
 									] }),
 									/* @__PURE__ */ (0, A.jsx)("p", {
 										className: "aw-note",

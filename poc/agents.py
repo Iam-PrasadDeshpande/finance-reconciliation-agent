@@ -135,7 +135,7 @@ def _trace(store: Store, before: int, step_id: str, plan_id: str) -> dict:
             zone = zones.get(cid)
             if zone and zone not in layers:
                 layers.append(zone)
-        if key not in seen and len(hops) < 12:
+        if key not in seen and len(hops) < 24:
             seen.add(key)
             hops.append({"from": key[0], "to": key[1], "operation": key[2]})
     return {"count": len(rows), "first_seq": rows[0]["seq"] if rows else None, "last_seq": rows[-1]["seq"] if rows else None, "layers": layers, "hops": hops}

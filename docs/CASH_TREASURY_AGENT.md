@@ -33,6 +33,20 @@ SAP's product pages for the Bank Relationship and Cash Management agents returne
 
 Every answer carries the SAP sources it rests on (R1 to R6) with their status.
 
+### Systems of record for the cash agents
+
+The cash agents treat **S/4HANA** and **Central Finance** as their systems of record. This is an agent-level statement; the architecture views, scenarios and diagrams are unchanged.
+
+| Agent / tool | S/4HANA (SYNG Core) | Central Finance |
+|---|---|---|
+| Statement completeness | Bank statements and opening balances of the house bank accounts | not read |
+| Opening balances | Balances and posted flows of its own company codes | Cash-relevant postings replicated from connected source systems |
+| Forecast liquidity | Scheduled receipts and payments | Replicated receipts and payments, and the replication cut-off |
+| Bank relationships | Accounts, balances, credit lines, fees | Payment volumes replicated from connected source systems |
+| Surplus and deficit, policy, templates, recommendations | Computed locally from the reads above | Computed locally from the reads above |
+
+Each agent card, step and answer lists the systems it used (`systems_of_record`). The Central Finance reads use the existing components `cfin_roles`, `cfin_accounting` and `cfin_status`, so the architecture views are unchanged. This is a design assumption, not verified against any tenant, and the demo data is synthetic.
+
 ## 3. Synthetic data, by level (`poc/treasury_data.py`, deterministic)
 
 | Level | Content | Notes |
