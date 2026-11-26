@@ -13,6 +13,7 @@ import urllib.request
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 
 WEB = os.environ.get("QA_WEB_URL", "http://127.0.0.1:8899").rstrip("/")
 SHOTS = Path(os.environ.get("QA_SHOTS", "cockpit_evidence")); SHOTS.mkdir(parents=True, exist_ok=True)
@@ -63,13 +64,15 @@ with sync_playwright() as pw:
     page.screenshot(path=str(SHOTS / "c01_entry.png"))
     first = with_tab[0]
     page.get_by_role("button", name=f"Open {first['short_name']}").click()
-    page.locator(".tab-nav [role=tab]").first.wait_for(timeout=30000)
-    tabs = page.get_by_role("tablist", name="Application sections").get_by_role("tab")
-    check("area tabs are the module tabs plus Agents and Architecture", tabs.count() == len(with_tab) + 2)
+    page.get_by_role("tablist", name="Spaces").wait_for(timeout=30000)
+    tabs = page.get_by_role("tablist", name="Spaces").get_by_role("tab")
+    check("the shell has three spaces: Finance apps, Agents, Architecture & operations", tabs.count() == 3)
+    space(page, "Finance apps")
+    check("the Finance apps page has one tile per agent app", page.locator(".fi-gtile").count() == len(with_tab))
 
     for m in with_tab:
-        tab = page.get_by_role("tablist", name="Application sections").get_by_role("tab", name=m["tab"]["label"], exact=False).first
-        tab.click()
+        space(page, "Finance apps")
+        page.locator(f"[data-tile='{m['tab']['id']}']").click()
         if m["renderer"] == "builtin:reconciliation":
             page.locator("[data-testid=period-panel]").wait_for(timeout=30000)
             check(f"{m['id']}: level 1 renders", page.locator("[data-testid=period-panel]").count() == 1)
@@ -85,24 +88,28 @@ with sync_playwright() as pw:
         page.screenshot(path=str(SHOTS / f"c02_level1_{m['id']}.png"))
 
     # Level 2: the same workbench serves every module
-    page.get_by_role("tablist", name="Application sections").get_by_role("tab", name="Agents").click()
+    space(page, "Agents")
+    agent_page(page, "Agent catalog")
     switch = page.get_by_role("tablist", name="Agent family").get_by_role("tab")
     check("the launchpad tabs list All agents and every module from the catalog", switch.count() == len(ids) + 1 and all(catalog["domains"][i]["name"] in page.get_by_role("tablist", name="Agent family").inner_text() for i in ids))
     for m in manifests:
         dom = catalog["domains"][m["id"]]
         page.get_by_role("tablist", name="Agent family").get_by_role("tab", name=dom["name"]).click()
         check(f"{m['id']}: roster has the catalog's agents", page.locator(".fi-launchpad .fi-tile").count() == len(dom["agents"]), f"{len(dom['agents'])} agents")
+        agent_page(page, "Technical options")
         page.get_by_role("tab", name="Tool catalog").click()
         check(f"{m['id']}: tool catalog lists its tools", page.locator(".aw-catalog tbody tr").count() == len(dom["tools"]))
         page.get_by_role("tab", name="Orchestration and calls").click()
+        agent_page(page, "Ask the agents")
         page.locator("#global-period").select_option("2026-11")
         page.locator("#aw-ask-input").fill(fill(m["examples"][0]))
         page.get_by_role("button", name="Run plan").click()
         page.locator("[data-testid=plan-domain]").get_by_text(m["family_label"]).first.wait_for(timeout=90000)
         page.wait_for_timeout(5500)
-        check(f"{m['id']}: the plan is handled by this module and finishes", "Plan complete" in page.locator(".aw-plan-state").inner_text() or page.locator(".aw-answer").count() == 1)
+        check(f"{m['id']}: the plan is handled by this module and finishes", page.locator(".aw-answer").count() == 1)
         check(f"{m['id']}: the plan states its effective period", "November 2026" in page.locator("[data-testid=plan-period]").inner_text())
         page.screenshot(path=str(SHOTS / f"c03_level2_{m['id']}.png"))
+        agent_page(page, "Technical options")
         step = page.locator(".aw-log li:not(.orch) button").first
         step.click()
         chips = page.locator("[data-testid=concept-chip]")
@@ -111,11 +118,12 @@ with sync_playwright() as pw:
         chips.first.click()
         page.locator("[data-testid=ontology-view]").wait_for(timeout=15000)
         check(f"{m['id']}: a concept chip opens the ontology on that concept", label.lower() in page.locator("[data-testid=ontology-detail]").inner_text().lower(), label)
-        page.get_by_role("tablist", name="Application sections").get_by_role("tab", name="Agents").click()
+        space(page, "Agents")
+        agent_page(page, "Agent catalog")
 
     # Ontology
-    page.get_by_role("tablist", name="Application sections").get_by_role("tab", name="Architecture").click()
-    page.get_by_role("tablist", name="Architecture views").get_by_role("tab", name="Ontology").click()
+    space(page, "Architecture")
+    page.locator("[data-tile=ontology]").click()
     page.locator("[data-testid=ontology-view]").wait_for(timeout=15000)
     check("the ontology draws every concept from every module", page.locator("[data-testid=ontology-node]").count() == len(ontology["classes"]), f"{len(ontology['classes'])} concepts, {len(ontology['relations'])} relations")
     for m in manifests:

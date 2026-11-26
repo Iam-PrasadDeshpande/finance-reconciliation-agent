@@ -48,7 +48,7 @@ S/4HANA (SYNG Core): purchase orders, receipts, service entry sheets, contracts,
 
 ## Where to find it
 
-Agents area: tiles for the three accrual agents, an **Accrual posting workflow** panel with a Preparer / Finance approver role switch, and the technical tabs below. Code: `poc/agent_modules/accruals.py`, `poc/accrual_agents.py`, `poc/accrual_engine.py`, `poc/accrual_data.py`. Tests: `tests/test_accruals.py`, `scripts/qa_accruals.py`.
+Finance apps space, **Accruals** tile (third, after Close & reconcile and Cash & treasury; plugged in through the module manifest like the other two): the accrual screen with the **Accrual posting workflow** panel and the Preparer / Finance approver switch. The Agents space shows the three accrual agents in the Agent catalog and the execution options under Technical options.
 
 ## Limits
 

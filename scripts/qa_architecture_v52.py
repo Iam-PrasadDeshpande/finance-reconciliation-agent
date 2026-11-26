@@ -10,6 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 from poc import architecture_model as model
 from poc import cockpit
 
@@ -40,12 +41,15 @@ with sync_playwright() as pw:
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
     f.locator(".entry-card").nth(3).wait_for(timeout=150000)
     modules = [x for x in cockpit.manifests() if x.get("tab")]
-    tabs_nav = f.locator(".tab-nav [role=tab]")
+    tabs_nav = nav(f)
     seen_text = []
 
     def arch(name):
-        tabs_nav.nth(len(modules) + 1).click()
-        f.get_by_role("tablist", name="Architecture views").get_by_role("tab", name=re.compile(name)).first.click()
+        views = f.get_by_role("tablist", name="Architecture views")
+        if not views.count():
+            tabs_nav.nth(len(modules) + 1).click()
+            f.locator(".fi-gtile").first.click()
+        views.get_by_role("tab", name=re.compile(name)).first.click()
         page.wait_for_timeout(500)
 
     def body():

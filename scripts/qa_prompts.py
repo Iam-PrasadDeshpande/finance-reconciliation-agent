@@ -17,6 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 from poc import cockpit
 
 URL = os.environ.get("QA_URL", "http://127.0.0.1:8899").rstrip("/")
@@ -68,7 +69,7 @@ with sync_playwright() as pw:
     page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
     f.locator(".entry-card").nth(3).wait_for(timeout=150000)
-    tabs_nav = f.locator(".tab-nav [role=tab]")
+    tabs_nav = nav(f)
     modules = [m for m in cockpit.manifests() if m.get("tab")]
     agents_index = len(modules)
     arch_index = len(modules) + 1
@@ -88,10 +89,13 @@ with sync_playwright() as pw:
             page.wait_for_timeout(500)
 
     def snapshot():
+        agent_page(f, "Technical options")
         log = f.locator(".aw-log li:not(.orch)")
         names = [log.nth(i).locator("b").inner_text() for i in range(log.count())]
+        done_count = f.locator(".aw-log li.done:not(.orch)").count()
+        agent_page(f, "Ask the agents")
         return {"request": f.locator("[data-testid=plan-request]").inner_text(), "domain": f.locator("[data-testid=plan-domain]").inner_text(),
-                "steps": names, "done": f.locator(".aw-log li.done:not(.orch)").count(), "answer": f.locator(".aw-answer p").first.inner_text()[:140] if f.locator(".aw-answer").count() else "",
+                "steps": names, "done": done_count, "answer": f.locator(".aw-answer p").first.inner_text()[:140] if f.locator(".aw-answer").count() else "",
                 "output": f.locator("[data-testid=plan-output]").count(), "workflow": f.locator("[data-testid=workflow-panel]").count(), "state": f.locator(".aw-plan-state").first.get_attribute("class")}
 
     def walk():
@@ -99,6 +103,7 @@ with sync_playwright() as pw:
         for index in [i for i in range(len(modules))] + [arch_index]:
             tabs_nav.nth(index).click()
             page.wait_for_timeout(250)
+        f.locator(".fi-gtile").first.click()
         views = f.get_by_role("tablist", name="Architecture views").get_by_role("tab")
         count = views.count()
         for i in range(count):

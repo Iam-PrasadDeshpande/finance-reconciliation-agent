@@ -10,6 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 from poc import treasury as T
 
 URL = os.environ.get("QA_URL", "http://127.0.0.1:8899").rstrip("/")
@@ -36,7 +37,7 @@ with sync_playwright() as pw:
     f.locator(".entry-card").nth(3).wait_for(timeout=150000)
 
     def area(index):
-        f.locator(".tab-nav [role=tab]").nth(index).click()
+        nav(f).nth(index).click()
 
     def shot(name):
         page.screenshot(path=str(SHOTS / f"{name}{'_m' if MOBILE else ''}.png"))

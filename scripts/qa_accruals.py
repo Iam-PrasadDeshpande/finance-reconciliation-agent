@@ -11,6 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 from poc import accrual_data as A
 from poc import cockpit
 
@@ -33,10 +34,12 @@ with sync_playwright() as pw:
     errors = []
     page.on("pageerror", lambda e: errors.append(str(e)))
     page.goto(URL, wait_until="domcontentloaded")
+    page.add_style_tag(content="[data-testid=stSkillsNudgeAnchor]{display:none !important}")  # the local Streamlit dev toast covers the corner
     page.wait_for_timeout(4000)
     f = page.frame_locator("iframe").first if page.locator("iframe").count() else page
     f.locator(".entry-card").nth(3).wait_for(timeout=150000)
     f.get_by_role("button", name="Open Agents").click()
+    agent_page(f, "Agent catalog")
     f.locator("[data-testid=agent-launchpad]").wait_for()
     family = f.get_by_role("tablist", name="Agent family")
 
@@ -71,11 +74,20 @@ with sync_playwright() as pw:
 
     def run_prompt(prompt):
         """Run a request and wait until the plan finished (the orchestration log says so)."""
+        agent_page(f, "Ask the agents")
         f.locator("#aw-ask-input").fill(prompt)
         f.get_by_role("button", name="Run plan").click()
         until(lambda: prompt in f.locator("[data-testid=plan-request]").inner_text())
-        until(lambda: any(w in f.locator(".aw-plan-state").first.inner_text() for w in ("Plan complete", "Stopped")))
+        until(lambda: f.locator(".aw-answer").count() > 0)
         page.wait_for_timeout(600)
+
+    def on(page_name, fn):
+        """Read something that lives on another page of the Agents space, then come back to Ask the agents."""
+        agent_page(f, page_name)
+        try:
+            return fn()
+        finally:
+            agent_page(f, "Ask the agents")
 
     def click_until(button_name, condition):
         act(button_name).click()
@@ -87,7 +99,7 @@ with sync_playwright() as pw:
     check("the launchpad has an All agents tab and one tab per agent family", tabs.count() == len(CAT) + 1 and tabs.first.inner_text().startswith("All agents"), str(tabs.all_inner_texts()))
     check("the All agents catalogue shows every agent as a tile, grouped in sections", f.locator(".fi-launchpad .fi-tile").count() == total and f.locator(".fi-section-title").count() == len(CAT), f"{total} tiles")
     check("tiles carry the agent name, a one-sentence purpose, its mode and its tool count", all(t in f.locator(".fi-launchpad").inner_text() for t in ("Accrual Preparation Agent", "Cash Positioning Agent", "Evidence", "read + local draft")))
-    check("technical options are below the launchpad", f.locator("[data-testid=technical-options]").bounding_box()["y"] > f.locator("[data-testid=agent-launchpad]").bounding_box()["y"])
+    check("the Agents space has three pages: Ask, Agent catalog, Technical options", f.get_by_role("tablist", name="Agent pages").get_by_role("tab").count() == 3)
     family.get_by_role("tab", name="Accrual Posting Agent").click()
     check("the accrual tab shows its three agents as tiles", f.locator(".fi-launchpad .fi-tile").count() == 3 and f.locator(".fi-section-title").count() == 0)
     f.locator(".fi-tile", has_text="Accrual Preparation Agent").click()
@@ -95,14 +107,15 @@ with sync_playwright() as pw:
     check("selecting a tile shows its details with the systems of record", "Accrual Preparation Agent" in f.locator("[data-testid=tile-detail]").inner_text() and "S/4HANA" in sor.inner_text() and "not verified" in sor.inner_text())
 
     # ---- 2. execution options: LLM is the default -----------------------------------------------------------------------------
+    agent_page(f, "Ask the agents")
     summary = f.locator("[data-testid=options-summary]").inner_text()
     check("the ask area shows the default execution LLM, company code 1000 and All types", "Execution: LLM" in summary and "1000" in summary and "All types" in summary, summary.replace("\n", " "))
-    f.get_by_role("tab", name="Execution options").click()
+    agent_page(f, "Technical options"); f.get_by_role("tab", name="Execution options").click()
     execution = f.locator("#opt-execution")
     check("Execution offers LLM (default) and Rules", execution.input_value() == "llm" and [o.inner_text() for o in execution.locator("option").all()] == ["LLM", "Rules"])
     check("Accrual types offers All types and each of the five types", f.locator("#opt-types option").count() == 6 and f.locator("#opt-types").input_value() == "all")
     check("Company code offers the three company codes", f.locator("#opt-company_code option").count() == 3)
-    f.get_by_role("tab", name="Orchestration and calls").click()
+    f.get_by_role("tab", name="Orchestration and calls").click(); agent_page(f, "Ask the agents")
 
     # ---- 3. a run in the LLM execution, then the workflow -----------------------------------------------------------------------
     PREPARE = "Prepare accruals for company code 1000 for November 2026"
@@ -112,7 +125,7 @@ with sync_playwright() as pw:
         run_prompt(PREPARE)
     answer = f.locator(".aw-answer").inner_text()
     check("the run uses the LLM execution and says the model is simulated", "execution LLM" in answer and "simulated" in answer and "no SAP system was changed" in answer, answer[:140].replace("\n", " "))
-    check("all eight steps ran and the tile shows it was called", f.locator(".aw-log li.done").count() == 8 and "Called · 8 steps" in f.locator(".fi-tile", has_text="Accrual Preparation Agent").inner_text())
+    check("all eight steps ran and the tile shows it was called", on("Technical options", lambda: f.locator(".aw-log li.done").count() == 8) and on("Agent catalog", lambda: "Called · 8 steps" in f.locator(".fi-tile", has_text="Accrual Preparation Agent").inner_text()))
     check("no output-screen link is offered, the workflow panel is on the page", f.locator("[data-testid=plan-output]").count() == 0 and panel().count() == 1)
     page.screenshot(path=str(SHOTS / "a01_run.png"))
     check("the workflow shows ten proposal lines, the duplicate blocked and the injection attempt ignored", until(lambda: lines_table().locator("tbody tr").count() == 10)
@@ -150,24 +163,24 @@ with sync_playwright() as pw:
     # the agent reconciles through S/4HANA and Central Finance
     run_prompt("Reconcile the posted accrual entries for company code 1000 for November 2026")
     check("the agent's own reconciliation run completes and names both systems of record", "Reconcile" in f.locator("[data-testid=plan-request]").inner_text()
-          and "Central Finance" in f.locator(".aw-log").inner_text() + f.locator("[data-testid=module-result]").inner_text() + f.locator(".aw-answer").inner_text())
+          and "Central Finance" in on("Technical options", lambda: f.locator(".aw-log").inner_text()) + f.locator("[data-testid=module-result]").inner_text() + f.locator(".aw-answer").inner_text())
 
     # a request to post is refused
     run_prompt("Post the accrual journal for November 2026")
-    check("a request to post is refused: posting is a person's action", "blocked" in f.locator(".aw-plan-state").first.get_attribute("class") and "not an agent action" in f.locator(".aw-answer").inner_text())
+    check("a request to post is refused: posting is a person's action", "blocked" in on("Technical options", lambda: f.locator(".aw-plan-state").first.get_attribute("class")) and "not an agent action" in f.locator(".aw-answer").inner_text())
 
     # ---- 4. the Rules execution -----------------------------------------------------------------------------------------------
     click_until("reset", lambda: "No accrual run yet" in text() or lines_table().count() == 0)
-    f.get_by_role("tab", name="Execution options").click()
+    agent_page(f, "Technical options"); f.get_by_role("tab", name="Execution options").click()
     f.locator("#opt-execution").select_option("rules")
-    f.get_by_role("tab", name="Orchestration and calls").click()
+    f.get_by_role("tab", name="Orchestration and calls").click(); agent_page(f, "Ask the agents")
     check("the options line now shows the Rules execution", "Execution: Rules" in f.locator("[data-testid=options-summary]").inner_text())
     run_prompt(PREPARE)
     check("Rules execution: eight lines proposed, two estimates excluded, no documents and no estimates", "execution Rules" in f.locator(".aw-answer").inner_text() and "2 excluded" in f.locator(".aw-answer").inner_text()
-          and f.locator(".aw-log li.skipped").count() == 2 and until(lambda: lines_table().locator("tbody tr").count() == 8))
-    f.get_by_role("tab", name="Execution options").click()
+          and on("Technical options", lambda: f.locator(".aw-log li.skipped").count() == 2) and until(lambda: lines_table().locator("tbody tr").count() == 8))
+    agent_page(f, "Technical options"); f.get_by_role("tab", name="Execution options").click()
     f.locator("#opt-execution").select_option("llm")
-    f.get_by_role("tab", name="Orchestration and calls").click()
+    f.get_by_role("tab", name="Orchestration and calls").click(); agent_page(f, "Ask the agents")
 
     # ---- 5. a closed posting period -------------------------------------------------------------------------------------------
     f.locator("#global-period").select_option("2026-10")
@@ -180,12 +193,23 @@ with sync_playwright() as pw:
     check("a closed posting period is shown and blocks approval even with every line accepted", "Closed" in text() and act("approve_journal").is_disabled() and "Posting period closed" in text())
 
     # ---- 6. the existing agents are tiles too and the technical tabs are reachable ----------------------------------------------
+    agent_page(f, "Agent catalog")
     family.get_by_role("tab", name="Cash and Treasury Assistant").click()
     check("the cash agents are tiles in their own group", f.locator(".fi-launchpad .fi-tile").count() == len(CAT["treasury"]["agents"]))
     family.get_by_role("tab", name="Reconciliation Agent").click()
     check("the reconciliation agents are tiles in their own group", f.locator(".fi-launchpad .fi-tile").count() == len(CAT["reconciliation"]["agents"]))
+    agent_page(f, "Technical options")
     f.get_by_role("tab", name="Tool catalog").click()
     check("the tool catalog is a technical tab and lists the family's tools", f.locator(".aw-catalog tbody tr").count() == len(CAT["reconciliation"]["tools"]))
+    # first-level Accruals tab, plugged in like Close & reconcile and Cash & treasury
+    space(f, "Finance apps")
+    tiles = f.locator(".fi-gtile")
+    check("Finance apps is a page of tiles: Close, Cash, Accruals", tiles.count() == 3 and "Accruals" in tiles.nth(2).inner_text(), str(tiles.all_inner_texts()))
+    check("the shell has three spaces", f.get_by_role("tablist", name="Spaces").get_by_role("tab").count() == 3)
+    f.locator("[data-tile=accruals]").click()
+    f.locator("[data-testid=module-page][data-module=accruals]").wait_for(timeout=90000)
+    check("the Accruals tab shows the accrual screen and the workflow panel", until(lambda: panel().count() == 1 and "Accrual" in panel().inner_text()))
+    check("the Accruals tab offers the preparer and approver roles", panel().get_by_role("button", name="Finance approver").count() >= 1 or "approver" in text().lower())
     check("no page errors", not errors, "; ".join(errors)[:200])
     browser.close()
 

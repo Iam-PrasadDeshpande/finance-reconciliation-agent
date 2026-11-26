@@ -10,6 +10,7 @@ import urllib.request
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+from qa_nav import nav, agent_page, space
 
 WEB = os.environ.get("QA_WEB_URL", "http://127.0.0.1:8899").rstrip("/")
 SHOTS = Path(os.environ.get("QA_SHOTS", "period_sync_evidence"))
@@ -62,7 +63,7 @@ def level1(page, period):
 
 
 def tab(page, index):
-    page.locator(".tab-nav [role=tab]").nth(index).click()
+    nav(page).nth(index).click()
 
 
 with sync_playwright() as pw:
@@ -110,7 +111,7 @@ with sync_playwright() as pw:
     shot(page, "04_level1_after_return_february")
 
     # 5. Change the period inside Level 2: stale plan is flagged, not shown as current
-    tab(page, 2)
+    tab(page, 3)
     select_header(page, "2026-11")
     page.locator("[data-testid=plan-stale]").wait_for(timeout=10000)
     check("changing period at level 2 flags the February plan as stale", "February 2026" in page.locator("[data-testid=plan-stale]").inner_text())
@@ -189,7 +190,7 @@ with sync_playwright() as pw:
     open_app(deep, WEB + "/?period=2026-02")
     enter(deep)
     check("deep link ?period=2026-02 opens February", "Feb 2026" in level1(deep, "2026-02")["badge"])
-    tab(deep, 2)
+    tab(deep, 3)
     deep.locator("#aw-ask-input").wait_for()
     check("deep link reaches level 2 with February in the request text", "February 2026" in deep.locator("#aw-ask-input").input_value() and "February 2026" in deep.locator(".aw-ask .period-effective").inner_text())
     deep.close()
@@ -203,7 +204,7 @@ with sync_playwright() as pw:
     shot(gone, "12_unavailable_period_no_data")
     gone.close()
     page.locator("#global-period").select_option("2026-11")
-    tab(page, 2)
+    tab(page, 3)
     page.locator("#aw-ask-input").fill("Reconcile December 2026 company code 1000 ledger 0L USD")
     check("effective-period chip warns before running", "NO DATA AVAILABLE FOR DECEMBER 2026" in page.locator(".aw-ask .period-effective").inner_text())
     page.get_by_role("button", name="Run plan").click()

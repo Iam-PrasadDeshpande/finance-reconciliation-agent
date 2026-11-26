@@ -17,7 +17,9 @@ from deck_kit import C, arrow, card, legend, new_slide, node, rect, table, txt  
 from poc import architecture_model as m  # noqa: E402
 
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "docs" / "Enterprise_AI_Foundation_Governance_V5_2.pptx"
-TOTAL = 19
+ORDER = ['purpose', 'landscape', 'scenarios', 'hosting', 's1ref', 's1e2e', 's3ref', 's3e2e', 's2ref', 's2e2e', 'account', 'gateways', 'tracks', 'assets', 'identity', 'integration', 'design', 'method', 'evalobs', 'guard', 'raci', 'cost', 'standards', 'poc']
+NO = {key: i + 1 for i, key in enumerate(ORDER)}
+TOTAL = len(ORDER)
 D = k.Deck(TOTAL)
 JOULE = "‡ Future option: SAP Joule Studio hosting, once our landscape supports it. Unverified; not a baseline dependency."
 
@@ -29,11 +31,224 @@ def dot(slide, x, y, color, d=0.17):
     s.fill.fore_color.rgb = k.rgb(color)
     s.line.fill.background()
 
+def tick(slide, x, y, ok, d=0.46):
+    """The preference mark on a scenario: a green tick when preferred, a red cross when not."""
+    s = slide.shapes.add_shape(MSO_SHAPE.OVAL, k.Inches(x), k.Inches(y), k.Inches(d), k.Inches(d))
+    s.shadow.inherit = False
+    s.fill.solid()
+    s.fill.fore_color.rgb = k.rgb("green" if ok else "red")
+    s.line.fill.background()
+    tf = s.text_frame
+    tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    k.fill_tf(tf, [{"text": "✓" if ok else "✕"}], 20, "white", True, PP_ALIGN.CENTER)
 
-# ------------------------------------------------------------------------------------------------------------------ 1
+
+SCN = {
+    "S1": {"name": "S1 · SAP-hosted hybrid", "pref": True, "scope": "Preferred · SAP-centric agents"},
+    "S2": {"name": "S2 · AWS AgentCore-native", "pref": False, "scope": "Not preferred · kept for reference"},
+    "S3": {"name": "S3 · AgentCore + Apigee hybrid", "pref": True, "scope": "Preferred · SAP and non-SAP agents"},
+}
+HOST = {
+    "S1": [("AGENT HOSTED ON", "SAP BTP Cloud Foundry", "agent"), ("MCP HOSTED / EXPOSED ON", "Apigee-managed MCP endpoint; custom MCP on Cloud Foundry only if needed", "gw"),
+           ("TOOL (SAP API) HOSTED ON", "S/4HANA · Central Finance, reached through Integration Suite", "sap")],
+    "S2": [("AGENT HOSTED ON", "AWS AgentCore Runtime", "agent"), ("MCP HOSTED / EXPOSED ON", "AgentCore Gateway endpoint; MCP server on AgentCore Runtime or an API target", "gw2"),
+           ("TOOL (SAP API) HOSTED ON", "S/4HANA · Central Finance, reached through Integration Suite", "sap")],
+    "S3": [("AGENT HOSTED ON", "AWS AgentCore Runtime", "agent"), ("MCP HOSTED / EXPOSED ON", "Apigee-managed MCP endpoint behind AgentCore Gateway; custom MCP on AgentCore Runtime if needed", "gw"),
+           ("TOOL (SAP API) HOSTED ON", "S/4HANA · Central Finance, reached through Apigee and Integration Suite", "sap")],
+}
+
+
+def hosting_strip(s, scn, y=1.66):
+    """The three hosting layers of a scenario as a strip under the legend: agent, MCP server, tool."""
+    for i, (label, value, kd) in enumerate(HOST[scn]):
+        x = 0.5 + i * 4.14
+        fill, line = k.KIND[kd]
+        rect(s, x, y, 4.05, 0.34, fill, line, 1.0)
+        txt(s, x + 0.05, y, 3.95, 0.34, [{"text": [(label + "  ", {"bold": True, "color": "navy", "size": 8}), (value, {"size": 8.5})]}], 8.5, anchor=MSO_ANCHOR.MIDDLE, tag=f"host {scn} {i}")
+
+
+REF = {
+    "S1": dict(kicker="REFERENCE ARCHITECTURE · S1 SAP-HOSTED", chip="S1 · preferred · SAP-centric", ck="ok",
+               title="S1 reference architecture: a Cloud Foundry agent behind Apigee, registered on a separate control plane",
+               take="The agent and any custom MCP run on SAP BTP; Apigee is the only gateway; the registry holds metadata only.",
+               src="Source: owner brief; repo V5.2 model (D2); SAP and Google docs as logged in repo (2026-11-25). S1 approval pending.",
+               notes="S1 IS PREFERRED FOR SAP-CENTRIC AGENTS. The agent and its MCP client run on SAP BTP Cloud Foundry and call the Apigee MCP endpoint directly: one gateway hop and one identity mapping to prove. Apigee exposes the SAP API as an MCP tool (Pattern A) or proxies a custom MCP on Cloud Foundry (Pattern B, only if logic needs code). AWS Agent Registry holds metadata only; no AgentCore component runs anything. GitLab deploys the application and the Apigee bundles and publishes the records."),
+    "S2": dict(kicker="REFERENCE ARCHITECTURE · S2 AWS-NATIVE", chip="S2 · not preferred · reference", ck="mute",
+               title="S2 reference architecture (not preferred): an AgentCore agent behind AgentCore Gateway, kept for reference",
+               take="AgentCore Gateway is the only gateway and Apigee is optional; S2 stays in the architecture for reference, not preferred.",
+               src="Source: owner brief; repo V5.2 model (D3); AWS docs as logged in repo (2026-11-25). Not preferred; owner exception needed.",
+               notes="S2 IS KEPT FOR REFERENCE AND IS NOT PREFERRED. AgentCore Runtime hosts the agent; AgentCore Gateway mediates to an MCP server on AgentCore Runtime or to an approved API/OpenAPI target; Apigee is inserted only where SAP Integration and Security require it. Selecting S2 needs an explicit owner exception."),
+    "S3": dict(kicker="REFERENCE ARCHITECTURE · S3 HYBRID", chip="S3 · preferred · SAP and non-SAP", ck="ok",
+               title="S3 reference architecture: an AgentCore agent behind AgentCore Gateway and Apigee, registered on a separate control plane",
+               take="Nothing on the invocation path depends on the registry. Both gateways are in the path: interoperability is a POC item.",
+               src="Source: owner brief; repo V5.2 model (D4, D6); AWS and Google docs as logged in repo (2026-11-25). S3 approval pending.",
+               notes="S3 IS PREFERRED FOR AGENTS THAT SPAN SAP AND NON-SAP SYSTEMS; IT IS NOT APPROVED. Paths: user to Fiori to the AgentCore Runtime agent; the agent calls the approved LLM only via Portkey; MCP calls pass AgentCore Gateway, then Google Apigee, then Integration Suite, Cloud Connector where applicable, then the SAP backend, which authorizes the mapped user. The registry is a metadata plane: GitLab publishes records, AI Foundry approves them, and nothing at runtime looks them up."),
+}
+
+
+def ref_arch(scn):
+    m_ = REF[scn]
+    s = new_slide(D, m_["kicker"], m_["chip"], m_["ck"], m_["title"], m_["take"], m_["src"], JOULE, notes=m_["notes"])
+    legend(s, [("Runtime path", "run"), ("Registration (control plane)", "reg"), ("LLM call", "llm"), ("Identity / token", "id"), ("Deployment (GitLab)", "dep")], 0.5, 1.38)
+    hosting_strip(s, scn)
+    lanes = [("1 · User", "Business owner"), ("2 · Agent execution", "Domain agent team"), ("3 · AI governance", "AI Foundry · GitLab"), ("4 · MCP / API", "Integration team"),
+             ("5 · Identity", "InfoSec"), ("6 · SAP / data", "System owners"), ("7 · Evidence", "Ops · Cloud ALM")]
+    lh = [0.58, 0.58, 0.62, 0.62, 0.56, 0.6, 0.46]
+    ly, y0 = [], 2.06
+    for hh in lh:
+        ly.append(y0)
+        y0 += hh + 0.03
+    for i, (a, b) in enumerate(lanes):
+        rect(s, 0.5, ly[i], 12.33, lh[i], "gray" if i % 2 == 0 else "white", None)
+        rect(s, 0.5, ly[i], 1.55, lh[i], "slatebg", None)
+        txt(s, 0.55, ly[i] + 0.01, 1.5, lh[i] - 0.02, [{"text": a, "size": 10, "bold": True, "color": "navy"}, {"text": b, "size": 8, "color": "mute"}], 10, anchor=MSO_ANCHOR.MIDDLE, tag=f"lane {a}")
+
+    def ny(i):
+        return ly[i] + 0.06, lh[i] - 0.12
+
+    y, h = ny(0)
+    node(s, 2.15, y, 1.9, h, "Business user", "", "ui")
+    node(s, 4.45, y, 2.0, h, "SAP Fiori / UI5", "", "agent")
+    arrow(s, 4.05, y + h / 2, 4.45, y + h / 2)
+    y, h = ny(1)
+    cf = scn == "S1"
+    node(s, 2.15, y, 5.0, h, "Domain agent · SAP BTP Cloud Foundry" if cf else "Domain agent · AWS AgentCore Runtime",
+         "MCP client · bounded autonomy · SAP BTP space" if cf else "MCP client · bounded autonomy · dedicated SAP-agent account, not provisioned", "agent", tag="agent")
+    node(s, 7.55, y, 1.55, h, "Portkey gateway", "common LLM gateway", "llm")
+    node(s, 9.3, y, 1.55, h, "Approved LLM", "only via Portkey", "llm")
+    node(s, 11.0, y, 1.75, h, "Joule Studio ‡" if cf else "CF agent · S1 host", "future agent host" if cf else "alternative host", "mute" if cf else "agent", dashed=True)
+    arrow(s, 7.15, y + h / 2, 7.55, y + h / 2, "llm")
+    arrow(s, 9.1, y + h / 2, 9.3, y + h / 2, "llm")
+    arrow(s, 3.1, ly[0] + lh[0] - 0.06, 3.1, ly[1] + 0.06)
+    agent_bottom = ly[1] + lh[1] - 0.06
+    y, h = ny(2)
+    reg_sub = "agent + MCP records · metadata only"
+    node(s, 4.3, y, 2.2, h, "AWS Agent Registry", reg_sub, "reg", tag="registry")
+    node(s, 6.75, y, 1.7, h, "AI Foundry", "approves records", "ok")
+    node(s, 8.7, y, 2.3, h, "GitLab CI/CD", "deploys, never runs", "mute", tag="gitlab")
+    arrow(s, 6.75, y + h / 2, 6.5, y + h / 2, "reg")
+    arrow(s, 5.4, agent_bottom, 5.4, y, "reg")
+    arrow(s, 8.9, y, 7.0, agent_bottom, "dep")
+    txt(s, 5.5, agent_bottom + 0.0, 1.2, 0.2, "register agent", 8, "green", True, tag="lbl")
+    txt(s, 3.18, ly[2] + 0.12, 1.1, 0.3, "MCP tools/call", 9, "navy", True, tag="lbl")
+    y, h = ny(3)
+    if scn == "S1":
+        node(s, 2.15, y, 1.9, h, "Google Apigee", "SAP MCP/API · quota · auth", "gw")
+        node(s, 4.4, y, 1.9, h, "Integration Suite", "SAP mediation · iFlows", "agent")
+        node(s, 6.65, y, 1.85, h, "Cloud Connector", "where applicable", "agent", dashed=True)
+        node(s, 8.9, y, 1.95, h, "Custom MCP", "Cloud Foundry · if required", "agent", dashed=True)
+        chain, cc_x = [(4.05, 4.4), (6.3, 6.65)], 8.4
+    elif scn == "S2":
+        node(s, 2.15, y, 1.9, h, "AgentCore Gateway", "mediates · tool policy", "gw2")
+        node(s, 4.4, y, 1.9, h, "Integration Suite", "SAP mediation · iFlows", "agent")
+        node(s, 6.65, y, 1.85, h, "Cloud Connector", "where applicable", "agent", dashed=True)
+        node(s, 8.9, y, 1.95, h, "Custom MCP", "AgentCore Runtime · if required", "agent", dashed=True)
+        node(s, 11.1, y, 1.65, h, "Google Apigee", "optional · if SAP requires", "gw", dashed=True)
+        chain, cc_x = [(4.05, 4.4), (6.3, 6.65)], 8.4
+    else:
+        node(s, 2.15, y, 1.9, h, "AgentCore Gateway", "mediates · tool policy", "gw2")
+        node(s, 4.4, y, 1.9, h, "Google Apigee", "SAP MCP/API · quota · auth", "gw")
+        node(s, 6.65, y, 1.85, h, "Integration Suite", "SAP mediation · iFlows", "agent")
+        node(s, 8.8, y, 1.7, h, "Cloud Connector", "where applicable", "agent", dashed=True)
+        node(s, 10.8, y, 1.95, h, "Custom MCP", "AgentCore Runtime · if required", "agent", dashed=True)
+        chain, cc_x = [(4.05, 4.4), (6.3, 6.65), (8.5, 8.8)], 9.65
+    for a, b in chain:
+        arrow(s, a, y + h / 2, b, y + h / 2)
+    arrow(s, 3.1, ly[1] + lh[1] - 0.06, 3.1, y)
+    gw_bottom = ly[3] + lh[3] - 0.06
+    y, h = ny(4)
+    node(s, 2.15, y, 1.9, h, "Corporate IdP", "federated · Global User ID", "idn")
+    node(s, 4.3, y, 2.2, h, "Workload identity" if cf else "Trust and token exchange", "CF binding · IAS · POC item" if cf else "IAS trust · profile = POC item", "idn", dashed=True)
+    node(s, 6.75, y, 1.5, h, "User mapping", "SAP · Gate 5", "idn", dashed=True)
+    arrow(s, 4.05, y + h / 2, 4.3, y + h / 2, "id")
+    arrow(s, 6.5, y + h / 2, 6.75, y + h / 2, "id")
+    txt(s, 10.6, y + 0.1, 2.1, 0.3, "Released APIs", 10, "navy", True, anchor=MSO_ANCHOR.MIDDLE, tag="lbl")
+    y, h = ny(5)
+    node(s, 2.15, y, 1.9, h, "SaaS / non-SAP APIs", "Concur · Ariba · Workday", "plain", dashed=True)
+    node(s, 4.3, y, 2.5, h, "Data products / analytics", "BW/4HANA · SAC · BDC", "agent", dashed=True)
+    node(s, 7.1, y, 3.6, h, "SAP backend", "authorizes the mapped user · SYNG Core + Central Finance", "sap", tag="sap")
+    node(s, 10.9, y, 1.85, h, "Persistence", "conditional · approved store", "plain", dashed=True)
+    arrow(s, cc_x, gw_bottom, cc_x, y)
+    y, h = ny(6)
+    ev = {"S1": "Cloud ALM = SAP-side monitoring · separate evidence store (TBD) joins Cloud Foundry, Apigee, Portkey and registry logs by correlation ID",
+          "S2": "Cloud ALM = SAP-side monitoring · separate evidence store (TBD) joins AgentCore, Portkey and registry logs (Apigee if inserted) by correlation ID",
+          "S3": "Cloud ALM = SAP-side monitoring · separate evidence store (TBD) joins AgentCore, Apigee, Portkey and registry logs by correlation ID"}[scn]
+    node(s, 2.15, y, 10.6, h, "Evidence plane", ev, "ui", ss=8.5, tag="evidence")
+    return s
+
+
+E2E = {
+    "S1": dict(title="S1 end to end: how a custom agent is built, approved, registered, deployed and run on SAP BTP",
+               take="One path from GitLab to Cloud Foundry; every release passes AI Foundry gates and is registered before it can be called.",
+               run="RUN  ·  S1 SAP-hosted hybrid", deploy=("Deploy from GitLab", "cf push or MTA into the Cloud Foundry space (dev / test / prod); Apigee bundles"),
+               rows=[[("Fiori / UI5", "business user", "ui"), ("Corporate IdP", "sign-in · tokens", "idn"), ("Joule Studio ‡", "future agent host", "mute")],
+                     [("Domain agent", "Cloud Foundry space", "agent"), ("Portkey", "model gateway", "llm"), ("Approved LLMs", "only via Portkey", "llm")],
+                     [("Apigee", "MCP · quota · auth", "gw"), ("Custom MCP", "Cloud Foundry · if required", "agent"), ("Integration Suite", "SAP mediation", "agent")],
+                     [("Cloud Connector", "where applicable", "agent"), ("SYNG Core", "S/4HANA · finance", "sap"), ("Central Finance", "S/4HANA · finance", "sap")],
+                     [("BW/4HANA · SAC", "analytical path", "agent"), ("SaaS APIs", "Concur Ariba Workday", "plain"), ("Identity chain", "negative test", "idn")]],
+               observe="OpenTelemetry · Datadog · BTP and Apigee logs → evidence store (TBD) · Cloud ALM (SAP-side) · Confident AI + Amplitude · drift returns to GitLab as a new version"),
+    "S2": dict(title="S2 end to end (reference): how a custom agent is built, approved, registered, deployed and run on AgentCore",
+               take="One path from GitLab to AgentCore; S2 stays a reference and is not preferred.",
+               run="RUN  ·  S2 AgentCore-native (reference)", deploy=("Deploy from GitLab", "infrastructure as code into the dedicated AWS account: dev / test / prod; Apigee bundle only if inserted"),
+               rows=[[("Fiori / UI5", "business user", "ui"), ("Corporate IdP", "sign-in · tokens", "idn"), ("CF agent · S1 host", "alternative host", "mute")],
+                     [("Domain agent", "AgentCore Runtime", "agent"), ("Portkey", "model gateway", "llm"), ("Approved LLMs", "only via Portkey", "llm")],
+                     [("AgentCore Gateway", "mediation · tool policy", "gw2"), ("MCP or API target", "AgentCore Runtime or API", "agent"), ("Integration Suite", "SAP mediation", "agent")],
+                     [("Cloud Connector", "where applicable", "agent"), ("SYNG Core", "S/4HANA · finance", "sap"), ("Central Finance", "S/4HANA · finance", "sap")],
+                     [("BW/4HANA · SAC", "analytical path", "agent"), ("Apigee", "optional · if required", "gw"), ("Identity chain", "negative test", "idn")]],
+               observe="OpenTelemetry · Datadog · AgentCore logs → evidence store (TBD) · Cloud ALM (SAP-side) · Confident AI + Amplitude · drift returns to GitLab as a new version"),
+    "S3": dict(title="S3 end to end: how a custom agent is built, approved, registered, deployed and run",
+               take="One path from GitLab to AgentCore; every release passes AI Foundry gates and is registered before it can be called.",
+               run="RUN  ·  S3 hybrid", deploy=("Deploy from GitLab", "infrastructure as code into the dedicated AWS account: dev / test / prod; Apigee bundles"),
+               rows=[[("Fiori / UI5", "business user", "ui"), ("Corporate IdP", "sign-in · tokens", "idn"), ("CF agent · S1 host", "alternative host", "mute")],
+                     [("Domain agent", "AgentCore Runtime", "agent"), ("Portkey", "model gateway", "llm"), ("Approved LLMs", "only via Portkey", "llm")],
+                     [("AgentCore Gateway", "mediation · tool policy", "gw2"), ("Apigee", "MCP · quota · auth", "gw"), ("Integration Suite", "SAP mediation", "agent")],
+                     [("Cloud Connector", "where applicable", "agent"), ("SYNG Core", "S/4HANA · finance", "sap"), ("Central Finance", "S/4HANA · finance", "sap")],
+                     [("BW/4HANA · SAC", "analytical path", "agent"), ("SaaS APIs", "Concur Ariba Workday", "plain"), ("Identity chain", "negative test", "idn")]],
+               observe="OpenTelemetry · Datadog · AgentCore and Apigee logs → evidence store (TBD) · Cloud ALM (SAP-side) · Confident AI + Amplitude · drift returns to GitLab as a new version"),
+}
+
+
+def e2e(scn):
+    m_ = E2E[scn]
+    chip = {"S1": ("S1 · preferred · SAP-centric", "ok"), "S2": ("S2 · not preferred · reference", "mute"), "S3": ("S3 · preferred · SAP and non-SAP", "ok")}[scn]
+    s = new_slide(D, f"{scn} · END TO END", chip[0], chip[1], m_["title"], m_["take"],
+                  "Source: owner's blueprint and landscape (internal, private); repo V5.2 model. Toolkit reuse and pipeline are defined at Gate 3.", JOULE,
+                  notes="BUILD: the domain team writes the agent spec, skills and MCP/tool contracts in GitLab; the CI pipeline builds, tests (including the injection suite) and checks integrity (tools/list hash). GOVERN + REGISTER: AI Foundry gates G0-G6 approve; the integration team publishes records to AWS Agent Registry with the respective technical approvals; GitLab deploys through its pipeline. RUN: the scenario's runtime path. OBSERVE: drift returns to GitLab as a new version.")
+    for x, w, t_, col in ((0.5, 3.4, "BUILD  ·  domain team (pro-code)", "blue"), (4.1, 3.45, "GOVERN + REGISTER  ·  AI Foundry", "amber"), (7.75, 5.08, m_["run"], "green")):
+        txt(s, x, 1.4, w, 0.24, t_, 10, col, True, tag="col head")
+    build = [("Domain dev team", "agent spec · skills · MCP contract", "agent"), ("GitLab repository", "code · skills · contracts · eval set", "mute"), ("GitLab CI pipeline", "build · tests · injection suite", "mute"),
+             ("Quality + integrity", "SonarQube · tools/list hash", "mute"), ("Release artifact", "container image or MTA · versioned", "mute")]
+    for i, (t_, sb, kd) in enumerate(build):
+        yy = 1.7 + i * 0.7
+        node(s, 0.5, yy, 3.4, 0.55, t_, sb, kd, tag=f"build {t_}")
+        if i:
+            arrow(s, 2.2, yy - 0.15, 2.2, yy)
+    node(s, 0.5, 5.25, 3.4, 0.6, "Do not integrate with", "PI/PO · SBFC · nSAP / FOU · Fiori GW (Disinvest)", "bad", dashed=True, ss=8.5, tag="dont")
+    gov = [("AI Foundry gates", "G0–G6: intake to release", "ok"), ("Agent Registry", "agent record · integration team publishes", "reg"), ("MCP / Tool Registry", "tool records + approved hash", "reg")]
+    for i, (t_, sb, kd) in enumerate(gov):
+        node(s, 4.1, 1.7 + i * 0.7, 3.45, 0.55, t_, sb, kd, tag=f"gov {t_}")
+    node(s, 4.1, 3.85, 3.45, 0.95, m_["deploy"][0], m_["deploy"][1], "agent", dashed=True, tag="deploy")
+    node(s, 4.1, 5.25, 3.45, 0.6, "Joule for Work track", "governed in the two-track slide", "mute", dashed=True)
+    arrow(s, 3.9, 2.0, 4.1, 2.0, "dep")
+    arrow(s, 3.9, 4.3, 4.1, 4.3, "dep")
+    arrow(s, 7.55, 4.3, 7.75, 4.3, "dep")
+    for r, row in enumerate(m_["rows"]):
+        for c, (t_, sb, kd) in enumerate(row):
+            if t_ == "Identity chain":
+                sb = f"negative test: slide {NO['identity']}"
+            node(s, 7.75 + c * 1.72, 1.7 + r * 0.75, 1.62, 0.6, t_, sb, kd, dashed=(t_ in ("Joule Studio ‡", "Cloud Connector", "Identity chain", "CF agent · S1 host", "Apigee") and kd in ("mute", "agent", "idn") and t_ != "Apigee" or (scn == "S2" and t_ == "Apigee")),
+                 ts=9.5, ss=7.5, lw=1.0, tag=f"run {t_}")
+    rect(s, 0.5, 5.95, 12.33, 0.45, "gray", None)
+    txt(s, 0.6, 5.97, 12.1, 0.42, [{"text": [("OBSERVE + IMPROVE   ", {"bold": True, "color": "blue"}), (m_["observe"], {})]}], 9.5, "navy", anchor=MSO_ANCHOR.MIDDLE, tag="observe")
+    return s
+
+
+
+# -------------------------------------------------------------------------------- purpose
 s = new_slide(D, "PURPOSE AND DECISIONS", "S1 + S3 preferred · S2 reference", "navy",
               "Enterprise AI Foundation — Architecture & Governance Framework",
-              "Four design domains and ten decisions frame the programme; the decision register is on slide 19.",
+              "Four design domains and ten decisions frame the programme; the decision register is on slide " + str(NO["poc"]) + ".",
               "Source: owner brief; finance-reconciliation-agent repo, Architecture V5.2 decision record (decisions open).",
               JOULE,
               "Reusable, secure and governed AI for any SAP custom agent in any domain, across enterprise technology streams, without disconnected agent platforms or bypassed business-system controls. Finance is the first reference use case.",
@@ -59,7 +274,7 @@ for i, (t, st, col) in enumerate(tiles):
     dot(s, x + 0.1, 5.5, col)
     txt(s, x + 0.34, 5.45, 1.55, 0.8, st, 10.5, col, True, tag=f"tile status {i}")
 
-# ------------------------------------------------------------------------------------------------------------------ 2
+# -------------------------------------------------------------------------------- landscape
 s = new_slide(D, "LANDSCAPE AND SCOPE", "Landscape baseline", "navy",
               "Finance landscape as the first reference: attach SAP agents to Invest platforms, not Disinvest ones",
               "Attach agents to Invest / Maintain platforms through Integration Suite; each SAP domain repeats this map.",
@@ -102,77 +317,7 @@ txt(s, 0.6, 5.8, 12.1, 0.62, [{"text": [("FIXED PRINCIPLES   ", {"bold": True, "
                                       ("P1 Central governance, federated build  ·  P2 Hosting ≠ registration ≠ gateway  ·  P3 Apigee is a gateway, not a runtime  ·  P4 Two host families: AWS AgentCore and SAP-hosted (Cloud Foundry now, Joule Studio ‡ later)  ·  P5 Portkey is the LLM gateway  ·  P6 SAP backend authorizes  ·  P7 Registered ≠ allowed  ·  P8 Integration ≠ identity  ·  P9 Reuse before build  ·  P10 Evidence before production  ·  P11 GitLab deploys, never runs", {})]}],
     9.5, "navy", tag="principles")
 
-# ------------------------------------------------------------------------------------------------------------------ 3
-s = new_slide(D, "REFERENCE ARCHITECTURE · S3 HYBRID", "S3 · preferred candidate", "navy",
-              "Reference architecture: AgentCore-hosted agents behind AgentCore Gateway and Apigee, registered on a separate control plane",
-              "Nothing on the invocation path depends on the registry. Both gateways are in the path: interoperability is a POC item.",
-              "Source: owner brief; repo V5.2 model (D4, D6); AWS and Google docs as logged in repo (2026-11-25). S3 approval pending.", JOULE,
-              notes="S3 IS THE PREFERRED CANDIDATE TO EVALUATE FIRST, NOT AN APPROVED DESIGN. Paths: user to Fiori to the AgentCore Runtime agent; the agent calls the approved LLM only via Portkey; MCP calls pass AgentCore Gateway, then Google Apigee, then Integration Suite, Cloud Connector where applicable, then the SAP backend, which authorizes the mapped user. The registry is a metadata plane: GitLab publishes records, AI Foundry approves them, and nothing at runtime looks them up. GitLab deploys the runtime image, gateway targets, Apigee bundles and registry records.")
-legend(s, [("Runtime path", "run"), ("Registration (control plane)", "reg"), ("LLM call", "llm"), ("Identity / token", "id"), ("Deployment (GitLab)", "dep")], 0.5, 1.4)
-lanes = [("1 · User", "Business owner"), ("2 · Agent execution", "Domain agent team"), ("3 · AI governance", "AI Foundry · GitLab"), ("4 · MCP / API", "Integration team"),
-         ("5 · Identity", "InfoSec"), ("6 · SAP / data", "System owners"), ("7 · Evidence", "Ops · Cloud ALM")]
-lh = [0.62, 0.62, 0.66, 0.66, 0.62, 0.66, 0.5]
-ly, y0 = [], 1.68
-for h in lh:
-    ly.append(y0)
-    y0 += h + 0.035
-for i, (a, b) in enumerate(lanes):
-    rect(s, 0.5, ly[i], 12.33, lh[i], "gray" if i % 2 == 0 else "white", None)
-    rect(s, 0.5, ly[i], 1.55, lh[i], "slatebg", None)
-    txt(s, 0.55, ly[i] + 0.02, 1.5, lh[i] - 0.04, [{"text": a, "size": 10.5, "bold": True, "color": "navy"}, {"text": b, "size": 8.5, "color": "mute"}], 10, anchor=MSO_ANCHOR.MIDDLE, tag=f"lane {a}")
-
-
-def ny(i):
-    return ly[i] + 0.07, lh[i] - 0.14
-
-
-y, h = ny(0)
-node(s, 2.15, y, 1.9, h, "Business user", "", "ui")
-node(s, 4.45, y, 2.0, h, "SAP Fiori / UI5", "", "agent")
-arrow(s, 4.05, y + h / 2, 4.45, y + h / 2)
-y, h = ny(1)
-node(s, 2.15, y, 5.0, h, "Domain agent · AWS AgentCore Runtime", "MCP client · bounded autonomy · dedicated SAP-agent account, not provisioned", "agent", tag="agent")
-node(s, 7.55, y, 1.55, h, "Portkey gateway", "common LLM gateway", "llm")
-node(s, 9.3, y, 1.55, h, "Approved LLM", "only via Portkey", "llm")
-node(s, 11.0, y, 1.75, h, "CF agent · S1 host", "alternative host", "agent", dashed=True)
-arrow(s, 7.15, y + h / 2, 7.55, y + h / 2, "llm")
-arrow(s, 9.1, y + h / 2, 9.3, y + h / 2, "llm")
-arrow(s, 3.1, ly[0] + lh[0] - 0.07, 3.1, ly[1] + 0.07)
-y, h = ny(2)
-node(s, 4.3, y, 2.1, h, "GitLab CI/CD", "central platform · deploys, never runs", "mute", tag="gitlab")
-node(s, 7.0, y, 2.75, h, "AWS Agent Registry", "agent + MCP endpoint records · metadata only", "reg", tag="registry")
-node(s, 10.5, y, 2.25, h, "AI Foundry", "approves records", "ok")
-arrow(s, 10.5, y + h / 2, 9.75, y + h / 2, "reg")
-arrow(s, 8.4, ly[1] + lh[1] - 0.07, 8.4, y, "reg")
-arrow(s, 5.4, y, 5.4, ly[1] + lh[1] - 0.07, "dep")
-txt(s, 8.45, ly[1] + lh[1] - 0.1, 1.3, 0.16, "register agent", 8, "green", True, tag="lbl")
-y, h = ny(3)
-node(s, 2.15, y, 1.9, h, "AgentCore Gateway", "mediates · tool policy", "gw2", tag="gw")
-node(s, 4.4, y, 1.9, h, "Google Apigee", "SAP MCP/API · quota · auth", "gw")
-node(s, 6.65, y, 1.85, h, "Integration Suite", "SAP mediation · iFlows", "agent")
-node(s, 8.8, y, 1.7, h, "Cloud Connector", "where applicable", "agent", dashed=True)
-node(s, 10.8, y, 1.95, h, "Custom MCP", "AgentCore Runtime · if required", "agent", dashed=True)
-for a, b in ((4.05, 4.4), (6.3, 6.65), (8.5, 8.8)):
-    arrow(s, a, y + h / 2, b, y + h / 2)
-arrow(s, 3.1, ly[1] + lh[1] - 0.07, 3.1, y)
-txt(s, 3.18, ly[2] + 0.15, 1.1, 0.2, "MCP tools/call", 9, "navy", True, tag="lbl")
-y, h = ny(4)
-node(s, 2.15, y, 1.9, h, "Corporate IdP", "federated · Global User ID", "idn")
-node(s, 4.3, y, 2.2, h, "Trust and token exchange", "IAS trust · profile = POC item", "idn", dashed=True)
-node(s, 6.75, y, 1.9, h, "SAP user mapping", "proven at Gate 5", "idn", dashed=True)
-arrow(s, 4.05, y + h / 2, 4.3, y + h / 2, "id")
-arrow(s, 6.5, y + h / 2, 6.75, y + h / 2, "id")
-txt(s, 10.6, y + 0.1, 2.1, 0.3, "Released APIs", 10, "navy", True, anchor=MSO_ANCHOR.MIDDLE, tag="lbl")
-y, h = ny(5)
-node(s, 2.15, y, 1.9, h, "SaaS / non-SAP APIs", "Concur · Ariba · Workday", "plain", dashed=True)
-node(s, 4.3, y, 2.5, h, "Data products / analytics", "BW/4HANA · SAC · BDC", "agent", dashed=True)
-node(s, 7.1, y, 3.6, h, "SAP backend", "authorizes the mapped user · SYNG Core + Central Finance", "sap", tag="sap")
-node(s, 10.9, y, 1.85, h, "Persistence", "conditional · approved AWS service", "plain", dashed=True, tag="persist")
-arrow(s, 10.4, ly[3] + lh[3] - 0.07, 10.4, y)
-y, h = ny(6)
-node(s, 2.15, y, 10.6, h, "Evidence plane", "Cloud ALM = SAP-side monitoring · separate evidence store (TBD) joins AgentCore, Apigee, Portkey and registry logs by correlation ID", "ui", ss=8.5, tag="evidence")
-
-# ------------------------------------------------------------------------------------------------------------------ 4
+# -------------------------------------------------------------------------------- scenarios
 s = new_slide(D, "HOSTING PATTERNS", "S1 + S3 preferred · S2 reference", "navy",
               "Three scenarios against the enterprise blueprint; S1 for SAP-centric and S3 is the preferred for SAP and non-SAP",
               "S1 is preferred for SAP-centric agents and S3 for SAP and non-SAP agents; S2 is kept for reference, not preferred.",
@@ -192,11 +337,8 @@ for i, (name, stack, side, plus, minus, hot) in enumerate(topos):
     dropped = name.startswith("S2")
     rect(s, x, 1.45, 3.95, 2.62, "gray" if dropped else "white", "soft" if dropped else ("blue" if hot else "line"), 1.0 if dropped else (2.5 if hot else 1.0))
     txt(s, x + 0.12, 1.5, 3.7, 0.32, name, 14, "mute" if dropped else "navy", True, tag="topo name")
-    if dropped:
-        txt(s, x + 2.95, 1.4, 0.9, 0.55, "✕", 34, "red", True, align=PP_ALIGN.CENTER, tag="not preferred mark")
-        txt(s, x + 2.3, 1.9, 1.55, 0.2, "Not preferred", 9, "red", True, align=PP_ALIGN.RIGHT, tag="not preferred label")
-    else:
-        txt(s, x + 2.3, 1.9, 1.55, 0.2, "✓ PREFERRED", 9, "green", True, align=PP_ALIGN.RIGHT, tag="preferred label")
+    tick(s, x + 3.36, 1.47, not dropped)
+    txt(s, x + 2.3, 1.93, 1.55, 0.2, "NOT PREFERRED" if dropped else "PREFERRED", 8.5, "red" if dropped else "green", True, align=PP_ALIGN.RIGHT, tag="preference label")
     n = len(stack)
     nh = 0.25 if n == 6 else 0.28
     for j, (t, kd) in enumerate(stack):
@@ -218,7 +360,50 @@ rows = [["Blueprint layer", "S1 · SAP-hosted hybrid · preferred", "S2 · AWS A
         ["MCP / agent hosting", "Agent: Cloud Foundry · MCP: Apigee", "Agent: AgentCore · MCP: AgentCore Gateway", "Agent: AgentCore · MCP: Apigee → AgentCore Gateway"]]
 table(s, 0.5, 4.12, 12.33, [2.0, 3.4, 3.4, 3.53], rows, 9, 0.275, hl_col=3, cell_fill={(i, 2): ("gray", "mute", False) for i in range(1, len(rows))})
 
-# ------------------------------------------------------------------------------------------------------------------ 5
+# -------------------------------------------------------------------------------- hosting
+s = new_slide(D, "HOSTING LAYERS", "S1 + S3 preferred · S2 reference", "navy",
+              "Hosting layers: where the agent, the MCP server and the tool are hosted in each scenario",
+              "The agent, the MCP server and the tool are three separate hosting decisions; registration is a fourth and hosts nothing.",
+              "Source: owner brief; repo V5.2 model (D5); vendor docs (2026-11-25). Design position, not tenant-verified.", JOULE,
+              notes="THREE HOSTING LAYERS PLUS REGISTRATION. The agent layer is where the agent and its MCP client run. The MCP layer is where the MCP endpoint is exposed and where any custom MCP code runs. The tool layer is where the SAP capability a tool calls is served. AWS Agent Registry is a fourth, separate decision: it keeps records and never hosts or invokes anything. S1 and S3 are preferred; S2 is kept for reference.")
+cols = [("S1", "SAP-hosted hybrid"), ("S2", "AWS AgentCore-native"), ("S3", "AgentCore + Apigee hybrid")]
+for c, (sid, name) in enumerate(cols):
+    x = 2.75 + c * 3.4
+    pref = SCN[sid]["pref"]
+    rect(s, x, 1.38, 3.25, 0.66, "white" if pref else "gray", "blue" if pref else "soft", 2.25 if pref else 1.0)
+    txt(s, x + 0.08, 1.4, 2.7, 0.62, [{"text": f"{sid} · {name}", "size": 11.5, "bold": True, "color": "navy" if pref else "mute"}, {"text": SCN[sid]["scope"], "size": 9, "bold": True, "color": "green" if pref else "red"}], 11, anchor=MSO_ANCHOR.MIDDLE, tag=f"host head {sid}")
+    tick(s, x + 2.72, 1.48, pref, 0.4)
+layers = [("AGENT HOSTING", "Where the agent and its MCP client run", "agent",
+           [("SAP BTP Cloud Foundry", "Agent and MCP client · SAP BTP team operates · Joule Studio ‡ later"), ("AWS AgentCore Runtime", "Agent and MCP client · AWS platform team · dedicated SAP-agent account (proposed)"),
+            ("AWS AgentCore Runtime", "Agent and MCP client · AWS platform team · dedicated SAP-agent account (proposed)")]),
+          ("MCP SERVER HOSTING", "Where the MCP endpoint is exposed and any custom MCP code runs", "gw",
+           [("Apigee-managed MCP endpoint", "Pattern A by default; custom MCP on Cloud Foundry behind Apigee only if code is needed"), ("AgentCore Gateway MCP endpoint", "MCP server on AgentCore Runtime or an approved API/OpenAPI target; Apigee optional"),
+            ("Apigee MCP behind AgentCore Gateway", "Pattern A by default; custom MCP on AgentCore Runtime behind Apigee only if needed")]),
+          ("TOOL HOSTING", "Where the SAP capability a tool calls is served", "sap",
+           [("SAP API behind Apigee", "Released API on S/4HANA · Central Finance via Integration Suite and Cloud Connector where applicable"), ("SAP API through Integration Suite", "Same SAP API; Apigee inserted only if SAP Integration requires it"),
+            ("SAP API behind Apigee", "Same SAP API, reached through AgentCore Gateway, then Apigee, then Integration Suite")]),
+          ("REGISTRATION (NOT HOSTING)", "Where records are kept; never on the call path", "reg",
+           [("AWS Agent Registry", "Agent and MCP records · metadata only · AI Foundry approves"), ("AWS Agent Registry", "Agent and MCP records · metadata only · AI Foundry approves"),
+            ("AWS Agent Registry", "Agent and MCP records on a separate control-plane path · metadata only")])]
+for r, (label, sub_, kd, cells) in enumerate(layers):
+    yy = 2.15 + r * 1.0
+    rect(s, 0.5, yy, 2.15, 0.9, "slatebg", None)
+    txt(s, 0.56, yy + 0.02, 2.05, 0.86, [{"text": label, "size": 10, "bold": True, "color": "navy"}, {"text": sub_, "size": 8.5, "color": "mute", "space": 2}], 10, anchor=MSO_ANCHOR.MIDDLE, tag=f"layer {label}")
+    for c, (t_, sb) in enumerate(cells):
+        node(s, 2.75 + c * 3.4, yy, 3.25, 0.9, t_, sb, kd, ts=10.5, ss=8.5, dashed=not cols and False, tag=f"cell {r} {c}")
+# -------------------------------------------------------------------------------- s1ref
+ref_arch('S1')
+# -------------------------------------------------------------------------------- s1e2e
+e2e('S1')
+# -------------------------------------------------------------------------------- s3ref
+ref_arch('S3')
+# -------------------------------------------------------------------------------- s3e2e
+e2e('S3')
+# -------------------------------------------------------------------------------- s2ref
+ref_arch('S2')
+# -------------------------------------------------------------------------------- s2e2e
+e2e('S2')
+# -------------------------------------------------------------------------------- account
 s = new_slide(D, "AWS ACCOUNT AND REGISTRY", "Account strategy", "navy",
               "Dedicated SAP-agent AWS account: isolated execution, one central registry, nothing provisioned yet",
               "Execution is isolated per account and governance stays central; account approval and registry sharing gate S2 and S3.",
@@ -250,54 +435,20 @@ txt(s, 8.1, 3.95, 4.65, 1.6, [{"text": "CENTRAL REGISTRY · REQUIREMENTS", "size
 rect(s, 8.0, 5.75, 4.83, 0.62, "redbg", "red", 1.0)
 txt(s, 8.08, 5.76, 4.68, 0.6, [{"text": [("NOT VERIFIED   ", {"bold": True, "color": "red"}), ("Cross-account registry sharing and account service entitlements were not read in this build.", {})]}], 9.5, "navy", anchor=MSO_ANCHOR.MIDDLE, tag="notverified")
 
-# ------------------------------------------------------------------------------------------------------------------ 6
-s = new_slide(D, "GATEWAYS · S3", "Role model for POC", "navy",
+# -------------------------------------------------------------------------------- gateways
+s = new_slide(D, "GATEWAYS · S1, S2, S3", "Role model for POC", "navy",
               "AgentCore Gateway and Google Apigee: separated responsibilities, proven in the POC before commitment",
               "Separate the roles, avoid duplicated policy, and prove the hop before any commitment.",
               "Source: AWS and Google gateway docs as logged in repo (2026-11-25); repo V5.2 model. Capability, not tenant evidence.",
               notes="Neither gateway is assumed to provide every function. Validate supported features, avoid duplicated policy and ambiguous tool names, agree quota ownership and join logs with one correlation id.")
 rows = [["Responsibility", "AgentCore Gateway (S2, S3)", "Google Apigee (S1, S3)", "Status"]] + [list(r) for r in m.GATEWAY_RESPONSIBILITIES]
-table(s, 0.5, 1.4, 12.33, [2.1, 3.9, 3.4, 2.93], rows, 8.5, 0.4)
-rect(s, 0.5, 5.5, 12.33, 0.92, "gray", None)
-txt(s, 0.6, 5.52, 12.1, 0.88, [{"text": [("NOT YET VERIFIED   ", {"bold": True, "color": "red"}), ("MCP protocol versions overlap (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26) and outbound OAuth and token exchange are documented, but no end-to-end call has been made · Apigee reachability from AWS · registry credential provider in the same account · MCP or HTTP target type (Apigee MCP has no SSE)", {})]},
-                              {"text": [("TESTS BEFORE COMMITMENT   ", {"bold": True, "color": "blue"}), ("token handling and exchange · tool names (target prefix) · authorization at both gateways · timeouts · rate limits · error mapping · duplicate policy · log correlation · revocation", {})], "space": 4}], 9, "navy", tag="tests")
+table(s, 0.5, 1.4, 12.33, [2.1, 3.9, 3.4, 2.93], rows, 8.5, 0.37)
+rect(s, 0.5, 5.15, 12.33, 1.27, "gray", None)
+txt(s, 0.6, 5.17, 12.1, 1.23, [{"text": [("NOT YET VERIFIED   ", {"bold": True, "color": "red"}), ("MCP protocol versions overlap (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26) and outbound OAuth and token exchange are documented, but no end-to-end call has been made · Apigee reachability from AWS · registry credential provider in the same account · MCP or HTTP target type (Apigee MCP has no SSE)", {})]},
+                              {"text": [("TESTS BEFORE COMMITMENT   ", {"bold": True, "color": "blue"}), ("token handling and exchange · tool names (target prefix) · authorization at both gateways · timeouts · rate limits · error mapping · duplicate policy · log correlation · revocation", {})], "space": 4},
+                              {"text": [("SCENARIOS   ", {"bold": True, "color": "blue"}), ("S1 uses Apigee alone (no AgentCore Gateway). S3 puts AgentCore Gateway in front of Apigee. S2 uses AgentCore Gateway alone, with Apigee only if inserted. Responsibilities are a candidate split, validated in the POC.", {})], "space": 4}], 9, "navy", tag="tests")
 
-# ------------------------------------------------------------------------------------------------------------------ 7
-s = new_slide(D, "S3 · END TO END", "S3 delivery path", "navy",
-              "S3 end to end: how a custom agent is built, approved, registered, deployed and run",
-              "One path from GitLab to AgentCore; every release passes AI Foundry gates and is registered before it can be called.",
-              "Source: owner's blueprint and landscape (internal, private); repo V5.2 model. Toolkit reuse and pipeline are defined at Gate 3.", JOULE,
-              notes="BUILD: the domain team writes the agent spec, skills and MCP/tool contracts in GitLab; the CI pipeline builds, tests (including the injection suite) and checks integrity (tools/list hash). GOVERN + REGISTER: AI Foundry gates G0-G6 approve; the integration team publishes records to AWS Agent Registry with the respective technical approvals; GitLab deploys through infrastructure as code into the dedicated account. RUN: S3 runtime path. OBSERVE: drift returns to GitLab as a new version.")
-for x, w, t, col in ((0.5, 3.4, "BUILD  ·  domain team (pro-code)", "blue"), (4.1, 3.45, "GOVERN + REGISTER  ·  AI Foundry", "amber"), (7.75, 5.08, "RUN  ·  S3 hybrid (S1: Cloud Foundry space)", "green")):
-    txt(s, x, 1.4, w, 0.24, t, 10, col, True, tag="col head")
-build = [("Domain dev team", "agent spec · skills · MCP contract", "agent"), ("GitLab repository", "code · skills · contracts · eval set", "mute"), ("GitLab CI pipeline", "build · tests · injection suite", "mute"),
-         ("Quality + integrity", "SonarQube · tools/list hash", "mute"), ("Release artifact", "container image · versioned", "mute")]
-for i, (t, sb, kd) in enumerate(build):
-    yy = 1.7 + i * 0.7
-    node(s, 0.5, yy, 3.4, 0.55, t, sb, kd, tag=f"build {t}")
-    if i:
-        arrow(s, 2.2, yy - 0.15, 2.2, yy)
-node(s, 0.5, 5.25, 3.4, 0.6, "Do not integrate with", "PI/PO · SBFC · nSAP / FOU · Fiori GW (Disinvest)", "bad", dashed=True, ss=8.5, tag="dont")
-gov = [("AI Foundry gates", "G0–G6: intake to release", "ok"), ("Agent Registry", "agent record · integration team publishes", "reg"), ("MCP / Tool Registry", "tool records + approved hash", "reg")]
-for i, (t, sb, kd) in enumerate(gov):
-    node(s, 4.1, 1.7 + i * 0.7, 3.45, 0.55, t, sb, kd, tag=f"gov {t}")
-node(s, 4.1, 3.85, 3.45, 0.95, "Deploy from GitLab", "infrastructure as code into the dedicated AWS account (S1: Cloud Foundry space): dev / test / prod", "agent", dashed=True, tag="deploy")
-node(s, 4.1, 5.25, 3.45, 0.6, "Joule for Work track", "governed on the next slide", "mute", dashed=True)
-arrow(s, 3.9, 2.0, 4.1, 2.0, "dep")
-arrow(s, 3.9, 4.3, 4.1, 4.3, "dep")
-arrow(s, 7.55, 4.3, 7.75, 4.3, "dep")
-runs = [[("Fiori / UI5", "business user", "ui"), ("Corporate IdP", "sign-in · tokens", "idn"), ("Joule Studio ‡", "future agent host", "mute")],
-        [("Domain agent", "AgentCore Runtime", "agent"), ("Portkey", "model gateway", "llm"), ("Approved LLMs", "only via Portkey", "llm")],
-        [("AgentCore Gateway", "mediation · tool policy", "gw2"), ("Apigee", "MCP · quota · auth", "gw"), ("Integration Suite", "SAP mediation", "agent")],
-        [("Cloud Connector", "where applicable", "agent"), ("SYNG Core", "S/4HANA · finance", "sap"), ("Central Finance", "S/4HANA · finance", "sap")],
-        [("BW/4HANA · SAC", "analytical path", "agent"), ("SaaS APIs", "Concur Ariba Workday", "plain"), ("Identity chain", "negative test: slide 10", "idn")]]
-for r, row in enumerate(runs):
-    for c, (t, sb, kd) in enumerate(row):
-        node(s, 7.75 + c * 1.72, 1.7 + r * 0.75, 1.62, 0.6, t, sb, kd, dashed=(t in ("Joule Studio ‡", "Cloud Connector", "Identity chain")), ts=9.5, ss=7.5, lw=1.0, tag=f"run {t}")
-rect(s, 0.5, 5.95, 12.33, 0.45, "gray", None)
-txt(s, 0.6, 5.97, 12.1, 0.42, [{"text": [("OBSERVE + IMPROVE   ", {"bold": True, "color": "blue"}), ("OpenTelemetry · Datadog · AgentCore and Apigee logs → evidence store (TBD) · Cloud ALM (SAP-side) · Confident AI + Amplitude · drift returns to GitLab as a new version", {})]}], 9.5, "navy", anchor=MSO_ANCHOR.MIDDLE, tag="observe")
-
-# ------------------------------------------------------------------------------------------------------------------ 8
+# -------------------------------------------------------------------------------- tracks
 s = new_slide(D, "AI GOVERNANCE · TWO TRACKS", "Two-track governance", "navy",
               "Two AI tracks, one governance: custom agents and embedded Joule, with access run by GRC",
               "Both tracks are governed: AI Foundry gates for custom agents, GRC-run access for embedded Joule.",
@@ -333,11 +484,11 @@ for i, (t, b) in enumerate([("Access", "A: corporate IdP + registry approval. B:
     rect(s, x, 5.45, 3.0, 0.92, "gray", None)
     txt(s, x + 0.06, 5.47, 2.9, 0.9, [{"text": t, "bold": True, "color": "navy", "size": 10}, {"text": b, "size": 9, "space": 2}], 9, tag=f"gov {t}")
 
-# ------------------------------------------------------------------------------------------------------------------ 9
+# -------------------------------------------------------------------------------- assets
 s = new_slide(D, "ASSET GOVERNANCE", "Enterprise standard", "navy",
               "Agents, MCP tools and skills: three governed assets, one metadata contract",
               "Publish all three against one metadata contract; keep the agent portable and the hosting binding swappable.",
-              "Source: owner brief; AWS registry record types per repo log (2026-11-25). Field set is the programme standard.", JOULE,
+              "Source: owner brief; AWS registry record types per repo log (2026-11-25).", JOULE,
               notes="THREE ASSETS, THREE DEFINITIONS. Agent = a deployable capability with execution ownership, identity, runtime configuration, model access, tools and lifecycle controls. MCP server/tool = a governed interface to an approved API or capability. Skill = versioned instructions guiding an agent; it declares expected tools and grants no execution authority.")
 assets = [("AGENT", "A deployable capability with execution ownership", ["Portable spec: tier, tools, skills, model alias", "Model access via Portkey only", "Bounded autonomy, lifecycle controls"], "Registration does not permit execution"),
           ("MCP SERVER / TOOL", "A governed interface to an approved API or capability", ["Schema, authentication, permissions", "Endpoint ownership, versioning", "Read / write class per tool"], "Discovery does not authorize a call"),
@@ -366,36 +517,33 @@ for i, st in enumerate(["Design", "Develop", "Validate", "Approve", "Register", 
     tf.margin_left = tf.margin_right = k.Inches(0.04)
     k.fill_tf(tf, [{"text": st}], 9, "navy", True, PP_ALIGN.CENTER)
 
-# ------------------------------------------------------------------------------------------------------------------ 10
+# -------------------------------------------------------------------------------- identity
 s = new_slide(D, "IDENTITY AND SECURITY", "Identity standard", "navy",
               "Identity contract: SAP authorizes the mapped business user, not a forwarded token",
-              "Six identities stay separate; token exchange and user mapping are POC items, with a mandatory two-user negative test.",
+              "Six identities stay separate; token exchange and user mapping are POC items with a two-user negative test.",
               "Source: owner brief; repo model D7; AWS and Google docs (2026-11-25). Token exchange and mapping are proven at Gate 5.", JOULE,
-              notes="THIS SLIDE DEFINES THE IDENTITY CONTRACT; IT DOES NOT CLAIM IT WORKS. AgentCore Gateway supports outbound OAuth client credentials, authorization code and token exchange but not caller token passthrough; Apigee accepts OAuth 2.1 and OIDC. Whether the exact exchange profile and the backend user mapping work end to end is a POC validation item.")
-cols = [("Business user", ""), ("Corporate IdP", "federated"), ("Agent runtime", "AgentCore (S1: CF)"), ("MCP gateways", "AgentCore GW → Apigee"), ("Integration Suite", "+ Cloud Connector"), ("SAP backend", "")]
-cx = [1.18 + i * 1.44 for i in range(6)]
-for i, (t, sb) in enumerate(cols):
-    node(s, cx[i] - 0.66, 1.4, 1.32, 0.62, t, sb, ["ui", "idn", "agent", "gw", "agent", "sap"][i], ts=9.5, ss=8, lw=1.0, tag=f"actor {t}")
-    arrow(s, cx[i], 2.02, cx[i], 5.5, "dep", False, 0.75)
-steps = [(0, 1, 2.25, "1  Authenticate (OIDC)", "id"), (0, 2, 2.65, "2  Request + user session", "run"), (2, 1, 3.05, "3  Token exchange †", "id"), (1, 2, 3.4, "4  Delegated user token", "id"),
-         (2, 3, 3.8, "5  MCP tools/call + audience token", "run"), (3, 4, 4.2, "6  Gateways verify; user-bound token †", "run"), (4, 5, 4.6, "7  Mapped user / certificate †", "id"), (5, 2, 5.0, "8  Data, or authorization denied", "red")]
-for a, b, yy, lab, kd in steps:
-    arrow(s, cx[a], yy, cx[b], yy, kd, True, 1.5)
-    lx = min(cx[a], cx[b]) + 0.04
-    txt(s, lx, yy - 0.25, 0.062 * len(lab) + 0.12, 0.2, lab, 8.5, "navy", True, tag=f"step {lab}", fill="white", margin=0.03)
-txt(s, 0.5, 5.55, 9.0, 0.25, "† token exchange, user binding and propagation are POC validation items; no technical-user fallback", 9, "mute", italic=True, tag="dagger")
+              notes="THIS SLIDE DEFINES THE IDENTITY CONTRACT; IT DOES NOT CLAIM IT WORKS. S1 has one gateway hop (Apigee); S3 has two (AgentCore Gateway, then Apigee). AgentCore Gateway supports outbound OAuth client credentials, authorization code and token exchange but not caller token passthrough; Apigee accepts OAuth 2.1 and OIDC. Whether the exact exchange profile and the backend user mapping work end to end is a POC validation item. S2 is shown for reference only.")
+rows = [["Hop", "S1 · SAP-hosted ✓", "S3 · AgentCore + Apigee ✓", "S2 · reference ✕"],
+        ["1  Authenticate", "Corporate IdP (OIDC)", "Corporate IdP (OIDC)", "Corporate IdP (OIDC)"],
+        ["2  Agent workload identity", "Cloud Foundry binding · workload identity", "AgentCore Identity (workload token)", "AgentCore Identity"],
+        ["3  Token exchange †", "Agent ↔ IdP / IAS for a user-bound token to Apigee", "Gateway outbound exchange to Apigee, then Apigee to Integration Suite: two hops", "Gateway outbound exchange to the target"],
+        ["4  Gateway verification", "Apigee verifies the token for its audience", "AgentCore Gateway authorizer, then Apigee", "AgentCore Gateway authorizer"],
+        ["5  SAP integration", "Integration Suite service identity", "Integration Suite service identity", "Integration Suite service identity"],
+        ["6  SAP backend †", "Mapped user executes; SAP roles authorize", "Mapped user executes; SAP roles authorize", "Mapped user executes; SAP roles authorize"],
+        ["Status", "POC item (G2, G3): one hop to prove", "POC item (G2, G3): two hops to prove", "Not preferred; kept for reference"]]
+table(s, 0.5, 1.4, 8.75, [1.85, 2.3, 2.6, 2.0], rows, 8.5, 0.5, hl_col=None, cell_fill={(i, 3): ("gray", "mute", False) for i in range(1, len(rows))})
+txt(s, 0.5, 5.48, 8.7, 0.25, "† token exchange, user binding and propagation are POC validation items; no technical-user fallback", 9, "mute", italic=True, tag="dagger")
 rect(s, 9.35, 1.4, 3.48, 4.1, "white", "line", 1.0)
 txt(s, 9.45, 1.45, 3.3, 4.0, [{"text": "SIX IDENTITIES, KEPT SEPARATE", "size": 10, "bold": True, "color": "blue"}] +
     [{"text": [(f"{i + 1}  {n}", {"bold": True, "color": "navy"}), ("  " + d, {"size": 8.5, "color": "mute"})], "space": 5} for i, (n, d) in enumerate([("Business user", "authenticated; Global User ID correlates only"), ("Agent workload", "workload identity, separate from the user"), ("MCP client", "token presented to the first gateway"), ("Gateway / service", "inbound validation; outbound exchange or credential"), ("SAP integration", "service identity; principal propagation proven at Gate 5"), ("SAP backend", "mapped user executes; SAP roles decide")])] +
     [{"text": "Global User ID correlates; it never authorizes. Each hop accepts only tokens issued for it. No token passthrough.", "bold": True, "color": "red", "size": 9, "space": 6}], 9.5, tag="identities")
 rect(s, 0.5, 5.85, 12.33, 0.55, "orangebg", "orange", 1.0)
 txt(s, 0.6, 5.86, 12.1, 0.53, [{"text": [("MANDATORY NEGATIVE TEST   ", {"bold": True, "color": "orange"}), ("User A gets data. User B gets an SAP authorization denial. Two users call the same approved MCP tool; each outcome follows that user's own SAP permissions. No technical-user fallback. Result: PASS / HOLD / NOT_VERIFIED.", {})]}], 9.5, "navy", anchor=MSO_ANCHOR.MIDDLE, tag="negative")
-
-# ------------------------------------------------------------------------------------------------------------------ 11
+# -------------------------------------------------------------------------------- integration
 s = new_slide(D, "INTEGRATION AND DATA", "Integration standard", "navy",
               "Integration and data access: select the pattern by type of access",
               "Pick the pattern by access type. An analytical interface never authorizes an SAP transaction.",
-              "Source: owner brief. BDC / Databricks activation unverified; Fivetran → Databricks for Concur is an evaluation candidate only.",
+              "Source: owner brief. BDC / Databricks activation unverified; Fivetran for Concur is a candidate only.",
               notes="FOUR DISTINCT PATTERNS, not collapsed into one path. A: SAP transactional APIs via the gateways and Integration Suite (released APIs; RFC/BAPI/IDoc by approved exception). B: analytical access, never transactional authorization. C: SaaS systems with per-system entitlement. D: event-driven integration where supported.")
 pats = [("PATTERN A", "SAP transactional APIs", [("Agent", "agent"), ("AgentCore GW · Apigee", "gw"), ("Integration Suite", "agent"), ("SAP backend", "sap")], "Released APIs per SAP Business Accelerator Hub (OData, SOAP). RFC / BAPI / IDoc by approved exception only. Via Integration Suite, not PI/PO."),
         ("PATTERN B", "SAP analytical access", [("Agent or analytics service", "agent"), ("Analytics API or data product", "agent"), ("BW/4HANA · BDC · Databricks", "sap")], "Analytical data only, not SAP transactional authorization. BDC / Databricks activation confirmed at Gate 1."),
@@ -417,7 +565,7 @@ for i, (kk, t, chain, note) in enumerate(pats):
 rect(s, 0.5, 5.7, 12.33, 0.55, "gray", None)
 txt(s, 0.6, 5.7, 12.1, 0.55, [{"text": [("SELECTION RULE   ", {"bold": True, "color": "blue"}), ("Transaction → A  ·  analysis → B  ·  SaaS-native data → C  ·  change notification → D", {"bold": True, "color": "navy"})]}], 11, anchor=MSO_ANCHOR.MIDDLE, tag="rule")
 
-# ------------------------------------------------------------------------------------------------------------------ 12
+# -------------------------------------------------------------------------------- design
 s = new_slide(D, "DESIGN STANDARDS", "Design standard", "navy",
               "Design contract: what every stream must satisfy before building",
               "Each line is PASS, FAIL or N/A with a written reason; submitted with the Gate 1 and Gate 3 packs.",
@@ -431,12 +579,12 @@ for i, (hd, items) in enumerate(blocks):
     x = 0.5 + i * 3.1
     table(s, x, 1.4, 3.0, [1], [[hd]] + [["☐  " + t] for t in items], 9.5, 0.46, first_bold=False)
 
-# ------------------------------------------------------------------------------------------------------------------ 13
+# -------------------------------------------------------------------------------- method
 s = new_slide(D, "METHODOLOGY", "Delivery standard", "navy",
               "One methodology: eight stage gates, each ending in Go or Hold",
               "One Accountable owner per gate; Hold is a valid outcome; release needs four separate sign-offs.",
-              "Source: owner brief; repo decision register (decisions open). Owner roles are listed on the RACI (slide 16).", JOULE,
-              notes="ONE PROCESS FOR SAP AND NON-SAP STREAMS. Each gate lists required inputs, deliverables, accountable owner, evidence and a Go/Hold rule. Owner roles are listed on the RACI (slide 16); named individuals are assigned per domain.")
+              "Source: owner brief; repo decision register (decisions open). Owner roles are listed on the RACI (slide " + str(NO["raci"]) + ").", JOULE,
+              notes="ONE PROCESS FOR SAP AND NON-SAP STREAMS. Each gate lists required inputs, deliverables, accountable owner, evidence and a Go/Hold rule. Owner roles are listed on the RACI (slide " + str(NO["raci"]) + "); named individuals are assigned per domain.")
 rows = [["", "0  Intake", "1  Platform", "2  Security + ID", "3  Contracts", "4  Build + eval", "5  E2E POC", "6  Release", "7  Operate"],
         ["Inputs", "Sponsor, KPIs, run-cost, tier; standard-SAP / Joule check first", "Intake, S1 / S2 / S3 options, account, connectivity", "Platform, data classes, user groups", "Approved design, API / tool list", "Contracts, test data, model config", "Real endpoints, users with different roles", "POC evidence, support, rollback plan", "Telemetry, incidents, access reviews"],
         ["Deliverables", "Ranked intake; hosting assumption", "Hosting, registry, gateway, LLM, account decisions", "Threat + AI impact assessment, identity chain, disclosure", "Agent spec, MCP contract, skills, GitLab pipeline", "Functional, injection, authorization, eval-threshold tests", "Identity proof, invocation, readback", "Four approvals, rollout plan", "Drift + SAP-upgrade re-tests, retirement plan"],
@@ -447,11 +595,11 @@ table(s, 0.5, 1.4, 12.33, [1.25, 1.4, 1.5, 1.5, 1.4, 1.5, 1.4, 1.4, 1.4], rows, 
 rect(s, 0.5, 5.75, 12.33, 0.6, "gray", None)
 txt(s, 0.6, 5.75, 12.1, 0.6, [{"text": [("WAIVER ROUTE   ", {"bold": True, "color": "blue"}), ("Tier 1 / 2 may combine Gates 1–3. Other deviations need a documented waiver (AI Foundry chair + Security), logged in the registry.", {"bold": True, "color": "navy"})]}], 10.5, anchor=MSO_ANCHOR.MIDDLE, tag="waiver")
 
-# ------------------------------------------------------------------------------------------------------------------ 14
+# -------------------------------------------------------------------------------- evalobs
 s = new_slide(D, "EVALUATION AND OBSERVABILITY", "Operations standard", "warn",
               "Evaluation, observability and resilience: every agent ships with tests, traces and a recovery path",
               "Evaluation gates promotion, traces prove behaviour, and recovery paths are tested before release.",
-              "Source: owner brief; OpenTelemetry GenAI conventions, OWASP and NIST AI RMF used as design references (not certified).", JOULE,
+              "Source: owner brief; OpenTelemetry GenAI, OWASP, NIST AI RMF as design references (not certified).", JOULE,
               notes="Industry practice for production agents: evaluation as a release gate, distributed tracing with one correlation id, drift detection on tools and models, tested fallback and kill switch. Thresholds are set per use case and risk tier and recorded in the Gate 4 and Gate 5 evidence. Nothing here has been run against a tenant.")
 cols3 = [("EVALUATE", "Test before release, continuously after", ["Versioned evaluation sets per agent and per MCP tool", "Prompt-injection and tool-misuse suites in the GitLab pipeline", "Authorization tests with users of different SAP roles", "Regression thresholds by risk tier; a regression fails the pipeline", "Red-team review before Tier 3 and above", "Model alias changes re-run the full suite"]),
          ("OBSERVE", "Trace every hop, correlate once", ["OpenTelemetry GenAI traces across AgentCore, Apigee, Portkey, Integration Suite", "One correlation id from user request to SAP readback", "Per-tool latency, error rate, token and cost telemetry", "Audit trail of tool calls, approvals and denials", "Logs forwarded to the enterprise evidence store and SIEM", "Alerting on policy denials and drift"]),
@@ -465,11 +613,11 @@ for yy, kk, body in ((4.75, "RELEASE GATE   ", "No promotion without passing the
     rect(s, 0.5, yy, 12.33, 0.55, "gray", None)
     txt(s, 0.6, yy, 12.1, 0.55, [{"text": [(kk, {"bold": True, "color": "blue"}), (body, {"bold": True, "color": "navy"})]}], 10, anchor=MSO_ANCHOR.MIDDLE, tag=f"ops bar {kk}")
 
-# ------------------------------------------------------------------------------------------------------------------ guardrails
+# -------------------------------------------------------------------------------- guard
 s = new_slide(D, "GUARDRAILS", "Minimum controls", "navy",
               "Guardrails and risk tiers: autonomy is earned, never assumed",
               "Read-only is not unrestricted; approval never replaces SAP authorization; Tier 4 stays off by default.",
-              "Source: owner brief; repo domain model (Finance Posting MCP: write, approval-gated, not active). Controls are the minimum standard.",
+              "Source: owner brief; repo domain model (Finance Posting MCP: approval-gated, not active).",
               notes="THE NON-NEGOTIABLE CONTROL FRAMEWORK. Every layer applies to every implementation; a stream cannot waive a layer, only document how it is met.")
 tiers = [("TIER 1", "Read-only", "Within approved identity and data controls. Not unrestricted.", "ok"), ("TIER 2", "Analysis / recommendation", "May recommend. Never changes business records.", "agent"),
          ("TIER 3", "Human-approved action", "Specific business approval + policy checks; never triggered by tool content alone. Does not replace SAP authorization.", "warn"),
@@ -492,7 +640,7 @@ txt(s, 7.65, 2.95, 5.1, 0.24, "THREATS EVERY DESIGN MUST ADDRESS", 10, "red", Tr
 txt(s, 7.65, 3.25, 2.55, 3.0, [{"text": "▪ " + t, "space": 7} for t in threats[:6]], 9.5, tag="threat1")
 txt(s, 10.25, 3.25, 2.55, 3.0, [{"text": "▪ " + t, "space": 7} for t in threats[6:]], 9.5, tag="threat2")
 
-# ------------------------------------------------------------------------------------------------------------------ 15
+# -------------------------------------------------------------------------------- raci
 s = new_slide(D, "OPERATING MODEL", "Operating model", "navy",
               "Operating model: central governance sets standards, domains build and run",
               "Each activity has exactly one Accountable role; named owners are assigned per domain at intake.",
@@ -529,7 +677,7 @@ for i, (lab, col) in enumerate((("A", "Accountable (one per row)"), ("R", "Respo
     txt(s, x, 6.14, 0.28, 0.24, lab, 9, "white" if lab == "A" else "blue" if lab == "R" else "ink", True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, margin=0, tag="raci key")
     txt(s, x + 0.34, 6.14, 2.1, 0.24, col, 9.5, "ink", anchor=MSO_ANCHOR.MIDDLE, tag="raci key lbl")
 
-# ------------------------------------------------------------------------------------------------------------------ 16
+# -------------------------------------------------------------------------------- cost
 s = new_slide(D, "COST AND PLATFORM SELECTION", "FinOps baseline · rates pending", "warn",
               "Cost governance: one workload, three scenarios, thirteen cost layers, rates from verified sources only",
               "Select by verified cost, identity and ownership evidence, never by platform preference or an assumed saving.",
@@ -551,36 +699,36 @@ for i, (hd, col, items) in enumerate(blocks):
 rect(s, 0.5, 5.4, 12.33, 0.9, "gray", None)
 txt(s, 0.6, 5.42, 12.1, 0.86, [{"text": [("HOW TO READ   ", {"bold": True, "color": "blue"}), ("Totals appear only when every input has a source; sensitivity is plus or minus 20 percent; break-even solves the volume at which two scenarios cost the same. AWS may win when runtime dominates; SAP BTP may win when committed credits are paid or SAP coupling is high.", {})]}], 9.5, "navy", anchor=MSO_ANCHOR.MIDDLE, tag="cost read")
 
-# ------------------------------------------------------------------------------------------------------------------ 17
+# -------------------------------------------------------------------------------- standards
 s = new_slide(D, "STANDARDS COVERAGE", "Design-intent coverage", "navy",
               "Standards coverage: where the design meets industry AI and organization standards, and where gaps remain",
               "Core controls are covered by design intent; gateway interoperability and token exchange block conformance.",
               "Source: author assessment; OWASP, MCP, EU AI Act via search; others from knowledge. Not certified.",
               notes="A coverage map of the proposed design against recognised standards and the owner's organization blueprint. 'Covered' means the design intent addresses the standard's main asks; it is NOT a conformance claim, an audit or a certification, and nothing in the landscape has been verified.")
 rows = [["Standard / framework", "How the design responds (slides)", "Status", "Gap to close"],
-        ["NIST AI RMF (Govern, Map, Measure, Manage)", "Gates, evaluation, tiers, RACI, monitoring (13–16)", "Partial", "Impact assessment (added); eval thresholds by tier"],
-        ["ISO/IEC 42001 AI management system", "Roles, lifecycle, controls, evidence (9, 13–16)", "Partial", "AI policy, internal audit, supplier controls"],
-        ["EU AI Act (classification, oversight, transparency)", "Tiers, human confirmation, Gate 0 / 2 (13, 15)", "Partial", "Legal to confirm role, class and dates"],
-        ["OWASP Agentic Top 10 (2026) + LLM Top 10", "Allowlists, hash, identity chain, kill switch (10, 12, 14, 15)", "Partial", "Supply-chain provenance; memory poisoning"],
-        ["MCP authorization (OAuth 2.1, RFC 8707 / 9728)", "Audience-bound tokens, no passthrough (10, 12)", "Covered", "Pin spec version; confirm gateway support"],
-        ["OAuth token exchange (RFC 8693) / OIDC", "Delegated user token chain (10)", "Open", "Exact profile unproven across both gateways"],
-        ["OpenTelemetry GenAI + W3C Trace Context", "Correlation ID, evidence plane (3, 7, 14)", "Partial", "Convention and owner to implement"],
-        ["SAP clean core, released APIs", "Released APIs, exception for RFC / BAPI (2, 11)", "Covered", "ECC read path for reconciliation"],
-        ["SAP authorizations + SoD (GRC)", "Backend authorizes; GRC runs Joule access (8, 10, 16)", "Covered", "Per-backend user mapping proven at Gate 5"],
-        ["Organization AI blueprint", "Registry, gateways, Portkey reused (4, 5, 6)", "Open", "Account approval; Gateway-to-Apigee; registry sharing"],
-        ["Integration practice (resilience, API governance)", "Patterns A–D, design contract (11, 12)", "Partial", "Policy owner per gateway; network ADR"],
-        ["Zero trust (NIST SP 800-207)", "Per-hop token validation, least privilege, no passthrough (10, 15)", "Partial", "Network segmentation and egress policy in the account"],
-        ["AgentOps: evaluation and observability", "Evaluation gates, tracing, drift detection (7, 14)", "Partial", "Thresholds by tier; evidence-store owner"]]
+        ["NIST AI RMF (Govern, Map, Measure, Manage)", f"Gates, evaluation, tiers, RACI, monitoring ({NO['method']}–{NO['raci']})", "Partial", "Impact assessment (added); eval thresholds by tier"],
+        ["ISO/IEC 42001 AI management system", f"Roles, lifecycle, controls, evidence ({NO['assets']}, {NO['method']}–{NO['raci']})", "Partial", "AI policy, internal audit, supplier controls"],
+        ["EU AI Act (classification, oversight, transparency)", f"Tiers, human confirmation, Gate 0 / 2 ({NO['method']}, {NO['guard']})", "Partial", "Legal to confirm role, class and dates"],
+        ["OWASP Agentic Top 10 (2026) + LLM Top 10", f"Allowlists, hash, identity chain, kill switch ({NO['identity']}, {NO['design']}, {NO['evalobs']}, {NO['guard']})", "Partial", "Supply-chain provenance; memory poisoning"],
+        ["MCP authorization (OAuth 2.1, RFC 8707 / 9728)", f"Audience-bound tokens, no passthrough ({NO['identity']}, {NO['design']})", "Covered", "Pin spec version; confirm gateway support"],
+        ["OAuth token exchange (RFC 8693) / OIDC", f"Delegated user token chain ({NO['identity']})", "Open", "Exact profile unproven across both gateways"],
+        ["OpenTelemetry GenAI + W3C Trace Context", f"Correlation ID, evidence plane ({NO['s1ref']}, {NO['s3ref']}, {NO['evalobs']})", "Partial", "Convention and owner to implement"],
+        ["SAP clean core, released APIs", f"Released APIs, exception for RFC / BAPI ({NO['landscape']}, {NO['integration']})", "Covered", "ECC read path for reconciliation"],
+        ["SAP authorizations + SoD (GRC)", f"Backend authorizes; GRC runs Joule access ({NO['tracks']}, {NO['identity']}, {NO['raci']})", "Covered", "Per-backend user mapping proven at Gate 5"],
+        ["Organization AI blueprint", f"Registry, gateways, Portkey reused ({NO['scenarios']}, {NO['account']}, {NO['gateways']})", "Open", "Account approval; Gateway-to-Apigee; registry sharing"],
+        ["Integration practice (resilience, API governance)", f"Patterns A–D, design contract ({NO['integration']}, {NO['design']})", "Partial", "Policy owner per gateway; network ADR"],
+        ["Zero trust (NIST SP 800-207)", f"Per-hop token validation, least privilege, no passthrough ({NO['identity']}, {NO['guard']})", "Partial", "Network segmentation and egress policy in the account"],
+        ["AgentOps: evaluation and observability", f"Evaluation gates, tracing, drift detection ({NO['s3e2e']}, {NO['evalobs']})", "Partial", "Thresholds by tier; evidence-store owner"]]
 fills = {}
 for i, r in enumerate(rows[1:], 1):
     fills[(i, 2)] = {"Covered": ("greenbg", "green"), "Partial": ("amberbg", "amber"), "Open": ("redbg", "red")}[r[2]]
 table(s, 0.5, 1.4, 12.33, [3.6, 4.2, 0.9, 3.63], rows, 9, 0.35, cell_fill=fills, align_center_cols=(2,))
 
-# ------------------------------------------------------------------------------------------------------------------ 18
+# -------------------------------------------------------------------------------- poc
 s = new_slide(D, "POC AND DECISIONS", "Decision register", "navy",
               "POC acceptance criteria and decision register: one read-only reconciliation proves the pattern",
               "Twelve checks compare the preferred options S1 and S3; capability, tenant and live evidence stay separate.",
-              "Source: owner brief and review comments; repo V5.2 decision register (decisions open). No approvals or live results claimed.", JOULE,
+              "Source: owner brief; repo V5.2 decision register. No approvals or live results claimed.", JOULE,
               notes="PRIMARY ARCHITECTURE POC: one SAP Finance read-only reconciliation or analytical use case (the repository's S/4HANA vs Central Finance month-end reconciliation is the reference; today it runs on synthetic data in a simulator that connects to no tenant). Compare the preferred options S1 and S3 first; S2 is kept for reference and compared only on request. Risk tier 1/2 only; no posting capability. Select S3 only when account, Apigee, gateway interoperability, principal propagation, ownership, cost and operations all pass; otherwise S1.")
 txt(s, 0.5, 1.4, 4.4, 0.24, [{"text": [("12 CHECKS  ·  ", {"bold": True, "color": "blue"}), ("finance reference case", {"bold": True, "color": "mute"})]}], 10, tag="hd")
 checks = [("RUN", ["Agent deployed on AgentCore Runtime in the dedicated account (S1: Cloud Foundry space)", "MCP via gateways; live tools/list equals approved hash", "Portkey model invocation verified"]),
@@ -616,6 +764,7 @@ for i, t in enumerate(["Architecture alignment", "Security + Identity review", "
     tf = sh.text_frame
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
     k.fill_tf(tf, [{"text": t}], 9.5, "navy" if i < 5 else "white", True, PP_ALIGN.CENTER)
+
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 D.save(OUT)

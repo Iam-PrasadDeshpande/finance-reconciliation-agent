@@ -47,11 +47,11 @@ TOOL_CONCEPTS = {
 MODULE = AgentModule(
     id="accruals", name="Accrual Posting Agent", family_label="Accrual posting agent", short_name="Accruals",
     blurb="Prepares accruals of all types per company code, then review, approval, simulated posting and reconciliation.", icon="◈",
-    tab=None, renderer="generic",
+    tab={"id": "accruals", "label": "Accruals", "short": "Accruals", "icon": "◈"}, renderer="generic",
     routing_words=["accrual", "accruals", "accrue", "accrued", "accruing", "deferral", "deferrals"], routing_priority=150,
     ask_template="Prepare accruals for {period}", examples=AG.EXAMPLES,
     catalog=AG.catalog_domain, run=AG.run_plan, ontology=lambda: ONTOLOGY, view=AG.view, actions=AG.ACTIONS, tool_concepts=TOOL_CONCEPTS,
-    options=AG.OPTIONS, workflow=True,
+    options=AG.OPTIONS, workflow=True, display_order=200,
     output={"screen_name": "Accrual workflow", "open_label": "Open the accrual workflow", "detail_label": "Open the accrual workflow"},
     architecture={"route": "Selected scenario (S1, S2 or S3), then the S/4HANA backend and, for the reconciliation only, Central Finance (existing components; architecture views unchanged)",
                   "data": "Synthetic accrual candidates, documents and a local synthetic ledger. The LLM is simulated. Posting is a human-triggered local entry, not an agent tool and not an SAP write."},
