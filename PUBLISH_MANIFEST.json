@@ -28,8 +28,8 @@
       "bytes": 142
     },
     "README.md": {
-      "sha256": "f4cc38dcddf2e170edeff16de3271bd83026aced60eac640d5e8718814d23970",
-      "bytes": 19875
+      "sha256": "05d142e83ec3366af08faf5b8021db43ddf2822b01cf74d981970a9f167c742e",
+      "bytes": 20133
     },
     "Start Finance Demo.cmd": {
       "sha256": "e414f99d52dea360037706f0027e5a99e7fba591155a25bf089458a69c334501",
@@ -255,25 +255,25 @@
       "sha256": "944fca9184e1970cd19a0c4ae3af21716e0ba903922b41f48c98a4d6887b9580",
       "bytes": 43407
     },
-    "frontend/dist/assets/index-Cu6H_Iz5.css": {
-      "sha256": "6b95df1f26ea2421c792b1c4d7b3b9f2a2c6cb5da0678b701c4c75a32426368e",
-      "bytes": 194703
+    "frontend/dist/assets/index-CUzeSdXV.css": {
+      "sha256": "2773fb296eb0d5882058d8e1b3d3250f64f3d061bca56d6dd42ec4777676c899",
+      "bytes": 194912
     },
-    "frontend/dist/assets/index-DvatmYvA.js": {
-      "sha256": "7b1e6e5af3a536cbf99daa9a852ad45410d43376c8e7db872a0a451b50a12668",
-      "bytes": 590098
+    "frontend/dist/assets/index-DkVI9u4z.js": {
+      "sha256": "3645174e90a7886ba9ad44062fc9d21943eba3609b2b9579f9a8517fa0d7af44",
+      "bytes": 590464
     },
     "frontend/dist/index.html": {
-      "sha256": "e9f04f3f80798f18a34cf1a6ee3a1039eac5aa1c4cf953bcfd751d5544aa7aec",
+      "sha256": "407d78baa9cd860713dd53cf0a0a9a51441a0d54ebbe83dbf9d76becc4727e17",
       "bytes": 1276
     },
     "frontend/dist_streamlit/finance_architecture.css": {
-      "sha256": "9b2dff28e0534b34ee765c5bd814fe59e1013e9094a6ca1bec7db0c774d46d61",
-      "bytes": 194715
+      "sha256": "aa0bb52fc52f63802cefc6d55a2119f2ae60ad4978358a95f6fbebe6aa4aac08",
+      "bytes": 194924
     },
     "frontend/dist_streamlit/finance_architecture.js": {
-      "sha256": "bbf18b7d2aa1062f59c3b4e58bee7f9f595319cbe9bbdddafebb3f79200dcd7f",
-      "bytes": 815390
+      "sha256": "0bae5efef7bea27ee99abc9831c358bcc224d48d8030e5c71b28670b7804324a",
+      "bytes": 815839
     },
     "frontend/index.html": {
       "sha256": "04a8c4c23c218d87e3e94c91c48cda36057d48d8f8c799f1f8e2e9d88320c7d9",
@@ -300,8 +300,8 @@
       "bytes": 19174
     },
     "frontend/src/App.jsx": {
-      "sha256": "848c4cdf76523668f8e961b565457ca79ead8f7a1e175e5ef1f57a07d1e228c9",
-      "bytes": 57979
+      "sha256": "f256bcb4ace430b9c0daa7016c260231f4e57fa43357e200e10df6134156a6f2",
+      "bytes": 58296
     },
     "frontend/src/ArchitectureDiagram.jsx": {
       "sha256": "17291eca6d50869ce159215809fdf3ab67f1d12e2dbc53a95260fe35d4f2c9c6",
@@ -532,8 +532,8 @@
       "bytes": 7968
     },
     "frontend/src/spaces.css": {
-      "sha256": "256250387a102b983c335a62334211588b82832bbcc700b03e37b8772e84d0d4",
-      "bytes": 5730
+      "sha256": "dd609e8763a526c908153385a7fec6190f9cb570a57f9b6ed1b83165e2d3136d",
+      "bytes": 6077
     },
     "frontend/src/streamlit.jsx": {
       "sha256": "ddbfd961f4a2c38baa2befe805b3a902b546ed2fa1b588b45fd3eecef820b418",
@@ -724,12 +724,12 @@
       "bytes": 12350
     },
     "release/finance_architecture_streamlit.zip": {
-      "sha256": "142fa5031c5d5d0fa2fbd5cb82cd583aea6f2c7f9a59e2c5e58e90ab6c1e698c",
-      "bytes": 1001963
+      "sha256": "01984c9309abc248b17b3a9850d53f490697705182b7ce15654716b0cba2d030",
+      "bytes": 1003146
     },
     "release/finance_reconciliation_local_windows.zip": {
-      "sha256": "448368fa2f2d88fb767ffc7bd0ce18cbaab38fcdb35d1b486045269ee6f618d8",
-      "bytes": 598341
+      "sha256": "0247cf5e7e4801ab0b61449f31f76d62eb123efd4e540c55d898446599a3b393",
+      "bytes": 598850
     },
     "requirements-local.txt": {
       "sha256": "3fa9ca43e21bff4ef69efd2b357d6d805897f6593cc2db4fc2fc32283d202583",
@@ -840,8 +840,8 @@
       "bytes": 2295
     },
     "static/finance_reconciliation_local_windows.zip": {
-      "sha256": "448368fa2f2d88fb767ffc7bd0ce18cbaab38fcdb35d1b486045269ee6f618d8",
-      "bytes": 598341
+      "sha256": "0247cf5e7e4801ab0b61449f31f76d62eb123efd4e540c55d898446599a3b393",
+      "bytes": 598850
     },
     "streamlit_app.py": {
       "sha256": "1a7647e55ce09160c9d3a708b69214eae2eac5cd88039b985a1ac4f943584903",
