@@ -46,3 +46,6 @@ body .mcp-bird-tabs button span,body .mcp-route-tabs button span,body .worklist 
 body .aw-result.tr-result{grid-template-columns:minmax(0,1fr);min-width:0}body .aw-result.tr-result>*{min-width:0}
 body .aw-result .blk-kpis{grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr))}body .aw-result .blk-kpis strong,body .aw-result .blk-kpis small,body .aw-result .blk-list li,body .aw-result .blk-note{overflow-wrap:anywhere}
 @media(max-width:760px){body .aw-result .blk-table th,body .aw-result .blk-table td{white-space:normal;overflow-wrap:anywhere;vertical-align:top}}
+
+/* Footer: the demo disclaimer plus the ownership line used on prasaddeshpande.com; wraps instead of cutting text off */
+body .app-footer{flex-wrap:wrap;column-gap:18px;row-gap:2px;justify-content:space-between;line-height:1.35}body .app-footer .app-footer-legal{overflow-wrap:anywhere}body .app-footer a{color:inherit;text-decoration:underline}

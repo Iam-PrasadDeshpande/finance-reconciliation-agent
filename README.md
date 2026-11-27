@@ -75,3 +75,7 @@ Run the Python suite with `python -m pytest -q tests/test_poc.py --basetemp=.pyt
 **Open decisions.** The Decision brief lists the five open architecture decisions with what the documents settle, what remains for the owner or tenant, options, a proposal and a proof; the matching checklist is `docs/POC_PROOF_AND_ENTITLEMENT_CHECKLIST.md`.
 
 **Themes.** The header has a **Theme** selector with the standard SAP Fiori themes: SAP Quartz Light (default), SAP Morning Horizon, SAP Quartz Dark, SAP Evening Horizon, SAP High Contrast White and SAP High Contrast Black. The choice applies to every area and diagram and is remembered in the browser. The application is custom React rather than SAPUI5, so the themes are close approximations of the published theme families, not SAP's theme libraries. `python scripts/qa_themes.py` checks them on web, phone and Streamlit.
+
+---
+© 2026 Prasad Deshpande. All rights reserved. Architected, designed and developed by Prasad Deshpande. Independent work. https://www.prasaddeshpande.com
+Demo and learning purposes only. Synthetic finance data; no live SAP or cloud system is connected.

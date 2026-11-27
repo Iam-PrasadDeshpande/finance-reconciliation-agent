@@ -291,7 +291,7 @@ export default function App({bridge}){
       if(action.target==='report')setReportOpen(true);
     }catch(e){setError(e.message)}
   }
-  const disclaimer=<footer className="app-footer"><span><strong>Demo and learning purposes only.</strong> Synthetic finance data; no live SAP or cloud system is connected.</span></footer>;
+  const disclaimer=<footer className="app-footer" aria-label="Disclaimer and ownership"><span><strong>Demo and learning purposes only.</strong> Synthetic finance data; no live SAP or cloud system is connected.</span><span className="app-footer-legal">© 2026 Prasad Deshpande. All rights reserved. · Architected, designed and developed by Prasad Deshpande. · Independent work · <a href="https://www.prasaddeshpande.com" target="_blank" rel="noopener noreferrer">prasaddeshpande.com</a></span></footer>;
   const withCockpit=node=>(<CockpitProvider value={cockpit}>{node}</CockpitProvider>);
   if(screen==='launchpad')return withCockpit(<div className={`app-shell launchpad-shell ${embedded?'embedded':''}`}>
     <header className="shell-header launchpad-header"><div className="brand"><ShellMenu menuModules={cockpit.modules} open={shellMenuOpen} onToggle={()=>setShellMenuOpen(value=>!value)} onNavigate={navigateFromMenu}/><Logo/><div><span className="brand-overline">SAP FINANCE AGENT COCKPIT / LOCAL DEMO</span><h1>My Home</h1></div></div><div className="header-meta"><ThemeSwitch/><span className="pill simulated">LOCAL SIMULATION</span></div></header>
