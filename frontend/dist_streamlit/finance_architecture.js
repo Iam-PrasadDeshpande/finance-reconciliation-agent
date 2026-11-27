@@ -20561,9 +20561,18 @@ function _i({ bridge: e }) {
 	function Ln(e) {
 		fe(!1), ue(!1), e === "launchpad" ? se("launchpad") : (se("app"), e === "agent" ? (pe.current = "ask", o("agents")) : o(e));
 	}
-	let Rn = /* @__PURE__ */ (0, x.jsx)("footer", {
+	let Rn = /* @__PURE__ */ (0, x.jsxs)("footer", {
 		className: "app-footer",
-		children: /* @__PURE__ */ (0, x.jsxs)("span", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Demo and learning purposes only." }), " Synthetic finance data; no live SAP or cloud system is connected."] })
+		"aria-label": "Disclaimer and ownership",
+		children: [/* @__PURE__ */ (0, x.jsxs)("span", { children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: "Demo and learning purposes only." }), " Synthetic finance data; no live SAP or cloud system is connected."] }), /* @__PURE__ */ (0, x.jsxs)("span", {
+			className: "app-footer-legal",
+			children: ["© 2026 Prasad Deshpande. All rights reserved. · Architected, designed and developed by Prasad Deshpande. · Independent work · ", /* @__PURE__ */ (0, x.jsx)("a", {
+				href: "https://www.prasaddeshpande.com",
+				target: "_blank",
+				rel: "noopener noreferrer",
+				children: "prasaddeshpande.com"
+			})]
+		})]
 	});
 	return ((e) => /* @__PURE__ */ (0, x.jsx)(ae, {
 		value: i,
